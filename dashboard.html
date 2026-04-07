@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ViajeraMente — Panel de admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --accent: #E85D2A;
+      --teal: #1A8C7E;
+      --dark: #0B0D0F;
+      --gray-900: #151820;
+      --gray-800: #1E2330;
+      --gray-700: #2A3040;
+      --gray-600: #6B7280;
+      --gray-500: #9CA3AF;
+      --gray-400: #B0B8C4;
+      --white: #FFFFFF;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    /* --- Login Screen --- */
+    #login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .login-box {
+      background: var(--gray-900);
+      border: 1px solid var(--gray-700);
+      border-radius: 20px;
+      padding: 40px 32px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+
+    .login-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      background: var(--accent);
+      border-radius: 14px;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .login-box h1 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .login-box p {
+      color: var(--gray-500);
+      font-size: 0.85rem;
+      margin-bottom: 28px;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--gray-800);
+      border: 1px solid var(--gray-700);
+      border-radius: 12px;
+      color: var(--white);
+      font-size: 1rem;
+      font-family: inherit;
+      margin-bottom: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .login-input:focus { border-color: var(--accent); }
+    .login-input::placeholder { color: var(--gray-600); }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .login-btn:hover { background: #C74A1E; }
+
+    .login-error {
+      color: #FF7A47;
+      font-size: 0.82rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* --- Dashboard --- */
+    #dashboard-screen {
+      display: none;
+      padding: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .dash-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .dash-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dash-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      background: var(--accent);
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 800;
+      color: white;
+    }
+
+    .dash-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .dash-subtitle {
+      color: var(--gray-500);
+      font-size: 0.75rem;
+    }
+
+    .btn-logout {
+      background: var(--gray-800);
+      color: var(--gray-400);
+      border: 1px solid var(--gray-700);
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .btn-logout:hover {
+      background: var(--gray-700);
+      color: var(--white);
+    }
+
+    /* --- Stats cards --- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--gray-900);
+      border: 1px solid var(--gray-700);
+      border-radius: 14px;
+      padding: 18px 16px;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .stat-card.accent .stat-value { color: var(--accent); }
+    .stat-card.teal .stat-value { color: #22B8A6; }
+
+    /* --- Section headers --- */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      margin-top: 28px;
+    }
+
+    .section-header h2 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* --- Table --- */
+    .table-wrap {
+      background: var(--gray-900);
+      border: 1px solid var(--gray-700);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead tr {
+      background: var(--gray-800);
+    }
+
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+
+    td {
+      padding: 11px 14px;
+      font-size: 0.82rem;
+      color: var(--gray-400);
+      border-top: 1px solid var(--gray-700);
+      word-break: break-all;
+    }
+
+    td:first-child {
+      color: var(--white);
+      font-weight: 500;
+      word-break: normal;
+    }
+
+    tr:hover td {
+      background: var(--gray-800);
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--gray-800);
+      border: 1px solid var(--gray-700);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 0.72rem;
+      color: var(--gray-400);
+    }
+
+    .tag.accent {
+      background: rgba(232, 93, 42, 0.15);
+      border-color: rgba(232, 93, 42, 0.3);
+      color: #FF7A47;
+    }
+
+    /* --- Page views table --- */
+    .pageviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .pv-card {
+      background: var(--gray-900);
+      border: 1px solid var(--gray-700);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .pv-page {
+      font-size: 0.82rem;
+      color: var(--white);
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pv-count {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #22B8A6;
+      flex-shrink: 0;
+    }
+
+    /* --- Loading / empty --- */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--gray-600);
+      font-size: 0.85rem;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 28px;
+      color: var(--gray-600);
+      font-size: 0.82rem;
+    }
+
+    .refresh-btn {
+      background: transparent;
+      color: var(--gray-500);
+      border: 1px solid var(--gray-700);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      font-family: inherit;
+      margin-left: auto;
+    }
+
+    .refresh-btn:hover { color: var(--white); border-color: var(--gray-500); }
+
+    @media (max-width: 480px) {
+      #dashboard-screen { padding: 16px; }
+      .stat-value { font-size: 1.6rem; }
+      th, td { padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">V</div>
+    <h1>Panel de administraci&oacute;n</h1>
+    <p>ViajeraMente — acceso privado</p>
+    <input type="password" class="login-input" id="pwd-input" placeholder="Contrase&ntilde;a" autocomplete="current-password">
+    <button class="login-btn" id="login-btn" onclick="doLogin()">Entrar</button>
+    <p class="login-error" id="login-error">Contrase&ntilde;a incorrecta</p>
+  </div>
+</div>
+
+<!-- Dashboard Screen -->
+<div id="dashboard-screen">
+  <div class="dash-header">
+    <div class="dash-brand">
+      <div class="dash-logo">V</div>
+      <div>
+        <div class="dash-title">ViajeraMente</div>
+        <div class="dash-subtitle">Panel de administraci&oacute;n</div>
+      </div>
+    </div>
+    <button class="btn-logout" onclick="doLogout()">Cerrar sesi&oacute;n</button>
+  </div>
+
+  <div id="loading-state" class="loading">Cargando datos...</div>
+
+  <div id="dash-content" style="display:none;">
+
+    <!-- Stats cards -->
+    <div class="stats-grid" id="stats-cards">
+      <div class="stat-card accent">
+        <div class="stat-label">Total leads</div>
+        <div class="stat-value" id="s-total-leads">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Leads hoy</div>
+        <div class="stat-value" id="s-leads-today">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Esta semana</div>
+        <div class="stat-value" id="s-leads-week">—</div>
+      </div>
+      <div class="stat-card teal">
+        <div class="stat-label">Visitas totales</div>
+        <div class="stat-value" id="s-total-pv">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Visitas hoy</div>
+        <div class="stat-value" id="s-pv-today">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Visitas semana</div>
+        <div class="stat-value" id="s-pv-week">—</div>
+      </div>
+    </div>
+
+    <!-- Leads table -->
+    <div class="section-header">
+      <h2>&#x1F4E7; Leads captados</h2>
+      <button class="refresh-btn" onclick="loadData()">&#x21BB; Actualizar</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Fuente</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody id="leads-table-body">
+          <tr><td colspan="3" class="empty">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Page views -->
+    <div class="section-header" style="margin-top:32px;">
+      <h2>&#x1F440; Visitas por p&aacute;gina</h2>
+    </div>
+    <div class="pageviews-grid" id="pv-grid">
+      <div class="empty">Cargando...</div>
+    </div>
+
+    <!-- Top referrers -->
+    <div class="section-header" style="margin-top:32px;">
+      <h2>&#x1F517; Top referrers</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Referrer</th>
+            <th>Visitas</th>
+          </tr>
+        </thead>
+        <tbody id="referrers-table-body">
+          <tr><td colspan="2" class="empty">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="text-align:center; color: var(--gray-600); font-size:0.72rem; margin-top: 32px; padding-bottom: 40px;">
+      Datos en tiempo real &mdash; &uacute;ltima actualizaci&oacute;n: <span id="last-updated">—</span>
+    </p>
+  </div>
+</div>
+
+<script>
+  const API_BASE = 'https://eze.saypeter.com';
+  const CORRECT_PASSWORD = 'viajeramente2024';
+  const SESSION_KEY = 'vm_dash_auth';
+
+  function doLogin() {
+    const pwd = document.getElementById('pwd-input').value;
+    const err = document.getElementById('login-error');
+    if (pwd === CORRECT_PASSWORD) {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      err.style.display = 'none';
+      showDashboard();
+    } else {
+      err.style.display = 'block';
+      document.getElementById('pwd-input').select();
+    }
+  }
+
+  document.getElementById('pwd-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doLogin();
+  });
+
+  function doLogout() {
+    sessionStorage.removeItem(SESSION_KEY);
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('dashboard-screen').style.display = 'none';
+    document.getElementById('pwd-input').value = '';
+  }
+
+  function showDashboard() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard-screen').style.display = 'block';
+    loadData();
+  }
+
+  function formatDate(isoStr) {
+    if (!isoStr) return '—';
+    const d = new Date(isoStr);
+    return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })
+           + ' ' + d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  async function loadData() {
+    document.getElementById('loading-state').style.display = 'block';
+    document.getElementById('dash-content').style.display = 'none';
+
+    try {
+      const [statsRes, leadsRes] = await Promise.all([
+        fetch(API_BASE + '/api/stats?token=' + CORRECT_PASSWORD),
+        fetch(API_BASE + '/api/leads?token=' + CORRECT_PASSWORD)
+      ]);
+
+      const stats = await statsRes.json();
+      const leadsData = await leadsRes.json();
+
+      // Fill stats
+      document.getElementById('s-total-leads').textContent = stats.total_leads ?? 0;
+      document.getElementById('s-leads-today').textContent = stats.leads_today ?? 0;
+      document.getElementById('s-leads-week').textContent = stats.leads_this_week ?? 0;
+      document.getElementById('s-total-pv').textContent = stats.total_pageviews ?? 0;
+      document.getElementById('s-pv-today').textContent = stats.pageviews_today ?? 0;
+      document.getElementById('s-pv-week').textContent = stats.pageviews_this_week ?? 0;
+
+      // Fill leads table
+      const tbody = document.getElementById('leads-table-body');
+      const leads = leadsData.leads || [];
+      if (leads.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="empty">Aún no hay leads captados</td></tr>';
+      } else {
+        tbody.innerHTML = leads.map(l => `
+          <tr>
+            <td>${escHtml(l.email)}</td>
+            <td><span class="tag ${l.source === 'waitlist' ? 'accent' : ''}">${escHtml(l.source || 'web')}</span></td>
+            <td>${formatDate(l.created_at)}</td>
+          </tr>
+        `).join('');
+      }
+
+      // Fill page views by page
+      const pvGrid = document.getElementById('pv-grid');
+      const pvByPage = {};
+      // We'll use daily_pageviews from stats; better: aggregate by page
+      // For now show top pages from referrers as placeholder, we'll use a combined endpoint
+      // Actually let's show daily totals
+      const dailyPv = stats.daily_pageviews || [];
+      if (dailyPv.length === 0) {
+        pvGrid.innerHTML = '<div class="empty">Aún no hay visitas registradas</div>';
+      } else {
+        // Last 7 days
+        const last7 = dailyPv.slice(-7);
+        pvGrid.innerHTML = last7.map(d => `
+          <div class="pv-card">
+            <span class="pv-page">${d.day}</span>
+            <span class="pv-count">${d.views}</span>
+          </div>
+        `).join('');
+      }
+
+      // Fill referrers
+      const refTbody = document.getElementById('referrers-table-body');
+      const refs = stats.top_referrers || [];
+      if (refs.length === 0) {
+        refTbody.innerHTML = '<tr><td colspan="2" class="empty">Sin referrers todavía</td></tr>';
+      } else {
+        refTbody.innerHTML = refs.map(r => `
+          <tr>
+            <td>${escHtml(r.referrer || '(directo)')}</td>
+            <td>${r.cnt}</td>
+          </tr>
+        `).join('');
+      }
+
+      // Update timestamp
+      document.getElementById('last-updated').textContent = new Date().toLocaleTimeString('es-ES');
+
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('dash-content').style.display = 'block';
+
+    } catch (err) {
+      document.getElementById('loading-state').textContent = 'Error cargando datos. Comprueba la conexión.';
+    }
+  }
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // Auto-check session on load
+  if (sessionStorage.getItem(SESSION_KEY) === '1') {
+    showDashboard();
+  }
+</script>
+
+</body>
+</html>
