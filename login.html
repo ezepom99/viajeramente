@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicia sesión — ViajeraMente</title>
+  <meta name="description" content="Inicia sesión en ViajeraMente y sigue explorando el mundo con tu comunidad de viajeros.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --accent: #E85D2A;
+      --accent-light: #FF7A47;
+      --accent-dark: #C74A1E;
+      --accent-glow: rgba(232, 93, 42, 0.15);
+      --teal: #1A8C7E;
+      --teal-light: #22B8A6;
+      --teal-dark: #136B60;
+      --teal-glow: rgba(26, 140, 126, 0.15);
+      --gold: #F5A623;
+      --purple: #8B5CF6;
+      --dark: #0B0D0F;
+      --gray-900: #151820;
+      --gray-800: #1E2330;
+      --gray-700: #2A3040;
+      --gray-600: #6B7280;
+      --gray-500: #9CA3AF;
+      --gray-400: #B0B8C4;
+      --gray-300: #D1D5DB;
+      --gray-200: #E5E7EB;
+      --gray-100: #F3F4F6;
+      --gray-50: #F9FAFB;
+      --white: #FFFFFF;
+      --sand: #FAF8F5;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--white);
+      background: var(--dark);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Background ── */
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(232, 93, 42, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 100%, rgba(26, 140, 126, 0.06) 0%, transparent 60%),
+        linear-gradient(180deg, var(--dark) 0%, var(--gray-900) 100%);
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: relative;
+      z-index: 10;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: slideDown 0.6s ease-out;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.3s;
+    }
+    .nav-logo:hover { opacity: 0.85; }
+    .nav-logo-icon {
+      width: 28px; height: 28px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+    .nav-back {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-back:hover { color: var(--white); }
+
+    /* ── Main ── */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 24px 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Card ── */
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: rgba(30, 35, 48, 0.6);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      padding: 40px 36px;
+      animation: fadeInUp 0.7s ease-out 0.15s both;
+    }
+
+    .auth-card .logo-top {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .auth-card .logo-top a {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .auth-card .logo-top .logo-icon {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .auth-card h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--white);
+      text-align: center;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .auth-card .subtitle {
+      font-size: 0.9rem;
+      color: var(--gray-400);
+      text-align: center;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    /* ── Form ── */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-300);
+      margin-bottom: 7px;
+      letter-spacing: 0.01em;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 13px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: var(--white);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.25s;
+    }
+    .form-group input::placeholder {
+      color: var(--gray-600);
+    }
+    .form-group input:focus {
+      border-color: var(--accent);
+      background: rgba(232, 93, 42, 0.05);
+      box-shadow: 0 0 0 3px rgba(232, 93, 42, 0.1);
+    }
+    .form-group input.error {
+      border-color: #EF4444;
+      background: rgba(239, 68, 68, 0.05);
+    }
+    .form-group .error-msg {
+      font-size: 0.75rem;
+      color: #EF4444;
+      margin-top: 6px;
+      display: none;
+    }
+    .form-group .error-msg.visible {
+      display: block;
+    }
+
+    /* ── Button ── */
+    .btn-primary {
+      display: block;
+      width: 100%;
+      padding: 14px 24px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--white);
+      background: var(--accent);
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 28px;
+      position: relative;
+    }
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(232, 93, 42, 0.25);
+    }
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-primary .spinner {
+      display: none;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .btn-primary.loading .btn-text { display: none; }
+    .btn-primary.loading .spinner { display: block; }
+
+    /* ── General error ── */
+    .general-error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.82rem;
+      color: #FCA5A5;
+      margin-bottom: 20px;
+      display: none;
+      text-align: center;
+    }
+    .general-error.visible { display: block; }
+
+    /* ── Link ── */
+    .auth-link {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.85rem;
+      color: var(--gray-400);
+    }
+    .auth-link a {
+      color: var(--accent-light);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .auth-link a:hover {
+      color: var(--accent);
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 20px 24px 28px;
+      font-size: 0.75rem;
+      color: var(--gray-600);
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 520px) {
+      .auth-card {
+        padding: 32px 24px;
+        border-radius: 16px;
+      }
+      .auth-card h1 {
+        font-size: 1.4rem;
+      }
+      nav {
+        padding: 16px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-icon">&#9992;</span>
+      ViajeraMente
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Volver a inicio
+    </a>
+  </nav>
+
+  <main class="main">
+    <div class="auth-card">
+      <div class="logo-top">
+        <a href="index.html">
+          <span class="logo-icon">&#9992;</span>
+          ViajeraMente
+        </a>
+      </div>
+
+      <h1>Bienvenido de vuelta</h1>
+      <p class="subtitle">Inicia sesión para seguir explorando</p>
+
+      <div class="general-error" id="generalError"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="tu@email.com" required autocomplete="email">
+          <div class="error-msg" id="emailError">Ingresa un email válido</div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" placeholder="Tu contraseña" required autocomplete="current-password">
+          <div class="error-msg" id="passwordError">Ingresa tu contraseña</div>
+        </div>
+
+        <button type="submit" class="btn-primary" id="submitBtn">
+          <span class="btn-text">Entrar</span>
+          <div class="spinner"></div>
+        </button>
+      </form>
+
+      <div class="auth-link">
+        ¿No tienes cuenta? <a href="signup.html">Regístrate</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>&copy; 2026 ViajeraMente</footer>
+
+  <script>
+    const API_BASE = 'https://eze.saypeter.com';
+
+    const form = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const submitBtn = document.getElementById('submitBtn');
+    const generalError = document.getElementById('generalError');
+
+    function clearErrors() {
+      document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('visible'));
+      document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+      generalError.classList.remove('visible');
+    }
+
+    function showError(inputId, errorId) {
+      document.getElementById(inputId).classList.add('error');
+      document.getElementById(errorId).classList.add('visible');
+    }
+
+    function validate() {
+      clearErrors();
+      let valid = true;
+
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRe.test(emailInput.value.trim())) {
+        showError('email', 'emailError');
+        valid = false;
+      }
+
+      if (!passwordInput.value) {
+        showError('password', 'passwordError');
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validate()) return;
+
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+
+      try {
+        const res = await fetch(`${API_BASE}/api/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: emailInput.value.trim(),
+            password: passwordInput.value
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || data.detail || 'Email o contraseña incorrectos');
+        }
+
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+        }
+        if (data.access_token) {
+          localStorage.setItem('token', data.access_token);
+        }
+
+        window.location.href = 'profile.html';
+      } catch (err) {
+        generalError.textContent = err.message;
+        generalError.classList.add('visible');
+      } finally {
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+      }
+    });
+
+    // Clear field errors on input
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', () => {
+        input.classList.remove('error');
+        const errorEl = document.getElementById(input.id + 'Error');
+        if (errorEl) errorEl.classList.remove('visible');
+      });
+    });
+  </script>
+</body>
+</html>

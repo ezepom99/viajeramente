@@ -1297,8 +1297,8 @@
       <a href="#features" class="nav-link">Funciones</a>
       <a href="#tu-mapa" class="nav-link">Tu mapa</a>
       <a href="#matching" class="nav-link">Matching</a>
-      <a href="#rutas" class="nav-link">Rutas</a>
-      <a href="#waitlist" class="nav-cta">Unirme a la lista</a>
+      <a href="#conexiones" class="nav-link">Conexiones</a>
+      <a href="signup.html" class="nav-cta">Crear cuenta</a>
     </div>
     <button class="mobile-menu-btn" id="mobile-menu" aria-label="Abrir men&uacute; de navegaci&oacute;n" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -1320,8 +1320,8 @@
         itinerarios colaborativos. Pr&oacute;ximamente.
       </p>
       <div class="hero-actions">
-        <a href="#waitlist" class="btn-primary">
-          Unirme a la lista de espera
+        <a href="signup.html" class="btn-primary">
+          Crear mi perfil de viajero
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
         <a href="#features" class="btn-secondary">Ver c&oacute;mo funcionar&aacute;</a>
@@ -1587,46 +1587,69 @@
     </div>
   </section>
 
-  <!-- Wikiloc Section -->
-  <section class="section-padding" id="rutas" style="background: var(--gray-900);" aria-labelledby="rutas-title">
+  <!-- Conexiones Section -->
+  <section class="section-padding" id="conexiones" style="background: var(--gray-900);" aria-labelledby="conexiones-title">
     <div class="container">
       <div style="text-align:center; margin-bottom: 48px;">
         <div class="waitlist-eyebrow reveal" style="display:inline-flex;">
           <span class="dot" aria-hidden="true"></span>
-          Rutas &amp; Aventuras
+          Conexiones
         </div>
-        <h2 class="section-title reveal" id="rutas-title">Explora rutas reales<br>de nuestra <span class="text-accent">comunidad</span></h2>
-        <p class="section-subtitle reveal" style="max-width:560px; margin: 0 auto;">Rutas verificadas por viajeros reales. Pr&oacute;ximamente podr&aacute;s compartir las tuyas directamente desde ViajeraMente.</p>
+        <h2 class="section-title reveal" id="conexiones-title" style="color:var(--white)">Conecta tus apps<br>de <span class="text-accent">aventura</span></h2>
+        <p class="section-subtitle reveal" style="max-width:560px; margin: 0 auto; color: rgba(255,255,255,0.5);">Vincula tus plataformas favoritas a tu perfil. Tus rutas, spots y actividades, todo en un solo lugar.</p>
       </div>
-      <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 1000px; margin: 0 auto;">
-        <!-- Wikiloc embed example — replace src with real route URLs -->
-        <div style="background: var(--gray-800); border-radius: 16px; overflow: hidden; border: 1px solid var(--gray-700);">
-          <iframe
-            src="https://es.wikiloc.com/wikiloc/spatialArtifacts.do?event=view&measures=on&title=on&near=on&images=on&maptype=H&id=7092599"
-            width="100%" height="300" frameborder="0" scrolling="no"
-            title="Ruta de ejemplo en Wikiloc"
-            style="display:block;">
-          </iframe>
-          <div style="padding: 16px;">
-            <h4 style="color: var(--white); margin-bottom: 6px; font-size: 0.95rem;">Ruta de ejemplo</h4>
-            <p style="color: var(--gray-500); font-size: 0.82rem;">Para a&ntilde;adir tus propias rutas, comparte el enlace de Wikiloc con Ezequiel y las publicamos aqu&iacute;.</p>
-          </div>
+      <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; max-width: 1060px; margin: 0 auto;">
+        <!-- Wikiloc -->
+        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s; cursor: default;" onmouseover="this.style.borderColor='var(--teal)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
+          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x1F6B6;</div>
+          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">Wikiloc</h4>
+          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Rutas de senderismo, MTB y outdoor de todo el mundo.</p>
         </div>
-        <!-- Placeholder card for future routes -->
-        <div style="background: var(--gray-800); border-radius: 16px; border: 2px dashed var(--gray-700); display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 40px 24px; text-align:center; min-height: 340px;">
-          <div style="font-size: 2.5rem; margin-bottom: 16px;">&#x1F5FA;&#xFE0F;</div>
-          <h4 style="color: var(--white); margin-bottom: 8px;">Tu ruta aqu&iacute;</h4>
-          <p style="color: var(--gray-500); font-size: 0.85rem;">Comparte tus aventuras con la comunidad. Pr&oacute;ximamente desde la app.</p>
+        <!-- Park4Night -->
+        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--teal)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
+          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x1F690;</div>
+          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">Park4Night</h4>
+          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Spots para pernoctar en furgo, camper o autocaravana.</p>
         </div>
-        <!-- Placeholder card for future routes -->
-        <div style="background: var(--gray-800); border-radius: 16px; border: 2px dashed var(--gray-700); display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 40px 24px; text-align:center; min-height: 340px;">
-          <div style="font-size: 2.5rem; margin-bottom: 16px;">&#x1F9ED;</div>
-          <h4 style="color: var(--white); margin-bottom: 8px;">M&aacute;s rutas en camino</h4>
-          <p style="color: var(--gray-500); font-size: 0.85rem;">La comunidad est&aacute; creciendo. Las primeras rutas llegar&aacute;n pronto.</p>
+        <!-- iOverlander -->
+        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--teal)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
+          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x1F30D;</div>
+          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">iOverlander</h4>
+          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Spots, recursos y datos para overlanders y viajeros.</p>
+        </div>
+        <!-- Strava -->
+        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
+          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x1F3C3;</div>
+          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">Strava</h4>
+          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Tracking de running, ciclismo, senderismo y m&aacute;s.</p>
+        </div>
+        <!-- Garmin Connect -->
+        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
+          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x231A;</div>
+          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">Garmin Connect</h4>
+          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Datos de tu Garmin: rutas GPS, salud y actividades.</p>
+        </div>
+        <!-- Polarsteps -->
+        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--teal)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
+          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x1F4CD;</div>
+          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">Polarsteps</h4>
+          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Tracking autom&aacute;tico de viajes con diario visual.</p>
+        </div>
+        <!-- Komoot -->
+        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--teal)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
+          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x1F9ED;</div>
+          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">Komoot</h4>
+          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Planificaci&oacute;n de rutas y navegaci&oacute;n outdoor.</p>
+        </div>
+        <!-- AllTrails -->
+        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
+          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x26F0;&#xFE0F;</div>
+          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">AllTrails</h4>
+          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Rutas de senderismo verificadas por la comunidad.</p>
         </div>
       </div>
-      <p class="reveal" style="text-align:center; margin-top: 32px; color: var(--gray-600); font-size: 0.8rem;">
-        Mapas y rutas proporcionados por <a href="https://www.wikiloc.com" target="_blank" rel="noopener" style="color: var(--teal-light);">Wikiloc</a> — la mayor comunidad de rutas GPS del mundo.
+      <p class="reveal" style="text-align:center; margin-top: 36px; color: rgba(255,255,255,0.4); font-size: 0.82rem;">
+        Conecta estas y m&aacute;s plataformas desde tu <a href="signup.html" style="color: var(--teal-light); text-decoration: underline;">perfil de viajero</a>.
       </p>
     </div>
   </section>
@@ -1679,8 +1702,9 @@
         <h4>Producto</h4>
         <a href="#features">Funciones</a>
         <a href="#tu-mapa">Tu mapa</a>
-        <a href="#matching">Matching</a>
-        <a href="#como-funciona">C&oacute;mo funciona</a>
+        <a href="#conexiones">Conexiones</a>
+        <a href="signup.html">Crear cuenta</a>
+        <a href="login.html">Iniciar sesi&oacute;n</a>
       </div>
       <div class="footer-col">
         <h4>Comunidad</h4>
