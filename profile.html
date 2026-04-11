@@ -1323,7 +1323,7 @@ const WONDERS = [
   { id:17, name:'Cataratas del Niágara', country:'Canadá/EE.UU.',emoji:'💧', pexels:'2335126' },
   { id:18, name:'Aurora Boreal',        country:'Noruega',      emoji:'🌌', pexels:'1212600' },
   { id:19, name:'Gran Barrera de Coral', country:'Australia',   emoji:'🐠', pexels:'1049298' },
-  { id:20, name:'Machu Pichu',          country:'Bolivia',      emoji:'🏔️', pexels:'2356059' },
+  { id:20, name:'Isla de Pascua',       country:'Chile',        emoji:'🗿', pexels:'1134166' },
   { id:21, name:'Monte Everest',        country:'Nepal',        emoji:'🏔️', pexels:'753619' },
   { id:22, name:'Cataratas Victoria',   country:'Zimbabue',     emoji:'🌊', pexels:'417070' },
   { id:23, name:'Galápagos',           country:'Ecuador',      emoji:'🐢', pexels:'2662116' },
@@ -1568,6 +1568,7 @@ function toggleCountry(id, name) {
   updateStats();
   // Update continent auto-detection
   autoDetectContinents();
+  updateMapColors();
 }
 
 function autoDetectContinents() {
@@ -1666,6 +1667,35 @@ function renderWonders() {
   }).join('');
 }
 
+// Wonder id → [country_code, country_name]
+const WONDER_COUNTRY_MAP = {
+  1:  [604, 'Perú'],
+  2:  [76,  'Brasil'],
+  3:  [380, 'Italia'],
+  4:  [484, 'México'],
+  5:  [156, 'China'],
+  6:  [356, 'India'],
+  7:  [400, 'Jordania'],
+  8:  [116, 'Camboya'],
+  9:  [818, 'Egipto'],
+  10: [300, 'Grecia'],
+  11: [826, 'Reino Unido'],
+  12: [250, 'Francia'],
+  13: [724, 'España'],
+  14: [792, 'Turquía'],
+  15: [250, 'Francia'],
+  16: [724, 'España'],
+  17: [124, 'Canadá'],
+  18: [578, 'Noruega'],
+  19: [36,  'Australia'],
+  20: [152, 'Chile'],
+  21: [524, 'Nepal'],
+  22: [716, 'Zimbabue'],
+  23: [218, 'Ecuador'],
+  24: [76,  'Brasil'],
+  25: [504, 'Marruecos'],
+};
+
 function toggleWonder(id, el) {
   if (visitedWonders.has(id)) {
     visitedWonders.delete(id);
@@ -1676,7 +1706,24 @@ function toggleWonder(id, el) {
     visitedWonders.add(id);
     el.classList.add('visited');
     el.querySelector('.wonder-check').textContent = '✓';
-    showToast('⭐ ¡Maravilla marcada!', 'success');
+    // Auto-add the country if not already visited
+    const countryEntry = WONDER_COUNTRY_MAP[id];
+    if (countryEntry) {
+      const [countryCode, countryName] = countryEntry;
+      const strCode = String(countryCode);
+      if (!visitedCodes.has(strCode)) {
+        visitedCodes.add(strCode);
+        saveVisitedCountries(visitedCodes);
+        updateStats();
+        autoDetectContinents();
+        updateMapColors();
+        showToast(`⭐ ¡Maravilla marcada! + ${countryName} añadido al mapa`, 'success');
+      } else {
+        showToast('⭐ ¡Maravilla marcada!', 'success');
+      }
+    } else {
+      showToast('⭐ ¡Maravilla marcada!', 'success');
+    }
   }
   saveVisitedWonders(visitedWonders);
   document.getElementById('statWonders').textContent = visitedWonders.size;

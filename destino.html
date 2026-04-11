@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">Destino — ViajeraMente</title>
+  <meta name="description" content="Guía completa del destino: cuándo ir, qué hacer, dónde dormir y mucho más.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #FFFFFF;
+      --bg-soft: #F7F8FA;
+      --text: #111827;
+      --text-2: #6B7280;
+      --text-3: #9CA3AF;
+      --border: #E5E7EB;
+      --accent: #0891B2;
+      --accent-dark: #0E7490;
+      --accent-light: #E0F7FE;
+      --green: #10B981;
+      --green-light: #D1FAE5;
+      --gold: #F59E0B;
+      --gold-light: #FFFBEB;
+      --shadow: 0 2px 12px rgba(0,0,0,.07);
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+      font-size: 15px;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+    @keyframes fadeInUp  { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn    { from { opacity:0; } to { opacity:1; } }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+      animation: slideDown .4s ease both;
+    }
+    .nav-back {
+      font-size: .85rem; font-weight: 500; color: var(--text-2);
+      text-decoration: none; padding: 6px 10px; border-radius: 8px;
+      transition: all .2s; white-space: nowrap;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .nav-back:hover { color: var(--text); background: var(--bg-soft); }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem; font-weight: 700; letter-spacing: -.02em;
+      color: var(--text); text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+      transition: opacity .2s;
+    }
+    .nav-logo:hover { opacity: .75; }
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    #btnSave {
+      display: flex; align-items: center; gap: 5px;
+      padding: 7px 14px; border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--bg); color: var(--text-2);
+      font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: all .2s; white-space: nowrap;
+    }
+    #btnSave:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    #btnSave.saved { border-color: var(--green); color: var(--green); background: var(--green-light); }
+
+    /* ── Hero ── */
+    .dest-hero {
+      height: 52vh; min-height: 360px; max-height: 600px;
+      background: #111 center/cover no-repeat;
+      position: relative;
+      display: flex; align-items: flex-end;
+      margin-top: 56px;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 35%, rgba(0,0,0,.65) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 1;
+      padding: 28px 28px 32px;
+      width: 100%; max-width: 900px; margin: 0 auto;
+      animation: fadeInUp .6s ease both;
+    }
+    .hero-eyebrow {
+      font-size: .78rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: rgba(255,255,255,.75);
+      margin-bottom: 8px;
+    }
+    .hero-content h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800; color: #fff;
+      line-height: 1.1; letter-spacing: -.03em;
+      margin-bottom: 10px;
+    }
+    .hero-tagline {
+      font-size: 1rem; color: rgba(255,255,255,.85);
+      margin-bottom: 16px; max-width: 500px;
+    }
+    .hero-chips {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .hero-chips span {
+      padding: 5px 12px; border-radius: 20px;
+      background: rgba(255,255,255,.18);
+      backdrop-filter: blur(8px);
+      color: #fff; font-size: .8rem; font-weight: 500;
+      border: 1px solid rgba(255,255,255,.25);
+    }
+
+    /* ── Main layout ── */
+    .page-body {
+      max-width: 900px; margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    /* ── Quick stats ── */
+    .quick-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin: 28px 0 0;
+      animation: fadeInUp .5s .1s ease both;
+    }
+    .stat-item {
+      padding: 18px 16px; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-label {
+      font-size: .72rem; font-weight: 600; letter-spacing: .05em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 6px;
+    }
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem; font-weight: 700; color: var(--text);
+    }
+    .stat-sub { font-size: .75rem; color: var(--text-3); margin-top: 2px; }
+
+    /* ── Sections ── */
+    .section {
+      margin-top: 48px;
+      animation: fadeInUp .5s .15s ease both;
+    }
+    .section h2 {
+      font-size: 1.3rem; font-weight: 700; letter-spacing: -.02em;
+      color: var(--text); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-prose {
+      color: var(--text-2); line-height: 1.75; font-size: .95rem;
+    }
+
+    /* ── Months calendar ── */
+    .months-scroll-wrapper {
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      padding-bottom: 8px;
+      margin: 0 -4px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .months-grid {
+      display: flex; gap: 8px;
+      min-width: max-content;
+      padding: 4px 4px 4px;
+    }
+    .month-card {
+      width: 76px; flex-shrink: 0;
+      border-radius: 12px; border: 2px solid var(--border);
+      background: var(--bg-soft);
+      padding: 12px 8px 10px;
+      cursor: pointer; transition: all .2s;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      position: relative;
+      user-select: none;
+    }
+    .month-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .month-card.active { box-shadow: 0 0 0 3px var(--accent); }
+    .month-card.great {
+      border-color: var(--green);
+      background: #F0FDF4;
+    }
+    .month-card.ok {
+      border-color: var(--gold);
+      background: var(--gold-light);
+    }
+    .month-card.avoid {
+      border-color: var(--border);
+      background: #F9FAFB;
+      opacity: .6;
+    }
+    .month-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .78rem; font-weight: 700; color: var(--text);
+      letter-spacing: .02em;
+    }
+    .month-bar {
+      width: 20px; height: 40px;
+      background: var(--border);
+      border-radius: 10px; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .month-bar-fill {
+      width: 100%; border-radius: 10px;
+      background: var(--green); transition: height .4s ease;
+    }
+    .month-card.ok .month-bar-fill { background: var(--gold); }
+    .month-card.avoid .month-bar-fill { background: var(--text-3); }
+    .month-temp {
+      font-size: .78rem; font-weight: 600; color: var(--text-2);
+    }
+    .month-event-dot {
+      position: absolute; top: 5px; right: 5px;
+      font-size: .6rem; color: var(--gold);
+    }
+    .month-score-badge {
+      font-size: .68rem; font-weight: 700;
+      color: var(--green);
+    }
+    .month-card.ok .month-score-badge { color: var(--gold); }
+    .month-card.avoid .month-score-badge { color: var(--text-3); }
+
+    /* month detail panel */
+    .month-detail {
+      margin-top: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      padding: 20px;
+      animation: fadeIn .3s ease;
+      display: none;
+    }
+    .month-detail.visible { display: block; }
+    .month-detail-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .month-detail-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+    }
+    .month-score-pill {
+      padding: 4px 12px; border-radius: 20px;
+      font-size: .8rem; font-weight: 700;
+    }
+    .month-score-pill.great { background: var(--green-light); color: #059669; }
+    .month-score-pill.ok    { background: var(--gold-light); color: #D97706; }
+    .month-score-pill.avoid { background: #F3F4F6; color: var(--text-3); }
+    .month-detail-meta {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .month-meta-chip {
+      font-size: .78rem; padding: 4px 10px; border-radius: 20px;
+      background: var(--bg-soft); border: 1px solid var(--border);
+      color: var(--text-2);
+    }
+    .month-detail p { color: var(--text-2); font-size: .9rem; line-height: 1.65; }
+    .month-detail-advice {
+      margin-top: 10px; padding: 10px 14px;
+      background: var(--accent-light); border-radius: 10px;
+      font-size: .85rem; color: var(--accent-dark); font-weight: 500;
+    }
+
+    /* ── Events ── */
+    .events-list { display: flex; flex-direction: column; gap: 12px; }
+    .event-card {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 16px; border-radius: 12px;
+      border: 1px solid var(--border); background: var(--bg);
+      transition: box-shadow .2s;
+    }
+    .event-card:hover { box-shadow: var(--shadow); }
+    .event-card.must-see { border-color: #FDE68A; background: #FFFBEB; }
+    .event-card.very-good { border-color: #A7F3D0; background: #ECFDF5; }
+    .event-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .event-body { flex: 1; min-width: 0; }
+    .event-body strong { font-size: .95rem; font-weight: 700; color: var(--text); }
+    .event-meta { font-size: .78rem; color: var(--text-3); margin: 3px 0 6px; }
+    .event-desc { font-size: .85rem; color: var(--text-2); line-height: 1.6; }
+    .impact-badge {
+      flex-shrink: 0; padding: 4px 10px; border-radius: 20px;
+      font-size: .72rem; font-weight: 700; white-space: nowrap;
+      align-self: flex-start;
+    }
+    .impact-badge.must-see { background: #FDE68A; color: #92400E; }
+    .impact-badge.very-good { background: var(--green-light); color: #065F46; }
+    .impact-badge.interesting { background: var(--accent-light); color: var(--accent-dark); }
+
+    /* ── Activities ── */
+    .activities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .activity-card {
+      border: 1px solid var(--border); border-radius: 12px;
+      background: var(--bg); padding: 18px;
+      transition: all .2s;
+    }
+    .activity-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+    .activity-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem; font-weight: 700; color: var(--text);
+      margin-bottom: 8px;
+    }
+    .activity-desc {
+      font-size: .83rem; color: var(--text-2); line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .activity-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+    .price-badge {
+      font-size: .75rem; font-weight: 600; padding: 3px 9px; border-radius: 8px;
+      background: var(--accent-light); color: var(--accent-dark);
+    }
+    .activity-tip {
+      font-size: .73rem; color: var(--text-3); font-style: italic;
+    }
+
+    /* ── Sleep tabs ── */
+    .sleep-tabs {
+      display: flex; gap: 6px; margin-bottom: 20px;
+      border-bottom: 1px solid var(--border); padding-bottom: 0;
+    }
+    .sleep-tab {
+      padding: 9px 16px; font-size: .83rem; font-weight: 600;
+      color: var(--text-2); background: none; border: none;
+      cursor: pointer; border-bottom: 2px solid transparent;
+      transition: all .2s; margin-bottom: -1px;
+    }
+    .sleep-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .sleep-tab:hover:not(.active) { color: var(--text); }
+    .sleep-panel { display: none; }
+    .sleep-panel.active { display: block; }
+    .sleep-card {
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 20px; background: var(--bg);
+    }
+    .sleep-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem; font-weight: 700; margin-bottom: 6px;
+    }
+    .sleep-price {
+      font-size: 1.25rem; font-weight: 800; color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .sleep-notes { font-size: .87rem; color: var(--text-2); line-height: 1.7; }
+
+    /* ── Budget breakdown ── */
+    .budget-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    }
+    .budget-card {
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 20px; background: var(--bg); text-align: center;
+    }
+    .budget-card.mid { border-color: var(--accent); background: var(--accent-light); }
+    .budget-level {
+      font-size: .72rem; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 8px;
+    }
+    .budget-amount {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: 8px;
+    }
+    .budget-card.mid .budget-amount { color: var(--accent-dark); }
+    .budget-card.mid .budget-level { color: var(--accent); }
+    .budget-desc { font-size: .78rem; color: var(--text-3); line-height: 1.55; }
+
+    /* ── Tips ── */
+    .tips-grid { display: flex; flex-direction: column; gap: 10px; }
+    .tip-card {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      background: var(--bg-soft); border: 1px solid var(--border);
+    }
+    .tip-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+    .tip-text { font-size: .88rem; color: var(--text-2); line-height: 1.6; }
+
+    /* ── Info rows for text sections ── */
+    .info-card {
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 20px; background: var(--bg);
+    }
+    .info-card p { color: var(--text-2); line-height: 1.75; font-size: .92rem; }
+
+    /* ── Related destinations ── */
+    .related-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    }
+    .related-card {
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--border);
+      text-decoration: none; color: inherit;
+      transition: all .2s; display: block;
+    }
+    .related-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+    .related-photo {
+      height: 140px; background: #ddd center/cover no-repeat;
+      position: relative;
+    }
+    .related-photo-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.5));
+    }
+    .related-info { padding: 14px; background: var(--bg); }
+    .related-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: 4px;
+    }
+    .related-tag { font-size: .75rem; color: var(--text-3); }
+
+    /* ── Loading state ── */
+    .loading-hero {
+      background: linear-gradient(90deg, #E5E7EB 25%, #F3F4F6 50%, #E5E7EB 75%);
+      background-size: 400px 100%;
+      animation: shimmer 1.2s infinite linear;
+    }
+    @keyframes shimmer { from { background-position: -400px 0; } to { background-position: 400px 0; } }
+
+    /* ── Mobile ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 14px; }
+      .nav-logo span { display: none; }
+      .hero-content { padding: 20px 16px 24px; }
+      .page-body { padding: 0 14px 60px; }
+      .quick-stats { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-right: 1px solid var(--border); border-top: 1px solid var(--border); }
+      .stat-item:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
+      .activities-grid { grid-template-columns: 1fr; }
+      .budget-grid { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: repeat(2, 1fr); }
+      .related-grid .related-card:last-child { display: none; }
+      .sleep-tabs { overflow-x: auto; }
+      .month-card { width: 68px; }
+    }
+
+    @media (max-width: 400px) {
+      .month-card { width: 62px; }
+    }
+
+    /* ── Skeleton ── */
+    .skeleton {
+      background: linear-gradient(90deg, #E5E7EB 25%, #F3F4F6 50%, #E5E7EB 75%);
+      background-size: 400px 100%;
+      animation: shimmer 1.2s infinite linear;
+      border-radius: 8px;
+    }
+
+    /* ── Visa info strip ── */
+    .visa-strip {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 16px; border-radius: 12px;
+      background: var(--green-light); border: 1px solid #A7F3D0;
+    }
+    .visa-strip .visa-icon { font-size: 1.2rem; }
+    .visa-strip p { font-size: .87rem; color: #065F46; }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav>
+  <a href="guias.html" class="nav-back">← Guías</a>
+  <a href="main.html" class="nav-logo">
+    <span>✈️</span>
+    <span>ViajeraMente</span>
+  </a>
+  <div class="nav-actions">
+    <button id="btnSave" onclick="toggleSave()">♡ Guardar</button>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<div class="dest-hero" id="destHero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" id="destContinent">Cargando…</div>
+    <h1 id="destName">—</h1>
+    <p class="hero-tagline" id="destTagline"></p>
+    <div class="hero-chips" id="destChips"></div>
+  </div>
+</div>
+
+<!-- ── Page body ── -->
+<div class="page-body">
+
+  <!-- Quick stats -->
+  <div class="quick-stats" id="quickStats">
+    <div class="stat-item">
+      <div class="stat-label">Visa</div>
+      <div class="stat-value" id="statVisa">—</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Mejor época</div>
+      <div class="stat-value" id="statBest">—</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Presupuesto/día</div>
+      <div class="stat-value" id="statBudget">—</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Vuelo desde Madrid</div>
+      <div class="stat-value" id="statFlight">—</div>
+    </div>
+  </div>
+
+  <!-- Calendar -->
+  <section class="section">
+    <h2>📅 ¿Cuándo ir?</h2>
+    <div class="months-scroll-wrapper">
+      <div class="months-grid" id="monthsGrid"></div>
+    </div>
+    <div class="month-detail" id="monthDetail"></div>
+  </section>
+
+  <!-- Events -->
+  <section class="section" id="eventsSection" style="display:none">
+    <h2>🎉 Eventos y festividades</h2>
+    <div class="events-list" id="eventsList"></div>
+  </section>
+
+  <!-- What to do -->
+  <section class="section" id="activitiesSection" style="display:none">
+    <h2>🗺️ Qué hacer</h2>
+    <div class="activities-grid" id="activitiesGrid"></div>
+  </section>
+
+  <!-- Where to sleep -->
+  <section class="section" id="sleepSection" style="display:none">
+    <h2>🏨 Dónde dormir</h2>
+    <div class="sleep-tabs" id="sleepTabs">
+      <button class="sleep-tab active" onclick="showSleepTab('budget',this)">🎒 Budget</button>
+      <button class="sleep-tab" onclick="showSleepTab('mid',this)">⭐ Estándar</button>
+      <button class="sleep-tab" onclick="showSleepTab('luxury',this)">✨ Premium</button>
+    </div>
+    <div id="sleepContent"></div>
+  </section>
+
+  <!-- Budget -->
+  <section class="section" id="budgetSection" style="display:none">
+    <h2>💰 Presupuesto</h2>
+    <div class="budget-grid" id="budgetGrid"></div>
+  </section>
+
+  <!-- How to get there -->
+  <section class="section" id="flightSection">
+    <h2>✈️ Cómo llegar</h2>
+    <div class="info-card">
+      <p id="howToGet">Cargando información de vuelos…</p>
+    </div>
+  </section>
+
+  <!-- Local transport -->
+  <section class="section" id="transportSection">
+    <h2>🚌 Transporte local</h2>
+    <div class="info-card">
+      <p id="localTransport">Cargando…</p>
+    </div>
+  </section>
+
+  <!-- Food -->
+  <section class="section" id="foodSection">
+    <h2>🍜 Gastronomía</h2>
+    <div class="info-card">
+      <p id="foodText">Cargando…</p>
+    </div>
+  </section>
+
+  <!-- Tips -->
+  <section class="section" id="tipsSection" style="display:none">
+    <h2>💡 Consejos de viajero</h2>
+    <div class="tips-grid" id="tipsGrid"></div>
+  </section>
+
+  <!-- Visa -->
+  <section class="section" id="visaSection">
+    <h2>🛂 Visado e entrada</h2>
+    <div class="visa-strip">
+      <span class="visa-icon">✅</span>
+      <p id="visaInfo">Consultando requisitos de entrada para españoles…</p>
+    </div>
+  </section>
+
+  <!-- Related -->
+  <section class="section" id="relatedSection" style="display:none">
+    <h2>🌍 Destinos similares</h2>
+    <div class="related-grid" id="relatedGrid"></div>
+  </section>
+
+</div><!-- /page-body -->
+
+<script>
+  /* ─── CONFIG ─── */
+  const API_BASE = 'https://eze.saypeter.com';
+  const slug = new URLSearchParams(window.location.search).get('slug');
+
+  /* ─── MONTH NAMES ─── */
+  const MONTH_NAMES   = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const MONTH_SHORT   = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const CLIMATE_MAP   = { warm:'☀️ Cálido', mild:'🌤️ Templado', cold:'❄️ Frío', tropical:'🌴 Tropical', desert:'🏜️ Árido', mediterranean:'🌊 Mediterráneo' };
+  const IMPACT_LABELS = { must_see:'No te lo pierdas', very_good:'Muy recomendado', interesting:'Interesante' };
+  const IMPACT_ICONS  = { must_see:'🌟', very_good:'⭐', interesting:'📌' };
+
+  /* ─── FALLBACK DATA ─── */
+  const FALLBACKS = {
+    japon: {
+      slug:'japon', name:'Japón', country:'Japón', continent:'Asia',
+      climate:['mild'], tagline:'Templos zen, trenes bala y cerezos en flor',
+      hero_photo_id:'2070485',
+      budget_daily_low:70, budget_daily_mid:140, budget_daily_high:350,
+      best_months_label:'Mar–Abr / Oct',
+      flight_hours:'~13h',
+      visa_info:'Sin visado hasta 90 días para españoles.',
+      how_to_get_there:'Vuelo directo Iberia desde Madrid en ~13h. También Japan Airlines y ANA con escala en ciudades asiáticas. Mejores precios reservando con 3-4 meses de antelación.',
+      when_to_go:'Marzo-abril (sakura) y octubre (momiji) son los mejores meses. Enero-febrero es más barato y tranquilo. Evita agosto: calor extremo y precios altos.',
+      local_transport:'JR Pass para el shinkansen (comprar en España, más barato). Suica card recargable para metro y bus en ciudades. IC Card funciona en casi todo el país.',
+      food_and_drink:'Ramen, sushi, tempura, okonomiyaki, yakitori… La gastronomía japonesa es excepcional en todos los rangos de precio. Los konbini (7-Eleven, Lawson) tienen comida caliente excelente por 1-2€.',
+      local_tips:['Lleva efectivo: muchos templos, mercados y restaurantes no aceptan tarjeta','Descarga Google Translate con el paquete japonés offline y Japan Official Travel App','El JR Pass cómpralo en España antes de viajar, es bastante más barato','Reserva alojamiento con 3-4 meses de antelación para la temporada sakura','Respeta las normas: no comer caminando, no hablar por teléfono en el metro'],
+      seasons: [
+        {month:1,temp_avg_c:5,crowd_level:2,price_level:2,overall_score:6,weather_description:'Frío en el norte, suave en el sur. Nevadas en Hokkaido y los Alpes japoneses.',travel_advice:'Buena época para evitar multitudes y conseguir precios más bajos.'},
+        {month:2,temp_avg_c:6,crowd_level:2,price_level:2,overall_score:6,weather_description:'Ciruelos en flor (ume), preludio al sakura. Días despejados y fríos.',travel_advice:'Tranquilo y barato. Festival de la nieve en Sapporo a principios de mes.'},
+        {month:3,temp_avg_c:11,crowd_level:4,price_level:4,overall_score:8,weather_description:'Inicio del sakura en Kiushu y sur de Honshu. Temperaturas subiendo.',travel_advice:'Reservar hotel con meses de antelación. Los fines de semana se llenan rápido.'},
+        {month:4,temp_avg_c:16,crowd_level:5,price_level:5,overall_score:9,weather_description:'Plena floración del cerezo en todo el país. El mes más bonito.',travel_advice:'El mejor mes pero el más concurrido. Precios altos. Reserva todo con antelación.'},
+        {month:5,temp_avg_c:21,crowd_level:3,price_level:3,overall_score:8,weather_description:'Verde exuberante, temperatura perfecta. Semana Dorada a principios de mes.',travel_advice:'Excelente equilibrio calidad-precio. Evita la primera semana (Semana Dorada).'},
+        {month:6,temp_avg_c:25,crowd_level:2,price_level:2,overall_score:5,weather_description:'Inicio de la temporada de lluvias (tsuyu). Húmedo y lluvioso.',travel_advice:'Lluvia frecuente, precios más bajos. Buen momento para interiores y museos.'},
+        {month:7,temp_avg_c:29,crowd_level:3,price_level:3,overall_score:6,weather_description:'Caluroso y húmedo. Festivales de verano (matsuri) con fuegos artificiales.',travel_advice:'Festivales bonitos pero calor intenso. Hidratación constante esencial.'},
+        {month:8,temp_avg_c:30,crowd_level:4,price_level:4,overall_score:6,weather_description:'Festival Obon (13-16 ago). Pleno verano, máxima afluencia nacional.',travel_advice:'Calor extremo. Las ciudades se vacían hacia los pueblos para Obon. Reservar con antelación.'},
+        {month:9,temp_avg_c:25,crowd_level:2,price_level:2,overall_score:7,weather_description:'Temperaturas bajando. Posibles tifones. Los colores del otoño empiezan en el norte.',travel_advice:'Vigilar el tiempo, precios moderados. Excelente en la segunda quincena.'},
+        {month:10,temp_avg_c:19,crowd_level:4,price_level:4,overall_score:9,weather_description:'Momiji (hojas rojas) en todo el esplendor. Temperatura perfecta para caminar.',travel_advice:'Segundo mejor mes del año. Hokkaido y Nikko son espectaculares.'},
+        {month:11,temp_avg_c:13,crowd_level:3,price_level:3,overall_score:8,weather_description:'Otoño profundo y muy fotogénico. Menos gente que octubre.',travel_advice:'Muy recomendado. Kioto en noviembre es especialmente bonito.'},
+        {month:12,temp_avg_c:7,crowd_level:2,price_level:3,overall_score:7,weather_description:'Navidad japonesa, mercados navideños. Nieve en el norte.',travel_advice:'El año nuevo en templos y santuarios es una experiencia única. Muy especial.'}
+      ],
+      events:[
+        {name:'Floración del cerezo (Sakura)',month_start:3,month_end:4,impact:'must_see',description:'El sakura transforma Japón en un cuadro de ensueño. El hanami (picnic bajo los cerezos) es el ritual social más importante del año.',specific_location:'Tokio, Kioto, Osaka, Hiroshima'},
+        {name:'Momiji — hojas de otoño',month_start:10,month_end:11,impact:'very_good',description:'Los arces japoneses se tiñen de rojo, naranja y amarillo intenso. Los jardines zen en otoño son de los paisajes más impresionantes del mundo.',specific_location:'Nikko, Kioto, Nara, Hakone'},
+        {name:'Festival Obon',month_start:8,month_end:8,impact:'interesting',description:'Festival de los ancestros con danzas Bon Odori, linternas en ríos y reuniones familiares. El país entero viaja al pueblo natal.',specific_location:'Todo el país'}
+      ],
+      what_to_do:[
+        {title:'Ruta Tokio–Kioto–Osaka en shinkansen',description:'El tren bala a 300 km/h conecta las tres ciudades principales. Cultura urbana vs. tradición histórica en un solo viaje.',price:'JR Pass 14 días: ~430€',tip:'Comprar el JR Pass en España, es más barato'},
+        {title:'Amanecer en el bosque de bambú de Arashiyama',description:'Los cañaverales de Kioto al alba, sin turistas. La luz del amanecer entre los bambúes es irreal.',price:'Gratuito',tip:'Llega antes de las 7am. Lunes y martes tienen menos gente'},
+        {title:'Onsen en Hakone con vistas al Fuji',description:'Baño termal tradicional con vistas al monte Fuji en días despejados. El ryokan incluye cena kaiseki de varios platos.',price:'40–80€/noche en ryokan con onsen'},
+        {title:'Ramen en Ichiran Tokio',description:'El ramen más famoso de Tokio. Se come en cabina individual, sin interacción social. Un ritual japonés.',price:'12–15€ por cuenco'},
+        {title:'Mercado Nishiki en Kioto',description:'El supermercado de Kioto: takoyaki, dashi, pickles y sake de barril en 300 metros de gastronomía.',price:'Gratuito + lo que comas'},
+        {title:'Santuario Fushimi Inari al amanecer',description:'Los miles de torii naranjas sin turistas. 4 km de caminata entre pinos y montaña.',price:'Gratuito'}
+      ],
+      where_to_sleep:{
+        budget:{name:'Capsule hotels y hostels',price:'20–35€/noche',notes:'El capsule hotel es una experiencia en sí mismo: eficiente, limpio y moderno. Los hostels de Kioto son de los mejores del mundo. Reservar con semanas de antelación en temporada alta.'},
+        mid:{name:'Business hotels 3★',price:'70–110€/noche',notes:'Toyoko Inn, APA Hotel, Dormy Inn. Habitaciones pequeñas pero impecables. Desayuno japonés incluido en algunos. Perfecta relación calidad-precio.'},
+        luxury:{name:'Ryokan tradicional',price:'250–800€/noche por persona',notes:'Pensión completa, onsen privado, cena kaiseki de 12 platos. Una experiencia que trasciende el alojamiento. Reservar con meses de antelación.'}
+      }
+    },
+    bali: {
+      slug:'bali', name:'Bali', country:'Indonesia', continent:'Asia',
+      climate:['tropical'], tagline:'Arrozales esmeralda, templos y olas perfectas',
+      hero_photo_id:'931018',
+      budget_daily_low:35, budget_daily_mid:80, budget_daily_high:300,
+      best_months_label:'May–Sep',
+      flight_hours:'~16h c/escala',
+      visa_info:'Visa on arrival 30 días para españoles (35 USD). Prorrogable 30 días más.',
+      how_to_get_there:'No hay vuelo directo desde España. Las mejores conexiones son Emirates (Dubai) o Singapore Airlines (Singapur). Duración total 16-20h.',
+      when_to_go:'La temporada seca de mayo a septiembre es ideal: poca lluvia, cielos azules. Julio y agosto son los más concurridos. Diciembre-enero tiene monzones pero precios más bajos.',
+      local_transport:'Alquiler de moto (10-15€/día, carnet internacional necesario). GoJek y Grab para taxis. Contratar conductor privado para un día (40-60€) vale mucho la pena.',
+      food_and_drink:'Nasi goreng, mie goreng, satay, gado-gado, babi guling. Los warungs (restaurantes locales) sirven platos completos por 2-4€. La escena de cafés en Canggu es excelente.',
+      local_tips:['Viste ropa respetuosa en templos (sarong obligatorio, se alquila en la entrada)','El regateo es normal en mercados, no en tiendas fijas','Usa agua embotellada siempre, incluso para cepillarte los dientes','El tráfico en Kuta y Seminyak es caótico, calcula el doble de tiempo'],
+      seasons:[
+        {month:1,temp_avg_c:27,crowd_level:2,price_level:2,overall_score:5,weather_description:'Monzón: lluvias intensas por las tardes',travel_advice:'Precios bajos pero lluvia diaria'},
+        {month:2,temp_avg_c:27,crowd_level:2,price_level:2,overall_score:5,weather_description:'Lluvia frecuente, ambiente verde',travel_advice:'Bueno para presupuesto ajustado'},
+        {month:3,temp_avg_c:28,crowd_level:3,price_level:3,overall_score:6,weather_description:'Lluvias disminuyendo',travel_advice:'Transición a la temporada seca'},
+        {month:4,temp_avg_c:28,crowd_level:3,price_level:3,overall_score:7,weather_description:'Días más secos, paisajes verdes',travel_advice:'Buen momento, menos gente'},
+        {month:5,temp_avg_c:27,crowd_level:3,price_level:3,overall_score:8,weather_description:'Temporada seca empieza. Viento fresco.',travel_advice:'Muy recomendado'},
+        {month:6,temp_avg_c:26,crowd_level:4,price_level:4,overall_score:8,weather_description:'Seco y soleado, oleaje perfecto',travel_advice:'Excelente para surf y playas'},
+        {month:7,temp_avg_c:25,crowd_level:5,price_level:5,overall_score:8,weather_description:'El mes más seco y soleado',travel_advice:'Muy concurrido, reserva con antelación'},
+        {month:8,temp_avg_c:25,crowd_level:5,price_level:5,overall_score:8,weather_description:'Tiempo perfecto, máxima demanda',travel_advice:'Temporada alta, precios altos'},
+        {month:9,temp_avg_c:26,crowd_level:4,price_level:4,overall_score:9,weather_description:'Excelente tiempo, menos turistas',travel_advice:'El mejor mes: tiempo + precios razonables'},
+        {month:10,temp_avg_c:27,crowd_level:3,price_level:3,overall_score:7,weather_description:'Transición, algunas lluvias',travel_advice:'Buen equilibrio'},
+        {month:11,temp_avg_c:27,crowd_level:2,price_level:2,overall_score:6,weather_description:'Empiezan las lluvias monzónicas',travel_advice:'Precios bajos'},
+        {month:12,temp_avg_c:27,crowd_level:3,price_level:4,overall_score:5,weather_description:'Lluvias + Navidad = multitudes y precios',travel_advice:'Navidad en Bali es cara y lluviosa'}
+      ],
+      events:[
+        {name:'Nyepi — Año Nuevo Balinés',month_start:3,month_end:3,impact:'must_see',description:'Día de silencio total: no sale nadie a la calle, no hay luces, no hay vuelos. Una experiencia única en el mundo.',specific_location:'Todo Bali'},
+        {name:'Galungan y Kuningan',month_start:6,month_end:6,impact:'very_good',description:'Festividad hindú con templos decorados, ofrendas en cada hogar y procesiones coloridas.',specific_location:'Todo Bali'}
+      ],
+      what_to_do:[
+        {title:'Amanecer en el volcán Batur',description:'Trekking de madrugada hasta la cima del volcán activo. Las vistas del lago y el Agung al amanecer son épicas.',price:'30-50€ con guía'},
+        {title:'Terraza de arroz de Tegallalang',description:'Los arrozales en terrazas más fotogénicos de Asia. Mejor al amanecer o al atardecer.',price:'Entrada ~2€'},
+        {title:'Surf en Uluwatu',description:'Los mejores tubos de Bali para surfistas con experiencia. Clases para principiantes en Kuta.',price:'Clases desde 20€'},
+        {title:'Templo de Tanah Lot al atardecer',description:'El templo sobre una roca en el mar, al atardecer. Icónico y mágico.',price:'Entrada ~5€'},
+        {title:'Clase de cocina balinesa',description:'Visitar el mercado por la mañana y cocinar platos tradicionales. Comer lo que cocinaste.',price:'35-60€'},
+        {title:'Cueva de los murciélagos — Goa Lawah',description:'Templo en una cueva llena de murciélagos. Impresionante y diferente.',price:'Entrada ~4€'}
+      ],
+      where_to_sleep:{
+        budget:{name:'Guesthouses y hostels',price:'8–25€/noche',notes:'Ubud tiene guesthouses con vistas a los arrozales por 15-20€. Canggu tiene buenos hostels sociales para conocer viajeros.'},
+        mid:{name:'Villas con piscina',price:'60-120€/noche',notes:'La verdadera joya de Bali: villas privadas con piscina individual por lo que en Europa costaría un hostel. Seminyak y Ubud son las mejores zonas.'},
+        luxury:{name:'Resorts de lujo',price:'200-800€/noche',notes:'Four Seasons Sayan (Ubud) o COMO Uma Ubud tienen algunas de las mejores vistas del mundo desde la bañera.'}
+      }
+    },
+    islandia: {
+      slug:'islandia', name:'Islandia', country:'Islandia', continent:'Europa',
+      climate:['cold'], tagline:'Aurora boreal, géiseres y paisajes de otro planeta',
+      hero_photo_id:'1933239',
+      budget_daily_low:100, budget_daily_mid:200, budget_daily_high:500,
+      best_months_label:'Jun–Ago / Feb (auroras)',
+      flight_hours:'~3h desde Madrid',
+      visa_info:'Sin visado para españoles. Espacio Schengen. Pasaporte o DNI válido.',
+      how_to_get_there:'Icelandair y Wizz Air tienen vuelos directos desde Madrid (~3h). Vuelos desde 80€ ida en temporada baja.',
+      when_to_go:'Para auroras boreales: noviembre–marzo (necesitas noches oscuras y cielo despejado). Para paisajes y senderismo: junio–agosto (sol de medianoche). Septiembre es un equilibrio excelente.',
+      local_transport:'Alquiler de coche imprescindible para la Ring Road. 4x4 necesario en las pistas interiores (F-roads). No se puede hacer sin coche propio.',
+      food_and_drink:'El skyr (yogur local), el cordero de pasto libre y el bacalao son los básicos. Comer en restaurantes es caro (40-60€/persona). El supermercado Bonus y cocinar ahorra mucho dinero.',
+      local_tips:['Tiempo cambia en minutos: lleva siempre ropa impermeable','Nunca conduzcas fuera de las pistas marcadas: ecosistema frágil y multas altas','La gasolina es cara: llena siempre que puedas','La Northern Lights app ayuda a predecir las auroras'],
+      seasons:[
+        {month:1,temp_avg_c:-1,crowd_level:1,price_level:3,overall_score:7,weather_description:'Auroras en su máximo esplendor. Días muy cortos.',travel_advice:'Perfecto para auroras. Ropa de abrigo extremo.'},
+        {month:2,temp_avg_c:-2,crowd_level:1,price_level:3,overall_score:7,weather_description:'Noches largas, auroras frecuentes',travel_advice:'Menos turistas que otros meses de invierno'},
+        {month:3,temp_avg_c:1,crowd_level:2,price_level:3,overall_score:7,weather_description:'Días alargándose, auroras todavía posibles',travel_advice:'Buen equilibrio luz/oscuridad'},
+        {month:4,temp_avg_c:4,crowd_level:2,price_level:3,overall_score:7,weather_description:'Primavera, paisajes nevados y verdes',travel_advice:'Las cascadas están en su máximo caudal'},
+        {month:5,temp_avg_c:8,crowd_level:3,price_level:3,overall_score:8,weather_description:'Días largos, flores árticas',travel_advice:'Excelente relación precio-experiencia'},
+        {month:6,temp_avg_c:11,crowd_level:4,price_level:4,overall_score:9,weather_description:'Sol de medianoche, temperatura máxima',travel_advice:'El mejor mes para senderismo y Ring Road'},
+        {month:7,temp_avg_c:12,crowd_level:5,price_level:5,overall_score:8,weather_description:'Mes más cálido y concurrido',travel_advice:'Muy lleno, reservar meses antes'},
+        {month:8,temp_avg_c:11,crowd_level:4,price_level:4,overall_score:8,weather_description:'Empieza a oscurecer, primeras auroras posibles',travel_advice:'Buena opción: días largos + posibles auroras'},
+        {month:9,temp_avg_c:8,crowd_level:3,price_level:3,overall_score:9,weather_description:'Auroras empiezan, paisajes otoñales, menos gente',travel_advice:'Mes ideal: todo sin las multitudes del verano'},
+        {month:10,temp_avg_c:4,crowd_level:2,price_level:3,overall_score:7,weather_description:'Noche de vuelta, auroras frecuentes',travel_advice:'Buen mes, tiempo variable'},
+        {month:11,temp_avg_c:1,crowd_level:1,price_level:3,overall_score:7,weather_description:'Invierno polar, auroras claras',travel_advice:'Para cazadores de auroras dedicados'},
+        {month:12,temp_avg_c:-1,crowd_level:2,price_level:4,overall_score:6,weather_description:'Navidad mágica, solsticio, días mínimos',travel_advice:'Bonito pero caro en navidades'}
+      ],
+      events:[
+        {name:'Sol de medianoche',month_start:6,month_end:7,impact:'must_see',description:'El sol no se pone. A las 2am hay luz de día. Fotógrafos y aventureros de todo el mundo vienen a vivir esta experiencia única.',specific_location:'Todo el país'},
+        {name:'Aurora boreal',month_start:11,month_end:3,impact:'must_see',description:'El cielo de Islandia es uno de los mejores del mundo para ver auroras. Necesitas noche despejada y alejarte de la ciudad.',specific_location:'Thingvellir, Vik, Snaefellsnes'}
+      ],
+      what_to_do:[
+        {title:'Ring Road completa (Route 1)',description:'Circunvalación de 1300 km por toda la isla. La aventura por carretera más épica de Europa.',price:'Coche 7 días: ~400-600€'},
+        {title:'Bañarse en el Blue Lagoon',description:'Aguas termales de color azul lechoso rodeadas de lava negra. El símbolo de Islandia.',price:'Entrada desde 55€'},
+        {title:'Géisers de Geysir',description:'El Strokkur erupciona cada 5-8 minutos hasta 30m de altura. El que da nombre a todos los géisers del mundo.',price:'Gratuito'},
+        {title:'Cascadas Seljalandsfoss y Skógafoss',description:'Caminar detrás de una cascada (Seljalandsfoss) o ver el arcoíris permanente de Skógafoss.',price:'Gratuito'},
+        {title:'Glaciares de Vatnajökull',description:'El mayor glaciar de Europa. Excursiones guiadas con crampones por el hielo milenario.',price:'Desde 70€ con guía'},
+        {title:'Noche en cabaña con cielo de cristal',description:'Cabañas con techo de cristal para ver auroras desde la cama. Una noche de ensueño.',price:'300-500€/noche'}
+      ],
+      where_to_sleep:{
+        budget:{name:'Hostels y guesthouses',price:'35-60€/noche',notes:'Los hostels islandeses son limpios y bien equipados. Reikiavik tiene buena oferta. En la Ring Road, muchos granjeros alquilan habitaciones básicas.'},
+        mid:{name:'Hoteles 3-4★',price:'120-200€/noche',notes:'Hoteles de cadenas locales como Fosshotel. Muy buenos en Reikiavik y bien ubicados en la Ring Road.'},
+        luxury:{name:'Hoteles de diseño y cabañas premium',price:'300-800€/noche',notes:'Ion Adventure Hotel o las cabañas de cristal de la laguna glaciar Jökulsárlón son experiencias únicas en el mundo.'}
+      }
+    },
+    portugal: {
+      slug:'portugal', name:'Portugal', country:'Portugal', continent:'Europa',
+      climate:['mediterranean'], tagline:'Fados, pastéis de nata y el Atlántico más bonito',
+      hero_photo_id:'1534560',
+      budget_daily_low:50, budget_daily_mid:100, budget_daily_high:250,
+      best_months_label:'Abr–Jun / Sep–Oct',
+      flight_hours:'~2h desde Madrid',
+      visa_info:'Sin visado. Espacio Schengen. DNI válido.',
+      how_to_get_there:'Vuelo directo desde Madrid, Barcelona o Bilbao en 1h30-2h. TAP, Iberia, Vueling y Ryanair. También en coche desde Madrid en 6h.',
+      when_to_go:'Abril-junio y septiembre-octubre son los meses perfectos: buen tiempo sin el calor del verano ni las multitudes de agosto. Lisboa en enero es gris pero tiene encanto.',
+      local_transport:'El metro de Lisboa es excelente y barato. Los eléctricos históricos para ver la ciudad. Alquiler de coche necesario para el Alentejo y el Algarve.',
+      food_and_drink:'Bacalhau à brás, pastéis de nata en Belém, bifanas, sardinhas assadas, cataplana. Vinho verde y vinho do Alentejo son excepcionales. Comer bien por 10-15€ es fácil.',
+      local_tips:['El Vinhão y el Vinho Verde se sirven frescos, no a temperatura ambiente','Los museos nacionales son gratuitos los domingos por la mañana','El pase Lisboa Card incluye museos y transporte','Hay playa todo el año pero el Atlántico es frío fuera de julio-agosto'],
+      seasons:[
+        {month:1,temp_avg_c:12,crowd_level:1,price_level:1,overall_score:6,weather_description:'Fresco y lluvioso en Lisboa. Algarve más soleado.',travel_advice:'Muy tranquilo. Precios mínimos.'},
+        {month:2,temp_avg_c:13,crowd_level:1,price_level:1,overall_score:6,weather_description:'Almendros en flor en el Algarve',travel_advice:'Floración del almendro, precioso y sin gente'},
+        {month:3,temp_avg_c:15,crowd_level:2,price_level:2,overall_score:7,weather_description:'Días soleados alternados con lluvia',travel_advice:'Buen momento para empezar a explorar'},
+        {month:4,temp_avg_c:17,crowd_level:3,price_level:3,overall_score:9,weather_description:'Flores, días largos, temperaturas perfectas',travel_advice:'Uno de los mejores meses'},
+        {month:5,temp_avg_c:19,crowd_level:3,price_level:3,overall_score:9,weather_description:'Primavera plena, sin calor excesivo',travel_advice:'Ideal para todas las actividades'},
+        {month:6,temp_avg_c:23,crowd_level:4,price_level:4,overall_score:8,weather_description:'Calor agradable, playas empezando',travel_advice:'Muy bueno. Festivales de San Juan en Oporto'},
+        {month:7,temp_avg_c:26,crowd_level:5,price_level:5,overall_score:7,weather_description:'Pleno verano, playas llenas',travel_advice:'Muy concurrido. Calor intenso en el interior.'},
+        {month:8,temp_avg_c:27,crowd_level:5,price_level:5,overall_score:7,weather_description:'Máximo turístico, playas abarrotadas',travel_advice:'El mes más caro. Reserva con meses de antelación.'},
+        {month:9,temp_avg_c:24,crowd_level:3,price_level:3,overall_score:9,weather_description:'Verano prolongado, turistas menos',travel_advice:'El mejor mes: sol, mar y sin multitudes'},
+        {month:10,temp_avg_c:20,crowd_level:2,price_level:2,overall_score:8,weather_description:'Otoño suave y luminoso',travel_advice:'Muy recomendado para naturaleza y ciudades'},
+        {month:11,temp_avg_c:15,crowd_level:1,price_level:1,overall_score:6,weather_description:'Empieza la temporada de lluvia',travel_advice:'Tranquilo y barato, pero lluvia frecuente'},
+        {month:12,temp_avg_c:13,crowd_level:2,price_level:2,overall_score:6,weather_description:'Navidad acogedora en Lisboa',travel_advice:'La plaza del Comercio en Navidad es bonita'}
+      ],
+      events:[
+        {name:'Santos Populares — Festas de Lisboa',month_start:6,month_end:6,impact:'must_see',description:'El mes de junio Lisboa se convierte en una fiesta continua. Las calles de Alfama celebran a Santo António con sardinas, vinho verde y baile.',specific_location:'Lisboa, Alfama'},
+        {name:'Festival NOS Alive',month_start:7,month_end:7,impact:'very_good',description:'Uno de los mejores festivales de música de Europa. Headliners internacionales frente al Tajo.',specific_location:'Lisboa (Algés)'}
+      ],
+      what_to_do:[
+        {title:'Perderse por Alfama al atardecer',description:'El barrio más antiguo de Lisboa, con fado en vivo en tascas pequeñas, miradouros y casas azulejadas.',price:'Fado desde 20€ con cena'},
+        {title:'Sintra en un día',description:'Los palacios de Sintra a 40 min de Lisboa. Palácio Nacional da Pena y Quinta da Regaleira son imprescindibles.',price:'Trenes ~4€, entradas 10-14€ cada palacio'},
+        {title:'Ruta del Alentejo',description:'Bodegas, pueblos amurallados (Marvão, Monsaraz), olivares y gastronomía contundente.',price:'Coche 2-3 días'},
+        {title:'Oporto en fin de semana',description:'La Ribeira, las bodegas de Vila Nova de Gaia, el Mercado do Bolhão y los azulejos de la estación de São Bento.',price:'Vuelo o bus desde Lisboa ~30-50€'},
+        {title:'Surfeando en la Costa Vicentina',description:'Las playas más salvajes y menos masificadas de Portugal. Aljezur y Arrifana para surf de verdad.',price:'Clases desde 30€'},
+        {title:'Pastéis de Belém en el original',description:'Los pastéis de nata que crearon el concepto, frente al Monasterio de los Jerónimos desde 1837.',price:'~1.30€ por pastel'}
+      ],
+      where_to_sleep:{
+        budget:{name:'Hostels boutique',price:'18-35€/noche',notes:'Lisboa tiene los mejores hostels de Europa: diseño, ambiente social y excelente ubicación. El Home Lisboa Hostel y el Late Birds son míticos.'},
+        mid:{name:'Apartamentos y hoteles 3★',price:'70-130€/noche',notes:'Apartamento en Príncipe Real o Mouraria. Mucho mejor que hotel estándar para conocer la ciudad de verdad.'},
+        luxury:{name:'Palacios y quintas',price:'200-600€/noche',notes:'Bairro Alto Hotel o el Bela Vista (Algarve) convierten el viaje en algo especial. Las quintas del Alentejo son únicos.'}
+      }
+    },
+    grecia: {
+      slug:'grecia', name:'Grecia', country:'Grecia', continent:'Europa',
+      climate:['mediterranean'], tagline:'Acrópolisi, islas blancas y el azul más intenso del Mediterráneo',
+      hero_photo_id:'1285625',
+      budget_daily_low:60, budget_daily_mid:120, budget_daily_high:400,
+      best_months_label:'May–Jun / Sep–Oct',
+      flight_hours:'~3h desde Madrid',
+      visa_info:'Sin visado. Espacio Schengen. DNI válido.',
+      how_to_get_there:'Vuelo directo a Atenas desde Madrid en ~3h. Ryanair, Vueling, Iberia, Aegean. Para las islas, ferry desde El Pireo o vuelo doméstico barato.',
+      when_to_go:'Mayo-junio y septiembre-octubre son los meses dorados: sol garantizado, mar cálido y sin la locura de agosto. Santorini en agosto es bellísima pero superpoblada.',
+      local_transport:'Ferry entre islas (SEAJETS y Blue Star). En las islas, moto de alquiler (20-30€/día). Atenas tiene metro excelente.',
+      food_and_drink:'Spanakopita, moussaka, souvlaki, taramasalata, fresh fish, baklava. La cocina griega es abundante y barata. Una buena taverna cobra 15-25€ por persona con vino.',
+      local_tips:['El ferry nocturno entre islas ahorra una noche de hotel','Reservar Santorini con 3-4 meses de antelación para julio-agosto','El Partenón al amanecer tiene mucha menos gente','En las islas, el supermercado barato vs. restaurante en primera línea de mar: diferencia de 3x'],
+      seasons:[
+        {month:1,temp_avg_c:10,crowd_level:1,price_level:1,overall_score:5,weather_description:'Invierno suave en Atenas, frío en el norte',travel_advice:'Solo para Atenas cultural. Islas cerradas.'},
+        {month:2,temp_avg_c:10,crowd_level:1,price_level:1,overall_score:5,weather_description:'Almond blossom en Creta',travel_advice:'Tranquilo. Islas muy limitadas.'},
+        {month:3,temp_avg_c:13,crowd_level:1,price_level:2,overall_score:6,weather_description:'Primavera empezando, flores silvestres',travel_advice:'Buen momento para senderismo en Creta'},
+        {month:4,temp_avg_c:17,crowd_level:2,price_level:2,overall_score:8,weather_description:'Paisajes verdes, Semana Santa griega espectacular',travel_advice:'Excelente. Semana Santa ortodoxa muy especial.'},
+        {month:5,temp_avg_c:22,crowd_level:3,price_level:3,overall_score:9,weather_description:'Sol constante, mar empezando a calentar',travel_advice:'El mejor mes del año: perfecto sin multitudes'},
+        {month:6,temp_avg_c:27,crowd_level:4,price_level:4,overall_score:9,weather_description:'Verano llegando, puesta de sol en Oia',travel_advice:'Muy bueno. Reservar Santorini con antelación.'},
+        {month:7,temp_avg_c:30,crowd_level:5,price_level:5,overall_score:7,weather_description:'Máximo turístico. Calor intenso. Viento Meltemi.',travel_advice:'Muy lleno y caro. Mykonos y Santorini al límite.'},
+        {month:8,temp_avg_c:31,crowd_level:5,price_level:5,overall_score:6,weather_description:'El mes más caluroso y masificado',travel_advice:'Evitar si es posible, o ir a islas menos conocidas'},
+        {month:9,temp_avg_c:27,crowd_level:3,price_level:3,overall_score:9,weather_description:'Verano prolongado, turistas reducidos',travel_advice:'El mejor mes: sol, mar (29°C) y tranquilidad'},
+        {month:10,temp_avg_c:22,crowd_level:2,price_level:2,overall_score:8,weather_description:'Otoño dorado, algunas lluvias al final',travel_advice:'Excelente para cultura y naturaleza'},
+        {month:11,temp_avg_c:16,crowd_level:1,price_level:1,overall_score:5,weather_description:'Lluvias frecuentes. Islas cerrando.',travel_advice:'Solo para Atenas. Islas prácticamente cerradas.'},
+        {month:12,temp_avg_c:12,crowd_level:1,price_level:2,overall_score:5,weather_description:'Invierno mediterráneo suave en Atenas',travel_advice:'Atenas en Navidad tiene encanto propio'}
+      ],
+      events:[
+        {name:'Semana Santa Ortodoxa',month_start:4,month_end:4,impact:'must_see',description:'La Pascua griega es el evento más importante del año. Procesiones nocturnas con velas, misa de medianoche y el grito ¡Christos Anesti! Dan escalofríos.',specific_location:'Toda Grecia, especialmente Corfú y Atenas'},
+        {name:'Festival de Epidauro',month_start:7,month_end:8,impact:'very_good',description:'Teatro griego clásico representado en el teatro antiguo de Epidauro. Acústica perfecta bajo las estrellas.',specific_location:'Epidauro, Peloponeso'}
+      ],
+      what_to_do:[
+        {title:'La Acrópolis al amanecer',description:'El Partenón con la ciudad a los pies y la luz dorada del amanecer. El monumento más importante de la civilización occidental.',price:'Entrada 20€ (incluye otros yacimientos)'},
+        {title:'Atardecer en Oia, Santorini',description:'El atardecer más fotografiado del mundo. Llegar una hora antes para pillar sitio. Vale la pena el madrugón.',price:'Gratuito (el transporte es lo que cuesta)'},
+        {title:'Ruta de las islas: Atenas-Mykonos-Santorini',description:'El circuito clásico griego. Ferry entre islas, pueblos blancos, playas azules.',price:'Ferries: 50-120€ por trayecto'},
+        {title:'Senderismo en las Gorgas de Samaria (Creta)',description:'18 km de garganta espectacular entre montañas. Una de las mejores rutas de Europa.',price:'Entrada 5€ + transporte'},
+        {title:'Metéora: monasterios en las rocas',description:'Monasterios ortodoxos colgados en agujas de roca. Un lugar que parece sacado de un videojuego.',price:'Entrada por monasterio 3€'},
+        {title:'Taverna de pulpo fresco en el puerto',description:'Pulpo secando al sol, ouzo y vista al mar. La experiencia gastronómica griega definitiva.',price:'20-35€ por persona'}
+      ],
+      where_to_sleep:{
+        budget:{name:'Hostels y guesthouses',price:'20-40€/noche',notes:'Atenas tiene buenos hostels en Monastiraki y Plaka. En las islas, las guesthouses locales son encantadoras y económicas comparado con los grandes hoteles.'},
+        mid:{name:'Hoteles boutique',price:'80-150€/noche',notes:'Los hoteles de las Cícladas tienen una estética inigualable: blanco inmaculado, vistas al Egeo, piscinas en terrazas.'},
+        luxury:{name:'Cave hotels en Santorini',price:'400-1500€/noche',notes:'Las casas cueva de Oia y Imerovigli talladas en la caldera. Piscina privada con vistas volcánicas. Una de las experiencias de alojamiento más únicas del mundo.'}
+      }
+    },
+    noruega: {
+      slug:'noruega', name:'Noruega', country:'Noruega', continent:'Europa',
+      climate:['cold'], tagline:'Fiordos sobrecogedores, trolls y el país más bonito del norte',
+      hero_photo_id:'3225517',
+      budget_daily_low:120, budget_daily_mid:220, budget_daily_high:600,
+      best_months_label:'Jun–Ago / Feb (auroras)',
+      flight_hours:'~3h desde Madrid',
+      visa_info:'Sin visado. Espacio Schengen. DNI válido.',
+      how_to_get_there:'Vuelo directo a Oslo desde Madrid (Iberia, Ryanair, Norwegian) en ~3h. Para Bergen o Ålesund, con escala en Oslo o Copenhagen.',
+      when_to_go:'Verano (junio-agosto) para fiordos, senderismo y sol de medianoche. Invierno (enero-marzo) para auroras boreales en Tromsø. Septiembre tiene auroras tempranas y colores otoñales.',
+      local_transport:'NSB trenes nacionales para Oslo-Bergen-Ålesund. Flybussen aeropuerto. En los fiordos, ferry es parte del paisaje y de la experiencia.',
+      food_and_drink:'Salmón, bacalao, reno, brunost (queso marrón), waffles con rojo. Comer en restaurantes es carísimo (40-70€). El supermercado Rema 1000 o Kiwi ahorra mucho. Comprar cerveza en el Vinmonopolet.',
+      local_tips:['El transporte público noruego es puntual al minuto','La app Ruter para Oslo y Skyss para Bergen','En verano, check si estás en zona de sol de medianoche','El agua de los ríos y cascadas es potable y deliciosa','La mayoría de senderos son gratuitos (filosofía del friluftsliv)'],
+      seasons:[
+        {month:1,temp_avg_c:-4,crowd_level:1,price_level:3,overall_score:7,weather_description:'Oscuridad polar en el norte. Auroras en Tromsø.',travel_advice:'Solo para caza de auroras. Muy frío.'},
+        {month:2,temp_avg_c:-3,crowd_level:2,price_level:3,overall_score:7,weather_description:'Nieve y auroras. Los fiordos helados son impresionantes.',travel_advice:'Mejor mes para auroras: más días y a veces más asequible'},
+        {month:3,temp_avg_c:1,crowd_level:2,price_level:3,overall_score:7,weather_description:'Días alargándose, nieve todavía',travel_advice:'Últimas auroras, primeras luces de primavera'},
+        {month:4,temp_avg_c:6,crowd_level:2,price_level:3,overall_score:7,weather_description:'Deshielo, cascadas en su máxima potencia',travel_advice:'Las cascadas después del deshielo son espectaculares'},
+        {month:5,temp_avg_c:12,crowd_level:3,price_level:3,overall_score:8,weather_description:'Días largos, verdor intenso, fiordos en calma',travel_advice:'Muy recomendado, menos gente que verano'},
+        {month:6,temp_avg_c:17,crowd_level:4,price_level:4,overall_score:9,weather_description:'Sol de medianoche, temperatura máxima',travel_advice:'El mejor mes para fiordos y senderismo'},
+        {month:7,temp_avg_c:19,crowd_level:5,price_level:5,overall_score:8,weather_description:'Mes más cálido, más turistas',travel_advice:'Lleno pero impresionante. Reserva meses antes.'},
+        {month:8,temp_avg_c:18,crowd_level:4,price_level:4,overall_score:8,weather_description:'Verano todavía, colores empezando a cambiar',travel_advice:'Excelente mes, ligeramente menos lleno'},
+        {month:9,temp_avg_c:13,crowd_level:3,price_level:3,overall_score:9,weather_description:'Otoño noruego con colores brillantes. Primeras auroras.',travel_advice:'Mes escondido: colores + auroras + menos gente'},
+        {month:10,temp_avg_c:7,crowd_level:2,price_level:3,overall_score:7,weather_description:'Otoño avanzado, auroras frecuentes',travel_advice:'Bueno para auroras y paisajes otoñales'},
+        {month:11,temp_avg_c:2,crowd_level:1,price_level:3,overall_score:6,weather_description:'Oscuridad llegando, auroras claras',travel_advice:'Solo para aurora-chasers dedicados'},
+        {month:12,temp_avg_c:-2,crowd_level:2,price_level:4,overall_score:6,weather_description:'Navidad noruega. Oscuridad y nieve.',travel_advice:'Mercados navideños y luz de velas. Caro.'}
+      ],
+      events:[
+        {name:'Sol de medianoche',month_start:5,month_end:7,impact:'must_see',description:'Al norte del Círculo Polar Ártico el sol no se pone durante semanas. Bergen y Oslo tienen noches con sol hasta las 23h en junio.',specific_location:'Tromsø, Lofoten, Bergen'},
+        {name:'Aurora boreal',month_start:9,month_end:3,impact:'must_see',description:'Tromsø es la capital mundial de las auroras boreales. Espectáculos de luz verde y violeta que dejan sin palabras.',specific_location:'Tromsø, Alta, Lofoten'}
+      ],
+      what_to_do:[
+        {title:'Sognefjord en ferry',description:'El fiordo más largo y profundo del mundo. El trayecto en ferry Flåm-Gudvangen es de los más impresionantes de Europa.',price:'Ferry desde 35€'},
+        {title:'Tren Bergen-Oslo (Bergensbanen)',description:'El trayecto de tren más bonito del continente. 8 horas entre fiordos, montañas y nieve.',price:'Desde 35€ con Eurail'},
+        {title:'Senderismo en Trolltunga',description:'La roca en forma de lengua sobre el fiordo. 20 km de ida y vuelta a 1100m de altitud. Épico.',price:'Gratuito + guía opcional 150€'},
+        {title:'Islas Lofoten en coche',description:'Las montañas verticales que nacen del mar con pueblos de pescadores. El paisaje más fotogénico de Europa.',price:'Ferry desde Bodø ~50€'},
+        {title:'Caza de auroras en Tromsø',description:'Tour en zodiac o trineo de perros bajo las auroras. Una experiencia que cambia la perspectiva.',price:'Tours desde 80€'},
+        {title:'Flåmsbana: el ferrocarril de montaña',description:'Uno de los ferrocarriles de mayor pendiente del mundo. 20 km de paisajes de vértigo.',price:'Desde 40€'}
+      ],
+      where_to_sleep:{
+        budget:{name:'Hostels y DNA Camping',price:'30-60€/noche',notes:'DNA Cabins en Lofoten es iconic: cabañas rojas de pescadores reconvertidas. Los hostels de Bergen (Bergen Budget Hotel) son correctos.'},
+        mid:{name:'Hoteles 3-4★',price:'130-200€/noche',notes:'Clarion y Scandic son las cadenas más fiables. Desayuno bufé incluido suele compensar los precios noruegos.'},
+        luxury:{name:'Rorbuer y lodges de diseño',price:'300-1000€/noche',notes:'Los rorbuer (cabañas de pescadores de lujo) en Lofoten o el Juvet Landscape Hotel (el de la película Ex Machina) son alucinantes.'}
+      }
+    }
+  };
+
+  /* ─── STATE ─── */
+  let currentDest = null;
+  let activeMonth = null;
+  let savedDests = JSON.parse(localStorage.getItem('vm_saved') || '[]');
+
+  /* ─── INIT ─── */
+  document.addEventListener('DOMContentLoaded', loadDestination);
+
+  /* ─── LOAD ─── */
+  async function loadDestination() {
+    // hero placeholder
+    document.getElementById('destHero').style.background = '#C8D6DF';
+
+    // No slug param — show selection prompt instead of crashing
+    if (!slug) {
+      renderNoSlug();
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/api/destinations/${slug}`);
+      const json = await res.json();
+      if (json.ok && json.destination) {
+        renderDestination(json.destination);
+        return;
+      }
+    } catch(e) {}
+
+    // fallback
+    const fb = FALLBACKS[slug];
+    if (fb) renderDestination(fb);
+    else renderNotFound();
+  }
+
+  /* ─── RENDER ─── */
+  function renderDestination(d) {
+    currentDest = d;
+    document.title = `${d.name} — ViajeraMente`;
+
+    // Hero photo
+    const photoId = d.hero_photo_id;
+    if (photoId) {
+      const url = `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&h=900&w=1600`;
+      document.getElementById('destHero').style.backgroundImage = `url('${url}')`;
+    }
+    document.getElementById('destContinent').textContent = d.continent || '';
+    document.getElementById('destName').textContent = d.name || slug;
+    document.getElementById('destTagline').textContent = d.tagline || '';
+
+    // Chips
+    const chips = [];
+    if (d.climate?.length) chips.push(CLIMATE_MAP[d.climate[0]] || '🌡️');
+    if (d.budget_daily_low && d.budget_daily_mid) chips.push(`💰 ${d.budget_daily_low}–${d.budget_daily_mid}€/día`);
+    if (d.flight_hours) chips.push(`✈️ ${d.flight_hours}`);
+    document.getElementById('destChips').innerHTML = chips.map(c => `<span>${c}</span>`).join('');
+
+    // Quick stats
+    const visaShort = d.visa_info ? (d.visa_info.includes('Sin visado') || d.visa_info.includes('sin visado') ? '✅ Sin visado' : '🛂 Visado requerido') : '—';
+    document.getElementById('statVisa').textContent = visaShort;
+    document.getElementById('statBest').textContent = d.best_months_label || getBestMonths(d.seasons);
+    document.getElementById('statBudget').textContent = d.budget_daily_mid ? `${d.budget_daily_low}–${d.budget_daily_mid}€` : '—';
+    document.getElementById('statFlight').textContent = d.flight_hours || '—';
+
+    // Save button state
+    updateSaveBtn();
+
+    // Sections
+    if (d.seasons?.length) renderMonths(d.seasons, d.events || []);
+    if (d.events?.length) renderEvents(d.events);
+    if (d.what_to_do?.length) renderActivities(d.what_to_do);
+    if (d.where_to_sleep) renderSleep(d.where_to_sleep);
+    if (d.budget_daily_low) renderBudget(d);
+    if (d.how_to_get_there) document.getElementById('howToGet').textContent = d.how_to_get_there;
+    if (d.local_transport) document.getElementById('localTransport').textContent = d.local_transport;
+    if (d.food_and_drink) document.getElementById('foodText').textContent = d.food_and_drink;
+    if (d.local_tips?.length) renderTips(d.local_tips);
+    if (d.visa_info) document.getElementById('visaInfo').textContent = d.visa_info;
+
+    // Related
+    renderRelated(d);
+  }
+
+  /* ─── MONTHS ─── */
+  function renderMonths(seasons, events) {
+    const grid = document.getElementById('monthsGrid');
+    grid.innerHTML = seasons.map(s => {
+      const scoreClass = s.overall_score >= 8 ? 'great' : s.overall_score >= 5 ? 'ok' : 'avoid';
+      const evts = events.filter(e => e.month_start <= s.month && e.month_end >= s.month && e.impact === 'must_see');
+      const dot = evts.length ? `<span class="month-event-dot" title="${evts[0].name}">★</span>` : '';
+      return `
+        <div class="month-card ${scoreClass}" id="mc-${s.month}" onclick="showMonthDetail(${s.month})">
+          ${dot}
+          <div class="month-name">${MONTH_SHORT[s.month - 1]}</div>
+          <div class="month-bar"><div class="month-bar-fill" style="height:${s.overall_score * 10}%"></div></div>
+          <div class="month-temp">${s.temp_avg_c != null ? s.temp_avg_c + '°' : '—'}</div>
+          <div class="month-score-badge">${s.overall_score}/10</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function showMonthDetail(month) {
+    if (!currentDest?.seasons) return;
+    const s = currentDest.seasons.find(x => x.month === month);
+    if (!s) return;
+
+    // Toggle off
+    if (activeMonth === month) {
+      activeMonth = null;
+      document.getElementById('monthDetail').classList.remove('visible');
+      document.querySelectorAll('.month-card').forEach(c => c.classList.remove('active'));
+      return;
+    }
+    activeMonth = month;
+
+    // Highlight active card
+    document.querySelectorAll('.month-card').forEach(c => c.classList.remove('active'));
+    document.getElementById(`mc-${month}`)?.classList.add('active');
+
+    const scoreClass = s.overall_score >= 8 ? 'great' : s.overall_score >= 5 ? 'ok' : 'avoid';
+    const scoreLabel = s.overall_score >= 8 ? 'Muy bueno' : s.overall_score >= 5 ? 'Aceptable' : 'Evitar';
+    const evts = (currentDest.events || []).filter(e => e.month_start <= month && e.month_end >= month);
+
+    const crowdStars = '●'.repeat(s.crowd_level || 0) + '○'.repeat(5 - (s.crowd_level || 0));
+    const priceStars = '€'.repeat(s.price_level || 1);
+
+    const evtHtml = evts.length ? `
+      <div style="margin-top:10px; font-size:.83rem; color:var(--text-2);">
+        <strong style="color:var(--text)">Eventos:</strong> ${evts.map(e => e.name).join(', ')}
+      </div>
+    ` : '';
+
+    const detail = document.getElementById('monthDetail');
+    detail.innerHTML = `
+      <div class="month-detail-header">
+        <div class="month-detail-name">${MONTH_NAMES[month - 1]}</div>
+        <span class="month-score-pill ${scoreClass}">${scoreLabel} · ${s.overall_score}/10</span>
+      </div>
+      <div class="month-detail-meta">
+        <span class="month-meta-chip">🌡️ ${s.temp_avg_c != null ? s.temp_avg_c + '°C' : '—'}</span>
+        <span class="month-meta-chip">👥 Afluencia: ${crowdStars}</span>
+        <span class="month-meta-chip">💰 Precio: ${priceStars}</span>
+      </div>
+      <p>${s.weather_description || ''}</p>
+      ${evtHtml}
+      ${s.travel_advice ? `<div class="month-detail-advice">💡 ${s.travel_advice}</div>` : ''}
+    `;
+    detail.classList.add('visible');
+
+    // Scroll into view on mobile
+    setTimeout(() => detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+  }
+
+  /* ─── EVENTS ─── */
+  function renderEvents(events) {
+    const section = document.getElementById('eventsSection');
+    const list    = document.getElementById('eventsList');
+    const impactIcon = { must_see: '🌸', very_good: '⭐', interesting: '📌' };
+    list.innerHTML = events.map(e => {
+      const cls = e.impact === 'must_see' ? 'must-see' : e.impact === 'very_good' ? 'very-good' : '';
+      const badgeCls = e.impact === 'must_see' ? 'must-see' : e.impact === 'very_good' ? 'very-good' : 'interesting';
+      const months = monthRangeLabel(e.month_start, e.month_end);
+      return `
+        <div class="event-card ${cls}">
+          <span class="event-icon">${impactIcon[e.impact] || '📌'}</span>
+          <div class="event-body">
+            <strong>${e.name}</strong>
+            <div class="event-meta">${months}${e.specific_location ? ' · ' + e.specific_location : ''}</div>
+            <p class="event-desc">${e.description || ''}</p>
+          </div>
+          <span class="impact-badge ${badgeCls}">${IMPACT_LABELS[e.impact] || ''}</span>
+        </div>
+      `;
+    }).join('');
+    section.style.display = '';
+  }
+
+  /* ─── ACTIVITIES ─── */
+  function renderActivities(activities) {
+    const section = document.getElementById('activitiesSection');
+    const grid    = document.getElementById('activitiesGrid');
+    grid.innerHTML = activities.map(a => `
+      <div class="activity-card">
+        <div class="activity-title">${a.title}</div>
+        <div class="activity-desc">${a.description}</div>
+        <div class="activity-footer">
+          ${a.price ? `<span class="price-badge">${a.price}</span>` : ''}
+          ${a.tip ? `<span class="activity-tip">💡 ${a.tip}</span>` : ''}
+        </div>
+      </div>
+    `).join('');
+    section.style.display = '';
+  }
+
+  /* ─── SLEEP ─── */
+  let currentSleepData = null;
+  function renderSleep(sleep) {
+    currentSleepData = sleep;
+    document.getElementById('sleepSection').style.display = '';
+    showSleepTab('mid', document.querySelector('.sleep-tab:nth-child(2)'));
+  }
+
+  function showSleepTab(tab, btn) {
+    document.querySelectorAll('.sleep-tab').forEach(t => t.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const sleep = currentSleepData;
+    if (!sleep) return;
+    const map = { budget: sleep.budget, mid: sleep.mid, luxury: sleep.luxury };
+    const d = map[tab];
+    const content = document.getElementById('sleepContent');
+    if (!d) { content.innerHTML = '<p style="color:var(--text-3);font-size:.85rem">Sin datos para esta categoría.</p>'; return; }
+    content.innerHTML = `
+      <div class="sleep-card">
+        <div class="sleep-name">${d.name || ''}</div>
+        <div class="sleep-price">${d.price || ''} <span style="font-size:.8rem;font-weight:400;color:var(--text-3)">por noche</span></div>
+        <div class="sleep-notes">${d.notes || ''}</div>
+      </div>
+    `;
+  }
+
+  /* ─── BUDGET ─── */
+  function renderBudget(d) {
+    const section = document.getElementById('budgetSection');
+    const grid    = document.getElementById('budgetGrid');
+    const items = [
+      { cls:'', level:'Budget', amount: d.budget_daily_low ? `${d.budget_daily_low}€/día` : '—', desc:'Hostel, transporte público, comida local y mercados.' },
+      { cls:'mid', level:'Estándar', amount: d.budget_daily_mid ? `${d.budget_daily_mid}€/día` : '—', desc:'Hotel 3★, restaurantes medios, algunas excursiones.' },
+      { cls:'', level:'Premium', amount: d.budget_daily_high ? `${d.budget_daily_high}€/día` : '—', desc:'Hotel boutique, restaurantes top, tours privados.' }
+    ];
+    grid.innerHTML = items.map(i => `
+      <div class="budget-card ${i.cls}">
+        <div class="budget-level">${i.level}</div>
+        <div class="budget-amount">${i.amount}</div>
+        <div class="budget-desc">${i.desc}</div>
+      </div>
+    `).join('');
+    section.style.display = '';
+  }
+
+  /* ─── TIPS ─── */
+  const TIP_ICONS = ['💡','🔑','📱','💳','🎒','🌐','🗣️','💊'];
+  function renderTips(tips) {
+    const section = document.getElementById('tipsSection');
+    const grid    = document.getElementById('tipsGrid');
+    grid.innerHTML = tips.map((t, i) => `
+      <div class="tip-card">
+        <span class="tip-icon">${TIP_ICONS[i % TIP_ICONS.length]}</span>
+        <span class="tip-text">${t}</span>
+      </div>
+    `).join('');
+    section.style.display = '';
+  }
+
+  /* ─── RELATED ─── */
+  function renderRelated(d) {
+    const section = document.getElementById('relatedSection');
+    const grid    = document.getElementById('relatedGrid');
+
+    // pick 3 fallbacks that aren't the current slug
+    const related = Object.values(FALLBACKS).filter(x => x.slug !== d.slug).slice(0, 3);
+    if (!related.length) return;
+
+    grid.innerHTML = related.map(r => {
+      const photoId = r.hero_photo_id;
+      const url = `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&h=400&w=600`;
+      return `
+        <a href="destino.html?slug=${r.slug}" class="related-card">
+          <div class="related-photo" style="background-image:url('${url}')">
+            <div class="related-photo-overlay"></div>
+          </div>
+          <div class="related-info">
+            <div class="related-name">${r.name}</div>
+            <div class="related-tag">${r.continent} · ${CLIMATE_MAP[r.climate?.[0]] || ''}</div>
+          </div>
+        </a>
+      `;
+    }).join('');
+    section.style.display = '';
+  }
+
+  /* ─── SAVE ─── */
+  function toggleSave() {
+    const idx = savedDests.indexOf(slug);
+    if (idx >= 0) savedDests.splice(idx, 1);
+    else savedDests.push(slug);
+    localStorage.setItem('vm_saved', JSON.stringify(savedDests));
+    updateSaveBtn();
+  }
+  function updateSaveBtn() {
+    const btn = document.getElementById('btnSave');
+    const saved = savedDests.includes(slug);
+    btn.textContent = saved ? '♥ Guardado' : '♡ Guardar';
+    btn.classList.toggle('saved', saved);
+  }
+
+  /* ─── HELPERS ─── */
+  function getBestMonths(seasons) {
+    if (!seasons) return '—';
+    const great = seasons.filter(s => s.overall_score >= 8);
+    if (!great.length) return '—';
+    return great.map(s => MONTH_SHORT[s.month - 1]).join(', ');
+  }
+
+  function monthRangeLabel(start, end) {
+    if (!start) return '';
+    if (start === end) return MONTH_NAMES[start - 1];
+    return `${MONTH_NAMES[start - 1]}–${MONTH_NAMES[end - 1]}`;
+  }
+
+  function renderNotFound() {
+    document.getElementById('destName').textContent = 'Destino no encontrado';
+    document.getElementById('destContinent').textContent = '';
+    document.getElementById('destTagline').textContent = 'No tenemos información sobre este destino todavía.';
+    document.getElementById('quickStats').style.display = 'none';
+  }
+
+  function renderNoSlug() {
+    document.getElementById('destHero').style.background = 'linear-gradient(135deg, #0891B2 0%, #0E7490 100%)';
+    document.getElementById('destContinent').textContent = '';
+    document.getElementById('destName').textContent = 'Elige un destino';
+    document.getElementById('destTagline').textContent = 'Selecciona un destino para ver su guía completa';
+    document.getElementById('quickStats').style.display = 'none';
+    const body = document.querySelector('.page-body');
+    if (body) {
+      body.innerHTML = `
+        <div style="text-align:center; padding: 60px 24px 80px; max-width: 480px; margin: 0 auto;">
+          <div style="font-size:3rem; margin-bottom:16px;">🌍</div>
+          <h2 style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; color:#111827; margin-bottom:8px;">
+            Selecciona un destino para ver su guía
+          </h2>
+          <p style="color:#6B7280; font-size:.95rem; margin-bottom:28px;">
+            Explora nuestra colección de guías de viaje detalladas con clima, actividades, presupuesto y más.
+          </p>
+          <a href="guias.html" style="display:inline-block; background:#0891B2; color:#fff; font-weight:600; font-size:.95rem; padding:12px 28px; border-radius:24px; text-decoration:none; transition:background .2s;"
+             onmouseover="this.style.background='#0E7490'" onmouseout="this.style.background='#0891B2'">
+            Ver todos los destinos →
+          </a>
+        </div>`;
+    }
+  }
+</script>
+</body>
+</html>

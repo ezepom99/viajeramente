@@ -1295,11 +1295,11 @@
     </a>
     <div class="nav-links" id="nav-links">
       <a href="#features" class="nav-link">Funciones</a>
-      <a href="#tu-mapa" class="nav-link">Tu mapa</a>
-      <a href="#matching" class="nav-link">Matching</a>
-      <a href="#conexiones" class="nav-link">Conexiones</a>
-      <a href="login.html" class="nav-link" style="color:rgba(255,255,255,0.7)">Iniciar sesión</a>
-      <a href="signup.html" class="nav-cta">Crear cuenta</a>
+      <a href="plan.html" class="nav-link">Planificador</a>
+      <a href="guias.html" class="nav-link">Guías</a>
+      <a href="profile.html" class="nav-link" id="nav-profile" style="display:none;">Mi perfil</a>
+      <a href="login.html" class="nav-link" id="nav-login">Iniciar sesión</a>
+      <a href="signup.html" class="nav-cta" id="nav-signup">Crear cuenta</a>
     </div>
     <button class="mobile-menu-btn" id="mobile-menu" aria-label="Abrir men&uacute; de navegaci&oacute;n" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -1854,6 +1854,20 @@
         mobileBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       });
     }
+
+    // Update nav based on auth
+    (function() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const profileLink = document.getElementById('nav-profile');
+        const loginLink = document.getElementById('nav-login');
+        const signupBtn = document.getElementById('nav-signup');
+        if (profileLink) profileLink.style.display = '';
+        if (loginLink) loginLink.style.display = 'none';
+        if (signupBtn) signupBtn.textContent = 'Mi cuenta';
+        if (signupBtn) signupBtn.href = 'profile.html';
+      }
+    })();
   </script>
 
 </body>

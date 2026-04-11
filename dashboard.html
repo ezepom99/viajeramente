@@ -210,6 +210,10 @@
 
     .stat-card.accent .stat-value { color: var(--accent); }
     .stat-card.teal .stat-value { color: #22B8A6; }
+    .stat-card.blue { background: #EFF6FF; border-left: 3px solid #3B82F6; }
+    .stat-card.green { background: #F0FDF4; border-left: 3px solid #22C55E; }
+    .stat-card.blue .stat-value { color: #3B82F6; }
+    .stat-card.green .stat-value { color: #22C55E; }
 
     /* --- Section headers --- */
     .section-header {
@@ -416,6 +420,14 @@
         <div class="stat-label">Visitas semana</div>
         <div class="stat-value" id="s-pv-week">—</div>
       </div>
+      <div class="stat-card blue">
+        <div class="stat-label">Usuarios registrados</div>
+        <div class="stat-value" id="s-total-users">—</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Sugerencias nuevas</div>
+        <div class="stat-value" id="s-suggestions-new">—</div>
+      </div>
     </div>
 
     <!-- Leads table -->
@@ -462,6 +474,58 @@
           <tr><td colspan="2" class="empty">Cargando...</td></tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- Users registered -->
+    <div class="section-header" style="margin-top:32px;">
+      <h2>👥 Usuarios registrados (<span id="users-count">0</span>)</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Países</th>
+            <th>Nivel</th>
+            <th>Último acceso</th>
+            <th>Registro</th>
+          </tr>
+        </thead>
+        <tbody id="users-table-body">
+          <tr><td colspan="6" class="empty">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Activity / Top pages -->
+    <div class="section-header" style="margin-top:32px;">
+      <h2>📈 Actividad reciente</h2>
+    </div>
+    <div id="top-pages-grid" class="pageviews-grid">
+      <div class="empty">Cargando...</div>
+    </div>
+    <div class="table-wrap" style="margin-top:16px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Página</th>
+            <th>Usuario</th>
+            <th>Hora</th>
+          </tr>
+        </thead>
+        <tbody id="activity-table-body">
+          <tr><td colspan="3" class="empty">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Suggestions -->
+    <div class="section-header" style="margin-top:32px;">
+      <h2>💡 Sugerencias de usuarios</h2>
+    </div>
+    <div id="suggestions-list">
+      <div class="empty">Cargando...</div>
     </div>
 
     <p style="text-align:center; color: var(--gray-600); font-size:0.72rem; margin-top: 32px; padding-bottom: 40px;">
@@ -588,6 +652,9 @@
       document.getElementById('loading-state').style.display = 'none';
       document.getElementById('dash-content').style.display = 'block';
 
+      // Load users, activity, suggestions
+      loadUsersAndActivity();
+
     } catch (err) {
       document.getElementById('loading-state').textContent = 'Error cargando datos. Comprueba la conexión.';
     }
@@ -600,6 +667,103 @@
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
+  }
+
+  async function loadUsersAndActivity() {
+    try {
+      const [usersRes, activityRes, suggestionsRes] = await Promise.all([
+        fetch(API_BASE + '/api/admin/users?token=' + CORRECT_PASSWORD),
+        fetch(API_BASE + '/api/admin/activity?token=' + CORRECT_PASSWORD + '&limit=50'),
+        fetch(API_BASE + '/api/admin/suggestions?token=' + CORRECT_PASSWORD)
+      ]);
+      const usersData = await usersRes.json();
+      const activityData = await activityRes.json();
+      const suggestionsData = await suggestionsRes.json();
+
+      // Users stats card + table
+      const totalUsers = usersData.total || 0;
+      document.getElementById('s-total-users').textContent = totalUsers;
+      document.getElementById('users-count').textContent = totalUsers;
+      const usersTbody = document.getElementById('users-table-body');
+      const users = usersData.users || [];
+      if (!users.length) {
+        usersTbody.innerHTML = '<tr><td colspan="6" class="empty">Sin usuarios registrados aún</td></tr>';
+      } else {
+        const levelEmoji = { bronce:'🥉', plata:'🥈', oro:'🥇', diamante:'💎', zafiro:'💠' };
+        usersTbody.innerHTML = users.map(u => `
+          <tr>
+            <td><strong>${escHtml(u.name || '—')}</strong></td>
+            <td>${escHtml(u.email)}</td>
+            <td>${u.countries_count || 0}</td>
+            <td>${levelEmoji[u.travel_level] || '🥉'} ${escHtml(u.travel_level || 'bronce')}</td>
+            <td>${u.last_seen ? formatDate(u.last_seen) : '—'}</td>
+            <td>${formatDate(u.created_at)}</td>
+          </tr>
+        `).join('');
+      }
+
+      // Activity: top pages
+      const topPagesGrid = document.getElementById('top-pages-grid');
+      const topPages = activityData.top_pages || [];
+      if (!topPages.length) {
+        topPagesGrid.innerHTML = '<div class="empty">Sin datos de páginas esta semana</div>';
+      } else {
+        topPagesGrid.innerHTML = topPages.map(p => `
+          <div class="pv-card">
+            <span class="pv-page">${escHtml(p.page || '/')}</span>
+            <span class="pv-count">${p.views}</span>
+          </div>
+        `).join('');
+      }
+
+      // Activity: recent pageviews table
+      const actTbody = document.getElementById('activity-table-body');
+      const pageviews = activityData.pageviews || [];
+      if (!pageviews.length) {
+        actTbody.innerHTML = '<tr><td colspan="3" class="empty">Sin actividad registrada</td></tr>';
+      } else {
+        actTbody.innerHTML = pageviews.slice(0, 30).map(pv => `
+          <tr>
+            <td><code>${escHtml(pv.page || '/')}</code></td>
+            <td>${pv.email ? escHtml(pv.name || pv.email) : '<span style="color:#9CA3AF">Anónimo</span>'}</td>
+            <td style="white-space:nowrap;">${formatDate(pv.created_at)}</td>
+          </tr>
+        `).join('');
+      }
+
+      // Suggestions
+      const newSuggestions = (suggestionsData.suggestions || []).filter(s => s.status === 'new').length;
+      document.getElementById('s-suggestions-new').textContent = newSuggestions;
+      const sugList = document.getElementById('suggestions-list');
+      const suggestions = suggestionsData.suggestions || [];
+      if (!suggestions.length) {
+        sugList.innerHTML = '<div class="empty" style="padding:20px;text-align:center;">Aún no hay sugerencias de usuarios</div>';
+      } else {
+        const catEmoji = { bug:'🐛', feature:'✨', content:'📝', general:'💬' };
+        const statusTag = { new:'🔵 Nueva', read:'👁️ Vista', done:'✅ Resuelta' };
+        sugList.innerHTML = suggestions.map(s => `
+          <div class="sug-card" style="background:white;border:1px solid #E5E7EB;border-radius:8px;padding:14px 16px;margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+              <div>
+                <span style="font-size:.75rem;background:#F3F4F6;padding:2px 8px;border-radius:12px;margin-right:6px;">${catEmoji[s.category]||'💬'} ${escHtml(s.category)}</span>
+                <span style="font-size:.75rem;color:#6B7280;">${statusTag[s.status]||s.status}</span>
+              </div>
+              <span style="font-size:.72rem;color:#9CA3AF;white-space:nowrap;">${formatDate(s.created_at)}</span>
+            </div>
+            <p style="margin:8px 0 6px;font-size:.9rem;">${escHtml(s.message)}</p>
+            <div style="font-size:.78rem;color:#6B7280;">${s.name ? escHtml(s.name) + ' · ' : ''}${s.email ? escHtml(s.email) : 'Anónimo'}</div>
+            ${s.status === 'new' ? `<button onclick="markSuggestion(${s.id},'read')" style="margin-top:8px;font-size:.75rem;padding:3px 10px;border:1px solid #D1D5DB;border-radius:6px;cursor:pointer;background:white;">Marcar vista</button>` : ''}
+          </div>
+        `).join('');
+      }
+    } catch(err) {
+      console.warn('Admin data error:', err);
+    }
+  }
+
+  async function markSuggestion(id, status) {
+    await fetch(`${API_BASE}/api/admin/suggestions/${id}?token=${CORRECT_PASSWORD}&new_status=${status}`, { method: 'PATCH' });
+    loadUsersAndActivity();
   }
 
   // Auto-check session on load
