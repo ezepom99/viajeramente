@@ -1213,7 +1213,7 @@ function renderProfile() {
     document.getElementById('statMemberSince').textContent = `${monthNames[d.getMonth()]} ${d.getFullYear()}`;
   }
 
-  const styles = userData.travel_styles || [];
+  const styles = userData.travel_style || [];
   document.getElementById('statStyles').textContent = styles.length;
 
   // Map
@@ -1447,7 +1447,7 @@ function updateConnectionStats() {
 function renderTravelStyles() {
   const container = document.getElementById('styleChips');
   container.innerHTML = '';
-  const selected = userData.travel_styles || [];
+  const selected = userData.travel_style || [];
 
   TRAVEL_STYLES.forEach(style => {
     const chip = document.createElement('span');
@@ -1459,18 +1459,18 @@ function renderTravelStyles() {
 }
 
 async function toggleStyle(style, chipEl) {
-  if (!userData.travel_styles) userData.travel_styles = [];
+  if (!userData.travel_style) userData.travel_style = [];
 
-  if (userData.travel_styles.includes(style)) {
-    userData.travel_styles = userData.travel_styles.filter(s => s !== style);
+  if (userData.travel_style.includes(style)) {
+    userData.travel_style = userData.travel_style.filter(s => s !== style);
     chipEl.classList.remove('selected');
   } else {
-    userData.travel_styles.push(style);
+    userData.travel_style.push(style);
     chipEl.classList.add('selected');
   }
 
-  document.getElementById('statStyles').textContent = userData.travel_styles.length;
-  await saveUserData({ travel_styles: userData.travel_styles });
+  document.getElementById('statStyles').textContent = userData.travel_style.length;
+  await saveUserData({ travel_style: userData.travel_style });
 }
 
 function renderBudgetChips() {
