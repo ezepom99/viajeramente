@@ -72,6 +72,14 @@
       background: var(--accent); border-radius: 50%;
       flex-shrink: 0;
     }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-link {
+      font-size: .82rem; font-weight: 500; color: var(--text-secondary);
+      text-decoration: none; padding: 6px 10px; border-radius: 8px;
+      transition: all .2s;
+    }
+    .nav-link:hover { color: var(--text); background: var(--bg-soft); }
+    @media (max-width: 600px) { .nav-links { display: none; } }
     .nav-right { display: flex; align-items: center; gap: 12px; }
     .nav-avatar {
       width: 32px; height: 32px; border-radius: 50%;
@@ -233,6 +241,7 @@
     .card-teal   { border-top-color: var(--teal); }
     .card-gold   { border-top-color: var(--gold); }
     .card-purple { border-top-color: #8B5CF6; }
+    .card-green  { border-top-color: #10B981; }
 
     .card-icon   { font-size:1.4rem; margin-bottom:10px; line-height:1; }
     .card-title  { font-family:'Space Grotesk',sans-serif; font-size:.88rem; font-weight:700; color:var(--text); margin-bottom:4px; }
@@ -262,6 +271,11 @@
       <span class="nav-logo-dot"></span>
       ViajeraMente
     </a>
+    <div class="nav-links">
+      <a href="guias.html" class="nav-link">Guías</a>
+      <a href="plan.html" class="nav-link">Planifica</a>
+      <a href="fechas.html" class="nav-link">Por fechas</a>
+    </div>
     <div class="nav-right">
       <a href="profile.html" class="nav-avatar" id="navAvatar" title="Mi perfil"></a>
       <button class="nav-logout" onclick="logout()">Salir</button>
@@ -327,12 +341,22 @@
           </div>
         </a>
 
-        <a href="#" class="card card-gold card-disabled">
-          <div class="card-icon">&#129309;</div>
-          <div class="card-title">Conectar</div>
-          <div class="card-desc">Encuentra compañeros de viaje.</div>
+        <a href="guias.html" class="card card-gold">
+          <div class="card-icon">🗺️</div>
+          <div class="card-title">Guías de destinos</div>
+          <div class="card-desc">40 destinos con info real de blogs y viajeros.</div>
           <div class="card-footer">
-            <span class="card-tag">Próximamente</span>
+            <span class="card-tag">Nuevo</span>
+            <span class="card-arrow">&rarr;</span>
+          </div>
+        </a>
+
+        <a href="fechas.html" class="card card-green">
+          <div class="card-icon">📅</div>
+          <div class="card-title">Ya tengo fechas</div>
+          <div class="card-desc">Te digo dónde ir según tu mes: auroras, sakura, festivales...</div>
+          <div class="card-footer">
+            <span class="card-tag">Nuevo</span>
             <span class="card-arrow">&rarr;</span>
           </div>
         </a>
