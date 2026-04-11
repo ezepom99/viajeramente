@@ -20,117 +20,93 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
+      --bg: #FFFFFF;
+      --bg-soft: #F7F8FA;
+      --bg-card: #FFFFFF;
+      --bg-input: #F3F4F6;
+      --text: #111827;
+      --text-secondary: #6B7280;
+      --text-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --border-focus: #374151;
       --accent: #E85D2A;
-      --accent-light: #FF7A47;
-      --accent-dark: #C74A1E;
-      --accent-glow: rgba(232, 93, 42, 0.15);
-      --teal: #1A8C7E;
-      --teal-light: #22B8A6;
-      --teal-dark: #136B60;
-      --teal-glow: rgba(26, 140, 126, 0.15);
-      --gold: #F5A623;
-      --purple: #8B5CF6;
-      --dark: #0B0D0F;
-      --gray-900: #151820;
-      --gray-800: #1E2330;
-      --gray-700: #2A3040;
-      --gray-600: #6B7280;
-      --gray-500: #9CA3AF;
-      --gray-400: #B0B8C4;
-      --gray-300: #D1D5DB;
-      --gray-200: #E5E7EB;
-      --gray-100: #F3F4F6;
-      --gray-50: #F9FAFB;
-      --white: #FFFFFF;
-      --sand: #FAF8F5;
+      --accent-light: #FFF0EB;
+      --accent-text: #C74A1E;
+      --teal: #0D9488;
+      --teal-light: #F0FDFA;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.08);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.1);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: var(--white);
-      background: var(--dark);
+      color: var(--text);
+      background: var(--bg-soft);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      font-size: 15px;
+      line-height: 1.5;
     }
 
-    /* ── Animations ── */
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
     @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-16px); }
+      from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── Background ── */
-    .page-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background:
-        radial-gradient(ellipse at 20% 0%, rgba(232, 93, 42, 0.08) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 100%, rgba(26, 140, 126, 0.06) 0%, transparent 60%),
-        linear-gradient(180deg, var(--dark) 0%, var(--gray-900) 100%);
     }
 
     /* ── Nav ── */
     nav {
-      position: relative;
-      z-index: 10;
-      padding: 20px 24px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 56px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      animation: slideDown 0.6s ease-out;
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
+      animation: slideDown 0.4s ease-out;
     }
     .nav-logo {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.4rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      color: var(--white);
+      color: var(--text);
       text-decoration: none;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.02em;
       display: flex;
       align-items: center;
-      gap: 8px;
-      transition: opacity 0.3s;
+      gap: 6px;
+      transition: opacity 0.2s;
     }
-    .nav-logo:hover { opacity: 0.85; }
-    .nav-logo-icon {
-      width: 28px; height: 28px;
+    .nav-logo:hover { opacity: 0.75; }
+    .nav-logo-dot {
+      width: 8px; height: 8px;
       background: var(--accent);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
     }
     .nav-back {
       font-size: 0.82rem;
       font-weight: 500;
-      color: rgba(255,255,255,0.7);
+      color: var(--text-secondary);
       text-decoration: none;
       letter-spacing: 0.01em;
-      transition: color 0.3s;
+      transition: color 0.2s;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
-    .nav-back:hover { color: var(--white); }
+    .nav-back:hover { color: var(--text); }
 
     /* ── Main ── */
     .main {
@@ -138,60 +114,53 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px 24px 60px;
-      position: relative;
-      z-index: 1;
+      padding: 32px 20px 60px;
     }
 
     /* ── Card ── */
     .auth-card {
       width: 100%;
-      max-width: 440px;
-      background: rgba(30, 35, 48, 0.6);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255,255,255,0.06);
+      max-width: 420px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
       border-radius: 20px;
       padding: 40px 36px;
-      animation: fadeInUp 0.7s ease-out 0.15s both;
+      box-shadow: var(--shadow-md);
+      animation: fadeInUp 0.5s ease-out both;
     }
 
-    .auth-card .logo-top {
+    .logo-top {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
-    .auth-card .logo-top a {
+    .logo-top a {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 700;
-      color: var(--white);
+      color: var(--text);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
     }
-    .auth-card .logo-top .logo-icon {
-      width: 32px; height: 32px;
+    .logo-top .logo-dot {
+      width: 9px; height: 9px;
       background: var(--accent);
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
+      border-radius: 50%;
     }
 
     .auth-card h1 {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.65rem;
+      font-size: 1.55rem;
       font-weight: 700;
-      color: var(--white);
+      color: var(--text);
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       letter-spacing: -0.02em;
     }
     .auth-card .subtitle {
-      font-size: 0.9rem;
-      color: var(--gray-400);
+      font-size: 0.88rem;
+      color: var(--text-secondary);
       text-align: center;
       margin-bottom: 32px;
       line-height: 1.5;
@@ -199,44 +168,44 @@
 
     /* ── Form ── */
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
     .form-group label {
       display: block;
       font-size: 0.8rem;
       font-weight: 600;
-      color: var(--gray-300);
-      margin-bottom: 7px;
+      color: var(--text);
+      margin-bottom: 6px;
       letter-spacing: 0.01em;
     }
     .form-group input {
       width: 100%;
-      padding: 13px 16px;
+      padding: 12px 14px;
       font-family: 'Inter', sans-serif;
       font-size: 0.9rem;
-      color: var(--white);
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
+      color: var(--text);
+      background: var(--bg-input);
+      border: 1.5px solid transparent;
+      border-radius: 11px;
       outline: none;
-      transition: all 0.25s;
+      transition: all 0.2s;
     }
     .form-group input::placeholder {
-      color: var(--gray-600);
+      color: var(--text-muted);
     }
     .form-group input:focus {
-      border-color: var(--accent);
-      background: rgba(232, 93, 42, 0.05);
-      box-shadow: 0 0 0 3px rgba(232, 93, 42, 0.1);
+      border-color: var(--border-focus);
+      background: var(--bg);
+      box-shadow: none;
     }
     .form-group input.error {
       border-color: #EF4444;
-      background: rgba(239, 68, 68, 0.05);
+      background: #FEF2F2;
     }
     .form-group .error-msg {
       font-size: 0.75rem;
       color: #EF4444;
-      margin-top: 6px;
+      margin-top: 5px;
       display: none;
     }
     .form-group .error-msg.visible {
@@ -247,56 +216,56 @@
     .btn-primary {
       display: block;
       width: 100%;
-      padding: 14px 24px;
+      padding: 13px 24px;
       font-family: 'Inter', sans-serif;
       font-size: 0.9rem;
       font-weight: 600;
-      color: var(--white);
+      color: #fff;
       background: var(--accent);
       border: none;
       border-radius: 100px;
       cursor: pointer;
-      transition: all 0.3s;
-      margin-top: 28px;
+      transition: all 0.2s;
+      margin-top: 24px;
       position: relative;
+      letter-spacing: 0.01em;
     }
     .btn-primary:hover {
-      background: var(--accent-dark);
+      background: var(--accent-text);
       transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(232, 93, 42, 0.25);
+      box-shadow: 0 6px 20px rgba(232, 93, 42, 0.22);
     }
     .btn-primary:active {
       transform: translateY(0);
+      box-shadow: none;
     }
     .btn-primary:disabled {
-      opacity: 0.6;
+      opacity: 0.55;
       cursor: not-allowed;
       transform: none;
     }
     .btn-primary .spinner {
       display: none;
       width: 18px; height: 18px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: var(--white);
+      border: 2px solid rgba(255,255,255,0.35);
+      border-top-color: #fff;
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
       margin: 0 auto;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
     .btn-primary.loading .btn-text { display: none; }
     .btn-primary.loading .spinner { display: block; }
 
     /* ── General error ── */
     .general-error {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-      border-radius: 12px;
-      padding: 12px 16px;
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      border-radius: 10px;
+      padding: 11px 14px;
       font-size: 0.82rem;
-      color: #FCA5A5;
-      margin-bottom: 20px;
+      color: #DC2626;
+      margin-bottom: 18px;
       display: none;
       text-align: center;
     }
@@ -305,55 +274,50 @@
     /* ── Link ── */
     .auth-link {
       text-align: center;
-      margin-top: 24px;
-      font-size: 0.85rem;
-      color: var(--gray-400);
+      margin-top: 22px;
+      font-size: 0.84rem;
+      color: var(--text-secondary);
     }
     .auth-link a {
-      color: var(--accent-light);
+      color: var(--accent);
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
       transition: color 0.2s;
     }
     .auth-link a:hover {
-      color: var(--accent);
+      color: var(--accent-text);
     }
 
     /* ── Footer ── */
     footer {
-      position: relative;
-      z-index: 1;
       text-align: center;
       padding: 20px 24px 28px;
-      font-size: 0.75rem;
-      color: var(--gray-600);
+      font-size: 0.74rem;
+      color: var(--text-muted);
     }
 
     /* ── Mobile ── */
     @media (max-width: 520px) {
       .auth-card {
-        padding: 32px 24px;
+        padding: 28px 20px;
         border-radius: 16px;
+        box-shadow: none;
+        border: none;
+        background: transparent;
       }
-      .auth-card h1 {
-        font-size: 1.4rem;
-      }
-      nav {
-        padding: 16px 20px;
-      }
+      .main { padding: 16px 16px 48px; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
-  <div class="page-bg"></div>
 
   <nav>
     <a href="index.html" class="nav-logo">
-      <span class="nav-logo-icon">&#9992;</span>
+      <span class="nav-logo-dot"></span>
       ViajeraMente
     </a>
     <a href="index.html" class="nav-back">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Volver a inicio
     </a>
   </nav>
@@ -362,7 +326,7 @@
     <div class="auth-card">
       <div class="logo-top">
         <a href="index.html">
-          <span class="logo-icon">&#9992;</span>
+          <span class="logo-dot"></span>
           ViajeraMente
         </a>
       </div>
