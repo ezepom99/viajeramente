@@ -364,7 +364,7 @@
 
       <div class="general-error" id="generalError"></div>
 
-      <form id="signupForm" novalidate>
+      <form id="signupForm" novalidate autocomplete="on">
         <div class="form-group">
           <label for="name">Nombre completo</label>
           <input type="text" id="name" name="name" placeholder="Tu nombre" required autocomplete="name">
@@ -520,6 +520,10 @@
         if (data.access_token) {
           localStorage.setItem('token', data.access_token);
         }
+        localStorage.setItem('token', data.token || data.access_token);
+        localStorage.setItem('user_email', data.email || data.user?.email || '');
+        localStorage.setItem('user_name', data.name || data.user?.name || '');
+        localStorage.setItem('token_stored_at', Date.now().toString());
 
         window.location.href = 'main.html';
       } catch (err) {

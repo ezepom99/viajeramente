@@ -1225,7 +1225,27 @@
 <script>
 const API_BASE = 'https://eze.saypeter.com';
 let token = localStorage.getItem('token');
-if (!token) window.location.href = 'login.html';
+if (!token) { window.location.href = 'login.html'; }
+
+// Validate token on load - if invalid, redirect to login
+async function validateSession() {
+  if (!token) return;
+  try {
+    const res = await fetch(API_BASE + '/api/me', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (res.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user_email');
+      localStorage.removeItem('user_name');
+      window.location.href = 'login.html?expired=1';
+    }
+  } catch(e) {
+    // Network error - don't redirect, let the page try to load
+    console.warn('Session check failed:', e);
+  }
+}
+validateSession();
 
 // ── STATE ──
 let visitedCodes = loadVisitedCountries();
