@@ -3,376 +3,422 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ViajeraMente — Inicio</title>
+  <title>ViajeraMente</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-T1HJ3PJWYN');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --accent: #E85D2A;
+      --accent:       #E85D2A;
       --accent-light: #FF7A47;
-      --accent-dark: #C74A1E;
-      --accent-glow: rgba(232, 93, 42, 0.15);
-      --teal: #1A8C7E;
-      --teal-light: #22B8A6;
-      --teal-dark: #136B60;
-      --teal-glow: rgba(26, 140, 126, 0.15);
-      --gold: #F5A623;
-      --purple: #8B5CF6;
-      --dark: #0B0D0F;
-      --gray-900: #151820;
-      --gray-800: #1E2330;
-      --gray-700: #2A3040;
-      --gray-600: #6B7280;
-      --gray-500: #9CA3AF;
-      --gray-400: #B0B8C4;
-      --gray-300: #D1D5DB;
-      --gray-200: #E5E7EB;
-      --white: #FFFFFF;
+      --accent-dark:  #C74A1E;
+      --teal:         #1A8C7E;
+      --teal-light:   #22B8A6;
+      --gold:         #F5A623;
+      --dark:         #0B0D0F;
+      --gray-900:     #111318;
+      --gray-800:     #1A1F2B;
+      --gray-700:     #252C3B;
+      --gray-600:     #6B7280;
+      --gray-500:     #9CA3AF;
+      --gray-400:     #B0B8C4;
+      --gray-300:     #D1D5DB;
+      --white:        #FFFFFF;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', -apple-system, sans-serif;
       color: var(--white);
       background: var(--dark);
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
       min-height: 100vh;
     }
 
     h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes progressFill {
-      from { width: 0; }
-      to { width: var(--w); }
-    }
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
-    }
-
-    .animate-in   { animation: fadeInUp .55s ease both; }
-    .animate-in-1 { animation: fadeInUp .55s ease .1s both; }
-    .animate-in-2 { animation: fadeInUp .55s ease .2s both; }
-    .animate-in-3 { animation: fadeInUp .55s ease .3s both; }
-
-    /* ── Background ── */
-    .page-bg {
-      position: fixed; inset: 0; z-index: 0;
-      background:
-        radial-gradient(ellipse at 20% 0%, rgba(232,93,42,.08) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 100%, rgba(26,140,126,.06) 0%, transparent 60%),
-        linear-gradient(180deg, var(--dark) 0%, var(--gray-900) 100%);
+    @keyframes fadeIn    { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeInUp  { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes progressFill { from { width: 0; } to { width: var(--w); } }
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33%  { transform: translate(8px, -12px) rotate(2deg); }
+      66%  { transform: translate(-6px, 6px) rotate(-1deg); }
     }
 
     /* ── Nav ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 0 24px; height: 64px;
+      height: 60px; padding: 0 24px;
       display: flex; align-items: center; justify-content: space-between;
-      background: rgba(11,13,15,.85);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      animation: slideDown .5s ease;
+      background: rgba(11,13,15,.8);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      animation: slideDown .5s ease both;
     }
     .nav-logo {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.2rem; font-weight: 700;
-      color: var(--white); text-decoration: none; letter-spacing: -.02em;
+      font-size: 1.15rem; font-weight: 700; letter-spacing: -.02em;
+      color: var(--white); text-decoration: none;
       display: flex; align-items: center; gap: 8px;
     }
     .nav-logo-icon {
-      width: 28px; height: 28px; background: var(--accent); border-radius: 7px;
-      display: flex; align-items: center; justify-content: center; font-size: .85rem;
+      width: 26px; height: 26px; background: var(--accent); border-radius: 7px;
+      display: flex; align-items: center; justify-content: center; font-size: .8rem;
     }
-    .nav-right { display: flex; align-items: center; gap: 16px; }
-    .nav-user-name { font-size: .85rem; font-weight: 500; color: var(--gray-400); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-name { font-size: .82rem; color: var(--gray-400); }
     .nav-avatar {
-      width: 34px; height: 34px; border-radius: 50%;
-      background: var(--gray-700); border: 2px solid rgba(255,255,255,.1);
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      border: 2px solid rgba(255,255,255,.1);
       display: flex; align-items: center; justify-content: center;
-      font-size: .78rem; font-weight: 700; color: var(--white);
-      text-decoration: none; overflow: hidden; flex-shrink: 0;
-      transition: border-color .2s;
+      font-size: .72rem; font-weight: 700; color: var(--white);
+      text-decoration: none; overflow: hidden; transition: border-color .2s;
     }
     .nav-avatar:hover { border-color: var(--accent); }
     .nav-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .nav-logout {
-      font-size: .8rem; color: var(--gray-600);
-      background: none; border: none; cursor: pointer;
-      font-family: inherit; transition: color .2s;
+      font-size: .78rem; color: var(--gray-600);
+      background: none; border: none; cursor: pointer; font-family: inherit; transition: color .2s;
     }
-    .nav-logout:hover { color: var(--accent); }
+    .nav-logout:hover { color: var(--gray-400); }
 
-    /* ── Main ── */
-    main {
-      position: relative; z-index: 1;
-      max-width: 720px; margin: 0 auto;
-      padding: 88px 20px 80px; width: 100%;
-    }
-
-    /* ── Glass card ── */
-    .glass-card {
-      background: rgba(30,35,48,.5);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: 18px; padding: 28px; margin-bottom: 16px;
-      transition: border-color .3s;
-    }
-    .glass-card:hover { border-color: rgba(255,255,255,.1); }
-
-    /* ── Welcome ── */
-    .welcome {
-      padding: 36px 0 28px;
-    }
-    .welcome-eyebrow {
-      font-size: .78rem; font-weight: 600; letter-spacing: .06em;
-      color: var(--accent-light); text-transform: uppercase; margin-bottom: 10px;
-    }
-    .welcome h1 {
-      font-size: clamp(1.7rem, 4vw, 2.4rem);
-      font-weight: 800; letter-spacing: -.03em; line-height: 1.15;
-      margin-bottom: 12px; color: var(--white);
-    }
-    .welcome p {
-      font-size: .95rem; color: var(--gray-400); line-height: 1.65; max-width: 440px;
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 68vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 100px 24px 48px;
+      overflow: hidden;
     }
 
-    /* ── Profile completion banner ── */
-    .profile-banner {
-      position: relative; overflow: hidden;
-      background: rgba(30,35,48,.5);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(232,93,42,.2);
-      border-radius: 18px; padding: 24px 28px;
-      margin-bottom: 16px; display: none;
+    /* Gradient background — no photo */
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse at 80% 10%, rgba(232,93,42,.22) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 90%, rgba(26,140,126,.14) 0%, transparent 55%),
+        radial-gradient(ellipse at 60% 60%, rgba(245,166,35,.06) 0%, transparent 50%),
+        linear-gradient(165deg, #111520 0%, #0B0D0F 60%, #0e1219 100%);
     }
-    .profile-banner::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--gold), var(--teal-light));
+
+    /* Decorative large glyph */
+    .hero-deco {
+      position: absolute; right: -40px; top: 50%; transform: translateY(-50%);
+      font-size: clamp(180px, 40vw, 320px);
+      line-height: 1; opacity: .045;
+      pointer-events: none; user-select: none;
+      animation: drift 18s ease-in-out infinite;
+      filter: blur(2px);
     }
-    .banner-top {
-      display: flex; align-items: flex-start;
-      justify-content: space-between; gap: 12px; margin-bottom: 14px;
+
+    /* Grain texture overlay */
+    .hero-grain {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 180px;
     }
-    .banner-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 4px;
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 680px; margin: 0 auto; width: 100%;
+      animation: fadeInUp .7s ease .1s both;
     }
-    .banner-desc {
-      font-size: .82rem; color: var(--gray-400); line-height: 1.5;
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 18px;
     }
-    .banner-dismiss {
-      background: none; border: none; color: var(--gray-600);
-      cursor: pointer; font-size: 1rem; padding: 2px; flex-shrink: 0;
-      transition: color .2s; line-height: 1;
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 20px; height: 2px;
+      background: var(--accent); border-radius: 2px;
     }
-    .banner-dismiss:hover { color: var(--gray-400); }
-    .banner-bottom {
+    .hero h1 {
+      font-size: clamp(2.4rem, 7vw, 3.8rem);
+      font-weight: 800; letter-spacing: -.04em; line-height: 1.08;
+      color: var(--white); margin-bottom: 16px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(100deg, var(--accent-light) 0%, var(--gold) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1rem; color: rgba(255,255,255,.5); line-height: 1.65;
+      max-width: 400px; margin-bottom: 32px;
+    }
+    .hero-actions {
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
     }
+    .btn-hero {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 24px; border-radius: 100px;
+      background: var(--accent); color: var(--white);
+      font-size: .9rem; font-weight: 700; font-family: 'Inter', sans-serif;
+      text-decoration: none; transition: all .25s; white-space: nowrap;
+      border: none; cursor: pointer;
+    }
+    .btn-hero:hover {
+      background: var(--accent-dark); transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(232,93,42,.3);
+    }
+    .btn-hero-ghost {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 13px 20px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.75);
+      font-size: .9rem; font-weight: 600; font-family: 'Inter', sans-serif;
+      text-decoration: none; transition: all .25s; white-space: nowrap;
+    }
+    .btn-hero-ghost:hover {
+      border-color: rgba(255,255,255,.3); color: var(--white);
+      background: rgba(255,255,255,.05);
+    }
+
+    /* ── Content area ── */
+    .content {
+      max-width: 680px; margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── Profile banner ── */
+    .profile-banner {
+      display: none;
+      position: relative; overflow: hidden;
+      background: rgba(232,93,42,.08);
+      border: 1px solid rgba(232,93,42,.2);
+      border-radius: 16px; padding: 20px 22px;
+      margin-top: -24px; margin-bottom: 20px;
+      animation: fadeInUp .5s ease .3s both;
+    }
+    .profile-banner::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--gold), var(--teal-light));
+    }
+    .banner-row {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    }
+    .banner-text { flex: 1; min-width: 160px; }
+    .banner-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .9rem; font-weight: 700; color: var(--white); margin-bottom: 2px;
+    }
+    .banner-desc { font-size: .75rem; color: rgba(255,255,255,.45); line-height: 1.5; }
+    .banner-progress { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
     .progress-track {
-      flex: 1; min-width: 80px; height: 4px;
-      background: rgba(255,255,255,.08); border-radius: 100px; overflow: hidden;
+      flex: 1; height: 3px; background: rgba(255,255,255,.1);
+      border-radius: 100px; overflow: hidden;
     }
     .progress-fill {
-      height: 100%; border-radius: 100px;
-      background: linear-gradient(90deg, var(--accent), var(--gold));
-      --w: 15%; width: 0;
-      animation: progressFill .9s ease-out .6s both;
+      height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold));
+      --w: 0%; width: 0; animation: progressFill .8s ease-out .8s both;
     }
-    .progress-pct {
-      font-size: .75rem; font-weight: 600; color: var(--gray-500); white-space: nowrap;
-    }
+    .progress-pct { font-size: .7rem; color: var(--gray-500); font-weight: 600; white-space: nowrap; }
     .btn-banner {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 8px 18px; border-radius: 100px;
+      padding: 8px 16px; border-radius: 100px;
       background: var(--accent); color: var(--white);
-      font-size: .8rem; font-weight: 600; font-family: 'Inter', sans-serif;
-      text-decoration: none; border: none; cursor: pointer;
-      transition: background .2s, transform .15s, box-shadow .2s;
-      white-space: nowrap;
+      font-size: .78rem; font-weight: 700; font-family: 'Inter', sans-serif;
+      text-decoration: none; white-space: nowrap; transition: background .2s;
     }
-    .btn-banner:hover {
-      background: var(--accent-dark);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(232,93,42,.28);
+    .btn-banner:hover { background: var(--accent-dark); }
+    .banner-dismiss {
+      position: absolute; top: 12px; right: 14px;
+      background: none; border: none; color: rgba(255,255,255,.3);
+      cursor: pointer; font-size: .9rem; transition: color .2s; padding: 2px;
+    }
+    .banner-dismiss:hover { color: rgba(255,255,255,.6); }
+
+    /* ── Cards section ── */
+    .section-label {
+      font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--gray-600); margin: 32px 0 14px;
     }
 
-    /* ── Action cards ── */
-    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .action-card {
-      background: rgba(30,35,48,.5);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: 16px; padding: 22px 20px;
-      text-decoration: none; cursor: pointer;
-      transition: border-color .25s, transform .2s, background .25s;
-      display: flex; flex-direction: column; gap: 10px;
+    .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .card {
+      position: relative; overflow: hidden;
+      background: var(--gray-900);
+      border: 1px solid rgba(255,255,255,.05);
+      border-radius: 16px; padding: 22px 20px 18px;
+      text-decoration: none; display: flex; flex-direction: column;
+      transition: border-color .2s, transform .2s, background .2s;
     }
-    .action-card:hover {
-      border-color: rgba(255,255,255,.14);
+    .card:hover {
+      border-color: rgba(255,255,255,.12);
       transform: translateY(-2px);
-      background: rgba(30,35,48,.75);
+      background: #161B26;
     }
-    .action-icon {
-      font-size: 1.5rem; line-height: 1;
-    }
-    .action-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: .9rem; font-weight: 700; color: var(--white);
-    }
-    .action-desc {
-      font-size: .75rem; color: var(--gray-500); line-height: 1.45;
-    }
-    .action-arrow {
-      font-size: .8rem; color: var(--gray-600); margin-top: auto; transition: color .2s;
-    }
-    .action-card:hover .action-arrow { color: var(--accent-light); }
+    .card-accent { border-top: 2px solid transparent; }
+    .card-accent-orange { border-top-color: var(--accent); }
+    .card-accent-teal   { border-top-color: var(--teal-light); }
+    .card-accent-gold   { border-top-color: var(--gold); }
+    .card-accent-purple { border-top-color: #8B5CF6; }
 
-    /* ── Skeleton ── */
-    .skeleton {
-      background: linear-gradient(90deg,
-        rgba(255,255,255,.04) 0%,
-        rgba(255,255,255,.08) 50%,
-        rgba(255,255,255,.04) 100%);
-      background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
-      border-radius: 8px;
+    .card-icon { font-size: 1.6rem; margin-bottom: 12px; line-height: 1; }
+    .card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .88rem; font-weight: 700; color: var(--white); margin-bottom: 4px;
+    }
+    .card-desc { font-size: .72rem; color: var(--gray-500); line-height: 1.5; flex: 1; }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 14px;
+    }
+    .card-tag {
+      font-size: .62rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 100px;
+      background: rgba(255,255,255,.06); color: var(--gray-500);
+    }
+    .card-arrow { font-size: .8rem; color: var(--gray-700); transition: color .2s; }
+    .card:hover .card-arrow { color: var(--gray-400); }
+
+    .card-disabled {
+      opacity: .35; cursor: default; pointer-events: none;
     }
 
     /* ── Mobile ── */
-    @media (max-width: 480px) {
-      .actions { grid-template-columns: 1fr; }
-      main { padding: 80px 16px 60px; }
-      nav { padding: 0 16px; }
-      .nav-user-name { display: none; }
+    @media (max-width: 520px) {
+      .hero { min-height: 55vh; padding: 88px 20px 40px; }
+      .hero-deco { font-size: 200px; right: -60px; opacity: .03; }
+      .hero h1 { font-size: 2.2rem; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .content { padding: 0 20px 60px; }
+      .nav-name { display: none; }
     }
   </style>
 </head>
 <body>
-  <div class="page-bg"></div>
 
+  <!-- Nav -->
   <nav>
     <a href="main.html" class="nav-logo">
-      <span class="nav-logo-icon">&#9992;</span>
+      <span class="nav-logo-icon">✈</span>
       ViajeraMente
     </a>
     <div class="nav-right">
-      <span class="nav-user-name" id="navName"></span>
+      <span class="nav-name" id="navName"></span>
       <a href="profile.html" class="nav-avatar" id="navAvatar" title="Mi perfil"></a>
       <button class="nav-logout" onclick="logout()">Salir</button>
     </div>
   </nav>
 
-  <main>
-    <!-- Welcome -->
-    <div class="welcome animate-in">
-      <div class="welcome-eyebrow" id="welcomeEyebrow">Bienvenido/a</div>
-      <h1 id="welcomeTitle">Tu aventura<br>empieza aquí</h1>
-      <p id="welcomeSub">Estás dentro. Ahora cuéntanos quién eres como viajero.</p>
-    </div>
-
-    <!-- Profile completion banner -->
-    <div class="profile-banner animate-in-1" id="profileBanner">
-      <div class="banner-top">
-        <div>
-          <div class="banner-title">🌍 Diseña tu perfil de viajero</div>
-          <div class="banner-desc">Cuéntanos dónde has estado, cómo viajas y qué buscas. Es lo primero que verán otros viajeros.</div>
-        </div>
-        <button class="banner-dismiss" onclick="dismissBanner()" title="Cerrar">✕</button>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grain"></div>
+    <div class="hero-deco">✈</div>
+    <div class="hero-content">
+      <div class="hero-eyebrow" id="heroEyebrow">Bienvenido/a</div>
+      <h1 id="heroTitle">Tu próximo viaje<br>empieza <em>aquí</em></h1>
+      <p class="hero-sub" id="heroSub">Diseña tu perfil de viajero, encuentra tu próximo destino y conecta con gente que viaja como tú.</p>
+      <div class="hero-actions">
+        <a href="plan.html" class="btn-hero">🧭 Planifica tu aventura</a>
+        <a href="profile.html" class="btn-hero-ghost">Mi perfil →</a>
       </div>
-      <div class="banner-bottom">
-        <div class="progress-track">
-          <div class="progress-fill" id="profileFill"></div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Profile banner -->
+    <div class="profile-banner" id="profileBanner">
+      <button class="banner-dismiss" onclick="dismissBanner()">✕</button>
+      <div class="banner-row">
+        <div class="banner-text">
+          <div class="banner-title">🌍 Diseña tu perfil de viajero</div>
+          <div class="banner-desc">Cuéntanos dónde has estado, cómo viajas y qué buscas.</div>
+          <div class="banner-progress">
+            <div class="progress-track"><div class="progress-fill" id="profileFill"></div></div>
+            <span class="progress-pct" id="profilePct">0%</span>
+          </div>
         </div>
-        <span class="progress-pct" id="profilePct">—</span>
-        <a href="profile.html" class="btn-banner">Completar perfil →</a>
+        <a href="profile.html" class="btn-banner">Completar →</a>
       </div>
     </div>
 
     <!-- Actions -->
-    <div class="actions animate-in-2">
-      <a href="profile.html" class="action-card">
-        <span class="action-icon">🪪</span>
-        <div class="action-title">Mi perfil</div>
-        <div class="action-desc">Edita tu bio, estilo de viaje y países visitados.</div>
-        <div class="action-arrow">→</div>
+    <div class="section-label">Qué puedes hacer</div>
+    <div class="cards-grid">
+
+      <a href="plan.html" class="card card-accent card-accent-orange">
+        <div class="card-icon">🧭</div>
+        <div class="card-title">Planifica tu aventura</div>
+        <div class="card-desc">7 preguntas para encontrar tu destino ideal con guía completa.</div>
+        <div class="card-footer">
+          <span class="card-tag" style="color:var(--accent-light);background:rgba(232,93,42,.1);">Nuevo</span>
+          <span class="card-arrow">→</span>
+        </div>
       </a>
-      <a href="plan.html" class="action-card">
-        <span class="action-icon">🧭</span>
-        <div class="action-title">Planifica tu aventura</div>
-        <div class="action-desc">Responde 7 preguntas y encuentra tu destino ideal.</div>
-        <div class="action-arrow">→</div>
+
+      <a href="profile.html" class="card card-accent card-accent-teal">
+        <div class="card-icon">🪪</div>
+        <div class="card-title">Mi perfil</div>
+        <div class="card-desc">Bio, países visitados, estilo de viaje y más.</div>
+        <div class="card-footer">
+          <span class="card-tag">Perfil</span>
+          <span class="card-arrow">→</span>
+        </div>
       </a>
-      <a href="#" class="action-card" style="opacity:.45; cursor:default;" title="Próximamente">
-        <span class="action-icon">🤝</span>
-        <div class="action-title">Conectar</div>
-        <div class="action-desc">Encuentra compañeros para tu próximo viaje. Próximamente.</div>
-        <div class="action-arrow">→</div>
+
+      <a href="#" class="card card-accent card-accent-gold card-disabled">
+        <div class="card-icon">🤝</div>
+        <div class="card-title">Conectar viajeros</div>
+        <div class="card-desc">Encuentra compañeros para tu próximo viaje.</div>
+        <div class="card-footer">
+          <span class="card-tag">Próximamente</span>
+          <span class="card-arrow">→</span>
+        </div>
       </a>
-      <a href="#" class="action-card" style="opacity:.45; cursor:default;" title="Próximamente">
-        <span class="action-icon">📍</span>
-        <div class="action-title">Rutas</div>
-        <div class="action-desc">Comparte y descubre itinerarios reales. Próximamente.</div>
-        <div class="action-arrow">→</div>
+
+      <a href="#" class="card card-accent card-accent-purple card-disabled">
+        <div class="card-icon">📍</div>
+        <div class="card-title">Mis rutas</div>
+        <div class="card-desc">Registra y comparte tus itinerarios reales.</div>
+        <div class="card-footer">
+          <span class="card-tag">Próximamente</span>
+          <span class="card-arrow">→</span>
+        </div>
       </a>
+
     </div>
-  </main>
+  </div>
 
   <script>
     const API_BASE = 'https://eze.saypeter.com';
-    const token = localStorage.getItem('token');
+    const token   = localStorage.getItem('token');
     if (!token) window.location.href = 'login.html';
 
-    function logout() {
-      localStorage.removeItem('token');
-      window.location.href = 'login.html';
-    }
+    function logout() { localStorage.removeItem('token'); window.location.href = 'login.html'; }
 
     function dismissBanner() {
       document.getElementById('profileBanner').style.display = 'none';
       localStorage.setItem('vmBannerTs', Date.now());
     }
-
     function bannerDismissed() {
       const ts = localStorage.getItem('vmBannerTs');
-      if (!ts) return false;
-      return (Date.now() - parseInt(ts)) < 7 * 24 * 60 * 60 * 1000;
+      return ts && (Date.now() - +ts) < 7 * 86400000;
     }
-
     function profileScore(u) {
-      const checks = [u.avatar_url, u.bio, u.city, u.country, u.travel_style,
-                      u.budget_range, u.countries_visited?.length, u.languages?.length];
-      return Math.round(checks.filter(Boolean).length / checks.length * 100);
+      const f = [u.avatar_url, u.bio, u.city, u.country, u.travel_style,
+                 u.budget_range, u.countries_visited?.length, u.languages?.length];
+      return Math.round(f.filter(Boolean).length / f.length * 100);
     }
 
     async function init() {
       try {
-        const res = await fetch(`${API_BASE}/api/me`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const res = await fetch(`${API_BASE}/api/me`, { headers: { Authorization: `Bearer ${token}` } });
         if (res.status === 401) { localStorage.removeItem('token'); window.location.href = 'login.html'; return; }
         const { ok, user } = await res.json();
         if (!ok || !user) return;
@@ -381,29 +427,24 @@
         const h = new Date().getHours();
         const saludo = h < 13 ? 'Buenos días' : h < 20 ? 'Buenas tardes' : 'Buenas noches';
 
-        document.getElementById('welcomeEyebrow').textContent = `${saludo}, ${first} 👋`;
+        document.getElementById('heroEyebrow').textContent = `${saludo}, ${first} 👋`;
+        document.getElementById('heroTitle').innerHTML = `Tu próximo viaje<br>empieza <em>aquí</em>`;
         document.getElementById('navName').textContent = first;
 
-        // Nav avatar
         const av = document.getElementById('navAvatar');
         if (user.avatar_url) {
-          av.innerHTML = `<img src="${user.avatar_url}" alt="${user.name}">`;
+          av.innerHTML = `<img src="${user.avatar_url}" alt="">`;
         } else {
-          const ini = (user.name || 'V').split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase();
-          av.textContent = ini;
-          av.style.background = 'linear-gradient(135deg, #E85D2A, #C74A1E)';
+          av.textContent = (user.name || 'V').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
         }
 
-        // Banner
         const score = profileScore(user);
         if (score < 80 && !bannerDismissed()) {
-          const banner = document.getElementById('profileBanner');
-          banner.style.display = 'block';
-          const fill = document.getElementById('profileFill');
-          fill.style.setProperty('--w', `${score}%`);
+          const b = document.getElementById('profileBanner');
+          b.style.display = 'block';
+          document.getElementById('profileFill').style.setProperty('--w', `${score}%`);
           document.getElementById('profilePct').textContent = `${score}% completo`;
         }
-
       } catch(e) { console.error(e); }
     }
 
