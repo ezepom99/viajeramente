@@ -23,6 +23,8 @@
       --accent: #0EA5E9;
       --accent-light: #E0F2FE;
       --accent-text: #0284C7;
+      --green: #10B981;
+      --green-light: #D1FAE5;
       --teal: #10B981;
       --teal-light: #F0FDFA;
       --shadow: 0 2px 12px rgba(0,0,0,.07);
@@ -46,6 +48,10 @@
     @keyframes fadeInUp  { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
     @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
     @keyframes shimmer   { from { background-position: -400px 0; } to { background-position: 400px 0; } }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .6; transform: scale(.8); }
+    }
 
     /* ── Nav ── */
     nav {
@@ -90,6 +96,19 @@
     .nav-avatar:hover { border-color: var(--accent); }
     .nav-avatar img { width:100%; height:100%; object-fit:cover; }
     #nav-user { display: none; }
+    #nav-guest { display: flex; align-items: center; gap: 8px; }
+    .btn-nav-login {
+      font-size: .82rem; font-weight: 500; color: var(--text-2);
+      text-decoration: none; padding: 6px 12px; border-radius: 8px;
+      transition: all .2s;
+    }
+    .btn-nav-login:hover { color: var(--text); background: var(--bg-soft); }
+    .btn-nav-signup {
+      font-size: .82rem; font-weight: 600; color: #fff;
+      background: var(--accent); text-decoration: none;
+      padding: 7px 14px; border-radius: 100px; transition: all .2s;
+    }
+    .btn-nav-signup:hover { background: var(--accent-text); }
 
     /* ── Hero ── */
     .hero {
@@ -117,7 +136,7 @@
       max-width: 440px; margin: 0 auto 32px;
     }
 
-    /* Search */
+    /* ── Search ── */
     .search-wrap {
       max-width: 540px; margin: 0 auto 24px;
       position: relative;
@@ -140,22 +159,26 @@
     }
     #search-input::placeholder { color: var(--text-3); }
 
-    /* Filter pills */
-    .filters-wrap {
+    /* ── Filter rows ── */
+    .filters-section {
       max-width: 700px; margin: 0 auto;
-      overflow-x: auto; -webkit-overflow-scrolling: touch;
-      padding-bottom: 4px;
-      scrollbar-width: none;
     }
-    .filters-wrap::-webkit-scrollbar { display: none; }
+    .filters-row-wrap {
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px; scrollbar-width: none; margin-bottom: 10px;
+    }
+    .filters-row-wrap::-webkit-scrollbar { display: none; }
     .filters-row {
       display: flex; gap: 8px; align-items: center;
-      white-space: nowrap; justify-content: center; flex-wrap: wrap;
+      white-space: nowrap; justify-content: center;
     }
-    @media (max-width: 600px) {
-      .filters-row { justify-content: flex-start; flex-wrap: nowrap; }
+    @media (max-width: 600px) { .filters-row { justify-content: flex-start; } }
+
+    .filter-label {
+      font-size: .7rem; font-weight: 600; color: var(--text-3);
+      letter-spacing: .06em; text-transform: uppercase;
+      white-space: nowrap; flex-shrink: 0; padding: 0 4px;
     }
-    .filter-group { position: relative; }
     .filter-pill {
       display: inline-flex; align-items: center; gap: 5px;
       padding: 7px 14px; border-radius: 100px;
@@ -163,38 +186,17 @@
       font-size: .78rem; font-weight: 500; color: var(--text-2);
       cursor: pointer; transition: all .2s; user-select: none;
       white-space: nowrap; font-family: 'Inter', sans-serif;
+      line-height: 1;
     }
     .filter-pill:hover { border-color: var(--text-3); color: var(--text); }
-    .filter-pill.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); font-weight: 600; }
-    .filter-pill svg { flex-shrink: 0; transition: transform .2s; }
-    .filter-pill.open svg { transform: rotate(180deg); }
-
-    .filter-dropdown {
-      position: absolute; top: calc(100% + 6px); left: 0;
-      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.12); min-width: 160px; z-index: 50;
-      padding: 6px; display: none; animation: slideDown .15s ease both;
+    .filter-pill.active {
+      border-color: var(--accent); color: var(--accent);
+      background: var(--accent-light); font-weight: 600;
     }
-    .filter-dropdown.open { display: block; }
-    .filter-option {
-      padding: 8px 12px; border-radius: 8px; cursor: pointer;
-      font-size: .82rem; color: var(--text-2); transition: all .15s;
-      display: flex; align-items: center; gap: 8px;
+    .filter-pill.style-active {
+      border-color: var(--green); color: var(--green);
+      background: var(--green-light); font-weight: 600;
     }
-    .filter-option:hover { background: var(--bg-soft); color: var(--text); }
-    .filter-option.selected { color: var(--accent); font-weight: 600; background: var(--accent-light); }
-    .filter-option .check { font-size: .75rem; }
-
-    /* Clear filters btn */
-    .btn-clear {
-      display: none; align-items: center; gap: 5px;
-      padding: 7px 14px; border-radius: 100px;
-      border: 1.5px solid transparent; background: none;
-      font-size: .78rem; font-weight: 500; color: var(--text-3);
-      cursor: pointer; transition: all .2s; font-family: 'Inter', sans-serif;
-    }
-    .btn-clear:hover { color: var(--text-2); }
-    .btn-clear.visible { display: inline-flex; }
 
     /* Sorpréndeme */
     .btn-surprise {
@@ -203,14 +205,26 @@
       border: 1.5px solid var(--teal); background: var(--teal-light);
       font-size: .78rem; font-weight: 600; color: var(--teal);
       cursor: pointer; transition: all .2s; font-family: 'Inter', sans-serif;
-      text-decoration: none; white-space: nowrap;
+      text-decoration: none; white-space: nowrap; flex-shrink: 0;
     }
     .btn-surprise:hover { background: var(--teal); color: #fff; }
+
+    /* Clear */
+    .btn-clear {
+      display: none; align-items: center; gap: 5px;
+      padding: 7px 14px; border-radius: 100px;
+      border: 1.5px solid transparent; background: none;
+      font-size: .78rem; font-weight: 500; color: var(--text-3);
+      cursor: pointer; transition: all .2s; font-family: 'Inter', sans-serif;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .btn-clear:hover { color: var(--text-2); }
+    .btn-clear.visible { display: inline-flex; }
 
     /* ── Main container ── */
     .container {
       max-width: 1080px; margin: 0 auto;
-      padding: 40px 24px 80px;
+      padding: 48px 24px 80px;
     }
 
     /* Section header */
@@ -225,83 +239,71 @@
       font-size: .8rem; color: var(--text-3); font-weight: 500;
     }
 
-    /* ── Featured card ── */
-    .featured-wrap { margin-bottom: 48px; }
-    .featured-label {
+    /* ── Rutas épicas ── */
+    .rutas-section { margin-bottom: 56px; }
+    .rutas-label {
       display: inline-flex; align-items: center; gap: 6px;
       font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
       color: var(--accent); margin-bottom: 12px;
     }
-    .featured-label-dot {
+    .rutas-label-dot {
       width: 6px; height: 6px; border-radius: 50%;
       background: var(--accent); display: inline-block;
       animation: pulse 2s ease infinite;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: .6; transform: scale(.8); }
+    .rutas-title-row {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 16px; gap: 12px;
     }
-
-    .featured-card {
-      display: grid; grid-template-columns: 1fr 1fr;
-      background: var(--bg); border: 1px solid var(--border);
+    .rutas-title {
+      font-size: 1.3rem; font-weight: 800; letter-spacing: -.03em; color: var(--text);
+    }
+    .rutas-scroll-wrap {
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; margin: 0 -24px; padding: 0 24px 4px;
+    }
+    .rutas-scroll-wrap::-webkit-scrollbar { display: none; }
+    .rutas-scroll {
+      display: flex; gap: 16px; white-space: nowrap;
+      padding-right: 24px;
+    }
+    .ruta-card {
+      flex-shrink: 0; width: 280px; height: 180px;
       border-radius: var(--radius); overflow: hidden;
-      box-shadow: var(--shadow); text-decoration: none; color: inherit;
-      transition: box-shadow .25s, transform .25s;
+      position: relative; cursor: pointer; text-decoration: none;
+      transition: transform .25s, box-shadow .25s;
+      display: block;
     }
-    .featured-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.12); transform: translateY(-2px); }
-    @media (max-width: 640px) { .featured-card { grid-template-columns: 1fr; } }
-
-    .featured-photo {
-      height: 300px; background-size: cover; background-position: center;
-      position: relative;
-    }
-    @media (max-width: 640px) { .featured-photo { height: 220px; } }
-
-    .featured-photo-overlay {
+    @media (max-width: 540px) { .ruta-card { width: 240px; height: 155px; } }
+    .ruta-card:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,0,0,.18); }
+    .ruta-card-img {
+      width: 100%; height: 100%; object-fit: cover;
       position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,.45) 0%, rgba(0,0,0,.05) 60%);
+      background-size: cover; background-position: center;
     }
-    .featured-continent-badge {
-      position: absolute; top: 14px; left: 14px;
-      background: rgba(255,255,255,.92);
-      border-radius: 100px; padding: 4px 10px;
-      font-size: .68rem; font-weight: 700; color: var(--text);
-      letter-spacing: .04em; text-transform: uppercase;
+    .ruta-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.15) 55%, rgba(0,0,0,0) 100%);
     }
-    .featured-body {
-      padding: 28px 28px;
-      display: flex; flex-direction: column; justify-content: center; gap: 12px;
+    .ruta-card-body {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 16px;
     }
-    .featured-eyebrow {
-      font-size: .65rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-      color: var(--text-3);
+    .ruta-card-tag {
+      display: inline-flex; align-items: center;
+      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3);
+      border-radius: 100px; padding: 3px 8px;
+      font-size: .62rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      color: rgba(255,255,255,.9); margin-bottom: 6px;
     }
-    .featured-name {
-      font-size: 1.9rem; font-weight: 800; letter-spacing: -.04em; line-height: 1.1;
-      color: var(--text);
+    .ruta-card-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem; font-weight: 800; letter-spacing: -.03em;
+      color: #fff; line-height: 1.2; display: block;
     }
-    .featured-tagline {
-      font-size: .9rem; color: var(--text-2); line-height: 1.5;
+    .ruta-card-sub {
+      font-size: .72rem; color: rgba(255,255,255,.75); margin-top: 3px; display: block;
     }
-    .featured-meta {
-      display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px;
-    }
-    .meta-chip {
-      display: inline-flex; align-items: center; gap: 4px;
-      padding: 5px 10px; border-radius: 100px;
-      background: var(--bg-soft); border: 1px solid var(--border);
-      font-size: .75rem; color: var(--text-2); font-weight: 500;
-    }
-    .featured-cta {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 11px 20px; border-radius: 100px;
-      background: var(--accent); color: #fff;
-      font-size: .84rem; font-weight: 700; font-family: 'Inter', sans-serif;
-      text-decoration: none; transition: all .2s; align-self: flex-start;
-      margin-top: 8px;
-    }
-    .featured-cta:hover { background: var(--accent-text); transform: translateY(-1px); }
 
     /* ── Cards grid ── */
     .cards-grid {
@@ -310,73 +312,109 @@
       gap: 20px;
     }
     @media (max-width: 900px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 540px)  { .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+    @media (max-width: 480px)  { .cards-grid { grid-template-columns: 1fr; gap: 14px; } }
 
     .dest-card {
       background: var(--bg); border: 1px solid var(--border);
       border-radius: var(--radius); overflow: hidden;
       box-shadow: var(--shadow); text-decoration: none; color: inherit;
       transition: box-shadow .25s, transform .25s;
-      display: block;
+      display: flex; flex-direction: column;
+      cursor: pointer;
     }
     .dest-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,.11); transform: translateY(-3px); }
 
     .card-photo {
-      height: 220px; background-size: cover; background-position: center;
-      position: relative;
+      height: 210px; background-size: cover; background-position: center;
+      position: relative; flex-shrink: 0;
     }
-    @media (max-width: 540px) { .card-photo { height: 160px; } }
+    @media (max-width: 540px) { .card-photo { height: 175px; } }
     .card-photo-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(to top, rgba(0,0,0,.5) 0%, rgba(0,0,0,0) 55%);
     }
-    .card-continent {
-      position: absolute; bottom: 12px; left: 12px;
-      background: rgba(255,255,255,.9); border-radius: 100px;
-      padding: 3px 9px; font-size: .65rem; font-weight: 700;
-      color: var(--text); letter-spacing: .04em; text-transform: uppercase;
+    .card-continent-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(255,255,255,.92); border-radius: 100px;
+      padding: 3px 9px; font-size: .62rem; font-weight: 700;
+      color: var(--text); letter-spacing: .05em; text-transform: uppercase;
     }
 
-    .card-body { padding: 16px; }
-    .card-body h3 {
+    .card-body {
+      padding: 16px 16px 18px;
+      display: flex; flex-direction: column; flex: 1;
+    }
+    .card-name {
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1.05rem; font-weight: 700; letter-spacing: -.02em;
-      color: var(--text); margin-bottom: 5px;
+      color: var(--text); margin-bottom: 2px;
+    }
+    .card-country {
+      font-size: .72rem; color: var(--text-3); font-weight: 500; margin-bottom: 8px;
     }
     .card-tagline {
-      font-size: .78rem; color: var(--text-2); line-height: 1.5;
-      margin-bottom: 12px;
+      font-size: .78rem; color: var(--text-2); line-height: 1.55;
+      margin-bottom: 12px; font-style: italic;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      flex: 1;
     }
-    .card-meta {
-      display: flex; gap: 8px; flex-wrap: wrap;
+    .card-vibes {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px;
     }
-    .card-meta span {
-      font-size: .72rem; color: var(--text-2); font-weight: 500;
+    .vibe-pill {
+      display: inline-flex; align-items: center;
+      padding: 3px 9px; border-radius: 100px;
+      background: var(--bg-soft); border: 1px solid var(--border);
+      font-size: .68rem; color: var(--text-2); font-weight: 500;
+    }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: auto; padding-top: 10px;
+      border-top: 1px solid var(--border);
+      gap: 8px;
+    }
+    .card-budget {
+      font-size: .78rem; color: var(--text-2); font-weight: 500;
+      white-space: nowrap;
+    }
+    .card-cta {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 7px 14px; border-radius: 100px;
+      background: var(--accent); color: #fff;
+      font-size: .75rem; font-weight: 700; font-family: 'Inter', sans-serif;
+      text-decoration: none; transition: all .2s;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .card-cta:hover { background: var(--accent-text); }
+
+    /* Skeleton */
+    .skeleton-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .skeleton-photo {
+      height: 210px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+      background-size: 400px 100%;
+      animation: shimmer 1.4s infinite linear;
+    }
+    .skeleton-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .skeleton-line {
+      border-radius: 6px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+      background-size: 400px 100%;
+      animation: shimmer 1.4s infinite linear;
     }
 
     /* Empty state */
     .empty-state {
       grid-column: 1/-1; text-align: center;
-      padding: 60px 24px;
+      padding: 72px 24px;
     }
-    .empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
-    .empty-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-    .empty-desc { font-size: .88rem; color: var(--text-2); }
-
-    /* Skeleton loader */
-    .skeleton {
-      background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
-      background-size: 400px 100%;
-      animation: shimmer 1.4s infinite linear;
-      border-radius: 8px;
-    }
-
-    /* Results bar */
-    .results-bar {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .results-text { font-size: .82rem; color: var(--text-3); }
+    .empty-icon { font-size: 2.8rem; margin-bottom: 14px; }
+    .empty-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .empty-desc { font-size: .88rem; color: var(--text-2); line-height: 1.6; }
 
     /* Footer */
     footer {
@@ -400,14 +438,19 @@
     ViajeraMente
   </a>
   <div class="nav-links">
-    <a href="plan.html">Planifica</a>
+    <a href="plan.html">Planificador</a>
     <a href="guias.html" class="active">Guías</a>
-    <a href="destino.html">Destinos</a>
   </div>
-  <div class="nav-right" id="nav-user">
-    <a href="profile.html" class="nav-avatar" id="nav-avatar-link" title="Mi perfil">
-      <span id="nav-initials">?</span>
-    </a>
+  <div class="nav-right">
+    <div id="nav-guest">
+      <a href="login.html" class="btn-nav-login">Entrar</a>
+      <a href="signup.html" class="btn-nav-signup">Registrarse</a>
+    </div>
+    <div id="nav-user" style="display:none">
+      <a href="profile.html" class="nav-avatar" id="nav-avatar-link" title="Mi perfil">
+        <span id="nav-initials">?</span>
+      </a>
+    </div>
   </div>
 </nav>
 
@@ -418,7 +461,7 @@
     Biblioteca de destinos
   </div>
   <h1>Guías de viaje</h1>
-  <p class="hero-subtitle">Escritas desde dentro. Actualizadas con datos reales.</p>
+  <p class="hero-subtitle">Escritas desde dentro. Actualizadas con datos reales. Filtra por continente, estilo y presupuesto.</p>
 
   <!-- Search -->
   <div class="search-wrap">
@@ -428,83 +471,34 @@
     <input type="text" id="search-input" placeholder="Busca un destino..." autocomplete="off" aria-label="Buscar destino">
   </div>
 
-  <!-- Filters -->
-  <div class="filters-wrap">
-    <div class="filters-row" id="filters-row">
-      <!-- Continente -->
-      <div class="filter-group">
-        <button class="filter-pill" id="pill-continente" aria-haspopup="listbox">
-          Continente
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="filter-dropdown" id="dd-continente" role="listbox">
-          <div class="filter-option selected" data-filter="continente" data-value="">Todos los continentes <span class="check">✓</span></div>
-          <div class="filter-option" data-filter="continente" data-value="Asia">🌏 Asia</div>
-          <div class="filter-option" data-filter="continente" data-value="Europa">🌍 Europa</div>
-          <div class="filter-option" data-filter="continente" data-value="América">🌎 América</div>
-          <div class="filter-option" data-filter="continente" data-value="África">🌍 África</div>
-          <div class="filter-option" data-filter="continente" data-value="Oceanía">🌏 Oceanía</div>
-        </div>
+  <!-- Continent filter pills -->
+  <div class="filters-section">
+    <div class="filters-row-wrap">
+      <div class="filters-row" id="continent-pills">
+        <span class="filter-label">Zona</span>
+        <button class="filter-pill active" data-filter="continent" data-value="">Todo el mundo</button>
+        <button class="filter-pill" data-filter="continent" data-value="Europa">🌍 Europa</button>
+        <button class="filter-pill" data-filter="continent" data-value="Asia">🌏 Asia</button>
+        <button class="filter-pill" data-filter="continent" data-value="América">🌎 América</button>
+        <button class="filter-pill" data-filter="continent" data-value="África">🌍 África</button>
+        <button class="filter-pill" data-filter="continent" data-value="Oceanía">🌏 Oceanía</button>
+        <button class="filter-pill" data-filter="continent" data-value="Rutas">🚗 Rutas</button>
       </div>
-
-      <!-- Clima -->
-      <div class="filter-group">
-        <button class="filter-pill" id="pill-clima" aria-haspopup="listbox">
-          Clima
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="filter-dropdown" id="dd-clima" role="listbox">
-          <div class="filter-option selected" data-filter="clima" data-value="">Cualquier clima <span class="check">✓</span></div>
-          <div class="filter-option" data-filter="clima" data-value="Cálido">🌡️ Cálido</div>
-          <div class="filter-option" data-filter="clima" data-value="Templado">🌤️ Templado</div>
-          <div class="filter-option" data-filter="clima" data-value="Frío">❄️ Frío</div>
-          <div class="filter-option" data-filter="clima" data-value="Tropical">🌴 Tropical</div>
-          <div class="filter-option" data-filter="clima" data-value="Árido">☀️ Árido</div>
-        </div>
+    </div>
+    <div class="filters-row-wrap">
+      <div class="filters-row" id="style-pills">
+        <span class="filter-label">Estilo</span>
+        <button class="filter-pill active" data-filter="style" data-value="">Todos</button>
+        <button class="filter-pill" data-filter="style" data-value="Mochilero">🎒 Mochilero</button>
+        <button class="filter-pill" data-filter="style" data-value="Playa">🏖️ Playa</button>
+        <button class="filter-pill" data-filter="style" data-value="Ciudad">🏙️ Ciudad</button>
+        <button class="filter-pill" data-filter="style" data-value="Naturaleza">🌿 Naturaleza</button>
+        <button class="filter-pill" data-filter="style" data-value="Cultura">🏛️ Cultura</button>
+        <button class="filter-pill" data-filter="style" data-value="Aventura">🧗 Aventura</button>
+        <button class="filter-pill" data-filter="style" data-value="Gastronomía">🍜 Gastronomía</button>
+        <a href="#" class="btn-surprise" id="btn-surprise" onclick="goSurprise(event)">🎲 Sorpréndeme</a>
+        <button class="btn-clear" id="btn-clear" onclick="clearFilters()">✕ Limpiar</button>
       </div>
-
-      <!-- Estilo -->
-      <div class="filter-group">
-        <button class="filter-pill" id="pill-estilo" aria-haspopup="listbox">
-          Estilo
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="filter-dropdown" id="dd-estilo" role="listbox">
-          <div class="filter-option selected" data-filter="estilo" data-value="">Cualquier estilo <span class="check">✓</span></div>
-          <div class="filter-option" data-filter="estilo" data-value="Aventura">🧗 Aventura</div>
-          <div class="filter-option" data-filter="estilo" data-value="Cultura">🏛️ Cultura</div>
-          <div class="filter-option" data-filter="estilo" data-value="Playa">🏖️ Playa</div>
-          <div class="filter-option" data-filter="estilo" data-value="Naturaleza">🌿 Naturaleza</div>
-          <div class="filter-option" data-filter="estilo" data-value="Ciudad">🏙️ Ciudad</div>
-          <div class="filter-option" data-filter="estilo" data-value="Gastronomía">🍜 Gastronomía</div>
-          <div class="filter-option" data-filter="estilo" data-value="Bienestar">🧘 Bienestar</div>
-          <div class="filter-option" data-filter="estilo" data-value="Mochilero">🎒 Mochilero</div>
-        </div>
-      </div>
-
-      <!-- Presupuesto -->
-      <div class="filter-group">
-        <button class="filter-pill" id="pill-presupuesto" aria-haspopup="listbox">
-          Presupuesto
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="filter-dropdown" id="dd-presupuesto" role="listbox">
-          <div class="filter-option selected" data-filter="presupuesto" data-value="">Cualquier presupuesto <span class="check">✓</span></div>
-          <div class="filter-option" data-filter="presupuesto" data-value="Budget">💸 Budget</div>
-          <div class="filter-option" data-filter="presupuesto" data-value="Budget-Mid">💸 Budget-Mid</div>
-          <div class="filter-option" data-filter="presupuesto" data-value="Mid">💳 Mid</div>
-          <div class="filter-option" data-filter="presupuesto" data-value="Mid-High">💳 Mid-High</div>
-          <div class="filter-option" data-filter="presupuesto" data-value="Luxury">💎 Luxury</div>
-        </div>
-      </div>
-
-      <button class="btn-clear" id="btn-clear" onclick="clearFilters()">
-        ✕ Limpiar filtros
-      </button>
-
-      <a href="#" class="btn-surprise" id="btn-surprise" onclick="goSurprise(event)">
-        🎲 Sorpréndeme
-      </a>
     </div>
   </div>
 </section>
@@ -512,28 +506,21 @@
 <!-- Main content -->
 <main class="container">
 
-  <!-- Featured: Destino del día -->
-  <div class="featured-wrap" id="featured-wrap">
-    <div class="featured-label">
-      <span class="featured-label-dot"></span>
-      Destino del día
+  <!-- Rutas épicas -->
+  <section class="rutas-section" id="rutas-section">
+    <div class="rutas-label">
+      <span class="rutas-label-dot"></span>
+      Rutas épicas
     </div>
-    <a href="#" class="featured-card" id="featured-card">
-      <div class="featured-photo" id="featured-photo">
-        <div class="featured-photo-overlay"></div>
-        <span class="featured-continent-badge" id="featured-continent"></span>
+    <div class="rutas-title-row">
+      <h2 class="rutas-title">Las rutas que hay que hacer</h2>
+    </div>
+    <div class="rutas-scroll-wrap">
+      <div class="rutas-scroll" id="rutas-scroll">
+        <!-- Populated by JS -->
       </div>
-      <div class="featured-body">
-        <div class="featured-eyebrow" id="featured-country"></div>
-        <div class="featured-name" id="featured-name">—</div>
-        <p class="featured-tagline" id="featured-tagline"></p>
-        <div class="featured-meta" id="featured-meta"></div>
-        <a href="#" class="featured-cta" id="featured-cta">
-          Ver guía completa →
-        </a>
-      </div>
-    </a>
-  </div>
+    </div>
+  </section>
 
   <!-- All guides -->
   <div class="section-header">
@@ -542,7 +529,13 @@
   </div>
 
   <div class="cards-grid" id="cards-grid">
-    <!-- Populated by JS -->
+    <!-- Skeletons shown while loading -->
+    <div class="skeleton-card"><div class="skeleton-photo"></div><div class="skeleton-body"><div class="skeleton-line" style="height:18px;width:60%"></div><div class="skeleton-line" style="height:12px;width:90%"></div><div class="skeleton-line" style="height:12px;width:75%"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-photo"></div><div class="skeleton-body"><div class="skeleton-line" style="height:18px;width:55%"></div><div class="skeleton-line" style="height:12px;width:85%"></div><div class="skeleton-line" style="height:12px;width:70%"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-photo"></div><div class="skeleton-body"><div class="skeleton-line" style="height:18px;width:65%"></div><div class="skeleton-line" style="height:12px;width:90%"></div><div class="skeleton-line" style="height:12px;width:80%"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-photo"></div><div class="skeleton-body"><div class="skeleton-line" style="height:18px;width:50%"></div><div class="skeleton-line" style="height:12px;width:80%"></div><div class="skeleton-line" style="height:12px;width:65%"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-photo"></div><div class="skeleton-body"><div class="skeleton-line" style="height:18px;width:70%"></div><div class="skeleton-line" style="height:12px;width:88%"></div><div class="skeleton-line" style="height:12px;width:72%"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-photo"></div><div class="skeleton-body"><div class="skeleton-line" style="height:18px;width:58%"></div><div class="skeleton-line" style="height:12px;width:82%"></div><div class="skeleton-line" style="height:12px;width:68%"></div></div></div>
   </div>
 
 </main>
@@ -553,288 +546,172 @@
 </footer>
 
 <script>
-// ── Fallback destinations ──────────────────────────────────────────────────────
-const FALLBACK_DESTINATIONS = [
+// ── Constants ─────────────────────────────────────────────────────────────────
+const API_BASE = 'https://eze.saypeter.com';
+
+const RUTAS_DATA = [
   {
-    slug: 'bali',
-    name: 'Bali',
-    country: 'Indonesia',
-    continent: 'Asia',
-    climate: ['Tropical', 'Cálido'],
-    vibes: ['espiritual', 'naturaleza', 'surf'],
-    travel_styles: ['Bienestar', 'Naturaleza', 'Aventura', 'Playa'],
-    budget: 'Budget-Mid',
-    hero_photo_id: 1802268,
-    tagline: 'Arrozales, templos, surf y atardeceres que lo cambian todo'
+    slug: 'ruta-66',
+    name: 'Ruta 66',
+    subtitle: 'Chicago → Los Ángeles · 4.000 km',
+    tag: '🚗 Ruta mítica',
+    photo_id: 1223649,
+    color: '#C2440E'
   },
   {
-    slug: 'japon',
-    name: 'Japón',
-    country: 'Japón',
-    continent: 'Asia',
-    climate: ['Templado'],
-    vibes: ['tradición', 'tecnología', 'gastronomía'],
-    travel_styles: ['Cultura', 'Gastronomía', 'Ciudad'],
-    budget: 'Mid',
-    hero_photo_id: 2070485,
-    tagline: 'Donde la antigüedad y el futuro conviven sin rozarse'
+    slug: 'ruta-40',
+    name: 'Ruta 40',
+    subtitle: 'Patagonia → Bolivia · 5.000 km',
+    tag: '🏔️ Patagonia',
+    photo_id: 2356059,
+    color: '#1A56A0'
   },
   {
-    slug: 'vietnam',
-    name: 'Vietnam',
-    country: 'Vietnam',
-    continent: 'Asia',
-    climate: ['Tropical', 'Cálido'],
-    vibes: ['historia', 'gastronomía', 'paisajes'],
-    travel_styles: ['Mochilero', 'Gastronomía', 'Cultura'],
-    budget: 'Budget',
-    hero_photo_id: 2337491,
-    tagline: 'Bahías de ensueño, callejones con historia y comida que no se olvida'
+    slug: 'panamericana',
+    name: 'Panamericana',
+    subtitle: 'Alaska → Tierra del Fuego',
+    tag: '🌎 Épica',
+    photo_id: 3155666,
+    color: '#1A7A3D'
   },
   {
-    slug: 'tailandia',
-    name: 'Tailandia',
-    country: 'Tailandia',
-    continent: 'Asia',
-    climate: ['Tropical', 'Cálido'],
-    vibes: ['templos', 'playas', 'street food'],
-    travel_styles: ['Mochilero', 'Playa', 'Gastronomía'],
-    budget: 'Budget',
-    hero_photo_id: 1007657,
-    tagline: 'El país de las sonrisas: playas perfectas, templos dorados y sabores que enganchan'
+    slug: 'camino-santiago',
+    name: 'Camino de Santiago',
+    subtitle: 'St. Jean → Santiago · 780 km',
+    tag: '🚶 Caminata',
+    photo_id: 1488845,
+    color: '#8B4513'
   },
   {
-    slug: 'nepal',
-    name: 'Nepal',
-    country: 'Nepal',
-    continent: 'Asia',
-    climate: ['Frío'],
-    vibes: ['trekking', 'himalaya', 'espiritualidad'],
-    travel_styles: ['Aventura', 'Naturaleza', 'Cultura'],
-    budget: 'Budget',
-    hero_photo_id: 933054,
-    tagline: 'Las montañas más altas del mundo y una cultura que te deja sin palabras'
-  },
-  {
-    slug: 'srilanka',
-    name: 'Sri Lanka',
-    country: 'Sri Lanka',
-    continent: 'Asia',
-    climate: ['Tropical', 'Cálido'],
-    vibes: ['cultura', 'surf', 'naturaleza'],
-    travel_styles: ['Cultura', 'Playa', 'Naturaleza'],
-    budget: 'Budget-Mid',
-    hero_photo_id: 2474661,
-    tagline: 'La isla que tiene todo: playas, jungla, ruinas y té de montaña'
-  },
-  {
-    slug: 'islandia',
-    name: 'Islandia',
-    country: 'Islandia',
-    continent: 'Europa',
-    climate: ['Frío'],
-    vibes: ['auroras', 'paisajes', 'volcanes'],
-    travel_styles: ['Aventura', 'Naturaleza'],
-    budget: 'Mid-High',
-    hero_photo_id: 1933239,
-    tagline: 'Auroras boreales, géisers y paisajes de otro planeta'
-  },
-  {
-    slug: 'portugal',
-    name: 'Portugal',
-    country: 'Portugal',
-    continent: 'Europa',
-    climate: ['Templado'],
-    vibes: ['fado', 'historia', 'gastronomía'],
-    travel_styles: ['Cultura', 'Gastronomía', 'Ciudad'],
-    budget: 'Budget-Mid',
-    hero_photo_id: 2549018,
-    tagline: 'Lisboa, olas del Algarve y el mejor vino que nadie te ha contado'
-  },
-  {
-    slug: 'grecia',
-    name: 'Grecia',
-    country: 'Grecia',
-    continent: 'Europa',
-    climate: ['Cálido', 'Templado'],
-    vibes: ['islas', 'historia', 'gastronomía'],
-    travel_styles: ['Playa', 'Cultura', 'Gastronomía'],
-    budget: 'Mid',
-    hero_photo_id: 1285625,
-    tagline: 'Cúpulas azules, mares cristalinos y la cuna de la civilización occidental'
-  },
-  {
-    slug: 'italia',
-    name: 'Italia',
-    country: 'Italia',
-    continent: 'Europa',
-    climate: ['Templado', 'Cálido'],
-    vibes: ['arte', 'gastronomía', 'historia'],
-    travel_styles: ['Cultura', 'Gastronomía', 'Ciudad'],
-    budget: 'Mid',
-    hero_photo_id: 2245642,
-    tagline: 'Arte, pasta, espresso y ciudades que son en sí mismas una obra de arte'
-  },
-  {
-    slug: 'noruega',
-    name: 'Noruega',
-    country: 'Noruega',
-    continent: 'Europa',
-    climate: ['Frío'],
-    vibes: ['fiordos', 'auroras', 'naturaleza'],
-    travel_styles: ['Naturaleza', 'Aventura'],
-    budget: 'Mid-High',
-    hero_photo_id: 1891550,
-    tagline: 'Fiordos interminables, aldeas de cuento y auroras que paralizan'
-  },
-  {
-    slug: 'croacia',
-    name: 'Croacia',
-    country: 'Croacia',
-    continent: 'Europa',
-    climate: ['Templado', 'Cálido'],
-    vibes: ['adriático', 'islas', 'historia'],
-    travel_styles: ['Playa', 'Cultura', 'Ciudad'],
-    budget: 'Mid',
-    hero_photo_id: 1380806,
-    tagline: 'El Adriático más limpio de Europa, ciudades amuralladas y silencio en las islas'
-  },
-  {
-    slug: 'escocia',
-    name: 'Escocia',
-    country: 'Reino Unido',
-    continent: 'Europa',
-    climate: ['Frío', 'Templado'],
-    vibes: ['castillos', 'naturaleza', 'whisky'],
-    travel_styles: ['Naturaleza', 'Cultura', 'Aventura'],
-    budget: 'Mid',
-    hero_photo_id: 1559699,
-    tagline: 'Highlands salvajes, castillos con historia y whisky con niebla incluida'
-  },
-  {
-    slug: 'marruecos',
-    name: 'Marruecos',
-    country: 'Marruecos',
-    continent: 'África',
-    climate: ['Árido', 'Cálido'],
-    vibes: ['desierto', 'medinas', 'cultura'],
-    travel_styles: ['Cultura', 'Aventura', 'Mochilero'],
-    budget: 'Budget',
-    hero_photo_id: 3889843,
-    tagline: 'Medinas laberínticas, desierto al amanecer y especias que lo impregnan todo'
-  },
-  {
-    slug: 'peru',
-    name: 'Perú',
-    country: 'Perú',
-    continent: 'América',
-    climate: ['Templado', 'Tropical'],
-    vibes: ['machu picchu', 'gastronomía', 'historia'],
-    travel_styles: ['Cultura', 'Aventura', 'Gastronomía'],
-    budget: 'Budget-Mid',
-    hero_photo_id: 2356059,
-    tagline: 'Machu Picchu, la Amazonía, el ceviche más famoso del mundo y mucho más'
+    slug: 'interrail',
+    name: 'Interrail Europa',
+    subtitle: '30+ países en tren',
+    tag: '🚂 Europa',
+    photo_id: 1134166,
+    color: '#6B21A8'
   }
 ];
 
-// ── API ────────────────────────────────────────────────────────────────────────
-const API_BASE = 'https://eze.saypeter.com';
-let allDestinations = [];
-let filters = { continente: '', clima: '', estilo: '', presupuesto: '' };
-let searchQuery = '';
+const FALLBACK_DESTINATIONS = [
+  { slug:'bali', name:'Bali', country:'Indonesia', continent:'Asia', vibes:['espiritual','naturaleza','surf'], travel_styles:['Bienestar','Naturaleza','Playa'], budget:'Budget-Mid', budget_min:30, budget_max:60, hero_photo_id:1802268, tagline:'Arrozales, templos, surf y atardeceres que lo cambian todo' },
+  { slug:'japon', name:'Japón', country:'Japón', continent:'Asia', vibes:['tradición','tecnología','gastronomía'], travel_styles:['Cultura','Gastronomía','Ciudad'], budget:'Mid', budget_min:80, budget_max:150, hero_photo_id:2070485, tagline:'Donde la antigüedad y el futuro conviven sin rozarse' },
+  { slug:'vietnam', name:'Vietnam', country:'Vietnam', continent:'Asia', vibes:['historia','gastronomía','paisajes'], travel_styles:['Mochilero','Gastronomía','Cultura'], budget:'Budget', budget_min:20, budget_max:45, hero_photo_id:2337491, tagline:'Bahías de ensueño, callejones con historia y comida que no se olvida' },
+  { slug:'tailandia', name:'Tailandia', country:'Tailandia', continent:'Asia', vibes:['templos','playas','street food'], travel_styles:['Mochilero','Playa','Gastronomía'], budget:'Budget', budget_min:25, budget_max:55, hero_photo_id:1007657, tagline:'El país de las sonrisas: playas perfectas, templos dorados y sabores que enganchan' },
+  { slug:'nepal', name:'Nepal', country:'Nepal', continent:'Asia', vibes:['trekking','himalaya','espiritualidad'], travel_styles:['Aventura','Naturaleza','Cultura'], budget:'Budget', budget_min:20, budget_max:40, hero_photo_id:933054, tagline:'Las montañas más altas del mundo y una cultura que te deja sin palabras' },
+  { slug:'srilanka', name:'Sri Lanka', country:'Sri Lanka', continent:'Asia', vibes:['cultura','surf','naturaleza'], travel_styles:['Cultura','Playa','Naturaleza'], budget:'Budget-Mid', budget_min:30, budget_max:60, hero_photo_id:2474661, tagline:'La isla que tiene todo: playas, jungla, ruinas y té de montaña' },
+  { slug:'islandia', name:'Islandia', country:'Islandia', continent:'Europa', vibes:['auroras','paisajes','volcanes'], travel_styles:['Aventura','Naturaleza'], budget:'Mid-High', budget_min:120, budget_max:220, hero_photo_id:1933239, tagline:'Auroras boreales, géisers y paisajes de otro planeta' },
+  { slug:'portugal', name:'Portugal', country:'Portugal', continent:'Europa', vibes:['fado','historia','gastronomía'], travel_styles:['Cultura','Gastronomía','Ciudad'], budget:'Budget-Mid', budget_min:50, budget_max:90, hero_photo_id:2549018, tagline:'Lisboa, olas del Algarve y el mejor vino que nadie te ha contado' },
+  { slug:'grecia', name:'Grecia', country:'Grecia', continent:'Europa', vibes:['islas','historia','gastronomía'], travel_styles:['Playa','Cultura','Gastronomía'], budget:'Mid', budget_min:70, budget_max:130, hero_photo_id:1285625, tagline:'Cúpulas azules, mares cristalinos y la cuna de la civilización occidental' },
+  { slug:'italia', name:'Italia', country:'Italia', continent:'Europa', vibes:['arte','gastronomía','historia'], travel_styles:['Cultura','Gastronomía','Ciudad'], budget:'Mid', budget_min:80, budget_max:140, hero_photo_id:2245642, tagline:'Arte, pasta, espresso y ciudades que son en sí mismas una obra de arte' },
+  { slug:'noruega', name:'Noruega', country:'Noruega', continent:'Europa', vibes:['fiordos','auroras','naturaleza'], travel_styles:['Naturaleza','Aventura'], budget:'Mid-High', budget_min:130, budget_max:230, hero_photo_id:1891550, tagline:'Fiordos interminables, aldeas de cuento y auroras que paralizan' },
+  { slug:'croacia', name:'Croacia', country:'Croacia', continent:'Europa', vibes:['adriático','islas','historia'], travel_styles:['Playa','Cultura','Ciudad'], budget:'Mid', budget_min:65, budget_max:120, hero_photo_id:1380806, tagline:'El Adriático más limpio de Europa, ciudades amuralladas y silencio en las islas' },
+  { slug:'escocia', name:'Escocia', country:'Reino Unido', continent:'Europa', vibes:['castillos','naturaleza','whisky'], travel_styles:['Naturaleza','Cultura','Aventura'], budget:'Mid', budget_min:75, budget_max:140, hero_photo_id:1559699, tagline:'Highlands salvajes, castillos con historia y whisky con niebla incluida' },
+  { slug:'marruecos', name:'Marruecos', country:'Marruecos', continent:'África', vibes:['desierto','medinas','cultura'], travel_styles:['Cultura','Aventura','Mochilero'], budget:'Budget', budget_min:25, budget_max:55, hero_photo_id:3889843, tagline:'Medinas laberínticas, desierto al amanecer y especias que lo impregnan todo' },
+  { slug:'peru', name:'Perú', country:'Perú', continent:'América', vibes:['machu picchu','gastronomía','historia'], travel_styles:['Cultura','Aventura','Gastronomía'], budget:'Budget-Mid', budget_min:35, budget_max:70, hero_photo_id:2356059, tagline:'Machu Picchu, la Amazonía, el ceviche más famoso del mundo y mucho más' },
+  { slug:'colombia', name:'Colombia', country:'Colombia', continent:'América', vibes:['salsa','café','naturaleza'], travel_styles:['Cultura','Naturaleza','Ciudad'], budget:'Budget', budget_min:25, budget_max:55, hero_photo_id:3155666, tagline:'El país que te da la bienvenida con alegría, café de altura y biodiversidad sin límite' },
+  { slug:'nueva-zelanda', name:'Nueva Zelanda', country:'Nueva Zelanda', continent:'Oceanía', vibes:['aventura','paisajes','maori'], travel_styles:['Aventura','Naturaleza'], budget:'Mid-High', budget_min:100, budget_max:180, hero_photo_id:1485925, tagline:'El paraíso de los aventureros: fiordos, glaciares y la cultura maorí' }
+];
 
-async function loadDestinations() {
+// ── State ─────────────────────────────────────────────────────────────────────
+let allDestinations = [];
+let activeContinent = '';
+let activeStyle = '';
+let searchQuery = '';
+let loading = true;
+
+// ── API ───────────────────────────────────────────────────────────────────────
+async function loadGuides(continent = '', style = '', query = '') {
   try {
-    const res = await fetch(`${API_BASE}/api/destinations?limit=50`);
+    const params = new URLSearchParams({ limit: 50 });
+    if (continent) params.append('continent', continent);
+    if (style) params.append('style', style);
+    const res = await fetch(`${API_BASE}/api/destinations?${params}`);
     const data = await res.json();
-    if (data.ok && data.destinations && data.destinations.length > 0) {
-      allDestinations = data.destinations.map(normalizeAPIDestination);
-    } else {
-      throw new Error('empty');
-    }
+    let results = data.destinations || [];
+    if (!results.length) throw new Error('empty');
+    allDestinations = results.map(normalizeDestination);
   } catch(e) {
     allDestinations = FALLBACK_DESTINATIONS;
   }
-  renderFeatured();
+  loading = false;
   renderGrid();
 }
 
-function normalizeAPIDestination(d) {
+function normalizeDestination(d) {
   return {
     slug: d.slug || '',
     name: d.name || '',
     country: d.country || '',
     continent: d.continent || '',
-    climate: d.climate || d.climates || [],
     vibes: d.vibes || [],
     travel_styles: d.travel_styles || d.styles || [],
     budget: d.budget || d.budget_level || 'Mid',
+    budget_min: d.budget_min || d.budget_from || null,
+    budget_max: d.budget_max || d.budget_to || null,
     hero_photo_id: d.hero_photo_id || d.photo_id || null,
     hero_photo_url: d.hero_photo_url || null,
     tagline: d.tagline || ''
   };
 }
 
+// ── Helpers ───────────────────────────────────────────────────────────────────
 function photoUrl(d) {
   if (d.hero_photo_url) return d.hero_photo_url;
   if (d.hero_photo_id) {
     const id = d.hero_photo_id;
-    return `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&h=400&w=600`;
+    return `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=600&h=350&fit=crop`;
   }
-  return `https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&h=400&w=600`;
+  return `https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=600&h=350&fit=crop`;
 }
 
-function climateBudgetEmoji(budget) {
-  const map = { Budget: '💸', 'Budget-Mid': '💸', Mid: '💳', 'Mid-High': '💳', Luxury: '💎' };
-  return map[budget] || '💳';
+function rutaPhotoUrl(photo_id) {
+  return `https://images.pexels.com/photos/${photo_id}/pexels-photo-${photo_id}.jpeg?auto=compress&cs=tinysrgb&w=600&h=350&fit=crop`;
 }
 
-function climateEmoji(c) {
-  const map = { Cálido: '🌡️', Templado: '🌤️', Frío: '❄️', Tropical: '🌴', Árido: '☀️' };
-  return map[c] || '🌡️';
+function budgetLabel(d) {
+  if (d.budget_min && d.budget_max) {
+    return `💰 €${d.budget_min}–€${d.budget_max}/día`;
+  }
+  const map = {
+    'Budget': '💰 €20–€50/día',
+    'Budget-Mid': '💰 €40–€80/día',
+    'Mid': '💰 €70–€130/día',
+    'Mid-High': '💰 €120–€220/día',
+    'Luxury': '💰 €200+/día'
+  };
+  return map[d.budget] || '💰 —';
 }
 
-// ── Featured card ──────────────────────────────────────────────────────────────
-function renderFeatured() {
-  if (!allDestinations.length) return;
-  const dayIdx = Math.floor(Date.now() / 86400000) % allDestinations.length;
-  const d = allDestinations[dayIdx];
-
-  document.getElementById('featured-card').href = `destino.html?slug=${d.slug}`;
-  document.getElementById('featured-cta').href = `destino.html?slug=${d.slug}`;
-  document.getElementById('featured-photo').style.backgroundImage = `url('${photoUrl(d)}')`;
-  document.getElementById('featured-continent').textContent = d.continent;
-  document.getElementById('featured-country').textContent = d.country;
-  document.getElementById('featured-name').textContent = d.name;
-  document.getElementById('featured-tagline').textContent = d.tagline;
-
-  const meta = document.getElementById('featured-meta');
-  meta.innerHTML = '';
-  if (d.climate && d.climate[0]) {
-    meta.innerHTML += `<span class="meta-chip">${climateEmoji(d.climate[0])} ${d.climate[0]}</span>`;
-  }
-  if (d.budget) {
-    meta.innerHTML += `<span class="meta-chip">${climateBudgetEmoji(d.budget)} ${d.budget}</span>`;
-  }
-  if (d.travel_styles && d.travel_styles[0]) {
-    meta.innerHTML += `<span class="meta-chip">${d.travel_styles[0]}</span>`;
-  }
+// ── Rutas épicas ──────────────────────────────────────────────────────────────
+function renderRutas() {
+  const container = document.getElementById('rutas-scroll');
+  container.innerHTML = RUTAS_DATA.map(r => `
+    <a href="destino.html?slug=${r.slug}" class="ruta-card">
+      <div class="ruta-card-img" style="background-image:url('${rutaPhotoUrl(r.photo_id)}'); background-size:cover; background-position:center; position:absolute; inset:0;"></div>
+      <div class="ruta-card-overlay"></div>
+      <div class="ruta-card-body">
+        <span class="ruta-card-tag">${r.tag}</span>
+        <span class="ruta-card-name">${r.name}</span>
+        <span class="ruta-card-sub">${r.subtitle}</span>
+      </div>
+    </a>
+  `).join('');
 }
 
-// ── Grid rendering ─────────────────────────────────────────────────────────────
+// ── Grid ──────────────────────────────────────────────────────────────────────
 function filteredDestinations() {
   const q = searchQuery.toLowerCase().trim();
   return allDestinations.filter(d => {
-    // Search
     if (q) {
       const haystack = [d.name, d.country, d.continent, d.tagline, ...(d.vibes||[]), ...(d.travel_styles||[])].join(' ').toLowerCase();
       if (!haystack.includes(q)) return false;
     }
-    // Filters
-    if (filters.continente && d.continent !== filters.continente) return false;
-    if (filters.clima && !(d.climate||[]).includes(filters.clima)) return false;
-    if (filters.estilo && !(d.travel_styles||[]).includes(filters.estilo)) return false;
-    if (filters.presupuesto && d.budget !== filters.presupuesto) return false;
+    if (activeContinent && activeContinent !== 'Rutas') {
+      if (d.continent !== activeContinent) return false;
+    }
+    if (activeStyle) {
+      if (!(d.travel_styles||[]).includes(activeStyle)) return false;
+    }
     return true;
   });
 }
@@ -842,15 +719,23 @@ function filteredDestinations() {
 function renderGrid() {
   const grid = document.getElementById('cards-grid');
   const results = filteredDestinations();
-  const count = document.getElementById('count-label');
-  count.textContent = `${results.length} destino${results.length !== 1 ? 's' : ''}`;
+  const countEl = document.getElementById('count-label');
+  countEl.textContent = `${results.length} destino${results.length !== 1 ? 's' : ''}`;
+
+  // Hide/show rutas section
+  const rutasSection = document.getElementById('rutas-section');
+  if (activeContinent === 'Rutas' || activeStyle || searchQuery.trim()) {
+    rutasSection.style.display = 'none';
+  } else {
+    rutasSection.style.display = '';
+  }
 
   if (!results.length) {
     grid.innerHTML = `
       <div class="empty-state">
-        <div class="empty-icon">🗺️</div>
-        <div class="empty-title">Ningún destino encontrado</div>
-        <p class="empty-desc">Prueba a cambiar los filtros o el término de búsqueda</p>
+        <div class="empty-icon">🌍</div>
+        <div class="empty-title">No encontramos guías para esa búsqueda</div>
+        <p class="empty-desc">Pronto añadiremos más destinos! 🌍<br>Prueba a cambiar los filtros o el término de búsqueda.</p>
       </div>`;
     return;
   }
@@ -859,109 +744,84 @@ function renderGrid() {
     <a href="destino.html?slug=${d.slug}" class="dest-card">
       <div class="card-photo" style="background-image:url('${photoUrl(d)}')">
         <div class="card-photo-overlay"></div>
-        <span class="card-continent">${d.continent}</span>
+        <span class="card-continent-badge">${d.continent}</span>
       </div>
       <div class="card-body">
-        <h3>${d.name}</h3>
+        <div class="card-name">${d.name}</div>
+        <div class="card-country">${d.country}</div>
         <p class="card-tagline">${d.tagline}</p>
-        <div class="card-meta">
-          ${(d.climate||[]).slice(0,1).map(c => `<span>${climateEmoji(c)} ${c}</span>`).join('')}
-          ${d.budget ? `<span>${climateBudgetEmoji(d.budget)} ${d.budget}</span>` : ''}
+        <div class="card-vibes">
+          ${(d.vibes||[]).slice(0,3).map(v => `<span class="vibe-pill">${v}</span>`).join('')}
+        </div>
+        <div class="card-footer">
+          <span class="card-budget">${budgetLabel(d)}</span>
+          <span class="card-cta">Leer guía →</span>
         </div>
       </div>
     </a>
   `).join('');
 }
 
-// ── Filter logic ───────────────────────────────────────────────────────────────
+// ── Filter logic ──────────────────────────────────────────────────────────────
 function anyFilterActive() {
-  return Object.values(filters).some(v => v !== '') || searchQuery.trim() !== '';
+  return activeContinent !== '' || activeStyle !== '' || searchQuery.trim() !== '';
 }
 
 function updateClearBtn() {
-  const btn = document.getElementById('btn-clear');
-  btn.classList.toggle('visible', anyFilterActive());
+  document.getElementById('btn-clear').classList.toggle('visible', anyFilterActive());
 }
 
 function clearFilters() {
-  filters = { continente: '', clima: '', estilo: '', presupuesto: '' };
+  activeContinent = '';
+  activeStyle = '';
   searchQuery = '';
   document.getElementById('search-input').value = '';
 
-  // Reset all pills
-  ['continente','clima','estilo','presupuesto'].forEach(f => {
-    const pill = document.getElementById(`pill-${f}`);
-    pill.classList.remove('active');
-    // Reset dropdown: first option selected
-    const dd = document.getElementById(`dd-${f}`);
-    dd.querySelectorAll('.filter-option').forEach((opt, i) => {
-      opt.classList.toggle('selected', i === 0);
-      if (i === 0) {
-        const existing = opt.querySelector('.check');
-        if (!existing) opt.innerHTML += ' <span class="check">✓</span>';
-      } else {
-        const check = opt.querySelector('.check');
-        if (check) check.remove();
-      }
-    });
+  document.querySelectorAll('[data-filter="continent"]').forEach(p => {
+    p.classList.toggle('active', p.dataset.value === '');
+  });
+  document.querySelectorAll('[data-filter="style"]').forEach(p => {
+    p.classList.toggle('active', p.dataset.value === '');
+    p.classList.remove('style-active');
   });
 
   updateClearBtn();
   renderGrid();
 }
 
-// Dropdown logic
-document.querySelectorAll('[id^="pill-"]').forEach(pill => {
-  const key = pill.id.replace('pill-', '');
-  const dd = document.getElementById(`dd-${key}`);
-
-  pill.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = dd.classList.contains('open');
-    // Close all
-    document.querySelectorAll('.filter-dropdown').forEach(d => d.classList.remove('open'));
-    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('open'));
-    if (!isOpen) {
-      dd.classList.add('open');
-      pill.classList.add('open');
-    }
-  });
-});
-
-document.querySelectorAll('.filter-option').forEach(opt => {
-  opt.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const filterKey = opt.dataset.filter;
-    const value = opt.dataset.value;
-    const dd = document.getElementById(`dd-${filterKey}`);
-    const pill = document.getElementById(`pill-${filterKey}`);
-
-    // Update selection UI
-    dd.querySelectorAll('.filter-option').forEach(o => {
-      o.classList.remove('selected');
-      const check = o.querySelector('.check');
-      if (check) check.remove();
-    });
-    opt.classList.add('selected');
-    if (!opt.querySelector('.check')) opt.innerHTML += ' <span class="check">✓</span>';
-
-    // Update filter
-    filters[filterKey] = value;
-    pill.classList.toggle('active', value !== '');
-
-    // Close dropdown
-    dd.classList.remove('open');
-    pill.classList.remove('open');
-
+// Pill click handlers
+document.querySelectorAll('[data-filter="continent"]').forEach(pill => {
+  pill.addEventListener('click', () => {
+    activeContinent = pill.dataset.value;
+    document.querySelectorAll('[data-filter="continent"]').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
     updateClearBtn();
     renderGrid();
   });
 });
 
-// Close dropdowns on outside click
-document.addEventListener('click', () => {
-  document.querySelectorAll('.filter-dropdown').forEach(d => d.classList.remove('open'));
-  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('open'));
+document.querySelectorAll('[data-filter="style"]').forEach(pill => {
+  pill.addEventListener('click', () => {
+    const val = pill.dataset.value;
+    if (activeStyle === val) {
+      activeStyle = '';
+      pill.classList.remove('style-active');
+      document.querySelector('[data-filter="style"][data-value=""]').classList.add('active');
+    } else {
+      activeStyle = val;
+      document.querySelectorAll('[data-filter="style"]').forEach(p => {
+        p.classList.remove('active', 'style-active');
+      });
+      if (val === '') {
+        pill.classList.add('active');
+      } else {
+        pill.classList.add('style-active');
+        document.querySelector('[data-filter="style"][data-value=""]').classList.remove('active');
+      }
+    }
+    updateClearBtn();
+    renderGrid();
+  });
 });
 
 // Search
@@ -983,22 +843,24 @@ function goSurprise(e) {
   window.location.href = `destino.html?slug=${d.slug}`;
 }
 
-// ── Auth nav ───────────────────────────────────────────────────────────────────
+// ── Auth nav ──────────────────────────────────────────────────────────────────
 (function initNav() {
   try {
-    const token = localStorage.getItem('token') || localStorage.getItem('token');
-    const user = localStorage.getItem('viajeramente_user') || localStorage.getItem('user');
-    if (token && user) {
-      const u = JSON.parse(user);
-      const initials = ((u.name || u.email || '?').split(' ').map(n => n[0]).join('').slice(0,2)).toUpperCase();
+    const token = localStorage.getItem('token');
+    const userRaw = localStorage.getItem('viajeramente_user') || localStorage.getItem('user');
+    if (token && userRaw) {
+      const u = JSON.parse(userRaw);
+      const initials = ((u.name || u.email || '?').trim().split(' ').map(n => n[0]).join('').slice(0,2)).toUpperCase();
       document.getElementById('nav-initials').textContent = initials;
       document.getElementById('nav-user').style.display = 'flex';
+      document.getElementById('nav-guest').style.display = 'none';
     }
   } catch(e) {}
 })();
 
-// ── Init ───────────────────────────────────────────────────────────────────────
-loadDestinations();
+// ── Init ──────────────────────────────────────────────────────────────────────
+renderRutas();
+loadGuides();
 </script>
 </body>
 </html>

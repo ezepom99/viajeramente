@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ya tengo fechas — ViajeraMente</title>
-  <meta name="description" content="Tienes fechas de viaje pero no destino. Dinos cuándo viajas y te decimos dónde deberías ir, con datos reales de clima, aglomeraciones y eventos especiales.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Ya tengo fechas — ¿a dónde voy? | ViajeraMente</title>
+  <meta name="description" content="Tienes fechas de viaje pero no destino. Elige el mes, el clima y tu estilo viajero — te recomendamos los mejores destinos con datos reales de tiempo, eventos y precio.">
+
+  <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -15,724 +14,594 @@
     gtag('js', new Date());
     gtag('config', 'G-T1HJ3PJWYN');
   </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #FFFFFF;
-      --bg-soft: #F7F8FA;
-      --bg-card: #FFFFFF;
-      --bg-input: #F3F4F6;
-      --text: #111827;
-      --text-2: #6B7280;
-      --text-3: #9CA3AF;
-      --border: #E5E7EB;
-      --border-focus: #374151;
-      --accent: #0891B2;
-      --accent-light: #E0F7FE;
-      --accent-hover: #D14E20;
-      --teal: #0D9488;
-      --teal-light: #F0FDFA;
-      --teal-text: #0F766E;
-      --gold: #F59E0B;
-      --gold-light: #FFFBEB;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
-      --shadow-md: 0 4px 16px rgba(0,0,0,.08);
-      --shadow-card: 0 4px 24px rgba(0,0,0,.06);
-      --shadow-lg: 0 8px 32px rgba(0,0,0,.10);
+      --accent:      #0EA5E9;
+      --accent-dark: #0284C7;
+      --accent-glow: rgba(14,165,233,.15);
+      --accent-light:#E0F2FE;
+      --green:       #10B981;
+      --green-light: #D1FAE5;
+      --green-dark:  #059669;
+      --gold:        #F59E0B;
+      --gold-light:  #FEF3C7;
+      --red-light:   #FEE2E2;
+      --red:         #EF4444;
+      --bg:          #FFFFFF;
+      --bg-soft:     #F8FAFC;
+      --bg-card:     #FFFFFF;
+      --text:        #0F172A;
+      --text-2:      #475569;
+      --text-3:      #94A3B8;
+      --border:      #E2E8F0;
+      --border-2:    #CBD5E1;
+      --shadow-sm:   0 1px 3px rgba(0,0,0,.06);
+      --shadow-md:   0 4px 16px rgba(0,0,0,.08);
+      --shadow-card: 0 2px 12px rgba(0,0,0,.07);
+      --shadow-lg:   0 8px 30px rgba(0,0,0,.12);
+      --r-sm: 10px;
+      --r-md: 14px;
+      --r-lg: 20px;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--text);
       background: var(--bg-soft);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
       min-height: 100vh;
-      font-size: 15px;
     }
 
-    h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; }
+    h1,h2,h3,h4,h5 { font-family: 'Space Grotesk', sans-serif; }
 
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes fadeIn {
-      from { opacity: 0; } to { opacity: 1; }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideDown {
       from { opacity: 0; transform: translateY(-8px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes shimmer {
       0%   { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+      100% { background-position:  200% 0; }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(.95); }
+      to   { opacity: 1; transform: scale(1); }
     }
 
     /* ── Nav ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 0 24px; height: 56px;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 60px;
       display: flex; align-items: center; justify-content: space-between;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      padding: 0 28px;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       animation: slideDown .4s ease;
     }
     .nav-logo {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.15rem; font-weight: 700;
-      color: var(--text); text-decoration: none; letter-spacing: -.02em;
-      display: flex; align-items: center; gap: 6px;
-      transition: opacity 0.2s;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--text); text-decoration: none;
+      letter-spacing: -.025em;
+      display: flex; align-items: center; gap: 7px;
     }
-    .nav-logo:hover { opacity: 0.75; }
     .nav-logo-dot {
       width: 8px; height: 8px;
       background: var(--accent); border-radius: 50%;
-      flex-shrink: 0;
     }
-    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-logo:hover { opacity: .8; }
+    .nav-right { display: flex; align-items: center; gap: 18px; }
     .nav-link {
-      font-size: .85rem; font-weight: 500;
+      font-size: .84rem; font-weight: 500;
       color: var(--text-2); text-decoration: none;
-      transition: color 0.2s;
+      transition: color .2s;
     }
-    .nav-link:hover { color: var(--text); }
-    .nav-link.active { color: var(--accent); }
+    .nav-link:hover, .nav-link.active { color: var(--accent); }
     .nav-btn {
       font-size: .82rem; font-weight: 600;
       color: var(--text); background: var(--bg-soft);
-      border: 1px solid var(--border); border-radius: 20px;
-      padding: 6px 14px; text-decoration: none;
-      transition: all 0.2s;
+      border: 1.5px solid var(--border); border-radius: 20px;
+      padding: 7px 16px; text-decoration: none;
+      transition: all .2s;
     }
-    .nav-btn:hover { border-color: var(--text-2); }
+    .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-btn.primary {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+    }
+    .nav-btn.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
 
-    /* ── Main layout ── */
+    /* ── Page shell ── */
     .page-wrap {
-      max-width: 900px;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 80px 20px 60px;
+      padding: 80px 20px 80px;
     }
 
-    /* ── Page header ── */
-    .page-header {
+    /* ── Hero header ── */
+    .hero-header {
       text-align: center;
-      padding: 40px 20px 36px;
-      animation: fadeInUp .5s ease;
+      padding: 40px 0 36px;
+      animation: fadeInUp .45s ease;
     }
-    .header-icon {
-      font-size: 2.8rem;
-      margin-bottom: 14px;
-      display: block;
-      line-height: 1;
-    }
-    .page-header h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: -.03em;
-      color: var(--text);
-      margin-bottom: 10px;
-    }
-    .page-header p {
-      font-size: 1.1rem;
-      color: var(--text-2);
-      max-width: 460px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-
-    /* ── Form card ── */
-    .form-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: var(--shadow-card);
-      overflow: hidden;
-      animation: fadeInUp .5s ease .1s both;
-      margin-bottom: 24px;
-    }
-
-    .form-section {
-      padding: 28px 28px 24px;
-      border-bottom: 1px solid var(--border);
-    }
-    .form-section:last-child { border-bottom: none; }
-
-    .step-label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .hero-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent-light); color: var(--accent-dark);
+      border-radius: 20px; padding: 5px 14px;
+      font-size: .78rem; font-weight: 600;
+      letter-spacing: .01em;
       margin-bottom: 18px;
     }
-    .step-num {
-      width: 24px; height: 24px;
+    .hero-header h1 {
+      font-size: 2.4rem; font-weight: 700;
+      letter-spacing: -.04em; line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    @media (max-width: 520px) { .hero-header h1 { font-size: 1.9rem; } }
+    .hero-header p {
+      font-size: 1.05rem; color: var(--text-2);
+      max-width: 440px; margin: 0 auto; line-height: 1.65;
+    }
+
+    /* ── Section wrapper ── */
+    .section-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-card);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .section-block.animated { animation: fadeInUp .4s ease both; }
+
+    .section-head {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-step {
+      width: 26px; height: 26px; border-radius: 50%;
       background: var(--accent); color: #fff;
-      border-radius: 50%;
       font-size: .72rem; font-weight: 700;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
-    .step-num.done { background: var(--teal); }
-    .step-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem; font-weight: 600;
-      color: var(--text);
+    .section-step.done { background: var(--green); }
+    .section-head h2 {
+      font-size: 1rem; font-weight: 600; color: var(--text);
     }
-    .step-sub {
-      font-size: .8rem;
-      color: var(--text-3);
+    .section-head .step-hint {
+      font-size: .8rem; color: var(--text-3);
       margin-left: auto;
     }
+    .section-body { padding: 22px 24px; }
 
-    /* ── Month pills ── */
+    /* ── Month grid ── */
     .month-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      gap: 8px;
+      gap: 10px;
     }
-    @media (max-width: 520px) {
-      .month-grid { grid-template-columns: repeat(4, 1fr); }
-    }
-    .month-pill {
-      padding: 9px 6px;
+    @media (max-width: 600px) { .month-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; } }
+    @media (max-width: 360px) { .month-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .month-card {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px;
+      padding: 12px 6px;
       background: var(--bg-soft);
       border: 1.5px solid var(--border);
-      border-radius: 10px;
-      font-size: .82rem; font-weight: 500;
-      color: var(--text-2);
+      border-radius: var(--r-md);
       cursor: pointer;
-      text-align: center;
-      transition: all 0.15s;
+      transition: all .15s ease;
       user-select: none;
     }
-    .month-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
-    .month-pill.selected {
-      background: var(--accent); border-color: var(--accent);
-      color: #fff; font-weight: 600;
+    .month-card:hover {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
     }
-    .month-pill .month-abbr { display: block; }
-    .month-pill .month-flag {
-      display: block;
-      font-size: .6rem;
-      margin-top: 2px;
-      opacity: 0.7;
+    .month-card.selected {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 4px 14px rgba(14,165,233,.3);
     }
-    .month-pill.selected .month-flag { opacity: 1; }
+    .month-emoji { font-size: 1.4rem; line-height: 1; }
+    .month-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .76rem; font-weight: 600;
+      color: var(--text-2);
+    }
+    .month-card.selected .month-name { color: #fff; }
+    .month-card:hover .month-name { color: var(--accent-dark); }
+    .month-card.selected:hover .month-name { color: #fff; }
 
-    /* ── Duration pills ── */
-    .duration-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    /* ── Filters bar ── */
+    .filters-bar {
+      display: none;
+      animation: slideDown .3s ease;
     }
-    .dur-pill {
-      padding: 8px 16px;
+    .filters-bar.visible { display: block; }
+
+    .filter-row {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .filter-row:last-child { border-bottom: none; }
+    .filter-label {
+      font-size: .78rem; font-weight: 600;
+      color: var(--text-3); text-transform: uppercase; letter-spacing: .05em;
+      white-space: nowrap; min-width: 60px;
+    }
+    .pills-wrap { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .filter-pill {
+      padding: 7px 15px;
       background: var(--bg-soft);
       border: 1.5px solid var(--border);
       border-radius: 20px;
       font-size: .84rem; font-weight: 500;
       color: var(--text-2);
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all .15s;
       user-select: none;
       white-space: nowrap;
     }
-    .dur-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
-    .dur-pill.selected {
-      background: var(--accent); border-color: var(--accent);
-      color: #fff; font-weight: 600;
-    }
-
-    /* ── Exact dates toggle ── */
-    .exact-toggle {
-      margin-top: 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-    }
-    .exact-toggle input[type="checkbox"] {
-      width: 18px; height: 18px;
-      accent-color: var(--accent);
-      cursor: pointer;
-    }
-    .exact-toggle span {
-      font-size: .85rem;
-      color: var(--text-2);
-      font-weight: 500;
-    }
-    .date-range-row {
-      display: none;
-      gap: 12px;
-      margin-top: 14px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .date-range-row.visible { display: flex; }
-    .date-range-row input[type="date"] {
-      flex: 1; min-width: 140px;
-      padding: 10px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: .9rem;
-      color: var(--text);
-      background: var(--bg-soft);
-      transition: border-color 0.15s;
-      outline: none;
-    }
-    .date-range-row input[type="date"]:focus {
+    .filter-pill:hover {
       border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-light);
     }
-    .date-range-sep {
-      color: var(--text-3);
-      font-size: .85rem;
+    .filter-pill.selected.climate {
+      background: #E0F2FE; border-color: var(--accent); color: #0369A1; font-weight: 600;
     }
-
-    /* ── Criteria pills ── */
-    .criteria-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .filter-pill.selected.budget {
+      background: var(--gold-light); border-color: var(--gold); color: #92400E; font-weight: 600;
     }
-    .crit-pill {
-      padding: 9px 16px;
-      background: var(--bg-soft);
-      border: 1.5px solid var(--border);
-      border-radius: 20px;
-      font-size: .86rem; font-weight: 500;
-      color: var(--text-2);
-      cursor: pointer;
-      transition: all 0.15s;
-      user-select: none;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .crit-pill:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-light); }
-    .crit-pill.selected {
-      background: var(--teal); border-color: var(--teal);
-      color: #fff; font-weight: 600;
+    .filter-pill.selected.style {
+      background: var(--green-light); border-color: var(--green); color: #065F46; font-weight: 600;
     }
 
-    /* ── Season row ── */
-    .season-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .season-card {
-      flex: 1; min-width: 130px;
-      padding: 14px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.15s;
-      user-select: none;
+    /* ── Search CTA ── */
+    .search-cta {
+      padding: 20px 24px;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      border-top: 1px solid var(--border);
       background: var(--bg-soft);
     }
-    .season-card:hover { border-color: var(--text-2); background: var(--bg-card); }
-    .season-card.selected { border-color: var(--teal); background: var(--teal-light); }
-    .season-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 6px;
-    }
-    .season-dot.green { background: #10B981; }
-    .season-dot.yellow { background: var(--gold); }
-    .season-dot.blue { background: #3B82F6; }
-    .season-name {
-      font-size: .88rem; font-weight: 600;
-      color: var(--text);
-      margin-bottom: 2px;
-    }
-    .season-desc {
-      font-size: .78rem;
-      color: var(--text-3);
-      line-height: 1.4;
-    }
-    .season-card.selected .season-name { color: var(--teal-text); }
-    .season-card.selected .season-desc { color: var(--teal); }
-
-    /* ── Budget row ── */
-    .budget-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .budget-card {
-      flex: 1; min-width: 120px;
-      padding: 14px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.15s;
-      user-select: none;
-      background: var(--bg-soft);
-    }
-    .budget-card:hover { border-color: var(--text-2); background: var(--bg-card); }
-    .budget-card.selected { border-color: var(--gold); background: var(--gold-light); }
-    .budget-emoji { font-size: 1.2rem; margin-bottom: 4px; display: block; }
-    .budget-name { font-size: .88rem; font-weight: 600; color: var(--text); margin-bottom: 1px; }
-    .budget-sub { font-size: .76rem; color: var(--text-3); }
-    .budget-card.selected .budget-name { color: #92400E; }
-
-    /* ── CTA ── */
-    .cta-wrap {
-      padding: 24px 28px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .btn-search {
-      flex: 1; min-width: 220px;
-      padding: 16px 28px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 50px;
+    .btn-buscar {
+      flex: 1; min-width: 200px;
+      padding: 14px 28px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 50px;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem; font-weight: 700;
+      font-size: .95rem; font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: -.01em;
+      transition: all .2s;
       display: flex; align-items: center; justify-content: center; gap: 8px;
-      box-shadow: 0 4px 14px rgba(8,145,178,.35);
+      box-shadow: 0 4px 14px rgba(14,165,233,.35);
     }
-    .btn-search:hover:not(:disabled) {
-      background: var(--accent-hover);
-      box-shadow: 0 6px 20px rgba(8,145,178,.45);
+    .btn-buscar:hover:not(:disabled) {
+      background: var(--accent-dark);
       transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(14,165,233,.45);
     }
-    .btn-search:disabled {
-      opacity: 0.5; cursor: not-allowed;
-      transform: none; box-shadow: none;
-    }
-    .search-hint {
-      font-size: .8rem;
-      color: var(--text-3);
-      line-height: 1.5;
-    }
-
-    /* ── Spinner ── */
-    .spinner {
+    .btn-buscar:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-buscar .spinner {
       width: 18px; height: 18px;
-      border: 2.5px solid rgba(255,255,255,.4);
+      border: 2.5px solid rgba(255,255,255,.35);
       border-top-color: #fff;
       border-radius: 50%;
       animation: spin .7s linear infinite;
       display: none;
     }
-    .btn-search.loading .btn-arrow { display: none; }
-    .btn-search.loading .spinner { display: block; }
+    .btn-buscar.loading .btn-text { display: none; }
+    .btn-buscar.loading .spinner { display: block; }
+    .search-hint { font-size: .8rem; color: var(--text-3); line-height: 1.5; }
 
-    /* ── Results layout ── */
-    .results-wrap {
+    /* ── Results section ── */
+    .results-section {
       display: none;
       animation: fadeInUp .5s ease;
     }
-    .results-wrap.visible { display: block; }
+    .results-section.visible { display: block; }
 
-    .results-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 10px;
+    .results-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 22px; flex-wrap: wrap; gap: 10px;
     }
-    .results-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.4rem; font-weight: 700;
-      color: var(--text);
+    .results-topbar h2 {
+      font-size: 1.45rem; font-weight: 700; color: var(--text);
     }
-    .results-meta {
-      font-size: .84rem;
-      color: var(--text-3);
+    .results-topbar .results-sub {
+      font-size: .84rem; color: var(--text-3); margin-top: 2px;
     }
+    .btn-reset {
+      font-size: .82rem; font-weight: 500;
+      color: var(--text-2); background: var(--bg-card);
+      border: 1.5px solid var(--border); border-radius: 20px;
+      padding: 8px 16px; cursor: pointer;
+      transition: all .2s; font-family: inherit;
+    }
+    .btn-reset:hover { border-color: var(--text-2); }
 
-    /* ── Main grid ── */
-    .results-main {
+    /* ── Destination cards grid ── */
+    .dest-grid {
       display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 24px;
-      align-items: start;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
     }
-    @media (max-width: 720px) {
-      .results-main { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 640px) { .dest-grid { grid-template-columns: 1fr; } }
 
-    /* ── Result cards ── */
-    .results-list { display: flex; flex-direction: column; gap: 16px; }
-
-    .result-card {
+    .dest-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: var(--shadow-card);
+      border-radius: var(--r-lg);
       overflow: hidden;
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      transition: box-shadow 0.2s, transform 0.2s;
+      box-shadow: var(--shadow-card);
+      transition: box-shadow .2s, transform .2s;
+      display: flex; flex-direction: column;
+      animation: scaleIn .3s ease both;
     }
-    .result-card:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-2px);
-    }
-    @media (max-width: 580px) {
-      .result-card { grid-template-columns: 1fr; }
-    }
+    .dest-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
 
-    .result-photo {
+    /* nth-child stagger */
+    .dest-card:nth-child(1)  { animation-delay: .05s; }
+    .dest-card:nth-child(2)  { animation-delay: .10s; }
+    .dest-card:nth-child(3)  { animation-delay: .15s; }
+    .dest-card:nth-child(4)  { animation-delay: .20s; }
+    .dest-card:nth-child(5)  { animation-delay: .25s; }
+    .dest-card:nth-child(6)  { animation-delay: .30s; }
+    .dest-card:nth-child(7)  { animation-delay: .35s; }
+    .dest-card:nth-child(8)  { animation-delay: .40s; }
+    .dest-card:nth-child(9)  { animation-delay: .45s; }
+    .dest-card:nth-child(10) { animation-delay: .50s; }
+    .dest-card:nth-child(11) { animation-delay: .55s; }
+    .dest-card:nth-child(12) { animation-delay: .60s; }
+
+    .dest-photo {
       position: relative;
-      background-size: cover; background-position: center;
-      min-height: 200px;
-      background-color: var(--bg-soft);
+      height: 190px;
+      overflow: hidden;
+      background: var(--bg-soft);
     }
-    .result-photo::after {
-      content: '';
+    .dest-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .4s ease;
+    }
+    .dest-card:hover .dest-photo img { transform: scale(1.04); }
+    .dest-photo-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,.05) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.45) 100%);
     }
-    .result-rank {
-      position: absolute; top: 12px; left: 12px; z-index: 2;
-      background: rgba(0,0,0,.6);
-      color: #fff;
-      border-radius: 20px;
-      padding: 4px 10px;
+    .dest-score {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(6px);
+      border-radius: 20px; padding: 4px 11px;
       font-family: 'Space Grotesk', sans-serif;
       font-size: .78rem; font-weight: 700;
-      letter-spacing: .02em;
-      backdrop-filter: blur(4px);
     }
-    .result-rank.gold-rank {
-      background: var(--gold);
-    }
-    .result-score-badge {
-      position: absolute; bottom: 12px; left: 12px; z-index: 2;
-      background: rgba(255,255,255,.92);
-      color: var(--text);
-      border-radius: 20px;
-      padding: 4px 10px;
-      font-size: .74rem; font-weight: 600;
-      backdrop-filter: blur(4px);
-    }
-    .result-score-badge.perfect { color: var(--teal-text); }
-    .result-score-badge.good { color: var(--accent); }
-    .result-score-badge.ok { color: var(--text-2); }
-
-    .result-body {
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .result-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.15rem; font-weight: 700;
-      color: var(--text);
-      margin-bottom: 0;
-    }
-    .result-country {
-      font-size: .82rem;
-      color: var(--text-3);
-      margin-top: -6px;
-    }
-    .result-why {
-      font-size: .85rem;
-      color: var(--text-2);
-      line-height: 1.55;
+    .dest-score.great  { color: var(--green-dark); }
+    .dest-score.good   { color: var(--accent-dark); }
+    .dest-score.ok     { color: var(--text-2); }
+    .dest-country-flag {
+      position: absolute; bottom: 12px; left: 12px;
+      font-size: 1.5rem; line-height: 1;
+      filter: drop-shadow(0 1px 3px rgba(0,0,0,.5));
     }
 
-    /* ── Event badge ── */
-    .event-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 11px;
-      border-radius: 20px;
-      font-size: .78rem; font-weight: 600;
-      width: fit-content;
+    .dest-body {
+      padding: 16px 18px 18px;
+      display: flex; flex-direction: column; gap: 10px;
+      flex: 1;
     }
-    .event-badge.must-see {
-      background: var(--teal-light);
-      color: var(--teal-text);
-      border: 1px solid rgba(13,148,136,.18);
+    .dest-title {
+      display: flex; align-items: baseline; gap: 6px;
     }
-    .event-badge.cultural {
-      background: var(--gold-light);
-      color: #92400E;
-      border: 1px solid rgba(245,158,11,.2);
+    .dest-name {
+      font-size: 1.1rem; font-weight: 700; color: var(--text);
     }
-    .event-badge.avoid {
-      background: #FEF2F2;
-      color: #B91C1C;
-      border: 1px solid rgba(239,68,68,.2);
+    .dest-region {
+      font-size: .8rem; color: var(--text-3); font-weight: 400;
     }
 
-    .result-stats {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+    .dest-weather {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .85rem; color: var(--text-2);
+      line-height: 1.45;
     }
-    .result-stats span {
-      font-size: .8rem;
-      color: var(--text-2);
-      background: var(--bg-soft);
+    .dest-weather .temp-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: 20px; padding: 3px 9px;
+      font-size: .8rem; font-weight: 600; color: var(--text);
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    .dest-metrics {
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    .metric-item {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .metric-label {
+      font-size: .7rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--text-3); font-weight: 600;
+    }
+    .metric-dots {
+      display: flex; gap: 3px; align-items: center;
+    }
+    .metric-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border);
+      transition: background .2s;
+    }
+    .metric-dot.filled-crowd  { background: #F59E0B; }
+    .metric-dot.filled-price  { background: var(--green); }
+
+    .dest-events {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .event-tag {
+      display: inline-flex; align-items: center; gap: 4px;
       padding: 4px 10px;
       border-radius: 20px;
-      border: 1px solid var(--border);
-    }
-
-    .btn-see-guide {
-      display: inline-block;
-      margin-top: auto;
-      padding: 9px 18px;
-      background: var(--text);
-      color: #fff;
-      border-radius: 20px;
-      font-size: .84rem; font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s;
-      width: fit-content;
-    }
-    .btn-see-guide:hover { background: var(--accent); }
-
-    /* ── Events sidebar ── */
-    .events-sidebar {
-      position: sticky;
-      top: 76px;
-    }
-    .sidebar-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: var(--shadow-card);
-      overflow: hidden;
-    }
-    .sidebar-header {
-      padding: 18px 20px 14px;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-soft);
-    }
-    .sidebar-header h3 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: .95rem; font-weight: 700;
-      color: var(--text);
-    }
-    .sidebar-header p {
-      font-size: .78rem;
-      color: var(--text-3);
-      margin-top: 2px;
-    }
-    .events-list { padding: 12px 16px; }
-    .event-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .event-item:last-child { border-bottom: none; }
-    .event-emoji { font-size: 1.2rem; flex-shrink: 0; line-height: 1.3; }
-    .event-info {}
-    .event-name {
-      font-size: .84rem; font-weight: 600;
-      color: var(--text);
+      font-size: .75rem; font-weight: 600;
+      background: var(--gold-light); color: #92400E;
+      border: 1px solid rgba(245,158,11,.25);
       line-height: 1.3;
     }
-    .event-where {
-      font-size: .76rem;
-      color: var(--text-3);
-      margin-top: 1px;
+
+    .dest-footer {
+      margin-top: auto;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .event-type-pill {
+    .btn-ver-guia {
       display: inline-block;
-      font-size: .65rem; font-weight: 700;
-      letter-spacing: .04em; text-transform: uppercase;
-      padding: 2px 7px; border-radius: 20px;
-      margin-top: 3px;
+      padding: 9px 18px;
+      background: var(--text); color: #fff;
+      border-radius: 20px;
+      font-size: .83rem; font-weight: 600;
+      text-decoration: none;
+      transition: all .2s;
     }
-    .event-type-pill.natural { background: var(--teal-light); color: var(--teal-text); }
-    .event-type-pill.cultural { background: var(--gold-light); color: #92400E; }
-    .event-type-pill.wildlife { background: #FEF3C7; color: #92400E; }
-    .event-type-pill.sport { background: var(--accent-light); color: var(--accent); }
-    .event-type-pill.avoid { background: #FEF2F2; color: #B91C1C; }
+    .btn-ver-guia:hover { background: var(--accent); }
 
-    .sidebar-empty {
-      padding: 28px 20px;
-      text-align: center;
-      color: var(--text-3);
-      font-size: .85rem;
-      line-height: 1.5;
-    }
-
-    /* ── No results ── */
-    .no-results {
-      text-align: center;
-      padding: 40px 24px;
-      color: var(--text-2);
-    }
-    .no-results h3 {
-      font-size: 1.1rem; margin-bottom: 8px; color: var(--text);
-    }
-    .no-results p { font-size: .9rem; }
-
-    /* ── Skeleton loading ── */
-    .skeleton-card {
+    /* ── Events highlight bar ── */
+    .events-highlight {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-card);
       overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .events-highlight-head {
+      padding: 16px 22px;
+      background: linear-gradient(135deg, #FFF7ED, #FFFBEB);
+      border-bottom: 1px solid #FDE68A;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .events-highlight-head h3 {
+      font-size: .95rem; font-weight: 700; color: #92400E;
+    }
+    .events-highlight-head span {
+      font-size: .82rem; color: #B45309;
+    }
+    .events-list-inline {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      padding: 16px 22px;
+    }
+    .highlight-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 16px;
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      font-size: .85rem; color: var(--text-2); font-weight: 500;
+      line-height: 1.4;
+      transition: border-color .15s;
+    }
+    .highlight-item:hover { border-color: var(--gold); }
+    .highlight-item .hi-emoji { font-size: 1.3rem; }
+
+    /* ── Skeleton ── */
+    .skeleton-grid {
       display: grid;
-      grid-template-columns: 220px 1fr;
-      min-height: 180px;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
     }
-    .skeleton-photo {
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    @media (max-width: 640px) { .skeleton-grid { grid-template-columns: 1fr; } }
+
+    .skel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+    .skel-photo {
+      height: 190px;
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
       background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
+      animation: shimmer 1.6s infinite;
     }
-    .skeleton-body { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-    .skeleton-line {
-      height: 14px; border-radius: 7px;
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    .skel-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+    .skel-line {
+      height: 13px; border-radius: 6px;
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
       background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
+      animation: shimmer 1.6s infinite;
     }
-    .skeleton-line.w80 { width: 80%; }
-    .skeleton-line.w60 { width: 60%; }
-    .skeleton-line.w40 { width: 40%; }
-    .skeleton-line.h20 { height: 20px; }
+    .skel-line.w-70 { width: 70%; }
+    .skel-line.w-50 { width: 50%; }
+    .skel-line.w-40 { width: 40%; }
+    .skel-line.h-18 { height: 18px; }
+
+    /* ── No results ── */
+    .empty-state {
+      text-align: center;
+      padding: 56px 24px;
+      color: var(--text-2);
+    }
+    .empty-state .empty-icon { font-size: 3rem; display: block; margin-bottom: 16px; }
+    .empty-state h3 { font-size: 1.15rem; margin-bottom: 8px; color: var(--text); }
+    .empty-state p { font-size: .9rem; max-width: 380px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── Error ── */
+    .error-banner {
+      background: var(--red-light);
+      border: 1px solid rgba(239,68,68,.3);
+      border-radius: var(--r-md);
+      padding: 16px 20px;
+      color: #B91C1C;
+      font-size: .88rem;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .error-banner.visible { display: block; }
 
     /* ── Footer ── */
     footer {
       text-align: center;
       padding: 40px 20px;
       border-top: 1px solid var(--border);
-      color: var(--text-3);
-      font-size: .8rem;
-      margin-top: 60px;
+      color: var(--text-3); font-size: .8rem;
+      margin-top: 40px;
     }
     footer a { color: var(--text-2); text-decoration: none; }
-    footer a:hover { color: var(--text); }
+    footer a:hover { color: var(--accent); }
 
-    /* ── Responsive ── */
-    @media (max-width: 600px) {
-      .page-header h1 { font-size: 1.6rem; }
-      .form-section { padding: 20px; }
-      .cta-wrap { padding: 20px; }
-      .result-card { grid-template-columns: 1fr; }
-      .skeleton-card { grid-template-columns: 1fr; }
-      .skeleton-photo { height: 160px; }
+    /* ── Responsive tweaks ── */
+    @media (max-width: 480px) {
+      nav { padding: 0 16px; }
+      .page-wrap { padding: 76px 14px 60px; }
+      .section-body { padding: 18px 16px; }
+      .section-head { padding: 16px 18px 14px; }
+      .filter-row { padding: 14px 16px; }
+      .search-cta { padding: 16px 16px; }
+      .dest-body { padding: 14px 14px 16px; }
     }
   </style>
 </head>
@@ -745,1034 +614,565 @@
       ViajeraMente
     </a>
     <div class="nav-right">
-      <a href="/main.html" class="nav-link">Explorar</a>
-      <a href="/plan.html" class="nav-link active">Planificar</a>
-      <a href="/login.html" class="nav-btn">Entrar</a>
+      <a href="/plan.html" class="nav-link">Planificador</a>
+      <a href="/guias.html" class="nav-link">Guías</a>
+      <span id="nav-auth-slot">
+        <a href="/login.html" class="nav-btn">Entrar</a>
+      </span>
     </div>
   </nav>
 
   <div class="page-wrap">
 
-    <!-- Header -->
-    <div class="page-header">
-      <span class="header-icon">📅</span>
-      <h1>Ya tengo fechas</h1>
-      <p>Dinos cuándo viajas y te decimos dónde deberías ir.</p>
+    <!-- Hero -->
+    <div class="hero-header">
+      <div class="hero-chip">📅 Tengo fechas</div>
+      <h1>Ya tengo fechas<br>¿a dónde voy?</h1>
+      <p>Elige el mes en el que viajas y te decimos qué destinos son perfectos para esa época: clima real, eventos únicos y nivel de masificación.</p>
     </div>
 
-    <!-- Form card -->
-    <div class="form-card" id="form-card">
+    <!-- Step 1 — Month -->
+    <div class="section-block animated" style="animation-delay:.05s">
+      <div class="section-head">
+        <div class="section-step" id="step1-num">1</div>
+        <h2>¿En qué mes viajas?</h2>
+        <span class="step-hint" id="month-hint">Selecciona uno</span>
+      </div>
+      <div class="section-body">
+        <div class="month-grid" id="month-grid"></div>
+      </div>
+    </div>
 
-      <!-- Step 1: Fechas -->
-      <div class="form-section">
-        <div class="step-label">
-          <div class="step-num" id="step1-num">1</div>
-          <span class="step-title">¿En qué mes viajas?</span>
-          <span class="step-sub" id="month-selected-label"></span>
-        </div>
-
-        <div class="month-grid" id="month-grid">
-          <!-- Populated by JS -->
-        </div>
-
-        <div style="margin-top: 20px;">
-          <div class="step-label" style="margin-bottom: 12px;">
-            <span class="step-title" style="font-size:.9rem; font-weight:500; color:var(--text-2);">¿Cuánto tiempo?</span>
-          </div>
-          <div class="duration-row" id="duration-row">
-            <div class="dur-pill" data-val="weekend">Fin de semana <span style="opacity:.6">(2-4 días)</span></div>
-            <div class="dur-pill" data-val="week">Una semana</div>
-            <div class="dur-pill" data-val="twoweeks">Dos semanas</div>
-            <div class="dur-pill" data-val="month">Un mes</div>
-            <div class="dur-pill" data-val="open">Abierto</div>
-          </div>
-        </div>
-
-        <label class="exact-toggle">
-          <input type="checkbox" id="exact-toggle-cb">
-          <span>Tengo fechas exactas</span>
-        </label>
-        <div class="date-range-row" id="date-range-row">
-          <input type="date" id="date-from" placeholder="Desde">
-          <span class="date-range-sep">→</span>
-          <input type="date" id="date-to" placeholder="Hasta">
-        </div>
+    <!-- Step 2 — Filters (hidden until month chosen) -->
+    <div class="section-block animated" style="animation-delay:.12s">
+      <div class="section-head">
+        <div class="section-step" id="step2-num">2</div>
+        <h2>Afina tu búsqueda</h2>
+        <span class="step-hint">Opcional</span>
       </div>
 
-      <!-- Step 2: Qué buscas -->
-      <div class="form-section">
-        <div class="step-label">
-          <div class="step-num" id="step2-num">2</div>
-          <span class="step-title">¿Qué buscas?</span>
-          <span class="step-sub" style="font-size:.78rem; color:var(--text-3);">Selecciona varios</span>
-        </div>
-        <div class="criteria-grid" id="criteria-grid">
-          <div class="crit-pill" data-val="beach"><span>🌞</span> Calor y playa</div>
-          <div class="crit-pill" data-val="mountain"><span>🏔️</span> Montaña y aventura</div>
-          <div class="crit-pill" data-val="city"><span>🌆</span> Ciudad y cultura</div>
-          <div class="crit-pill" data-val="nature"><span>🌿</span> Naturaleza salvaje</div>
-          <div class="crit-pill" data-val="party"><span>💃</span> Fiesta y vida nocturna</div>
-          <div class="crit-pill" data-val="food"><span>🍷</span> Gastronomía</div>
-          <div class="crit-pill" data-val="relax"><span>🧘</span> Tranquilidad</div>
-        </div>
-      </div>
-
-      <!-- Step 3: Temporada -->
-      <div class="form-section">
-        <div class="step-label">
-          <div class="step-num" id="step3-num">3</div>
-          <span class="step-title">Temporada</span>
-        </div>
-        <div class="season-row" id="season-row">
-          <div class="season-card" data-val="high">
-            <div class="season-name"><span class="season-dot green"></span>Mejor época</div>
-            <div class="season-desc">Clima ideal, aunque sea más caro y haya más gente</div>
+      <div class="filters-bar" id="filters-bar">
+        <!-- Clima -->
+        <div class="filter-row">
+          <span class="filter-label">Clima</span>
+          <div class="pills-wrap" id="climate-pills">
+            <div class="filter-pill climate" data-val="warm">☀️ Cálido</div>
+            <div class="filter-pill climate" data-val="mild">🌤️ Templado</div>
+            <div class="filter-pill climate" data-val="cold">❄️ Frío</div>
           </div>
-          <div class="season-card" data-val="mid">
-            <div class="season-name"><span class="season-dot yellow"></span>Temporada media</div>
-            <div class="season-desc">Equilibrio entre buen tiempo, precio y afluencia</div>
+        </div>
+        <!-- Budget -->
+        <div class="filter-row">
+          <span class="filter-label">Budget</span>
+          <div class="pills-wrap" id="budget-pills">
+            <div class="filter-pill budget" data-val="low">🎒 Mochilero</div>
+            <div class="filter-pill budget" data-val="mid">💼 Medio</div>
+            <div class="filter-pill budget" data-val="high">💎 Premium</div>
           </div>
-          <div class="season-card selected" data-val="low">
-            <div class="season-name"><span class="season-dot blue"></span>Temporada baja</div>
-            <div class="season-desc">Más barato, menos gente. Acepto clima variable</div>
+        </div>
+        <!-- Estilo -->
+        <div class="filter-row">
+          <span class="filter-label">Estilo</span>
+          <div class="pills-wrap" id="style-pills">
+            <div class="filter-pill style" data-val="beach">🏖️ Playa</div>
+            <div class="filter-pill style" data-val="nature">🌿 Naturaleza</div>
+            <div class="filter-pill style" data-val="city">🏙️ Ciudad</div>
+            <div class="filter-pill style" data-val="culture">🏛️ Cultura</div>
+            <div class="filter-pill style" data-val="adventure">🧗 Aventura</div>
           </div>
         </div>
       </div>
 
-      <!-- Step 4: Presupuesto -->
-      <div class="form-section">
-        <div class="step-label">
-          <div class="step-num" id="step4-num">4</div>
-          <span class="step-title">Presupuesto diario</span>
-        </div>
-        <div class="budget-row" id="budget-row">
-          <div class="budget-card" data-val="budget">
-            <span class="budget-emoji">💸</span>
-            <div class="budget-name">Económico</div>
-            <div class="budget-sub">Hasta 50€/día</div>
-          </div>
-          <div class="budget-card selected" data-val="mid">
-            <span class="budget-emoji">💰</span>
-            <div class="budget-name">Medio</div>
-            <div class="budget-sub">50-150€/día</div>
-          </div>
-          <div class="budget-card" data-val="luxury">
-            <span class="budget-emoji">💎</span>
-            <div class="budget-name">Sin límite</div>
-            <div class="budget-sub">Lo que haga falta</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CTA -->
-      <div class="cta-wrap">
-        <button class="btn-search" id="btn-search" disabled>
-          <span class="btn-arrow">Ver destinos para estas fechas →</span>
+      <div class="search-cta">
+        <button class="btn-buscar" id="btn-buscar" disabled>
+          <span class="btn-text">Ver destinos →</span>
           <span class="spinner"></span>
         </button>
-        <p class="search-hint">Puntuamos 20 destinos por clima, eventos y precio real de ese mes.</p>
+        <p class="search-hint">Analizamos clima real, aforo y eventos únicos de ese mes.</p>
       </div>
+    </div>
 
-    </div><!-- /form-card -->
+    <!-- Error banner -->
+    <div class="error-banner" id="error-banner">
+      No pudimos cargar los destinos. Comprueba tu conexión e inténtalo de nuevo.
+    </div>
 
     <!-- Results -->
-    <div class="results-wrap" id="results-wrap">
+    <div class="results-section" id="results-section">
 
-      <div class="results-header">
+      <div class="results-topbar">
         <div>
-          <div class="results-title" id="results-title">Mejores destinos</div>
-          <div class="results-meta" id="results-meta"></div>
+          <h2 id="results-title">Destinos recomendados</h2>
+          <p class="results-sub" id="results-sub"></p>
         </div>
-        <button onclick="resetSearch()" style="font-size:.82rem; color:var(--text-2); background:none; border:1px solid var(--border); padding:6px 14px; border-radius:20px; cursor:pointer; font-family:inherit;">
-          ← Cambiar criterios
-        </button>
+        <button class="btn-reset" onclick="resetSearch()">← Cambiar mes</button>
       </div>
 
-      <div class="results-main">
-        <div class="results-list" id="results-list"></div>
-
-        <!-- Events sidebar -->
-        <div class="events-sidebar">
-          <div class="sidebar-card">
-            <div class="sidebar-header">
-              <h3>🗓️ Eventos especiales</h3>
-              <p id="sidebar-month-label">este mes</p>
-            </div>
-            <div id="events-list" class="events-list">
-              <div class="sidebar-empty">Selecciona un mes para ver eventos</div>
-            </div>
-          </div>
+      <!-- Events highlight bar -->
+      <div class="events-highlight" id="events-highlight" style="display:none">
+        <div class="events-highlight-head">
+          <span>✨</span>
+          <h3 id="events-highlight-title">Eventos especiales este mes</h3>
+          <span id="events-highlight-count"></span>
         </div>
+        <div class="events-list-inline" id="events-list-inline"></div>
       </div>
 
-    </div><!-- /results-wrap -->
+      <!-- Skeleton (shown while loading) -->
+      <div class="skeleton-grid" id="skeleton-grid">
+        <div class="skel-card"><div class="skel-photo"></div><div class="skel-body"><div class="skel-line h-18 w-70"></div><div class="skel-line w-50"></div><div class="skel-line w-40"></div></div></div>
+        <div class="skel-card"><div class="skel-photo"></div><div class="skel-body"><div class="skel-line h-18 w-70"></div><div class="skel-line w-50"></div><div class="skel-line w-40"></div></div></div>
+        <div class="skel-card"><div class="skel-photo"></div><div class="skel-body"><div class="skel-line h-18 w-70"></div><div class="skel-line w-50"></div><div class="skel-line w-40"></div></div></div>
+        <div class="skel-card"><div class="skel-photo"></div><div class="skel-body"><div class="skel-line h-18 w-70"></div><div class="skel-line w-50"></div><div class="skel-line w-40"></div></div></div>
+        <div class="skel-card"><div class="skel-photo"></div><div class="skel-body"><div class="skel-line h-18 w-70"></div><div class="skel-line w-50"></div><div class="skel-line w-40"></div></div></div>
+        <div class="skel-card"><div class="skel-photo"></div><div class="skel-body"><div class="skel-line h-18 w-70"></div><div class="skel-line w-50"></div><div class="skel-line w-40"></div></div></div>
+      </div>
+
+      <!-- Actual results -->
+      <div class="dest-grid" id="dest-grid"></div>
+
+    </div>
 
   </div><!-- /page-wrap -->
 
   <footer>
-    <p>© 2025 ViajeraMente &nbsp;·&nbsp; <a href="/">Inicio</a> &nbsp;·&nbsp; <a href="/main.html">Explorar destinos</a> &nbsp;·&nbsp; <a href="/plan.html">Planifica tu viaje</a></p>
+    <p>© 2025 ViajeraMente &nbsp;·&nbsp; <a href="/">Inicio</a> &nbsp;·&nbsp; <a href="/guias.html">Guías</a> &nbsp;·&nbsp; <a href="/plan.html">Planifica tu viaje</a></p>
   </footer>
 
   <script>
-  // ─────────────────────────────────────────────
-  // DATA
-  // ─────────────────────────────────────────────
+  // ──────────────────────────────────────────────────────────────
+  // CONSTANTS
+  // ──────────────────────────────────────────────────────────────
+
+  const API_BASE = 'https://eze.saypeter.com';
 
   const MONTHS = [
-    { n: 1,  abbr: 'Ene', full: 'Enero',      flag: '❄️' },
-    { n: 2,  abbr: 'Feb', full: 'Febrero',     flag: '🌸' },
-    { n: 3,  abbr: 'Mar', full: 'Marzo',       flag: '🌷' },
-    { n: 4,  abbr: 'Abr', full: 'Abril',       flag: '🌿' },
-    { n: 5,  abbr: 'May', full: 'Mayo',        flag: '☀️' },
-    { n: 6,  abbr: 'Jun', full: 'Junio',       flag: '🏖️' },
-    { n: 7,  abbr: 'Jul', full: 'Julio',       flag: '🌊' },
-    { n: 8,  abbr: 'Ago', full: 'Agosto',      flag: '🏄' },
-    { n: 9,  abbr: 'Sep', full: 'Septiembre',  flag: '🍂' },
-    { n: 10, abbr: 'Oct', full: 'Octubre',     flag: '🍁' },
-    { n: 11, abbr: 'Nov', full: 'Noviembre',   flag: '🌧️' },
-    { n: 12, abbr: 'Dic', full: 'Diciembre',   flag: '🎄' },
+    { n:1,  abbr:'Ene', full:'Enero',       emoji:'❄️' },
+    { n:2,  abbr:'Feb', full:'Febrero',      emoji:'💕' },
+    { n:3,  abbr:'Mar', full:'Marzo',        emoji:'🌸' },
+    { n:4,  abbr:'Abr', full:'Abril',        emoji:'🌷' },
+    { n:5,  abbr:'May', full:'Mayo',         emoji:'☀️' },
+    { n:6,  abbr:'Jun', full:'Junio',        emoji:'🌊' },
+    { n:7,  abbr:'Jul', full:'Julio',        emoji:'🏖️' },
+    { n:8,  abbr:'Ago', full:'Agosto',       emoji:'🌅' },
+    { n:9,  abbr:'Sep', full:'Septiembre',   emoji:'🍂' },
+    { n:10, abbr:'Oct', full:'Octubre',      emoji:'🎃' },
+    { n:11, abbr:'Nov', full:'Noviembre',    emoji:'🍁' },
+    { n:12, abbr:'Dic', full:'Diciembre',    emoji:'🎄' },
   ];
 
-  const GLOBAL_EVENTS = [
-    { name: 'Floración del cerezo', slugs: ['japon'], months: [3,4], impact: 3, emoji: '🌸', type: 'natural', where: 'Japón' },
-    { name: 'Auroras boreales', slugs: ['islandia','noruega','escocia'], months: [10,11,12,1,2,3], impact: 3, emoji: '🌌', type: 'natural', where: 'Islandia, Noruega, Escocia' },
-    { name: 'Gran migración Serengueti', slugs: ['tanzania'], months: [7,8,9,10], impact: 3, emoji: '🦁', type: 'wildlife', where: 'Tanzania' },
-    { name: 'Carnaval de Venecia', slugs: ['italia'], months: [2], impact: 2, emoji: '🎭', type: 'cultural', where: 'Italia' },
-    { name: 'Festival Holi', slugs: ['india'], months: [3], impact: 2, emoji: '🎨', type: 'cultural', where: 'India' },
-    { name: 'Temporada surf Arugam Bay', slugs: ['srilanka'], months: [5,6,7,8,9], impact: 2, emoji: '🏄', type: 'sport', where: 'Sri Lanka' },
-    { name: 'Sol de medianoche', slugs: ['islandia','noruega'], months: [6], impact: 2, emoji: '🌅', type: 'natural', where: 'Islandia, Noruega' },
-    { name: 'Ballenas jorobadas', slugs: ['noruega'], months: [11,12,1], impact: 2, emoji: '🐋', type: 'wildlife', where: 'Noruega' },
-    { name: 'Monzón sur (evitar)', slugs: ['tailandia'], months: [5,6,7,8,9,10], impact: -2, emoji: '🌧️', type: 'avoid', where: 'Tailandia sur' },
-    { name: 'Festival de Edimburgo', slugs: ['escocia'], months: [8], impact: 2, emoji: '🎪', type: 'cultural', where: 'Escocia' },
-    { name: 'Inti Raymi (Fiesta del Sol)', slugs: ['peru'], months: [6], impact: 2, emoji: '☀️', type: 'cultural', where: 'Perú' },
-    { name: 'Día de Muertos', slugs: ['mexico'], months: [11], impact: 2, emoji: '💀', type: 'cultural', where: 'México' },
-    { name: 'Temporada ñus en Kenia', slugs: ['tanzania'], months: [6,7], impact: 2, emoji: '🦬', type: 'wildlife', where: 'Tanzania/Kenia' },
-    { name: 'Semana Santa en Andalucía', slugs: ['portugal'], months: [3,4], impact: 1, emoji: '🕍', type: 'cultural', where: 'España (referencia)' },
-    { name: 'Cosecha del té', slugs: ['georgia'], months: [4,5], impact: 1, emoji: '🍃', type: 'natural', where: 'Georgia' },
-    { name: 'Hojas de otoño', slugs: ['japon'], months: [10,11], impact: 2, emoji: '🍁', type: 'natural', where: 'Japón' },
-    { name: 'Nevadas y esquí', slugs: ['nepal'], months: [12,1,2], impact: 1, emoji: '🎿', type: 'sport', where: 'Nepal' },
-    { name: 'Festival Diwali', slugs: ['india'], months: [10,11], impact: 2, emoji: '🪔', type: 'cultural', where: 'India' },
-    { name: 'Carnaval de Río', slugs: ['colombia'], months: [2], impact: 2, emoji: '💃', type: 'cultural', where: 'Colombia/Brasil' },
-    { name: 'Fiesta de la Vendimia', slugs: ['georgia','portugal'], months: [9,10], impact: 1, emoji: '🍇', type: 'cultural', where: 'Georgia, Portugal' },
-    { name: 'Trekking temporada seca', slugs: ['nepal'], months: [3,4,5,10,11], impact: 2, emoji: '🧗', type: 'sport', where: 'Nepal' },
-    { name: 'Temporada ballenas azules', slugs: ['srilanka'], months: [1,2,3,4], impact: 2, emoji: '🐳', type: 'wildlife', where: 'Sri Lanka' },
-  ];
-
-  // photo IDs from Pexels (landscape travel photos)
-  const DESTINATIONS = [
-    {
-      slug: 'japon', name: 'Japón', country: 'Japón', emoji: '🗾',
-      continent: 'Asia', climate: ['mild'],
-      vibes: ['city','food','culture','nature','relax'],
-      budget_range: ['mid','luxury'],
-      photo_url: 'https://images.pexels.com/photos/2070485/pexels-photo-2070485.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Tokio · Kioto · Osaka',
-      tagline: 'Templos zen, trenes bala y cerezos en flor',
-      budget_daily: '70–120€',
-      months: [
-        { month:1,  temp:5,  crowd:2, price:3, overall:6, note:'Frío, tranquilo, barato' },
-        { month:2,  temp:6,  crowd:2, price:3, overall:6, note:'Ciruela en flor' },
-        { month:3,  temp:10, crowd:4, price:4, overall:8, note:'Inicio sakura en el sur' },
-        { month:4,  temp:15, crowd:5, price:5, overall:9, note:'Sakura plena temporada' },
-        { month:5,  temp:20, crowd:3, price:3, overall:8, note:'Verde, fresco, ideal' },
-        { month:6,  temp:24, crowd:2, price:2, overall:6, note:'Temporada lluvias (tsuyu)' },
-        { month:7,  temp:28, crowd:3, price:3, overall:6, note:'Calor húmedo, festivales' },
-        { month:8,  temp:29, crowd:4, price:4, overall:6, note:'Obon, calor extremo' },
-        { month:9,  temp:24, crowd:2, price:2, overall:7, note:'Tifones posibles' },
-        { month:10, temp:18, crowd:4, price:4, overall:9, note:'Momiji (hojas rojas), perfecto' },
-        { month:11, temp:12, crowd:3, price:3, overall:8, note:'Otoño profundo' },
-        { month:12, temp:7,  crowd:2, price:3, overall:7, note:'Navidad tranquila, nieve al norte' },
-      ]
-    },
-    {
-      slug: 'bali', name: 'Bali', country: 'Indonesia', emoji: '🌴',
-      continent: 'Asia', climate: ['tropical'],
-      vibes: ['beach','nature','relax','food'],
-      budget_range: ['budget','mid'],
-      photo_url: 'https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Ubud · Seminyak · Uluwatu',
-      tagline: 'Arrozales infinitos, templos y olas perfectas',
-      budget_daily: '30–80€',
-      months: [
-        { month:1,  temp:28, crowd:3, price:3, overall:6, note:'Lluvia frecuente' },
-        { month:2,  temp:28, crowd:2, price:2, overall:6, note:'Estación húmeda' },
-        { month:3,  temp:28, crowd:2, price:2, overall:7, note:'Mejora el tiempo' },
-        { month:4,  temp:28, crowd:3, price:3, overall:8, note:'Inicio temporada seca' },
-        { month:5,  temp:27, crowd:3, price:3, overall:8, note:'Fresco y seco' },
-        { month:6,  temp:26, crowd:4, price:4, overall:9, note:'Mejor clima del año' },
-        { month:7,  temp:26, crowd:5, price:5, overall:9, note:'Temporada alta, sol garantizado' },
-        { month:8,  temp:26, crowd:5, price:5, overall:9, note:'Perfecto, lleno de europeos' },
-        { month:9,  temp:27, crowd:4, price:4, overall:8, note:'Sigue siendo excelente' },
-        { month:10, temp:28, crowd:3, price:3, overall:7, note:'Inicio lluvias ocasionales' },
-        { month:11, temp:28, crowd:2, price:2, overall:6, note:'Lluvias moderadas' },
-        { month:12, temp:28, crowd:3, price:4, overall:6, note:'Navidad = masificado y caro' },
-      ]
-    },
-    {
-      slug: 'islandia', name: 'Islandia', country: 'Islandia', emoji: '🌋',
-      continent: 'Europa', climate: ['cold'],
-      vibes: ['nature','mountain','relax'],
-      budget_range: ['mid','luxury'],
-      photo_url: 'https://images.pexels.com/photos/1933239/pexels-photo-1933239.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Reikiavik · Anillo Dorado · Westfjords',
-      tagline: 'Auroras, géiseres y paisajes de otro mundo',
-      budget_daily: '100–180€',
-      months: [
-        { month:1,  temp:-1, crowd:1, price:2, overall:7, note:'Auroras, nieve, misterio invernal' },
-        { month:2,  temp:-1, crowd:1, price:2, overall:7, note:'Noches largas, auroras frecuentes' },
-        { month:3,  temp:1,  crowd:2, price:3, overall:8, note:'Últimas auroras + días más largos' },
-        { month:4,  temp:4,  crowd:3, price:3, overall:7, note:'Tiempo cambiante, menos frío' },
-        { month:5,  temp:8,  crowd:3, price:4, overall:8, note:'Naturaleza despertando' },
-        { month:6,  temp:12, crowd:4, price:5, overall:9, note:'Sol de medianoche, luz mágica' },
-        { month:7,  temp:13, crowd:5, price:5, overall:9, note:'Temporada alta, precio máximo' },
-        { month:8,  temp:13, crowd:5, price:5, overall:8, note:'Lleno, aún muy luminoso' },
-        { month:9,  temp:9,  crowd:3, price:4, overall:8, note:'Auroras vuelven, menos gente' },
-        { month:10, temp:5,  crowd:2, price:3, overall:8, note:'Auroras espectaculares' },
-        { month:11, temp:1,  crowd:1, price:2, overall:7, note:'Oscuro, auroras, muy tranquilo' },
-        { month:12, temp:-1, crowd:1, price:3, overall:7, note:'Navidad ártica' },
-      ]
-    },
-    {
-      slug: 'portugal', name: 'Portugal', country: 'Portugal', emoji: '🇵🇹',
-      continent: 'Europa', climate: ['mediterranean'],
-      vibes: ['city','food','beach','relax'],
-      budget_range: ['budget','mid'],
-      photo_url: 'https://images.pexels.com/photos/1978155/pexels-photo-1978155.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Lisboa · Oporto · Algarve',
-      tagline: 'Pastéis de nata, fado y acantilados dorados',
-      budget_daily: '50–100€',
-      months: [
-        { month:1,  temp:13, crowd:1, price:1, overall:6, note:'Fresco, poco turismo, barato' },
-        { month:2,  temp:14, crowd:1, price:1, overall:6, note:'Almendros en flor' },
-        { month:3,  temp:16, crowd:2, price:2, overall:7, note:'Tiempo suave, flores por todos lados' },
-        { month:4,  temp:18, crowd:3, price:3, overall:8, note:'Perfecto: sol, verde, poca gente' },
-        { month:5,  temp:21, crowd:3, price:3, overall:9, note:'Mejor mes del año' },
-        { month:6,  temp:25, crowd:4, price:4, overall:8, note:'Calor, Festas de Lisboa' },
-        { month:7,  temp:28, crowd:5, price:5, overall:8, note:'Temporada alta, muy caluroso' },
-        { month:8,  temp:29, crowd:5, price:5, overall:7, note:'Masificado y caro, calor extremo' },
-        { month:9,  temp:26, crowd:3, price:4, overall:9, note:'Ideal: calor + menos gente' },
-        { month:10, temp:22, crowd:2, price:2, overall:8, note:'Otoño suave, excelente' },
-        { month:11, temp:17, crowd:1, price:1, overall:6, note:'Lluvia ocasional, tranquilo' },
-        { month:12, temp:14, crowd:2, price:2, overall:6, note:'Navidad atmosférica' },
-      ]
-    },
-    {
-      slug: 'grecia', name: 'Grecia', country: 'Grecia', emoji: '🏛️',
-      continent: 'Europa', climate: ['mediterranean'],
-      vibes: ['beach','city','food','relax'],
-      budget_range: ['mid'],
-      photo_url: 'https://images.pexels.com/photos/1010657/pexels-photo-1010657.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Santorini · Atenas · Creta',
-      tagline: 'Mar azul cobalto, historia y cocina del Egeo',
-      budget_daily: '60–130€',
-      months: [
-        { month:1,  temp:10, crowd:1, price:1, overall:5, note:'Frío en islas, interesante en Atenas' },
-        { month:2,  temp:11, crowd:1, price:1, overall:5, note:'Temporada baja, tranquilo' },
-        { month:3,  temp:13, crowd:2, price:2, overall:6, note:'Empieza a mejorar' },
-        { month:4,  temp:17, crowd:2, price:2, overall:8, note:'Flores silvestres, ideal' },
-        { month:5,  temp:22, crowd:3, price:3, overall:9, note:'Perfecto antes del calor' },
-        { month:6,  temp:27, crowd:4, price:4, overall:8, note:'Caluroso, ya animado' },
-        { month:7,  temp:31, crowd:5, price:5, overall:7, note:'Temporada alta, mucho calor' },
-        { month:8,  temp:31, crowd:5, price:5, overall:7, note:'Masificado, calor extremo' },
-        { month:9,  temp:27, crowd:3, price:3, overall:9, note:'El mejor mes: calor perfecto' },
-        { month:10, temp:22, crowd:2, price:2, overall:8, note:'Mar cálido, poca gente' },
-        { month:11, temp:16, crowd:1, price:1, overall:6, note:'Lluvias, museos sin cola' },
-        { month:12, temp:12, crowd:1, price:1, overall:5, note:'Navidad tranquila' },
-      ]
-    },
-    {
-      slug: 'noruega', name: 'Noruega', country: 'Noruega', emoji: '🇳🇴',
-      continent: 'Europa', climate: ['cold'],
-      vibes: ['nature','mountain','relax'],
-      budget_range: ['luxury'],
-      photo_url: 'https://images.pexels.com/photos/1559699/pexels-photo-1559699.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Tromsø · Bergen · Fiordos',
-      tagline: 'Fiordos espectaculares, auroras y silencio puro',
-      budget_daily: '130–220€',
-      months: [
-        { month:1,  temp:-5, crowd:2, price:3, overall:7, note:'Auroras y ballenas jorobadas' },
-        { month:2,  temp:-4, crowd:2, price:3, overall:7, note:'Nieve perfecta, auroras' },
-        { month:3,  temp:0,  crowd:2, price:3, overall:7, note:'Esquí y últimas auroras' },
-        { month:4,  temp:5,  crowd:2, price:3, overall:6, note:'Tiempo incierto pero florece' },
-        { month:5,  temp:10, crowd:3, price:4, overall:8, note:'Naturaleza brillante' },
-        { month:6,  temp:14, crowd:4, price:5, overall:9, note:'Sol de medianoche mágico' },
-        { month:7,  temp:17, crowd:5, price:5, overall:9, note:'Temporada alta, paisajes verdes' },
-        { month:8,  temp:16, crowd:4, price:5, overall:8, note:'Último mes de verano suave' },
-        { month:9,  temp:11, crowd:3, price:4, overall:8, note:'Hojas de otoño en fiordos' },
-        { month:10, temp:6,  crowd:2, price:3, overall:8, note:'Primeras auroras del año' },
-        { month:11, temp:1,  crowd:2, price:3, overall:8, note:'Ballenas jorobadas + auroras' },
-        { month:12, temp:-2, crowd:2, price:4, overall:7, note:'Navidad ártica con nieve' },
-      ]
-    },
-    {
-      slug: 'vietnam', name: 'Vietnam', country: 'Vietnam', emoji: '🇻🇳',
-      continent: 'Asia', climate: ['tropical'],
-      vibes: ['food','city','nature','beach'],
-      budget_range: ['budget','mid'],
-      photo_url: 'https://images.pexels.com/photos/2132227/pexels-photo-2132227.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Hanói · Hoi An · Ho Chi Minh',
-      tagline: 'Gastronomía brutal, arrozales y playas de película',
-      budget_daily: '25–60€',
-      months: [
-        { month:1,  temp:17, crowd:3, price:3, overall:8, note:'Norte frío-seco, sur perfecto' },
-        { month:2,  temp:19, crowd:3, price:3, overall:8, note:'Tet lunar (festivo interesante)' },
-        { month:3,  temp:22, crowd:3, price:3, overall:8, note:'Muy buen tiempo en el centro' },
-        { month:4,  temp:27, crowd:3, price:3, overall:8, note:'Caluroso, antes del monzón' },
-        { month:5,  temp:29, crowd:2, price:2, overall:6, note:'Monzón llega al sur' },
-        { month:6,  temp:30, crowd:2, price:2, overall:6, note:'Lluvias fuertes' },
-        { month:7,  temp:29, crowd:2, price:2, overall:6, note:'Monzón al norte' },
-        { month:8,  temp:29, crowd:2, price:2, overall:6, note:'Pleno monzón' },
-        { month:9,  temp:28, crowd:2, price:2, overall:6, note:'Tifones posibles' },
-        { month:10, temp:26, crowd:3, price:3, overall:7, note:'Mejora en norte, lluvias en centro' },
-        { month:11, temp:24, crowd:3, price:3, overall:8, note:'Norte y sur ideales' },
-        { month:12, temp:20, crowd:3, price:3, overall:8, note:'Sur en temporada alta ideal' },
-      ]
-    },
-    {
-      slug: 'tailandia', name: 'Tailandia', country: 'Tailandia', emoji: '🇹🇭',
-      continent: 'Asia', climate: ['tropical'],
-      vibes: ['beach','food','party','city'],
-      budget_range: ['budget','mid'],
-      photo_url: 'https://images.pexels.com/photos/1031659/pexels-photo-1031659.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Bangkok · Chiang Mai · Koh Samui',
-      tagline: 'Templos dorados, street food y playas turquesa',
-      budget_daily: '30–70€',
-      months: [
-        { month:1,  temp:28, crowd:4, price:4, overall:9, note:'Mejor clima, temporada alta' },
-        { month:2,  temp:30, crowd:4, price:4, overall:9, note:'Seco y espectacular' },
-        { month:3,  temp:33, crowd:3, price:3, overall:7, note:'Calor intenso, empieza a llover' },
-        { month:4,  temp:34, crowd:3, price:3, overall:7, note:'Songkran (festival agua)' },
-        { month:5,  temp:32, crowd:2, price:2, overall:5, note:'Inicio monzón sur' },
-        { month:6,  temp:31, crowd:2, price:2, overall:5, note:'Lluvias frecuentes sur' },
-        { month:7,  temp:30, crowd:2, price:2, overall:5, note:'Monzón activo' },
-        { month:8,  temp:30, crowd:2, price:2, overall:5, note:'Muy lluvioso en el sur' },
-        { month:9,  temp:30, crowd:1, price:1, overall:5, note:'Temporada baja máxima' },
-        { month:10, temp:29, crowd:2, price:2, overall:6, note:'Norte mejora, sur incierto' },
-        { month:11, temp:28, crowd:3, price:3, overall:8, note:'Norte excelente, sur bien' },
-        { month:12, temp:28, crowd:4, price:4, overall:9, note:'Perfecto, Navidad tropical' },
-      ]
-    },
-    {
-      slug: 'nepal', name: 'Nepal', country: 'Nepal', emoji: '🏔️',
-      continent: 'Asia', climate: ['mountain'],
-      vibes: ['mountain','nature','relax'],
-      budget_range: ['budget','mid'],
-      photo_url: 'https://images.pexels.com/photos/2104742/pexels-photo-2104742.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Katmandú · Pokhara · Everest',
-      tagline: 'Los Himalayas, el techo del mundo',
-      budget_daily: '25–60€',
-      months: [
-        { month:1,  temp:7,  crowd:2, price:2, overall:6, note:'Frío, vistas clarísimas' },
-        { month:2,  temp:10, crowd:2, price:2, overall:6, note:'Frío moderado, buen trek' },
-        { month:3,  temp:14, crowd:4, price:4, overall:9, note:'Ideal para trekking: verde y claro' },
-        { month:4,  temp:18, crowd:4, price:4, overall:9, note:'Temporada perfecta de trekking' },
-        { month:5,  temp:21, crowd:3, price:3, overall:8, note:'Antes del monzón, flores rododendro' },
-        { month:6,  temp:22, crowd:2, price:2, overall:4, note:'Inicio monzón, senderos resbaladizos' },
-        { month:7,  temp:23, crowd:1, price:1, overall:3, note:'Monzón pleno, no recomendado' },
-        { month:8,  temp:23, crowd:1, price:1, overall:3, note:'Lluvias constantes' },
-        { month:9,  temp:21, crowd:2, price:2, overall:5, note:'Fin monzón, paisaje verde' },
-        { month:10, temp:16, crowd:5, price:5, overall:9, note:'La mejor época: cielos azules' },
-        { month:11, temp:12, crowd:4, price:4, overall:9, note:'Excelente, algo menos lleno' },
-        { month:12, temp:8,  crowd:3, price:3, overall:7, note:'Frío, tranquilo, vistas perfectas' },
-      ]
-    },
-    {
-      slug: 'srilanka', name: 'Sri Lanka', country: 'Sri Lanka', emoji: '🌊',
-      continent: 'Asia', climate: ['tropical'],
-      vibes: ['beach','nature','food','relax'],
-      budget_range: ['budget','mid'],
-      photo_url: 'https://images.pexels.com/photos/1007657/pexels-photo-1007657.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Colombo · Galle · Arugam Bay',
-      tagline: 'Ballenas azules, templos y té en las colinas',
-      budget_daily: '30–65€',
-      months: [
-        { month:1,  temp:28, crowd:4, price:4, overall:9, note:'Costa oeste ideal, ballenas azules' },
-        { month:2,  temp:29, crowd:4, price:4, overall:9, note:'Perfecto, temporada alta' },
-        { month:3,  temp:30, crowd:3, price:3, overall:8, note:'Calor, sol en el sur' },
-        { month:4,  temp:30, crowd:3, price:3, overall:7, note:'Transición de estación' },
-        { month:5,  temp:29, crowd:2, price:2, overall:5, note:'Monzón costa suroeste' },
-        { month:6,  temp:28, crowd:3, price:3, overall:7, note:'Costa este perfecta + surf' },
-        { month:7,  temp:28, crowd:3, price:3, overall:8, note:'Arugam Bay (surf legendario)' },
-        { month:8,  temp:28, crowd:3, price:3, overall:8, note:'Surf y costa este en pico' },
-        { month:9,  temp:28, crowd:2, price:2, overall:7, note:'Último mes de surf este' },
-        { month:10, temp:28, crowd:2, price:2, overall:6, note:'Inter-monzón, variable' },
-        { month:11, temp:28, crowd:3, price:3, overall:7, note:'Costas mixtas' },
-        { month:12, temp:28, crowd:4, price:4, overall:8, note:'Costa oeste vuelve a abrir' },
-      ]
-    },
-    {
-      slug: 'italia', name: 'Italia', country: 'Italia', emoji: '🇮🇹',
-      continent: 'Europa', climate: ['mediterranean'],
-      vibes: ['city','food','beach','culture'],
-      budget_range: ['mid','luxury'],
-      photo_url: 'https://images.pexels.com/photos/753639/pexels-photo-753639.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Roma · Venecia · Amalfi',
-      tagline: 'Arte, pasta y costa mediterránea de película',
-      budget_daily: '70–150€',
-      months: [
-        { month:1,  temp:7,  crowd:1, price:1, overall:6, note:'Invierno tranquilo, museos sin cola' },
-        { month:2,  temp:8,  crowd:2, price:2, overall:7, note:'Carnaval de Venecia espectacular' },
-        { month:3,  temp:12, crowd:2, price:2, overall:7, note:'Flores de primavera' },
-        { month:4,  temp:16, crowd:3, price:3, overall:8, note:'Perfecto: clima + poca gente' },
-        { month:5,  temp:20, crowd:4, price:4, overall:9, note:'El mejor mes, todo florece' },
-        { month:6,  temp:25, crowd:4, price:4, overall:8, note:'Calor agradable' },
-        { month:7,  temp:29, crowd:5, price:5, overall:7, note:'Masificado, calor extremo' },
-        { month:8,  temp:29, crowd:5, price:5, overall:6, note:'Todo cerrado en agosto italiano' },
-        { month:9,  temp:25, crowd:4, price:4, overall:9, note:'Ideal: calor, menos gente' },
-        { month:10, temp:19, crowd:3, price:3, overall:8, note:'Otoño perfecto para ciudades' },
-        { month:11, temp:13, crowd:2, price:2, overall:6, note:'Lluvia, pero poca gente' },
-        { month:12, temp:8,  crowd:2, price:3, overall:7, note:'Navidad muy atmosférica' },
-      ]
-    },
-    {
-      slug: 'croacia', name: 'Croacia', country: 'Croacia', emoji: '🌊',
-      continent: 'Europa', climate: ['mediterranean'],
-      vibes: ['beach','city','nature','party'],
-      budget_range: ['mid'],
-      photo_url: 'https://images.pexels.com/photos/1660997/pexels-photo-1660997.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Dubrovnik · Split · Hvar',
-      tagline: 'Agua cristalina, murallas medievales y vida nocturna',
-      budget_daily: '60–120€',
-      months: [
-        { month:1,  temp:8,  crowd:1, price:1, overall:5, note:'Casi todo cerrado' },
-        { month:2,  temp:9,  crowd:1, price:1, overall:5, note:'Ciudad tranquila, fresco' },
-        { month:3,  temp:12, crowd:1, price:1, overall:6, note:'Empieza a abrirse' },
-        { month:4,  temp:16, crowd:2, price:2, overall:8, note:'Bonito, casi sin turistas' },
-        { month:5,  temp:20, crowd:3, price:3, overall:9, note:'Perfecto antes del verano' },
-        { month:6,  temp:24, crowd:4, price:4, overall:8, note:'Calor, agua cálida' },
-        { month:7,  temp:28, crowd:5, price:5, overall:8, note:'Temporada alta, festivo y caro' },
-        { month:8,  temp:28, crowd:5, price:5, overall:7, note:'Masificado, calor extremo' },
-        { month:9,  temp:24, crowd:3, price:3, overall:9, note:'El mejor mes: sol + mar + menos gente' },
-        { month:10, temp:19, crowd:2, price:2, overall:7, note:'Tranquilo, buen tiempo' },
-        { month:11, temp:13, crowd:1, price:1, overall:5, note:'Muchas cosas cerradas' },
-        { month:12, temp:9,  crowd:1, price:1, overall:5, note:'Muy tranquilo' },
-      ]
-    },
-    {
-      slug: 'escocia', name: 'Escocia', country: 'Reino Unido', emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-      continent: 'Europa', climate: ['cold'],
-      vibes: ['nature','mountain','city','relax'],
-      budget_range: ['mid'],
-      photo_url: 'https://images.pexels.com/photos/2382325/pexels-photo-2382325.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Edimburgo · Highlands · Skye',
-      tagline: 'Castillos en niebla, whisky y tierras de leyenda',
-      budget_daily: '70–130€',
-      months: [
-        { month:1,  temp:3,  crowd:1, price:1, overall:5, note:'Frío, ventoso, austero' },
-        { month:2,  temp:4,  crowd:1, price:1, overall:5, note:'Paisajes nevados' },
-        { month:3,  temp:6,  crowd:1, price:2, overall:6, note:'Empieza la vida' },
-        { month:4,  temp:9,  crowd:2, price:2, overall:7, note:'Ovejas en los prados, flores' },
-        { month:5,  temp:12, crowd:3, price:3, overall:8, note:'Días largos, brecina floreciendo' },
-        { month:6,  temp:14, crowd:3, price:3, overall:8, note:'El mejor mes: luminoso y fresco' },
-        { month:7,  temp:16, crowd:4, price:4, overall:8, note:'Verano suave, Highlands mágicas' },
-        { month:8,  temp:16, crowd:5, price:5, overall:8, note:'Festival Edimburgo, imprescindible' },
-        { month:9,  temp:13, crowd:3, price:3, overall:8, note:'Brecina morada en las highlands' },
-        { month:10, temp:9,  crowd:2, price:2, overall:7, note:'Otoño dorado espectacular' },
-        { month:11, temp:6,  crowd:1, price:1, overall:5, note:'Auroras posibles en el norte' },
-        { month:12, temp:4,  crowd:2, price:2, overall:6, note:'Navidad en Edimburgo' },
-      ]
-    },
-    {
-      slug: 'marruecos', name: 'Marruecos', country: 'Marruecos', emoji: '🕌',
-      continent: 'África', climate: ['desert'],
-      vibes: ['city','food','nature','relax'],
-      budget_range: ['budget','mid'],
-      photo_url: 'https://images.pexels.com/photos/3889842/pexels-photo-3889842.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Marrakech · Fez · Merzouga',
-      tagline: 'Medinas laberínticas, desierto del Sáhara y zoco',
-      budget_daily: '35–70€',
-      months: [
-        { month:1,  temp:14, crowd:3, price:3, overall:8, note:'Fresco perfecto para explorar' },
-        { month:2,  temp:16, crowd:3, price:3, overall:8, note:'Muy agradable' },
-        { month:3,  temp:19, crowd:3, price:3, overall:9, note:'Ideal, calor suave' },
-        { month:4,  temp:22, crowd:4, price:4, overall:9, note:'El mejor mes' },
-        { month:5,  temp:26, crowd:3, price:3, overall:8, note:'Caluroso pero soportable' },
-        { month:6,  temp:30, crowd:2, price:2, overall:6, note:'Calor empieza a apretar' },
-        { month:7,  temp:34, crowd:2, price:2, overall:5, note:'Desierto a 45°C, muy duro' },
-        { month:8,  temp:34, crowd:2, price:2, overall:5, note:'Verano extremo' },
-        { month:9,  temp:29, crowd:3, price:3, overall:7, note:'Mejora al final del mes' },
-        { month:10, temp:24, crowd:3, price:3, overall:8, note:'Excelente para desierto' },
-        { month:11, temp:19, crowd:3, price:3, overall:8, note:'Muy bueno, sin agobios' },
-        { month:12, temp:15, crowd:3, price:3, overall:8, note:'Perfecto para ciudades imperiales' },
-      ]
-    },
-    {
-      slug: 'peru', name: 'Perú', country: 'Perú', emoji: '🦙',
-      continent: 'América', climate: ['mountain'],
-      vibes: ['nature','mountain','city','food'],
-      budget_range: ['budget','mid'],
-      photo_url: 'https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Lima · Cusco · Machu Picchu',
-      tagline: 'Machu Picchu, Amazonas y gastronomía de lujo',
-      budget_daily: '40–90€',
-      months: [
-        { month:1,  temp:12, crowd:2, price:2, overall:6, note:'Lluvia en sierra, verde exuberante' },
-        { month:2,  temp:12, crowd:2, price:2, overall:6, note:'Camino Inca cerrado (mantenimiento)' },
-        { month:3,  temp:13, crowd:2, price:2, overall:6, note:'Lluvia moderada' },
-        { month:4,  temp:13, crowd:3, price:3, overall:8, note:'Mejora mucho, paisaje verde-dorado' },
-        { month:5,  temp:11, crowd:4, price:4, overall:9, note:'Temporada seca ideal, Camino Inca' },
-        { month:6,  temp:10, crowd:5, price:5, overall:9, note:'Inti Raymi, cielos azules perfectos' },
-        { month:7,  temp:10, crowd:5, price:5, overall:8, note:'Temporada alta, reservar con meses' },
-        { month:8,  temp:12, crowd:4, price:4, overall:8, note:'Excelente tiempo, menos gente que julio' },
-        { month:9,  temp:13, crowd:3, price:3, overall:8, note:'Inicio transición, buen tiempo' },
-        { month:10, temp:14, crowd:3, price:3, overall:7, note:'Empieza la humedad' },
-        { month:11, temp:14, crowd:2, price:2, overall:6, note:'Lluvias irregulares' },
-        { month:12, temp:12, crowd:2, price:3, overall:6, note:'Lluvias empiezan, Navidad en Lima' },
-      ]
-    },
-    {
-      slug: 'colombia', name: 'Colombia', country: 'Colombia', emoji: '🇨🇴',
-      continent: 'América', climate: ['tropical'],
-      vibes: ['city','food','nature','party','beach'],
-      budget_range: ['budget','mid'],
-      photo_url: 'https://images.pexels.com/photos/3996437/pexels-photo-3996437.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Cartagena · Medellín · Bogotá',
-      tagline: 'Caribe vibrante, eterna primavera y cultura brutal',
-      budget_daily: '35–75€',
-      months: [
-        { month:1,  temp:25, crowd:4, price:4, overall:8, note:'Temporada seca Caribe, excelente' },
-        { month:2,  temp:25, crowd:4, price:4, overall:8, note:'Carnaval de Barranquilla' },
-        { month:3,  temp:25, crowd:3, price:3, overall:8, note:'Buen tiempo generalizado' },
-        { month:4,  temp:24, crowd:2, price:2, overall:7, note:'Inicio lluvias en interior' },
-        { month:5,  temp:24, crowd:2, price:2, overall:7, note:'Lluvia en Andes, Caribe bien' },
-        { month:6,  temp:24, crowd:3, price:3, overall:8, note:'Verano europeo activa turismo' },
-        { month:7,  temp:24, crowd:4, price:4, overall:8, note:'Feria de Flores Medellín' },
-        { month:8,  temp:24, crowd:4, price:4, overall:8, note:'Buen tiempo en Caribe' },
-        { month:9,  temp:24, crowd:2, price:2, overall:6, note:'Lluvias fuertes' },
-        { month:10, temp:23, crowd:2, price:2, overall:6, note:'Mes más lluvioso' },
-        { month:11, temp:24, crowd:2, price:2, overall:7, note:'Mejora progresiva' },
-        { month:12, temp:25, crowd:4, price:4, overall:8, note:'Navidad + temporada seca Caribe' },
-      ]
-    },
-    {
-      slug: 'mexico', name: 'México', country: 'México', emoji: '🌮',
-      continent: 'América', climate: ['tropical'],
-      vibes: ['city','food','beach','culture','party'],
-      budget_range: ['budget','mid'],
-      photo_url: 'https://images.pexels.com/photos/2365457/pexels-photo-2365457.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Ciudad de México · Oaxaca · Tulum',
-      tagline: 'Civilizaciones mayas, tacos y playas del Caribe',
-      budget_daily: '40–90€',
-      months: [
-        { month:1,  temp:22, crowd:3, price:3, overall:8, note:'Seco y perfecto en toda la costa' },
-        { month:2,  temp:23, crowd:3, price:3, overall:8, note:'Excelente, flores y calma' },
-        { month:3,  temp:25, crowd:3, price:3, overall:8, note:'Semana Santa llena playas' },
-        { month:4,  temp:27, crowd:3, price:3, overall:8, note:'Calor suave, perfecto' },
-        { month:5,  temp:29, crowd:2, price:2, overall:7, note:'Empieza el calor húmedo' },
-        { month:6,  temp:29, crowd:2, price:2, overall:6, note:'Lluvias tropicales vespertinas' },
-        { month:7,  temp:29, crowd:3, price:3, overall:7, note:'Lluvias pero mañanas soleadas' },
-        { month:8,  temp:29, crowd:3, price:3, overall:7, note:'Temporada huracanes Caribe' },
-        { month:9,  temp:28, crowd:2, price:2, overall:6, note:'Huracanes posibles, tarifas bajas' },
-        { month:10, temp:26, crowd:2, price:2, overall:7, note:'Mejora mucho' },
-        { month:11, temp:24, crowd:3, price:3, overall:9, note:'Día de Muertos, clima perfecto' },
-        { month:12, temp:22, crowd:4, price:4, overall:8, note:'Navidad con sol y buen precio' },
-      ]
-    },
-    {
-      slug: 'tanzania', name: 'Tanzania', country: 'Tanzania', emoji: '🦁',
-      continent: 'África', climate: ['tropical'],
-      vibes: ['nature','relax'],
-      budget_range: ['luxury'],
-      photo_url: 'https://images.pexels.com/photos/631292/pexels-photo-631292.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Serengueti · Zanzíbar · Kilimanjaro',
-      tagline: 'La gran migración, los cinco grandes y Zanzíbar',
-      budget_daily: '200–500€',
-      months: [
-        { month:1,  temp:26, crowd:3, price:4, overall:8, note:'Temporada corta lluvias, calving season' },
-        { month:2,  temp:27, crowd:4, price:5, overall:9, note:'Mejor mes para ver grandes manadas' },
-        { month:3,  temp:27, crowd:2, price:3, overall:6, note:'Lluvia larga, lodges baratos' },
-        { month:4,  temp:25, crowd:1, price:2, overall:5, note:'Más lluvioso, difícil acceso' },
-        { month:5,  temp:24, crowd:1, price:2, overall:5, note:'Fin estación lluviosa' },
-        { month:6,  temp:23, crowd:4, price:5, overall:9, note:'Inicio migración norte, seco' },
-        { month:7,  temp:23, crowd:5, price:5, overall:9, note:'Cruce del Mara, espectacular' },
-        { month:8,  temp:24, crowd:5, price:5, overall:9, note:'Migración plena, mejor mes' },
-        { month:9,  temp:25, crowd:4, price:5, overall:9, note:'Migración sur, cielos despejados' },
-        { month:10, temp:26, crowd:3, price:4, overall:8, note:'Inicio lluvias cortas' },
-        { month:11, temp:26, crowd:2, price:3, overall:7, note:'Lluvias cortas, descuentos' },
-        { month:12, temp:26, crowd:3, price:4, overall:7, note:'Secando, Zanzíbar perfecto' },
-      ]
-    },
-    {
-      slug: 'india', name: 'India', country: 'India', emoji: '🇮🇳',
-      continent: 'Asia', climate: ['tropical'],
-      vibes: ['city','food','nature','culture'],
-      budget_range: ['budget','mid'],
-      photo_url: 'https://images.pexels.com/photos/1603650/pexels-photo-1603650.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Delhi · Rajastán · Kerala',
-      tagline: 'Palacios maharajás, especias y caos mágico',
-      budget_daily: '25–60€',
-      months: [
-        { month:1,  temp:14, crowd:4, price:4, overall:9, note:'El mejor clima del año en el norte' },
-        { month:2,  temp:17, crowd:4, price:4, overall:9, note:'Excelente, algo de Holi en el ambiente' },
-        { month:3,  temp:23, crowd:4, price:3, overall:8, note:'Holi! Festival de colores' },
-        { month:4,  temp:30, crowd:3, price:3, overall:6, note:'Calor empieza a ser intenso' },
-        { month:5,  temp:35, crowd:2, price:2, overall:4, note:'Calor extremo, norte inhabitable' },
-        { month:6,  temp:34, crowd:1, price:1, overall:4, note:'Monzón llega, Kerala exuberante' },
-        { month:7,  temp:30, crowd:1, price:1, overall:4, note:'Monzón pleno' },
-        { month:8,  temp:30, crowd:1, price:1, overall:4, note:'Inundaciones posibles' },
-        { month:9,  temp:29, crowd:1, price:1, overall:5, note:'Fin monzón norte' },
-        { month:10, temp:26, crowd:3, price:3, overall:7, note:'Diwali! Festival luces, multitudinario' },
-        { month:11, temp:22, crowd:4, price:4, overall:9, note:'Ideal: Rajastán perfecto' },
-        { month:12, temp:16, crowd:4, price:4, overall:9, note:'Temporada dorada del norte' },
-      ]
-    },
-    {
-      slug: 'georgia', name: 'Georgia', country: 'Georgia', emoji: '🇬🇪',
-      continent: 'Europa/Asia', climate: ['mild'],
-      vibes: ['food','mountain','city','relax'],
-      budget_range: ['budget','mid'],
-      photo_url: 'https://images.pexels.com/photos/5422624/pexels-photo-5422624.jpeg?auto=compress&cs=tinysrgb&w=600',
-      cities: 'Tiflis · Kazbegi · Sighnaghi',
-      tagline: 'Vino ancestral, montañas del Cáucaso y hospitalidad',
-      budget_daily: '30–70€',
-      months: [
-        { month:1,  temp:1,  crowd:1, price:1, overall:6, note:'Nieve en montañas, Tiflis animada' },
-        { month:2,  temp:3,  crowd:1, price:1, overall:6, note:'Frío pero pintoresco' },
-        { month:3,  temp:7,  crowd:2, price:2, overall:7, note:'Primavera llega, flores' },
-        { month:4,  temp:13, crowd:2, price:2, overall:8, note:'Cosecha té, todo verde' },
-        { month:5,  temp:18, crowd:3, price:3, overall:9, note:'El mejor mes: montañas sin nieve' },
-        { month:6,  temp:23, crowd:3, price:3, overall:9, note:'Perfecto para montañas' },
-        { month:7,  temp:26, crowd:4, price:4, overall:8, note:'Temporada alta, caluroso en Tiflis' },
-        { month:8,  temp:25, crowd:4, price:4, overall:8, note:'Vendimia empieza' },
-        { month:9,  temp:21, crowd:3, price:3, overall:9, note:'Vendimia! Mejor mes del año' },
-        { month:10, temp:14, crowd:2, price:2, overall:8, note:'Otoño dorado en viñedos' },
-        { month:11, temp:8,  crowd:1, price:1, overall:6, note:'Frío, tranquilo' },
-        { month:12, temp:3,  crowd:1, price:2, overall:6, note:'Navidad ortodoxa (enero) animada' },
-      ]
-    },
-  ];
-
-  // ─────────────────────────────────────────────
-  // STATE
-  // ─────────────────────────────────────────────
-  const state = {
-    month: null,
-    duration: null,
-    vibes: [],
-    crowd: 'low',   // high / mid / low
-    budget: 'mid',  // budget / mid / luxury
+  // Hardcoded monthly event highlights
+  const MONTH_HIGHLIGHTS = {
+    1:  [
+      { emoji:'❄️',  text:'Auroras boreales en Islandia y Noruega' },
+      { emoji:'🎿',  text:'Temporada esquí en los Alpes' },
+      { emoji:'🐧',  text:'Vida salvaje en la Antártida' },
+    ],
+    2:  [
+      { emoji:'🎭',  text:'Carnaval de Río de Janeiro' },
+      { emoji:'💕',  text:'San Valentín en París' },
+      { emoji:'🎭',  text:'Carnaval de Venecia' },
+    ],
+    3:  [
+      { emoji:'🌸',  text:'Floración sakura en Japón (inicio)' },
+      { emoji:'🎭',  text:'Semana Santa en Sevilla y Andalucía' },
+      { emoji:'🎨',  text:'Festival Holi en India' },
+    ],
+    4:  [
+      { emoji:'🌸',  text:'Sakura plena temporada en Japón' },
+      { emoji:'🌷',  text:'Tulipanes en Keukenhof, Países Bajos' },
+      { emoji:'🌿',  text:'Cosecha del té en Georgia y Sri Lanka' },
+    ],
+    5:  [
+      { emoji:'🌞',  text:'Playas sin masificación en el Mediterráneo' },
+      { emoji:'🎏',  text:'Golden Week en Japón' },
+      { emoji:'🌺',  text:'Festival de flores en Madeira' },
+    ],
+    6:  [
+      { emoji:'🌞',  text:'Sol de medianoche en Islandia' },
+      { emoji:'🎉',  text:'Pride en Madrid y otras capitales' },
+      { emoji:'☀️',  text:'Inti Raymi, Fiesta del Sol en Perú' },
+    ],
+    7:  [
+      { emoji:'🦁',  text:'Gran migración del Serengueti (Tanzania)' },
+      { emoji:'🎪',  text:'Festival de Edimburgo (desde agosto)' },
+      { emoji:'🏄',  text:'Surf en Nazaré y Portugal' },
+    ],
+    8:  [
+      { emoji:'🎪',  text:'Festival de Edimburgo (plenitud)' },
+      { emoji:'🌅',  text:'Perseid, lluvia de estrellas fugaces' },
+      { emoji:'🎆',  text:'O-Bon (festival de los ancestros) en Japón' },
+    ],
+    9:  [
+      { emoji:'🍺',  text:'Oktoberfest en Múnich' },
+      { emoji:'🍁',  text:'Foliaje de otoño en Nueva Inglaterra (EEUU)' },
+      { emoji:'🎑',  text:'Festival del Otoño en Kioto' },
+    ],
+    10: [
+      { emoji:'🍁',  text:'Momiji (hojas rojas) en Japón' },
+      { emoji:'🎃',  text:'Halloween en Irlanda, origen de la tradición' },
+      { emoji:'🪔',  text:'Festival Diwali en India' },
+    ],
+    11: [
+      { emoji:'💀',  text:'Día de Muertos en México (Oaxaca)' },
+      { emoji:'🌌',  text:'Auroras boreales en Laponia y Noruega' },
+      { emoji:'🐋',  text:'Avistamiento de ballenas en Islandia' },
+    ],
+    12: [
+      { emoji:'❄️',  text:'Mercados de Navidad en Viena y Estrasburgo' },
+      { emoji:'🎇',  text:'Año Nuevo en Sídney, fuegos sobre la Ópera' },
+      { emoji:'🎄',  text:'Laponia finlandesa: Papá Noel y trineos' },
+    ],
   };
 
-  // ─────────────────────────────────────────────
-  // INIT
-  // ─────────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', () => {
-    buildMonthGrid();
-    bindDurationPills();
-    bindCriteriaPills();
-    bindSeasonCards();
-    bindBudgetCards();
-    bindExactToggle();
-    updateSearchButton();
+  // ──────────────────────────────────────────────────────────────
+  // STATE
+  // ──────────────────────────────────────────────────────────────
 
-    // Auto-detect current month
-    const now = new Date();
-    selectMonth(now.getMonth() + 1);
-  });
+  let selectedMonth  = null;
+  let selectedClimate = [];  // multi-select
+  let selectedBudget  = null; // single-select
+  let selectedStyle   = [];  // multi-select
 
+  // ──────────────────────────────────────────────────────────────
+  // AUTH — show Mi perfil if logged in
+  // ──────────────────────────────────────────────────────────────
+  (function initAuth() {
+    try {
+      const token = localStorage.getItem('vm_token') || sessionStorage.getItem('vm_token');
+      const user  = localStorage.getItem('vm_user')  || sessionStorage.getItem('vm_user');
+      if (token && user) {
+        const slot = document.getElementById('nav-auth-slot');
+        slot.innerHTML = `<a href="/perfil.html" class="nav-btn">👤 Mi perfil</a>`;
+      }
+    } catch(e) {}
+  })();
+
+  // ──────────────────────────────────────────────────────────────
+  // BUILD MONTH GRID
+  // ──────────────────────────────────────────────────────────────
   function buildMonthGrid() {
     const grid = document.getElementById('month-grid');
-    MONTHS.forEach(m => {
-      const el = document.createElement('div');
-      el.className = 'month-pill';
-      el.dataset.month = m.n;
-      el.innerHTML = `<span class="month-abbr">${m.abbr}</span><span class="month-flag">${m.flag}</span>`;
-      el.addEventListener('click', () => selectMonth(m.n));
-      grid.appendChild(el);
-    });
+    grid.innerHTML = MONTHS.map(m => `
+      <div class="month-card" data-month="${m.n}" onclick="selectMonth(${m.n})">
+        <span class="month-emoji">${m.emoji}</span>
+        <span class="month-name">${m.abbr}</span>
+      </div>
+    `).join('');
   }
 
+  // ──────────────────────────────────────────────────────────────
+  // MONTH SELECTION
+  // ──────────────────────────────────────────────────────────────
   function selectMonth(n) {
-    state.month = n;
-    document.querySelectorAll('.month-pill').forEach(el => {
-      el.classList.toggle('selected', parseInt(el.dataset.month) === n);
+    selectedMonth = n;
+
+    // Update card states
+    document.querySelectorAll('.month-card').forEach(c => {
+      c.classList.toggle('selected', parseInt(c.dataset.month) === n);
     });
-    const m = MONTHS[n - 1];
-    document.getElementById('month-selected-label').textContent = m.full;
+
+    // Update step indicator
     document.getElementById('step1-num').classList.add('done');
-    updateSearchButton();
-    renderEventsSidebar(n);
+    const month = MONTHS.find(m => m.m === n) || MONTHS[n - 1];
+    document.getElementById('month-hint').textContent = `${month.emoji} ${month.full}`;
+
+    // Show filters bar
+    document.getElementById('filters-bar').classList.add('visible');
+    document.getElementById('step2-num').classList.add('done');
+
+    // Enable search button
+    document.getElementById('btn-buscar').disabled = false;
   }
 
-  function bindDurationPills() {
-    document.querySelectorAll('.dur-pill').forEach(el => {
-      el.addEventListener('click', () => {
-        document.querySelectorAll('.dur-pill').forEach(p => p.classList.remove('selected'));
-        el.classList.add('selected');
-        state.duration = el.dataset.val;
-        updateSearchButton();
+  // ──────────────────────────────────────────────────────────────
+  // FILTER PILLS
+  // ──────────────────────────────────────────────────────────────
+  function initFilterPills() {
+    // Climate — multi-select
+    document.querySelectorAll('#climate-pills .filter-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const val = pill.dataset.val;
+        if (selectedClimate.includes(val)) {
+          selectedClimate = selectedClimate.filter(v => v !== val);
+          pill.classList.remove('selected');
+        } else {
+          selectedClimate.push(val);
+          pill.classList.add('selected');
+        }
       });
     });
-  }
 
-  function bindCriteriaPills() {
-    document.querySelectorAll('.crit-pill').forEach(el => {
-      el.addEventListener('click', () => {
-        el.classList.toggle('selected');
-        const val = el.dataset.val;
-        if (state.vibes.includes(val)) {
-          state.vibes = state.vibes.filter(v => v !== val);
+    // Budget — single-select
+    document.querySelectorAll('#budget-pills .filter-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const val = pill.dataset.val;
+        if (selectedBudget === val) {
+          selectedBudget = null;
+          pill.classList.remove('selected');
         } else {
-          state.vibes.push(val);
+          selectedBudget = val;
+          document.querySelectorAll('#budget-pills .filter-pill').forEach(p => p.classList.remove('selected'));
+          pill.classList.add('selected');
+        }
+      });
+    });
+
+    // Style — multi-select
+    document.querySelectorAll('#style-pills .filter-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const val = pill.dataset.val;
+        if (selectedStyle.includes(val)) {
+          selectedStyle = selectedStyle.filter(v => v !== val);
+          pill.classList.remove('selected');
+        } else {
+          selectedStyle.push(val);
+          pill.classList.add('selected');
         }
       });
     });
   }
 
-  function bindSeasonCards() {
-    document.querySelectorAll('.season-card').forEach(el => {
-      el.addEventListener('click', () => {
-        document.querySelectorAll('.season-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        state.crowd = el.dataset.val;
-      });
-    });
-  }
+  // ──────────────────────────────────────────────────────────────
+  // LOAD DESTINATIONS (API)
+  // ──────────────────────────────────────────────────────────────
+  async function loadDestinations() {
+    if (!selectedMonth) return;
 
-  function bindBudgetCards() {
-    document.querySelectorAll('.budget-card').forEach(el => {
-      el.addEventListener('click', () => {
-        document.querySelectorAll('.budget-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        state.budget = el.dataset.val;
-      });
-    });
-  }
-
-  function bindExactToggle() {
-    document.getElementById('exact-toggle-cb').addEventListener('change', function() {
-      document.getElementById('date-range-row').classList.toggle('visible', this.checked);
-      if (this.checked) {
-        const today = new Date();
-        const in7 = new Date(); in7.setDate(today.getDate() + 14);
-        document.getElementById('date-from').value = today.toISOString().slice(0,10);
-        document.getElementById('date-to').value = in7.toISOString().slice(0,10);
-        // Infer month from selected start date
-        document.getElementById('date-from').addEventListener('change', () => {
-          const d = new Date(document.getElementById('date-from').value);
-          if (!isNaN(d)) selectMonth(d.getMonth() + 1);
-        }, { once: true });
-      }
-    });
-  }
-
-  function updateSearchButton() {
-    const btn = document.getElementById('btn-search');
-    btn.disabled = !state.month;
-  }
-
-  // ─────────────────────────────────────────────
-  // EVENTS SIDEBAR
-  // ─────────────────────────────────────────────
-  function renderEventsSidebar(month) {
-    const monthName = MONTHS[month - 1].full;
-    document.getElementById('sidebar-month-label').textContent = `en ${monthName}`;
-
-    const eventsThisMonth = GLOBAL_EVENTS.filter(e => e.months.includes(month));
-
-    const container = document.getElementById('events-list');
-    if (eventsThisMonth.length === 0) {
-      container.innerHTML = `<div class="sidebar-empty">No hay eventos especiales catalogados para ${monthName}.</div>`;
-      return;
-    }
-
-    container.innerHTML = eventsThisMonth.map(e => `
-      <div class="event-item">
-        <span class="event-emoji">${e.emoji}</span>
-        <div class="event-info">
-          <div class="event-name">${e.name}</div>
-          <div class="event-where">${e.where}</div>
-          <span class="event-type-pill ${e.type}">${typeLabel(e.type)}</span>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  function typeLabel(type) {
-    return { natural:'Natural', cultural:'Cultural', wildlife:'Fauna', sport:'Deporte', avoid:'⚠ Evitar' }[type] || type;
-  }
-
-  // ─────────────────────────────────────────────
-  // SCORING
-  // ─────────────────────────────────────────────
-  function scoreDestination(dest, answers) {
-    let score = 0;
-    const { month, vibes, crowd, budget } = answers;
-
-    const monthData = dest.months[month - 1];
-    if (monthData) {
-      score += monthData.overall * 2; // 0–18
-
-      if (crowd === 'low'  && monthData.crowd <= 2) score += 5;
-      if (crowd === 'low'  && monthData.crowd >= 4) score -= 8;
-      if (crowd === 'high' && monthData.crowd >= 4) score += 3;
-      if (crowd === 'mid'  && monthData.crowd === 3) score += 3;
-
-      if (budget === 'budget'  && monthData.price <= 2) score += 3;
-      if (budget === 'budget'  && monthData.price >= 4) score -= 4;
-      if (budget === 'luxury'  && monthData.price <= 2) score -= 2;
-      if (budget === 'mid'     && monthData.price === 3) score += 2;
-    }
-
-    // Events bonus/penalty
-    const events = GLOBAL_EVENTS.filter(e =>
-      e.slugs.includes(dest.slug) && e.months.includes(month)
-    );
-    events.forEach(e => score += e.impact * 3);
-
-    // Vibe match
-    vibes.forEach(v => {
-      if (dest.vibes.includes(v)) score += 3;
-    });
-
-    // Budget match
-    if (budget === 'budget'  && dest.budget_range.includes('budget'))  score += 4;
-    if (budget === 'mid'     && dest.budget_range.includes('mid'))     score += 4;
-    if (budget === 'luxury'  && dest.budget_range.includes('luxury'))  score += 4;
-
-    return score;
-  }
-
-  function getScoreLabel(score, monthData) {
-    if (!monthData) return ['ok', 'Fuera de temporada'];
-    if (score >= 36)  return ['perfect', 'Época perfecta ✨'];
-    if (score >= 28)  return ['perfect', 'Muy recomendado 👍'];
-    if (score >= 20)  return ['good',    'Buena época'];
-    if (score >= 12)  return ['ok',      'Aceptable'];
-    return ['ok', 'Temporada difícil'];
-  }
-
-  function getCrowdLabel(level) {
-    return ['','Muy tranquilo','Tranquilo','Moderado','Animado','Temporada alta'][level] || '';
-  }
-
-  function buildResultWhy(dest, month, events) {
-    const monthData = dest.months[month - 1];
-    if (!monthData) return 'Sin datos específicos para este mes.';
-    let why = monthData.note ? `${monthData.note}.` : '';
-    if (events.filter(e => e.impact > 0).length > 0) {
-      why += ' ' + events.filter(e => e.impact > 0).map(e => e.name).join(', ') + '.';
-    }
-    return why.trim() || `Clima de ${monthData.temp}°C. ${getCrowdLabel(monthData.crowd)}.`;
-  }
-
-  // ─────────────────────────────────────────────
-  // SEARCH & RENDER
-  // ─────────────────────────────────────────────
-  document.getElementById('btn-search').addEventListener('click', runSearch);
-
-  function runSearch() {
-    const btn = document.getElementById('btn-search');
+    const btn = document.getElementById('btn-buscar');
     btn.classList.add('loading');
     btn.disabled = true;
 
-    // Show skeleton
-    showSkeletons();
-    scrollToResults();
+    document.getElementById('error-banner').classList.remove('visible');
+    document.getElementById('results-section').classList.add('visible');
+    document.getElementById('skeleton-grid').style.display = '';
+    document.getElementById('dest-grid').innerHTML = '';
 
-    // Simulate async scoring (feels real)
+    // Scroll to results
     setTimeout(() => {
-      const results = DESTINATIONS
-        .map(d => ({ dest: d, score: scoreDestination(d, state) }))
-        .sort((a,b) => b.score - a.score)
-        .slice(0, 6);
+      document.getElementById('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
 
+    const params = new URLSearchParams({ month: selectedMonth, limit: 12 });
+    if (selectedClimate.length)  params.append('climate', selectedClimate[0]);
+    if (selectedBudget)          params.append('budget',  selectedBudget);
+    if (selectedStyle.length)    params.append('style',   selectedStyle[0]);
+
+    try {
+      const res  = await fetch(`${API_BASE}/api/destinations-by-date?${params}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      renderResults(data.recommendations || []);
+    } catch(err) {
+      console.error('API error:', err);
+      document.getElementById('error-banner').classList.add('visible');
+      document.getElementById('skeleton-grid').style.display = 'none';
+    } finally {
       btn.classList.remove('loading');
-      renderResults(results);
-    }, 800);
+      btn.disabled = false;
+    }
   }
 
-  function showSkeletons() {
-    const wrap = document.getElementById('results-wrap');
-    wrap.classList.add('visible');
-    const list = document.getElementById('results-list');
-    list.innerHTML = Array(4).fill(0).map(() => `
-      <div class="skeleton-card">
-        <div class="skeleton-photo"></div>
-        <div class="skeleton-body">
-          <div class="skeleton-line h20 w60"></div>
-          <div class="skeleton-line w40"></div>
-          <div class="skeleton-line w80"></div>
-          <div class="skeleton-line w80"></div>
-          <div class="skeleton-line w40"></div>
-        </div>
-      </div>
-    `).join('');
+  // ──────────────────────────────────────────────────────────────
+  // RENDER RESULTS
+  // ──────────────────────────────────────────────────────────────
+  function renderResults(recs) {
+    document.getElementById('skeleton-grid').style.display = 'none';
 
-    const monthName = MONTHS[state.month - 1].full;
-    document.getElementById('results-title').textContent = `Buscando en ${monthName}…`;
-    document.getElementById('results-meta').textContent = `Analizando 20 destinos…`;
-  }
+    const month = MONTHS[selectedMonth - 1];
 
-  function renderResults(results) {
-    const monthName = MONTHS[state.month - 1].full;
-    document.getElementById('results-title').textContent = `Mejores destinos en ${monthName}`;
-    const vibeLabels = state.vibes.length ? ` · ${state.vibes.join(', ')}` : '';
-    document.getElementById('results-meta').textContent = `${results.length} destinos recomendados${vibeLabels}`;
+    // Update topbar
+    document.getElementById('results-title').textContent =
+      `Destinos para ${month.emoji} ${month.full}`;
+    document.getElementById('results-sub').textContent =
+      recs.length
+        ? `${recs.length} destinos encontrados · Ordenados por puntuación estacional`
+        : 'Sin resultados con estos filtros';
 
-    const list = document.getElementById('results-list');
-    if (results.length === 0) {
-      list.innerHTML = `<div class="no-results"><h3>Sin resultados</h3><p>Prueba a cambiar tus criterios.</p></div>`;
+    // Events highlight
+    renderEventsHighlight(selectedMonth, month);
+
+    // Cards
+    const grid = document.getElementById('dest-grid');
+    if (!recs.length) {
+      grid.innerHTML = `
+        <div class="empty-state" style="grid-column:1/-1">
+          <span class="empty-icon">🗺️</span>
+          <h3>Sin destinos para estos filtros</h3>
+          <p>Prueba a quitar algún filtro o selecciona otro mes para ver más opciones.</p>
+        </div>`;
       return;
     }
 
-    list.innerHTML = results.map(({ dest, score }, i) => {
-      const rank = i + 1;
-      const monthData = dest.months[state.month - 1];
-      const events = GLOBAL_EVENTS.filter(e => e.slugs.includes(dest.slug) && e.months.includes(state.month));
-      const [labelClass, labelText] = getScoreLabel(score, monthData);
-      const why = buildResultWhy(dest, state.month, events);
-      const positiveEvents = events.filter(e => e.impact > 0);
-      const negativeEvents = events.filter(e => e.impact < 0);
+    grid.innerHTML = recs.map(d => buildDestCard(d)).join('');
+  }
 
-      const eventBadges = [
-        ...positiveEvents.map(e => `<div class="event-badge must-see">${e.emoji} ${e.name}</div>`),
-        ...negativeEvents.map(e => `<div class="event-badge avoid">${e.emoji} ${e.name}</div>`),
-      ].join('');
+  // ──────────────────────────────────────────────────────────────
+  // BUILD DESTINATION CARD
+  // ──────────────────────────────────────────────────────────────
+  function buildDestCard(d) {
+    // Photo URL
+    let photoUrl = '';
+    if (d.pexels_url) {
+      photoUrl = d.pexels_url;
+    } else if (d.hero_photo_id) {
+      photoUrl = `https://images.pexels.com/photos/${d.hero_photo_id}/pexels-photo-${d.hero_photo_id}.jpeg?auto=compress&cs=tinysrgb&w=600`;
+    } else {
+      // Fallback: unsplash by destination name
+      photoUrl = `https://source.unsplash.com/600x400/?${encodeURIComponent(d.name || d.destination_name || 'travel')}`;
+    }
 
-      const temp   = monthData ? `🌡️ ${monthData.temp}°C` : '';
-      const crowd  = monthData ? `👥 ${getCrowdLabel(monthData.crowd)}` : '';
-      const budget = `💶 ${dest.budget_daily}/día`;
+    // Name & country
+    const name    = d.name || d.destination_name || 'Destino';
+    const country = d.country || d.country_name || '';
+    const flag    = d.flag || d.country_flag || '';
+    const slug    = d.slug || slugify(name);
 
-      return `
-        <div class="result-card" style="animation-delay:${i * 80}ms">
-          <div class="result-photo" style="background-image:url('${dest.photo_url}')">
-            <div class="result-rank${rank === 1 ? ' gold-rank' : ''}">#${rank}</div>
-            <div class="result-score-badge ${labelClass}">${labelText}</div>
+    // Score
+    const score     = d.overall_score || d.score || 0;
+    const scoreClass = score >= 8 ? 'great' : score >= 6 ? 'good' : 'ok';
+    const scoreLabel = score >= 8 ? `⭐ ${score}/10` : `${score}/10`;
+
+    // Weather
+    const weather = d.weather_description || d.weather || '';
+    const temp    = d.avg_temp != null ? d.avg_temp : (d.temperature || null);
+
+    // Crowd & price (1–5 scale)
+    const crowd = Math.min(5, Math.max(1, Math.round(d.crowd_level || d.crowding || 3)));
+    const price = Math.min(5, Math.max(1, Math.round(d.price_level || d.price || 3)));
+
+    // Events
+    const events = Array.isArray(d.events_this_month) ? d.events_this_month : [];
+
+    return `
+      <div class="dest-card">
+        <div class="dest-photo">
+          <img src="${photoUrl}" alt="${name}" loading="lazy"
+               onerror="this.src='https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=600'">
+          <div class="dest-photo-overlay"></div>
+          <div class="dest-score ${scoreClass}">${scoreLabel}</div>
+          ${flag ? `<div class="dest-country-flag">${flag}</div>` : ''}
+        </div>
+        <div class="dest-body">
+          <div class="dest-title">
+            <span class="dest-name">${name}</span>
+            ${country ? `<span class="dest-region">${country}</span>` : ''}
           </div>
-          <div class="result-body">
-            <div>
-              <h3 class="result-name">${dest.emoji} ${dest.name}</h3>
-              <p class="result-country">${dest.cities}</p>
+
+          ${weather ? `
+          <div class="dest-weather">
+            ${temp != null ? `<span class="temp-badge">🌡️ ${temp}°C</span>` : ''}
+            <span>${weather}</span>
+          </div>` : ''}
+
+          <div class="dest-metrics">
+            <div class="metric-item">
+              <span class="metric-label">Masificación</span>
+              <div class="metric-dots">
+                ${[1,2,3,4,5].map(i =>
+                  `<div class="metric-dot ${i <= crowd ? 'filled-crowd' : ''}"></div>`
+                ).join('')}
+              </div>
             </div>
-            <p class="result-why">${why}</p>
-            ${eventBadges}
-            <div class="result-stats">
-              ${temp ? `<span>${temp}</span>` : ''}
-              ${crowd ? `<span>${crowd}</span>` : ''}
-              <span>${budget}</span>
+            <div class="metric-item">
+              <span class="metric-label">Precio</span>
+              <div class="metric-dots">
+                ${[1,2,3,4,5].map(i =>
+                  `<div class="metric-dot ${i <= price ? 'filled-price' : ''}"></div>`
+                ).join('')}
+              </div>
             </div>
-            <a href="destino.html?slug=${dest.slug}" class="btn-see-guide">Ver guía completa →</a>
+          </div>
+
+          ${events.length ? `
+          <div class="dest-events">
+            ${events.slice(0, 2).map(ev =>
+              `<span class="event-tag"><span>${typeof ev === 'string' ? ev : (ev.name || ev)}</span></span>`
+            ).join('')}
+          </div>` : ''}
+
+          <div class="dest-footer">
+            <a href="destino.html?slug=${slug}" class="btn-ver-guia">Ver guía completa</a>
           </div>
         </div>
-      `;
-    }).join('');
-
-    // Also update events sidebar with current month
-    renderEventsSidebar(state.month);
+      </div>`;
   }
 
-  function scrollToResults() {
-    setTimeout(() => {
-      document.getElementById('results-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+  // ──────────────────────────────────────────────────────────────
+  // EVENTS HIGHLIGHT BAR
+  // ──────────────────────────────────────────────────────────────
+  function renderEventsHighlight(monthNum, month) {
+    const highlights = MONTH_HIGHLIGHTS[monthNum] || [];
+    const el         = document.getElementById('events-highlight');
+    const list       = document.getElementById('events-list-inline');
+
+    if (!highlights.length) {
+      el.style.display = 'none';
+      return;
+    }
+
+    document.getElementById('events-highlight-title').textContent =
+      `Eventos especiales en ${month.full}`;
+    document.getElementById('events-highlight-count').textContent =
+      `${highlights.length} destacados`;
+
+    list.innerHTML = highlights.map(h =>
+      `<div class="highlight-item">
+        <span class="hi-emoji">${h.emoji}</span>
+        <span>${h.text}</span>
+      </div>`
+    ).join('');
+
+    el.style.display = '';
   }
 
+  // ──────────────────────────────────────────────────────────────
+  // RESET
+  // ──────────────────────────────────────────────────────────────
   function resetSearch() {
-    document.getElementById('results-wrap').classList.remove('visible');
-    document.getElementById('btn-search').disabled = false;
-    document.getElementById('form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    selectedMonth   = null;
+    selectedClimate = [];
+    selectedBudget  = null;
+    selectedStyle   = [];
+
+    document.querySelectorAll('.month-card').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('selected'));
+    document.getElementById('step1-num').classList.remove('done');
+    document.getElementById('step2-num').classList.remove('done');
+    document.getElementById('month-hint').textContent = 'Selecciona uno';
+    document.getElementById('filters-bar').classList.remove('visible');
+    document.getElementById('btn-buscar').disabled = true;
+    document.getElementById('results-section').classList.remove('visible');
+    document.getElementById('error-banner').classList.remove('visible');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ──────────────────────────────────────────────────────────────
+  // HELPERS
+  // ──────────────────────────────────────────────────────────────
+  function slugify(str) {
+    return str.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  // ──────────────────────────────────────────────────────────────
+  // INIT
+  // ──────────────────────────────────────────────────────────────
+  buildMonthGrid();
+  initFilterPills();
+
+  document.getElementById('btn-buscar').addEventListener('click', loadDestinations);
+
+  // Pre-select month from URL param if present
+  const urlMonth = new URLSearchParams(location.search).get('month');
+  if (urlMonth && !isNaN(urlMonth)) {
+    const m = parseInt(urlMonth);
+    if (m >= 1 && m <= 12) selectMonth(m);
   }
   </script>
+
 </body>
 </html>
