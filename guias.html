@@ -986,8 +986,8 @@ function goSurprise(e) {
 // ── Auth nav ───────────────────────────────────────────────────────────────────
 (function initNav() {
   try {
-    const token = localStorage.getItem('vm_token') || localStorage.getItem('token');
-    const user = localStorage.getItem('vm_user') || localStorage.getItem('user');
+    const token = localStorage.getItem('token') || localStorage.getItem('token');
+    const user = localStorage.getItem('viajeramente_user') || localStorage.getItem('user');
     if (token && user) {
       const u = JSON.parse(user);
       const initials = ((u.name || u.email || '?').split(' ').map(n => n[0]).join('').slice(0,2)).toUpperCase();
