@@ -21,11 +21,11 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #FFFFFF;
-      --bg-soft: #F8FAFC;
+      --bg: #F8FAFC;
+      --bg-soft: #F1F5F9;
       --text: #0F172A;
       --text-2: #64748B;
-      --text-3: #9CA3AF;
+      --text-3: #94A3B8;
       --border: #E2E8F0;
       --accent: #0EA5E9;
       --accent-dark: #0284C7;
@@ -33,9 +33,11 @@
       --green: #10B981;
       --green-light: #D1FAE5;
       --gold: #F59E0B;
-      --shadow-sm: 0 1px 4px rgba(0,0,0,.06);
-      --shadow-md: 0 4px 16px rgba(0,0,0,.08);
-      --radius: 16px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
+      --shadow-lg: 0 10px 40px rgba(0,0,0,.1), 0 4px 12px rgba(0,0,0,.06);
+      --radius: 20px;
+      --radius-sm: 12px;
     }
 
     html { scroll-behavior: smooth; }
@@ -56,7 +58,9 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: #fff;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 24px;
       height: 60px;
@@ -120,55 +124,57 @@
     .page-wrap {
       max-width: 900px;
       margin: 0 auto;
-      padding: 24px 16px 80px;
+      padding: 0 0 80px;
     }
 
-    /* ── PROFILE HEADER CARD ── */
-    .profile-header {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .profile-cover {
-      height: 180px;
-      background: linear-gradient(135deg, #0EA5E9 0%, #10B981 100%);
+    /* ── HERO SECTION ── */
+    .profile-hero {
+      background: linear-gradient(145deg, #0EA5E9 0%, #0369A1 45%, #10B981 100%);
       position: relative;
       overflow: hidden;
+      padding-bottom: 0;
+      box-shadow: 0 4px 24px rgba(14,165,233,.18);
+      margin-bottom: 8px;
     }
-    .profile-cover::after {
+    .profile-hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(255,255,255,.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(16,185,129,.3) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='40' cy='40' r='30'/%3E%3Ccircle cx='0' cy='0' r='15'/%3E%3Ccircle cx='80' cy='80' r='15'/%3E%3C/g%3E%3C/svg%3E") repeat;
+    }
+    .hero-cover-actions {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 3;
+      display: flex;
+      gap: 8px;
     }
     .btn-edit-cover {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      background: rgba(255,255,255,.9);
-      border: none;
-      border-radius: 8px;
-      padding: 6px 12px;
+      background: rgba(255,255,255,.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 10px;
+      padding: 7px 14px;
       font-size: .8rem;
       font-weight: 600;
-      color: var(--text);
+      color: #fff;
       cursor: pointer;
       z-index: 2;
       transition: all .2s;
     }
-    .btn-edit-cover:hover { background: #fff; }
+    .btn-edit-cover:hover { background: rgba(255,255,255,.3); }
 
-    .profile-top {
+    .hero-body {
+      position: relative;
+      z-index: 2;
+      padding: 48px 28px 0;
       display: flex;
       align-items: flex-end;
-      gap: 16px;
-      padding: 0 24px 16px;
-      margin-top: -44px;
-      position: relative;
+      gap: 22px;
       flex-wrap: wrap;
     }
 
@@ -177,26 +183,26 @@
       flex-shrink: 0;
     }
     .avatar {
-      width: 88px;
-      height: 88px;
+      width: 96px;
+      height: 96px;
       border-radius: 50%;
-      border: 3px solid #fff;
+      border: 4px solid rgba(255,255,255,.9);
       object-fit: cover;
       background: var(--accent-light);
-      box-shadow: var(--shadow-md);
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
       display: block;
     }
     .avatar-placeholder {
-      width: 88px;
-      height: 88px;
+      width: 96px;
+      height: 96px;
       border-radius: 50%;
-      border: 3px solid #fff;
-      background: linear-gradient(135deg, var(--accent), var(--green));
-      box-shadow: var(--shadow-md);
+      border: 4px solid rgba(255,255,255,.9);
+      background: linear-gradient(135deg, rgba(255,255,255,.3), rgba(255,255,255,.1));
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2rem;
+      font-size: 2.4rem;
       color: #fff;
       font-weight: 700;
       font-family: 'Space Grotesk', sans-serif;
@@ -205,8 +211,8 @@
       position: absolute;
       bottom: 2px;
       right: 2px;
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       background: var(--accent);
       border: 2px solid #fff;
@@ -216,87 +222,787 @@
       align-items: center;
       justify-content: center;
       transition: background .2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,.2);
     }
     .btn-edit-avatar:hover { background: var(--accent-dark); }
 
-    .profile-info {
+    .hero-info {
       flex: 1;
-      min-width: 150px;
-      padding-top: 48px;
+      min-width: 180px;
+      padding-bottom: 6px;
     }
-    .profile-info h1 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.2;
+    .hero-info h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      text-shadow: 0 2px 8px rgba(0,0,0,.15);
     }
     .profile-handle {
       font-size: .88rem;
-      color: var(--text-2);
+      color: rgba(255,255,255,.75);
       margin-top: 2px;
     }
     .travel-level {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 6px;
+      margin-top: 8px;
       flex-wrap: wrap;
     }
     .level-badge {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      padding: 3px 10px;
+      gap: 5px;
+      padding: 4px 12px;
       border-radius: 20px;
-      font-size: .8rem;
-      font-weight: 600;
+      font-size: .82rem;
+      font-weight: 700;
+      backdrop-filter: blur(8px);
     }
-    .level-badge.bronze { background: #FEF3C7; color: #92400E; }
-    .level-badge.silver { background: #F3F4F6; color: #4B5563; }
-    .level-badge.gold { background: #FEF3C7; color: #92400E; }
-    .level-badge.diamond { background: var(--accent-light); color: var(--accent-dark); }
-    .level-badge.sapphire { background: #EDE9FE; color: #7C3AED; }
+    .level-badge.bronze { background: rgba(245,158,11,.25); color: #fff; border: 1px solid rgba(245,158,11,.4); }
+    .level-badge.silver { background: rgba(255,255,255,.2); color: #fff; border: 1px solid rgba(255,255,255,.3); }
+    .level-badge.gold { background: rgba(245,158,11,.3); color: #fff; border: 1px solid rgba(245,158,11,.5); }
+    .level-badge.diamond { background: rgba(14,165,233,.3); color: #fff; border: 1px solid rgba(14,165,233,.5); }
+    .level-badge.sapphire { background: rgba(124,58,237,.35); color: #fff; border: 1px solid rgba(124,58,237,.5); }
     .level-km {
       font-size: .8rem;
-      color: var(--text-2);
+      color: rgba(255,255,255,.7);
     }
 
+    .hero-actions {
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 6px;
+    }
     .btn-edit-profile {
-      padding: 8px 18px;
-      background: var(--accent);
+      padding: 9px 20px;
+      background: rgba(255,255,255,.15);
       color: #fff;
-      border: none;
-      border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,.4);
+      border-radius: 12px;
       font-size: .875rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background .2s;
+      transition: all .2s;
       white-space: nowrap;
-      align-self: flex-end;
-      margin-bottom: 2px;
+      backdrop-filter: blur(8px);
     }
-    .btn-edit-profile:hover { background: var(--accent-dark); }
-    .btn-edit-profile.active { background: var(--green); }
+    .btn-edit-profile:hover { background: rgba(255,255,255,.25); }
+    .btn-edit-profile.active { background: var(--green); border-color: var(--green); }
 
+    .profile-bio-wrap {
+      position: relative;
+      z-index: 2;
+      padding: 16px 28px 0;
+    }
     .profile-bio {
-      padding: 4px 24px 0;
       font-size: .9rem;
-      color: var(--text-2);
+      color: rgba(255,255,255,.85);
       line-height: 1.5;
     }
 
     .profile-meta {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 12px 24px 20px;
-      font-size: .85rem;
-      color: var(--text-2);
+      gap: 18px;
+      padding: 12px 28px 22px;
+      font-size: .82rem;
+      color: rgba(255,255,255,.7);
       flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
     }
     .profile-meta span { display: flex; align-items: center; gap: 4px; }
 
-    /* ── STATS GRID ── */
+    /* ── HERO STATS BAR ── */
+    .hero-stats-bar {
+      background: #fff;
+      border-top: 1px solid rgba(255,255,255,.2);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      position: relative;
+      z-index: 2;
+      border-radius: 0 0 24px 24px;
+    }
+    .hero-stat {
+      padding: 18px 12px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      transition: background .2s;
+    }
+    .hero-stat:last-child { border-right: none; }
+    .hero-stat:hover { background: var(--bg-soft); }
+    .hero-stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: .72rem;
+      color: var(--text-3);
+      margin-top: 4px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .hero-stat-icon {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+    @media (max-width: 600px) {
+      .hero-info h1 { font-size: 1.4rem; }
+      .hero-body { padding: 32px 20px 0; }
+      .profile-bio-wrap, .profile-meta { padding-left: 20px; padding-right: 20px; }
+      .hero-stat-num { font-size: 1.35rem; }
+      .hero-stat { padding: 14px 8px; }
+    }
+
+    /* ── PAGE CONTENT ── */
+    .page-content {
+      padding: 20px 16px;
+    }
+    @media (min-width: 600px) {
+      .page-content { padding: 24px 24px; }
+    }
+
+    /* ── SECTION CARD ── */
+    .section-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow .2s;
+    }
+    .section-card:hover { box-shadow: var(--shadow-md); }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    .section-badge {
+      font-size: .78rem;
+      background: var(--bg-soft);
+      color: var(--text-2);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+    }
+    .section-hint {
+      font-size: .78rem;
+      color: var(--text-3);
+    }
+
+    /* ── OLD STATS (hidden — replaced by hero bar) ── */
+    .stats-grid { display: none !important; }
+
+    /* ── WORLD MAP ── */
+    .map-container {
+      width: 100%;
+      position: relative;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%);
+      border: 1px solid var(--border);
+      min-height: 280px;
+    }
+    @media (min-width: 600px) {
+      .map-container { min-height: 360px; }
+    }
+    #worldMap {
+      width: 100%;
+      display: block;
+    }
+    .map-tooltip {
+      position: fixed;
+      background: var(--text);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: .8rem;
+      font-weight: 600;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .15s;
+      z-index: 999;
+      white-space: nowrap;
+    }
+    .map-tooltip.visible { opacity: 1; }
+
+    .map-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .map-counter {
+      font-size: .9rem;
+      color: var(--text-2);
+    }
+    .map-counter strong { color: var(--accent); font-size: 1.1rem; }
+    .map-legend {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: .8rem;
+      color: var(--text-2);
+    }
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    /* Country search */
+    .country-search-wrap {
+      margin-top: 16px;
+    }
+    .country-search-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg-soft);
+      transition: border .2s, box-shadow .2s;
+      outline: none;
+    }
+    .country-search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233,.1);
+    }
+    .country-results {
+      margin-top: 6px;
+      max-height: 220px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      display: none;
+    }
+    .country-results.open { display: block; }
+    .country-result-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: .875rem;
+      transition: background .15s;
+      border-bottom: 1px solid var(--border);
+    }
+    .country-result-item:last-child { border-bottom: none; }
+    .country-result-item:hover { background: var(--bg-soft); }
+    .country-result-item.visited { color: var(--accent); }
+    .country-result-item .visited-tag {
+      font-size: .75rem;
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    /* ── CONTINENTS ── */
+    .continents-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 480px) {
+      .continents-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .continent-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all .2s;
+      background: var(--bg-soft);
+    }
+    .continent-badge.visited {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+    .continent-badge:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+    .continent-emoji { font-size: 1.4rem; }
+    .continent-name {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text-2);
+    }
+    .continent-badge.visited .continent-name { color: var(--accent-dark); }
+    .continent-check {
+      margin-left: auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      color: transparent;
+    }
+    .continent-badge.visited .continent-check {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* ── WONDERS ── */
+    .wonders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+    }
+    @media (max-width: 480px) {
+      .wonders-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .wonder-card {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: all .2s;
+      position: relative;
+      background: var(--bg-soft);
+    }
+    .wonder-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .wonder-card.visited { border-color: var(--green); }
+    .wonder-photo {
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, var(--accent-light), var(--green-light));
+    }
+    .wonder-info {
+      padding: 8px 10px;
+    }
+    .wonder-name {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .wonder-country {
+      font-size: .72rem;
+      color: var(--text-3);
+      margin-top: 1px;
+    }
+    .wonder-check {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      transition: all .2s;
+    }
+    .wonder-card.visited .wonder-check {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+    .wonder-visited-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(16,185,129,.15);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .wonder-card.visited .wonder-visited-overlay { opacity: 1; }
+
+    /* ── BADGES ── */
+    .badges-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .badges-scroll::-webkit-scrollbar { height: 4px; }
+    .badges-scroll::-webkit-scrollbar-track { background: var(--bg-soft); border-radius: 2px; }
+    .badges-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .badge-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      min-width: 90px;
+      flex-shrink: 0;
+      cursor: default;
+      text-align: center;
+      transition: all .2s;
+    }
+    .badge-chip.earned {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      box-shadow: 0 2px 8px rgba(14,165,233,.12);
+    }
+    .badge-chip.locked {
+      background: var(--bg-soft);
+      opacity: .6;
+    }
+    .badge-emoji { font-size: 1.5rem; }
+    .badge-chip span:nth-child(2) {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--text-2);
+    }
+    .badge-chip.earned span:nth-child(2) { color: var(--accent-dark); }
+    .badge-progress {
+      font-size: .7rem;
+      color: var(--text-3);
+      background: var(--border);
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    /* ── TRIPS ── */
+    .trips-list { display: flex; flex-direction: column; gap: 14px; }
+
+    .trip-card {
+      display: flex;
+      gap: 0;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all .25s;
+      position: relative;
+      box-shadow: var(--shadow-sm);
+    }
+    .trip-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .trip-photo-wrap {
+      flex-shrink: 0;
+      width: 120px;
+    }
+    .trip-photo {
+      width: 120px;
+      height: 100%;
+      min-height: 120px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, var(--accent-light), var(--green-light));
+    }
+    .trip-info {
+      flex: 1;
+      padding: 16px 16px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .trip-info h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .trip-dates {
+      font-size: .8rem;
+      color: var(--text-3);
+      margin-top: 4px;
+    }
+    .trip-desc {
+      font-size: .83rem;
+      color: var(--text-2);
+      margin-top: 8px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .trip-meta {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .trip-meta span {
+      font-size: .74rem;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      padding: 3px 9px;
+      border-radius: 20px;
+      color: var(--text-2);
+      font-weight: 500;
+    }
+    .btn-trip-edit {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255,255,255,.9);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 9px;
+      font-size: .8rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity .2s;
+      backdrop-filter: blur(4px);
+    }
+    .trip-card:hover .btn-trip-edit { opacity: 1; }
+
+    .btn-add-trip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 16px;
+      background: var(--bg-soft);
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--accent);
+      cursor: pointer;
+      transition: all .2s;
+      margin-top: 8px;
+    }
+    .btn-add-trip:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+    }
+
+    /* ── EDIT PANEL ── */
+    .edit-panel {
+      display: none;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-md);
+    }
+    .edit-panel.open { display: block; }
+
+    .edit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 600px) {
+      .edit-grid { grid-template-columns: 1fr; }
+    }
+    .edit-group { display: flex; flex-direction: column; gap: 5px; }
+    .edit-group.full { grid-column: 1 / -1; }
+    .edit-label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--text-2);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .edit-input, .edit-textarea, .edit-select {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg-soft);
+      outline: none;
+      transition: border .2s, box-shadow .2s;
+    }
+    .edit-input:focus, .edit-textarea:focus, .edit-select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233,.1);
+    }
+    .edit-textarea { resize: vertical; min-height: 80px; }
+    .travel-styles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .style-tag {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      font-size: .82rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text-2);
+      background: #fff;
+      transition: all .2s;
+    }
+    .style-tag:hover { border-color: var(--accent); color: var(--accent); }
+    .style-tag.active {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+    .edit-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .btn-save {
+      padding: 10px 24px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-save:hover { background: var(--accent-dark); }
+    .btn-cancel {
+      padding: 10px 18px;
+      background: var(--bg-soft);
+      color: var(--text-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-cancel:hover { background: var(--border); }
+
+    /* ── ADD TRIP MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.4);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+    }
+    .modal-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+    .modal-close {
+      float: right;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text-2);
+      line-height: 1;
+      margin-top: -4px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 20px;
+      background: var(--text);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: .875rem;
+      font-weight: 500;
+      z-index: 9999;
+      transform: translateY(60px);
+      opacity: 0;
+      transition: all .3s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: var(--shadow-lg);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: var(--green); }
+    .toast.error { background: #EF4444; }
+
+    /* Loading spinner */
+    .loading-map {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 280px;
+      color: var(--text-3);
+      font-size: .9rem;
+      gap: 10px;
+    }
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── PROFILE HEADER CARD (legacy wrapper kept for JS) ── */
+    .profile-header {
+      background: none;
+      border: none;
+      box-shadow: none;
+      margin-bottom: 0;
+      overflow: visible;
+    }
+  </style>
     .section-title {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.05rem;
@@ -933,17 +1639,19 @@
   </div>
 </nav>
 
-<!-- ── MAIN ── -->
+<!-- ── PAGE WRAP (full width for hero) ── -->
 <div class="page-wrap">
 
-  <!-- ── PROFILE HEADER CARD ── -->
-  <div class="profile-header">
-    <div class="profile-cover" id="profileCover">
-      <button class="btn-edit-cover" onclick="triggerCoverUpload()">Cambiar portada</button>
+  <!-- ── PROFILE HERO ── -->
+  <div class="profile-hero">
+    <!-- Hero cover actions (top-right) -->
+    <div class="hero-cover-actions">
+      <button class="btn-edit-cover" onclick="triggerCoverUpload()">📷 Portada</button>
       <input type="file" id="coverInput" accept="image/*" style="display:none" onchange="handleCoverUpload(event)">
     </div>
 
-    <div class="profile-top">
+    <!-- Hero body: avatar + info + edit button -->
+    <div class="hero-body">
       <div class="avatar-wrap">
         <div class="avatar-placeholder" id="profileAvatarPlaceholder" style="display:flex;">E</div>
         <img class="avatar" id="profileAvatar" src="" style="display:none;" alt="Avatar">
@@ -951,7 +1659,7 @@
         <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
       </div>
 
-      <div class="profile-info">
+      <div class="hero-info">
         <h1 id="profileName">Cargando...</h1>
         <p class="profile-handle" id="profileHandle">@usuario</p>
         <div class="travel-level">
@@ -960,218 +1668,265 @@
         </div>
       </div>
 
-      <button class="btn-edit-profile" id="btnEdit" onclick="toggleEdit()">Editar perfil</button>
+      <div class="hero-actions">
+        <button class="btn-edit-profile" id="btnEdit" onclick="toggleEdit()">✏️ Editar perfil</button>
+      </div>
     </div>
 
-    <p class="profile-bio" id="profileBio">Viajero apasionado en busca de nuevas aventuras por el mundo.</p>
-
+    <!-- Bio + meta below avatar -->
+    <div class="profile-bio-wrap">
+      <p class="profile-bio" id="profileBio">Viajero apasionado en busca de nuevas aventuras por el mundo.</p>
+    </div>
     <div class="profile-meta">
       <span>📍 <span id="profileCity">—</span></span>
-      <span>🗓️ Viajero desde <span id="memberSince">2024</span></span>
+      <span>🗓️ Desde <span id="memberSince">2024</span></span>
       <span>✈️ <span id="tripsCount">0</span> viajes</span>
+    </div>
+
+    <!-- Stats bar pinned to the bottom of the hero -->
+    <div class="hero-stats-bar">
+      <div class="hero-stat">
+        <div class="hero-stat-icon">🌍</div>
+        <div class="hero-stat-num" id="statCountries">0</div>
+        <div class="hero-stat-label">Países</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-icon">🏙️</div>
+        <div class="hero-stat-num" id="statCities">0</div>
+        <div class="hero-stat-label">Ciudades</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-icon">🗺️</div>
+        <div class="hero-stat-num" id="statContinents">0</div>
+        <div class="hero-stat-label">Continentes</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-icon">⭐</div>
+        <div class="hero-stat-num" id="statWonders">0</div>
+        <div class="hero-stat-label">Maravillas</div>
+      </div>
     </div>
   </div>
 
-  <!-- ── EDIT PANEL ── -->
-  <div class="edit-panel" id="editPanel">
-    <h2 class="section-title" style="margin-bottom:16px;">✏️ Editar perfil</h2>
-    <div class="edit-grid">
-      <div class="edit-group">
-        <label class="edit-label">Nombre</label>
-        <input class="edit-input" id="editName" type="text" placeholder="Tu nombre completo">
+  <!-- ── Hidden profile-header wrapper kept for JS compatibility ── -->
+  <div class="profile-header" style="display:none;">
+    <div class="profile-cover" id="profileCover"></div>
+    <div class="profile-top"></div>
+  </div>
+
+  <!-- ── PAGE CONTENT (cards) ── -->
+  <div class="page-content">
+
+    <!-- ── EDIT PANEL ── -->
+    <div class="edit-panel" id="editPanel">
+      <div class="section-header" style="margin-bottom:20px;">
+        <div class="section-title">
+          <div class="section-title-icon">✏️</div>
+          Editar perfil
+        </div>
       </div>
-      <div class="edit-group">
-        <label class="edit-label">Usuario</label>
-        <input class="edit-input" id="editUsername" type="text" placeholder="@usuario">
+      <div class="edit-grid">
+        <div class="edit-group">
+          <label class="edit-label">Nombre</label>
+          <input class="edit-input" id="editName" type="text" placeholder="Tu nombre completo">
+        </div>
+        <div class="edit-group">
+          <label class="edit-label">Usuario</label>
+          <input class="edit-input" id="editUsername" type="text" placeholder="@usuario">
+        </div>
+        <div class="edit-group full">
+          <label class="edit-label">Bio</label>
+          <textarea class="edit-textarea" id="editBio" placeholder="Cuéntanos sobre ti como viajero..."></textarea>
+        </div>
+        <div class="edit-group">
+          <label class="edit-label">Ciudad</label>
+          <input class="edit-input" id="editCity" type="text" placeholder="Buenos Aires">
+        </div>
+        <div class="edit-group">
+          <label class="edit-label">País</label>
+          <input class="edit-input" id="editCountry" type="text" placeholder="Argentina">
+        </div>
+        <div class="edit-group">
+          <label class="edit-label">Presupuesto diario</label>
+          <select class="edit-select" id="editBudget">
+            <option value="">Seleccionar...</option>
+            <option value="budget">Mochilero (hasta $50/día)</option>
+            <option value="mid">Medio ($50–150/día)</option>
+            <option value="comfort">Cómodo ($150–300/día)</option>
+            <option value="luxury">Lujo ($300+/día)</option>
+          </select>
+        </div>
+        <div class="edit-group">
+          <label class="edit-label">Instagram</label>
+          <input class="edit-input" id="editInstagram" type="text" placeholder="@tuinstagram">
+        </div>
+        <div class="edit-group">
+          <label class="edit-label">Web / Blog</label>
+          <input class="edit-input" id="editWebsite" type="url" placeholder="https://...">
+        </div>
+        <div class="edit-group full">
+          <label class="edit-label">Idiomas</label>
+          <input class="edit-input" id="editLanguages" type="text" placeholder="Español, Inglés, Portugués">
+        </div>
+        <div class="edit-group full">
+          <label class="edit-label">Estilo de viaje</label>
+          <div class="travel-styles" id="travelStylesWrap">
+            <span class="style-tag" data-style="aventura">🧗 Aventura</span>
+            <span class="style-tag" data-style="cultural">🎭 Cultural</span>
+            <span class="style-tag" data-style="gastronomico">🍜 Gastronómico</span>
+            <span class="style-tag" data-style="naturaleza">🌿 Naturaleza</span>
+            <span class="style-tag" data-style="playa">🏖️ Playa</span>
+            <span class="style-tag" data-style="urbano">🏙️ Urbano</span>
+            <span class="style-tag" data-style="lujo">✨ Lujo</span>
+            <span class="style-tag" data-style="mochilero">🎒 Mochilero</span>
+          </div>
+        </div>
       </div>
-      <div class="edit-group full">
-        <label class="edit-label">Bio</label>
-        <textarea class="edit-textarea" id="editBio" placeholder="Cuéntanos sobre ti como viajero..."></textarea>
+      <div class="edit-actions">
+        <button class="btn-save" onclick="saveProfileChanges()">Guardar cambios</button>
+        <button class="btn-cancel" onclick="toggleEdit()">Cancelar</button>
       </div>
-      <div class="edit-group">
-        <label class="edit-label">Ciudad</label>
-        <input class="edit-input" id="editCity" type="text" placeholder="Buenos Aires">
+    </div>
+
+    <!-- Hidden stats-grid kept for JS compatibility -->
+    <div class="stats-grid" style="display:none!important;">
+      <div class="stat-card"><div class="stat-number" id="_statCountries_unused">0</div></div>
+      <div class="stat-card"><div class="stat-number" id="_statCities_unused">0</div></div>
+      <div class="stat-card"><div class="stat-number" id="_statContinents_unused">0</div></div>
+      <div class="stat-card"><div class="stat-number" id="_statWonders_unused">0</div></div>
+    </div>
+
+    <!-- ── VIAJES ── -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-title-icon">✈️</div>
+          Mis viajes
+        </div>
+        <span class="section-badge" id="tripsCountLabel">0 viajes</span>
       </div>
-      <div class="edit-group">
-        <label class="edit-label">País</label>
-        <input class="edit-input" id="editCountry" type="text" placeholder="Argentina">
+      <div class="trips-list" id="tripsList">
+        <div style="text-align:center;padding:40px 20px;color:var(--text-3);font-size:.9rem;">
+          <div style="font-size:2.5rem;margin-bottom:12px;">✈️</div>
+          Aún no has registrado viajes. ¡Empieza ahora!
+        </div>
       </div>
-      <div class="edit-group">
-        <label class="edit-label">Presupuesto diario</label>
-        <select class="edit-select" id="editBudget">
-          <option value="">Seleccionar...</option>
-          <option value="budget">Mochilero (hasta $50/día)</option>
-          <option value="mid">Medio ($50–150/día)</option>
-          <option value="comfort">Cómodo ($150–300/día)</option>
-          <option value="luxury">Lujo ($300+/día)</option>
-        </select>
+      <button class="btn-add-trip" onclick="openAddTripModal()">
+        + Registrar nuevo viaje
+      </button>
+    </div>
+
+    <!-- ── WORLD MAP ── -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-title-icon">🗺️</div>
+          Mi mapa mundial
+        </div>
+        <span class="section-hint">Toca un país para marcarlo</span>
       </div>
-      <div class="edit-group">
-        <label class="edit-label">Instagram</label>
-        <input class="edit-input" id="editInstagram" type="text" placeholder="@tuinstagram">
+
+      <div class="map-container">
+        <div class="loading-map" id="mapLoading">
+          <div class="spinner"></div>
+          Cargando mapa...
+        </div>
+        <svg id="worldMap" style="display:none;"></svg>
       </div>
-      <div class="edit-group">
-        <label class="edit-label">Web / Blog</label>
-        <input class="edit-input" id="editWebsite" type="url" placeholder="https://...">
+
+      <div class="map-tooltip" id="mapTooltip"></div>
+
+      <div class="map-footer">
+        <div class="map-counter">
+          Has visitado <strong id="visitedCount">0</strong> de 195 países
+        </div>
+        <div class="map-legend">
+          <span><span class="legend-dot" style="background:#0EA5E9;"></span> Visitado</span>
+          <span><span class="legend-dot" style="background:#E2E8F0;"></span> No visitado</span>
+        </div>
       </div>
-      <div class="edit-group full">
-        <label class="edit-label">Idiomas</label>
-        <input class="edit-input" id="editLanguages" type="text" placeholder="Español, Inglés, Portugués">
+
+      <!-- Country search -->
+      <div class="country-search-wrap">
+        <input
+          class="country-search-input"
+          id="countrySearch"
+          type="text"
+          placeholder="🔍 Buscar y añadir un país visitado..."
+          oninput="filterCountries(this.value)"
+          onfocus="showCountryResults()"
+        >
+        <div class="country-results" id="countryResults"></div>
       </div>
-      <div class="edit-group full">
-        <label class="edit-label">Estilo de viaje</label>
-        <div class="travel-styles" id="travelStylesWrap">
-          <span class="style-tag" data-style="aventura">🧗 Aventura</span>
-          <span class="style-tag" data-style="cultural">🎭 Cultural</span>
-          <span class="style-tag" data-style="gastronomico">🍜 Gastronómico</span>
-          <span class="style-tag" data-style="naturaleza">🌿 Naturaleza</span>
-          <span class="style-tag" data-style="playa">🏖️ Playa</span>
-          <span class="style-tag" data-style="urbano">🏙️ Urbano</span>
-          <span class="style-tag" data-style="lujo">✨ Lujo</span>
-          <span class="style-tag" data-style="mochilero">🎒 Mochilero</span>
+    </div>
+
+    <!-- ── CONTINENTS ── -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-title-icon">🌐</div>
+          Continentes visitados
+        </div>
+        <span class="section-badge" id="continentsBadge"><span id="statContinents2">0</span>/6</span>
+      </div>
+      <div class="continents-grid" id="continentsGrid">
+        <div class="continent-badge" data-continent="america" onclick="toggleContinent(this)">
+          <span class="continent-emoji">🌎</span>
+          <span class="continent-name">América</span>
+          <span class="continent-check">✓</span>
+        </div>
+        <div class="continent-badge" data-continent="europa" onclick="toggleContinent(this)">
+          <span class="continent-emoji">🏰</span>
+          <span class="continent-name">Europa</span>
+          <span class="continent-check">✓</span>
+        </div>
+        <div class="continent-badge" data-continent="asia" onclick="toggleContinent(this)">
+          <span class="continent-emoji">🌏</span>
+          <span class="continent-name">Asia</span>
+          <span class="continent-check">✓</span>
+        </div>
+        <div class="continent-badge" data-continent="africa" onclick="toggleContinent(this)">
+          <span class="continent-emoji">🌍</span>
+          <span class="continent-name">África</span>
+          <span class="continent-check">✓</span>
+        </div>
+        <div class="continent-badge" data-continent="oceania" onclick="toggleContinent(this)">
+          <span class="continent-emoji">🦘</span>
+          <span class="continent-name">Oceanía</span>
+          <span class="continent-check">✓</span>
+        </div>
+        <div class="continent-badge" data-continent="antartica" onclick="toggleContinent(this)">
+          <span class="continent-emoji">🧊</span>
+          <span class="continent-name">Antártida</span>
+          <span class="continent-check">✓</span>
         </div>
       </div>
     </div>
-    <div class="edit-actions">
-      <button class="btn-save" onclick="saveProfileChanges()">Guardar cambios</button>
-      <button class="btn-cancel" onclick="toggleEdit()">Cancelar</button>
-    </div>
-  </div>
 
-  <!-- ── TRAVEL STATS ── -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-icon">🌍</div>
-      <div class="stat-number" id="statCountries">0</div>
-      <div class="stat-label">Países</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">🏙️</div>
-      <div class="stat-number" id="statCities">0</div>
-      <div class="stat-label">Ciudades</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">🗺️</div>
-      <div class="stat-number" id="statContinents">0</div>
-      <div class="stat-label">Continentes</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">⭐</div>
-      <div class="stat-number" id="statWonders">0</div>
-      <div class="stat-label">Maravillas</div>
-    </div>
-  </div>
-
-  <!-- ── WORLD MAP ── -->
-  <div class="section-card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-      <h2 class="section-title" style="margin:0;">🗺️ Mi mapa mundial</h2>
-      <span style="font-size:.8rem;color:var(--text-3);">Haz clic en un país para marcarlo</span>
+    <!-- ── WONDERS OF THE WORLD ── -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-title-icon">⭐</div>
+          Maravillas del mundo
+        </div>
+        <span class="section-badge"><strong id="wondersVisitedCount" style="color:var(--accent);">0</strong>/25 visitadas</span>
+      </div>
+      <div class="wonders-grid" id="wondersGrid"></div>
     </div>
 
-    <div class="map-container">
-      <div class="loading-map" id="mapLoading">
-        <div class="spinner"></div>
-        Cargando mapa...
+    <!-- ── BADGES ── -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-title-icon">🏅</div>
+          Mis logros
+        </div>
       </div>
-      <svg id="worldMap" style="display:none;"></svg>
+      <div class="badges-scroll" id="badgesRow"></div>
     </div>
 
-    <div class="map-tooltip" id="mapTooltip"></div>
-
-    <div class="map-footer">
-      <div class="map-counter">
-        Has visitado <strong id="visitedCount">0</strong> de 195 países
-      </div>
-      <div class="map-legend">
-        <span><span class="legend-dot" style="background:#0EA5E9;"></span> Visitado</span>
-        <span><span class="legend-dot" style="background:#E2E8F0;"></span> No visitado</span>
-      </div>
-    </div>
-
-    <!-- Country search -->
-    <div class="country-search-wrap">
-      <input
-        class="country-search-input"
-        id="countrySearch"
-        type="text"
-        placeholder="🔍 Buscar y añadir un país visitado..."
-        oninput="filterCountries(this.value)"
-        onfocus="showCountryResults()"
-      >
-      <div class="country-results" id="countryResults"></div>
-    </div>
-  </div>
-
-  <!-- ── CONTINENTS ── -->
-  <div class="section-card">
-    <h2 class="section-title">🌐 Continentes visitados</h2>
-    <div class="continents-grid" id="continentsGrid">
-      <div class="continent-badge" data-continent="america" onclick="toggleContinent(this)">
-        <span class="continent-emoji">🌎</span>
-        <span class="continent-name">América</span>
-        <span class="continent-check">✓</span>
-      </div>
-      <div class="continent-badge" data-continent="europa" onclick="toggleContinent(this)">
-        <span class="continent-emoji">🏰</span>
-        <span class="continent-name">Europa</span>
-        <span class="continent-check">✓</span>
-      </div>
-      <div class="continent-badge" data-continent="asia" onclick="toggleContinent(this)">
-        <span class="continent-emoji">🌏</span>
-        <span class="continent-name">Asia</span>
-        <span class="continent-check">✓</span>
-      </div>
-      <div class="continent-badge" data-continent="africa" onclick="toggleContinent(this)">
-        <span class="continent-emoji">🌍</span>
-        <span class="continent-name">África</span>
-        <span class="continent-check">✓</span>
-      </div>
-      <div class="continent-badge" data-continent="oceania" onclick="toggleContinent(this)">
-        <span class="continent-emoji">🦘</span>
-        <span class="continent-name">Oceanía</span>
-        <span class="continent-check">✓</span>
-      </div>
-      <div class="continent-badge" data-continent="antartica" onclick="toggleContinent(this)">
-        <span class="continent-emoji">🧊</span>
-        <span class="continent-name">Antártida</span>
-        <span class="continent-check">✓</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── WONDERS OF THE WORLD ── -->
-  <div class="section-card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-      <h2 class="section-title" style="margin:0;">⭐ Maravillas del mundo</h2>
-      <span style="font-size:.85rem;color:var(--text-2);">
-        <strong id="wondersVisitedCount" style="color:var(--accent);">0</strong>/25 visitadas
-      </span>
-    </div>
-    <div class="wonders-grid" id="wondersGrid"></div>
-  </div>
-
-  <!-- ── BADGES ── -->
-  <div class="section-card">
-    <h2 class="section-title" style="margin-bottom:14px;">🏅 Logros desbloqueados</h2>
-    <div class="badges-scroll" id="badgesRow"></div>
-  </div>
-
-  <!-- ── TRIPS ── -->
-  <div class="section-card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
-      <h2 class="section-title" style="margin:0;">✈️ Viajes registrados</h2>
-      <span style="font-size:.85rem;color:var(--text-2);" id="tripsCountLabel">0 viajes</span>
-    </div>
-    <div class="trips-list" id="tripsList">
-      <div style="text-align:center;padding:30px;color:var(--text-3);font-size:.9rem;">
-        Aún no has registrado viajes. ¡Empieza ahora!
-      </div>
-    </div>
-    <button class="btn-add-trip" onclick="openAddTripModal()">
-      ✈️ Registrar nuevo viaje
-    </button>
-  </div>
+  </div><!-- end .page-content -->
 
 </div><!-- end .page-wrap -->
 
@@ -1499,6 +2254,8 @@ function updateStats() {
   // Continents
   const contCount = visitedContinents.size;
   document.getElementById('statContinents').textContent = contCount;
+  const s2 = document.getElementById('statContinents2');
+  if (s2) s2.textContent = contCount;
 
   // Wonders
   document.getElementById('statWonders').textContent = visitedWonders.size;
@@ -1603,6 +2360,8 @@ function autoDetectContinents() {
   }
   saveVisitedContinents(visitedContinents);
   document.getElementById('statContinents').textContent = visitedContinents.size;
+  const s2 = document.getElementById('statContinents2');
+  if (s2) s2.textContent = visitedContinents.size;
 }
 
 // ── COUNTRY SEARCH ──
@@ -1655,6 +2414,8 @@ function toggleContinent(el) {
   }
   saveVisitedContinents(visitedContinents);
   document.getElementById('statContinents').textContent = visitedContinents.size;
+  const s2 = document.getElementById('statContinents2');
+  if (s2) s2.textContent = visitedContinents.size;
   renderBadges();
 }
 
@@ -1924,7 +2685,13 @@ function handleCoverUpload(e) {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = ev => {
-    document.getElementById('profileCover').style.background = `url(${ev.target.result}) center/cover`;
+    const hero = document.querySelector('.profile-hero');
+    if (hero) {
+      hero.style.background = `url(${ev.target.result}) center/cover no-repeat`;
+    }
+    // Also keep the hidden element in sync (legacy)
+    const cover = document.getElementById('profileCover');
+    if (cover) cover.style.background = `url(${ev.target.result}) center/cover`;
   };
   reader.readAsDataURL(file);
 }

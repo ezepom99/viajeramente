@@ -201,6 +201,51 @@
     .option-card.selected .option-label { color: var(--accent-text); }
     .option-card:hover .option-label { color: var(--accent-text); }
 
+    /* ── Single/multi-select indicators ── */
+    .option-indicator {
+      display: block;
+      font-size: .75rem;
+      margin-bottom: 6px;
+      opacity: 0.45;
+      line-height: 1;
+    }
+    .option-card.selected .option-indicator { opacity: 0.9; }
+    .multi-hint {
+      font-size: .75rem; color: var(--text-muted);
+      margin-top: -16px; margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    /* ── Date inputs ── */
+    .date-inputs {
+      display: none;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .date-inputs.visible { display: flex; flex-direction: column; }
+    .date-field label {
+      display: block;
+      font-size: .78rem; font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .date-field input[type="date"] {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: .9rem;
+      color: var(--text);
+      background: var(--bg-card);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .date-field input[type="date"]:focus {
+      border-color: var(--accent);
+    }
+
     /* ── Step footer ── */
     .step-footer {
       display: flex; align-items: center; justify-content: space-between;
@@ -381,6 +426,19 @@
     }
     .guide-tip strong { color: var(--teal-text); }
 
+    .guide-disclaimer {
+      margin-top: 14px;
+      font-size: .72rem; color: var(--text-muted);
+      line-height: 1.5;
+      display: flex; align-items: flex-start; gap: 5px;
+    }
+    .guide-disclaimer::before {
+      content: 'ℹ';
+      flex-shrink: 0;
+      font-size: .75rem;
+      margin-top: 1px;
+    }
+
     .guide-why {
       display: flex; align-items: flex-start; gap: 10px;
       background: #EFF6FF; border: 1px solid #BFDBFE;
@@ -445,24 +503,28 @@
     <!-- Step 1: Clima -->
     <div class="glass-card step active" id="step1">
       <div class="step-header">
-        <div class="step-number">Paso 1 de 7</div>
+        <div class="step-number">Paso 1 de 9</div>
         <div class="step-title">¿Qué clima buscas?</div>
         <div class="step-subtitle">El tiempo que haga marcará toda la experiencia</div>
       </div>
       <div class="options-grid">
         <div class="option-card" data-step="1" data-id="warm" onclick="selectSingle(this,1)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">☀️</span>
           <div class="option-label">Sol y calor</div>
         </div>
         <div class="option-card" data-step="1" data-id="cold" onclick="selectSingle(this,1)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">❄️</span>
           <div class="option-label">Frío o nieve</div>
         </div>
         <div class="option-card" data-step="1" data-id="mild" onclick="selectSingle(this,1)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🌤️</span>
           <div class="option-label">Templado</div>
         </div>
         <div class="option-card" data-step="1" data-id="any" onclick="selectSingle(this,1)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🌀</span>
           <div class="option-label">Me da igual</div>
         </div>
@@ -476,28 +538,34 @@
     <!-- Step 2: Tipo de experiencia (multi) -->
     <div class="glass-card step" id="step2">
       <div class="step-header">
-        <div class="step-number">Paso 2 de 7</div>
+        <div class="step-number">Paso 2 de 9</div>
         <div class="step-title">¿Qué tipo de experiencia?</div>
         <div class="step-subtitle">Elige una o varias — pueden combinarse</div>
       </div>
+      <div class="multi-hint">Puedes elegir varios</div>
       <div class="options-grid">
         <div class="option-card" data-step="2" data-id="romantic" onclick="selectMulti(this,2)">
+          <span class="option-indicator">☐</span>
           <span class="option-emoji">💑</span>
           <div class="option-label">Romántico</div>
         </div>
         <div class="option-card" data-step="2" data-id="adventure" onclick="selectMulti(this,2)">
+          <span class="option-indicator">☐</span>
           <span class="option-emoji">🏃</span>
           <div class="option-label">Aventura</div>
         </div>
         <div class="option-card" data-step="2" data-id="culture" onclick="selectMulti(this,2)">
+          <span class="option-indicator">☐</span>
           <span class="option-emoji">🏛️</span>
           <div class="option-label">Cultura e historia</div>
         </div>
         <div class="option-card" data-step="2" data-id="nature" onclick="selectMulti(this,2)">
+          <span class="option-indicator">☐</span>
           <span class="option-emoji">🌿</span>
           <div class="option-label">Naturaleza y paisaje</div>
         </div>
         <div class="option-card" data-step="2" data-id="party" onclick="selectMulti(this,2)">
+          <span class="option-indicator">☐</span>
           <span class="option-emoji">🎉</span>
           <div class="option-label">Fiesta y ambiente</div>
         </div>
@@ -512,24 +580,28 @@
     <!-- Step 3: Cómo viajas -->
     <div class="glass-card step" id="step3">
       <div class="step-header">
-        <div class="step-number">Paso 3 de 7</div>
+        <div class="step-number">Paso 3 de 9</div>
         <div class="step-title">¿Cómo viajas?</div>
         <div class="step-subtitle">Tu estilo de moverte cambia todo</div>
       </div>
       <div class="options-grid">
         <div class="option-card" data-step="3" data-id="backpacker" onclick="selectSingle(this,3)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🎒</span>
           <div class="option-label">Mochila al hombro</div>
         </div>
         <div class="option-card" data-step="3" data-id="campervan" onclick="selectSingle(this,3)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🚐</span>
           <div class="option-label">Furgoneta o campervan</div>
         </div>
         <div class="option-card" data-step="3" data-id="sport" onclick="selectSingle(this,3)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🚴</span>
           <div class="option-label">Deporte o activo</div>
         </div>
         <div class="option-card" data-step="3" data-id="comfort" onclick="selectSingle(this,3)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🧳</span>
           <div class="option-label">Vuelo + alojamiento cómodo</div>
         </div>
@@ -543,32 +615,38 @@
     <!-- Step 4: Zona del mundo -->
     <div class="glass-card step" id="step4">
       <div class="step-header">
-        <div class="step-number">Paso 4 de 7</div>
+        <div class="step-number">Paso 4 de 9</div>
         <div class="step-title">¿Zona del mundo?</div>
         <div class="step-subtitle">¿Tienes continente en mente o te sorprendemos?</div>
       </div>
       <div class="options-grid">
         <div class="option-card" data-step="4" data-id="europe" onclick="selectSingle(this,4)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🌍</span>
           <div class="option-label">Europa</div>
         </div>
         <div class="option-card" data-step="4" data-id="latam" onclick="selectSingle(this,4)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🌎</span>
           <div class="option-label">América Latina</div>
         </div>
         <div class="option-card" data-step="4" data-id="asia" onclick="selectSingle(this,4)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🌏</span>
           <div class="option-label">Asia</div>
         </div>
         <div class="option-card" data-step="4" data-id="africa" onclick="selectSingle(this,4)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🌍</span>
           <div class="option-label">África</div>
         </div>
         <div class="option-card" data-step="4" data-id="northamerica" onclick="selectSingle(this,4)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🇺🇸</span>
           <div class="option-label">Norteamérica</div>
         </div>
         <div class="option-card" data-step="4" data-id="any" onclick="selectSingle(this,4)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🌐</span>
           <div class="option-label">Sorpréndeme</div>
         </div>
@@ -582,24 +660,28 @@
     <!-- Step 5: Duración -->
     <div class="glass-card step" id="step5">
       <div class="step-header">
-        <div class="step-number">Paso 5 de 7</div>
+        <div class="step-number">Paso 5 de 9</div>
         <div class="step-title">¿Cuánto tiempo tienes?</div>
         <div class="step-subtitle">La duración del viaje lo cambia todo</div>
       </div>
       <div class="options-grid">
         <div class="option-card" data-step="5" data-id="weekend" onclick="selectSingle(this,5)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">⚡</span>
           <div class="option-label">Escapada 2–4 días</div>
         </div>
         <div class="option-card" data-step="5" data-id="week" onclick="selectSingle(this,5)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🗓️</span>
           <div class="option-label">Una semana</div>
         </div>
         <div class="option-card" data-step="5" data-id="twoweeks" onclick="selectSingle(this,5)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🌍</span>
           <div class="option-label">Dos semanas</div>
         </div>
         <div class="option-card" data-step="5" data-id="month" onclick="selectSingle(this,5)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">🏄</span>
           <div class="option-label">Un mes o más</div>
         </div>
@@ -613,20 +695,23 @@
     <!-- Step 6: Presupuesto (required) -->
     <div class="glass-card step" id="step6">
       <div class="step-header">
-        <div class="step-number">Paso 6 de 7</div>
+        <div class="step-number">Paso 6 de 9</div>
         <div class="step-title">¿Cuál es tu presupuesto?</div>
         <div class="step-subtitle">Lo usamos para adaptar la guía de precios y alojamiento</div>
       </div>
       <div class="options-grid">
         <div class="option-card" data-step="6" data-id="budget" onclick="selectSingle(this,6)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">💸</span>
           <div class="option-label">Budget — menos de 50€/día</div>
         </div>
         <div class="option-card" data-step="6" data-id="mid" onclick="selectSingle(this,6)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">💰</span>
           <div class="option-label">Medio — 50–150€/día</div>
         </div>
         <div class="option-card" data-step="6" data-id="luxury" onclick="selectSingle(this,6)">
+          <span class="option-indicator">○</span>
           <span class="option-emoji">💎</span>
           <div class="option-label">Sin límite</div>
         </div>
@@ -640,40 +725,128 @@
     <!-- Step 7: Qué no puede faltar (multi) -->
     <div class="glass-card step" id="step7">
       <div class="step-header">
-        <div class="step-number">Paso 7 de 7</div>
+        <div class="step-number">Paso 7 de 9</div>
         <div class="step-title">¿Qué no puede faltar?</div>
         <div class="step-subtitle">Elige lo que más te importa del viaje</div>
       </div>
+      <div class="multi-hint">Puedes elegir varios</div>
       <div class="options-grid">
         <div class="option-card" data-step="7" data-id="food" onclick="selectMulti(this,7)">
+          <span class="option-indicator">☐</span>
           <span class="option-emoji">🍜</span>
           <div class="option-label">Gastronomía</div>
         </div>
         <div class="option-card" data-step="7" data-id="photos" onclick="selectMulti(this,7)">
+          <span class="option-indicator">☐</span>
           <span class="option-emoji">📸</span>
           <div class="option-label">Paisajes impresionantes</div>
         </div>
         <div class="option-card" data-step="7" data-id="water" onclick="selectMulti(this,7)">
+          <span class="option-indicator">☐</span>
           <span class="option-emoji">🏊</span>
           <div class="option-label">Mar, lago o río</div>
         </div>
         <div class="option-card" data-step="7" data-id="silence" onclick="selectMulti(this,7)">
+          <span class="option-indicator">☐</span>
           <span class="option-emoji">🧘</span>
           <div class="option-label">Silencio total</div>
         </div>
         <div class="option-card" data-step="7" data-id="wildlife" onclick="selectMulti(this,7)">
+          <span class="option-indicator">☐</span>
           <span class="option-emoji">🐾</span>
           <div class="option-label">Fauna salvaje</div>
         </div>
         <div class="option-card" data-step="7" data-id="city" onclick="selectMulti(this,7)">
+          <span class="option-indicator">☐</span>
           <span class="option-emoji">🏙️</span>
           <div class="option-label">Vida urbana</div>
         </div>
       </div>
       <div class="step-footer">
         <button class="btn-back" onclick="goBack(7)">← Volver</button>
+        <button class="btn-skip" onclick="goNext(8)">Saltar →</button>
+        <button class="btn-next" id="next7" onclick="goNext(8)">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- Step 8: Fechas -->
+    <div class="glass-card step" id="step8">
+      <div class="step-header">
+        <div class="step-number">Paso 8 de 9</div>
+        <div class="step-title">¿Cuándo planeas viajar?</div>
+        <div class="step-subtitle">Nos ayuda a recomendarte la mejor temporada</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-card" data-step="8" data-id="fixed" onclick="selectSingleFechas(this,8)">
+          <span class="option-indicator">○</span>
+          <span class="option-emoji">📅</span>
+          <div class="option-label">Tengo fechas fijas</div>
+        </div>
+        <div class="option-card" data-step="8" data-id="3months" onclick="selectSingleFechas(this,8)">
+          <span class="option-indicator">○</span>
+          <span class="option-emoji">🗓️</span>
+          <div class="option-label">En los próximos 3 meses</div>
+        </div>
+        <div class="option-card" data-step="8" data-id="6months" onclick="selectSingleFechas(this,8)">
+          <span class="option-indicator">○</span>
+          <span class="option-emoji">📆</span>
+          <div class="option-label">En los próximos 6 meses</div>
+        </div>
+        <div class="option-card" data-step="8" data-id="open" onclick="selectSingleFechas(this,8)">
+          <span class="option-indicator">○</span>
+          <span class="option-emoji">🌀</span>
+          <div class="option-label">Sin fecha definida</div>
+        </div>
+      </div>
+      <div class="date-inputs" id="dateInputs">
+        <div class="date-field">
+          <label for="dateSalida">Fecha de salida</label>
+          <input type="date" id="dateSalida">
+        </div>
+        <div class="date-field">
+          <label for="dateVuelta">Fecha de vuelta</label>
+          <input type="date" id="dateVuelta">
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="btn-back" onclick="goBack(8)">← Volver</button>
+        <button class="btn-skip" onclick="goNext(9)">Saltar →</button>
+        <button class="btn-next visible" id="next8fixed" style="display:none" onclick="saveDatesAndNext()">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- Step 9: Personas -->
+    <div class="glass-card step" id="step9">
+      <div class="step-header">
+        <div class="step-number">Paso 9 de 9</div>
+        <div class="step-title">¿Cuántas personas viajan?</div>
+        <div class="step-subtitle">El grupo define el tipo de alojamiento y actividades</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-card" data-step="9" data-id="solo" onclick="selectSingle(this,9)">
+          <span class="option-indicator">○</span>
+          <span class="option-emoji">🧍</span>
+          <div class="option-label">Solo yo</div>
+        </div>
+        <div class="option-card" data-step="9" data-id="two" onclick="selectSingle(this,9)">
+          <span class="option-indicator">○</span>
+          <span class="option-emoji">👫</span>
+          <div class="option-label">2 personas</div>
+        </div>
+        <div class="option-card" data-step="9" data-id="small" onclick="selectSingle(this,9)">
+          <span class="option-indicator">○</span>
+          <span class="option-emoji">👨‍👩‍👧‍👦</span>
+          <div class="option-label">3–4 personas</div>
+        </div>
+        <div class="option-card" data-step="9" data-id="large" onclick="selectSingle(this,9)">
+          <span class="option-indicator">○</span>
+          <span class="option-emoji">🎉</span>
+          <div class="option-label">5 o más</div>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="btn-back" onclick="goBack(9)">← Volver</button>
         <button class="btn-skip" onclick="finishWizard()">Saltar →</button>
-        <button class="btn-next" id="next7" onclick="finishWizard()">Ver destinos →</button>
       </div>
     </div>
 
@@ -731,9 +904,9 @@ async function init() {
 init();
 
 // ── Wizard state ──
-const answers = { climate:null, vibes:[], style:null, zone:null, duration:null, budget:null, interests:[] };
+const answers = { climate:null, vibes:[], style:null, zone:null, duration:null, budget:null, interests:[], fechas:null, dateSalida:null, dateVuelta:null, personas:null };
 let currentStep = 1;
-const TOTAL = 7;
+const TOTAL = 9;
 
 function updateProgress() {
   const pct = Math.round((currentStep - 1) / TOTAL * 100);
@@ -768,12 +941,21 @@ function selectSingle(card, step) {
   card.classList.add('selected', 'flash');
   setTimeout(() => card.classList.remove('flash'), 300);
 
+  // Update filled indicator on selected card
+  document.querySelectorAll(`#step${step} .option-card`).forEach(c => {
+    const ind = c.querySelector('.option-indicator');
+    if (ind) ind.textContent = '○';
+  });
+  const ind = card.querySelector('.option-indicator');
+  if (ind) ind.textContent = '●';
+
   const id = card.dataset.id;
   if (step === 1) answers.climate = id;
   else if (step === 3) answers.style = id;
   else if (step === 4) answers.zone = id;
   else if (step === 5) answers.duration = id;
   else if (step === 6) answers.budget = id;
+  else if (step === 9) answers.personas = id;
 
   setTimeout(() => {
     if (step < TOTAL) showStep(step + 1);
@@ -781,9 +963,48 @@ function selectSingle(card, step) {
   }, 250);
 }
 
+// Step 8: Fechas — single-select with conditional date inputs
+function selectSingleFechas(card, step) {
+  const prev = document.querySelector(`#step${step} .option-card.selected`);
+  if (prev) prev.classList.remove('selected');
+  card.classList.add('selected', 'flash');
+  setTimeout(() => card.classList.remove('flash'), 300);
+
+  document.querySelectorAll(`#step${step} .option-card`).forEach(c => {
+    const ind = c.querySelector('.option-indicator');
+    if (ind) ind.textContent = '○';
+  });
+  const ind = card.querySelector('.option-indicator');
+  if (ind) ind.textContent = '●';
+
+  const id = card.dataset.id;
+  answers.fechas = id;
+
+  const dateInputs = document.getElementById('dateInputs');
+  const nextFixedBtn = document.getElementById('next8fixed');
+  if (id === 'fixed') {
+    dateInputs.classList.add('visible');
+    nextFixedBtn.style.display = 'block';
+  } else {
+    dateInputs.classList.remove('visible');
+    nextFixedBtn.style.display = 'none';
+    answers.dateSalida = null;
+    answers.dateVuelta = null;
+    setTimeout(() => showStep(9), 250);
+  }
+}
+
+function saveDatesAndNext() {
+  answers.dateSalida = document.getElementById('dateSalida').value || null;
+  answers.dateVuelta = document.getElementById('dateVuelta').value || null;
+  showStep(9);
+}
+
 // Multi-select: toggle, show Next after first selection
 function selectMulti(card, step) {
   card.classList.toggle('selected');
+  const ind = card.querySelector('.option-indicator');
+  if (ind) ind.textContent = card.classList.contains('selected') ? '☑' : '☐';
   const selected = [...document.querySelectorAll(`#step${step} .option-card.selected`)].map(c => c.dataset.id);
   if (step === 2) {
     answers.vibes = selected;
@@ -809,10 +1030,21 @@ function restart() {
   // Reset answers
   answers.climate = null; answers.vibes = []; answers.style = null;
   answers.zone = null; answers.duration = null; answers.budget = null; answers.interests = [];
+  answers.fechas = null; answers.dateSalida = null; answers.dateVuelta = null; answers.personas = null;
   // Clear UI
   document.querySelectorAll('.option-card.selected').forEach(c => c.classList.remove('selected'));
+  // Reset all indicators
+  document.querySelectorAll('.option-indicator').forEach(el => {
+    const card = el.closest('.option-card');
+    const isMulti = card && card.getAttribute('onclick') && card.getAttribute('onclick').includes('selectMulti');
+    el.textContent = isMulti ? '☐' : '○';
+  });
   document.getElementById('next2').classList.remove('visible');
   document.getElementById('next7').classList.remove('visible');
+  document.getElementById('dateInputs').classList.remove('visible');
+  document.getElementById('next8fixed').style.display = 'none';
+  document.getElementById('dateSalida').value = '';
+  document.getElementById('dateVuelta').value = '';
   document.getElementById('resultsScreen').classList.remove('active');
   document.getElementById('wizardWrap').style.display = '';
   showStep(1);
@@ -1432,6 +1664,8 @@ function buildGuide(dest) {
   const budgetLabel = { budget: '💸 Viaje budget', mid: '💰 Viaje estándar', luxury: '💎 Viaje premium' }[b];
   const sleepContent = dest.guide.sleep[b] || dest.guide.sleep.mid;
   const dailyContent = dest.guide.daily[b] || dest.guide.daily.mid;
+  // Budget-specific approx daily estimate
+  const dailyApprox = { budget: 'aprox. €35/día', mid: 'aprox. €100/día', luxury: 'aprox. €300+/día' }[b];
 
   // Build personalized "why" intro
   const whyParts = [];
@@ -1475,7 +1709,7 @@ function buildGuide(dest) {
       <div class="guide-text">${sleepContent}</div>
     </div>
     <div class="guide-section">
-      <div class="guide-label">💰 Presupuesto diario</div>
+      <div class="guide-label">💰 Presupuesto diario <span class="budget-pill">${dailyApprox}</span></div>
       <div class="guide-text">${dailyContent}</div>
     </div>
     <div class="guide-section">
@@ -1486,6 +1720,7 @@ function buildGuide(dest) {
       <div class="guide-label">💡 Consejo local</div>
       <div class="guide-tip">${dest.guide.tip}</div>
     </div>
+    <div class="guide-disclaimer">Guía basada en fuentes reales como Lonely Planet y Nomadic Matt</div>
   `;
 }
 
