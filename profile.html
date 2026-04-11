@@ -1002,7 +1002,7 @@
       margin-bottom: 0;
       overflow: visible;
     }
-  </style>
+
     .section-title {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.05rem;
@@ -1621,6 +1621,17 @@
       animation: spin .8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── SOCIAL NETWORKS ── */
+    .social-links-list { display: flex; flex-wrap: wrap; gap: 10px; padding: 8px 0; }
+    .social-link-chip { display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 20px; text-decoration: none; color: var(--text); font-size: .85rem; font-weight: 500; transition: all .2s; }
+    .social-link-chip:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+    .social-input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .social-icon-label { font-size: 1.2rem; width: 28px; flex-shrink: 0; }
+    .social-network-name { width: 80px; font-size: .85rem; font-weight: 600; color: var(--text-2); flex-shrink: 0; }
+    .social-input-row .edit-input { flex: 1; }
+    .section-action { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 5px 12px; font-size: .8rem; font-weight: 600; color: var(--text-2); cursor: pointer; transition: all .2s; }
+    .section-action:hover { background: var(--bg-soft); color: var(--text); }
   </style>
 </head>
 <body>
@@ -1910,9 +1921,51 @@
           <div class="section-title-icon">⭐</div>
           Maravillas del mundo
         </div>
-        <span class="section-badge"><strong id="wondersVisitedCount" style="color:var(--accent);">0</strong>/25 visitadas</span>
+        <span class="section-badge"><strong id="wondersVisitedCount" style="color:var(--accent);">0</strong>/21 visitadas</span>
       </div>
       <div class="wonders-grid" id="wondersGrid"></div>
+    </div>
+
+    <!-- ── REDES SOCIALES ── -->
+    <div class="section-card" id="socialSection">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-title-icon">🔗</div>
+          Mis redes sociales
+        </div>
+        <button class="section-action" onclick="toggleSocialEdit()">Editar</button>
+      </div>
+
+      <div id="socialDisplay">
+        <div id="socialLinks" class="social-links-list"></div>
+        <p id="noSocialMsg" style="color:var(--text-3);font-size:.85rem;text-align:center;padding:16px 0;">
+          Conecta tus redes para que otros viajeros puedan seguirte
+        </p>
+      </div>
+
+      <div id="socialEdit" style="display:none;">
+        <div class="social-input-row">
+          <span class="social-icon-label">📸</span>
+          <span class="social-network-name">Instagram</span>
+          <input class="edit-input" id="socialInstagram" type="text" placeholder="@tu_usuario" autocomplete="off">
+        </div>
+        <div class="social-input-row">
+          <span class="social-icon-label">🎵</span>
+          <span class="social-network-name">TikTok</span>
+          <input class="edit-input" id="socialTiktok" type="text" placeholder="@tu_usuario" autocomplete="off">
+        </div>
+        <div class="social-input-row">
+          <span class="social-icon-label">▶️</span>
+          <span class="social-network-name">YouTube</span>
+          <input class="edit-input" id="socialYoutube" type="text" placeholder="@tu_canal" autocomplete="off">
+        </div>
+        <div class="social-input-row">
+          <span class="social-icon-label">👥</span>
+          <span class="social-network-name">Facebook</span>
+          <input class="edit-input" id="socialFacebook" type="text" placeholder="tu.perfil" autocomplete="off">
+        </div>
+        <button class="btn-save" onclick="saveSocialNetworks()" style="margin-top:12px;width:100%;">Guardar redes</button>
+      </div>
     </div>
 
     <!-- ── BADGES ── -->
@@ -2079,31 +2132,30 @@ function getCountryName(id) {
 
 // ── WONDERS DATA ──
 const WONDERS = [
-  { id:1,  name:'Machu Picchu',          country:'Perú',         emoji:'🏔️', pexels:'2356059' },
-  { id:2,  name:'Cristo Redentor',        country:'Brasil',       emoji:'✝️', pexels:'2868146' },
-  { id:3,  name:'Coliseo Romano',         country:'Italia',       emoji:'🏛️', pexels:'1797166' },
-  { id:4,  name:'Chichen Itzá',           country:'México',       emoji:'🛕', pexels:'4388167' },
-  { id:5,  name:'Gran Muralla China',     country:'China',        emoji:'🧱', pexels:'2846217' },
-  { id:6,  name:'Taj Mahal',             country:'India',        emoji:'🕌', pexels:'1603650' },
-  { id:7,  name:'Petra',                 country:'Jordania',     emoji:'🏜️', pexels:'3290068' },
-  { id:8,  name:'Angkor Wat',            country:'Camboya',      emoji:'🛕', pexels:'3290070' },
-  { id:9,  name:'Pirámides de Giza',     country:'Egipto',       emoji:'🔺', pexels:'71241' },
-  { id:10, name:'Acropolis de Atenas',   country:'Grecia',       emoji:'🏛️', pexels:'164336' },
-  { id:11, name:'Stonehenge',            country:'Reino Unido',  emoji:'🗿', pexels:'589840' },
-  { id:12, name:'Eiffel',               country:'Francia',      emoji:'🗼', pexels:'699466' },
-  { id:13, name:'Alhambra',             country:'España',       emoji:'🕌', pexels:'1004409' },
-  { id:14, name:'Hagia Sophia',         country:'Turquía',      emoji:'🕌', pexels:'1549326' },
-  { id:15, name:'Mont Saint-Michel',    country:'Francia',      emoji:'🏰', pexels:'258117' },
-  { id:16, name:'Sagrada Família',      country:'España',       emoji:'⛪', pexels:'1388030' },
-  { id:17, name:'Cataratas del Niágara', country:'Canadá/EE.UU.',emoji:'💧', pexels:'2335126' },
-  { id:18, name:'Aurora Boreal',        country:'Noruega',      emoji:'🌌', pexels:'1212600' },
-  { id:19, name:'Gran Barrera de Coral', country:'Australia',   emoji:'🐠', pexels:'1049298' },
-  { id:20, name:'Isla de Pascua',       country:'Chile',        emoji:'🗿', pexels:'1134166' },
-  { id:21, name:'Monte Everest',        country:'Nepal',        emoji:'🏔️', pexels:'753619' },
-  { id:22, name:'Cataratas Victoria',   country:'Zimbabue',     emoji:'🌊', pexels:'417070' },
-  { id:23, name:'Galápagos',           country:'Ecuador',      emoji:'🐢', pexels:'2662116' },
-  { id:24, name:'Río Amazonas',        country:'Brasil',       emoji:'🌿', pexels:'975771' },
-  { id:25, name:'Sahara',             country:'Norte África',  emoji:'🏜️', pexels:'847402' },
+  // 7 Nuevas Maravillas del Mundo (2007)
+  { id:1,  name:'Machu Picchu',           country:'Perú',          city:'Cusco',         countryCode:604, emoji:'🏔️', pexels:'2356059' },
+  { id:2,  name:'Cristo Redentor',         country:'Brasil',        city:'Río de Janeiro', countryCode:76,  emoji:'✝️', pexels:'2868146' },
+  { id:3,  name:'Chichen Itzá',            country:'México',        city:'Yucatán',        countryCode:484, emoji:'🛕', pexels:'4388167' },
+  { id:4,  name:'Coliseo Romano',          country:'Italia',        city:'Roma',           countryCode:380, emoji:'🏛️', pexels:'1797166' },
+  { id:5,  name:'Gran Muralla China',      country:'China',         city:'Pekín',          countryCode:156, emoji:'🧱', pexels:'2846217' },
+  { id:6,  name:'Taj Mahal',              country:'India',         city:'Agra',           countryCode:356, emoji:'🕌', pexels:'1603650' },
+  { id:7,  name:'Petra',                  country:'Jordania',      city:'Petra',          countryCode:400, emoji:'🏜️', pexels:'3290068' },
+  // 7 Maravillas Naturales del Mundo
+  { id:8,  name:'Amazonas',              country:'Brasil',        city:'Manaos',         countryCode:76,  emoji:'🌿', pexels:'975771' },
+  { id:9,  name:'Bahía de Ha Long',       country:'Vietnam',       city:'Quảng Ninh',     countryCode:704, emoji:'🏝️', pexels:'1007070' },
+  { id:10, name:'Cataratas del Iguazú',   country:'Argentina',     city:'Puerto Iguazú',  countryCode:32,  emoji:'💧', pexels:'2389924' },
+  { id:11, name:'Isla Komodo',            country:'Indonesia',     city:'Flores',         countryCode:360, emoji:'🦎', pexels:'3522880' },
+  { id:12, name:'Monte Everest',          country:'Nepal',         city:'Katmandú',       countryCode:524, emoji:'🏔️', pexels:'753619' },
+  { id:13, name:'Gran Barrera de Coral',  country:'Australia',     city:'Cairns',         countryCode:36,  emoji:'🐠', pexels:'1049298' },
+  { id:14, name:'Aurora Boreal',          country:'Noruega',       city:'Tromsø',         countryCode:578, emoji:'🌌', pexels:'1212600' },
+  // 7 Maravillas Icónicas
+  { id:15, name:'Pirámides de Giza',      country:'Egipto',        city:'El Cairo',       countryCode:818, emoji:'🔺', pexels:'71241' },
+  { id:16, name:'Angkor Wat',             country:'Camboya',       city:'Siem Riep',      countryCode:116, emoji:'🛕', pexels:'3290070' },
+  { id:17, name:'Stonehenge',             country:'Reino Unido',   city:'Salisbury',      countryCode:826, emoji:'🗿', pexels:'589840' },
+  { id:18, name:'Isla de Pascua',         country:'Chile',         city:'Hanga Roa',      countryCode:152, emoji:'🗿', pexels:'1134166' },
+  { id:19, name:'Torre Eiffel',           country:'Francia',       city:'París',          countryCode:250, emoji:'🗼', pexels:'699466' },
+  { id:20, name:'Sagrada Família',        country:'España',        city:'Barcelona',      countryCode:724, emoji:'⛪', pexels:'1388030' },
+  { id:21, name:'Cataratas Victoria',     country:'Zimbabue',      city:'Victoria Falls', countryCode:716, emoji:'🌊', pexels:'417070' },
 ];
 
 // ── BADGES DATA ──
@@ -2272,8 +2324,13 @@ let mapSvg = null;
 let mapCountriesSel = null;
 
 async function initMap() {
-  const mapContainer = document.querySelector('.map-container');
-  const width = mapContainer.clientWidth;
+  const container = document.querySelector('.map-container');
+  let width = container ? container.offsetWidth : 0;
+  if (!width || width < 50) {
+    // Container not visible yet, retry
+    setTimeout(initMap, 500);
+    return;
+  }
   const height = Math.max(width * 0.5, 200);
 
   const svg = d3.select('#worldMap')
@@ -2328,7 +2385,12 @@ async function initMap() {
 }
 
 function updateMapColors() {
-  if (!mapCountriesSel) return;
+  if (!mapCountriesSel) {
+    // Try to init the map if container is visible
+    const container = document.querySelector('.map-container');
+    if (container && container.offsetWidth > 50) initMap();
+    return;
+  }
   mapCountriesSel.attr('fill', d => visitedCodes.has(String(d.id)) ? '#0EA5E9' : '#E2E8F0');
 }
 
@@ -2450,31 +2512,27 @@ function renderWonders() {
 
 // Wonder id → [country_code, country_name]
 const WONDER_COUNTRY_MAP = {
-  1:  [604, 'Perú'],
-  2:  [76,  'Brasil'],
-  3:  [380, 'Italia'],
-  4:  [484, 'México'],
-  5:  [156, 'China'],
-  6:  [356, 'India'],
-  7:  [400, 'Jordania'],
-  8:  [116, 'Camboya'],
-  9:  [818, 'Egipto'],
-  10: [300, 'Grecia'],
-  11: [826, 'Reino Unido'],
-  12: [250, 'Francia'],
-  13: [724, 'España'],
-  14: [792, 'Turquía'],
-  15: [250, 'Francia'],
-  16: [724, 'España'],
-  17: [124, 'Canadá'],
-  18: [578, 'Noruega'],
-  19: [36,  'Australia'],
-  20: [152, 'Chile'],
-  21: [524, 'Nepal'],
-  22: [716, 'Zimbabue'],
-  23: [218, 'Ecuador'],
-  24: [76,  'Brasil'],
-  25: [504, 'Marruecos'],
+  1:  [604, 'Perú',         'Cusco'],
+  2:  [76,  'Brasil',       'Río de Janeiro'],
+  3:  [484, 'México',       'Yucatán'],
+  4:  [380, 'Italia',       'Roma'],
+  5:  [156, 'China',        'Pekín'],
+  6:  [356, 'India',        'Agra'],
+  7:  [400, 'Jordania',     'Petra'],
+  8:  [76,  'Brasil',       'Manaos'],
+  9:  [704, 'Vietnam',      'Quảng Ninh'],
+  10: [32,  'Argentina',    'Puerto Iguazú'],
+  11: [360, 'Indonesia',    'Flores'],
+  12: [524, 'Nepal',        'Katmandú'],
+  13: [36,  'Australia',    'Cairns'],
+  14: [578, 'Noruega',      'Tromsø'],
+  15: [818, 'Egipto',       'El Cairo'],
+  16: [116, 'Camboya',      'Siem Riep'],
+  17: [826, 'Reino Unido',  'Salisbury'],
+  18: [152, 'Chile',        'Hanga Roa'],
+  19: [250, 'Francia',      'París'],
+  20: [724, 'España',       'Barcelona'],
+  21: [716, 'Zimbabue',     'Victoria Falls'],
 };
 
 function toggleWonder(id, el) {
@@ -2490,7 +2548,7 @@ function toggleWonder(id, el) {
     // Auto-add the country if not already visited
     const countryEntry = WONDER_COUNTRY_MAP[id];
     if (countryEntry) {
-      const [countryCode, countryName] = countryEntry;
+      const [countryCode, countryName, cityName] = countryEntry;
       const strCode = String(countryCode);
       if (!visitedCodes.has(strCode)) {
         visitedCodes.add(strCode);
@@ -2498,10 +2556,19 @@ function toggleWonder(id, el) {
         updateStats();
         autoDetectContinents();
         updateMapColors();
-        showToast(`⭐ ¡Maravilla marcada! + ${countryName} añadido al mapa`, 'success');
-      } else {
-        showToast('⭐ ¡Maravilla marcada!', 'success');
       }
+      // Also add city to visited cities
+      if (cityName) {
+        let cities = JSON.parse(localStorage.getItem('visitedCities') || '[]');
+        if (!cities.includes(cityName)) {
+          cities.push(cityName);
+          localStorage.setItem('visitedCities', JSON.stringify(cities));
+          // Update city counter
+          const cityCount = document.getElementById('statCities');
+          if (cityCount) cityCount.textContent = cities.length;
+        }
+      }
+      showToast(`⭐ ¡Maravilla marcada! + ${countryName} (${cityName}) al mapa`, 'success');
     } else {
       showToast('⭐ ¡Maravilla marcada!', 'success');
     }
@@ -2723,12 +2790,70 @@ async function init() {
 
   // Load profile from API
   await loadProfile();
+  loadSocialNetworks();
 
   // Init map
   await initMap();
 }
 
 init();
+
+// ── SOCIAL NETWORKS ──
+function loadSocialNetworks() {
+  const socials = JSON.parse(localStorage.getItem('socialNetworks') || '{}');
+  const list = document.getElementById('socialLinks');
+  const noMsg = document.getElementById('noSocialMsg');
+  const NETWORKS = [
+    { key:'instagram', label:'Instagram', icon:'📸', url: u => `https://instagram.com/${u.replace('@','')}` },
+    { key:'tiktok',    label:'TikTok',    icon:'🎵', url: u => `https://tiktok.com/@${u.replace('@','')}` },
+    { key:'youtube',   label:'YouTube',   icon:'▶️', url: u => `https://youtube.com/@${u.replace('@','')}` },
+    { key:'facebook',  label:'Facebook',  icon:'👥', url: u => `https://facebook.com/${u}` },
+  ];
+  const links = NETWORKS.filter(n => socials[n.key]);
+  if (links.length === 0) {
+    list.innerHTML = '';
+    noMsg.style.display = 'block';
+  } else {
+    noMsg.style.display = 'none';
+    list.innerHTML = links.map(n => `
+      <a href="${n.url(socials[n.key])}" target="_blank" class="social-link-chip">
+        ${n.icon} ${n.label}
+      </a>
+    `).join('');
+  }
+  // Fill edit inputs
+  document.getElementById('socialInstagram').value = socials.instagram || '';
+  document.getElementById('socialTiktok').value    = socials.tiktok    || '';
+  document.getElementById('socialYoutube').value   = socials.youtube   || '';
+  document.getElementById('socialFacebook').value  = socials.facebook  || '';
+}
+
+function toggleSocialEdit() {
+  const edit = document.getElementById('socialEdit');
+  const display = document.getElementById('socialDisplay');
+  if (edit.style.display === 'none') {
+    edit.style.display = 'block';
+    display.style.display = 'none';
+  } else {
+    edit.style.display = 'none';
+    display.style.display = 'block';
+  }
+}
+
+function saveSocialNetworks() {
+  const socials = {
+    instagram: document.getElementById('socialInstagram').value.trim(),
+    tiktok:    document.getElementById('socialTiktok').value.trim(),
+    youtube:   document.getElementById('socialYoutube').value.trim(),
+    facebook:  document.getElementById('socialFacebook').value.trim(),
+  };
+  // Remove empty
+  Object.keys(socials).forEach(k => { if (!socials[k]) delete socials[k]; });
+  localStorage.setItem('socialNetworks', JSON.stringify(socials));
+  toggleSocialEdit();
+  loadSocialNetworks();
+  showToast('✓ Redes sociales guardadas', 'success');
+}
 
 // Resize map on window resize
 let resizeTimer;
