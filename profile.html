@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Perfil — ViajeraMente</title>
-  <meta name="description" content="Tu perfil de viajero en ViajeraMente. Mapa mundial, conexiones y estilo de viaje.">
+  <meta name="description" content="Tu perfil de viajero en ViajeraMente. Mapa mundial, países visitados, maravillas del mundo y viajes registrados.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Google tag (gtag.js) -->
+  <!-- Google tag -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -16,1607 +16,1903 @@
     gtag('js', new Date());
     gtag('config', 'G-T1HJ3PJWYN');
   </script>
+
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
+      --bg: #FFFFFF;
+      --bg-soft: #F7F8FA;
+      --text: #111827;
+      --text-2: #6B7280;
+      --text-3: #9CA3AF;
+      --border: #E5E7EB;
       --accent: #0891B2;
-      --accent-light: #38BDF8;
       --accent-dark: #0E7490;
-      --accent-glow: rgba(8, 145, 178, 0.15);
-      --teal: #1A8C7E;
-      --teal-light: #22B8A6;
-      --teal-dark: #136B60;
-      --teal-glow: rgba(26, 140, 126, 0.15);
-      --gold: #F5A623;
-      --purple: #8B5CF6;
-      --dark: #0B0D0F;
-      --gray-900: #151820;
-      --gray-800: #1E2330;
-      --gray-700: #2A3040;
-      --gray-600: #6B7280;
-      --gray-500: #9CA3AF;
-      --gray-400: #B0B8C4;
-      --gray-300: #D1D5DB;
-      --gray-200: #E5E7EB;
-      --gray-100: #F3F4F6;
-      --gray-50: #F9FAFB;
-      --white: #FFFFFF;
-      --sand: #FAF8F5;
+      --accent-light: #E0F7FE;
+      --green: #10B981;
+      --green-light: #D1FAE5;
+      --gold: #F59E0B;
+      --shadow-sm: 0 1px 4px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.08);
+      --radius: 16px;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: var(--white);
-      background: var(--dark);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden;
-      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
     }
 
-    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
-
-    /* ── Animations ── */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: .6; }
-    }
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+    h1, h2, h3, .stat-number, .level-badge {
+      font-family: 'Space Grotesk', sans-serif;
     }
 
-    .animate-in { animation: fadeInUp .6s ease both; }
-    .animate-in-d1 { animation: fadeInUp .6s ease .1s both; }
-    .animate-in-d2 { animation: fadeInUp .6s ease .2s both; }
-    .animate-in-d3 { animation: fadeInUp .6s ease .3s both; }
-    .animate-in-d4 { animation: fadeInUp .6s ease .4s both; }
-
-    /* ── Background ── */
-    .page-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background:
-        radial-gradient(ellipse at 20% 0%, rgba(8, 145, 178, 0.08) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 100%, rgba(26, 140, 126, 0.06) 0%, transparent 60%),
-        linear-gradient(180deg, var(--dark) 0%, var(--gray-900) 100%);
-    }
-
-    /* ── Nav ── */
-    nav {
-      position: fixed;
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
       z-index: 100;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
       padding: 0 24px;
-      height: 64px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(11, 13, 15, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      animation: slideDown .5s ease;
+      gap: 16px;
     }
-
     .nav-logo {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.25rem;
       font-weight: 700;
-      color: var(--white);
+      font-size: 1.2rem;
+      color: var(--accent);
       text-decoration: none;
-      letter-spacing: -0.02em;
+      white-space: nowrap;
     }
-    .nav-logo span { color: var(--accent); }
-
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
     .nav-right {
       display: flex;
       align-items: center;
-      gap: 16px;
-    }
-
-    .nav-user {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .nav-user-name {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--gray-300);
+      gap: 12px;
     }
     .nav-avatar {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.8rem;
-      color: var(--white);
-      flex-shrink: 0;
-    }
-
-    .nav-logout {
-      font-size: 0.8rem;
-      color: var(--gray-500);
-      text-decoration: none;
+      background: var(--accent-light);
+      border: 2px solid var(--accent);
       cursor: pointer;
-      transition: color .2s;
-      border: none;
+      object-fit: cover;
+    }
+    .btn-logout {
+      font-size: .82rem;
+      color: var(--text-2);
       background: none;
-      font-family: inherit;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: all .2s;
     }
-    .nav-logout:hover { color: var(--accent); }
+    .btn-logout:hover { background: var(--bg-soft); color: var(--text); }
 
-    /* ── Main ── */
-    main {
-      position: relative;
-      z-index: 1;
-      max-width: 960px;
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .page-wrap {
+      max-width: 900px;
       margin: 0 auto;
-      padding: 88px 20px 60px;
-      width: 100%;
+      padding: 24px 16px 80px;
     }
 
-    /* ── Section Titles ── */
-    .section-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .section-title .icon {
-      font-size: 1.2rem;
-    }
-
-    /* ── Glass Card ── */
-    .glass-card {
-      background: rgba(30, 35, 48, 0.5);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 16px;
-      padding: 28px;
-      margin-bottom: 28px;
-      transition: border-color .3s;
-    }
-    .glass-card:hover {
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-
-    /* ── Profile Header ── */
+    /* ── PROFILE HEADER CARD ── */
     .profile-header {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .profile-cover {
+      height: 180px;
+      background: linear-gradient(135deg, #0891B2 0%, #10B981 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-cover::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    }
+    .btn-edit-cover {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(255,255,255,.9);
+      border: none;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      z-index: 2;
+      transition: all .2s;
+    }
+    .btn-edit-cover:hover { background: #fff; }
+
+    .profile-top {
       display: flex;
-      align-items: flex-start;
-      gap: 28px;
+      align-items: flex-end;
+      gap: 16px;
+      padding: 0 24px 16px;
+      margin-top: -44px;
+      position: relative;
       flex-wrap: wrap;
     }
 
-    .avatar-large {
-      width: 100px;
-      height: 100px;
+    .avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .avatar {
+      width: 88px;
+      height: 88px;
       border-radius: 50%;
+      border: 3px solid #fff;
+      object-fit: cover;
+      background: var(--accent-light);
+      box-shadow: var(--shadow-md);
+      display: block;
+    }
+    .avatar-placeholder {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      background: linear-gradient(135deg, var(--accent), var(--green));
+      box-shadow: var(--shadow-md);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      color: #fff;
       font-weight: 700;
-      font-size: 2.4rem;
-      color: var(--white);
-      flex-shrink: 0;
-      box-shadow: 0 0 0 4px rgba(8, 145, 178, 0.2), 0 8px 32px rgba(0, 0, 0, 0.3);
-      position: relative;
-    }
-
-    .profile-info { flex: 1; min-width: 200px; }
-    .profile-name {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.2;
-      margin-bottom: 2px;
     }
-    .profile-username {
-      font-size: 0.9rem;
-      color: var(--gray-500);
-      margin-bottom: 10px;
-    }
-    .profile-bio {
-      font-size: 0.95rem;
-      color: var(--gray-400);
-      line-height: 1.6;
-      margin-bottom: 14px;
-      max-width: 500px;
-    }
-    .profile-bio-empty {
-      font-style: italic;
-      color: var(--gray-600);
-    }
-
-    .profile-badges {
+    .btn-edit-avatar {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #fff;
+      font-size: .75rem;
+      cursor: pointer;
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s;
     }
-    .badge {
+    .btn-edit-avatar:hover { background: var(--accent-dark); }
+
+    .profile-info {
+      flex: 1;
+      min-width: 150px;
+      padding-top: 48px;
+    }
+    .profile-info h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .profile-handle {
+      font-size: .88rem;
+      color: var(--text-2);
+      margin-top: 2px;
+    }
+    .travel-level {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .level-badge {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 4px 12px;
+      gap: 4px;
+      padding: 3px 10px;
       border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 500;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: var(--gray-400);
+      font-size: .8rem;
+      font-weight: 600;
     }
-    .badge .b-icon { font-size: 0.75rem; }
+    .level-badge.bronze { background: #FEF3C7; color: #92400E; }
+    .level-badge.silver { background: #F3F4F6; color: #4B5563; }
+    .level-badge.gold { background: #FEF3C7; color: #92400E; }
+    .level-badge.diamond { background: var(--accent-light); color: var(--accent-dark); }
+    .level-badge.sapphire { background: #EDE9FE; color: #7C3AED; }
+    .level-km {
+      font-size: .8rem;
+      color: var(--text-2);
+    }
 
     .btn-edit-profile {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 20px;
+      padding: 8px 18px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
       border-radius: 10px;
-      font-size: 0.85rem;
+      font-size: .875rem;
       font-weight: 600;
-      background: rgba(8, 145, 178, 0.12);
-      color: var(--accent-light);
-      border: 1px solid rgba(8, 145, 178, 0.25);
       cursor: pointer;
-      transition: all .25s;
-      font-family: inherit;
+      transition: background .2s;
+      white-space: nowrap;
+      align-self: flex-end;
+      margin-bottom: 2px;
     }
-    .btn-edit-profile:hover {
-      background: rgba(8, 145, 178, 0.2);
-      border-color: rgba(8, 145, 178, 0.4);
-      transform: translateY(-1px);
+    .btn-edit-profile:hover { background: var(--accent-dark); }
+    .btn-edit-profile.active { background: var(--green); }
+
+    .profile-bio {
+      padding: 4px 24px 0;
+      font-size: .9rem;
+      color: var(--text-2);
+      line-height: 1.5;
     }
 
-    /* ── Stats Cards ── */
-    .stats-row {
+    .profile-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 24px 20px;
+      font-size: .85rem;
+      color: var(--text-2);
+      flex-wrap: wrap;
+    }
+    .profile-meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* ── STATS GRID ── */
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 14px;
-      margin-bottom: 28px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
     }
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
     .stat-card {
-      background: rgba(30, 35, 48, 0.45);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 14px;
-      padding: 20px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 16px;
       text-align: center;
-      transition: all .3s;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow .2s, transform .2s;
     }
-    .stat-card:hover {
-      border-color: rgba(255, 255, 255, 0.12);
-      transform: translateY(-2px);
+    .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--green));
     }
     .stat-icon {
       font-size: 1.5rem;
-      margin-bottom: 8px;
-      display: block;
-    }
-    .stat-value {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1;
       margin-bottom: 4px;
     }
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
     .stat-label {
-      font-size: 0.78rem;
-      color: var(--gray-500);
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      font-size: .8rem;
+      color: var(--text-2);
+      margin-top: 4px;
     }
 
-    /* ── World Map ── */
-    .map-container {
-      position: relative;
-      overflow: hidden;
-      border-radius: 12px;
-      background: rgba(11, 13, 15, 0.4);
-      padding: 10px;
-      margin-bottom: 16px;
+    /* ── SECTION CARD ── */
+    .section-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
     }
-    .map-container svg {
+
+    /* ── WORLD MAP ── */
+    .map-container {
       width: 100%;
-      height: auto;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-soft);
+    }
+    #worldMap {
+      width: 100%;
       display: block;
     }
-    .map-container svg path {
-      fill: var(--gray-800);
-      stroke: var(--gray-700);
-      stroke-width: 0.5;
-      transition: fill .3s, opacity .3s;
-      cursor: pointer;
-    }
-    .map-container svg path:hover {
-      opacity: 0.85;
-    }
-    .map-container svg path.visited {
-      fill: var(--accent);
-      stroke: var(--accent-dark);
-    }
-    .map-container svg path.visited:hover {
-      fill: var(--accent-light);
-    }
-
     .map-tooltip {
-      position: absolute;
-      background: var(--gray-900);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px;
+      position: fixed;
+      background: var(--text);
+      color: #fff;
       padding: 6px 12px;
-      font-size: 0.8rem;
-      color: var(--white);
+      border-radius: 8px;
+      font-size: .8rem;
+      font-weight: 600;
       pointer-events: none;
-      z-index: 10;
       opacity: 0;
       transition: opacity .15s;
+      z-index: 999;
       white-space: nowrap;
     }
+    .map-tooltip.visible { opacity: 1; }
 
-    .country-search-container {
-      position: relative;
-      max-width: 400px;
-      margin-bottom: 14px;
-    }
-    .country-search {
-      width: 100%;
-      padding: 10px 14px 10px 36px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      color: var(--white);
-      font-family: inherit;
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color .2s;
-    }
-    .country-search:focus {
-      border-color: var(--accent);
-    }
-    .country-search::placeholder { color: var(--gray-600); }
-    .country-search-icon {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray-600);
-      font-size: 0.9rem;
-      pointer-events: none;
-    }
-    .country-dropdown {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      max-height: 220px;
-      overflow-y: auto;
-      background: var(--gray-900);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      margin-top: 4px;
-      z-index: 20;
-      display: none;
-    }
-    .country-dropdown.open { display: block; }
-    .country-option {
-      padding: 10px 14px;
-      font-size: 0.85rem;
-      color: var(--gray-300);
-      cursor: pointer;
+    .map-footer {
       display: flex;
       align-items: center;
-      gap: 8px;
-      transition: background .15s;
-    }
-    .country-option:hover {
-      background: rgba(8, 145, 178, 0.1);
-      color: var(--white);
-    }
-    .country-option .flag { font-size: 1.1rem; }
-
-    .visited-tags {
-      display: flex;
+      justify-content: space-between;
+      margin-top: 14px;
       flex-wrap: wrap;
       gap: 8px;
     }
-    .visited-tag {
-      display: inline-flex;
+    .map-counter {
+      font-size: .9rem;
+      color: var(--text-2);
+    }
+    .map-counter strong { color: var(--accent); font-size: 1.1rem; }
+    .map-legend {
+      display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      background: rgba(8, 145, 178, 0.12);
-      color: var(--accent-light);
-      border: 1px solid rgba(8, 145, 178, 0.2);
+      gap: 12px;
+      font-size: .8rem;
+      color: var(--text-2);
     }
-    .visited-tag .remove-country {
-      cursor: pointer;
-      opacity: 0.6;
-      transition: opacity .2s;
-      font-size: 0.75rem;
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      display: inline-block;
     }
-    .visited-tag .remove-country:hover { opacity: 1; }
 
-    /* ── Connections Grid ── */
-    .connections-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 14px;
+    /* Country search */
+    .country-search-wrap {
+      margin-top: 16px;
     }
-    .connection-card {
-      background: rgba(30, 35, 48, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 14px;
-      padding: 20px;
-      transition: all .3s;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .country-search-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg-soft);
+      transition: border .2s, box-shadow .2s;
+      outline: none;
     }
-    .connection-card:hover {
-      border-color: rgba(255, 255, 255, 0.12);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    .country-search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(8,145,178,.1);
     }
-    .connection-card-header {
+    .country-results {
+      margin-top: 6px;
+      max-height: 220px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      display: none;
+    }
+    .country-results.open { display: block; }
+    .country-result-item {
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: .875rem;
+      transition: background .15s;
+      border-bottom: 1px solid var(--border);
     }
-    .connection-icon {
-      width: 44px;
-      height: 44px;
+    .country-result-item:last-child { border-bottom: none; }
+    .country-result-item:hover { background: var(--bg-soft); }
+    .country-result-item.visited { color: var(--accent); }
+    .country-result-item .visited-tag {
+      font-size: .75rem;
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    /* ── CONTINENTS ── */
+    .continents-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 480px) {
+      .continents-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .continent-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
       border-radius: 12px;
+      cursor: pointer;
+      transition: all .2s;
+      background: var(--bg-soft);
+    }
+    .continent-badge.visited {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+    .continent-badge:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+    .continent-emoji { font-size: 1.4rem; }
+    .continent-name {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text-2);
+    }
+    .continent-badge.visited .continent-name { color: var(--accent-dark); }
+    .continent-check {
+      margin-left: auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-      background: rgba(255, 255, 255, 0.06);
+      font-size: .7rem;
+      color: transparent;
     }
-    .connection-info h4 {
-      font-size: 0.95rem;
+    .continent-badge.visited .continent-check {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* ── WONDERS ── */
+    .wonders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+    }
+    @media (max-width: 480px) {
+      .wonders-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .wonder-card {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: all .2s;
+      position: relative;
+      background: var(--bg-soft);
+    }
+    .wonder-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .wonder-card.visited { border-color: var(--green); }
+    .wonder-photo {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, var(--accent-light), var(--green-light));
+    }
+    .wonder-info {
+      padding: 8px 10px;
+    }
+    .wonder-name {
+      font-size: .78rem;
       font-weight: 600;
-      color: var(--white);
-      margin-bottom: 2px;
+      color: var(--text);
+      line-height: 1.3;
     }
-    .connection-info p {
-      font-size: 0.78rem;
-      color: var(--gray-500);
-      line-height: 1.4;
+    .wonder-country {
+      font-size: .72rem;
+      color: var(--text-3);
+      margin-top: 1px;
     }
-    .connection-status {
+    .wonder-check {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      border: 1.5px solid var(--border);
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-top: auto;
+      justify-content: center;
+      font-size: .75rem;
+      transition: all .2s;
     }
-    .connection-status .connected-user {
-      font-size: 0.82rem;
-      color: var(--teal-light);
-      font-weight: 500;
-      flex: 1;
+    .wonder-card.visited .wonder-check {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
     }
-    .btn-connect {
-      padding: 7px 16px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all .25s;
-      border: none;
-      font-family: inherit;
+    .wonder-visited-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(16,185,129,.15);
+      opacity: 0;
+      transition: opacity .2s;
     }
-    .btn-connect-primary {
-      background: var(--accent);
-      color: var(--white);
-    }
-    .btn-connect-primary:hover {
-      background: var(--accent-light);
-      transform: translateY(-1px);
-    }
-    .btn-connect-secondary {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--gray-400);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .btn-connect-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--white);
-    }
-    .btn-connect-danger {
-      background: rgba(239, 68, 68, 0.1);
-      color: #f87171;
-      border: 1px solid rgba(239, 68, 68, 0.2);
-      padding: 5px 12px;
-      font-size: 0.75rem;
-    }
-    .btn-connect-danger:hover {
-      background: rgba(239, 68, 68, 0.2);
-    }
-    .btn-connect-link {
-      background: none;
-      color: var(--teal-light);
-      padding: 5px 10px;
-      font-size: 0.75rem;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-    .btn-connect-link:hover { color: var(--teal); }
+    .wonder-card.visited .wonder-visited-overlay { opacity: 1; }
 
-    /* ── Travel Style Chips ── */
-    .chips-container {
+    /* ── BADGES ── */
+    .badges-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .badges-scroll::-webkit-scrollbar { height: 4px; }
+    .badges-scroll::-webkit-scrollbar-track { background: var(--bg-soft); border-radius: 2px; }
+    .badges-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .badge-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      min-width: 90px;
+      flex-shrink: 0;
+      cursor: default;
+      text-align: center;
+      transition: all .2s;
+    }
+    .badge-chip.earned {
+      background: var(--accent-light);
+      border-color: var(--accent);
+    }
+    .badge-chip.locked {
+      background: var(--bg-soft);
+      opacity: .7;
+    }
+    .badge-emoji { font-size: 1.5rem; }
+    .badge-chip span:nth-child(2) {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--text-2);
+    }
+    .badge-chip.earned span:nth-child(2) { color: var(--accent-dark); }
+    .badge-progress {
+      font-size: .7rem;
+      color: var(--text-3);
+      background: var(--border);
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    /* ── TRIPS TIMELINE ── */
+    .trips-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .trip-card {
+      display: flex;
+      gap: 14px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all .2s;
+      position: relative;
+    }
+    .trip-card:hover { box-shadow: var(--shadow-md); transform: translateX(2px); }
+    .trip-photo-wrap {
+      flex-shrink: 0;
+      width: 110px;
+    }
+    .trip-photo {
+      width: 110px;
+      height: 100%;
+      min-height: 110px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, var(--accent-light), var(--green-light));
+    }
+    .trip-info {
+      flex: 1;
+      padding: 14px 14px 14px 0;
+    }
+    .trip-info h3 {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .trip-dates {
+      font-size: .8rem;
+      color: var(--text-2);
+      margin-top: 3px;
+    }
+    .trip-desc {
+      font-size: .83rem;
+      color: var(--text-2);
+      margin-top: 6px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .trip-meta {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .trip-meta span {
+      font-size: .75rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 20px;
+      color: var(--text-2);
+    }
+    .btn-trip-edit {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-size: .8rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .trip-card:hover .btn-trip-edit { opacity: 1; }
+
+    .btn-add-trip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px;
+      background: var(--bg-soft);
+      border: 2px dashed var(--border);
+      border-radius: 14px;
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--accent);
+      cursor: pointer;
+      transition: all .2s;
+      margin-top: 8px;
+    }
+    .btn-add-trip:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+    }
+
+    /* ── EDIT PANEL ── */
+    .edit-panel {
+      display: none;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-md);
+    }
+    .edit-panel.open { display: block; }
+
+    .edit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 600px) {
+      .edit-grid { grid-template-columns: 1fr; }
+    }
+    .edit-group { display: flex; flex-direction: column; gap: 5px; }
+    .edit-group.full { grid-column: 1 / -1; }
+    .edit-label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--text-2);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .edit-input, .edit-textarea, .edit-select {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg-soft);
+      outline: none;
+      transition: border .2s, box-shadow .2s;
+    }
+    .edit-input:focus, .edit-textarea:focus, .edit-select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(8,145,178,.1);
+    }
+    .edit-textarea { resize: vertical; min-height: 80px; }
+    .travel-styles {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
+      gap: 6px;
     }
-    .chip {
-      padding: 7px 16px;
+    .style-tag {
+      padding: 5px 12px;
       border-radius: 20px;
-      font-size: 0.82rem;
+      border: 1.5px solid var(--border);
+      font-size: .8rem;
       font-weight: 500;
       cursor: pointer;
-      transition: all .25s;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--gray-400);
-      user-select: none;
+      color: var(--text-2);
+      background: var(--bg-soft);
+      transition: all .2s;
     }
-    .chip:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-      color: var(--white);
+    .style-tag.active {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent-dark);
     }
-    .chip.selected {
-      background: rgba(8, 145, 178, 0.15);
-      border-color: rgba(8, 145, 178, 0.35);
-      color: var(--accent-light);
+    .edit-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
     }
-    .chip-teal.selected {
-      background: rgba(26, 140, 126, 0.15);
-      border-color: rgba(26, 140, 126, 0.35);
-      color: var(--teal-light);
-    }
-    .chip-purple.selected {
-      background: rgba(139, 92, 246, 0.15);
-      border-color: rgba(139, 92, 246, 0.35);
-      color: #a78bfa;
-    }
-    .chip-gold.selected {
-      background: rgba(245, 166, 35, 0.15);
-      border-color: rgba(245, 166, 35, 0.35);
-      color: var(--gold);
-    }
-
-    .subsection-label {
-      font-size: 0.85rem;
+    .btn-save {
+      padding: 10px 24px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: .9rem;
       font-weight: 600;
-      color: var(--gray-400);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background .2s;
     }
+    .btn-save:hover { background: var(--accent-dark); }
+    .btn-cancel {
+      padding: 10px 18px;
+      background: var(--bg-soft);
+      color: var(--text-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-cancel:hover { background: var(--border); }
 
-    .subsection { margin-bottom: 24px; }
-    .subsection:last-child { margin-bottom: 0; }
-
-    /* ── Modal ── */
+    /* ── ADD TRIP MODAL ── */
     .modal-overlay {
       position: fixed;
       inset: 0;
+      background: rgba(0,0,0,.4);
       z-index: 200;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,.15);
+    }
+    .modal-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+    .modal-close {
+      float: right;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text-2);
+      line-height: 1;
+      margin-top: -4px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--text);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: .875rem;
+      font-weight: 500;
+      z-index: 9999;
+      transform: translateY(60px);
+      opacity: 0;
+      transition: all .3s;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: var(--green); }
+    .toast.error { background: #EF4444; }
+
+    /* Loading spinner */
+    .loading-map {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      opacity: 0;
-      visibility: hidden;
-      transition: all .3s;
-    }
-    .modal-overlay.open {
-      opacity: 1;
-      visibility: visible;
-    }
-    .modal {
-      background: var(--gray-900);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 32px;
-      max-width: 520px;
-      width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
-      transform: scale(0.95) translateY(10px);
-      transition: transform .3s;
-    }
-    .modal-overlay.open .modal {
-      transform: scale(1) translateY(0);
-    }
-    .modal h3 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: var(--white);
-    }
-    .modal-field {
-      margin-bottom: 16px;
-    }
-    .modal-field label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--gray-400);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-    .modal-field input,
-    .modal-field textarea,
-    .modal-field select {
-      width: 100%;
-      padding: 10px 14px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      color: var(--white);
-      font-family: inherit;
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color .2s;
-    }
-    .modal-field input:focus,
-    .modal-field textarea:focus,
-    .modal-field select:focus {
-      border-color: var(--accent);
-    }
-    .modal-field textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-    .modal-field input::placeholder,
-    .modal-field textarea::placeholder {
-      color: var(--gray-600);
-    }
-    .modal-actions {
-      display: flex;
+      height: 200px;
+      color: var(--text-3);
+      font-size: .9rem;
       gap: 10px;
-      justify-content: flex-end;
-      margin-top: 24px;
     }
-    .btn-modal {
-      padding: 10px 24px;
-      border-radius: 10px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      font-family: inherit;
-      transition: all .25s;
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
     }
-    .btn-modal-primary {
-      background: var(--accent);
-      color: var(--white);
-    }
-    .btn-modal-primary:hover {
-      background: var(--accent-light);
-      transform: translateY(-1px);
-    }
-    .btn-modal-cancel {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--gray-400);
-    }
-    .btn-modal-cancel:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--white);
-    }
-
-    /* ── Toast ── */
-    .toast-container {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 300;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .toast {
-      background: var(--gray-900);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 12px 20px;
-      font-size: 0.85rem;
-      color: var(--gray-300);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      animation: fadeInUp .3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .toast-success { border-color: rgba(26, 140, 126, 0.3); }
-    .toast-success::before { content: '\2713'; color: var(--teal-light); font-weight: 700; }
-    .toast-error { border-color: rgba(239, 68, 68, 0.3); }
-    .toast-error::before { content: '\2717'; color: #f87171; font-weight: 700; }
-
-    /* ── Loading ── */
-    .loading-skeleton {
-      background: linear-gradient(90deg, var(--gray-800) 25%, var(--gray-700) 50%, var(--gray-800) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-      border-radius: 8px;
-    }
-
-    /* ── Scrollbar ── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb {
-      background: var(--gray-700);
-      border-radius: 3px;
-    }
-    ::-webkit-scrollbar-thumb:hover { background: var(--gray-600); }
-
-    /* ── Mobile ── */
-    @media (max-width: 640px) {
-      main { padding: 80px 14px 40px; }
-      .profile-header { gap: 18px; }
-      .avatar-large { width: 76px; height: 76px; font-size: 1.8rem; }
-      .profile-name { font-size: 1.4rem; }
-      .stats-row { grid-template-columns: repeat(2, 1fr); }
-      .connections-grid { grid-template-columns: 1fr; }
-      .modal { padding: 22px; margin: 10px; }
-      .glass-card { padding: 20px; }
-      .section-title { font-size: 1.15rem; }
-      .nav-user-name { display: none; }
-    }
-
-    @media (max-width: 380px) {
-      .stats-row { grid-template-columns: 1fr; }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
-<div class="page-bg"></div>
-
-<!-- Nav -->
-<nav>
-  <a href="index.html" class="nav-logo">Viajera<span>Mente</span></a>
+<!-- ── NAV ── -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">🌍 ViajeraMente</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="guias.html">Guías</a></li>
+    <li><a href="plan.html">Planifica</a></li>
+  </ul>
   <div class="nav-right">
-    <div class="nav-user">
-      <span class="nav-user-name" id="navUserName"></span>
-      <div class="nav-avatar" id="navAvatar"></div>
-    </div>
-    <button class="nav-logout" onclick="logout()">Cerrar sesion</button>
+    <div class="avatar-placeholder" id="navAvatar" style="width:34px;height:34px;font-size:.9rem;border:2px solid var(--accent);">?</div>
+    <button class="btn-logout" onclick="logout()">Salir</button>
   </div>
 </nav>
 
-<!-- Main Content -->
-<main>
-  <!-- Section 1: Profile Header -->
-  <div class="glass-card animate-in" id="profileHeaderCard">
-    <div class="profile-header">
-      <div class="avatar-large" id="avatarLarge"></div>
+<!-- ── MAIN ── -->
+<div class="page-wrap">
+
+  <!-- ── PROFILE HEADER CARD ── -->
+  <div class="profile-header">
+    <div class="profile-cover" id="profileCover">
+      <button class="btn-edit-cover" onclick="triggerCoverUpload()">Cambiar portada</button>
+      <input type="file" id="coverInput" accept="image/*" style="display:none" onchange="handleCoverUpload(event)">
+    </div>
+
+    <div class="profile-top">
+      <div class="avatar-wrap">
+        <div class="avatar-placeholder" id="profileAvatarPlaceholder" style="display:flex;">E</div>
+        <img class="avatar" id="profileAvatar" src="" style="display:none;" alt="Avatar">
+        <button class="btn-edit-avatar" onclick="triggerAvatarUpload()">📷</button>
+        <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
+      </div>
+
       <div class="profile-info">
-        <div class="profile-name" id="profileName"></div>
-        <div class="profile-username" id="profileUsername"></div>
-        <div class="profile-bio" id="profileBio"></div>
-        <div class="profile-badges" id="profileBadges"></div>
-        <button class="btn-edit-profile" onclick="openEditModal()">
-          <span>&#9998;</span> Editar perfil
-        </button>
+        <h1 id="profileName">Cargando...</h1>
+        <p class="profile-handle" id="profileHandle">@usuario</p>
+        <div class="travel-level">
+          <span class="level-badge bronze" id="levelBadge">🥉 Bronce</span>
+          <span class="level-km" id="levelKm">0 km viajados</span>
+        </div>
+      </div>
+
+      <button class="btn-edit-profile" id="btnEdit" onclick="toggleEdit()">Editar perfil</button>
+    </div>
+
+    <p class="profile-bio" id="profileBio">Viajero apasionado en busca de nuevas aventuras por el mundo.</p>
+
+    <div class="profile-meta">
+      <span>📍 <span id="profileCity">—</span></span>
+      <span>🗓️ Viajero desde <span id="memberSince">2024</span></span>
+      <span>✈️ <span id="tripsCount">0</span> viajes</span>
+    </div>
+  </div>
+
+  <!-- ── EDIT PANEL ── -->
+  <div class="edit-panel" id="editPanel">
+    <h2 class="section-title" style="margin-bottom:16px;">✏️ Editar perfil</h2>
+    <div class="edit-grid">
+      <div class="edit-group">
+        <label class="edit-label">Nombre</label>
+        <input class="edit-input" id="editName" type="text" placeholder="Tu nombre completo">
+      </div>
+      <div class="edit-group">
+        <label class="edit-label">Usuario</label>
+        <input class="edit-input" id="editUsername" type="text" placeholder="@usuario">
+      </div>
+      <div class="edit-group full">
+        <label class="edit-label">Bio</label>
+        <textarea class="edit-textarea" id="editBio" placeholder="Cuéntanos sobre ti como viajero..."></textarea>
+      </div>
+      <div class="edit-group">
+        <label class="edit-label">Ciudad</label>
+        <input class="edit-input" id="editCity" type="text" placeholder="Buenos Aires">
+      </div>
+      <div class="edit-group">
+        <label class="edit-label">País</label>
+        <input class="edit-input" id="editCountry" type="text" placeholder="Argentina">
+      </div>
+      <div class="edit-group">
+        <label class="edit-label">Presupuesto diario</label>
+        <select class="edit-select" id="editBudget">
+          <option value="">Seleccionar...</option>
+          <option value="budget">Mochilero (hasta $50/día)</option>
+          <option value="mid">Medio ($50–150/día)</option>
+          <option value="comfort">Cómodo ($150–300/día)</option>
+          <option value="luxury">Lujo ($300+/día)</option>
+        </select>
+      </div>
+      <div class="edit-group">
+        <label class="edit-label">Instagram</label>
+        <input class="edit-input" id="editInstagram" type="text" placeholder="@tuinstagram">
+      </div>
+      <div class="edit-group">
+        <label class="edit-label">Web / Blog</label>
+        <input class="edit-input" id="editWebsite" type="url" placeholder="https://...">
+      </div>
+      <div class="edit-group full">
+        <label class="edit-label">Idiomas</label>
+        <input class="edit-input" id="editLanguages" type="text" placeholder="Español, Inglés, Portugués">
+      </div>
+      <div class="edit-group full">
+        <label class="edit-label">Estilo de viaje</label>
+        <div class="travel-styles" id="travelStylesWrap">
+          <span class="style-tag" data-style="aventura">🧗 Aventura</span>
+          <span class="style-tag" data-style="cultural">🎭 Cultural</span>
+          <span class="style-tag" data-style="gastronomico">🍜 Gastronómico</span>
+          <span class="style-tag" data-style="naturaleza">🌿 Naturaleza</span>
+          <span class="style-tag" data-style="playa">🏖️ Playa</span>
+          <span class="style-tag" data-style="urbano">🏙️ Urbano</span>
+          <span class="style-tag" data-style="lujo">✨ Lujo</span>
+          <span class="style-tag" data-style="mochilero">🎒 Mochilero</span>
+        </div>
+      </div>
+    </div>
+    <div class="edit-actions">
+      <button class="btn-save" onclick="saveProfileChanges()">Guardar cambios</button>
+      <button class="btn-cancel" onclick="toggleEdit()">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- ── TRAVEL STATS ── -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">🌍</div>
+      <div class="stat-number" id="statCountries">0</div>
+      <div class="stat-label">Países</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🏙️</div>
+      <div class="stat-number" id="statCities">0</div>
+      <div class="stat-label">Ciudades</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🗺️</div>
+      <div class="stat-number" id="statContinents">0</div>
+      <div class="stat-label">Continentes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⭐</div>
+      <div class="stat-number" id="statWonders">0</div>
+      <div class="stat-label">Maravillas</div>
+    </div>
+  </div>
+
+  <!-- ── WORLD MAP ── -->
+  <div class="section-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+      <h2 class="section-title" style="margin:0;">🗺️ Mi mapa mundial</h2>
+      <span style="font-size:.8rem;color:var(--text-3);">Haz clic en un país para marcarlo</span>
+    </div>
+
+    <div class="map-container">
+      <div class="loading-map" id="mapLoading">
+        <div class="spinner"></div>
+        Cargando mapa...
+      </div>
+      <svg id="worldMap" style="display:none;"></svg>
+    </div>
+
+    <div class="map-tooltip" id="mapTooltip"></div>
+
+    <div class="map-footer">
+      <div class="map-counter">
+        Has visitado <strong id="visitedCount">0</strong> de 195 países
+      </div>
+      <div class="map-legend">
+        <span><span class="legend-dot" style="background:#0891B2;"></span> Visitado</span>
+        <span><span class="legend-dot" style="background:#E5E7EB;"></span> No visitado</span>
+      </div>
+    </div>
+
+    <!-- Country search -->
+    <div class="country-search-wrap">
+      <input
+        class="country-search-input"
+        id="countrySearch"
+        type="text"
+        placeholder="🔍 Buscar y añadir un país visitado..."
+        oninput="filterCountries(this.value)"
+        onfocus="showCountryResults()"
+      >
+      <div class="country-results" id="countryResults"></div>
+    </div>
+  </div>
+
+  <!-- ── CONTINENTS ── -->
+  <div class="section-card">
+    <h2 class="section-title">🌐 Continentes visitados</h2>
+    <div class="continents-grid" id="continentsGrid">
+      <div class="continent-badge" data-continent="america" onclick="toggleContinent(this)">
+        <span class="continent-emoji">🌎</span>
+        <span class="continent-name">América</span>
+        <span class="continent-check">✓</span>
+      </div>
+      <div class="continent-badge" data-continent="europa" onclick="toggleContinent(this)">
+        <span class="continent-emoji">🏰</span>
+        <span class="continent-name">Europa</span>
+        <span class="continent-check">✓</span>
+      </div>
+      <div class="continent-badge" data-continent="asia" onclick="toggleContinent(this)">
+        <span class="continent-emoji">🌏</span>
+        <span class="continent-name">Asia</span>
+        <span class="continent-check">✓</span>
+      </div>
+      <div class="continent-badge" data-continent="africa" onclick="toggleContinent(this)">
+        <span class="continent-emoji">🌍</span>
+        <span class="continent-name">África</span>
+        <span class="continent-check">✓</span>
+      </div>
+      <div class="continent-badge" data-continent="oceania" onclick="toggleContinent(this)">
+        <span class="continent-emoji">🦘</span>
+        <span class="continent-name">Oceanía</span>
+        <span class="continent-check">✓</span>
+      </div>
+      <div class="continent-badge" data-continent="antartica" onclick="toggleContinent(this)">
+        <span class="continent-emoji">🧊</span>
+        <span class="continent-name">Antártida</span>
+        <span class="continent-check">✓</span>
       </div>
     </div>
   </div>
 
-  <!-- Section 2: Stats Cards -->
-  <div class="stats-row animate-in-d1" id="statsRow">
-    <div class="stat-card">
-      <span class="stat-icon">&#127758;</span>
-      <div class="stat-value" id="statCountries">0</div>
-      <div class="stat-label">Paises visitados</div>
+  <!-- ── WONDERS OF THE WORLD ── -->
+  <div class="section-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+      <h2 class="section-title" style="margin:0;">⭐ Maravillas del mundo</h2>
+      <span style="font-size:.85rem;color:var(--text-2);">
+        <strong id="wondersVisitedCount" style="color:var(--accent);">0</strong>/25 visitadas
+      </span>
     </div>
-    <div class="stat-card">
-      <span class="stat-icon">&#128279;</span>
-      <div class="stat-value" id="statConnections">0</div>
-      <div class="stat-label">Apps conectadas</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">&#128197;</span>
-      <div class="stat-value" id="statMemberSince">-</div>
-      <div class="stat-label">Miembro desde</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">&#127952;</span>
-      <div class="stat-value" id="statStyles">0</div>
-      <div class="stat-label">Estilos de viaje</div>
-    </div>
+    <div class="wonders-grid" id="wondersGrid"></div>
   </div>
 
-  <!-- Section 3: World Map -->
-  <div class="glass-card animate-in-d2">
-    <h2 class="section-title"><span class="icon">&#127758;</span> Mi Mapa Mundial</h2>
-    <div class="country-search-container">
-      <span class="country-search-icon">&#128269;</span>
-      <input type="text" class="country-search" id="countrySearch" placeholder="Buscar pais para agregar..." autocomplete="off">
-      <div class="country-dropdown" id="countryDropdown"></div>
-    </div>
-    <div class="map-container" id="mapContainer">
-      <div class="map-tooltip" id="mapTooltip"></div>
-      <svg id="worldMap" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
-        <!-- Simplified world map paths for 50 countries -->
-        <!-- Europe -->
-        <path id="ES" d="M440 195 L445 188 L455 186 L465 190 L468 198 L463 208 L455 212 L448 210 L438 205 Z" data-name="España"/>
-        <path id="PT" d="M432 193 L438 190 L440 195 L438 205 L432 208 L428 202 Z" data-name="Portugal"/>
-        <path id="FR" d="M455 175 L465 170 L478 172 L482 180 L480 190 L468 198 L465 190 L455 186 L450 180 Z" data-name="Francia"/>
-        <path id="GB" d="M448 155 L456 150 L460 158 L458 168 L452 170 L446 165 Z" data-name="Reino Unido"/>
-        <path id="IE" d="M438 153 L445 150 L448 155 L446 162 L440 164 L436 158 Z" data-name="Irlanda"/>
-        <path id="DE" d="M480 162 L492 158 L500 164 L498 178 L490 182 L482 180 L478 172 L480 165 Z" data-name="Alemania"/>
-        <path id="IT" d="M488 186 L494 182 L498 190 L502 200 L498 212 L492 218 L488 215 L490 205 L486 195 Z" data-name="Italia"/>
-        <path id="NL" d="M476 158 L482 155 L486 160 L484 166 L478 168 L475 163 Z" data-name="Paises Bajos"/>
-        <path id="BE" d="M472 166 L478 164 L482 168 L480 174 L474 172 Z" data-name="Belgica"/>
-        <path id="CH" d="M480 180 L488 178 L492 182 L488 186 L482 184 Z" data-name="Suiza"/>
-        <path id="AT" d="M492 176 L504 174 L508 178 L504 183 L494 182 L490 178 Z" data-name="Austria"/>
-        <path id="PL" d="M500 158 L516 155 L522 162 L520 172 L510 175 L500 172 L498 164 Z" data-name="Polonia"/>
-        <path id="CZ" d="M496 168 L506 166 L510 170 L506 175 L498 174 L494 170 Z" data-name="Chequia"/>
-        <path id="GR" d="M516 200 L524 196 L530 200 L528 210 L522 216 L516 212 L514 206 Z" data-name="Grecia"/>
-        <path id="HR" d="M502 188 L510 185 L514 190 L512 196 L506 198 L500 194 Z" data-name="Croacia"/>
-        <path id="RO" d="M520 180 L534 178 L540 184 L536 192 L526 194 L518 190 Z" data-name="Rumania"/>
-        <path id="HU" d="M506 178 L518 176 L522 180 L518 186 L508 188 L504 183 Z" data-name="Hungria"/>
-        <path id="NO" d="M478 120 L486 108 L496 105 L498 120 L492 138 L486 148 L480 152 L476 142 L478 130 Z" data-name="Noruega"/>
-        <path id="SE" d="M492 110 L500 106 L506 112 L504 130 L498 145 L490 148 L486 138 L490 120 Z" data-name="Suecia"/>
-        <path id="FI" d="M518 100 L528 96 L534 105 L532 120 L526 135 L518 138 L514 128 L516 112 Z" data-name="Finlandia"/>
-        <path id="DK" d="M480 150 L488 148 L492 153 L490 158 L484 160 L478 156 Z" data-name="Dinamarca"/>
-        <path id="IS" d="M400 108 L416 104 L424 110 L420 118 L408 120 L398 116 Z" data-name="Islandia"/>
-        <!-- Turkey -->
-        <path id="TR" d="M536 192 L558 188 L575 192 L580 198 L572 205 L555 208 L540 204 L534 198 Z" data-name="Turquia"/>
-        <!-- North Africa / Middle East -->
-        <path id="MA" d="M428 215 L445 212 L455 218 L448 228 L435 232 L425 225 Z" data-name="Marruecos"/>
-        <path id="EG" d="M545 225 L558 220 L565 228 L562 245 L552 250 L542 242 Z" data-name="Egipto"/>
-        <!-- Asia -->
-        <path id="IN" d="M650 240 L670 225 L685 232 L690 255 L680 280 L665 290 L652 278 L645 260 Z" data-name="India"/>
-        <path id="CN" d="M700 165 L740 155 L760 168 L765 195 L748 215 L720 220 L700 210 L690 195 L695 178 Z" data-name="China"/>
-        <path id="JP" d="M790 180 L798 172 L804 178 L802 192 L795 200 L788 195 Z" data-name="Japon"/>
-        <path id="KR" d="M775 188 L782 184 L786 190 L783 198 L776 196 Z" data-name="Corea del Sur"/>
-        <path id="TH" d="M718 260 L726 252 L732 258 L730 275 L724 282 L718 276 Z" data-name="Tailandia"/>
-        <path id="VN" d="M735 250 L742 245 L748 252 L746 272 L738 280 L732 270 L734 258 Z" data-name="Vietnam"/>
-        <path id="ID" d="M720 310 L742 305 L768 308 L780 315 L772 322 L748 325 L726 320 L718 316 Z" data-name="Indonesia"/>
-        <path id="PH" d="M768 265 L776 258 L782 264 L780 278 L774 284 L768 276 Z" data-name="Filipinas"/>
-        <path id="MY" d="M728 290 L742 286 L750 292 L746 300 L734 302 L726 296 Z" data-name="Malasia"/>
-        <!-- Oceania -->
-        <path id="AU" d="M760 355 L800 340 L830 348 L840 370 L830 395 L800 405 L770 398 L755 380 Z" data-name="Australia"/>
-        <path id="NZ" d="M855 400 L862 394 L868 400 L866 415 L858 420 L852 412 Z" data-name="Nueva Zelanda"/>
-        <!-- North America -->
-        <path id="US" d="M120 165 L200 155 L240 162 L250 185 L230 210 L180 218 L140 212 L110 195 Z" data-name="Estados Unidos"/>
-        <path id="CA" d="M100 90 L200 80 L260 95 L255 130 L240 155 L200 155 L140 158 L105 145 L90 120 Z" data-name="Canada"/>
-        <path id="MX" d="M120 218 L160 215 L178 225 L175 245 L155 260 L135 258 L118 245 L112 230 Z" data-name="Mexico"/>
-        <!-- Central America / Caribbean -->
-        <path id="CR" d="M175 268 L182 265 L186 270 L183 276 L177 278 L173 273 Z" data-name="Costa Rica"/>
-        <path id="CU" d="M185 238 L205 234 L215 240 L210 246 L195 248 L182 244 Z" data-name="Cuba"/>
-        <!-- South America -->
-        <path id="BR" d="M245 290 L290 275 L320 285 L325 330 L305 370 L270 380 L240 365 L232 330 Z" data-name="Brasil"/>
-        <path id="AR" d="M245 370 L265 365 L275 385 L270 425 L258 445 L242 440 L235 415 L238 390 Z" data-name="Argentina"/>
-        <path id="CL" d="M230 370 L240 368 L242 400 L238 435 L230 450 L224 440 L222 410 L225 385 Z" data-name="Chile"/>
-        <path id="CO" d="M210 265 L230 258 L242 268 L240 285 L228 292 L215 288 L208 278 Z" data-name="Colombia"/>
-        <path id="PE" d="M215 292 L232 288 L240 300 L236 320 L222 328 L212 318 Z" data-name="Peru"/>
-        <!-- Africa -->
-        <path id="ZA" d="M520 380 L540 372 L555 378 L558 395 L548 405 L530 408 L518 398 Z" data-name="Sudafrica"/>
-        <path id="KE" d="M558 295 L568 288 L575 295 L572 310 L564 315 L556 308 Z" data-name="Kenia"/>
-        <path id="TZ" d="M556 315 L568 308 L576 315 L574 332 L564 338 L554 330 Z" data-name="Tanzania"/>
-      </svg>
-    </div>
-    <div class="visited-tags" id="visitedTags"></div>
+  <!-- ── BADGES ── -->
+  <div class="section-card">
+    <h2 class="section-title" style="margin-bottom:14px;">🏅 Logros desbloqueados</h2>
+    <div class="badges-scroll" id="badgesRow"></div>
   </div>
 
-  <!-- Section 4: Connections -->
-  <div class="glass-card animate-in-d3">
-    <h2 class="section-title"><span class="icon">&#128279;</span> Conexiones</h2>
-    <div class="connections-grid" id="connectionsGrid"></div>
+  <!-- ── TRIPS ── -->
+  <div class="section-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+      <h2 class="section-title" style="margin:0;">✈️ Viajes registrados</h2>
+      <span style="font-size:.85rem;color:var(--text-2);" id="tripsCountLabel">0 viajes</span>
+    </div>
+    <div class="trips-list" id="tripsList">
+      <div style="text-align:center;padding:30px;color:var(--text-3);font-size:.9rem;">
+        Aún no has registrado viajes. ¡Empieza ahora!
+      </div>
+    </div>
+    <button class="btn-add-trip" onclick="openAddTripModal()">
+      ✈️ Registrar nuevo viaje
+    </button>
   </div>
 
-  <!-- Section 5: Travel Style -->
-  <div class="glass-card animate-in-d4">
-    <h2 class="section-title"><span class="icon">&#127952;</span> Estilo de Viaje</h2>
+</div><!-- end .page-wrap -->
 
-    <div class="subsection">
-      <div class="subsection-label">Tipo de viajero</div>
-      <div class="chips-container" id="styleChips"></div>
-    </div>
-
-    <div class="subsection">
-      <div class="subsection-label">Presupuesto diario</div>
-      <div class="chips-container" id="budgetChips"></div>
-    </div>
-
-    <div class="subsection">
-      <div class="subsection-label">Idiomas</div>
-      <div class="chips-container" id="languageChips"></div>
-    </div>
-  </div>
-</main>
-
-<!-- Edit Profile Modal -->
-<div class="modal-overlay" id="editModal">
+<!-- ── ADD TRIP MODAL ── -->
+<div class="modal-overlay" id="addTripModal" onclick="closeModalOnBackdrop(event)">
   <div class="modal">
-    <h3>Editar perfil</h3>
-    <div class="modal-field">
-      <label>Nombre</label>
-      <input type="text" id="editName" placeholder="Tu nombre">
+    <button class="modal-close" onclick="closeAddTripModal()">✕</button>
+    <h2 class="modal-title">✈️ Nuevo viaje</h2>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="edit-group">
+        <label class="edit-label">Destino</label>
+        <input class="edit-input" id="tripDestination" type="text" placeholder="Ej: Japón — Tokyo y Kioto">
+      </div>
+      <div class="edit-grid" style="gap:10px;">
+        <div class="edit-group">
+          <label class="edit-label">Fecha inicio</label>
+          <input class="edit-input" id="tripStart" type="date">
+        </div>
+        <div class="edit-group">
+          <label class="edit-label">Fecha fin</label>
+          <input class="edit-input" id="tripEnd" type="date">
+        </div>
+      </div>
+      <div class="edit-group">
+        <label class="edit-label">Descripción</label>
+        <textarea class="edit-textarea" id="tripDesc" placeholder="Cuéntanos sobre este viaje..."></textarea>
+      </div>
+      <div class="edit-group">
+        <label class="edit-label">Distancia (km)</label>
+        <input class="edit-input" id="tripKm" type="number" placeholder="Ej: 12400">
+      </div>
+      <div class="edit-group">
+        <label class="edit-label">Etiqueta / Emoji</label>
+        <input class="edit-input" id="tripTag" type="text" placeholder="🌸 Sakura">
+      </div>
     </div>
-    <div class="modal-field">
-      <label>Username</label>
-      <input type="text" id="editUsername" placeholder="tu_username">
-    </div>
-    <div class="modal-field">
-      <label>Bio</label>
-      <textarea id="editBio" placeholder="Cuentale al mundo quien eres como viajero..."></textarea>
-    </div>
-    <div class="modal-field">
-      <label>Ciudad</label>
-      <input type="text" id="editCity" placeholder="Tu ciudad">
-    </div>
-    <div class="modal-field">
-      <label>Pais</label>
-      <input type="text" id="editCountry" placeholder="Tu pais">
-    </div>
-    <div class="modal-field">
-      <label>Ano de nacimiento</label>
-      <input type="number" id="editBirthYear" placeholder="1990" min="1940" max="2010">
-    </div>
-    <div class="modal-field">
-      <label>Instagram</label>
-      <input type="text" id="editInstagram" placeholder="@tu_instagram">
-    </div>
-    <div class="modal-field">
-      <label>Website</label>
-      <input type="url" id="editWebsite" placeholder="https://tu-web.com">
-    </div>
-    <div class="modal-actions">
-      <button class="btn-modal btn-modal-cancel" onclick="closeEditModal()">Cancelar</button>
-      <button class="btn-modal btn-modal-primary" onclick="saveProfile()">Guardar</button>
+    <div class="edit-actions" style="margin-top:16px;">
+      <button class="btn-save" onclick="saveNewTrip()">Guardar viaje</button>
+      <button class="btn-cancel" onclick="closeAddTripModal()">Cancelar</button>
     </div>
   </div>
 </div>
 
-<!-- Connection Modal -->
-<div class="modal-overlay" id="connectionModal">
-  <div class="modal">
-    <h3 id="connectionModalTitle">Conectar servicio</h3>
-    <div class="modal-field">
-      <label>Tu nombre de usuario</label>
-      <input type="text" id="connectionUsername" placeholder="tu_usuario">
-    </div>
-    <div class="modal-field">
-      <label>URL de tu perfil</label>
-      <input type="url" id="connectionUrl" placeholder="https://...">
-    </div>
-    <div class="modal-actions">
-      <button class="btn-modal btn-modal-cancel" onclick="closeConnectionModal()">Cancelar</button>
-      <button class="btn-modal btn-modal-primary" onclick="saveConnection()">Conectar</button>
-    </div>
-  </div>
-</div>
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
 
-<!-- Toast Container -->
-<div class="toast-container" id="toastContainer"></div>
+<!-- D3 + TopoJSON -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 
 <script>
-// ── Config ──
 const API_BASE = 'https://eze.saypeter.com';
-const headers = () => ({
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${localStorage.getItem('token')}`
-});
+let token = localStorage.getItem('token');
+if (!token) window.location.href = 'login.html';
 
-// ── State ──
-let userData = {};
-let currentConnectionService = null;
+// ── STATE ──
+let visitedCodes = loadVisitedCountries();
+let visitedWonders = loadVisitedWonders();
+let visitedContinents = loadVisitedContinents();
+let currentUser = {};
+let selectedStyles = [];
+let trips = [];
 
-// ── Countries Data ──
-const COUNTRIES = {
-  ES: { name: 'España', flag: '🇪🇸' },
-  FR: { name: 'Francia', flag: '🇫🇷' },
-  IT: { name: 'Italia', flag: '🇮🇹' },
-  DE: { name: 'Alemania', flag: '🇩🇪' },
-  PT: { name: 'Portugal', flag: '🇵🇹' },
-  GB: { name: 'Reino Unido', flag: '🇬🇧' },
-  NL: { name: 'Países Bajos', flag: '🇳🇱' },
-  BE: { name: 'Bélgica', flag: '🇧🇪' },
-  CH: { name: 'Suiza', flag: '🇨🇭' },
-  AT: { name: 'Austria', flag: '🇦🇹' },
-  GR: { name: 'Grecia', flag: '🇬🇷' },
-  TR: { name: 'Turquía', flag: '🇹🇷' },
-  MA: { name: 'Marruecos', flag: '🇲🇦' },
-  EG: { name: 'Egipto', flag: '🇪🇬' },
-  TH: { name: 'Tailandia', flag: '🇹🇭' },
-  VN: { name: 'Vietnam', flag: '🇻🇳' },
-  JP: { name: 'Japón', flag: '🇯🇵' },
-  AU: { name: 'Australia', flag: '🇦🇺' },
-  NZ: { name: 'Nueva Zelanda', flag: '🇳🇿' },
-  US: { name: 'Estados Unidos', flag: '🇺🇸' },
-  CA: { name: 'Canadá', flag: '🇨🇦' },
-  MX: { name: 'México', flag: '🇲🇽' },
-  BR: { name: 'Brasil', flag: '🇧🇷' },
-  AR: { name: 'Argentina', flag: '🇦🇷' },
-  CL: { name: 'Chile', flag: '🇨🇱' },
-  CO: { name: 'Colombia', flag: '🇨🇴' },
-  PE: { name: 'Perú', flag: '🇵🇪' },
-  CR: { name: 'Costa Rica', flag: '🇨🇷' },
-  CU: { name: 'Cuba', flag: '🇨🇺' },
-  IN: { name: 'India', flag: '🇮🇳' },
-  CN: { name: 'China', flag: '🇨🇳' },
-  KR: { name: 'Corea del Sur', flag: '🇰🇷' },
-  ID: { name: 'Indonesia', flag: '🇮🇩' },
-  PH: { name: 'Filipinas', flag: '🇵🇭' },
-  MY: { name: 'Malasia', flag: '🇲🇾' },
-  ZA: { name: 'Sudáfrica', flag: '🇿🇦' },
-  KE: { name: 'Kenia', flag: '🇰🇪' },
-  TZ: { name: 'Tanzania', flag: '🇹🇿' },
-  IS: { name: 'Islandia', flag: '🇮🇸' },
-  NO: { name: 'Noruega', flag: '🇳🇴' },
-  SE: { name: 'Suecia', flag: '🇸🇪' },
-  DK: { name: 'Dinamarca', flag: '🇩🇰' },
-  FI: { name: 'Finlandia', flag: '🇫🇮' },
-  PL: { name: 'Polonia', flag: '🇵🇱' },
-  CZ: { name: 'Chequia', flag: '🇨🇿' },
-  HR: { name: 'Croacia', flag: '🇭🇷' },
-  IE: { name: 'Irlanda', flag: '🇮🇪' },
-  RO: { name: 'Rumanía', flag: '🇷🇴' },
-  HU: { name: 'Hungría', flag: '🇭🇺' }
+// ── COUNTRY DATA ──
+const COUNTRY_NAMES = {
+  4:'Afganistán',8:'Albania',12:'Argelia',24:'Angola',32:'Argentina',36:'Australia',
+  40:'Austria',50:'Bangladesh',56:'Bélgica',68:'Bolivia',76:'Brasil',100:'Bulgaria',
+  104:'Myanmar',116:'Camboya',120:'Camerún',124:'Canadá',144:'Sri Lanka',152:'Chile',
+  156:'China',170:'Colombia',178:'Congo',192:'Cuba',203:'República Checa',204:'Benín',
+  208:'Dinamarca',218:'Ecuador',818:'Egipto',222:'El Salvador',231:'Etiopía',
+  246:'Finlandia',250:'Francia',266:'Gabón',276:'Alemania',288:'Ghana',300:'Grecia',
+  320:'Guatemala',332:'Haití',340:'Honduras',348:'Hungría',356:'India',360:'Indonesia',
+  364:'Irán',368:'Irak',372:'Irlanda',376:'Israel',380:'Italia',388:'Jamaica',
+  392:'Japón',400:'Jordania',404:'Kenia',410:'Corea del Sur',408:'Corea del Norte',
+  414:'Kuwait',418:'Laos',422:'Líbano',430:'Liberia',434:'Libia',458:'Malasia',
+  484:'México',504:'Marruecos',508:'Mozambique',524:'Nepal',528:'Países Bajos',
+  554:'Nueva Zelanda',566:'Nigeria',586:'Pakistán',591:'Panamá',604:'Perú',
+  608:'Filipinas',616:'Polonia',620:'Portugal',630:'Puerto Rico',642:'Rumania',
+  643:'Rusia',682:'Arabia Saudita',686:'Senegal',694:'Sierra Leona',703:'Eslovaquia',
+  706:'Somalia',710:'Sudáfrica',724:'España',729:'Sudán',752:'Suecia',756:'Suiza',
+  760:'Siria',764:'Tailandia',788:'Túnez',792:'Turquía',800:'Uganda',804:'Ucrania',
+  784:'Emiratos Árabes',826:'Reino Unido',840:'Estados Unidos',858:'Uruguay',
+  862:'Venezuela',704:'Vietnam',887:'Yemen',894:'Zambia',716:'Zimbabue',
+  426:'Lesoto',450:'Madagascar',454:'Malaui',466:'Malí',478:'Mauritania',516:'Namibia',
+  562:'Níger',562:'Níger',646:'Ruanda',706:'Somalia',768:'Togo',854:'Burkina Faso',
+  140:'República Centroafricana',148:'Chad',174:'Comoras',262:'Yibuti',232:'Eritrea',
+  266:'Gabón',270:'Gambia',324:'Guinea',624:'Guinea-Bisáu',384:'Costa de Marfil',
+  434:'Libia',480:'Mauricio',174:'Comoras',694:'Sierra Leona',706:'Somalia',
+  736:'Sudán',788:'Túnez',894:'Zambia',112:'Bielorrusia',191:'Croacia',
+  233:'Estonia',246:'Finlandia',348:'Hungría',372:'Irlanda',428:'Letonia',
+  440:'Lituania',807:'Macedonia del Norte',498:'Moldavia',499:'Montenegro',
+  756:'Suiza',703:'Eslovaquia',705:'Eslovenia',688:'Serbia',31:'Azerbaiyán',
+  51:'Armenia',268:'Georgia',398:'Kazajistán',417:'Kirguistán',762:'Tayikistán',
+  795:'Turkmenistán',860:'Uzbekistán',496:'Mongolia',144:'Sri Lanka',
+  462:'Maldivas',524:'Nepal',586:'Pakistán',64:'Bután',50:'Bangladesh',
+  144:'Sri Lanka',462:'Maldivas',64:'Bután',116:'Camboya',418:'Laos',
+  104:'Myanmar',704:'Vietnam',360:'Indonesia',608:'Filipinas',458:'Malasia',
+  764:'Tailandia',96:'Brunéi',626:'Timor-Leste',702:'Singapur',
+  48:'Bahréin',196:'Chipre',368:'Irak',376:'Israel',400:'Jordania',
+  414:'Kuwait',422:'Líbano',512:'Omán',275:'Palestina',634:'Catar',
+  682:'Arabia Saudita',760:'Siria',792:'Turquía',784:'Emiratos Árabes',887:'Yemen',
+  144:'Sri Lanka',36:'Australia',554:'Nueva Zelanda',598:'Papúa Nueva Guinea',
+  242:'Fiyi',882:'Samoa',776:'Tonga',548:'Vanuatu',90:'Islas Salomón',
+  296:'Kiribati',584:'Islas Marshall',583:'Micronesia',585:'Palaos',
+  520:'Nauru',798:'Tuvalu',60:'Bermudas',
+  44:'Bahamas',52:'Barbados',84:'Belice',136:'Islas Caimán',
+  214:'República Dominicana',308:'Granada',328:'Guyana',332:'Haití',
+  388:'Jamaica',474:'Martinica',558:'Nicaragua',591:'Panamá',
+  630:'Puerto Rico',659:'San Cristóbal y Nieves',662:'Santa Lucía',
+  670:'San Vicente',780:'Trinidad y Tobago',850:'Islas Vírgenes (EE.UU.)',
+  328:'Guyana',740:'Surinam',724:'España',620:'Portugal',376:'Israel',
+  196:'Chipre',352:'Islandia',470:'Malta',492:'Mónaco',674:'San Marino',
+  336:'Ciudad del Vaticano',442:'Luxemburgo',438:'Liechtenstein',
+  20:'Andorra',833:'Isla de Man',830:'Islas del Canal',826:'Reino Unido',
 };
 
-// ── External Services ──
-const SERVICES = [
-  { id: 'wikiloc', name: 'Wikiloc', desc: 'Rutas de senderismo y outdoor', domain: 'wikiloc.com', icon: '🥾' },
-  { id: 'park4night', name: 'Park4Night', desc: 'Spots para pernoctar en furgo/camper', domain: 'park4night.com', icon: '🚐' },
-  { id: 'ioverlander', name: 'iOverlander', desc: 'Spots para overlanders y viajeros', domain: 'ioverlander.com', icon: '🏕️' },
-  { id: 'strava', name: 'Strava', desc: 'Tracking de running, ciclismo y más', domain: 'strava.com', icon: '🏃' },
-  { id: 'garmin', name: 'Garmin Connect', desc: 'Datos de tu Garmin GPS', domain: 'connect.garmin.com', icon: '📡' },
-  { id: 'polarsteps', name: 'Polarsteps', desc: 'Tracking automático de viajes', domain: 'polarsteps.com', icon: '📍' },
-  { id: 'komoot', name: 'Komoot', desc: 'Rutas y navegación outdoor', domain: 'komoot.com', icon: '🗺️' },
-  { id: 'alltrails', name: 'AllTrails', desc: 'Rutas de senderismo verificadas', domain: 'alltrails.com', icon: '🌲' }
+// Continent country codes mapping
+const CONTINENT_CODES = {
+  america: [32,84,68,76,124,152,170,188,192,214,218,222,320,332,340,388,484,558,591,604,630,740,780,840,858,862,328,600,748],
+  europa: [8,20,40,56,100,112,191,203,208,246,250,276,300,336,348,372,380,428,438,440,442,492,498,499,528,578,616,620,674,688,703,705,724,752,756,792,804,826,807],
+  asia: [4,31,48,50,51,64,96,104,116,144,156,196,268,275,360,364,368,376,392,398,400,408,410,414,417,418,422,458,462,496,512,524,586,608,626,634,643,682,702,704,760,762,764,784,792,795,860,887],
+  africa: [12,24,72,108,120,132,140,144,148,174,178,188,204,226,231,232,262,266,270,288,324,404,426,430,434,450,454,466,478,480,508,516,562,566,646,686,694,706,710,716,729,736,768,788,800,818,854,894,716],
+  oceania: [36,90,242,296,520,548,554,583,584,585,598,626,776,798,882],
+  antartica: [],
+};
+
+function getCountryName(id) {
+  return COUNTRY_NAMES[parseInt(id)] || `País (${id})`;
+}
+
+// ── WONDERS DATA ──
+const WONDERS = [
+  { id:1,  name:'Machu Picchu',          country:'Perú',         emoji:'🏔️', pexels:'2356059' },
+  { id:2,  name:'Cristo Redentor',        country:'Brasil',       emoji:'✝️', pexels:'2868146' },
+  { id:3,  name:'Coliseo Romano',         country:'Italia',       emoji:'🏛️', pexels:'1797166' },
+  { id:4,  name:'Chichen Itzá',           country:'México',       emoji:'🛕', pexels:'4388167' },
+  { id:5,  name:'Gran Muralla China',     country:'China',        emoji:'🧱', pexels:'2846217' },
+  { id:6,  name:'Taj Mahal',             country:'India',        emoji:'🕌', pexels:'1603650' },
+  { id:7,  name:'Petra',                 country:'Jordania',     emoji:'🏜️', pexels:'3290068' },
+  { id:8,  name:'Angkor Wat',            country:'Camboya',      emoji:'🛕', pexels:'3290070' },
+  { id:9,  name:'Pirámides de Giza',     country:'Egipto',       emoji:'🔺', pexels:'71241' },
+  { id:10, name:'Acropolis de Atenas',   country:'Grecia',       emoji:'🏛️', pexels:'164336' },
+  { id:11, name:'Stonehenge',            country:'Reino Unido',  emoji:'🗿', pexels:'589840' },
+  { id:12, name:'Eiffel',               country:'Francia',      emoji:'🗼', pexels:'699466' },
+  { id:13, name:'Alhambra',             country:'España',       emoji:'🕌', pexels:'1004409' },
+  { id:14, name:'Hagia Sophia',         country:'Turquía',      emoji:'🕌', pexels:'1549326' },
+  { id:15, name:'Mont Saint-Michel',    country:'Francia',      emoji:'🏰', pexels:'258117' },
+  { id:16, name:'Sagrada Família',      country:'España',       emoji:'⛪', pexels:'1388030' },
+  { id:17, name:'Cataratas del Niágara', country:'Canadá/EE.UU.',emoji:'💧', pexels:'2335126' },
+  { id:18, name:'Aurora Boreal',        country:'Noruega',      emoji:'🌌', pexels:'1212600' },
+  { id:19, name:'Gran Barrera de Coral', country:'Australia',   emoji:'🐠', pexels:'1049298' },
+  { id:20, name:'Machu Pichu',          country:'Bolivia',      emoji:'🏔️', pexels:'2356059' },
+  { id:21, name:'Monte Everest',        country:'Nepal',        emoji:'🏔️', pexels:'753619' },
+  { id:22, name:'Cataratas Victoria',   country:'Zimbabue',     emoji:'🌊', pexels:'417070' },
+  { id:23, name:'Galápagos',           country:'Ecuador',      emoji:'🐢', pexels:'2662116' },
+  { id:24, name:'Río Amazonas',        country:'Brasil',       emoji:'🌿', pexels:'975771' },
+  { id:25, name:'Sahara',             country:'Norte África',  emoji:'🏜️', pexels:'847402' },
 ];
 
-// ── Travel Styles ──
-const TRAVEL_STYLES = [
-  'Mochilero', 'Vanlife', 'Luxury', 'Aventura', 'Cultural', 'Gastro',
-  'Solo', 'Familiar', 'Digital Nomad', 'Road Trip', 'Trekking', 'Playa'
+// ── BADGES DATA ──
+const BADGES = [
+  { id:'first_trip',   emoji:'✈️',  name:'Primer vuelo',      req: u => trips.length >= 1 },
+  { id:'5countries',   emoji:'🌍',  name:'5 países',          req: u => visitedCodes.size >= 5,  progress: () => `${visitedCodes.size}/5` },
+  { id:'10countries',  emoji:'🗺️',  name:'10 países',         req: u => visitedCodes.size >= 10, progress: () => `${visitedCodes.size}/10` },
+  { id:'3continents',  emoji:'🌐',  name:'3 continentes',     req: u => visitedContinents.size >= 3, progress: () => `${visitedContinents.size}/3` },
+  { id:'wonder_first', emoji:'⭐',  name:'1ª maravilla',      req: u => visitedWonders.size >= 1 },
+  { id:'wonder5',      emoji:'🏆',  name:'5 maravillas',      req: u => visitedWonders.size >= 5,  progress: () => `${visitedWonders.size}/5` },
+  { id:'europe',       emoji:'🏰',  name:'Europeo',           req: u => visitedContinents.has('europa') },
+  { id:'asia',         emoji:'🌏',  name:'Asiático',          req: u => visitedContinents.has('asia') },
+  { id:'mochilero',    emoji:'🎒',  name:'Mochilero',         req: u => trips.length >= 3 },
+  { id:'globetrotter', emoji:'💎',  name:'Globetrotter',      req: u => visitedCodes.size >= 20, progress: () => `${visitedCodes.size}/20` },
 ];
 
-const BUDGET_OPTIONS = [
-  '<20€/día', '20-40€/día', '40-80€/día', '80-150€/día', '150+€/día'
-];
+// ── LOCAL STORAGE ──
+function saveVisitedCountries(codes) {
+  localStorage.setItem('visitedCountries', JSON.stringify([...codes]));
+}
+function loadVisitedCountries() {
+  return new Set(JSON.parse(localStorage.getItem('visitedCountries') || '[]'));
+}
+function saveVisitedWonders(wonders) {
+  localStorage.setItem('visitedWonders', JSON.stringify([...wonders]));
+}
+function loadVisitedWonders() {
+  return new Set(JSON.parse(localStorage.getItem('visitedWonders') || '[]'));
+}
+function saveVisitedContinents(continents) {
+  localStorage.setItem('visitedContinents', JSON.stringify([...continents]));
+}
+function loadVisitedContinents() {
+  return new Set(JSON.parse(localStorage.getItem('visitedContinents') || '[]'));
+}
+function saveTrips(t) {
+  localStorage.setItem('userTrips', JSON.stringify(t));
+}
+function loadTrips() {
+  return JSON.parse(localStorage.getItem('userTrips') || '[]');
+}
 
-const LANGUAGES = [
-  'Español', 'English', 'Français', 'Deutsch', 'Português', 'Italiano',
-  '日本語', '中文', 'العربية', 'हिन्दी', 'Русский', '한국어', 'Nederlands', 'Svenska', 'Norsk'
-];
-
-// ── Init ──
-document.addEventListener('DOMContentLoaded', init);
-
-async function init() {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    window.location.href = 'login.html';
-    return;
-  }
-
+// ── API ──
+async function loadProfile() {
   try {
-    const res = await fetch(`${API_BASE}/api/me`, { headers: headers() });
+    const res = await fetch(`${API_BASE}/api/me`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
     if (res.status === 401) {
       localStorage.removeItem('token');
       window.location.href = 'login.html';
       return;
     }
-    if (!res.ok) throw new Error('Error cargando perfil');
-    userData = await res.json();
-    renderProfile();
+    const data = await res.json();
+    if (data.ok && data.user) {
+      currentUser = data.user;
+      renderProfile(data.user);
+    }
   } catch (err) {
-    console.error(err);
-    showToast('Error cargando tu perfil', 'error');
+    console.error('Error loading profile:', err);
+    // Render with placeholder data
+    renderProfile({ name: 'Viajero', username: 'viajero', bio: '' });
   }
 }
 
-// ── Render ──
-function renderProfile() {
-  const name = userData.name || 'Viajero';
-  const initial = name.charAt(0).toUpperCase();
-  const gradient = nameToGradient(name);
-
-  // Nav
-  document.getElementById('navUserName').textContent = name;
-  const navAv = document.getElementById('navAvatar');
-  navAv.textContent = initial;
-  navAv.style.background = gradient;
-
-  // Large avatar
-  const avLarge = document.getElementById('avatarLarge');
-  avLarge.textContent = initial;
-  avLarge.style.background = gradient;
-
-  // Profile info
-  document.getElementById('profileName').textContent = name;
-  document.getElementById('profileUsername').textContent = '@' + (userData.username || 'usuario');
-
-  const bioEl = document.getElementById('profileBio');
-  if (userData.bio) {
-    bioEl.textContent = userData.bio;
-    bioEl.classList.remove('profile-bio-empty');
-  } else {
-    bioEl.textContent = 'Cuéntale al mundo quién eres como viajero...';
-    bioEl.classList.add('profile-bio-empty');
-  }
-
-  // Badges
-  const badges = document.getElementById('profileBadges');
-  badges.innerHTML = '';
-  if (userData.city) badges.innerHTML += `<span class="badge"><span class="b-icon">📍</span>${userData.city}</span>`;
-  if (userData.country) badges.innerHTML += `<span class="badge"><span class="b-icon">🌍</span>${userData.country}</span>`;
-  if (userData.created_at) {
-    const d = new Date(userData.created_at);
-    const monthNames = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-    badges.innerHTML += `<span class="badge"><span class="b-icon">📅</span>Desde ${monthNames[d.getMonth()]} ${d.getFullYear()}</span>`;
-  }
-  if (userData.instagram) badges.innerHTML += `<span class="badge"><span class="b-icon">📷</span>${userData.instagram}</span>`;
-  if (userData.website) badges.innerHTML += `<span class="badge"><span class="b-icon">🔗</span>${userData.website}</span>`;
-
-  // Stats
-  const countries = userData.countries_visited || [];
-  document.getElementById('statCountries').textContent = countries.length;
-
-  const connections = userData.connections || {};
-  const connectedCount = Object.values(connections).filter(c => c && c.username).length;
-  document.getElementById('statConnections').textContent = connectedCount;
-
-  if (userData.created_at) {
-    const d = new Date(userData.created_at);
-    const monthNames = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-    document.getElementById('statMemberSince').textContent = `${monthNames[d.getMonth()]} ${d.getFullYear()}`;
-  }
-
-  const styles = userData.travel_style || [];
-  document.getElementById('statStyles').textContent = styles.length;
-
-  // Map
-  renderMap(countries);
-
-  // Connections
-  renderConnections(connections);
-
-  // Travel style
-  renderTravelStyles();
-  renderBudgetChips();
-  renderLanguageChips();
-}
-
-// ── Avatar gradient from name ──
-function nameToGradient(name) {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const gradients = [
-    'linear-gradient(135deg, #0891B2, #38BDF8)',
-    'linear-gradient(135deg, #1A8C7E, #22B8A6)',
-    'linear-gradient(135deg, #8B5CF6, #A78BFA)',
-    'linear-gradient(135deg, #F5A623, #FBBF24)',
-    'linear-gradient(135deg, #0891B2, #8B5CF6)',
-    'linear-gradient(135deg, #1A8C7E, #F5A623)',
-    'linear-gradient(135deg, #0E7490, #1A8C7E)',
-    'linear-gradient(135deg, #8B5CF6, #22B8A6)'
-  ];
-  return gradients[Math.abs(hash) % gradients.length];
-}
-
-// ── Map ──
-function renderMap(visitedCodes) {
-  const svg = document.getElementById('worldMap');
-  const tooltip = document.getElementById('mapTooltip');
-
-  // Highlight visited countries
-  visitedCodes.forEach(code => {
-    const path = svg.getElementById(code);
-    if (path) path.classList.add('visited');
-  });
-
-  // Tooltip
-  svg.querySelectorAll('path').forEach(path => {
-    path.addEventListener('mouseenter', (e) => {
-      const name = path.getAttribute('data-name') || path.id;
-      tooltip.textContent = name;
-      tooltip.style.opacity = '1';
-    });
-    path.addEventListener('mousemove', (e) => {
-      const rect = document.getElementById('mapContainer').getBoundingClientRect();
-      tooltip.style.left = (e.clientX - rect.left + 10) + 'px';
-      tooltip.style.top = (e.clientY - rect.top - 30) + 'px';
-    });
-    path.addEventListener('mouseleave', () => {
-      tooltip.style.opacity = '0';
-    });
-  });
-
-  // Render tags
-  renderVisitedTags(visitedCodes);
-}
-
-function renderVisitedTags(codes) {
-  const container = document.getElementById('visitedTags');
-  container.innerHTML = '';
-  (codes || []).forEach(code => {
-    const c = COUNTRIES[code];
-    if (!c) return;
-    const tag = document.createElement('span');
-    tag.className = 'visited-tag';
-    tag.innerHTML = `${c.flag} ${c.name} <span class="remove-country" onclick="removeCountry('${code}')">&times;</span>`;
-    container.appendChild(tag);
-  });
-}
-
-// ── Country Search ──
-const countrySearch = document.getElementById('countrySearch');
-const countryDropdown = document.getElementById('countryDropdown');
-
-countrySearch.addEventListener('input', () => {
-  const q = countrySearch.value.toLowerCase().trim();
-  if (!q) {
-    countryDropdown.classList.remove('open');
-    return;
-  }
-  const visited = userData.countries_visited || [];
-  const results = Object.entries(COUNTRIES)
-    .filter(([code, c]) => !visited.includes(code) && (c.name.toLowerCase().includes(q) || code.toLowerCase().includes(q)))
-    .slice(0, 8);
-
-  if (results.length === 0) {
-    countryDropdown.classList.remove('open');
-    return;
-  }
-
-  countryDropdown.innerHTML = results.map(([code, c]) =>
-    `<div class="country-option" onclick="addCountry('${code}')">
-      <span class="flag">${c.flag}</span> ${c.name}
-    </div>`
-  ).join('');
-  countryDropdown.classList.add('open');
-});
-
-countrySearch.addEventListener('blur', () => {
-  setTimeout(() => countryDropdown.classList.remove('open'), 200);
-});
-
-async function addCountry(code) {
-  if (!userData.countries_visited) userData.countries_visited = [];
-  if (userData.countries_visited.includes(code)) return;
-
-  userData.countries_visited.push(code);
-  countrySearch.value = '';
-  countryDropdown.classList.remove('open');
-
-  // Update map
-  const path = document.getElementById(code);
-  if (path) path.classList.add('visited');
-  renderVisitedTags(userData.countries_visited);
-  document.getElementById('statCountries').textContent = userData.countries_visited.length;
-
-  await saveUserData({ countries_visited: userData.countries_visited });
-  showToast(`${COUNTRIES[code]?.name || code} añadido a tu mapa`, 'success');
-}
-
-async function removeCountry(code) {
-  if (!userData.countries_visited) return;
-  userData.countries_visited = userData.countries_visited.filter(c => c !== code);
-
-  const path = document.getElementById(code);
-  if (path) path.classList.remove('visited');
-  renderVisitedTags(userData.countries_visited);
-  document.getElementById('statCountries').textContent = userData.countries_visited.length;
-
-  await saveUserData({ countries_visited: userData.countries_visited });
-  showToast(`${COUNTRIES[code]?.name || code} eliminado`, 'success');
-}
-
-// ── Connections ──
-function renderConnections(connections) {
-  const grid = document.getElementById('connectionsGrid');
-  grid.innerHTML = '';
-
-  SERVICES.forEach(service => {
-    const conn = connections?.[service.id];
-    const isConnected = conn && conn.username;
-
-    const card = document.createElement('div');
-    card.className = 'connection-card';
-    card.innerHTML = `
-      <div class="connection-card-header">
-        <div class="connection-icon">${service.icon}</div>
-        <div class="connection-info">
-          <h4>${service.name}</h4>
-          <p>${service.desc}</p>
-        </div>
-      </div>
-      <div class="connection-status">
-        ${isConnected ? `
-          <span class="connected-user">@${conn.username}</span>
-          <button class="btn-connect btn-connect-link" onclick="window.open('${conn.url || 'https://' + service.domain}', '_blank')">Ver perfil</button>
-          <button class="btn-connect btn-connect-danger" onclick="disconnectService('${service.id}')">Desconectar</button>
-        ` : `
-          <button class="btn-connect btn-connect-primary" onclick="openConnectionModal('${service.id}')">Conectar</button>
-        `}
-      </div>
-    `;
-    grid.appendChild(card);
-  });
-}
-
-function openConnectionModal(serviceId) {
-  currentConnectionService = serviceId;
-  const service = SERVICES.find(s => s.id === serviceId);
-  document.getElementById('connectionModalTitle').textContent = `Conectar ${service.name}`;
-  document.getElementById('connectionUsername').value = '';
-  document.getElementById('connectionUrl').value = '';
-  document.getElementById('connectionUrl').placeholder = `https://${service.domain}/tu_usuario`;
-  document.getElementById('connectionModal').classList.add('open');
-}
-
-function closeConnectionModal() {
-  document.getElementById('connectionModal').classList.remove('open');
-  currentConnectionService = null;
-}
-
-async function saveConnection() {
-  if (!currentConnectionService) return;
-  const username = document.getElementById('connectionUsername').value.trim();
-  const url = document.getElementById('connectionUrl').value.trim();
-
-  if (!username) {
-    showToast('Introduce tu nombre de usuario', 'error');
-    return;
-  }
-
-  if (!userData.connections) userData.connections = {};
-  userData.connections[currentConnectionService] = { username, url };
-
-  await saveUserData({ connections: userData.connections });
-  renderConnections(userData.connections);
-  updateConnectionStats();
-  closeConnectionModal();
-
-  const service = SERVICES.find(s => s.id === currentConnectionService);
-  showToast(`${service.name} conectado`, 'success');
-}
-
-async function disconnectService(serviceId) {
-  if (!userData.connections) return;
-  delete userData.connections[serviceId];
-
-  await saveUserData({ connections: userData.connections });
-  renderConnections(userData.connections);
-  updateConnectionStats();
-
-  const service = SERVICES.find(s => s.id === serviceId);
-  showToast(`${service.name} desconectado`, 'success');
-}
-
-function updateConnectionStats() {
-  const connections = userData.connections || {};
-  const count = Object.values(connections).filter(c => c && c.username).length;
-  document.getElementById('statConnections').textContent = count;
-}
-
-// ── Travel Style Chips ──
-function renderTravelStyles() {
-  const container = document.getElementById('styleChips');
-  container.innerHTML = '';
-  const selected = userData.travel_style || [];
-
-  TRAVEL_STYLES.forEach(style => {
-    const chip = document.createElement('span');
-    chip.className = 'chip' + (selected.includes(style) ? ' selected' : '');
-    chip.textContent = style;
-    chip.onclick = () => toggleStyle(style, chip);
-    container.appendChild(chip);
-  });
-}
-
-async function toggleStyle(style, chipEl) {
-  if (!userData.travel_style) userData.travel_style = [];
-
-  if (userData.travel_style.includes(style)) {
-    userData.travel_style = userData.travel_style.filter(s => s !== style);
-    chipEl.classList.remove('selected');
-  } else {
-    userData.travel_style.push(style);
-    chipEl.classList.add('selected');
-  }
-
-  document.getElementById('statStyles').textContent = userData.travel_style.length;
-  await saveUserData({ travel_style: userData.travel_style });
-}
-
-function renderBudgetChips() {
-  const container = document.getElementById('budgetChips');
-  container.innerHTML = '';
-  const selected = userData.budget || '';
-
-  BUDGET_OPTIONS.forEach(budget => {
-    const chip = document.createElement('span');
-    chip.className = 'chip chip-teal' + (selected === budget ? ' selected' : '');
-    chip.textContent = budget;
-    chip.onclick = () => toggleBudget(budget, chip);
-    container.appendChild(chip);
-  });
-}
-
-async function toggleBudget(budget, chipEl) {
-  const container = document.getElementById('budgetChips');
-
-  if (userData.budget === budget) {
-    userData.budget = '';
-    chipEl.classList.remove('selected');
-  } else {
-    userData.budget = budget;
-    container.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-    chipEl.classList.add('selected');
-  }
-
-  await saveUserData({ budget: userData.budget });
-}
-
-function renderLanguageChips() {
-  const container = document.getElementById('languageChips');
-  container.innerHTML = '';
-  const selected = userData.languages || [];
-
-  LANGUAGES.forEach(lang => {
-    const chip = document.createElement('span');
-    chip.className = 'chip chip-purple' + (selected.includes(lang) ? ' selected' : '');
-    chip.textContent = lang;
-    chip.onclick = () => toggleLanguage(lang, chip);
-    container.appendChild(chip);
-  });
-}
-
-async function toggleLanguage(lang, chipEl) {
-  if (!userData.languages) userData.languages = [];
-
-  if (userData.languages.includes(lang)) {
-    userData.languages = userData.languages.filter(l => l !== lang);
-    chipEl.classList.remove('selected');
-  } else {
-    userData.languages.push(lang);
-    chipEl.classList.add('selected');
-  }
-
-  await saveUserData({ languages: userData.languages });
-}
-
-// ── Edit Profile Modal ──
-function openEditModal() {
-  document.getElementById('editName').value = userData.name || '';
-  document.getElementById('editUsername').value = userData.username || '';
-  document.getElementById('editBio').value = userData.bio || '';
-  document.getElementById('editCity').value = userData.city || '';
-  document.getElementById('editCountry').value = userData.country || '';
-  document.getElementById('editBirthYear').value = userData.birth_year || '';
-  document.getElementById('editInstagram').value = userData.instagram || '';
-  document.getElementById('editWebsite').value = userData.website || '';
-  document.getElementById('editModal').classList.add('open');
-}
-
-function closeEditModal() {
-  document.getElementById('editModal').classList.remove('open');
-}
-
-async function saveProfile() {
-  const updates = {
-    name: document.getElementById('editName').value.trim(),
-    username: document.getElementById('editUsername').value.trim(),
-    bio: document.getElementById('editBio').value.trim(),
-    city: document.getElementById('editCity').value.trim(),
-    country: document.getElementById('editCountry').value.trim(),
-    birth_year: document.getElementById('editBirthYear').value ? parseInt(document.getElementById('editBirthYear').value) : null,
-    instagram: document.getElementById('editInstagram').value.trim(),
-    website: document.getElementById('editWebsite').value.trim()
-  };
-
-  Object.assign(userData, updates);
-  await saveUserData(updates);
-  renderProfile();
-  closeEditModal();
-  showToast('Perfil actualizado', 'success');
-}
-
-// ── API Save ──
-let saveTimeout = null;
-async function saveUserData(data) {
+async function saveProfile(data) {
   try {
     const res = await fetch(`${API_BASE}/api/me`, {
       method: 'PUT',
-      headers: headers(),
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Error guardando');
+    const result = await res.json();
+    return result.ok;
   } catch (err) {
-    console.error(err);
-    showToast('Error guardando cambios', 'error');
+    console.error('Error saving profile:', err);
+    return false;
   }
 }
 
-// ── Toast ──
-function showToast(message, type = 'success') {
-  const container = document.getElementById('toastContainer');
-  const toast = document.createElement('div');
-  toast.className = `toast toast-${type}`;
-  toast.textContent = message;
-  container.appendChild(toast);
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transition = 'opacity .3s';
-    setTimeout(() => toast.remove(), 300);
-  }, 3000);
+// ── RENDER PROFILE ──
+function renderProfile(user) {
+  const name = user.name || user.username || 'Viajero';
+  document.getElementById('profileName').textContent = name;
+  document.getElementById('profileHandle').textContent = '@' + (user.username || 'usuario');
+  document.getElementById('profileBio').textContent = user.bio || 'Viajero apasionado en busca de nuevas aventuras por el mundo.';
+  document.getElementById('profileCity').textContent = user.city || '—';
+
+  // Nav avatar initials
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('navAvatar').textContent = initials;
+  document.getElementById('profileAvatarPlaceholder').textContent = initials[0];
+
+  // Member since
+  if (user.created_at) {
+    const year = new Date(user.created_at).getFullYear();
+    document.getElementById('memberSince').textContent = year;
+  }
+
+  // Travel level
+  const km = user.km_traveled || 0;
+  const level = getTravelLevel(km);
+  const badge = document.getElementById('levelBadge');
+  badge.textContent = `${level.emoji} ${level.name}`;
+  badge.className = `level-badge ${level.cls}`;
+  document.getElementById('levelKm').textContent = km.toLocaleString('es') + ' km viajados';
+
+  // Fill edit fields
+  document.getElementById('editName').value = user.name || '';
+  document.getElementById('editUsername').value = user.username || '';
+  document.getElementById('editBio').value = user.bio || '';
+  document.getElementById('editCity').value = user.city || '';
+  document.getElementById('editCountry').value = user.country || '';
+  document.getElementById('editBudget').value = user.budget_range || '';
+  document.getElementById('editInstagram').value = user.instagram || '';
+  document.getElementById('editWebsite').value = user.website || '';
+  document.getElementById('editLanguages').value = (user.languages || []).join(', ');
+
+  // Travel styles
+  selectedStyles = user.travel_styles || [];
+  document.querySelectorAll('.style-tag').forEach(tag => {
+    tag.classList.toggle('active', selectedStyles.includes(tag.dataset.style));
+  });
+
+  updateStats();
 }
 
-// ── Logout ──
+function getTravelLevel(km) {
+  if (km >= 500000) return { name:'Zafiro', emoji:'💎', cls:'sapphire' };
+  if (km >= 200000) return { name:'Diamante', emoji:'💠', cls:'diamond' };
+  if (km >= 50000)  return { name:'Oro', emoji:'🥇', cls:'gold' };
+  if (km >= 10000)  return { name:'Plata', emoji:'🥈', cls:'silver' };
+  return { name:'Bronce', emoji:'🥉', cls:'bronze' };
+}
+
+// ── STATS ──
+function updateStats() {
+  const countries = visitedCodes.size;
+  document.getElementById('statCountries').textContent = countries;
+  document.getElementById('visitedCount').textContent = countries;
+
+  // Cities: estimate from trips
+  trips = loadTrips();
+  document.getElementById('statCities').textContent = trips.length * 2; // rough estimate
+  document.getElementById('tripsCount').textContent = trips.length;
+  document.getElementById('tripsCountLabel').textContent = `${trips.length} viaje${trips.length !== 1 ? 's' : ''}`;
+
+  // Continents
+  const contCount = visitedContinents.size;
+  document.getElementById('statContinents').textContent = contCount;
+
+  // Wonders
+  document.getElementById('statWonders').textContent = visitedWonders.size;
+  document.getElementById('wondersVisitedCount').textContent = visitedWonders.size;
+
+  // Update map colors if drawn
+  updateMapColors();
+  renderBadges();
+  renderTrips();
+}
+
+// ── WORLD MAP ──
+let mapSvg = null;
+let mapCountriesSel = null;
+
+async function initMap() {
+  const mapContainer = document.querySelector('.map-container');
+  const width = mapContainer.clientWidth;
+  const height = Math.max(width * 0.5, 200);
+
+  const svg = d3.select('#worldMap')
+    .attr('width', width)
+    .attr('height', height);
+
+  mapSvg = svg;
+
+  const projection = d3.geoNaturalEarth1()
+    .scale(width / 6.5)
+    .translate([width / 2, height / 2]);
+
+  const path = d3.geoPath().projection(projection);
+
+  const tooltip = document.getElementById('mapTooltip');
+
+  try {
+    const world = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+    const countries = topojson.feature(world, world.objects.countries);
+
+    document.getElementById('mapLoading').style.display = 'none';
+    document.getElementById('worldMap').style.display = 'block';
+
+    mapCountriesSel = svg.selectAll('.country')
+      .data(countries.features)
+      .enter().append('path')
+      .attr('class', 'country')
+      .attr('d', path)
+      .attr('fill', d => visitedCodes.has(String(d.id)) ? '#0891B2' : '#E5E7EB')
+      .attr('stroke', 'white')
+      .attr('stroke-width', 0.5)
+      .style('cursor', 'pointer')
+      .style('transition', 'fill .2s')
+      .on('mousemove', (event, d) => {
+        const name = getCountryName(d.id);
+        tooltip.textContent = (visitedCodes.has(String(d.id)) ? '✓ ' : '') + name;
+        tooltip.style.left = (event.clientX + 12) + 'px';
+        tooltip.style.top = (event.clientY - 8) + 'px';
+        tooltip.classList.add('visible');
+      })
+      .on('mouseleave', () => {
+        tooltip.classList.remove('visible');
+      })
+      .on('click', (event, d) => {
+        toggleCountry(String(d.id), getCountryName(d.id));
+      });
+
+  } catch (err) {
+    console.error('Map load error:', err);
+    document.getElementById('mapLoading').innerHTML = '⚠️ No se pudo cargar el mapa.';
+  }
+}
+
+function updateMapColors() {
+  if (!mapCountriesSel) return;
+  mapCountriesSel.attr('fill', d => visitedCodes.has(String(d.id)) ? '#0891B2' : '#E5E7EB');
+}
+
+function toggleCountry(id, name) {
+  const strId = String(id);
+  if (visitedCodes.has(strId)) {
+    visitedCodes.delete(strId);
+    showToast(`${name || 'País'} eliminado`);
+  } else {
+    visitedCodes.add(strId);
+    showToast(`✓ ${name || 'País'} añadido`);
+  }
+  saveVisitedCountries(visitedCodes);
+  updateStats();
+  // Update continent auto-detection
+  autoDetectContinents();
+}
+
+function autoDetectContinents() {
+  // Auto-mark continents based on visited countries
+  for (const [continent, codes] of Object.entries(CONTINENT_CODES)) {
+    const hasCountry = codes.some(c => visitedCodes.has(String(c)));
+    const badge = document.querySelector(`.continent-badge[data-continent="${continent}"]`);
+    if (badge && hasCountry && !visitedContinents.has(continent)) {
+      visitedContinents.add(continent);
+      badge.classList.add('visited');
+    }
+  }
+  saveVisitedContinents(visitedContinents);
+  document.getElementById('statContinents').textContent = visitedContinents.size;
+}
+
+// ── COUNTRY SEARCH ──
+const allCountries = Object.entries(COUNTRY_NAMES).map(([id, name]) => ({ id, name }));
+const uniqueCountries = [];
+const seen = new Set();
+for (const c of allCountries) {
+  if (!seen.has(c.name)) { seen.add(c.name); uniqueCountries.push(c); }
+}
+uniqueCountries.sort((a, b) => a.name.localeCompare(b.name, 'es'));
+
+function filterCountries(q) {
+  const container = document.getElementById('countryResults');
+  q = q.trim().toLowerCase();
+  if (!q) { container.classList.remove('open'); container.innerHTML = ''; return; }
+
+  const matches = uniqueCountries.filter(c => c.name.toLowerCase().includes(q)).slice(0, 12);
+  if (!matches.length) { container.innerHTML = '<div class="country-result-item">Sin resultados</div>'; container.classList.add('open'); return; }
+
+  container.innerHTML = matches.map(c => {
+    const visited = visitedCodes.has(String(c.id));
+    return `<div class="country-result-item ${visited ? 'visited' : ''}" onclick="toggleCountry('${c.id}','${c.name}');filterCountries('${q}');">
+      ${c.name}
+      ${visited ? '<span class="visited-tag">✓ Visitado</span>' : '<span style="font-size:.75rem;color:var(--text-3);">+ Añadir</span>'}
+    </div>`;
+  }).join('');
+  container.classList.add('open');
+}
+
+function showCountryResults() {
+  const q = document.getElementById('countrySearch').value;
+  if (q.trim()) filterCountries(q);
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.country-search-wrap')) {
+    document.getElementById('countryResults').classList.remove('open');
+  }
+});
+
+// ── CONTINENTS ──
+function toggleContinent(el) {
+  const continent = el.dataset.continent;
+  if (visitedContinents.has(continent)) {
+    visitedContinents.delete(continent);
+    el.classList.remove('visited');
+  } else {
+    visitedContinents.add(continent);
+    el.classList.add('visited');
+  }
+  saveVisitedContinents(visitedContinents);
+  document.getElementById('statContinents').textContent = visitedContinents.size;
+  renderBadges();
+}
+
+function renderContinents() {
+  document.querySelectorAll('.continent-badge').forEach(badge => {
+    const c = badge.dataset.continent;
+    if (visitedContinents.has(c)) badge.classList.add('visited');
+  });
+}
+
+// ── WONDERS ──
+function renderWonders() {
+  const grid = document.getElementById('wondersGrid');
+  grid.innerHTML = WONDERS.map(w => {
+    const visited = visitedWonders.has(w.id);
+    return `
+      <div class="wonder-card ${visited ? 'visited' : ''}" onclick="toggleWonder(${w.id}, this)">
+        <img class="wonder-photo"
+          src="https://images.pexels.com/photos/${w.pexels}/pexels-photo-${w.pexels}.jpeg?auto=compress&cs=tinysrgb&w=300&h=160&fit=crop"
+          alt="${w.name}"
+          onerror="this.style.display='none'">
+        <div class="wonder-visited-overlay"></div>
+        <span class="wonder-check">${visited ? '✓' : ''}</span>
+        <div class="wonder-info">
+          <div class="wonder-name">${w.emoji} ${w.name}</div>
+          <div class="wonder-country">${w.country}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleWonder(id, el) {
+  if (visitedWonders.has(id)) {
+    visitedWonders.delete(id);
+    el.classList.remove('visited');
+    el.querySelector('.wonder-check').textContent = '';
+    showToast('Maravilla eliminada');
+  } else {
+    visitedWonders.add(id);
+    el.classList.add('visited');
+    el.querySelector('.wonder-check').textContent = '✓';
+    showToast('⭐ ¡Maravilla marcada!', 'success');
+  }
+  saveVisitedWonders(visitedWonders);
+  document.getElementById('statWonders').textContent = visitedWonders.size;
+  document.getElementById('wondersVisitedCount').textContent = visitedWonders.size;
+  renderBadges();
+}
+
+// ── BADGES ──
+function renderBadges() {
+  const row = document.getElementById('badgesRow');
+  row.innerHTML = BADGES.map(b => {
+    const earned = b.req();
+    const progress = !earned && b.progress ? b.progress() : null;
+    return `
+      <div class="badge-chip ${earned ? 'earned' : 'locked'}">
+        <span class="badge-emoji">${b.emoji}</span>
+        <span>${b.name}</span>
+        ${progress ? `<span class="badge-progress">${progress}</span>` : ''}
+        ${earned ? '<span style="font-size:.65rem;color:var(--green);font-weight:700;">✓</span>' : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+// ── TRIPS ──
+function renderTrips() {
+  trips = loadTrips();
+  const list = document.getElementById('tripsList');
+  if (!trips.length) {
+    list.innerHTML = `<div style="text-align:center;padding:30px;color:var(--text-3);font-size:.9rem;">
+      Aún no has registrado viajes. ¡Empieza ahora!
+    </div>`;
+    return;
+  }
+
+  list.innerHTML = trips.map((trip, i) => {
+    const days = trip.start && trip.end
+      ? Math.round((new Date(trip.end) - new Date(trip.start)) / 86400000)
+      : null;
+    const dateLabel = trip.start
+      ? new Date(trip.start).toLocaleDateString('es', { month: 'long', year: 'numeric' })
+      : 'Fecha desconocida';
+
+    return `
+      <div class="trip-card">
+        <div class="trip-photo-wrap">
+          <img class="trip-photo"
+            src="https://source.unsplash.com/400x300/?travel,${encodeURIComponent(trip.destination || 'travel')}&sig=${i}"
+            alt="${trip.destination || 'Viaje'}"
+            onerror="this.style.background='linear-gradient(135deg,#E0F7FE,#D1FAE5)';this.src=''">
+        </div>
+        <div class="trip-info">
+          <h3>${trip.destination || 'Viaje sin nombre'}</h3>
+          <p class="trip-dates">${dateLabel}${days ? ' · ' + days + ' días' : ''}</p>
+          ${trip.description ? `<p class="trip-desc">${trip.description}</p>` : ''}
+          <div class="trip-meta">
+            ${trip.km ? `<span>✈️ ${Number(trip.km).toLocaleString('es')} km</span>` : ''}
+            ${trip.tag ? `<span>${trip.tag}</span>` : ''}
+          </div>
+        </div>
+        <button class="btn-trip-edit" onclick="deleteTrip(${i})">🗑️</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function deleteTrip(index) {
+  if (!confirm('¿Eliminar este viaje?')) return;
+  trips.splice(index, 1);
+  saveTrips(trips);
+  updateStats();
+}
+
+// ── ADD TRIP MODAL ──
+function openAddTripModal() {
+  document.getElementById('addTripModal').classList.add('open');
+}
+function closeAddTripModal() {
+  document.getElementById('addTripModal').classList.remove('open');
+}
+function closeModalOnBackdrop(e) {
+  if (e.target === document.getElementById('addTripModal')) closeAddTripModal();
+}
+
+function saveNewTrip() {
+  const destination = document.getElementById('tripDestination').value.trim();
+  if (!destination) { showToast('Añade un destino', 'error'); return; }
+
+  const trip = {
+    destination,
+    start: document.getElementById('tripStart').value,
+    end: document.getElementById('tripEnd').value,
+    description: document.getElementById('tripDesc').value.trim(),
+    km: document.getElementById('tripKm').value,
+    tag: document.getElementById('tripTag').value.trim(),
+  };
+
+  trips = loadTrips();
+  trips.unshift(trip);
+  saveTrips(trips);
+  closeAddTripModal();
+  showToast('✈️ Viaje registrado', 'success');
+
+  // Reset form
+  ['tripDestination','tripStart','tripEnd','tripDesc','tripKm','tripTag'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+
+  updateStats();
+}
+
+// ── EDIT PROFILE ──
+function toggleEdit() {
+  const panel = document.getElementById('editPanel');
+  const btn = document.getElementById('btnEdit');
+  const isOpen = panel.classList.toggle('open');
+  btn.textContent = isOpen ? 'Cancelar' : 'Editar perfil';
+  btn.className = isOpen ? 'btn-edit-profile active' : 'btn-edit-profile';
+  if (isOpen) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Travel style tags
+document.getElementById('travelStylesWrap').addEventListener('click', e => {
+  const tag = e.target.closest('.style-tag');
+  if (!tag) return;
+  tag.classList.toggle('active');
+  const style = tag.dataset.style;
+  if (tag.classList.contains('active')) {
+    if (!selectedStyles.includes(style)) selectedStyles.push(style);
+  } else {
+    selectedStyles = selectedStyles.filter(s => s !== style);
+  }
+});
+
+async function saveProfileChanges() {
+  const data = {
+    name: document.getElementById('editName').value.trim(),
+    username: document.getElementById('editUsername').value.trim().replace('@',''),
+    bio: document.getElementById('editBio').value.trim(),
+    city: document.getElementById('editCity').value.trim(),
+    country: document.getElementById('editCountry').value.trim(),
+    budget_range: document.getElementById('editBudget').value,
+    instagram: document.getElementById('editInstagram').value.trim(),
+    website: document.getElementById('editWebsite').value.trim(),
+    languages: document.getElementById('editLanguages').value.split(',').map(l => l.trim()).filter(Boolean),
+    travel_styles: selectedStyles,
+  };
+
+  const ok = await saveProfile(data);
+  if (ok !== false) {
+    currentUser = { ...currentUser, ...data };
+    renderProfile(currentUser);
+    toggleEdit();
+    showToast('✓ Perfil guardado', 'success');
+  } else {
+    showToast('Error al guardar', 'error');
+  }
+}
+
+// ── AVATAR / COVER UPLOAD ──
+function triggerAvatarUpload() { document.getElementById('avatarInput').click(); }
+function triggerCoverUpload() { document.getElementById('coverInput').click(); }
+
+function handleAvatarUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('profileAvatar').src = ev.target.result;
+    document.getElementById('profileAvatar').style.display = 'block';
+    document.getElementById('profileAvatarPlaceholder').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleCoverUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('profileCover').style.background = `url(${ev.target.result}) center/cover`;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── LOGOUT ──
 function logout() {
   localStorage.removeItem('token');
-  window.location.href = 'index.html';
+  window.location.href = 'login.html';
 }
 
-// ── Close modals on overlay click ──
-document.getElementById('editModal').addEventListener('click', (e) => {
-  if (e.target === document.getElementById('editModal')) closeEditModal();
-});
-document.getElementById('connectionModal').addEventListener('click', (e) => {
-  if (e.target === document.getElementById('connectionModal')) closeConnectionModal();
-});
+// ── TOAST ──
+let toastTimer;
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = 'toast'; }, 2500);
+}
 
-// ── Close modals on Escape ──
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closeEditModal();
-    closeConnectionModal();
-  }
+// ── INIT ──
+async function init() {
+  // Render static parts immediately
+  renderWonders();
+  renderContinents();
+  renderBadges();
+  renderTrips();
+  updateStats();
+
+  // Load profile from API
+  await loadProfile();
+
+  // Init map
+  await initMap();
+}
+
+init();
+
+// Resize map on window resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    const svg = document.getElementById('worldMap');
+    if (svg.style.display !== 'none') {
+      // Reinit map on resize
+      svg.innerHTML = '';
+      svg.style.display = 'none';
+      document.getElementById('mapLoading').style.display = 'flex';
+      mapCountriesSel = null;
+      initMap();
+    }
+  }, 400);
 });
 </script>
+
 </body>
 </html>
