@@ -1298,6 +1298,7 @@
       <a href="#tu-mapa" class="nav-link">Tu mapa</a>
       <a href="#matching" class="nav-link">Matching</a>
       <a href="#conexiones" class="nav-link">Conexiones</a>
+      <a href="login.html" class="nav-link" style="color:rgba(255,255,255,0.7)">Iniciar sesión</a>
       <a href="signup.html" class="nav-cta">Crear cuenta</a>
     </div>
     <button class="mobile-menu-btn" id="mobile-menu" aria-label="Abrir men&uacute; de navegaci&oacute;n" aria-expanded="false">
@@ -1312,19 +1313,19 @@
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <div class="hero-badge"><span class="dot" aria-hidden="true"></span> En construcci&oacute;n &mdash; &Uacute;nete a la lista de espera</div>
+      <div class="hero-badge"><span class="dot" aria-hidden="true"></span> Ya disponible &mdash; Crea tu perfil de viajero</div>
       <h1>Descubre. Conecta.<br><span class="text-accent">Viaja juntos.</span></h1>
       <p class="hero-subtitle">
-        Estamos construyendo la comunidad donde los viajeros se encuentran de verdad.
+        La comunidad donde los viajeros se encuentran de verdad.
         Comparte tu mapa del mundo, encuentra compa&ntilde;eros de viaje y planifica
-        itinerarios colaborativos. Pr&oacute;ximamente.
+        tu pr&oacute;xima aventura.
       </p>
       <div class="hero-actions">
         <a href="signup.html" class="btn-primary">
           Crear mi perfil de viajero
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
-        <a href="#features" class="btn-secondary">Ver c&oacute;mo funcionar&aacute;</a>
+        <a href="login.html" class="btn-secondary">Iniciar sesi&oacute;n</a>
       </div>
     </div>
   </header>
@@ -1359,8 +1360,8 @@
         <article class="feature-card teal-card reveal" aria-label="Reviews y opiniones reales">
           <div class="feature-card-icon icon-gold" aria-hidden="true">&#x2B50;</div>
           <h3>Reviews de todo</h3>
-          <p>Hoteles, restaurantes, gu&iacute;as, actividades, transportes. Reviews reales de viajeros reales con un sistema de karma que premia la calidad y la honestidad.</p>
-          <span class="feature-card-tag">Karma</span>
+          <p>Hoteles, restaurantes, gu&iacute;as, actividades, transportes. Reviews reales de viajeros reales con un sistema de reputaci&oacute;n que premia la calidad y la honestidad.</p>
+          <span class="feature-card-tag">Reputaci&oacute;n</span>
         </article>
         <article class="feature-card reveal reveal-delay-1" aria-label="Feed social de viajes">
           <div class="feature-card-icon icon-accent" aria-hidden="true">&#x1F4F1;</div>
@@ -1572,7 +1573,7 @@
       </div>
       <div class="gamification-extras">
         <div class="gamification-extra-card reveal">
-          <h4><span aria-hidden="true">&#x1F4B0;</span> Sistema de karma</h4>
+          <h4><span aria-hidden="true">⭐</span> Tu reputaci&oacute;n viajera</h4>
           <p>Gana puntos por reviews &uacute;tiles, gu&iacute;as valoradas y ayudar a otros viajeros. Tu reputaci&oacute;n te precede.</p>
         </div>
         <div class="gamification-extra-card reveal reveal-delay-1">
@@ -1660,28 +1661,30 @@
       <div class="waitlist-box">
         <div class="waitlist-eyebrow reveal">
           <span class="dot" aria-hidden="true"></span>
-          Acceso anticipado
+          Ya disponible
         </div>
         <h2 class="reveal" id="waitlist-title">
-          &Uacute;nete a los<br>primeros <span class="text-accent">viajeros</span>
+          &Uacute;nete a la<br>comunidad <span class="text-accent">viajera</span>
         </h2>
         <p class="reveal">
-          ViajeraMente est&aacute; en construcci&oacute;n. Los primeros en apuntarse tendr&aacute;n
-          acceso anticipado, influencia sobre el producto y ventajas exclusivas de fundadores.
-          Sin spam &mdash; solo te avisamos cuando abramos.
+          Crea tu perfil, marca los pa&iacute;ses que has visitado, conecta con otros viajeros
+          y planifica tu pr&oacute;xima aventura. Gratis, sin tarjeta.
         </p>
-        <div class="waitlist-form-wrap reveal">
-          <h3>Consigue tu plaza en la lista</h3>
-          <p>Gratis. Sin tarjeta. Te avisamos cuando abramos puertas.</p>
-          <form class="email-form" id="waitlist-form" aria-label="Formulario de lista de espera">
-            <input type="email" name="email" placeholder="tu@email.com" aria-label="Tu email" required autocomplete="email">
-            <button type="submit">Apuntarme</button>
-          </form>
-          <p class="form-hint" id="form-hint">Sin spam. Solo un email cuando abramos.</p>
-          <div class="waitlist-perks" aria-label="Beneficios de apuntarse ahora">
-            <span class="waitlist-perk"><span class="perk-icon" aria-hidden="true">&#x26A1;</span> Acceso anticipado</span>
-            <span class="waitlist-perk"><span class="perk-icon" aria-hidden="true">&#x1F3C6;</span> Ventajas de fundador</span>
-            <span class="waitlist-perk"><span class="perk-icon" aria-hidden="true">&#x1F4AC;</span> Voz en el producto</span>
+        <div class="waitlist-form-wrap reveal" style="text-align:center;">
+          <h3>Empieza ahora</h3>
+          <p>Gratis. Sin tarjeta. En 30 segundos.</p>
+          <div style="display:flex; flex-direction:column; gap:12px; align-items:center; margin-top:20px;">
+            <a href="signup.html" style="display:inline-flex; align-items:center; gap:8px; padding:14px 32px; background:var(--accent); color:#fff; font-weight:700; font-size:1rem; border-radius:100px; text-decoration:none; transition:all .2s; font-family:'Inter',sans-serif;" onmouseover="this.style.background='var(--accent-dark)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--accent)';this.style.transform='none'">
+              Crear mi perfil de viajero →
+            </a>
+            <a href="login.html" style="font-size:.9rem; color:rgba(255,255,255,.5); text-decoration:none; transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">
+              Ya tengo cuenta &mdash; Iniciar sesi&oacute;n
+            </a>
+          </div>
+          <div class="waitlist-perks" aria-label="Lo que incluye" style="margin-top:28px;">
+            <span class="waitlist-perk"><span class="perk-icon" aria-hidden="true">🗺️</span> Mapa de viajes</span>
+            <span class="waitlist-perk"><span class="perk-icon" aria-hidden="true">🤝</span> Matching viajeros</span>
+            <span class="waitlist-perk"><span class="perk-icon" aria-hidden="true">🧭</span> Planificador</span>
           </div>
         </div>
       </div>
@@ -1696,7 +1699,7 @@
           <span class="nav-logo-icon" aria-hidden="true" style="width:24px;height:24px;font-size:0.75rem;border-radius:6px">V</span>
           ViajeraMente
         </div>
-        <p class="footer-desc">La red social para viajeros. Descubre destinos, conecta con viajeros afines, planifica juntos y comparte experiencias reales con una comunidad global. Pr&oacute;ximamente.</p>
+        <p class="footer-desc">La red social para viajeros. Descubre destinos, conecta con viajeros afines, planifica juntos y comparte experiencias reales con una comunidad global.</p>
       </div>
       <div class="footer-col">
         <h4>Producto</h4>

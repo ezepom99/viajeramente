@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ViajeraMente — Inicio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T1HJ3PJWYN');
+  </script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --accent: #E85D2A;
+      --accent-light: #FF7A47;
+      --accent-dark: #C74A1E;
+      --accent-glow: rgba(232, 93, 42, 0.15);
+      --teal: #1A8C7E;
+      --teal-light: #22B8A6;
+      --teal-dark: #136B60;
+      --teal-glow: rgba(26, 140, 126, 0.15);
+      --gold: #F5A623;
+      --purple: #8B5CF6;
+      --dark: #0B0D0F;
+      --gray-900: #151820;
+      --gray-800: #1E2330;
+      --gray-700: #2A3040;
+      --gray-600: #6B7280;
+      --gray-500: #9CA3AF;
+      --gray-400: #B0B8C4;
+      --gray-300: #D1D5DB;
+      --gray-200: #E5E7EB;
+      --white: #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--white);
+      background: var(--dark);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes progressFill {
+      from { width: 0; }
+      to { width: var(--w); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .animate-in   { animation: fadeInUp .55s ease both; }
+    .animate-in-1 { animation: fadeInUp .55s ease .1s both; }
+    .animate-in-2 { animation: fadeInUp .55s ease .2s both; }
+    .animate-in-3 { animation: fadeInUp .55s ease .3s both; }
+
+    /* ── Background ── */
+    .page-bg {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(232,93,42,.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 100%, rgba(26,140,126,.06) 0%, transparent 60%),
+        linear-gradient(180deg, var(--dark) 0%, var(--gray-900) 100%);
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 24px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(11,13,15,.85);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      animation: slideDown .5s ease;
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--white); text-decoration: none; letter-spacing: -.02em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-logo-icon {
+      width: 28px; height: 28px; background: var(--accent); border-radius: 7px;
+      display: flex; align-items: center; justify-content: center; font-size: .85rem;
+    }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-user-name { font-size: .85rem; font-weight: 500; color: var(--gray-400); }
+    .nav-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--gray-700); border: 2px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 700; color: var(--white);
+      text-decoration: none; overflow: hidden; flex-shrink: 0;
+      transition: border-color .2s;
+    }
+    .nav-avatar:hover { border-color: var(--accent); }
+    .nav-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .nav-logout {
+      font-size: .8rem; color: var(--gray-600);
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; transition: color .2s;
+    }
+    .nav-logout:hover { color: var(--accent); }
+
+    /* ── Main ── */
+    main {
+      position: relative; z-index: 1;
+      max-width: 720px; margin: 0 auto;
+      padding: 88px 20px 80px; width: 100%;
+    }
+
+    /* ── Glass card ── */
+    .glass-card {
+      background: rgba(30,35,48,.5);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 18px; padding: 28px; margin-bottom: 16px;
+      transition: border-color .3s;
+    }
+    .glass-card:hover { border-color: rgba(255,255,255,.1); }
+
+    /* ── Welcome ── */
+    .welcome {
+      padding: 36px 0 28px;
+    }
+    .welcome-eyebrow {
+      font-size: .78rem; font-weight: 600; letter-spacing: .06em;
+      color: var(--accent-light); text-transform: uppercase; margin-bottom: 10px;
+    }
+    .welcome h1 {
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+      font-weight: 800; letter-spacing: -.03em; line-height: 1.15;
+      margin-bottom: 12px; color: var(--white);
+    }
+    .welcome p {
+      font-size: .95rem; color: var(--gray-400); line-height: 1.65; max-width: 440px;
+    }
+
+    /* ── Profile completion banner ── */
+    .profile-banner {
+      position: relative; overflow: hidden;
+      background: rgba(30,35,48,.5);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(232,93,42,.2);
+      border-radius: 18px; padding: 24px 28px;
+      margin-bottom: 16px; display: none;
+    }
+    .profile-banner::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--gold), var(--teal-light));
+    }
+    .banner-top {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 12px; margin-bottom: 14px;
+    }
+    .banner-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 4px;
+    }
+    .banner-desc {
+      font-size: .82rem; color: var(--gray-400); line-height: 1.5;
+    }
+    .banner-dismiss {
+      background: none; border: none; color: var(--gray-600);
+      cursor: pointer; font-size: 1rem; padding: 2px; flex-shrink: 0;
+      transition: color .2s; line-height: 1;
+    }
+    .banner-dismiss:hover { color: var(--gray-400); }
+    .banner-bottom {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .progress-track {
+      flex: 1; min-width: 80px; height: 4px;
+      background: rgba(255,255,255,.08); border-radius: 100px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 100px;
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+      --w: 15%; width: 0;
+      animation: progressFill .9s ease-out .6s both;
+    }
+    .progress-pct {
+      font-size: .75rem; font-weight: 600; color: var(--gray-500); white-space: nowrap;
+    }
+    .btn-banner {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 8px 18px; border-radius: 100px;
+      background: var(--accent); color: var(--white);
+      font-size: .8rem; font-weight: 600; font-family: 'Inter', sans-serif;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      white-space: nowrap;
+    }
+    .btn-banner:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(232,93,42,.28);
+    }
+
+    /* ── Action cards ── */
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .action-card {
+      background: rgba(30,35,48,.5);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 16px; padding: 22px 20px;
+      text-decoration: none; cursor: pointer;
+      transition: border-color .25s, transform .2s, background .25s;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .action-card:hover {
+      border-color: rgba(255,255,255,.14);
+      transform: translateY(-2px);
+      background: rgba(30,35,48,.75);
+    }
+    .action-icon {
+      font-size: 1.5rem; line-height: 1;
+    }
+    .action-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .9rem; font-weight: 700; color: var(--white);
+    }
+    .action-desc {
+      font-size: .75rem; color: var(--gray-500); line-height: 1.45;
+    }
+    .action-arrow {
+      font-size: .8rem; color: var(--gray-600); margin-top: auto; transition: color .2s;
+    }
+    .action-card:hover .action-arrow { color: var(--accent-light); }
+
+    /* ── Skeleton ── */
+    .skeleton {
+      background: linear-gradient(90deg,
+        rgba(255,255,255,.04) 0%,
+        rgba(255,255,255,.08) 50%,
+        rgba(255,255,255,.04) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 8px;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 480px) {
+      .actions { grid-template-columns: 1fr; }
+      main { padding: 80px 16px 60px; }
+      nav { padding: 0 16px; }
+      .nav-user-name { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <nav>
+    <a href="main.html" class="nav-logo">
+      <span class="nav-logo-icon">&#9992;</span>
+      ViajeraMente
+    </a>
+    <div class="nav-right">
+      <span class="nav-user-name" id="navName"></span>
+      <a href="profile.html" class="nav-avatar" id="navAvatar" title="Mi perfil"></a>
+      <button class="nav-logout" onclick="logout()">Salir</button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Welcome -->
+    <div class="welcome animate-in">
+      <div class="welcome-eyebrow" id="welcomeEyebrow">Bienvenido/a</div>
+      <h1 id="welcomeTitle">Tu aventura<br>empieza aquí</h1>
+      <p id="welcomeSub">Estás dentro. Ahora cuéntanos quién eres como viajero.</p>
+    </div>
+
+    <!-- Profile completion banner -->
+    <div class="profile-banner animate-in-1" id="profileBanner">
+      <div class="banner-top">
+        <div>
+          <div class="banner-title">🌍 Diseña tu perfil de viajero</div>
+          <div class="banner-desc">Cuéntanos dónde has estado, cómo viajas y qué buscas. Es lo primero que verán otros viajeros.</div>
+        </div>
+        <button class="banner-dismiss" onclick="dismissBanner()" title="Cerrar">✕</button>
+      </div>
+      <div class="banner-bottom">
+        <div class="progress-track">
+          <div class="progress-fill" id="profileFill"></div>
+        </div>
+        <span class="progress-pct" id="profilePct">—</span>
+        <a href="profile.html" class="btn-banner">Completar perfil →</a>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions animate-in-2">
+      <a href="profile.html" class="action-card">
+        <span class="action-icon">🪪</span>
+        <div class="action-title">Mi perfil</div>
+        <div class="action-desc">Edita tu bio, estilo de viaje y países visitados.</div>
+        <div class="action-arrow">→</div>
+      </a>
+      <a href="plan.html" class="action-card">
+        <span class="action-icon">🧭</span>
+        <div class="action-title">Planifica tu aventura</div>
+        <div class="action-desc">Responde 7 preguntas y encuentra tu destino ideal.</div>
+        <div class="action-arrow">→</div>
+      </a>
+      <a href="#" class="action-card" style="opacity:.45; cursor:default;" title="Próximamente">
+        <span class="action-icon">🤝</span>
+        <div class="action-title">Conectar</div>
+        <div class="action-desc">Encuentra compañeros para tu próximo viaje. Próximamente.</div>
+        <div class="action-arrow">→</div>
+      </a>
+      <a href="#" class="action-card" style="opacity:.45; cursor:default;" title="Próximamente">
+        <span class="action-icon">📍</span>
+        <div class="action-title">Rutas</div>
+        <div class="action-desc">Comparte y descubre itinerarios reales. Próximamente.</div>
+        <div class="action-arrow">→</div>
+      </a>
+    </div>
+  </main>
+
+  <script>
+    const API_BASE = 'https://eze.saypeter.com';
+    const token = localStorage.getItem('token');
+    if (!token) window.location.href = 'login.html';
+
+    function logout() {
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
+    }
+
+    function dismissBanner() {
+      document.getElementById('profileBanner').style.display = 'none';
+      localStorage.setItem('vmBannerTs', Date.now());
+    }
+
+    function bannerDismissed() {
+      const ts = localStorage.getItem('vmBannerTs');
+      if (!ts) return false;
+      return (Date.now() - parseInt(ts)) < 7 * 24 * 60 * 60 * 1000;
+    }
+
+    function profileScore(u) {
+      const checks = [u.avatar_url, u.bio, u.city, u.country, u.travel_style,
+                      u.budget_range, u.countries_visited?.length, u.languages?.length];
+      return Math.round(checks.filter(Boolean).length / checks.length * 100);
+    }
+
+    async function init() {
+      try {
+        const res = await fetch(`${API_BASE}/api/me`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.status === 401) { localStorage.removeItem('token'); window.location.href = 'login.html'; return; }
+        const { ok, user } = await res.json();
+        if (!ok || !user) return;
+
+        const first = user.name?.split(' ')[0] || 'Viajero';
+        const h = new Date().getHours();
+        const saludo = h < 13 ? 'Buenos días' : h < 20 ? 'Buenas tardes' : 'Buenas noches';
+
+        document.getElementById('welcomeEyebrow').textContent = `${saludo}, ${first} 👋`;
+        document.getElementById('navName').textContent = first;
+
+        // Nav avatar
+        const av = document.getElementById('navAvatar');
+        if (user.avatar_url) {
+          av.innerHTML = `<img src="${user.avatar_url}" alt="${user.name}">`;
+        } else {
+          const ini = (user.name || 'V').split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase();
+          av.textContent = ini;
+          av.style.background = 'linear-gradient(135deg, #E85D2A, #C74A1E)';
+        }
+
+        // Banner
+        const score = profileScore(user);
+        if (score < 80 && !bannerDismissed()) {
+          const banner = document.getElementById('profileBanner');
+          banner.style.display = 'block';
+          const fill = document.getElementById('profileFill');
+          fill.style.setProperty('--w', `${score}%`);
+          document.getElementById('profilePct').textContent = `${score}% completo`;
+        }
+
+      } catch(e) { console.error(e); }
+    }
+
+    init();
+  </script>
+</body>
+</html>

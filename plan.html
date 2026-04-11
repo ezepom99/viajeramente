@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planifica tu viaje — ViajeraMente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T1HJ3PJWYN');
+  </script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --accent: #E85D2A;
+      --accent-light: #FF7A47;
+      --accent-dark: #C74A1E;
+      --accent-glow: rgba(232,93,42,.15);
+      --teal: #1A8C7E;
+      --teal-light: #22B8A6;
+      --teal-dark: #136B60;
+      --gold: #F5A623;
+      --dark: #0B0D0F;
+      --gray-900: #151820;
+      --gray-800: #1E2330;
+      --gray-700: #2A3040;
+      --gray-600: #6B7280;
+      --gray-500: #9CA3AF;
+      --gray-400: #B0B8C4;
+      --gray-300: #D1D5DB;
+      --white: #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--white);
+      background: var(--dark);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; } 50% { opacity: .5; }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* ── Background ── */
+    .page-bg {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(232,93,42,.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 100%, rgba(26,140,126,.06) 0%, transparent 60%),
+        linear-gradient(180deg, var(--dark) 0%, var(--gray-900) 100%);
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 24px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(11,13,15,.85);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      animation: slideDown .5s ease;
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--white); text-decoration: none; letter-spacing: -.02em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-logo-icon {
+      width: 28px; height: 28px; background: var(--accent); border-radius: 7px;
+      display: flex; align-items: center; justify-content: center; font-size: .85rem;
+    }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-user-name { font-size: .85rem; font-weight: 500; color: var(--gray-400); }
+    .nav-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--gray-700); border: 2px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 700; color: var(--white);
+      text-decoration: none; overflow: hidden; flex-shrink: 0;
+      transition: border-color .2s; cursor: pointer;
+    }
+    .nav-avatar:hover { border-color: var(--accent); }
+    .nav-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .nav-logout {
+      font-size: .8rem; color: var(--gray-600);
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; transition: color .2s;
+    }
+    .nav-logout:hover { color: var(--accent); }
+
+    /* ── Main ── */
+    main {
+      position: relative; z-index: 1;
+      max-width: 680px; margin: 0 auto;
+      padding: 88px 20px 80px; width: 100%;
+    }
+
+    /* ── Progress bar ── */
+    .wizard-progress {
+      position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
+      height: 3px; background: rgba(255,255,255,.06);
+    }
+    .wizard-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      transition: width .4s cubic-bezier(.4,0,.2,1);
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* ── Glass card ── */
+    .glass-card {
+      background: rgba(30,35,48,.5);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 18px; padding: 32px 28px;
+      transition: border-color .3s;
+    }
+
+    /* ── Step ── */
+    .step { display: none; animation: fadeInUp .35s ease both; }
+    .step.active { display: block; }
+
+    .step-header { margin-bottom: 28px; }
+    .step-number {
+      font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--accent-light); margin-bottom: 8px;
+    }
+    .step-title {
+      font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+      font-weight: 700; letter-spacing: -.02em; color: var(--white);
+      line-height: 1.2; margin-bottom: 6px;
+    }
+    .step-subtitle {
+      font-size: .88rem; color: var(--gray-500); line-height: 1.5;
+    }
+
+    /* ── Option grid ── */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .option-card {
+      background: rgba(30,35,48,.5);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 14px;
+      padding: 18px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s, transform .15s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .option-card:hover {
+      border-color: rgba(255,255,255,.14);
+      background: rgba(30,35,48,.75);
+      transform: translateY(-1px);
+    }
+    .option-card.selected {
+      border-color: var(--accent);
+      background: rgba(232,93,42,.1);
+    }
+    .option-card.flash {
+      border-color: var(--accent-light);
+      background: rgba(232,93,42,.22);
+    }
+    .option-emoji { font-size: 2rem; line-height: 1; margin-bottom: 8px; display: block; }
+    .option-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .85rem; font-weight: 600; color: var(--gray-300);
+      line-height: 1.3;
+    }
+    .option-card.selected .option-label { color: var(--white); }
+
+    /* ── Step footer ── */
+    .step-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 20px; padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .btn-back {
+      font-size: .85rem; color: var(--gray-500);
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; transition: color .2s; padding: 0;
+    }
+    .btn-back:hover { color: var(--white); }
+    .btn-skip {
+      font-size: .85rem; color: var(--gray-500);
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; transition: color .2s; padding: 0;
+    }
+    .btn-skip:hover { color: var(--gray-300); }
+    .btn-next {
+      display: none;
+      padding: 11px 26px;
+      background: var(--accent);
+      color: var(--white);
+      border: none; border-radius: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .9rem; font-weight: 600;
+      cursor: pointer; transition: background .2s, transform .15s;
+    }
+    .btn-next:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .btn-next.visible { display: block; }
+
+    /* ── Loading ── */
+    .loading-screen {
+      display: none; text-align: center; padding: 60px 20px;
+      animation: fadeIn .3s ease;
+    }
+    .loading-screen.active { display: block; }
+    .loading-spinner {
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 3px solid rgba(255,255,255,.08);
+      border-top-color: var(--accent);
+      animation: spin 1s linear infinite;
+      margin: 0 auto 24px;
+    }
+    .loading-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem; font-weight: 600;
+      color: var(--white); margin-bottom: 8px;
+    }
+    .loading-sub { font-size: .88rem; color: var(--gray-500); animation: pulse 1.5s ease infinite; }
+
+    /* ── Results ── */
+    .results-screen { display: none; }
+    .results-screen.active { display: block; animation: fadeInUp .4s ease both; }
+
+    .results-header { margin-bottom: 28px; }
+    .results-eyebrow {
+      font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--teal-light); margin-bottom: 8px;
+    }
+    .results-title {
+      font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+      font-weight: 700; letter-spacing: -.02em;
+    }
+
+    .result-card {
+      background: rgba(30,35,48,.5);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 18px; padding: 24px;
+      margin-bottom: 16px;
+      transition: border-color .3s;
+      animation: fadeInUp .4s ease both;
+    }
+    .result-card:nth-child(2) { animation-delay: .08s; }
+    .result-card:nth-child(3) { animation-delay: .16s; }
+    .result-card:hover { border-color: rgba(255,255,255,.12); }
+
+    .result-rank {
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--gray-600); margin-bottom: 10px;
+    }
+    .result-rank.first { color: var(--gold); }
+    .result-rank.second { color: var(--gray-400); }
+    .result-rank.third { color: var(--accent); }
+
+    .result-top {
+      display: flex; align-items: flex-start; gap: 16px; margin-bottom: 14px;
+    }
+    .result-emoji { font-size: 2.8rem; line-height: 1; flex-shrink: 0; }
+    .result-info { flex: 1; min-width: 0; }
+    .result-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.35rem; font-weight: 700; color: var(--white);
+      margin-bottom: 2px; line-height: 1.2;
+    }
+    .result-country {
+      font-size: .8rem; color: var(--gray-500); margin-bottom: 6px;
+    }
+    .result-tagline {
+      font-size: .88rem; color: var(--gray-400); line-height: 1.5;
+    }
+
+    .match-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .match-tag {
+      font-size: .72rem; font-weight: 600;
+      font-family: 'Space Grotesk', sans-serif;
+      padding: 3px 9px; border-radius: 100px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      color: var(--gray-300);
+      white-space: nowrap;
+    }
+    .match-tag.climate { background: rgba(245,166,35,.1); border-color: rgba(245,166,35,.2); color: var(--gold); }
+    .match-tag.budget  { background: rgba(26,140,126,.1); border-color: rgba(26,140,126,.2); color: var(--teal-light); }
+    .match-tag.vibe    { background: rgba(232,93,42,.1); border-color: rgba(232,93,42,.2); color: var(--accent-light); }
+
+    .btn-guide {
+      width: 100%; padding: 10px 16px;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px; color: var(--gray-400);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .85rem; font-weight: 600;
+      cursor: pointer; transition: all .2s; text-align: left;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .btn-guide:hover { background: rgba(255,255,255,.08); color: var(--white); }
+    .btn-guide .chevron { transition: transform .25s; display: inline-block; }
+    .btn-guide.open .chevron { transform: rotate(180deg); }
+
+    .guide-body {
+      display: none; margin-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding-top: 16px;
+    }
+    .guide-body.open { display: block; animation: fadeInUp .25s ease; }
+
+    .guide-section { margin-bottom: 18px; }
+    .guide-section:last-child { margin-bottom: 0; }
+    .guide-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .8rem; font-weight: 700; color: var(--accent-light);
+      margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+    }
+    .guide-text { font-size: .875rem; color: var(--gray-300); line-height: 1.6; }
+    .guide-list { list-style: none; padding: 0; }
+    .guide-list li {
+      font-size: .875rem; color: var(--gray-300); line-height: 1.6;
+      padding-left: 16px; position: relative; margin-bottom: 4px;
+    }
+    .guide-list li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--accent); font-size: .75rem; top: 2px;
+    }
+
+    .guide-prices {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 8px;
+    }
+    .guide-price-item {
+      background: rgba(255,255,255,.04); border-radius: 10px; padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .guide-price-tier {
+      font-size: .68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; color: var(--gray-600); margin-bottom: 4px;
+    }
+    .guide-price-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .82rem; font-weight: 600; color: var(--white);
+    }
+
+    .guide-tip {
+      background: rgba(26,140,126,.08); border: 1px solid rgba(26,140,126,.15);
+      border-radius: 12px; padding: 12px 16px;
+      font-size: .85rem; color: var(--gray-300); line-height: 1.55;
+    }
+    .guide-tip strong { color: var(--teal-light); }
+
+    /* ── Nueva búsqueda ── */
+    .btn-restart {
+      width: 100%; margin-top: 24px;
+      padding: 14px;
+      background: rgba(232,93,42,.1); border: 1px solid rgba(232,93,42,.2);
+      border-radius: 12px; color: var(--accent-light);
+      font-family: 'Space Grotesk', sans-serif; font-size: .95rem; font-weight: 700;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-restart:hover { background: rgba(232,93,42,.18); border-color: var(--accent); }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--gray-700); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gray-600); }
+
+    /* ── Mobile ── */
+    @media (max-width: 480px) {
+      .options-grid { grid-template-columns: repeat(2, 1fr); }
+      .glass-card { padding: 22px 18px; }
+      .nav-user-name { display: none; }
+      .guide-prices { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-bg"></div>
+
+<nav>
+  <a href="main.html" class="nav-logo">
+    <div class="nav-logo-icon">🧭</div>
+    Viajera<span style="color:var(--accent)">Mente</span>
+  </a>
+  <div class="nav-right">
+    <span class="nav-user-name" id="navName"></span>
+    <div class="nav-avatar" id="navAvatar" onclick="window.location='profile.html'"></div>
+    <button class="nav-logout" onclick="logout()">Salir</button>
+  </div>
+</nav>
+
+<div class="wizard-progress">
+  <div class="wizard-progress-fill" id="progressFill" style="width:0%"></div>
+</div>
+
+<main>
+  <!-- ══ WIZARD ══ -->
+  <div id="wizardWrap">
+
+    <!-- Step 1: Clima -->
+    <div class="glass-card step active" id="step1">
+      <div class="step-header">
+        <div class="step-number">Paso 1 de 7</div>
+        <div class="step-title">¿Qué clima buscas?</div>
+        <div class="step-subtitle">El tiempo que haga marcará toda la experiencia</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-card" data-step="1" data-id="warm" onclick="selectSingle(this,1)">
+          <span class="option-emoji">☀️</span>
+          <div class="option-label">Sol y calor</div>
+        </div>
+        <div class="option-card" data-step="1" data-id="cold" onclick="selectSingle(this,1)">
+          <span class="option-emoji">❄️</span>
+          <div class="option-label">Frío o nieve</div>
+        </div>
+        <div class="option-card" data-step="1" data-id="mild" onclick="selectSingle(this,1)">
+          <span class="option-emoji">🌤️</span>
+          <div class="option-label">Templado</div>
+        </div>
+        <div class="option-card" data-step="1" data-id="any" onclick="selectSingle(this,1)">
+          <span class="option-emoji">🌀</span>
+          <div class="option-label">Me da igual</div>
+        </div>
+      </div>
+      <div class="step-footer">
+        <span></span>
+        <button class="btn-skip" onclick="skipStep(1)">Saltar →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Tipo de experiencia (multi) -->
+    <div class="glass-card step" id="step2">
+      <div class="step-header">
+        <div class="step-number">Paso 2 de 7</div>
+        <div class="step-title">¿Qué tipo de experiencia?</div>
+        <div class="step-subtitle">Elige una o varias — pueden combinarse</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-card" data-step="2" data-id="romantic" onclick="selectMulti(this,2)">
+          <span class="option-emoji">💑</span>
+          <div class="option-label">Romántico</div>
+        </div>
+        <div class="option-card" data-step="2" data-id="adventure" onclick="selectMulti(this,2)">
+          <span class="option-emoji">🏃</span>
+          <div class="option-label">Aventura</div>
+        </div>
+        <div class="option-card" data-step="2" data-id="culture" onclick="selectMulti(this,2)">
+          <span class="option-emoji">🏛️</span>
+          <div class="option-label">Cultura e historia</div>
+        </div>
+        <div class="option-card" data-step="2" data-id="nature" onclick="selectMulti(this,2)">
+          <span class="option-emoji">🌿</span>
+          <div class="option-label">Naturaleza y paisaje</div>
+        </div>
+        <div class="option-card" data-step="2" data-id="party" onclick="selectMulti(this,2)">
+          <span class="option-emoji">🎉</span>
+          <div class="option-label">Fiesta y ambiente</div>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="btn-back" onclick="goBack(2)">← Volver</button>
+        <button class="btn-skip" onclick="skipStep(2)">Saltar →</button>
+        <button class="btn-next" id="next2" onclick="goNext(3)">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Cómo viajas -->
+    <div class="glass-card step" id="step3">
+      <div class="step-header">
+        <div class="step-number">Paso 3 de 7</div>
+        <div class="step-title">¿Cómo viajas?</div>
+        <div class="step-subtitle">Tu estilo de moverte cambia todo</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-card" data-step="3" data-id="backpacker" onclick="selectSingle(this,3)">
+          <span class="option-emoji">🎒</span>
+          <div class="option-label">Mochila al hombro</div>
+        </div>
+        <div class="option-card" data-step="3" data-id="campervan" onclick="selectSingle(this,3)">
+          <span class="option-emoji">🚐</span>
+          <div class="option-label">Furgoneta o campervan</div>
+        </div>
+        <div class="option-card" data-step="3" data-id="sport" onclick="selectSingle(this,3)">
+          <span class="option-emoji">🚴</span>
+          <div class="option-label">Deporte o activo</div>
+        </div>
+        <div class="option-card" data-step="3" data-id="comfort" onclick="selectSingle(this,3)">
+          <span class="option-emoji">🧳</span>
+          <div class="option-label">Vuelo + alojamiento cómodo</div>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="btn-back" onclick="goBack(3)">← Volver</button>
+        <button class="btn-skip" onclick="skipStep(3)">Saltar →</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Zona del mundo -->
+    <div class="glass-card step" id="step4">
+      <div class="step-header">
+        <div class="step-number">Paso 4 de 7</div>
+        <div class="step-title">¿Zona del mundo?</div>
+        <div class="step-subtitle">¿Tienes continente en mente o te sorprendemos?</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-card" data-step="4" data-id="europe" onclick="selectSingle(this,4)">
+          <span class="option-emoji">🌍</span>
+          <div class="option-label">Europa</div>
+        </div>
+        <div class="option-card" data-step="4" data-id="latam" onclick="selectSingle(this,4)">
+          <span class="option-emoji">🌎</span>
+          <div class="option-label">América Latina</div>
+        </div>
+        <div class="option-card" data-step="4" data-id="asia" onclick="selectSingle(this,4)">
+          <span class="option-emoji">🌏</span>
+          <div class="option-label">Asia</div>
+        </div>
+        <div class="option-card" data-step="4" data-id="africa" onclick="selectSingle(this,4)">
+          <span class="option-emoji">🌍</span>
+          <div class="option-label">África</div>
+        </div>
+        <div class="option-card" data-step="4" data-id="northamerica" onclick="selectSingle(this,4)">
+          <span class="option-emoji">🇺🇸</span>
+          <div class="option-label">Norteamérica</div>
+        </div>
+        <div class="option-card" data-step="4" data-id="any" onclick="selectSingle(this,4)">
+          <span class="option-emoji">🌐</span>
+          <div class="option-label">Sorpréndeme</div>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="btn-back" onclick="goBack(4)">← Volver</button>
+        <button class="btn-skip" onclick="skipStep(4)">Saltar →</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Duración -->
+    <div class="glass-card step" id="step5">
+      <div class="step-header">
+        <div class="step-number">Paso 5 de 7</div>
+        <div class="step-title">¿Cuánto tiempo tienes?</div>
+        <div class="step-subtitle">La duración del viaje lo cambia todo</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-card" data-step="5" data-id="weekend" onclick="selectSingle(this,5)">
+          <span class="option-emoji">⚡</span>
+          <div class="option-label">Escapada 2–4 días</div>
+        </div>
+        <div class="option-card" data-step="5" data-id="week" onclick="selectSingle(this,5)">
+          <span class="option-emoji">🗓️</span>
+          <div class="option-label">Una semana</div>
+        </div>
+        <div class="option-card" data-step="5" data-id="twoweeks" onclick="selectSingle(this,5)">
+          <span class="option-emoji">🌍</span>
+          <div class="option-label">Dos semanas</div>
+        </div>
+        <div class="option-card" data-step="5" data-id="month" onclick="selectSingle(this,5)">
+          <span class="option-emoji">🏄</span>
+          <div class="option-label">Un mes o más</div>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="btn-back" onclick="goBack(5)">← Volver</button>
+        <button class="btn-skip" onclick="skipStep(5)">Saltar →</button>
+      </div>
+    </div>
+
+    <!-- Step 6: Presupuesto (required) -->
+    <div class="glass-card step" id="step6">
+      <div class="step-header">
+        <div class="step-number">Paso 6 de 7</div>
+        <div class="step-title">¿Cuál es tu presupuesto?</div>
+        <div class="step-subtitle">Lo usamos para adaptar la guía de precios y alojamiento</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-card" data-step="6" data-id="budget" onclick="selectSingle(this,6)">
+          <span class="option-emoji">💸</span>
+          <div class="option-label">Budget — menos de 50€/día</div>
+        </div>
+        <div class="option-card" data-step="6" data-id="mid" onclick="selectSingle(this,6)">
+          <span class="option-emoji">💰</span>
+          <div class="option-label">Medio — 50–150€/día</div>
+        </div>
+        <div class="option-card" data-step="6" data-id="luxury" onclick="selectSingle(this,6)">
+          <span class="option-emoji">💎</span>
+          <div class="option-label">Sin límite</div>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="btn-back" onclick="goBack(6)">← Volver</button>
+        <span></span>
+      </div>
+    </div>
+
+    <!-- Step 7: Qué no puede faltar (multi) -->
+    <div class="glass-card step" id="step7">
+      <div class="step-header">
+        <div class="step-number">Paso 7 de 7</div>
+        <div class="step-title">¿Qué no puede faltar?</div>
+        <div class="step-subtitle">Elige lo que más te importa del viaje</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-card" data-step="7" data-id="food" onclick="selectMulti(this,7)">
+          <span class="option-emoji">🍜</span>
+          <div class="option-label">Gastronomía</div>
+        </div>
+        <div class="option-card" data-step="7" data-id="photos" onclick="selectMulti(this,7)">
+          <span class="option-emoji">📸</span>
+          <div class="option-label">Paisajes impresionantes</div>
+        </div>
+        <div class="option-card" data-step="7" data-id="water" onclick="selectMulti(this,7)">
+          <span class="option-emoji">🏊</span>
+          <div class="option-label">Mar, lago o río</div>
+        </div>
+        <div class="option-card" data-step="7" data-id="silence" onclick="selectMulti(this,7)">
+          <span class="option-emoji">🧘</span>
+          <div class="option-label">Silencio total</div>
+        </div>
+        <div class="option-card" data-step="7" data-id="wildlife" onclick="selectMulti(this,7)">
+          <span class="option-emoji">🐾</span>
+          <div class="option-label">Fauna salvaje</div>
+        </div>
+        <div class="option-card" data-step="7" data-id="city" onclick="selectMulti(this,7)">
+          <span class="option-emoji">🏙️</span>
+          <div class="option-label">Vida urbana</div>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="btn-back" onclick="goBack(7)">← Volver</button>
+        <button class="btn-skip" onclick="finishWizard()">Saltar →</button>
+        <button class="btn-next" id="next7" onclick="finishWizard()">Ver destinos →</button>
+      </div>
+    </div>
+
+  </div><!-- /wizardWrap -->
+
+  <!-- ══ LOADING ══ -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-spinner"></div>
+    <div class="loading-title">Calculando tu viaje perfecto...</div>
+    <div class="loading-sub">Analizando 25 destinos con tus preferencias</div>
+  </div>
+
+  <!-- ══ RESULTS ══ -->
+  <div class="results-screen" id="resultsScreen">
+    <div class="results-header">
+      <div class="results-eyebrow">Tu selección personalizada</div>
+      <div class="results-title">Los 3 destinos perfectos para ti</div>
+    </div>
+    <div id="resultsList"></div>
+    <button class="btn-restart" onclick="restart()">Nueva búsqueda →</button>
+  </div>
+
+</main>
+
+<script>
+const API_BASE = 'https://eze.saypeter.com';
+const token = localStorage.getItem('token');
+if (!token) window.location.href = 'login.html';
+
+function logout() {
+  localStorage.removeItem('token');
+  window.location.href = 'login.html';
+}
+
+async function init() {
+  try {
+    const res = await fetch(`${API_BASE}/api/me`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (res.status === 401) { localStorage.removeItem('token'); window.location.href = 'login.html'; return; }
+    const { ok, user } = await res.json();
+    if (!ok || !user) return;
+    const first = user.name?.split(' ')[0] || 'Viajero';
+    document.getElementById('navName').textContent = first;
+    const av = document.getElementById('navAvatar');
+    if (user.avatar_url) {
+      av.innerHTML = `<img src="${user.avatar_url}" alt="${user.name}">`;
+    } else {
+      const ini = (user.name || 'V').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+      av.textContent = ini;
+      av.style.background = 'linear-gradient(135deg,#E85D2A,#C74A1E)';
+    }
+  } catch(e) { console.error(e); }
+}
+init();
+
+// ── Wizard state ──
+const answers = { climate:null, vibes:[], style:null, zone:null, duration:null, budget:null, interests:[] };
+let currentStep = 1;
+const TOTAL = 7;
+
+function updateProgress() {
+  const pct = Math.round((currentStep - 1) / TOTAL * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  currentStep = n;
+  updateProgress();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function goBack(fromStep) {
+  if (fromStep > 1) showStep(fromStep - 1);
+}
+
+function skipStep(step) {
+  if (step < TOTAL) showStep(step + 1);
+  else finishWizard();
+}
+
+function goNext(toStep) {
+  showStep(toStep);
+}
+
+// Single-select: flash → auto-advance after 250ms
+function selectSingle(card, step) {
+  const prev = document.querySelector(`#step${step} .option-card.selected`);
+  if (prev) prev.classList.remove('selected');
+  card.classList.add('selected', 'flash');
+  setTimeout(() => card.classList.remove('flash'), 300);
+
+  const id = card.dataset.id;
+  if (step === 1) answers.climate = id;
+  else if (step === 3) answers.style = id;
+  else if (step === 4) answers.zone = id;
+  else if (step === 5) answers.duration = id;
+  else if (step === 6) answers.budget = id;
+
+  setTimeout(() => {
+    if (step < TOTAL) showStep(step + 1);
+    else finishWizard();
+  }, 250);
+}
+
+// Multi-select: toggle, show Next after first selection
+function selectMulti(card, step) {
+  card.classList.toggle('selected');
+  const selected = [...document.querySelectorAll(`#step${step} .option-card.selected`)].map(c => c.dataset.id);
+  if (step === 2) {
+    answers.vibes = selected;
+    const btn = document.getElementById('next2');
+    btn.classList.toggle('visible', selected.length > 0);
+  } else if (step === 7) {
+    answers.interests = selected;
+    const btn = document.getElementById('next7');
+    btn.classList.toggle('visible', selected.length > 0);
+  }
+}
+
+function finishWizard() {
+  document.getElementById('wizardWrap').style.display = 'none';
+  document.getElementById('loadingScreen').classList.add('active');
+  setTimeout(() => {
+    document.getElementById('loadingScreen').classList.remove('active');
+    showResults();
+  }, 1500);
+}
+
+function restart() {
+  // Reset answers
+  answers.climate = null; answers.vibes = []; answers.style = null;
+  answers.zone = null; answers.duration = null; answers.budget = null; answers.interests = [];
+  // Clear UI
+  document.querySelectorAll('.option-card.selected').forEach(c => c.classList.remove('selected'));
+  document.getElementById('next2').classList.remove('visible');
+  document.getElementById('next7').classList.remove('visible');
+  document.getElementById('resultsScreen').classList.remove('active');
+  document.getElementById('wizardWrap').style.display = '';
+  showStep(1);
+}
+
+// ── Destination database ──
+const DESTINATIONS = [
+  {
+    id:'bali', name:'Bali', country:'Indonesia', emoji:'🌺', zone:'asia',
+    climate:'warm', vibes:['adventure','nature','romantic'],
+    styles:['backpacker','comfort'], budget:['budget','mid'],
+    interests:['water','photos','food','wildlife','silence'],
+    duration:['week','twoweeks','month'],
+    tagline:'Arrozales, templos, surf y atardeceres que lo cambian todo',
+    guide:{
+      when:'Mayo a septiembre es la temporada seca, perfecta para playas y senderismo. Evita diciembre-enero (monzón intenso en Ubud). Ubud tiene lluvia todo el año pero mañanas despejadas.',
+      todo:[
+        'Amanecer en el volcán Batur (2.150m) — salida a las 3am, guía local obligatorio, vistas al lago al llegar arriba',
+        'Clases de cocina balinesa en Ubud — mercado a las 7am + 5 platos en 3h, unos 30€ con traslado',
+        'Templo Tanah Lot al atardecer — llega 45 min antes para coger sitio, la puesta de sol desde los acantilados es la foto del viaje',
+        'Nada en las olas de Kuta o Seminyak — alquiler de tabla desde 5€/h, clases de surf principiante unos 20€',
+        'Noche en villa privada en Canggu o Ubud con vista a arrozales — desde 60€/noche en temporada baja'
+      ],
+      sleep:{ budget:'Hostal en Kuta o Canggu desde 8–12€, habitación privada con baño desde 18€', mid:'Guesthouse con piscina en Seminyak o Ubud, 45–90€/noche', luxury:'Villa privada con infinitypool y chef, 200–600€/noche en Jimbaran o Ubud' },
+      daily:{ budget:'25–40€: scooter alquilado (5€/día), comida local en warungs, hostals', mid:'70–120€: villa cómoda, restaurantes, tours contratados', luxury:'250€+: villa privada, spa, tours privados, restaurantes premium' },
+      how:'Vuelo directo desde Madrid o Barcelona a Denpasar (DPS) con escala en Kuala Lumpur, Singapur o Doha. Unas 16–18h en total. Air Asia, Qatar Airways y Garuda son las más baratas. Sin visado hasta 30 días para turistas europeos.',
+      tip:'Alquila un scooter en vez de taxi — por 5€/día llegas a todos los templos, arrozales y playas sin depender de nadie. Lleva siempre pasta de dientes y ropa que cubra hombros para entrar en los templos.'
+    }
+  },
+  {
+    id:'japon', name:'Japón', country:'Japón', emoji:'🗾', zone:'asia',
+    climate:'mild', vibes:['culture','adventure'],
+    styles:['backpacker','comfort'], budget:['mid','luxury'],
+    interests:['food','photos','city'],
+    duration:['twoweeks','month'],
+    tagline:'Templos zen, trenes bala, izakayas y cerezos en flor',
+    guide:{
+      when:'Marzo-abril (sakura) y octubre-noviembre (momiji, hojas rojas) son los picos de la temporada. Ambos requieren reservar alojamiento 3–4 meses antes. Julio-agosto es húmedo y caloroso. Enero-febrero es tranquilo y más barato.',
+      todo:[
+        'Ruta Tokio → Kioto → Osaka en shinkansen (JR Pass 14 días: ~430€) — incluye el Nozomi a 300km/h',
+        'Paseo nocturno por Shibuya y Shinjuku en Tokio — cruce de Shibuya, Golden Gai, ramen de madrugada',
+        'Arashiyama en Kioto al amanecer — bosque de bambú sin turistas antes de las 7am, monasterio Tenryu-ji después',
+        'Onsen rural en Hakone o Kinosaki con yukata — remójate viendo el Fuji o la costa del Japón',
+        'Mercado Nishiki en Kioto y Dotonbori en Osaka — takoyaki, okonomiyaki, y sake caliente en las callejuelas'
+      ],
+      sleep:{ budget:'Capsule hotel en Tokio 20–35€/noche, hostal en Kioto 18–28€', mid:'Business hotel 3★ 70–110€/noche, limpio y bien ubicado', luxury:'Ryokan tradicional con media pensión y onsen privado, 250–800€/noche' },
+      daily:{ budget:'55–75€: JR Pass diario prorrateado, comida en konbini y ramen-ya, hostals', mid:'120–180€: hotel 3–4★, restaurantes de sushi-conveyor y kaiseki', luxury:'350€+: ryokan premium, tempura de omakase, taxis' },
+      how:'Vuelo directo Iberia desde Madrid-Barajas a Tokio en ~13h. También JAL o ANA con escala en Helsinki o Amsterdam. Compra el JR Pass en España antes de salir (más barato). Sin visado hasta 90 días.',
+      tip:'Carga la IC Card (Suica) en cualquier máquina del metro — sirve en todo el transporte urbano de Tokio, Osaka y Kioto. Los konbini (7-Eleven, Lawson) tienen comida caliente buenísima a 1–2€.'
+    }
+  },
+  {
+    id:'vietnam', name:'Vietnam', country:'Vietnam', emoji:'🐉', zone:'asia',
+    climate:'warm', vibes:['culture','adventure'],
+    styles:['backpacker'], budget:['budget'],
+    interests:['food','photos','city'],
+    duration:['twoweeks','month'],
+    tagline:'De Hanói a Ciudad Ho Chi Minh en moto, comiendo en la calle',
+    guide:{
+      when:'Noviembre a abril es la mejor época para el sur y centro. El norte (Hanói, Sapa) tiene niebla fresca en invierno pero es tranquila. Evita junio-septiembre por los tifones en el centro.',
+      todo:[
+        'Crucero en bahía de Halong 2 noches — kayak entre los islotes de piedra caliza, puesta de sol sobre el agua',
+        'Ruta en moto por el Paso Hai Van entre Hue y Da Nang — 21km de curvas con vistas al Mar del Sur de China',
+        'Hoi An al amanecer — callejuelas sin turistas, mercado de pescado a las 5am, tailoring de ropa a medida en 24h',
+        'Clases de cocina callejera en Hanói: banh mi, pho y bun bo Hue desde cero, 20€ con mercado incluido',
+        'Delta del Mekong en barca — sampán por los canales, plantaciones de coco, mercados flotantes al amanecer'
+      ],
+      sleep:{ budget:'Hostal en Hanói u Hoi An desde 5–10€, habitación privada desde 14€', mid:'Boutique hotel en el casco histórico de Hoi An 35–65€', luxury:'Resort en Da Nang o Ninh Van Bay, 150–450€/noche' },
+      daily:{ budget:'20–35€: moto de alquiler 5€/día, comida de calle 1–3€ por plato, hostals', mid:'55–90€: hotel boutique, restaurantes locales premium, tours', luxury:'180€+: resorts, circuitos privados con guía' },
+      how:'Sin vuelo directo desde España. Escala en Doha (Qatar Airways), Dubái (Emirates) o Bangkok. Unas 14–16h de viaje. Visa electrónica e-visa a 25€ tramitable online en 3 días laborables.',
+      tip:'Descarga la app Grab (el Uber local) nada más llegar — más barato y seguro que los taxis. El cafe sua da (café con leche condensada sobre hielo) a 50 céntimos en cualquier puesto callejero es adictivo.'
+    }
+  },
+  {
+    id:'tailandia', name:'Tailandia', country:'Tailandia', emoji:'🐘', zone:'asia',
+    climate:'warm', vibes:['adventure','nature','party'],
+    styles:['backpacker'], budget:['budget','mid'],
+    interests:['water','food','wildlife'],
+    duration:['week','twoweeks','month'],
+    tagline:'Playas de película, templos dorados y street food de otro planeta',
+    guide:{
+      when:'Noviembre a febrero es la temporada ideal en todo el país — fresco, seco, poco llueve. Marzo-abril es muy caluroso. Mayo a octubre es monzón (el norte tiene días soleados, las islas del Golfo como Koh Samui aguantan mejor).',
+      todo:[
+        'Snorkel en las islas Similan o Phi Phi — aguas cristalinas, tiburones ballena en temporada (nov-abr), desde 40€ el día',
+        'Visita el Doi Inthanon (cima más alta de Tailandia) desde Chiang Mai — cascadas, gibbones y niebla matinal',
+        'Noche de fiesta en Khao San Road en Bangkok y Full Moon Party en Koh Phangan',
+        'Tour de templos en Bangkok: Wat Pho (Buda reclinado de 46m), Wat Phra Kaew (Buda de Esmeralda) — 100 baht entrada',
+        'Curso de cocina tailandesa en Chiang Mai — mercado en tuk-tuk + 6 platos, desde 25€'
+      ],
+      sleep:{ budget:'Hostal en Bangkok o Chiang Mai desde 4–8€, bungalow en isla desde 12€', mid:'Hotel boutique 3★ en Chiang Mai 40–75€, resort en Ko Lanta 60–100€', luxury:'Six Senses Yao Noi o Amanpuri Phuket, 400–1200€/noche' },
+      daily:{ budget:'20–30€: tuk-tuk y songthaew, street food, hostals o bungalows baratos', mid:'60–100€: hotel cómodo, restaurantes con menú, tours contratados', luxury:'250€+: resorts 5★, yate privado, spa' },
+      how:'Sin vuelo directo. Conexión en Doha, Dubái o Kuala Lumpur. Unas 12–15h. Sin visado hasta 30 días para españoles (ampliable a 60 en consulado antes de salir).',
+      tip:'Usa el BTS Skytrain y el metro MRT en Bangkok — evita los atascos y es baratísimo. En las islas, negocia el precio del longtail boat directamente en el muelle; nunca en agencia.'
+    }
+  },
+  {
+    id:'nepal', name:'Nepal', country:'Nepal', emoji:'🏔️', zone:'asia',
+    climate:'cold', vibes:['adventure','nature'],
+    styles:['backpacker','sport'], budget:['budget'],
+    interests:['photos','wildlife','silence'],
+    duration:['twoweeks','month'],
+    tagline:'El techo del mundo, sherpa culture y el silencio más absoluto',
+    guide:{
+      when:'Octubre-noviembre: cielos despejados, los mejores panoramas del Himalaya. Marzo-abril: segundo pico, rododendros en flor. Diciembre-febrero: frío extremo en altura pero pocos turistas. Evita junio-septiembre (monzón).',
+      todo:[
+        'Trekking al campo base del Everest — 12 días desde Lukla, 5.364m de altitud, sin experiencia técnica pero con buena forma física',
+        'Circuito de los Annapurnas (ACAP) — 15–21 días, pase de Thorong La a 5.416m, aldeas de piedra y mani-walls tibetanos',
+        'Vuelo panorámico sobre el Everest desde Katmandú — 1h, vistas de los 8 ochomiles del mundo, desde 170€',
+        'Paseo en barca al amanecer en Phewa Lake de Pokhara — reflejo de los Annapurnas en el agua quieta',
+        'Visita a Boudhanath Stupa en Katmandú al anochecer — la mayor stupa del mundo, monjes tibetanos y varas de incienso'
+      ],
+      sleep:{ budget:'Teahouses en ruta de trekking 5–12€/noche (cama + cena + desayuno), hostal en Katmandú 8–15€', mid:'Guest house cómoda en Pokhara 25–45€, hotel 3★ en Katmandú 40–70€', luxury:'Pavilions Himalayas en Pokhara o Tiger Mountain Lodge, 150–350€' },
+      daily:{ budget:'20–35€: comida en teahouses, transporte local, equipo alquilado', mid:'55–80€: guía privado, hotel cómodo, tours organizados', luxury:'200€+: lodge de lujo, helicóptero a campamento base, guía privado' },
+      how:'Vuelo con escala en Doha o Dubái a Tribhuvan International (KTM), Katmandú. Unas 10–12h con escala. Visa a la llegada en el aeropuerto: 30 días 30$, 90 días 100$. Trekking Permit y TIMS Card se sacan en Katmandú (~30€).',
+      tip:'Aclimátate al menos 2 noches en Katmandú (1.400m) antes de subir a Lukla (2.800m). El mal de altura mata más que el frío — baja si tienes dolor de cabeza persistente. Lleva pastillas de Diamox como seguro.'
+    }
+  },
+  {
+    id:'srilanka', name:'Sri Lanka', country:'Sri Lanka', emoji:'🦁', zone:'asia',
+    climate:'warm', vibes:['nature','culture','adventure'],
+    styles:['backpacker','comfort'], budget:['budget','mid'],
+    interests:['food','water','photos','wildlife'],
+    duration:['week','twoweeks'],
+    tagline:'Safari de elefantes, playas de surf y té de altura en 10 días',
+    guide:{
+      when:'Diciembre a marzo es la temporada seca de la costa oeste y sur (Mirissa, Galle). La costa este (Trincomalee, Arugam Bay) es mejor de mayo a septiembre. El centro del país (Kandy, Ella) es siempre verde pero llueve más en monzón.',
+      todo:[
+        'Subida a la Roca Sigiriya — fortaleza del s.V a 200m de altura, frescos de leonas, vistas a selva infinita (20€ entrada)',
+        'Safari en Yala National Park — la mayor densidad de leopardos del planeta, también elefantes y cocodrilos (desde 60€)',
+        'Surf en Arugam Bay — una de las mejores olas de la región índica, clases desde 25€, alquiler de tabla 8€/h',
+        'Tren Kandy → Ella — el trayecto de tren más espectacular del mundo, 6h entre plantaciones de té y cascadas (3€ en segunda clase)',
+        'Tortuga marina en Kosgoda Beach — nidificación de enero a abril, proyecto de conservación nocturno'
+      ],
+      sleep:{ budget:'Guesthouse en Ella o Mirissa 12–20€, hostal en Colombo 8–15€', mid:'Boutique hotel entre plantaciones de té en Nuwara Eliya 50–90€', luxury:'Amanwella en Tangalle o Ulagalla Resort, 300–700€/noche' },
+      daily:{ budget:'25–40€: tuk-tuk, comida de mercado y currys baratos, guesthouses', mid:'65–110€: hotel boutique, restaurantes, tours privados', luxury:'250€+: resort de lujo, safaris privados' },
+      how:'Sin vuelo directo. Conexión en Doha, Dubái o Colombo (SriLankan Airlines desde Frankfurt). Unas 11–14h. ETA electrónica a 20$ tramitable en eta.gov.lk en minutos.',
+      tip:'Nunca pagues el precio que te digan en los tuk-tuk — siempre regatear antes de subir. El curry de coco y el hoppers (crepe de arroz fermentado) del desayuno cuestan 1–2€ en cualquier comedor local.'
+    }
+  },
+  {
+    id:'islandia', name:'Islandia', country:'Islandia', emoji:'🌋', zone:'europe',
+    climate:'cold', vibes:['nature','adventure','romantic'],
+    styles:['campervan','comfort'], budget:['mid','luxury'],
+    interests:['photos','silence','wildlife'],
+    duration:['week','twoweeks'],
+    tagline:'Auroras boreales, géiseres y cascadas en el fin del mundo',
+    guide:{
+      when:'Junio-agosto: 24h de luz, verde, ballenas, accesibles todas las carreteras (F-roads). Septiembre-octubre: auroras tempranas, colores otoñales, menos gente. Diciembre-febrero: auroras máximas pero frío extremo y carreteras cerradas.",',
+      todo:[
+        'Círculo Dorado en un día desde Reikiavik: géiser Strokkur (erupciona cada 5 min), cascada Gullfoss y Þingvellir (deriva de placas visible)',
+        'Senderismo al glaciar Vatnajökull con guía — crampones, cuevas de hielo azul intenso, desde 70€',
+        'Aurora boreal en Kirkjufell mountain — el faro de Grundarfjörður es el spot más fotogénico de la isla',
+        'Avistamiento de ballenas desde Húsavík — jorobadas y minkes a 500m del barco, desde 80€, tasa de avistamiento 99%',
+        'Baño en piscina geotérmica Myvatn Nature Baths — agua a 38°C, sin los turistas del Blue Lagoon (25€ vs 80€)'
+      ],
+      sleep:{ budget:'Camping con autocaravana alquilada 60–90€/día total, hostal en Reikiavik 35–50€', mid:'Guesthouse rural 80–130€/noche, hotel 3★ en Reikiavik 120–180€', luxury:'Hotel Rangá o ION Adventure Hotel, 350–700€/noche' },
+      daily:{ budget:'80–120€: camping o hostal, supermercado Bonus (el más barato), camper', mid:'180–250€: guesthouse, restaurantes locales, gasolina', luxury:'400€+: hotel 5★, cenas de pescado fresco, tours helicóptero' },
+      how:'Vuelo directo con Icelandair o WOW Air desde Madrid o Barcelona, unas 3–3.5h. Sin visado (Schengen). Alquila el coche o camper antes de salir — en verano se agota todo.',
+      tip:'Compra en el Bonus (supermercado con la cara de cerdo feliz) — es un 40% más barato que cualquier tienda turística. La gasolina es cara: llena en Reikiavik antes de la carretera circular.'
+    }
+  },
+  {
+    id:'portugal', name:'Portugal', country:'Portugal', emoji:'🍷', zone:'europe',
+    climate:'mild', vibes:['culture','nature','romantic'],
+    styles:['campervan','backpacker','comfort'], budget:['mid'],
+    interests:['food','city','water','photos'],
+    duration:['weekend','week','twoweeks'],
+    tagline:'Fado, pastel de nata y la costa más bonita de Europa Occidental',
+    guide:{
+      when:'Abril-junio y septiembre-octubre son los mejores meses: sol, temperaturas de 20–25°C y pocos turistas. Julio-agosto es masificado en Lisboa y Oporto. El Alentejo en primavera es espectacular.',
+      todo:[
+        'Sintra en un día: Palácio Nacional, Quinta da Regaleira (pozo iniciático) y Palácio da Pena — ir en tren desde Lisboa (40 min, 2.30€)',
+        'Ruta de la Costa Vicentina en camper — de Sagres a Porto Covo, 120km de playas salvajes sin edificios, surf y pulpo',
+        'Fado en la Alfama de Lisboa — taberna pequeña, vino verde y fado vadio (espontáneo), no los sitios para turistas',
+        'Ruta del vino del Douro — tren Oporto → Pinhão (3h, 12€) entre viñedos en terrazas, cata en quinta centenaria',
+        'Mercado Time Out en Lisboa + Mercado do Bolhão en Oporto — los dos mejores mercados gastronómicos del país'
+      ],
+      sleep:{ budget:'Hostal en Lisboa o Oporto 15–25€, camping en Algarve 8–15€', mid:'Hotel boutique en Bairro Alto o Ribeira 80–140€/noche', luxury:'Bairro Alto Hotel Lisboa o hotel en la ribera de Oporto, 250–500€' },
+      daily:{ budget:'40–60€: metro y bus, tascas con menú del día 10€, hostal', mid:'90–140€: hotel boutique, restaurantes, tours', luxury:'280€+: hotel de diseño, restaurante de bacalhau premium, tours privados' },
+      how:'Vuelo directo desde cualquier ciudad española a Lisboa o Oporto, menos de 2h. TAP, Ryanair e Iberia. También en AVE + autobús desde Madrid en unas 7–8h.',
+      tip:'El menú del día en cualquier taberna de Lisboa o Oporto (sopa + plato + postre + vino) es 10–12€ y es la mejor comida del día. Los pastéis de nata de la Fábrica de Pastéis de Belém se comen calientes con canela.'
+    }
+  },
+  {
+    id:'grecia', name:'Grecia (islas)', country:'Grecia', emoji:'🏛️', zone:'europe',
+    climate:'warm', vibes:['romantic','nature'],
+    styles:['comfort','backpacker'], budget:['mid','luxury'],
+    interests:['water','photos','food'],
+    duration:['week','twoweeks'],
+    tagline:'Caldera de Santorini, aguas turquesas de Mikonos y tabernas al borde del mar',
+    guide:{
+      when:'Mayo-junio y septiembre-octubre: calor, menos gente y precios más bajos. Julio-agosto es el pico máximo — playas llenas y hoteles agotados. Santorini en mayo tiene los mejores atardeceres sin la masa de cruceros.',
+      todo:[
+        'Atardecer de Oia en Santorini — llega 90 min antes al faro o al castillo de Oia para coger posición, el photocall más repetido de Europa',
+        'Snorkel en la laguna volcánica de Nea Kameni (isla de lava negra) — ferry desde Fira, agua caliente geotérmica',
+        'Noche en Mikonos y Little Venice — pero alójate en Chora y vete a las playas del sur en scooter (Psarou, Platis Gialos)',
+        'Ruta por las Cícladas en ferry — Paros → Naxos → Ios en 3–4 días, playas de arena fina, muy menos masificadas',
+        'Taverna de pulpo y ouzo en Paros o Folegandros — comida directa de barco, calamares, dakos cretense y vino de barril'
+      ],
+      sleep:{ budget:'Hostal en Fira o Naxos Town 20–35€, cama en dorm 15€', mid:'Hotel de diseño en Paros o Naxos 90–160€/noche', luxury:'Suite con caldera view en Santorini o villa privada en Mikonos, 400–2000€' },
+      daily:{ budget:'50–70€: ferry interislas, souvlaki y gyros (3€), hostal', mid:'120–180€: hotel boutique, taverna, alquiler de scooter', luxury:'400€+: villa o cave suite, restaurante de autor, barco privado' },
+      how:'Vuelos directos desde Madrid, Barcelona y otras ciudades a Atenas, Santorini o Mikonos con Aegean Airlines, Ryanair o Vueling. Sin visado (Schengen).',
+      tip:'Los ferrys de Hellenic Seaways se llenan en verano — compra con semanas de antelación en Ferryhopper.com. La hora de comida en Grecia es las 14–15h y la cena empieza a las 21h como pronto.'
+    }
+  },
+  {
+    id:'italia', name:'Italia (Sicilia / Costa Amalfi)', country:'Italia', emoji:'🍋', zone:'europe',
+    climate:'warm', vibes:['romantic','culture'],
+    styles:['comfort'], budget:['mid','luxury'],
+    interests:['food','city','photos','water'],
+    duration:['week','twoweeks'],
+    tagline:'Limones, pasta hecha a mano y el mar más azul del Mediterráneo',
+    guide:{
+      when:'Mayo-junio y septiembre: el mejor momento — calor sin agobio, mar para bañarse, precios más bajos. Julio-agosto es peak season y la Costa Amalfi se atasca de coches. Sicilia en octubre tiene vino nuevo y trufa.',
+      todo:[
+        'Costa Amalfi en barco alquilado — de Positano a Ravello por el mar, parando en Grotta dello Smeraldo y Nerano para comer pasta alle vongole',
+        'Subida al Etna (3.330m) en jeep + a pie con guía — el volcán activo más grande de Europa, desde Catania 60€',
+        'Mercato del Capo en Palermo al amanecer — arancine, panelle fritte, stigghiola a la brasa, todo por 5€',
+        'Pompeya sin turistas — entra a las 9am, martes o miércoles, con audioguía 15€; sal antes de las 12h cuando llegan los grupos',
+        'Capri en lancha privada desde Nápoles — Grotta Azzurra a las 8am (antes de los grupos), almuerzo con vista en Da Paolino'
+      ],
+      sleep:{ budget:'B&B en Palermo o Nápoles 35–55€, hostal en Siracusa 20–30€', mid:'Boutique hotel en Ravello o Taormina 130–200€', luxury:'Le Sirenuse en Positano o Villa Sant\'Andrea en Taormina, 500–1200€' },
+      daily:{ budget:'60–80€: tren regional, pizza napoletana 5€, B&B', mid:'150–220€: hotel boutique, restaurante con pasta fresca, alquiler de moto', luxury:'400€+: hotel icónico, menú de degustación, traslados privados' },
+      how:'Vuelo directo a Nápoles, Palermo o Catania con Ryanair, Vueling o easyJet desde las principales ciudades españolas. Sin visado.',
+      tip:'En la Costa Amalfi no alquiles coche — los autobuses SITA cubren toda la costa por 1.30€/trayecto. Y el limoncello siempre después de comer, nunca como aperitivo.'
+    }
+  },
+  {
+    id:'noruega', name:'Noruega (fiordos)', country:'Noruega', emoji:'🚢', zone:'europe',
+    climate:'cold', vibes:['nature','adventure','romantic'],
+    styles:['campervan','sport','comfort'], budget:['mid','luxury'],
+    interests:['photos','silence','wildlife'],
+    duration:['week','twoweeks'],
+    tagline:'Fiordos kilométricos, ballenas en Lofoten y noches bajo las estrellas',
+    guide:{
+      when:'Junio-agosto: verde, ballenas en Lofoten, senderismo hasta las cimas, sol de medianoche. Enero-marzo: auroras en Tromsø y raquetas de nieve en Lofoten. Octubre: colores de otoño espectaculares en Bergen.',
+      todo:[
+        'Senderismo a Trolltunga — 28km ida y vuelta desde Odda, salida a las 5am para evitar aglomeraciones en el mirador sobre el fiordo',
+        'Ruta en kayak por el Fiordo de Naerøy (Patrimonio UNESCO) — operadores en Flåm, 3h guiados desde 75€',
+        'Las islas Lofoten en camper — Reine, Henningsvær y el lago Bunes, uno de los mejores destinos de foto del mundo',
+        'Ferry Bergen → Flåm por el Sognefjord — el fiordo más largo y profundo de Noruega, a bordo del histórico barco Express',
+        'Raquetas de nieve y aurora en Tromsø — excursión nocturna garantizada de auroras o te devuelven el dinero'
+      ],
+      sleep:{ budget:'Camping con camper 20–40€/noche, hostal 30–45€ en Bergen', mid:'Guesthouse en Lofoten 80–130€/noche, hotel 3★ en Bergen 120–160€', luxury:'Juvet Landscape Hotel o Manshausen Island Resort, 300–700€/noche' },
+      daily:{ budget:'90–130€: camper, supermercado (Rema 1000 es lo más barato), camping', mid:'200–300€: guesthouse, restaurantes de pescado, tours', luxury:'500€+: hotel de diseño, langosta y cangrejo rey, helicóptero a glaciar' },
+      how:'Vuelo directo a Bergen u Oslo desde Madrid, Barcelona o Bilbao con Norwegian, SAS o Vueling. Unas 3–4h. Sin visado (Schengen). Lleva corona noruega (NOK) en efectivo para parkings y mercadillos rurales.',
+      tip:'La app Yr.no (meteorología noruega) es más precisa que cualquier otra para los fiordos. La gasolina y comida son muy caros — carga el camper en el supermercado antes de salir a los fiordos.'
+    }
+  },
+  {
+    id:'croacia', name:'Croacia', country:'Croacia', emoji:'⛵', zone:'europe',
+    climate:'warm', vibes:['nature','adventure','party','romantic'],
+    styles:['backpacker','comfort'], budget:['mid'],
+    interests:['water','photos','food','city'],
+    duration:['week','twoweeks'],
+    tagline:'Playas de piedra, casco antiguo de Dubrovnik y sailing entre islas',
+    guide:{
+      when:'Mayo-junio y septiembre son la temporada ideal: agua a 22–24°C, calles de Dubrovnik sin agobio, precios más bajos. Julio-agosto es el pico — los barcos de crucero llenan Dubrovnik de 9am a 5pm.',
+      todo:[
+        'Murallas de Dubrovnik — 2km de paseo por las murallas medievales, vistas al Adriático y a los tejados rojos, mejor a las 8am o al atardecer',
+        'Parques nacionales de Plitvice — 16 lagos en cascada de color turquesa, caminata de 4–6h por las pasarelas de madera',
+        'Island hopping: Split → Brač → Hvar → Korčula en ferry — alquiler de moto en cada isla para llegar a las playas ocultas',
+        'Kayak alrededor de las murallas de Dubrovnik al amanecer — 2h guiados por las cuevas marinas, desde 55€',
+        'Noche en Hvar Town — el hub de fiesta del Adriático, las calas de Pakleni Islands son el after natural del pueblo'
+      ],
+      sleep:{ budget:'Hostal en Split o Dubrovnik 18–30€, apartamento compartido en Hvar 25€', mid:'Apartamento privado en Split o Brač 70–120€/noche', luxury:'Villa con piscina y acceso al mar en Korčula o Dubrovnik, 300–700€' },
+      daily:{ budget:'50–70€: ferry interislas, comida de mercado y burek, hostal', mid:'110–160€: apartamento, restaurantes de marisco, alquiler de scooter', luxury:'350€+: villa privada, barco de alquiler, restaurante de mariscos premium' },
+      how:'Vuelo directo a Split o Dubrovnik desde Madrid, Barcelona o Valencia con Vueling, Ryanair o Croatia Airlines. Sin visado (Schengen desde 2023).',
+      tip:'En Split, desayuna en el mercado verde de la Pjaca — fruta local, queso de la isla de Pag y pan recién hecho por 3–4€. Evita los restaurantes justo en las murallas de Dubrovnik (precio x3 sin calidad extra).'
+    }
+  },
+  {
+    id:'escocia', name:'Escocia', country:'Reino Unido', emoji:'🏴󠁧󠁢󠁳󠁣󠁴󠁿', zone:'europe',
+    climate:'cold', vibes:['adventure','nature','culture'],
+    styles:['campervan','sport'], budget:['mid'],
+    interests:['photos','silence','wildlife'],
+    duration:['week','twoweeks'],
+    tagline:'Highlands salvajes, whisky de malta y el silencio de los lagos',
+    guide:{
+      when:'Mayo-septiembre es la ventana accesible — días largos, carreteras abiertas, algo de sol. Agosto tiene el Festival de Edimburgo (reservar muy con antelación). Octubre: colores espectaculares, casi sin turistas.',
+      todo:[
+        'North Coast 500 en camper — 800km de carretera costera por los Highlands, los 5 días más salvajes de Europa',
+        'Senderismo en el Cairngorms National Park — plateau ártico, corzos y urogallos, 1.300m sin nadie más',
+        'Destilería de whisky en Speyside — ruta de Malt Whisky Trail, 9 destilerías en 100km (Glenfiddich, Macallan, Aberlour)',
+        'Lago Ness desde las ruinas del Castillo de Urquhart — kayak al amanecer, niebla sobre el lago, gratuito',
+        'Festival de Edimburgo en agosto — Fringe Festival (el mayor festival de artes escénicas del mundo), entradas desde 5€'
+      ],
+      sleep:{ budget:'Camper en áreas de aparcamiento libres (legal en Escocia) 0€, hostal en Edimburgo 18–28€', mid:'B&B rural en los Highlands 65–110€/noche', luxury:'The Torridon Hotel o Inverlochy Castle, 300–600€/noche' },
+      daily:{ budget:'55–80€: camper, supermercado, pubs con cena', mid:'120–170€: B&B, cenas en gastropub, tours guiados', luxury:'300€+: hotel de campo, cena de ciervo y whisky de colección' },
+      how:'Vuelo directo a Edimburgo desde Madrid, Barcelona o Bilbao con Ryanair, Vueling o British Airways. Desde Brexit, solo pasaporte (no vale el DNI para ciudadanos españoles). Sin visado hasta 6 meses.',
+      tip:'En Escocia el wild camping es legal — puedes montar la tienda o aparcar el camper prácticamente en cualquier terreno no vallado. Lleva repelente de midges (moscas minúsculas que aparecen en verano al anochecer).'
+    }
+  },
+  {
+    id:'marruecos', name:'Marruecos', country:'Marruecos', emoji:'🕌', zone:'africa',
+    climate:'warm', vibes:['culture','adventure'],
+    styles:['backpacker','comfort'], budget:['budget','mid'],
+    interests:['food','photos','city','silence'],
+    duration:['week','twoweeks'],
+    tagline:'Medinas laberínticas, desierto de dunas y tajines en la azotea',
+    guide:{
+      when:'Marzo-mayo y septiembre-noviembre son los meses perfectos — temperaturas de 20–28°C. Junio-agosto el interior es muy caluroso (40°C+), pero la costa atlántica de Agadir-Essaouira es fresca. Diciembre-enero: frío en el desierto (0°C de noche).',
+      todo:[
+        'Perderse en la medina de Fez — la medina medieval más grande del mundo, sin coches, con el curtidor de pieles Chouara (mejor desde la azotea con vistas)',
+        'Noche en las dunas de Merzouga (Erg Chebbi) — camello al atardecer, tienda bereber, amanecer sobre las dunas rosadas',
+        'Cocina marroquí en Marrakech: clase en un riad con la cocinera, mercado de especias primero, 5 platos después, unos 35€',
+        'Senderismo en el Valle del Toubkal — el pico más alto de África del Norte (4.167m), accesible en 2 días desde Marrakech',
+        'Medina de Chefchaouen — la ciudad azul del Rif, menos turistas que Marrakech, luz perfecta para fotografía'
+      ],
+      sleep:{ budget:'Hostal en Marrakech o Fez 8–16€, tienda en desierto incluida en tour', mid:'Riad en la medina de Marrakech 50–100€/noche', luxury:'La Mamounia en Marrakech o Amanjena, 400–1200€/noche' },
+      daily:{ budget:'25–40€: comida de calle (tajine 3€, harira 50cts), taxis colectivos, hostal', mid:'70–120€: riad, restaurantes, tours organizados', luxury:'300€+: riad de lujo, chef privado, tour en 4x4' },
+      how:'Vuelo directo desde todas las ciudades españolas a Marrakech, Casablanca, Fez o Agadir con Ryanair, easyJet o Royal Air Maroc. Menos de 3h. Sin visado hasta 90 días.',
+      tip:'Lleva siempre dirham marroquí en efectivo (MAD) — los cajeros de los aeropuertos dan mal tipo de cambio, cámbialo en la medina en casas de cambio registradas. Y negocia el precio del taxi antes de subir, siempre.'
+    }
+  },
+  {
+    id:'tanzania', name:'Tanzania (safari)', country:'Tanzania', emoji:'🦁', zone:'africa',
+    climate:'warm', vibes:['nature','adventure'],
+    styles:['comfort'], budget:['mid','luxury'],
+    interests:['wildlife','photos'],
+    duration:['week','twoweeks'],
+    tagline:'La gran migración del Serengeti y la cima del Kilimanjaro',
+    guide:{
+      when:'Julio-octubre es la temporada seca — gran migración por el Serengeti, fauna concentrada en pozos de agua. Enero-febrero: cría en el Ngorongoro. Noviembre y marzo-mayo tienen lluvia pero muy pocos turistas y precios más bajos.',
+      todo:[
+        'Safari de 5 días: Serengeti → Cráter del Ngorongoro → Tarangire — vehículo 4x4 con techo abierto, guía local y alojamiento en lodge',
+        'Gran Migración en el Mara — millón de ñus cruzando el río Mara (julio-agosto), los cocodrilos esperan en la orilla',
+        'Ascensión al Kilimanjaro por la ruta Machame — 6 días, 5.895m, el pico más alto de África, tasa de éxito del 80%',
+        'Isla de Zanzíbar 3 noches — Stone Town (Patrimonio UNESCO), playas de arena blanca, langosta a la brasa al atardecer',
+        'Fotografía nocturna del cielo del Serengeti — sin contaminación lumínica, la Vía Láctea llena el cielo'
+      ],
+      sleep:{ budget:'No recomendado para safari económico — los lodges básicos rondan los 100€/noche con todo incluido', mid:'Lodge con media pensión en el Serengeti o Ngorongoro, 200–400€/noche', luxury:'Asilia Africa o Singita lodges, 800–2500€/noche todo incluido' },
+      daily:{ budget:'No aplicable realísticamente — el safari ya incluye alojamiento y pensión', mid:'300–500€ todo incluido: lodge, guía, comidas, parque', luxury:'1000€+ todo incluido: lodge premium, champán en el coche' },
+      how:'Vuelo a Kilimanjaro International (JRO) o Julius Nyerere en Dar es Salaam, con escala en Doha, Nairobi o Addis Abeba. Unas 12–16h. Visa a la llegada o electrónica online: 50$.',
+      tip:'Contrata siempre con operador local certificado (busca en TATO — Tanzania Association of Tour Operators). Los grandes operadores europeos tienen márgenes altísimos. Lleva prismáticos propios (los del lodge suelen ser malos).'
+    }
+  },
+  {
+    id:'sudafrica', name:'Sudáfrica', country:'Sudáfrica', emoji:'🦏', zone:'africa',
+    climate:'mild', vibes:['adventure','culture','nature'],
+    styles:['comfort','sport'], budget:['mid','luxury'],
+    interests:['wildlife','food','photos','city'],
+    duration:['twoweeks','month'],
+    tagline:'Safari, pinguinos en Cape Town y el vino más australiano de África',
+    guide:{
+      when:'Noviembre-abril es el verano austral en Cape Town — ideal para playas y rutas costeras. Mayo-septiembre es seco y fresco, perfecto para safari (los animales se ven mejor). Julio tiene los menores precios.',
+      todo:[
+        'Table Mountain en teleférico o trekking — vistas a 360° sobre Cape Town, el Atlántico y el Índico, ir temprano para evitar nubes',
+        'Ruta Jardín en coche de alquiler — de Cape Town a Knysna en 4 días, Garden Route, ostras de Knysna y puente Bloukrans (bungee más alto del mundo, 216m)',
+        'Safari de 3 días en Kruger National Park — el Big Five más accesible del mundo, alojamiento en camp oficial del parque desde 50€',
+        'Colonia de pingüinos de Boulders Beach — 3.000 pingüinos africanos a 30 min de Cape Town, 7€ entrada',
+        'Ruta de los vinos de Stellenbosch — bodegas a 40min de Cape Town, pinotage y chenin blanc, almuerzos de bodega desde 25€'
+      ],
+      sleep:{ budget:'Hostal en Cape Town 15–25€, camping en Kruger 30–50€', mid:'Guesthouse en Stellenbosch o Knysna 70–120€, lodge en Kruger 120–200€', luxury:'Londolozi Game Reserve o Saxon Hotel Cape Town, 500–2000€/noche' },
+      daily:{ budget:'50–70€: alquiler de coche, supermercado Checkers, hostal o camping', mid:'120–200€: guesthouse, restaurante, Safari Day Park', luxury:'500€+: lodge privado, cenas de autor, safari guiado exclusivo' },
+      how:'Sin vuelo directo desde España. Conexión con escala en Doha, Amsterdam o Nairobi a Cape Town (CPT) o Johannesburgo (JNB). Unas 12–14h. Sin visado hasta 30 días.',
+      tip:'Alquila el coche en Cape Town y no en el aeropuerto de Joburg — las carreteras del cape son mejores y más seguras. En Joburg no salgas a pie de noche por el centro; usa Uber siempre.'
+    }
+  },
+  {
+    id:'colombia', name:'Colombia', country:'Colombia', emoji:'🌺', zone:'latam',
+    climate:'warm', vibes:['culture','party','adventure','nature'],
+    styles:['backpacker'], budget:['budget','mid'],
+    interests:['food','city','photos'],
+    duration:['twoweeks','month'],
+    tagline:'Cartagena colonial, café de altura y salsa en Cali hasta el amanecer',
+    guide:{
+      when:'Diciembre-marzo y julio-agosto son las temporadas secas. Cartagena siempre tiene calor (28–33°C todo el año). El Eje Cafetero es verde todo el año. Medellín tiene la "eterna primavera" (22°C constante). Evita semana santa (masificado).',
+      todo:[
+        'Ciudad Perdida (Teyuna) — 4 días de trekking en la selva hasta la ciudad indígena más antigua de las Américas (más que Machu Picchu), con guía Kogui',
+        'Vuelo Cartagena → Isla del Rosario en lancha — arrecifes de coral y agua cristalina a 45 min, snorkel y langosta en chiringuito',
+        'Tour de café en la finca del Eje Cafetero — de la cereza de café al espresso, finca familiar en Salento o Montenegro, unos 15€',
+        'Clase de salsa en Cali — la capital mundial de la salsa, academia en barrio Granada, 10€/hora, luego al Topa Tolondra',
+        'Graffiti tour en Medellín — el barrio de los grafitis (Las Partidas) y el museo al aire libre más grande de América Latina'
+      ],
+      sleep:{ budget:'Hostal en Cartagena o Medellín 8–16€, El Nido en Salento 10€', mid:'Boutique hotel en el Centro Histórico de Cartagena 60–110€', luxury:'Hotel Casa San Agustín en Cartagena o Charlee Hotel en Medellín, 200–500€' },
+      daily:{ budget:'25–40€: bus intermunicipal, comida corriente (4€), hostal', mid:'70–110€: hotel boutique, restaurantes, vuelos internos baratos (Avianca)', luxury:'250€+: hotel de lujo, gastronomía de Leonor Espinosa, tours privados' },
+      how:'Vuelo directo desde Madrid a Bogotá o Cartagena con Iberia, Air Europa o Avianca. Unas 10–11h. Sin visado hasta 90 días. Vuelos internos muy baratos (Avianca, Latam) para moverse entre ciudades.',
+      tip:'En Colombia se para el tiempo a la hora de comer — el almuerzo corriente (sopa + seco + jugo) en cualquier restaurante de barrio cuesta 4–5€ y es la mejor comida del día. El aguardiente antioqueño es el ritual de bienvenida.'
+    }
+  },
+  {
+    id:'peru', name:'Perú', country:'Perú', emoji:'🦙', zone:'latam',
+    climate:'mild', vibes:['adventure','culture','nature'],
+    styles:['backpacker','sport'], budget:['budget','mid'],
+    interests:['photos','wildlife','silence','food'],
+    duration:['twoweeks','month'],
+    tagline:'Machu Picchu al amanecer, lago Titicaca y ceviche limeño',
+    guide:{
+      when:'Mayo-octubre es la temporada seca en el altiplano y Cusco — imprescindible para el Camino Inca. Noviembre-abril es el verano (lluvia en sierra, mejor para Amazonía). Lima tiene niebla de mayo a noviembre (garúa) pero es perfecta para gastronomía.',
+      todo:[
+        'Camino Inca clásico — 4 días, 42km, reservar con 6 meses de antelación (solo 500 personas/día con permiso), amanece en la Puerta del Sol',
+        'Lago Titicaca y las islas flotantes de los Uros — noche en casa familiar en la isla de Amantaní, a 3.812m sobre el mar',
+        'Sobrevolar las Líneas de Nazca — 30 min de vuelo ultraligero sobre los geoglifos del desierto, desde Nazca, 80€',
+        'Mercado de San Pedro en Cusco — chicha morada, cuy al horno, quesos de sierra y tejidos andinos, 7am-2pm',
+        'Restaurante Central o Maido en Lima — en el Top 10 mundial, reserva con 2–3 meses de antelación, menú degustación desde 120€'
+      ],
+      sleep:{ budget:'Hostal en Cusco o Miraflores (Lima) 8–18€, albergue en ruta inca 15€', mid:'Hotel 3★ en Cusco o Miraflores 50–90€/noche', luxury:'Belmond Sanctuary Lodge en Aguas Calientes (junto a Machu Picchu) 700€+' },
+      daily:{ budget:'30–50€: buses Cruz del Sur, menú del día 4€, hostals', mid:'80–130€: hotel 3★, restaurantes de ceviche, tours contratados', luxury:'300€+: tren Hiram Bingham, hotel Belmond, guía privado' },
+      how:'Vuelo directo Madrid → Lima con Iberia o Air Europa en unas 12h. Sin visado hasta 90 días. Compra el billete del tren Peru Rail a Machu Picchu con meses de antelación en temporada alta.',
+      tip:'La altura de Cusco (3.400m) puede dejarte KO el primer día — descansa 24h al llegar, toma mate de coca (gratis en hoteles) y evita el alcohol. El soroche (mal de altura) es real.'
+    }
+  },
+  {
+    id:'patagonia', name:'Patagonia Argentina', country:'Argentina', emoji:'🏔️', zone:'latam',
+    climate:'cold', vibes:['adventure','nature'],
+    styles:['backpacker','campervan','sport'], budget:['mid'],
+    interests:['photos','silence','wildlife','water'],
+    duration:['twoweeks','month'],
+    tagline:'El Perito Moreno, el Fitz Roy y el viento que te da la bienvenida',
+    guide:{
+      when:'Noviembre-marzo es el verano austral patagónico — el único período accesible para la mayoría de senderos. Enero y febrero son los meses más estables. El viento es constante todo el año. El invierno (mayo-agosto) cierra prácticamente todo.',
+      todo:[
+        'Glaciar Perito Moreno — trekking en el hielo azul (mini-trek 2h con crampones, 100€), y las pasarelas para ver los desprendimientos gratis',
+        'Trekking en el Parque Nacional Torres del Paine (Chile) — circuito W de 5 días (reservar campings con meses de antelación), torres al amanecer',
+        'Avistamiento de orcas en Punta Norte (Valdés) — las únicas orcas del mundo que se lanzan a la playa a cazar lobos marinos (febrero-marzo)',
+        'Ruta 40 en camper de El Calafate a Bariloche — 1.800km de estepa patagónica, sin gasolineras cada 200km, astronomía brutal',
+        'Lago del Desierto y laguna Los Tres en El Chaltén — pueblo del trekking sin precio de entrada, el Fitz Roy al amanecer'
+      ],
+      sleep:{ budget:'Hostal en El Calafate o El Chaltén 15–25€, camping en parque 8–15€', mid:'Hotel 3★ en El Calafate 80–130€/noche', luxury:'Awasi Patagonia o explora El Chaltén, 700–2000€/noche todo incluido' },
+      daily:{ budget:'45–70€: bus patagónico, cocina propia en hostal, camping', mid:'120–180€: hotel, excursiones, restaurante', luxury:'500€+: lodge de lujo, excursiones privadas, vino malbec de reserva' },
+      how:'Vuelo desde Madrid a Buenos Aires (EZE) con Iberia o Aerolíneas Argentinas (~13h), luego vuelo interno a El Calafate o Punta Arenas (Chile). Aerolíneas Argentinas o LATAM. Sin visado hasta 90 días.',
+      tip:'El viento de la Patagonia no es metáfora — lleva chubasquero y capas en pleno verano. En El Chaltén no hay cajero automático: lleva efectivo en pesos desde El Calafate.'
+    }
+  },
+  {
+    id:'costarica', name:'Costa Rica', country:'Costa Rica', emoji:'🦜', zone:'latam',
+    climate:'warm', vibes:['nature','adventure'],
+    styles:['backpacker','comfort'], budget:['mid'],
+    interests:['wildlife','water','photos'],
+    duration:['week','twoweeks'],
+    tagline:'Monos, tucanes, surf en Tamarindo y el Arenal al amanecer',
+    guide:{
+      when:'Diciembre-abril es la temporada seca del Pacífico (Guanacaste, Tamarindo, Manuel Antonio) — playa y surf garantizados. Mayo-noviembre (temporada verde): más fauna, precios más bajos, lluvias de tarde.',
+      todo:[
+        'Volcán Arenal — senderismo de 3h al pie del cono con vistas de lava solidificada, aguas termales Tabacón al anochecer (28°C) desde 55€',
+        'Surf en Tamarindo o Santa Teresa — escuela de surf para principiantes desde 35€, olas rompientes perfectas todo el año',
+        'Canopy en Monteverde — tirolina de 1km sobre el bosque nuboso, el más espectacular de Centroamérica, 60€',
+        'Kayak nocturno en la bahía bioluminiscente de Nicoya — el plancton ilumina los remos, experiencia irrepetible',
+        'Avistamiento de tortugas baúl en Ostional — la mayor anidación masiva del mundo (llegada nocturna de miles de tortugas), guía obligatorio'
+      ],
+      sleep:{ budget:'Hostal en Tamarindo o La Fortuna 12–20€, camping en parque nacional', mid:'Eco-lodge con piscina en Monteverde o Arenal 70–130€/noche', luxury:'Nayara Springs o Lapa Rios Ecolodge, 300–700€/noche' },
+      daily:{ budget:'45–65€: bus directo, comida en sodas (menú del día 6€), hostal', mid:'100–160€: eco-lodge, tours, 4x4 alquilado', luxury:'350€+: lodge premium, guía privado de fauna, spa de selva' },
+      how:'Sin vuelo directo desde España. Conexión en Miami, Bogotá o Ciudad de Panamá a San José (SJO). Unas 12–15h. Sin visado hasta 90 días para europeos.',
+      tip:'Alquila 4x4 o jeep si vas a la zona norte (La Fortuna) — las carreteras en temporada de lluvia requieren tracción total. El casado (arroz, frijoles, ensalada y proteína) en cualquier soda local es 6€ y la mejor comida del viaje.'
+    }
+  },
+  {
+    id:'mexico', name:'México (Yucatán / Oaxaca)', country:'México', emoji:'🌮', zone:'latam',
+    climate:'warm', vibes:['culture','adventure','party'],
+    styles:['backpacker','comfort'], budget:['budget','mid'],
+    interests:['food','photos','water','city'],
+    duration:['week','twoweeks'],
+    tagline:'Cenotes, pirámides mayas y mole negro en mercados de Oaxaca',
+    guide:{
+      when:'Noviembre-abril es la temporada seca en el Yucatán. Diciembre-enero tiene mucho turismo nacional. Oaxaca es perfecta en julio (Guelaguetza) o noviembre (Día de Muertos en los pueblos). La costa del Pacífico en invierno.',
+      todo:[
+        'Cenote Ik Kil o Dos Ojos — buceo en caverna submarina de agua dulce cristalina, desde Valladolid, a 5 min de Chichén Itzá',
+        'Chichén Itzá a las 8am (cuando abre) — antes de los grupos de Cancún que llegan a las 11h, el amanecer sobre El Castillo',
+        'Mercado de Tlacolula y clase de cocina en Oaxaca — tlayudas, mole negro con chapulines, mezcal artesanal a las 8am',
+        'Ruta de los cenotes de Homún en bici — 6 cenotes en un día en bicicleta, el menos turístico del Yucatán, 10€',
+        'Noche en Bacalar — "el lago de los siete colores", hamaca en el hostal sobre el lago, kayak al amanecer'
+      ],
+      sleep:{ budget:'Hostal en Mérida, Valladolid u Oaxaca 8–16€, cabañas en Bacalar 20€', mid:'Boutique hotel en el centro de Oaxaca o Mérida 60–100€', luxury:'Hacienda Temozón en Yucatán o Las Brisas Huatulco, 250–600€' },
+      daily:{ budget:'25–40€: ADO bus primera clase, taco y tlayuda 2€, hostal', mid:'70–110€: hotel boutique, restaurante de mole, tours', luxury:'280€+: hacienda, chef privado, cenote privado' },
+      how:'Vuelo directo desde Madrid a Ciudad de México o Cancún con Aeromexico o Iberia (~10–11h). Sin visado hasta 180 días para españoles.',
+      tip:'El ADO es el autobús de primera clase mexicano — seguro, puntual y barato. Cubre toda la Península de Yucatán. Y el mezcal en Oaxaca: el artesanal de pueblo no tiene etiqueta bonita pero está a otro nivel.'
+    }
+  },
+  {
+    id:'cuba', name:'Cuba', country:'Cuba', emoji:'🎷', zone:'latam',
+    climate:'warm', vibes:['culture','party','romantic'],
+    styles:['comfort','backpacker'], budget:['mid'],
+    interests:['food','city','photos'],
+    duration:['week','twoweeks'],
+    tagline:'Coches de los 50, son cubano y el Malecón al atardecer',
+    guide:{
+      when:'Diciembre-abril es la temporada seca, el mejor tiempo. Noviembre-mayo evita la temporada de huracanes (junio-octubre). La Habana está bien todo el año. Trinidad y Viñales son perfectas en cualquier mes seco.',
+      todo:[
+        'Noche de son y salsa en La Habana — Casa de la Música de Miramar o La Zorra y el Cuervo en El Vedado, entrada 5–10 CUP',
+        'Ruta en Chevrolet del 52 por La Habana — alquiler de almendrones (coches clásicos) 30€/h con chófer, la mejor foto del viaje',
+        'Viñales en bicicleta — el mejor tabaco del mundo crece en los mogotes, visita a una vega de tabaco y un puro enrollado a mano',
+        'Playas de Trinidad: La Boca y Ancón — arena blanca y aguas turquesas a 20 min en bici de la ciudad colonial',
+        'Música en vivo en el Bar Dos Hermanos de La Habana Vieja — los músicos tocan desde las 10am, ron y ceviche de camarones'
+      ],
+      sleep:{ budget:'Casa particular (el Airbnb cubano legal) 15–25€/noche, incluye desayuno cubano', mid:'Casa particular de diseño o boutique hotel en La Habana Vieja 50–90€', luxury:'Iberostar Parque Central o Hotel Nacional de Cuba, 150–300€/noche' },
+      daily:{ budget:'35–55€: casa particular, comida en paladares locales (10€), taxi colectivo', mid:'90–140€: hotel boutique, paladar de autor, taxi privado', luxury:'300€+: Hotel Nacional, cenas de Havana rooftop, coche clásico privado todo el día' },
+      how:'Vuelo directo desde Madrid con Iberia o Cubana de Aviación a La Habana. Unas 9–10h. Los españoles necesitan Tarjeta de Turista (20€) disponible en el aeropuerto. Lleva EFECTIVO en euros — las tarjetas de crédito no funcionan.',
+      tip:'Lleva todo el efectivo que necesites en euros o CAD — los euros se cambian a buen tipo en las CADECA (casas de cambio). No hay Western Union disponible para españoles. El wifi es escaso y caro.'
+    }
+  },
+  {
+    id:'canada', name:'Canadá (Rocosas)', country:'Canadá', emoji:'🦌', zone:'northamerica',
+    climate:'cold', vibes:['nature','adventure','romantic','sport'],
+    styles:['campervan','sport','comfort'], budget:['mid','luxury'],
+    interests:['photos','silence','wildlife','water'],
+    duration:['week','twoweeks'],
+    tagline:'Lagos turquesa, osos grizzly y el silencio de las montañas de Alberta',
+    guide:{
+      when:'Junio-agosto: el verano de las Rocosas, los lagos están en color turquesa máximo (fusión del glaciar), todo accesible. Septiembre: colores de otoño, alces en celo, menos gente. Diciembre-marzo: esquí en Banff y Lake Louise, auroras.',
+      todo:[
+        'Lago Louise al amanecer — llega antes de las 7am para verlo sin turistas, color turquesa irreal por sedimento glacial, canoa desde 50$CAD/h',
+        'Icefield Parkway (Highway 93) en coche — 230km de la autopista más bonita del mundo, glaciar Columbia, cascada Athabasca',
+        'Kayak en el lago Moraine de Banff — uno de los 10 lugares más fotografiados de Canadá, reserva online con semanas de antelación',
+        'Avistamiento de osos grizzly en el Kootenay Rockies — temporada de salmón en septiembre, desde guiados en zodiac en el río',
+        'Aguas termales del Upper Hot Springs de Banff — piscina exterior a 40°C con vistas a las montañas, 10$CAD'
+      ],
+      sleep:{ budget:'Hostal HI Banff o camping 18–35$CAD/noche, camping en campground Banff', mid:'Lodge 3★ en Banff o Jasper 140–220$CAD/noche', luxury:'Fairmont Château Lake Louise o The Rimrock Resort, 400–900$CAD/noche' },
+      daily:{ budget:'70–100€: coche de alquiler + gasolina, cocina propia, camping', mid:'180–260€: lodge, restaurantes, excursiones', luxury:'500€+: Fairmont, cenas de ternera Alberta, helicóptero sobre glaciares' },
+      how:'Vuelo a Calgary (YYC) o Edmonton con Air Canada, British Airways o Lufthansa, con escala en Toronto o Londres. Unas 13–16h. Autorización electrónica de viaje (eTA) 7$CAD online. Sin visado.',
+      tip:'Reserva el camping de los parques nacionales de Banff y Jasper con meses de antelación en recreation.canada.ca — en julio y agosto se llenan en minutos. El Parks Canada Annual Discovery Pass (75$CAD) amortiza en 2 días.'
+    }
+  },
+  {
+    id:'eeuu', name:'EE.UU. (Parques del SW)', country:'Estados Unidos', emoji:'🏜️', zone:'northamerica',
+    climate:'mild', vibes:['adventure','nature'],
+    styles:['campervan','sport'], budget:['mid','luxury'],
+    interests:['photos','silence','wildlife'],
+    duration:['week','twoweeks'],
+    tagline:'Grand Canyon, Zion, Bryce, Arches y Monument Valley en un road trip',
+    guide:{
+      when:'Marzo-mayo y septiembre-octubre son perfectos — no hay calor extremo (el cañón en julio supera los 45°C en el fondo) ni el frío invernal. El Antelope Canyon en marzo-octubre tiene los rayos de luz en la hora del mediodía (reservar meses antes).',
+      todo:[
+        'Angels Landing en Zion NP — 8km con cadenas en la cresta, 450m de desnivel, vistas de vértigo al cañón, reserva por sorteo (recreation.gov)',
+        'Amanecer en Mesa Arch en Canyonlands — llega 1h antes del amanecer, la luz naranja enmarca los arcos con el Colorado abajo',
+        'Antelope Canyon Lower con guía Navajo — los rayos de luz en el interior de la ranura a mediodía, reserva con 3 meses de antelación (40-80$)',
+        'Horseshoe Bend desde el mirador — el meandro del Colorado 300m más abajo, libre, pero llega muy temprano o al atardecer',
+        'Monument Valley Navajo Tribal Park al amanecer — los mittens iluminados en naranja, tours en jeep con guía Diné desde 60$'
+      ],
+      sleep:{ budget:'Camping en los parques 20–30$/noche, hostal en Moab o St. George 25€', mid:'Motel 2★ o lodge en los parques 80–140$/noche', luxury:'Amangiri en Canyon Point Utah o The View Hotel en Monument Valley, 800–2500$/noche' },
+      daily:{ budget:'70–100€: camper alquilado, cocina propia, campings', mid:'160–240€: motel, restaurantes, parques (80$/vehículo para 7 días)', luxury:'500€+: lodge de lujo, tours en helicóptero, cenas gourmet' },
+      how:'Vuelo a Las Vegas (LAS) o Salt Lake City (SLC) con Iberia, American Airlines o Delta, con escala en NYC o Miami. Unas 13–15h. ESTA electrónica (21$) tramitable online. Alquila el coche o camper en Las Vegas.',
+      tip:'El America the Beautiful Pass (80$) da acceso ilimitado a todos los parques nacionales durante 12 meses — se amortiza en el segundo parque. Descárgalo offline en la app NPS antes de entrar a zonas sin cobertura.'
+    }
+  },
+  {
+    id:'nuevazelanda', name:'Nueva Zelanda', country:'Nueva Zelanda', emoji:'🥝', zone:'northamerica',
+    climate:'mild', vibes:['adventure','nature','sport','romantic'],
+    styles:['campervan','sport','comfort'], budget:['mid','luxury'],
+    interests:['photos','water','wildlife','silence'],
+    duration:['twoweeks','month'],
+    tagline:'Fiordos de Milford Sound, glaciares de Fox y bungee en Queenstown',
+    guide:{
+      when:'Diciembre-febrero es el verano austral — senderos abiertos, playas, temperatura perfecta. Marzo-mayo tiene colores de otoño espectaculares y menos turistas. Junio-agosto: esquí en los Alpes del Sur, fiordos con niebla dramática.',
+      todo:[
+        'Crucero en Milford Sound — el fiordo más famoso del mundo, cascadas de 150m que caen al mar, delfines y focas, desde 70NZ$',
+        'Bungee jump en el puente Kawarau de Queenstown — el primer bungee comercial del mundo (1988), 43m sobre el río, 215NZ$',
+        'Ruta de trekking Tongariro Alpine Crossing — 19km, volcanes activos, lagos de colores, el mejor single-day hike del mundo',
+        'Camino Milford Track — 4 días, 53km, reserva obligatoria 12 meses antes con DOC, uno de los grandes treks del planeta',
+        'Fiordland en kayak de mar — Doubtful Sound al amanecer con guía, delfines, focas leopardo y silencio de otro nivel'
+      ],
+      sleep:{ budget:'Hostal DOC (Dept. of Conservation) 20–35NZ$/noche, camping DOC 10–15NZ$', mid:'Holiday Park con cocina y baño compartido 50–85NZ$, camper 80–120NZ$/día', luxury:'Blanket Bay Lodge en Queenstown o Matakauri Lodge, 1500–3000NZ$/noche' },
+      daily:{ budget:'70–100€: camper propio, cocina, campings DOC', mid:'170–250€: camper alquilado, restaurantes, tours', luxury:'500€+: lodge de lujo, heli-hiking, cenas de agneau de las South Island' },
+      how:'Sin vuelo directo desde España. Conexión en Dubái (Emirates), Singapur o Sydney a Auckland (AKL). Unas 24–28h de viaje total. Permiso NZeTA (23NZ$) + tasa de turismo (35NZ$). Sin visado.',
+      tip:'El NZ Scenic Journeys incluye el Tranzalpine — el tren más bonito del hemisferio sur, de Christchurch a Greymouth por los Alpes del Sur. El Freedom Camping en camper es legal en zonas DOC designadas: descarga la app CamperMate.'
+    }
+  }
+];
+
+// ── Scoring ──
+function scoreDestination(dest, answers) {
+  let s = 0;
+  if (answers.climate && answers.climate !== 'any') {
+    if (dest.climate === answers.climate) s += 4; else s -= 6;
+  }
+  if (answers.zone && answers.zone !== 'any') {
+    if (dest.zone === answers.zone) s += 4; else s -= 10;
+  }
+  if (answers.vibes?.length) {
+    answers.vibes.forEach(v => { if (dest.vibes.includes(v)) s += 2; });
+  }
+  if (answers.style && answers.style !== 'any') {
+    if (dest.styles.includes(answers.style)) s += 3; else s -= 2;
+  }
+  if (answers.budget) {
+    if (dest.budget.includes(answers.budget)) s += 3;
+    else if (answers.budget === 'budget' && dest.budget.includes('mid')) s -= 1;
+    else s -= 3;
+  }
+  if (answers.interests?.length) {
+    answers.interests.forEach(i => { if (dest.interests.includes(i)) s += 1; });
+  }
+  if (answers.duration) {
+    if (dest.duration.includes(answers.duration)) s += 1;
+  }
+  return s;
+}
+
+// ── Tag helpers ──
+const CLIMATE_LABELS = { warm:'☀️ Calor', cold:'❄️ Frío', mild:'🌤️ Templado' };
+const STYLE_LABELS = { backpacker:'🎒 Mochilero', campervan:'🚐 Campervan', sport:'🚴 Activo', comfort:'🧳 Cómodo' };
+const BUDGET_LABELS = { budget:'💸 Budget', mid:'💰 Medio', luxury:'💎 Lujo' };
+const VIBE_LABELS = { romantic:'💑 Romántico', adventure:'🏃 Aventura', culture:'🏛️ Cultura', nature:'🌿 Naturaleza', party:'🎉 Fiesta' };
+
+function buildMatchTags(dest) {
+  const tags = [];
+  if (answers.climate && answers.climate !== 'any' && dest.climate === answers.climate) {
+    tags.push(`<span class="match-tag climate">${CLIMATE_LABELS[dest.climate]}</span>`);
+  }
+  if (answers.budget && dest.budget.includes(answers.budget)) {
+    tags.push(`<span class="match-tag budget">${BUDGET_LABELS[answers.budget]}</span>`);
+  }
+  if (answers.style && dest.styles.includes(answers.style)) {
+    tags.push(`<span class="match-tag">${STYLE_LABELS[answers.style]}</span>`);
+  }
+  if (answers.vibes?.length) {
+    answers.vibes.forEach(v => {
+      if (dest.vibes.includes(v)) tags.push(`<span class="match-tag vibe">${VIBE_LABELS[v]}</span>`);
+    });
+  }
+  return tags.join('');
+}
+
+function buildGuide(dest) {
+  const b = answers.budget || 'mid';
+  return `
+    <div class="guide-section">
+      <div class="guide-label">🗓️ Cuándo ir</div>
+      <div class="guide-text">${dest.guide.when}</div>
+    </div>
+    <div class="guide-section">
+      <div class="guide-label">🎯 Qué hacer</div>
+      <ul class="guide-list">
+        ${dest.guide.todo.map(t=>`<li>${t}</li>`).join('')}
+      </ul>
+    </div>
+    <div class="guide-section">
+      <div class="guide-label">🏨 Dónde dormir</div>
+      <div class="guide-prices">
+        <div class="guide-price-item">
+          <div class="guide-price-tier">Budget</div>
+          <div class="guide-price-val">${dest.guide.sleep.budget}</div>
+        </div>
+        <div class="guide-price-item">
+          <div class="guide-price-tier">Medio</div>
+          <div class="guide-price-val">${dest.guide.sleep.mid}</div>
+        </div>
+        <div class="guide-price-item">
+          <div class="guide-price-tier">Lujo</div>
+          <div class="guide-price-val">${dest.guide.sleep.luxury}</div>
+        </div>
+      </div>
+    </div>
+    <div class="guide-section">
+      <div class="guide-label">💰 Presupuesto diario</div>
+      <div class="guide-prices">
+        <div class="guide-price-item">
+          <div class="guide-price-tier">Budget</div>
+          <div class="guide-price-val">${dest.guide.daily.budget}</div>
+        </div>
+        <div class="guide-price-item">
+          <div class="guide-price-tier">Medio</div>
+          <div class="guide-price-val">${dest.guide.daily.mid}</div>
+        </div>
+        <div class="guide-price-item">
+          <div class="guide-price-tier">Lujo</div>
+          <div class="guide-price-val">${dest.guide.daily.luxury}</div>
+        </div>
+      </div>
+    </div>
+    <div class="guide-section">
+      <div class="guide-label">✈️ Cómo llegar</div>
+      <div class="guide-text">${dest.guide.how}</div>
+    </div>
+    <div class="guide-section">
+      <div class="guide-label">💡 Consejo local</div>
+      <div class="guide-tip">${dest.guide.tip}</div>
+    </div>
+  `;
+}
+
+function showResults() {
+  const scored = DESTINATIONS.map(d => ({ dest: d, score: scoreDestination(d, answers) }));
+  scored.sort((a,b) => b.score - a.score);
+  const top3 = scored.slice(0,3);
+
+  const rankClasses = ['first','second','third'];
+  const rankLabels = ['🥇 Mejor opción', '🥈 Segunda opción', '🥉 Tercera opción'];
+
+  const html = top3.map((item, i) => {
+    const d = item.dest;
+    const tags = buildMatchTags(d);
+    return `
+      <div class="result-card">
+        <div class="result-rank ${rankClasses[i]}">${rankLabels[i]}</div>
+        <div class="result-top">
+          <div class="result-emoji">${d.emoji}</div>
+          <div class="result-info">
+            <div class="result-name">${d.name}</div>
+            <div class="result-country">${d.country}</div>
+            <div class="result-tagline">${d.tagline}</div>
+          </div>
+        </div>
+        ${tags ? `<div class="match-tags">${tags}</div>` : ''}
+        <button class="btn-guide" onclick="toggleGuide(this, '${d.id}')">
+          <span>Ver guía completa</span>
+          <span class="chevron">↓</span>
+        </button>
+        <div class="guide-body" id="guide-${d.id}">
+          ${buildGuide(d)}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('resultsList').innerHTML = html;
+  document.getElementById('resultsScreen').classList.add('active');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function toggleGuide(btn, id) {
+  const body = document.getElementById('guide-' + id);
+  const isOpen = body.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+}
+</script>
+</body>
+</html>
