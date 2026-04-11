@@ -14,16 +14,16 @@
 
     :root {
       --bg: #FFFFFF;
-      --bg-soft: #F7F8FA;
+      --bg-soft: #F8FAFC;
       --bg-card: #FFFFFF;
-      --text: #111827;
-      --text-secondary: #6B7280;
+      --text: #0F172A;
+      --text-secondary: #64748B;
       --text-muted: #9CA3AF;
-      --border: #E5E7EB;
-      --accent: #0891B2;
-      --accent-light: #E0F7FE;
-      --accent-text: #0E7490;
-      --teal: #0D9488;
+      --border: #E2E8F0;
+      --accent: #0EA5E9;
+      --accent-light: #E0F2FE;
+      --accent-text: #0284C7;
+      --teal: #10B981;
       --teal-light: #F0FDFA;
       --gold: #F5A623;
       --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
@@ -157,7 +157,7 @@
     }
     .btn-primary:hover {
       background: var(--accent-text); transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(8,145,178,.28);
+      box-shadow: 0 8px 24px rgba(14, 165, 233,.28);
     }
     .btn-secondary {
       display: inline-flex; align-items: center; gap: 6px;
@@ -195,7 +195,7 @@
     .banner-title { font-size:.82rem; font-weight:600; color:var(--text); margin-bottom:2px; }
     .banner-desc { font-size:.72rem; color:var(--text-secondary); line-height:1.4; }
     .banner-progress { display:flex; align-items:center; gap:8px; margin-top:8px; }
-    .progress-track { flex:1; height:3px; background:rgba(8,145,178,.15); border-radius:100px; overflow:hidden; }
+    .progress-track { flex:1; height:3px; background:rgba(14, 165, 233,.15); border-radius:100px; overflow:hidden; }
     .progress-fill { height:100%; background:var(--accent); --w:0%; width:0; animation:progressFill .8s ease-out .5s both; }
     .progress-pct { font-size:.68rem; color:var(--accent-text); font-weight:600; white-space:nowrap; }
     .btn-banner-sm {
@@ -237,7 +237,7 @@
       box-shadow: var(--shadow-md);
     }
 
-    .card-orange { border-top-color: var(--accent); }
+    .card-blue { border-top-color: var(--accent); }
     .card-teal   { border-top-color: var(--teal); }
     .card-gold   { border-top-color: var(--gold); }
     .card-purple { border-top-color: #8B5CF6; }
@@ -321,7 +321,7 @@
       <div class="section-label">Qué puedes hacer</div>
       <div class="cards-grid">
 
-        <a href="plan.html" class="card card-orange">
+        <a href="plan.html" class="card card-blue">
           <div class="card-icon">&#129517;</div>
           <div class="card-title">Planifica tu aventura</div>
           <div class="card-desc">7 preguntas, 25 destinos, guía completa de cada uno.</div>

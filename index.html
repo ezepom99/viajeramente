@@ -75,25 +75,25 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --accent: #0891B2;
-      --accent-light: #38BDF8;
-      --accent-dark: #0E7490;
-      --accent-glow: rgba(8, 145, 178, 0.15);
-      --teal: #1A8C7E;
-      --teal-light: #22B8A6;
-      --teal-dark: #136B60;
-      --teal-glow: rgba(26, 140, 126, 0.15);
+      --accent: #0EA5E9;
+      --accent-light: #7DD3FC;
+      --accent-dark: #0284C7;
+      --accent-glow: rgba(14, 165, 233, 0.15);
+      --teal: #10B981;
+      --teal-light: #34D399;
+      --teal-dark: #059669;
+      --teal-glow: rgba(16, 185, 129, 0.15);
       --gold: #F5A623;
       --purple: #8B5CF6;
       --dark: #0B0D0F;
       --gray-900: #151820;
       --gray-800: #1E2330;
       --gray-700: #2A3040;
-      --gray-600: #6B7280;
+      --gray-600: #64748B;
       --gray-500: #9CA3AF;
       --gray-400: #B0B8C4;
       --gray-300: #D1D5DB;
-      --gray-200: #E5E7EB;
+      --gray-200: #E2E8F0;
       --gray-100: #F3F4F6;
       --gray-50: #F9FAFB;
       --white: #FFFFFF;
@@ -307,12 +307,12 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--white);
-      background: rgba(26, 140, 126, 0.7);
+      background: rgba(16, 185, 129, 0.7);
       backdrop-filter: blur(12px);
       padding: 8px 18px;
       border-radius: 100px;
       margin-bottom: 28px;
-      border: 1px solid rgba(26, 140, 126, 0.4);
+      border: 1px solid rgba(16, 185, 129, 0.4);
     }
     .hero-badge .dot {
       width: 6px; height: 6px;
@@ -374,7 +374,7 @@
     .btn-primary:hover {
       background: var(--accent-dark);
       transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(8,145,178,0.35);
+      box-shadow: 0 10px 28px rgba(14, 165, 233,0.35);
     }
     .btn-secondary {
       display: inline-flex;
@@ -402,7 +402,7 @@
     }
     .btn-teal:hover {
       background: var(--teal-dark);
-      box-shadow: 0 10px 28px rgba(26,140,126,0.35);
+      box-shadow: 0 10px 28px rgba(16, 185, 129,0.35);
     }
 
     /* ── Common ── */
@@ -1797,7 +1797,7 @@
           btn.textContent = 'Reintentar';
           btn.disabled = false;
           hint.textContent = '\u26a0\ufe0f Algo fall\u00f3. Int\u00e9ntalo de nuevo.';
-          hint.style.color = '#38BDF8';
+          hint.style.color = '#7DD3FC';
         }
       });
     }

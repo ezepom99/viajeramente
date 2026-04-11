@@ -15,14 +15,14 @@
 
     :root {
       --bg: #FFFFFF;
-      --bg-soft: #F7F8FA;
-      --text: #111827;
-      --text-2: #6B7280;
+      --bg-soft: #F8FAFC;
+      --text: #0F172A;
+      --text-2: #64748B;
       --text-3: #9CA3AF;
-      --border: #E5E7EB;
-      --accent: #0891B2;
-      --accent-dark: #0E7490;
-      --accent-light: #E0F7FE;
+      --border: #E2E8F0;
+      --accent: #0EA5E9;
+      --accent-dark: #0284C7;
+      --accent-light: #E0F2FE;
       --green: #10B981;
       --green-light: #D1FAE5;
       --gold: #F59E0B;
@@ -439,7 +439,7 @@
 
     /* ── Loading state ── */
     .loading-hero {
-      background: linear-gradient(90deg, #E5E7EB 25%, #F3F4F6 50%, #E5E7EB 75%);
+      background: linear-gradient(90deg, #E2E8F0 25%, #F3F4F6 50%, #E2E8F0 75%);
       background-size: 400px 100%;
       animation: shimmer 1.2s infinite linear;
     }
@@ -469,7 +469,7 @@
 
     /* ── Skeleton ── */
     .skeleton {
-      background: linear-gradient(90deg, #E5E7EB 25%, #F3F4F6 50%, #E5E7EB 75%);
+      background: linear-gradient(90deg, #E2E8F0 25%, #F3F4F6 50%, #E2E8F0 75%);
       background-size: 400px 100%;
       animation: shimmer 1.2s infinite linear;
       border-radius: 8px;
@@ -1223,7 +1223,7 @@
   }
 
   function renderNoSlug() {
-    document.getElementById('destHero').style.background = 'linear-gradient(135deg, #0891B2 0%, #0E7490 100%)';
+    document.getElementById('destHero').style.background = 'linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%)';
     document.getElementById('destContinent').textContent = '';
     document.getElementById('destName').textContent = 'Elige un destino';
     document.getElementById('destTagline').textContent = 'Selecciona un destino para ver su guía completa';
@@ -1233,14 +1233,14 @@
       body.innerHTML = `
         <div style="text-align:center; padding: 60px 24px 80px; max-width: 480px; margin: 0 auto;">
           <div style="font-size:3rem; margin-bottom:16px;">🌍</div>
-          <h2 style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; color:#111827; margin-bottom:8px;">
+          <h2 style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; color:#0F172A; margin-bottom:8px;">
             Selecciona un destino para ver su guía
           </h2>
-          <p style="color:#6B7280; font-size:.95rem; margin-bottom:28px;">
+          <p style="color:#64748B; font-size:.95rem; margin-bottom:28px;">
             Explora nuestra colección de guías de viaje detalladas con clima, actividades, presupuesto y más.
           </p>
-          <a href="guias.html" style="display:inline-block; background:#0891B2; color:#fff; font-weight:600; font-size:.95rem; padding:12px 28px; border-radius:24px; text-decoration:none; transition:background .2s;"
-             onmouseover="this.style.background='#0E7490'" onmouseout="this.style.background='#0891B2'">
+          <a href="guias.html" style="display:inline-block; background:#0EA5E9; color:#fff; font-weight:600; font-size:.95rem; padding:12px 28px; border-radius:24px; text-decoration:none; transition:background .2s;"
+             onmouseover="this.style.background='#0284C7'" onmouseout="this.style.background='#0EA5E9'">
             Ver todos los destinos →
           </a>
         </div>`;

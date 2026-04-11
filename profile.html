@@ -22,14 +22,14 @@
 
     :root {
       --bg: #FFFFFF;
-      --bg-soft: #F7F8FA;
-      --text: #111827;
-      --text-2: #6B7280;
+      --bg-soft: #F8FAFC;
+      --text: #0F172A;
+      --text-2: #64748B;
       --text-3: #9CA3AF;
-      --border: #E5E7EB;
-      --accent: #0891B2;
-      --accent-dark: #0E7490;
-      --accent-light: #E0F7FE;
+      --border: #E2E8F0;
+      --accent: #0EA5E9;
+      --accent-dark: #0284C7;
+      --accent-light: #E0F2FE;
       --green: #10B981;
       --green-light: #D1FAE5;
       --gold: #F59E0B;
@@ -135,7 +135,7 @@
 
     .profile-cover {
       height: 180px;
-      background: linear-gradient(135deg, #0891B2 0%, #10B981 100%);
+      background: linear-gradient(135deg, #0EA5E9 0%, #10B981 100%);
       position: relative;
       overflow: hidden;
     }
@@ -435,7 +435,7 @@
     }
     .country-search-input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(8,145,178,.1);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233,.1);
     }
     .country-results {
       margin-top: 6px;
@@ -781,7 +781,7 @@
     }
     .edit-input:focus, .edit-textarea:focus, .edit-select:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(8,145,178,.1);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233,.1);
     }
     .edit-textarea { resize: vertical; min-height: 80px; }
     .travel-styles {
@@ -1084,8 +1084,8 @@
         Has visitado <strong id="visitedCount">0</strong> de 195 países
       </div>
       <div class="map-legend">
-        <span><span class="legend-dot" style="background:#0891B2;"></span> Visitado</span>
-        <span><span class="legend-dot" style="background:#E5E7EB;"></span> No visitado</span>
+        <span><span class="legend-dot" style="background:#0EA5E9;"></span> Visitado</span>
+        <span><span class="legend-dot" style="background:#E2E8F0;"></span> No visitado</span>
       </div>
     </div>
 
@@ -1545,7 +1545,7 @@ async function initMap() {
       .enter().append('path')
       .attr('class', 'country')
       .attr('d', path)
-      .attr('fill', d => visitedCodes.has(String(d.id)) ? '#0891B2' : '#E5E7EB')
+      .attr('fill', d => visitedCodes.has(String(d.id)) ? '#0EA5E9' : '#E2E8F0')
       .attr('stroke', 'white')
       .attr('stroke-width', 0.5)
       .style('cursor', 'pointer')
@@ -1572,7 +1572,7 @@ async function initMap() {
 
 function updateMapColors() {
   if (!mapCountriesSel) return;
-  mapCountriesSel.attr('fill', d => visitedCodes.has(String(d.id)) ? '#0891B2' : '#E5E7EB');
+  mapCountriesSel.attr('fill', d => visitedCodes.has(String(d.id)) ? '#0EA5E9' : '#E2E8F0');
 }
 
 function toggleCountry(id, name) {
@@ -1793,7 +1793,7 @@ function renderTrips() {
           <img class="trip-photo"
             src="https://source.unsplash.com/400x300/?travel,${encodeURIComponent(trip.destination || 'travel')}&sig=${i}"
             alt="${trip.destination || 'Viaje'}"
-            onerror="this.style.background='linear-gradient(135deg,#E0F7FE,#D1FAE5)';this.src=''">
+            onerror="this.style.background='linear-gradient(135deg,#E0F2FE,#D1FAE5)';this.src=''">
         </div>
         <div class="trip-info">
           <h3>${trip.destination || 'Viaje sin nombre'}</h3>

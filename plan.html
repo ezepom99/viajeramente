@@ -19,18 +19,18 @@
 
     :root {
       --bg: #FFFFFF;
-      --bg-soft: #F7F8FA;
+      --bg-soft: #F8FAFC;
       --bg-card: #FFFFFF;
       --bg-input: #F3F4F6;
-      --text: #111827;
-      --text-secondary: #6B7280;
+      --text: #0F172A;
+      --text-secondary: #64748B;
       --text-muted: #9CA3AF;
-      --border: #E5E7EB;
+      --border: #E2E8F0;
       --border-focus: #374151;
-      --accent: #0891B2;
-      --accent-light: #E0F7FE;
-      --accent-text: #0E7490;
-      --teal: #0D9488;
+      --accent: #0EA5E9;
+      --accent-light: #E0F2FE;
+      --accent-text: #0284C7;
+      --teal: #10B981;
       --teal-light: #F0FDFA;
       --teal-text: #0F766E;
       --gold: #F5A623;
@@ -284,7 +284,7 @@
       text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px;
     }
     .result-rank.first { color: #D97706; }
-    .result-rank.second { color: #6B7280; }
+    .result-rank.second { color: #64748B; }
     .result-rank.third { color: var(--accent); }
 
     .result-top {
@@ -724,7 +724,7 @@ async function init() {
     } else {
       const ini = (user.name || 'V').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
       av.textContent = ini;
-      av.style.background = 'linear-gradient(135deg,#0891B2,#0E7490)';
+      av.style.background = 'linear-gradient(135deg,#0EA5E9,#0284C7)';
     }
   } catch(e) { console.error(e); }
 }
