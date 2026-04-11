@@ -381,6 +381,22 @@
     }
     .guide-tip strong { color: var(--teal-text); }
 
+    .guide-why {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: #EFF6FF; border: 1px solid #BFDBFE;
+      border-radius: 12px; padding: 12px 14px;
+      font-size: .85rem; color: #1D4ED8; line-height: 1.55;
+      margin-bottom: 4px;
+    }
+    .guide-why-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .budget-pill {
+      display: inline-block;
+      font-size: .7rem; font-weight: 600;
+      background: var(--accent-light); color: var(--accent-dark);
+      padding: 2px 8px; border-radius: 100px;
+      margin-left: 6px; vertical-align: middle;
+    }
+
     /* ── Nueva búsqueda ── */
     .btn-restart {
       width: 100%; margin-top: 24px;
@@ -1372,9 +1388,10 @@ function scoreDestination(dest, answers) {
     if (dest.styles.includes(answers.style)) s += 3; else s -= 2;
   }
   if (answers.budget) {
-    if (dest.budget.includes(answers.budget)) s += 3;
-    else if (answers.budget === 'budget' && dest.budget.includes('mid')) s -= 1;
-    else s -= 3;
+    if (dest.budget.includes(answers.budget)) s += 4;
+    else if (answers.budget === 'budget' && !dest.budget.includes('budget')) s -= 8; // hard penalty: don't recommend expensive dest to budget traveler
+    else if (answers.budget === 'luxury' && !dest.budget.includes('luxury')) s -= 3;
+    else s -= 4;
   }
   if (answers.interests?.length) {
     answers.interests.forEach(i => { if (dest.interests.includes(i)) s += 1; });
@@ -1412,7 +1429,37 @@ function buildMatchTags(dest) {
 
 function buildGuide(dest) {
   const b = answers.budget || 'mid';
+  const budgetLabel = { budget: '💸 Viaje budget', mid: '💰 Viaje estándar', luxury: '💎 Viaje premium' }[b];
+  const sleepContent = dest.guide.sleep[b] || dest.guide.sleep.mid;
+  const dailyContent = dest.guide.daily[b] || dest.guide.daily.mid;
+
+  // Build personalized "why" intro
+  const whyParts = [];
+  if (answers.zone && answers.zone !== 'any' && dest.zone === answers.zone) {
+    const zoneNames = { asia:'Asia', europe:'Europa', americas:'América', africa:'África', oceania:'Oceanía' };
+    whyParts.push(`está en ${zoneNames[answers.zone] || answers.zone}`);
+  }
+  if (answers.climate && answers.climate !== 'any' && dest.climate === answers.climate) {
+    const climNames = { warm:'el clima cálido que buscas', cold:'el frío y la nieve que buscas', mild:'un clima templado ideal' };
+    whyParts.push(climNames[answers.climate]);
+  }
+  if (answers.style && dest.styles.includes(answers.style)) {
+    const styleNames = { backpacker:'perfecta para mochileros', comfort:'ideal para viaje cómodo', luxury:'pensado para viajeros premium', campervan:'genial en camper o autocaravana', sport:'con mucho potencial deportivo' };
+    whyParts.push(styleNames[answers.style]);
+  }
+  if (answers.budget && dest.budget.includes(answers.budget)) {
+    const budNames = { budget:'encaja en tu presupuesto ajustado', mid:'tiene una buena relación calidad-precio', luxury:'ofrece experiencias premium de verdad' };
+    whyParts.push(budNames[answers.budget]);
+  }
+  const whyText = whyParts.length > 0
+    ? `Te lo recomendamos porque ${whyParts.slice(0,3).join(', ')}.`
+    : `Un destino que encaja con tus preferencias de viaje.`;
+
   return `
+    <div class="guide-why">
+      <span class="guide-why-icon">💡</span>
+      <span>${whyText}</span>
+    </div>
     <div class="guide-section">
       <div class="guide-label">🗓️ Cuándo ir</div>
       <div class="guide-text">${dest.guide.when}</div>
@@ -1424,38 +1471,12 @@ function buildGuide(dest) {
       </ul>
     </div>
     <div class="guide-section">
-      <div class="guide-label">🏨 Dónde dormir</div>
-      <div class="guide-prices">
-        <div class="guide-price-item">
-          <div class="guide-price-tier">Budget</div>
-          <div class="guide-price-val">${dest.guide.sleep.budget}</div>
-        </div>
-        <div class="guide-price-item">
-          <div class="guide-price-tier">Medio</div>
-          <div class="guide-price-val">${dest.guide.sleep.mid}</div>
-        </div>
-        <div class="guide-price-item">
-          <div class="guide-price-tier">Lujo</div>
-          <div class="guide-price-val">${dest.guide.sleep.luxury}</div>
-        </div>
-      </div>
+      <div class="guide-label">🏨 Dónde dormir <span class="budget-pill">${budgetLabel}</span></div>
+      <div class="guide-text">${sleepContent}</div>
     </div>
     <div class="guide-section">
       <div class="guide-label">💰 Presupuesto diario</div>
-      <div class="guide-prices">
-        <div class="guide-price-item">
-          <div class="guide-price-tier">Budget</div>
-          <div class="guide-price-val">${dest.guide.daily.budget}</div>
-        </div>
-        <div class="guide-price-item">
-          <div class="guide-price-tier">Medio</div>
-          <div class="guide-price-val">${dest.guide.daily.mid}</div>
-        </div>
-        <div class="guide-price-item">
-          <div class="guide-price-tier">Lujo</div>
-          <div class="guide-price-val">${dest.guide.daily.luxury}</div>
-        </div>
-      </div>
+      <div class="guide-text">${dailyContent}</div>
     </div>
     <div class="guide-section">
       <div class="guide-label">✈️ Cómo llegar</div>
