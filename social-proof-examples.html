@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ViajeraMente — Ejemplos de Social Proof (para re-integrar al lanzar)</title>
+  <style>
+    /* ═══════════════════════════════════════════════════════
+       NOTA: Este archivo contiene todos los componentes de
+       social proof falso extraídos de index.html el 2026-04-07.
+       Re-integrar en index.html cuando haya datos reales.
+    ═══════════════════════════════════════════════════════ */
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --accent: #E85D2A; --accent-light: #FF7A47; --accent-dark: #C74A1E;
+      --accent-glow: rgba(232, 93, 42, 0.15);
+      --teal: #1A8C7E; --teal-light: #22B8A6; --teal-dark: #136B60;
+      --teal-glow: rgba(26, 140, 126, 0.15);
+      --gold: #F5A623; --purple: #8B5CF6;
+      --dark: #0B0D0F; --gray-900: #151820; --gray-800: #1E2330;
+      --gray-700: #2A3040; --gray-600: #6B7280; --gray-500: #9CA3AF;
+      --gray-400: #B0B8C4; --gray-300: #D1D5DB; --gray-200: #E5E7EB;
+      --gray-100: #F3F4F6; --gray-50: #F9FAFB; --white: #FFFFFF; --sand: #FAF8F5;
+    }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: var(--dark); background: var(--white); padding: 40px 24px; line-height: 1.6; }
+    h1 { font-size: 1.8rem; margin-bottom: 8px; }
+    .meta { color: var(--gray-600); font-size: 0.9rem; margin-bottom: 40px; background: #fffbe6; border: 1px solid #f5d648; padding: 14px 18px; border-radius: 10px; }
+    .section-title { font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin: 48px 0 16px; padding-top: 48px; border-top: 2px solid var(--gray-100); }
+    .section-desc { font-size: 0.85rem; color: var(--gray-500); margin-bottom: 24px; font-style: italic; }
+
+    /* ─── Hero proof strip ─── */
+    .hero-proof { display: flex; align-items: center; justify-content: flex-start; gap: 32px; flex-wrap: wrap; padding: 24px; background: var(--dark); border-radius: 16px; }
+    .hero-proof-avatars { display: flex; }
+    .hero-proof-avatars span { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.8); margin-left: -10px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; background: var(--gray-700); }
+    .hero-proof-avatars span:first-child { margin-left: 0; }
+    .avatar-more { background: var(--accent); color: var(--white); font-size: 0.65rem; font-weight: 700; }
+    .hero-proof-text { font-size: 0.82rem; color: rgba(255,255,255,0.7); text-align: left; line-height: 1.5; }
+    .hero-proof-text strong { color: var(--white); font-weight: 600; }
+    .hero-proof-divider { width: 1px; height: 36px; background: rgba(255,255,255,0.15); }
+    .hero-proof-stat { text-align: center; }
+    .hero-proof-stat-number { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--white); }
+    .hero-proof-stat-label { font-size: 0.68rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ─── Map profile card & stats card ─── */
+    .map-visual-example { position: relative; background: rgba(21,24,32,0.95); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 32px; min-height: 280px; max-width: 500px; }
+    .map-profile-card { background: rgba(30,35,48,0.98); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 18px 20px; display: inline-flex; align-items: center; gap: 14px; margin: 12px 0; }
+    .map-profile-avatar { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--teal)); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .map-profile-info h4 { font-size: 0.85rem; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+    .map-profile-info p { font-size: 0.72rem; color: rgba(255,255,255,0.5); }
+    .map-profile-badges { display: flex; gap: 4px; margin-top: 4px; }
+    .mini-badge { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 2px 8px; border-radius: 100px; background: rgba(232,93,42,0.2); color: var(--accent-light); }
+    .mini-badge.teal-badge { background: rgba(26,140,126,0.2); color: var(--teal-light); }
+    .map-stats-card { background: rgba(30,35,48,0.98); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 16px 18px; display: inline-block; margin: 12px 0; }
+    .map-stats-card h5 { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+    .map-stats-row { display: flex; gap: 16px; }
+    .map-stat-item { text-align: center; }
+    .map-stat-item .num { font-size: 1.3rem; font-weight: 700; color: var(--white); }
+    .map-stat-item .label { font-size: 0.6rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* ─── Matching cards ─── */
+    .matching-cards-example { display: flex; flex-wrap: wrap; gap: 20px; }
+    .match-card { background: var(--white); border-radius: 18px; padding: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.06); border: 1px solid var(--gray-200); width: 280px; }
+    .match-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .match-avatar { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .match-card-header h4 { font-size: 0.9rem; font-weight: 600; color: var(--dark); }
+    .match-card-header .match-compat { font-size: 0.7rem; font-weight: 700; color: var(--teal); }
+    .match-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .match-tag { font-size: 0.65rem; font-weight: 600; padding: 4px 10px; border-radius: 100px; background: var(--gray-100); color: var(--gray-600); }
+    .match-tag.highlight { background: var(--teal-glow); color: var(--teal); }
+    .match-card-footer { font-size: 0.75rem; color: var(--gray-500); display: flex; align-items: center; gap: 6px; }
+
+    /* ─── Community feed cards ─── */
+    .community-card { background: var(--white); border-radius: 18px; border: 1px solid var(--gray-200); overflow: hidden; max-width: 480px; margin-bottom: 20px; }
+    .community-card-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+    .community-card-body { padding: 22px 24px; }
+    .community-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .community-card-avatar { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+    .community-card-header .author { font-size: 0.8rem; font-weight: 600; color: var(--dark); }
+    .community-card-header .time { font-size: 0.7rem; color: var(--gray-500); margin-left: auto; }
+    .community-card h3 { font-size: 1rem; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+    .community-card p { font-size: 0.84rem; color: var(--gray-600); line-height: 1.6; }
+    .community-card-footer { display: flex; align-items: center; gap: 16px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-100); }
+    .community-action { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--gray-500); font-weight: 500; }
+
+    /* ─── Guide cards ─── */
+    .guides-example { display: flex; flex-wrap: wrap; gap: 20px; }
+    .guide-card { position: relative; border-radius: 18px; overflow: hidden; width: 240px; aspect-ratio: 3/4; }
+    .guide-card img { width: 100%; height: 100%; object-fit: cover; }
+    .guide-card-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.75) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; }
+    .guide-card-author { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .guide-card-author-avatar { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; background: rgba(255,255,255,0.15); }
+    .guide-card-author span { font-size: 0.72rem; color: rgba(255,255,255,0.7); }
+    .guide-card-tag { display: inline-block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); background: var(--accent); padding: 4px 10px; border-radius: 100px; margin-bottom: 8px; width: fit-content; }
+    .guide-card-tag.teal-tag { background: var(--teal); }
+    .guide-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .guide-card p { font-size: 0.72rem; color: rgba(255,255,255,0.65); }
+    .guide-card-meta { display: flex; align-items: center; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+    .guide-card-meta span { font-size: 0.62rem; color: rgba(255,255,255,0.5); }
+
+    /* ─── Testimonials ─── */
+    .testimonials-example { display: flex; flex-wrap: wrap; gap: 20px; }
+    .testimonial-card { background: var(--white); border-radius: 18px; padding: 32px 28px; border: 1px solid var(--gray-200); max-width: 340px; }
+    .testimonial-stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 16px; }
+    .testimonial-card blockquote { font-size: 0.92rem; color: var(--gray-600); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .testimonial-avatar { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .testimonial-author-info h4 { font-size: 0.85rem; font-weight: 600; color: var(--dark); }
+    .testimonial-author-info p { font-size: 0.72rem; color: var(--gray-500); }
+
+    /* ─── Community stats section ─── */
+    .stats-section { background: var(--gray-900); padding: 48px 32px; border-radius: 20px; color: var(--white); }
+    .stats-grid { display: flex; gap: 48px; flex-wrap: wrap; margin-top: 24px; }
+    .stat-item { text-align: center; }
+    .stat-number { font-size: 2.5rem; font-weight: 700; color: var(--white); }
+    .stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); }
+  </style>
+</head>
+<body>
+
+  <h1>ViajeraMente — Componentes de Social Proof</h1>
+  <div class="meta">
+    <strong>Archivo de referencia — NO publicar directamente.</strong><br>
+    Estos componentes se extrajeron de <code>index.html</code> el <strong>2026-04-07</strong> porque contienen datos
+    falsos (usuarios ficticios, estadísticas inventadas, testimonios fabricados).
+    Re-integrar cuando existan datos reales de usuarios beta / lanzamiento.
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-title">1 — Hero: tira de social proof</div>
+  <div class="section-desc">
+    Ubicación original: dentro de &lt;header class="hero"&gt;, justo al final del hero-content.
+    Datos falsos: "2.400+ viajeros ya en lista de espera" y el stat "195 Países".
+    El +2k en el avatar stack también es ficticio.
+  </div>
+
+  <div class="hero-proof">
+    <div class="hero-proof-avatars">
+      <span style="background:linear-gradient(135deg,#E85D2A,#FF7A47)">M</span>
+      <span style="background:linear-gradient(135deg,#1A8C7E,#22B8A6)">L</span>
+      <span style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">C</span>
+      <span style="background:linear-gradient(135deg,#F5A623,#FCD34D)">A</span>
+      <span class="avatar-more">+2k</span>
+    </div>
+    <div class="hero-proof-text">
+      <strong>2.400+ viajeros</strong><br>ya en la lista de espera
+    </div>
+    <div class="hero-proof-divider"></div>
+    <div class="hero-proof-stat">
+      <div class="hero-proof-stat-number">195</div>
+      <div class="hero-proof-stat-label">Pa&iacute;ses</div>
+    </div>
+    <div class="hero-proof-divider"></div>
+    <div class="hero-proof-stat">
+      <div class="hero-proof-stat-number">100%</div>
+      <div class="hero-proof-stat-label">Gratis</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-title">2 — Sección Tu Mapa: tarjeta de perfil y estadísticas flotantes</div>
+  <div class="section-desc">
+    Ubicación original: dentro de .map-visual, flotando sobre el SVG del mapa mundial.
+    "Marina López · 34 países visitados" — usuario ficticio.
+    Los números 34 países / 12 viajes / 89 reviews son inventados.
+  </div>
+
+  <div class="map-visual-example">
+    <p style="color:rgba(255,255,255,0.3);font-size:0.8rem;margin-bottom:16px">[Aquí iría el SVG del mapa mundial + los map-pins]</p>
+
+    <!-- Floating profile card -->
+    <div class="map-profile-card">
+      <div class="map-profile-avatar">M</div>
+      <div class="map-profile-info">
+        <h4>Marina L&oacute;pez</h4>
+        <p>Madrid &middot; 34 pa&iacute;ses visitados</p>
+        <div class="map-profile-badges">
+          <span class="mini-badge">Mochilera</span>
+          <span class="mini-badge teal-badge">4 continentes</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats card -->
+    <div class="map-stats-card">
+      <h5>Estad&iacute;sticas</h5>
+      <div class="map-stats-row">
+        <div class="map-stat-item">
+          <div class="num">34</div>
+          <div class="label">Pa&iacute;ses</div>
+        </div>
+        <div class="map-stat-item">
+          <div class="num">12</div>
+          <div class="label">Viajes</div>
+        </div>
+        <div class="map-stat-item">
+          <div class="num">89</div>
+          <div class="label">Reviews</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-title">3 — Sección Matching: tarjetas de viajeros compatibles</div>
+  <div class="section-desc">
+    Ubicación original: .matching-cards dentro de la sección #matching.
+    Laura G. (92%), Andrés M. (87%), Carla R. (85%) — todos perfiles ficticios.
+    Los porcentajes de compatibilidad y destinos son inventados.
+  </div>
+
+  <div class="matching-cards-example">
+    <div class="match-card">
+      <div class="match-card-header">
+        <div class="match-avatar" style="background:linear-gradient(135deg,#1A8C7E,#22B8A6)">L</div>
+        <div>
+          <h4>Laura G.</h4>
+          <span class="match-compat">92% compatible</span>
+        </div>
+      </div>
+      <div class="match-tags">
+        <span class="match-tag highlight">Mochilera</span>
+        <span class="match-tag highlight">30-40&euro;/d&iacute;a</span>
+        <span class="match-tag">Fotograf&iacute;a</span>
+        <span class="match-tag">Trekking</span>
+      </div>
+      <div class="match-card-footer">&#x2708; Busca viajar a Per&uacute; en julio</div>
+    </div>
+    <div class="match-card">
+      <div class="match-card-header">
+        <div class="match-avatar" style="background:linear-gradient(135deg,#E85D2A,#FF7A47)">A</div>
+        <div>
+          <h4>Andr&eacute;s M.</h4>
+          <span class="match-compat">87% compatible</span>
+        </div>
+      </div>
+      <div class="match-tags">
+        <span class="match-tag highlight">Aventura</span>
+        <span class="match-tag">40-60&euro;/d&iacute;a</span>
+        <span class="match-tag highlight">Surf</span>
+      </div>
+      <div class="match-card-footer">&#x2708; Sudeste Asi&aacute;tico en septiembre</div>
+    </div>
+    <div class="match-card">
+      <div class="match-card-header">
+        <div class="match-avatar" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">C</div>
+        <div>
+          <h4>Carla R.</h4>
+          <span class="match-compat">85% compatible</span>
+        </div>
+      </div>
+      <div class="match-tags">
+        <span class="match-tag">Cultural</span>
+        <span class="match-tag highlight">25-35&euro;/d&iacute;a</span>
+        <span class="match-tag highlight">Gastronom&iacute;a</span>
+      </div>
+      <div class="match-card-footer">&#x2708; Marruecos en octubre</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-title">4 — Sección Comunidad: feed de posts falsos</div>
+  <div class="section-desc">
+    Ubicación original: sección #comunidad con .community-grid.
+    Pablo Ruiz, Marina L., Jorge V. — usuarios ficticios.
+    Los "hace 2h / 5h / 1d" y los conteos de likes/comentarios son inventados.
+  </div>
+
+  <article class="community-card">
+    <img class="community-card-img" src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&q=80" alt="Playa" loading="lazy">
+    <div class="community-card-body">
+      <div class="community-card-header">
+        <div class="community-card-avatar" style="background:linear-gradient(135deg,#E85D2A,#FF7A47)">P</div>
+        <span class="author">Pablo Ruiz</span>
+        <span class="time">hace 2h</span>
+      </div>
+      <h3>3 semanas por Filipinas: lo que me hubiera gustado saber antes</h3>
+      <p>El island hopping est&aacute; sobrevalorado salvo que vayas a Coron. El truco est&aacute; en las islas peque&ntilde;as donde no llegan los tours organizados...</p>
+      <div class="community-card-footer">
+        <span class="community-action">&#x2764; 142</span>
+        <span class="community-action">&#x1F4AC; 38</span>
+        <span class="community-action">&#x1F516; 67</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="community-card">
+    <img class="community-card-img" src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600&q=80" alt="Fiordos" loading="lazy">
+    <div class="community-card-body">
+      <div class="community-card-header">
+        <div class="community-card-avatar" style="background:linear-gradient(135deg,#1A8C7E,#22B8A6)">M</div>
+        <span class="author">Marina L.</span>
+        <span class="time">hace 5h</span>
+      </div>
+      <h3>Alguien para hacer el Trolltunga en agosto?</h3>
+      <p>Busco 2-3 personas para hacer la ruta juntos. Tengo coche alquilado desde Bergen.</p>
+      <div class="community-card-footer">
+        <span class="community-action">&#x2764; 28</span>
+        <span class="community-action">&#x1F4AC; 14</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="community-card">
+    <img class="community-card-img" src="https://images.unsplash.com/photo-1520483691742-bada60a1edd6?w=600&q=80" alt="Aurora boreal" loading="lazy">
+    <div class="community-card-body">
+      <div class="community-card-header">
+        <div class="community-card-avatar" style="background:linear-gradient(135deg,#F5A623,#FCD34D)">J</div>
+        <span class="author">Jorge V.</span>
+        <span class="time">hace 1d</span>
+      </div>
+      <h3>Review: Gu&iacute;a local en Islandia (10/10)</h3>
+      <p>Sig ur&eth;ur nos llev&oacute; a sitios que no salen en ninguna gu&iacute;a. Worth every penny.</p>
+      <div class="community-card-footer">
+        <span class="community-action">&#x2764; 93</span>
+        <span class="community-action">&#x1F4AC; 21</span>
+        <span class="community-action">&#x1F516; 45</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-title">5 — Sección Guías: tarjetas con ratings y descargas falsas</div>
+  <div class="section-desc">
+    Ubicación original: sección #guias con .guides-grid (3 columnas).
+    Ratings 4.9⭐, "1.2k descargas", "890 descargas", "2.1k descargas" — todos inventados.
+    Los autores Marina L., Pablo R., Carla R. son ficticios.
+    Los precios (Gratis / 4.99€) eran indicativos del modelo de monetización.
+  </div>
+
+  <div class="guides-example">
+    <article class="guide-card">
+      <img src="https://images.unsplash.com/photo-1520483691742-bada60a1edd6?w=700&q=80" alt="Islandia" loading="lazy">
+      <div class="guide-card-overlay">
+        <div class="guide-card-author">
+          <span class="guide-card-author-avatar">M</span>
+          <span>Marina L. &middot; 34 pa&iacute;ses</span>
+        </div>
+        <span class="guide-card-tag">Aventura</span>
+        <h3>Islandia en furgo</h3>
+        <p>Ring Road completa &middot; 14 d&iacute;as &middot; Presupuesto real</p>
+        <div class="guide-card-meta">
+          <span>&#x2B50; 4.9</span>
+          <span>&#x1F4E5; 1.2k descargas</span>
+          <span>&#x1F4B0; Gratis</span>
+        </div>
+      </div>
+    </article>
+    <article class="guide-card">
+      <img src="https://images.unsplash.com/photo-1528181304800-259b08848526?w=700&q=80" alt="Tailandia" loading="lazy">
+      <div class="guide-card-overlay">
+        <div class="guide-card-author">
+          <span class="guide-card-author-avatar">P</span>
+          <span>Pablo R. &middot; 28 pa&iacute;ses</span>
+        </div>
+        <span class="guide-card-tag teal-tag">Mochilero</span>
+        <h3>Sudeste Asi&aacute;tico</h3>
+        <p>3 meses &middot; Tailandia &middot; Vietnam &middot; Camboya</p>
+        <div class="guide-card-meta">
+          <span>&#x2B50; 4.8</span>
+          <span>&#x1F4E5; 890 descargas</span>
+          <span>&#x1F4B0; 4.99&euro;</span>
+        </div>
+      </div>
+    </article>
+    <article class="guide-card">
+      <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=700&q=80" alt="Camino de Santiago" loading="lazy">
+      <div class="guide-card-overlay">
+        <div class="guide-card-author">
+          <span class="guide-card-author-avatar">C</span>
+          <span>Carla R. &middot; 19 pa&iacute;ses</span>
+        </div>
+        <span class="guide-card-tag">Trekking</span>
+        <h3>Camino de Santiago</h3>
+        <p>Frances&eacute;s completo &middot; 32 d&iacute;as &middot; Solo travel</p>
+        <div class="guide-card-meta">
+          <span>&#x2B50; 4.9</span>
+          <span>&#x1F4E5; 2.1k descargas</span>
+          <span>&#x1F4B0; Gratis</span>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-title">6 — Sección Testimonios: opiniones de "beta testers" ficticios</div>
+  <div class="section-desc">
+    Ubicación original: sección .testimonials con .testimonials-grid (3 columnas).
+    Ana M., Carlos J., Lucía F. — usuarios completamente ficticios.
+    La sección entera fue eliminada porque no existían beta testers reales cuando se publicó.
+  </div>
+
+  <div class="testimonials-example">
+    <article class="testimonial-card">
+      <div class="testimonial-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</div>
+      <blockquote>&ldquo;Llevo a&ntilde;os buscando algo as&iacute;. No un Tinder de viajes, sino una comunidad real donde encontrar gente que viaja como yo. El matching por presupuesto es genial.&rdquo;</blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar" style="background:linear-gradient(135deg,#E85D2A,#FF7A47)">A</div>
+        <div class="testimonial-author-info">
+          <h4>Ana M.</h4>
+          <p>Mochilera &middot; 22 pa&iacute;ses</p>
+        </div>
+      </div>
+    </article>
+    <article class="testimonial-card">
+      <div class="testimonial-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</div>
+      <blockquote>&ldquo;El mapa del perfil es adictivo. Quiero colorearlo todo. Y el sistema de gu&iacute;as monetizables es una idea brillante &mdash; ya tengo 3 escritas esperando.&rdquo;</blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar" style="background:linear-gradient(135deg,#1A8C7E,#22B8A6)">C</div>
+        <div class="testimonial-author-info">
+          <h4>Carlos J.</h4>
+          <p>N&oacute;mada digital &middot; 41 pa&iacute;ses</p>
+        </div>
+      </div>
+    </article>
+    <article class="testimonial-card">
+      <div class="testimonial-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</div>
+      <blockquote>&ldquo;Viajo sola casi siempre por elecci&oacute;n. Pero saber que puedo encontrar a alguien compatible para tramos espec&iacute;ficos es un game changer.&rdquo;</blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">L</div>
+        <div class="testimonial-author-info">
+          <h4>Luc&iacute;a F.</h4>
+          <p>Solo traveler &middot; 18 pa&iacute;ses</p>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-title">7 — Stats globales de comunidad ("12.847 viajeros activos" y similares)</div>
+  <div class="section-desc">
+    Datos inventados que aparecían dispersos: "12.847 viajeros activos", "2.400+ en lista de espera",
+    "+2k" en el avatar stack del hero. Ningún número estaba respaldado por datos reales.
+    Re-integrar solo con cifras reales extraídas de la base de datos de usuarios.
+  </div>
+
+  <div class="stats-section">
+    <p style="color:rgba(255,255,255,0.4);font-size:0.8rem;margin-bottom:8px">Ejemplo de cómo quedarían los stats globales:</p>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">12.847</div>
+        <div class="stat-label">Viajeros activos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">195</div>
+        <div class="stat-label">Países representados</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">34.210</div>
+        <div class="stat-label">Reviews publicadas</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">8.903</div>
+        <div class="stat-label">Matches realizados</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

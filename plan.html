@@ -27,9 +27,9 @@
       --text-muted: #9CA3AF;
       --border: #E5E7EB;
       --border-focus: #374151;
-      --accent: #E85D2A;
-      --accent-light: #FFF0EB;
-      --accent-text: #C74A1E;
+      --accent: #0891B2;
+      --accent-light: #E0F7FE;
+      --accent-text: #0E7490;
       --teal: #0D9488;
       --teal-light: #F0FDFA;
       --teal-text: #0F766E;
@@ -708,7 +708,7 @@ async function init() {
     } else {
       const ini = (user.name || 'V').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
       av.textContent = ini;
-      av.style.background = 'linear-gradient(135deg,#E85D2A,#C74A1E)';
+      av.style.background = 'linear-gradient(135deg,#0891B2,#0E7490)';
     }
   } catch(e) { console.error(e); }
 }
