@@ -1884,6 +1884,19 @@
 
       <div class="map-tooltip" id="mapTooltip"></div>
 
+      <div id="cityPicker" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:500; background:white; border-radius:20px 20px 0 0; padding:20px; box-shadow:0 -4px 24px rgba(0,0,0,0.15); max-height:60vh; overflow-y:auto;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+          <h3 id="cityPickerTitle" style="font-size:1rem; font-weight:700;">¿Qué ciudades visitaste?</h3>
+          <button onclick="closeCityPicker()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#64748B;">✕</button>
+        </div>
+        <div id="cityPickerChips" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;"></div>
+        <div style="display:flex; gap:10px;">
+          <button onclick="closeCityPicker()" style="flex:1; padding:12px; border:1.5px solid #E2E8F0; border-radius:12px; background:white; cursor:pointer; font-size:.9rem; color:#64748B;">Saltar</button>
+          <button onclick="saveCities()" style="flex:2; padding:12px; border:none; border-radius:12px; background:#0EA5E9; color:white; cursor:pointer; font-size:.9rem; font-weight:600;">Guardar ciudades</button>
+        </div>
+      </div>
+      <div id="cityPickerOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:499;" onclick="closeCityPicker()"></div>
+
       <div class="map-footer">
         <div class="map-counter">
           Has visitado <strong id="visitedCount">0</strong> de 195 países
@@ -2176,6 +2189,45 @@ const COUNTRY_NAMES = {
   20:'Andorra',833:'Isla de Man',830:'Islas del Canal',826:'Reino Unido',
 };
 
+// ── CITY DATA ──
+const COUNTRY_CITIES = {
+  32: ['Buenos Aires', 'Mendoza', 'Córdoba', 'Bariloche', 'Rosario', 'Salta'],
+  36: ['Sídney', 'Melbourne', 'Brisbane', 'Cairns', 'Perth', 'Adelaide'],
+  76: ['Río de Janeiro', 'São Paulo', 'Salvador', 'Florianópolis', 'Manaos'],
+  116: ['Siem Riep', 'Phnom Penh', 'Koh Rong'],
+  124: ['Toronto', 'Montreal', 'Vancouver', 'Quebec', 'Calgary'],
+  152: ['Santiago', 'Valparaíso', 'San Pedro de Atacama', 'Hanga Roa', 'Puerto Natales'],
+  156: ['Pekín', 'Shanghái', 'Chengdu', 'Xian', 'Hong Kong', 'Guilin'],
+  170: ['Cartagena', 'Medellín', 'Bogotá', 'Cali', 'Santa Marta', 'Tayrona'],
+  218: ['Quito', 'Galápagos', 'Cuenca', 'Baños'],
+  250: ['París', 'Niza', 'Lyon', 'Burdeos', 'Marsella', 'Estrasburgo', 'Mont Saint-Michel'],
+  276: ['Berlín', 'Munich', 'Hamburgo', 'Colonia', 'Frankfurt', 'Heidelberg'],
+  300: ['Atenas', 'Santorini', 'Mykonos', 'Creta', 'Rodas', 'Naxos', 'Corfu'],
+  356: ['Delhi', 'Mumbai', 'Jaipur', 'Agra', 'Goa', 'Kerala', 'Varanasi'],
+  360: ['Bali', 'Yakarta', 'Yogyakarta', 'Komodo', 'Raja Ampat'],
+  380: ['Roma', 'Florencia', 'Venecia', 'Milán', 'Nápoles', 'Cinque Terre', 'Sicilia'],
+  392: ['Tokio', 'Kioto', 'Osaka', 'Hiroshima', 'Nara', 'Hakone'],
+  400: ['Petra', 'Wadi Rum', 'Amán', 'Aqaba'],
+  484: ['Ciudad de México', 'Cancún', 'Oaxaca', 'Guadalajara', 'San Cristóbal', 'Chichén Itzá'],
+  504: ['Marrakech', 'Fez', 'Chefchaouen', 'Essaouira', 'Sahara', 'Casablanca'],
+  524: ['Katmandú', 'Pokhara', 'Everest Base Camp'],
+  528: ['Ámsterdam', 'Rotterdam', 'La Haya', 'Utrecht'],
+  554: ['Auckland', 'Queenstown', 'Fiordland', 'Rotorua'],
+  578: ['Tromsø', 'Bergen', 'Oslo', 'Lofoten', 'Ålesund'],
+  604: ['Lima', 'Cusco', 'Machu Picchu', 'Arequipa', 'Huacachina', 'Puno'],
+  620: ['Lisboa', 'Oporto', 'Sintra', 'Algarve', 'Madeira', 'Azores'],
+  643: ['Moscú', 'San Petersburgo', 'Baikal'],
+  704: ['Hanói', 'Ho Chi Minh', 'Hội An', 'Huế', 'Ha Long', 'Dalat'],
+  724: ['Madrid', 'Barcelona', 'Sevilla', 'Granada', 'Valencia', 'San Sebastián', 'Toledo'],
+  764: ['Bangkok', 'Chiang Mai', 'Phuket', 'Koh Samui', 'Pai', 'Ayutthaya'],
+  792: ['Estambul', 'Capadocia', 'Éfeso', 'Bodrum', 'Antalya', 'Pamukkale'],
+  818: ['El Cairo', 'Alejandría', 'Luxor', 'Asuán', 'Sinaí'],
+  826: ['Londres', 'Edimburgo', 'Glasgow', 'Liverpool', 'Stonehenge', 'Cotswolds'],
+  840: ['Nueva York', 'Los Ángeles', 'San Francisco', 'Chicago', 'Miami', 'Las Vegas', 'New Orleans'],
+  858: ['Montevideo', 'Punta del Este', 'Colonia del Sacramento'],
+  862: ['Caracas', 'Canaima', 'Isla Margarita', 'Los Roques'],
+};
+
 // Continent country codes mapping
 const CONTINENT_CODES = {
   america: [32,84,68,76,124,152,170,188,192,214,218,222,320,332,340,388,484,558,591,604,630,740,780,840,858,862,328,600,748],
@@ -2462,12 +2514,82 @@ function toggleCountry(id, name) {
   } else {
     visitedCodes.add(strId);
     showToast(`✓ ${name || 'País'} añadido`);
+    saveVisitedCountries(visitedCodes);
+    updateStats();
+    // Update continent auto-detection
+    autoDetectContinents();
+    updateMapColors();
+    // Show city picker for countries with known cities
+    setTimeout(() => showCityPicker(strId, name), 400);
+    return;
   }
   saveVisitedCountries(visitedCodes);
   updateStats();
   // Update continent auto-detection
   autoDetectContinents();
   updateMapColors();
+}
+
+// ── CITY PICKER ──
+let cityPickerCountryId = null;
+let selectedPickerCities = new Set();
+
+function showCityPicker(countryId, countryName) {
+  const cities = COUNTRY_CITIES[parseInt(countryId)];
+  if (!cities || cities.length === 0) return; // No city data, skip
+
+  cityPickerCountryId = countryId;
+  selectedPickerCities = new Set();
+
+  // Load already-visited cities for this country
+  const allVisited = JSON.parse(localStorage.getItem('visitedCities') || '[]');
+
+  document.getElementById('cityPickerTitle').textContent = `¿Qué ciudades visitaste en ${countryName}?`;
+  document.getElementById('cityPickerChips').innerHTML = cities.map(city => {
+    const alreadyVisited = allVisited.includes(city);
+    if (alreadyVisited) selectedPickerCities.add(city);
+    return `<button class="city-chip ${alreadyVisited ? 'selected' : ''}"
+      onclick="toggleCityChip(this, '${city}')"
+      style="padding:8px 14px; border-radius:20px; border:1.5px solid ${alreadyVisited ? '#0EA5E9' : '#E2E8F0'};
+      background:${alreadyVisited ? '#E0F2FE' : 'white'}; cursor:pointer; font-size:.85rem;
+      color:${alreadyVisited ? '#0284C7' : '#374151'}; font-weight:500; transition:all .15s;">
+      ${city}
+    </button>`;
+  }).join('');
+
+  document.getElementById('cityPicker').style.display = 'block';
+  document.getElementById('cityPickerOverlay').style.display = 'block';
+}
+
+function toggleCityChip(el, city) {
+  if (selectedPickerCities.has(city)) {
+    selectedPickerCities.delete(city);
+    el.style.background = 'white';
+    el.style.borderColor = '#E2E8F0';
+    el.style.color = '#374151';
+  } else {
+    selectedPickerCities.add(city);
+    el.style.background = '#E0F2FE';
+    el.style.borderColor = '#0EA5E9';
+    el.style.color = '#0284C7';
+  }
+}
+
+function closeCityPicker() {
+  document.getElementById('cityPicker').style.display = 'none';
+  document.getElementById('cityPickerOverlay').style.display = 'none';
+  cityPickerCountryId = null;
+  selectedPickerCities = new Set();
+}
+
+function saveCities() {
+  const existing = JSON.parse(localStorage.getItem('visitedCities') || '[]');
+  const merged = [...new Set([...existing, ...selectedPickerCities])];
+  localStorage.setItem('visitedCities', JSON.stringify(merged));
+  const cityCountEl = document.getElementById('statCities');
+  if (cityCountEl) cityCountEl.textContent = merged.length;
+  closeCityPicker();
+  showToast(`✓ ${selectedPickerCities.size} ciudad${selectedPickerCities.size !== 1 ? 'es' : ''} guardada${selectedPickerCities.size !== 1 ? 's' : ''}`, 'success');
 }
 
 function autoDetectContinents() {
