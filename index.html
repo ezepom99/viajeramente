@@ -1292,6 +1292,9 @@
     }
     .nav-links.open .nav-link { color: var(--dark) !important; }
     .nav-links.open .nav-cta { text-align: center; display: block; }
+    /* Auth-hidden items stay hidden even in open mobile menu */
+    .nav-links.open a[style*="display: none"],
+    .nav-links.open a[style*="display:none"] { display: none !important; }
   </style>
 </head>
 <body>
@@ -1858,9 +1861,17 @@
     const mobileBtn = document.getElementById('mobile-menu');
     const navLinks = document.getElementById('nav-links');
     if (mobileBtn && navLinks) {
-      mobileBtn.addEventListener('click', () => {
+      mobileBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const isOpen = navLinks.classList.toggle('open');
         mobileBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+      // Close mobile menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && e.target !== mobileBtn) {
+          navLinks.classList.remove('open');
+          mobileBtn.setAttribute('aria-expanded', 'false');
+        }
       });
     }
 

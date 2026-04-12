@@ -239,6 +239,83 @@
       font-size: .8rem; color: var(--text-3); font-weight: 500;
     }
 
+    /* ── Featured hero ── */
+    .featured-hero-wrap {
+      max-width: 1080px; margin: 0 auto;
+      padding: 32px 24px 0;
+    }
+    .featured-hero {
+      position: relative; border-radius: 20px; overflow: hidden;
+      min-height: 280px; cursor: pointer; text-decoration: none;
+      display: block;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .featured-hero:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,.22); }
+    .featured-hero-img {
+      width: 100%; height: 100%; min-height: 280px;
+      object-fit: cover; position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+    }
+    .featured-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(105deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.38) 55%, rgba(0,0,0,.08) 100%);
+    }
+    .featured-hero-body {
+      position: relative; z-index: 2;
+      padding: 36px 40px; max-width: 600px;
+      display: flex; flex-direction: column; gap: 10px;
+      min-height: 280px; justify-content: center;
+    }
+    .featured-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35);
+      border-radius: 100px; padding: 4px 12px;
+      font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.95); width: fit-content;
+    }
+    .featured-badge-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #F59E0B; display: inline-block;
+      animation: pulse 2s ease infinite;
+    }
+    .featured-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-weight: 800; letter-spacing: -.04em; line-height: 1.1;
+      color: #fff; margin: 0;
+    }
+    .featured-tagline {
+      font-size: .95rem; color: rgba(255,255,255,.85); line-height: 1.55;
+      max-width: 420px;
+    }
+    .featured-why {
+      font-size: .83rem; color: rgba(255,255,255,.7); line-height: 1.55;
+      max-width: 400px; display: none;
+    }
+    .featured-highlight {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .75rem; font-weight: 600;
+      color: rgba(255,255,255,.9);
+      background: rgba(255,255,255,.12); border-radius: 100px;
+      padding: 4px 12px; width: fit-content;
+    }
+    .featured-cta {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #fff; color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .88rem; font-weight: 700;
+      padding: 11px 22px; border-radius: 100px;
+      margin-top: 6px; width: fit-content;
+      transition: background .2s, transform .15s;
+      text-decoration: none;
+    }
+    .featured-cta:hover { background: var(--accent-light); transform: translateX(2px); }
+    @media (max-width: 600px) {
+      .featured-hero-body { padding: 28px 22px; min-height: 240px; }
+      .featured-hero { min-height: 240px; }
+    }
+
     /* ── Rutas épicas ── */
     .rutas-section { margin-bottom: 56px; }
     .rutas-label {
@@ -503,6 +580,9 @@
   </div>
 </section>
 
+<!-- Featured destination of the month -->
+<div id="featuredHero" class="featured-hero-wrap"></div>
+
 <!-- Main content -->
 <main class="container">
 
@@ -546,6 +626,36 @@
 </footer>
 
 <script>
+// ── Featured destination of the month ────────────────────────────────────────
+const FEATURED = {
+  slug: 'japon',
+  name: 'Japón en primavera',
+  tagline: '🌸 Ahora es el momento perfecto — la floración del cerezo está en su punto álgido',
+  photo_id: 1829980,
+  why: 'Marzo-mayo es la temporada ideal para ver el hanami (contemplación de los cerezos). Los parques de Tokio y los templos de Kioto se transforman en un mar de rosa.',
+  highlight: '🌸 Temporada Sakura  ·  🌡️ Clima perfecto 18°C  ·  👥 Multitudes moderadas'
+};
+
+function renderFeatured() {
+  const imgUrl = `https://images.pexels.com/photos/${FEATURED.photo_id}/pexels-photo-${FEATURED.photo_id}.jpeg?auto=compress&cs=tinysrgb&w=1200&h=560&fit=crop`;
+  document.getElementById('featuredHero').innerHTML = `
+    <a href="destino.html?slug=${FEATURED.slug}" class="featured-hero">
+      <div class="featured-hero-img" style="background-image:url('${imgUrl}'); background-size:cover; background-position:center; position:absolute; inset:0;"></div>
+      <div class="featured-hero-overlay"></div>
+      <div class="featured-hero-body">
+        <div class="featured-badge">
+          <span class="featured-badge-dot"></span>
+          Destino del mes · Abril 2026
+        </div>
+        <h2 class="featured-name">${FEATURED.name}</h2>
+        <p class="featured-tagline">${FEATURED.tagline}</p>
+        <div class="featured-highlight">${FEATURED.highlight}</div>
+        <span class="featured-cta">Ver guía completa →</span>
+      </div>
+    </a>
+  `;
+}
+
 // ── Constants ─────────────────────────────────────────────────────────────────
 const API_BASE = 'https://eze.saypeter.com';
 
@@ -859,6 +969,7 @@ function goSurprise(e) {
 })();
 
 // ── Init ──────────────────────────────────────────────────────────────────────
+renderFeatured();
 renderRutas();
 loadGuides();
 </script>

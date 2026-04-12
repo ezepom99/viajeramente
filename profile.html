@@ -2004,8 +2004,8 @@
         </div>
       </div>
       <div class="edit-group">
-        <label class="edit-label">Descripción</label>
-        <textarea class="edit-textarea" id="tripDesc" placeholder="Cuéntanos sobre este viaje..."></textarea>
+        <label class="edit-label">Historia del viaje ✍️</label>
+        <textarea class="edit-textarea" id="tripDesc" placeholder="¿Cómo fue el viaje? Cuéntanos... Los mejores momentos, lo inesperado, lo que no cambiarías por nada." rows="4"></textarea>
       </div>
       <div class="edit-group">
         <label class="edit-label">Distancia (km)</label>
@@ -2626,7 +2626,7 @@ function renderTrips() {
         <div class="trip-info">
           <h3>${trip.destination || 'Viaje sin nombre'}</h3>
           <p class="trip-dates">${dateLabel}${days ? ' · ' + days + ' días' : ''}</p>
-          ${trip.description ? `<p class="trip-desc">${trip.description}</p>` : ''}
+          ${trip.description ? `<p class="trip-desc">✍️ ${trip.description}</p>` : ''}
           <div class="trip-meta">
             ${trip.km ? `<span>✈️ ${Number(trip.km).toLocaleString('es')} km</span>` : ''}
             ${trip.tag ? `<span>${trip.tag}</span>` : ''}
