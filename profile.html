@@ -4547,6 +4547,7 @@ async function init() {
 
   // Load trips from API
   await loadTripsFromAPI();
+  loadWishlistFromAPI();
 
   // Load visited cities count from API
   await loadVisitedCitiesCount();
@@ -4617,6 +4618,40 @@ async function init() {
       }, 1500);
     }, 600);
   }
+}
+
+// ── WISHLIST ──────────────────────────────────────────────────────────────────
+async function loadWishlistFromAPI() {
+  if (!token) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/wishlist`, { headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) return;
+    const data = await res.json();
+    const items = data.wishlist || data.items || [];
+    const grid = document.getElementById('wishlistGrid');
+    const empty = document.getElementById('wishlistEmpty');
+    const badge = document.getElementById('wishlistCountBadge');
+    if (!grid) return;
+    if (badge) badge.textContent = items.length + (items.length === 1 ? ' destino' : ' destinos');
+    if (items.length === 0) {
+      grid.innerHTML = '';
+      if (empty) empty.style.display = '';
+      return;
+    }
+    if (empty) empty.style.display = 'none';
+    grid.innerHTML = items.map(item => {
+      const img = item.hero_photo_url
+        ? `${item.hero_photo_url.split('?')[0]}?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop`
+        : 'https://images.pexels.com/photos/2356059/pexels-photo-2356059.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop';
+      return `<a href="destino.html?slug=${item.slug}" style="text-decoration:none;display:block;border-radius:14px;overflow:hidden;border:1px solid var(--border);transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+        <div style="height:100px;overflow:hidden;"><img src="${img}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div style="padding:10px 12px;">
+          <div style="font-weight:700;font-size:.85rem;color:var(--text);margin-bottom:2px;">${item.name}</div>
+          <div style="font-size:.72rem;color:var(--text-3);">${item.continent || ''}</div>
+        </div>
+      </a>`;
+    }).join('');
+  } catch(e) {}
 }
 
 init();
