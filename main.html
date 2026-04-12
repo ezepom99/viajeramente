@@ -64,10 +64,10 @@
     .page { margin-top:56px;opacity:0;transition:opacity .3s; }
 
     /* GREETING */
-    .greeting { background:var(--bg);border-bottom:1px solid var(--border);padding:28px 20px 24px; }
+    .greeting { background:var(--bg);border-bottom:1px solid var(--border);padding:32px 20px 28px; }
     .g-inner { max-width:680px;margin:0 auto; }
     .g-label { font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px; }
-    .greeting h1 { font-size:clamp(1.5rem,4vw,2.1rem);font-weight:800;letter-spacing:-.035em;line-height:1.2;color:var(--text);margin-bottom:6px; }
+    .greeting h1 { font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;letter-spacing:-.035em;line-height:1.2;color:var(--text);margin-bottom:8px; }
     .greeting h1 em { font-style:normal;color:var(--accent); }
     .g-sub { font-size:.87rem;color:var(--text-2);line-height:1.55;max-width:420px; }
 
@@ -78,14 +78,14 @@
     .s-level { display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:100px;background:#D1FAE5;border:1px solid rgba(16,185,129,.2);font-size:.75rem;font-weight:700;color:#065F46;white-space:nowrap; }
 
     /* SECTION */
-    .sec { padding:28px 20px 0;max-width:680px;margin:0 auto; }
+    .sec { padding:32px 20px 0;max-width:680px;margin:0 auto; }
     .sec-head { display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px; }
     .sec-title { font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--text); }
     .sec-link { font-size:.78rem;font-weight:600;color:var(--accent);text-decoration:none;transition:color .18s; }
     .sec-link:hover { color:var(--accent-dark); }
 
     /* FEATURED */
-    .feat { position:relative;border-radius:20px;overflow:hidden;height:240px;text-decoration:none;display:block;box-shadow:var(--shadow-md);transition:transform .22s,box-shadow .22s;background:#e0e7ef; }
+    .feat { position:relative;border-radius:20px;overflow:hidden;height:260px;text-decoration:none;display:block;box-shadow:var(--shadow-md);transition:transform .22s,box-shadow .22s;background:#e0e7ef; }
     .feat:hover { transform:translateY(-3px);box-shadow:var(--shadow-lg); }
     .feat img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;transition:transform .4s; }
     .feat:hover img { transform:scale(1.04); }
@@ -99,7 +99,7 @@
     .feat-loading { background:linear-gradient(90deg,#e8edf2 25%,#f3f6f9 50%,#e8edf2 75%);background-size:400px 100%;animation:shimmer 1.4s infinite; }
 
     /* DEST GRID */
-    .dest-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+    .dest-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
     .dest-card { border-radius:16px;overflow:hidden;text-decoration:none;display:block;box-shadow:var(--shadow-sm);transition:transform .2s,box-shadow .2s;position:relative;height:156px;background:#e0e7ef; }
     .dest-card:hover { transform:translateY(-2px);box-shadow:var(--shadow-md); }
     .dest-card img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .35s; }
@@ -123,7 +123,7 @@
     /* SKELETON */
     .sk { background:linear-gradient(90deg,#f0f4f8 25%,#e8ecf0 50%,#f0f4f8 75%);background-size:400px 100%;animation:shimmer 1.4s infinite;border-radius:16px; }
 
-    .spacer { height:36px; }
+    .spacer { height:52px; }
 
     /* BOTTOM NAV */
     nav.botnav { display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid var(--border);z-index:200;padding:6px 0 max(6px,env(safe-area-inset-bottom)); }
@@ -132,7 +132,7 @@
     .tab.active,.tab:hover { color:var(--accent); }
     .tab-ic { font-size:1.2rem;line-height:1; }
 
-    @media(max-width:520px) { .greeting{padding:22px 16px 18px;} .sec{padding:22px 16px 0;} .feat{height:210px;} .stats-strip{padding:10px 16px;} }
+    @media(max-width:520px) { .greeting{padding:24px 16px 20px;} .sec{padding:28px 16px 0;} .feat{height:220px;} .stats-strip{padding:10px 16px;} }
   </style>
 </head>
 <body>
@@ -334,8 +334,11 @@
     card.href = 'destino.html?slug=' + d.slug;
     card.classList.remove('feat-loading');
     if (d.hero_photo_url) {
-      img.onload = function(){ img.style.display=''; };
-      img.src = photoUrl(d.hero_photo_url, 700, 1200);
+      var src = photoUrl(d.hero_photo_url, 700, 1200);
+      img.style.display = '';
+      img.src = src;
+      // fallback: hide only if error
+      img.onerror = function(){ img.style.display='none'; };
     }
     document.getElementById('featContinent').textContent = d.continent || d.region || '';
     document.getElementById('featName').textContent      = d.name;
