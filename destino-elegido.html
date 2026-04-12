@@ -563,12 +563,13 @@
     ViajeraMente
   </a>
   <div class="nav-right">
-    <a href="fechas.html" class="nav-link">Por fechas</a>
-    <a href="destino-elegido.html" class="nav-link active">Mi destino</a>
-    <div id="navAuthArea">
-      <a href="login.html" class="nav-btn">Entrar</a>
-      <a href="plan.html" class="nav-btn primary">Mi plan</a>
-    </div>
+    <a href="plan.html" class="nav-link">Planificador</a>
+    <a href="fechas.html" class="nav-link">¿A dónde ir?</a>
+    <a href="destino-elegido.html" class="nav-link active">Tengo destino</a>
+    <a href="guias.html" class="nav-link">Guías</a>
+    <a href="profile.html" class="nav-link" id="nav-profile" style="display:none;">Mi perfil</a>
+    <a href="login.html" class="nav-btn" id="nav-login">Iniciar sesión</a>
+    <a href="signup.html" class="nav-btn primary" id="nav-signup">Crear cuenta</a>
   </div>
 </nav>
 
@@ -765,16 +766,14 @@
   // Auth-aware nav
   async function initAuth() {
     try {
-      const token = localStorage.getItem('vm_token');
-      const area = document.getElementById('navAuthArea');
+      const token = localStorage.getItem('token') || localStorage.getItem('vm_token');
       if (token) {
-        const r = await fetch(`${API_BASE}/api/auth/me`, { headers:{ Authorization:`Bearer ${token}` } });
-        if (r.ok) {
-          const d = await r.json();
-          const name = (d.user?.name || d.user?.email || 'Mi cuenta').split(' ')[0];
-          area.innerHTML = `<a href="profile.html" class="nav-btn">${name}</a><a href="plan.html" class="nav-btn primary">Mi plan</a>`;
-          return;
-        }
+        const p = document.getElementById('nav-profile');
+        const l = document.getElementById('nav-login');
+        const s = document.getElementById('nav-signup');
+        if (p) p.style.display = '';
+        if (l) l.style.display = 'none';
+        if (s) { s.textContent = 'Mi cuenta'; s.href = 'profile.html'; }
       }
     } catch {}
   }

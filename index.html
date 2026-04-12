@@ -397,6 +397,15 @@
       background: rgba(255,255,255,0.18);
       border-color: rgba(255,255,255,0.45);
     }
+    .btn-secondary-white {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 50px;
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+      border: 1.5px solid rgba(255,255,255,0.4);
+      color: white; font-weight: 600; font-size: 1rem;
+      text-decoration: none; transition: all .2s;
+    }
+    .btn-secondary-white:hover { background: rgba(255,255,255,0.25); }
     .btn-teal {
       background: var(--teal);
     }
@@ -1231,7 +1240,7 @@
       .mobile-menu-btn { display: block; }
       .hero { padding: 100px 20px 50px; }
       .hero-actions { flex-direction: column; align-items: center; }
-      .btn-primary, .btn-secondary { width: 100%; max-width: 300px; justify-content: center; }
+      .btn-primary, .btn-secondary, .btn-secondary-white { width: 100%; max-width: 300px; justify-content: center; }
       .section-padding { padding: 72px 20px; }
       .features-grid { grid-template-columns: 1fr; gap: 16px; }
       .map-layout { grid-template-columns: 1fr; gap: 36px; }
@@ -1296,6 +1305,8 @@
     <div class="nav-links" id="nav-links">
       <a href="#features" class="nav-link">Funciones</a>
       <a href="plan.html" class="nav-link">Planificador</a>
+      <a href="fechas.html" class="nav-link">¿A dónde ir?</a>
+      <a href="destino-elegido.html" class="nav-link">Tengo destino</a>
       <a href="guias.html" class="nav-link">Guías</a>
       <a href="profile.html" class="nav-link" id="nav-profile" style="display:none;">Mi perfil</a>
       <a href="login.html" class="nav-link" id="nav-login">Iniciar sesión</a>
@@ -1321,11 +1332,9 @@
         tu pr&oacute;xima aventura.
       </p>
       <div class="hero-actions">
-        <a href="signup.html" class="btn-primary">
-          Crear mi perfil de viajero
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-        <a href="login.html" class="btn-secondary">Iniciar sesi&oacute;n</a>
+        <a href="signup.html" class="btn-primary">Empieza gratis</a>
+        <a href="fechas.html" class="btn-secondary-white">¿Cuándo viajar?</a>
+        <a href="destino-elegido.html" class="btn-secondary-white">Ya sé a dónde voy</a>
       </div>
     </div>
   </header>
