@@ -1632,6 +1632,43 @@
     .social-input-row .edit-input { flex: 1; }
     .section-action { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 5px 12px; font-size: .8rem; font-weight: 600; color: var(--text-2); cursor: pointer; transition: all .2s; }
     .section-action:hover { background: var(--bg-soft); color: var(--text); }
+
+    /* ── FULLSCREEN MAP MODAL ── */
+    #mapModal {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: #0F172A; flex-direction: column;
+    }
+    #mapModal.open { display: flex; }
+    .map-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px; background: #1E293B; color: white; flex-shrink: 0;
+    }
+    .map-modal-title { font-size: 1rem; font-weight: 700; }
+    .map-modal-stats { font-size: .85rem; color: #94A3B8; }
+    .map-modal-close {
+      background: none; border: 1px solid rgba(255,255,255,.2); color: white;
+      width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 1.1rem;
+    }
+    #mapModalSvg { flex: 1; width: 100%; cursor: grab; }
+    #mapModalSvg:active { cursor: grabbing; }
+    .map-zoom-controls {
+      position: absolute; bottom: 20px; right: 20px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .zoom-btn {
+      width: 36px; height: 36px; background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.2); color: white;
+      border-radius: 8px; cursor: pointer; font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .zoom-btn:hover { background: rgba(255,255,255,.2); }
+    .map-modal-search {
+      position: absolute; top: 56px; left: 16px;
+      background: rgba(30,41,59,.9); border: 1px solid rgba(255,255,255,.15);
+      color: white; padding: 8px 14px; border-radius: 20px;
+      font-size: .85rem; width: 200px; outline: none;
+    }
+    .map-modal-search::placeholder { color: #64748B; }
   </style>
 </head>
 <body>
@@ -1868,6 +1905,29 @@
           onfocus="showCountryResults()"
         >
         <div class="country-results" id="countryResults"></div>
+      </div>
+
+      <button class="btn-outline" onclick="openMapModal()" style="width:100%;margin-top:10px;padding:10px;border-radius:12px;border:1.5px solid var(--border);background:white;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--accent);">
+        🗺️ Ver mapa grande
+      </button>
+    </div>
+
+    <!-- Fullscreen map modal -->
+    <div id="mapModal">
+      <div class="map-modal-header">
+        <div>
+          <div class="map-modal-title">🗺️ Mi Mapa de Viajes</div>
+          <div class="map-modal-stats" id="modalStats">0 países visitados</div>
+        </div>
+        <input class="map-modal-search" id="modalSearch" placeholder="🔍 Buscar país..." oninput="filterModalMap(this.value)">
+        <button class="map-modal-close" onclick="closeMapModal()">✕</button>
+      </div>
+      <div style="position:relative;flex:1;overflow:hidden;">
+        <svg id="mapModalSvg"></svg>
+        <div class="map-zoom-controls">
+          <button class="zoom-btn" onclick="modalZoomIn()">+</button>
+          <button class="zoom-btn" onclick="modalZoomOut()">−</button>
+        </div>
       </div>
     </div>
 
@@ -2870,6 +2930,116 @@ window.addEventListener('resize', () => {
       initMap();
     }
   }, 400);
+});
+
+// ── FULLSCREEN MAP MODAL ──
+let modalMap = null; // { svg, projection, path, countries, g, zoom }
+
+function openMapModal() {
+  document.getElementById('mapModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (!modalMap) initModalMap();
+  else updateModalMapColors();
+  updateModalStats();
+}
+
+function closeMapModal() {
+  document.getElementById('mapModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function updateModalStats() {
+  document.getElementById('modalStats').textContent =
+    `${visitedCodes.size} país${visitedCodes.size !== 1 ? 'es' : ''} visitado${visitedCodes.size !== 1 ? 's' : ''}`;
+}
+
+async function initModalMap() {
+  const svgEl = document.getElementById('mapModalSvg');
+  const w = svgEl.clientWidth || window.innerWidth;
+  const h = svgEl.clientHeight || (window.innerHeight - 56);
+
+  const zoom = d3.zoom()
+    .scaleExtent([1, 8])
+    .on('zoom', (event) => {
+      g.attr('transform', event.transform);
+    });
+
+  const svg = d3.select('#mapModalSvg')
+    .attr('width', w).attr('height', h)
+    .call(zoom);
+
+  const g = svg.append('g');
+
+  const projection = d3.geoNaturalEarth1()
+    .scale(w / 6)
+    .translate([w / 2, h / 2]);
+
+  const path = d3.geoPath().projection(projection);
+  const tooltip = document.getElementById('mapTooltip');
+
+  try {
+    const world = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+    const countries = topojson.feature(world, world.objects.countries);
+
+    const paths = g.selectAll('.modal-country')
+      .data(countries.features)
+      .enter().append('path')
+      .attr('class', 'modal-country')
+      .attr('d', path)
+      .attr('fill', d => visitedCodes.has(String(d.id)) ? '#0EA5E9' : '#334155')
+      .attr('stroke', '#1E293B')
+      .attr('stroke-width', 0.5)
+      .style('cursor', 'pointer')
+      .on('mousemove', (event, d) => {
+        const name = getCountryName(d.id);
+        tooltip.textContent = (visitedCodes.has(String(d.id)) ? '✓ ' : '') + name;
+        tooltip.style.left = (event.clientX + 12) + 'px';
+        tooltip.style.top = (event.clientY - 8) + 'px';
+        tooltip.classList.add('visible');
+      })
+      .on('mouseleave', () => tooltip.classList.remove('visible'))
+      .on('click', (event, d) => {
+        toggleCountry(String(d.id), getCountryName(d.id));
+        updateModalMapColors();
+        updateModalStats();
+      });
+
+    modalMap = { svg, g, paths, zoom };
+  } catch(e) {
+    console.error('Modal map error:', e);
+  }
+}
+
+function updateModalMapColors() {
+  if (!modalMap) return;
+  modalMap.paths.attr('fill', d => visitedCodes.has(String(d.id)) ? '#0EA5E9' : '#334155');
+}
+
+function modalZoomIn() {
+  if (!modalMap) return;
+  const svgEl = d3.select('#mapModalSvg');
+  svgEl.transition().call(modalMap.zoom.scaleBy, 1.5);
+}
+
+function modalZoomOut() {
+  if (!modalMap) return;
+  const svgEl = d3.select('#mapModalSvg');
+  svgEl.transition().call(modalMap.zoom.scaleBy, 0.667);
+}
+
+function filterModalMap(q) {
+  if (!modalMap || !q) { updateModalMapColors(); return; }
+  const lower = q.toLowerCase();
+  modalMap.paths.attr('fill', d => {
+    const name = getCountryName(d.id).toLowerCase();
+    if (name.includes(lower)) return '#F59E0B'; // highlight matching
+    return visitedCodes.has(String(d.id)) ? '#0EA5E9' : '#334155';
+  });
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeMapModal();
 });
 </script>
 

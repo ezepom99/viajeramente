@@ -772,7 +772,7 @@
     }
     .steps-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       position: relative;
     }
@@ -780,8 +780,8 @@
       content: '';
       position: absolute;
       top: 52px;
-      left: calc(12.5% + 10px);
-      right: calc(12.5% + 10px);
+      left: calc(16.6% + 10px);
+      right: calc(16.6% + 10px);
       height: 2px;
       background: linear-gradient(90deg, var(--accent), var(--teal), var(--accent));
       opacity: 0.2;
@@ -791,18 +791,15 @@
       padding: 0 12px;
     }
     .step-number-circle {
-      width: 48px; height: 48px;
+      width: 56px; height: 56px;
       border-radius: 50%;
-      background: var(--white);
-      border: 2px solid var(--gray-200);
+      background: var(--accent-glow);
+      border: 2px solid rgba(14,165,233,0.2);
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 20px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--accent);
+      font-size: 1.4rem;
       position: relative;
       z-index: 2;
       transition: all 0.3s;
@@ -810,7 +807,7 @@
     .step-card:hover .step-number-circle {
       background: var(--accent);
       border-color: var(--accent);
-      color: var(--white);
+      transform: scale(1.05);
     }
     .step-card h3 {
       font-family: 'Space Grotesk', sans-serif;
@@ -1342,51 +1339,133 @@
     </div>
   </header>
 
-  <!-- Features Pillars -->
+  <!-- How It Works -->
+  <section class="how-it-works section-padding" id="como-funciona" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label reveal">C&oacute;mo funciona</span>
+        <h2 class="section-title reveal" id="how-title">En 3 pasos, de la idea<br>al viaje real</h2>
+        <p class="section-subtitle reveal">Sin 47 pesta&ntilde;as abiertas. Un flujo natural desde el sue&ntilde;o hasta la maleta.</p>
+      </div>
+      <div class="steps-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="step-card reveal">
+          <div class="step-number-circle">&#x1F50D;</div>
+          <h3>Descubre destinos</h3>
+          <p>Elige el mes o el pa&iacute;s que te llama. Te mostramos cu&aacute;ndo ir, qu&eacute; esperar y cu&aacute;nto cuesta de verdad.</p>
+        </div>
+        <div class="step-card reveal reveal-delay-1">
+          <div class="step-number-circle">&#x1F5FA;&#xFE0F;</div>
+          <h3>Planifica tu viaje</h3>
+          <p>Gu&iacute;as r&aacute;pidas con los imprescindibles: mejor &eacute;poca, presupuesto por d&iacute;a, visados, rutas recomendadas.</p>
+        </div>
+        <div class="step-card reveal reveal-delay-2">
+          <div class="step-number-circle">&#x1F4CD;</div>
+          <h3>Registra tus aventuras</h3>
+          <p>Marca los pa&iacute;ses que has visitado, los kil&oacute;metros recorridos y las maravillas del mundo que ya has tachado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Las 3 cosas que puedes hacer -->
   <section class="features section-padding" id="features" aria-labelledby="features-title">
     <div class="container">
       <div class="section-header">
-        <span class="section-label reveal">Lo que estamos construyendo</span>
-        <h2 class="section-title reveal" id="features-title">Una plataforma.<br>Todo tu mundo viajero.</h2>
-        <p class="section-subtitle reveal">Desde planificar tu pr&oacute;ximo viaje hasta encontrar a alguien con quien compartirlo. Todo conectado.</p>
+        <span class="section-label reveal">Elige por d&oacute;nde empezar</span>
+        <h2 class="section-title reveal" id="features-title">3 cosas concretas<br>que puedes hacer ahora</h2>
+        <p class="section-subtitle reveal">Sin vuelta larga. Elige lo que necesitas y empieza en segundos.</p>
       </div>
-      <div class="features-grid">
-        <article class="feature-card reveal" aria-label="Perfil y mapa del mundo">
-          <div class="feature-card-icon icon-accent" aria-hidden="true">&#x1F30D;</div>
-          <h3>Tu mapa del mundo</h3>
-          <p>Un perfil con tu mapa interactivo de pa&iacute;ses visitados. Tu historial viajero, tus estad&iacute;sticas, tu identidad de viajero visible para toda la comunidad.</p>
-          <span class="feature-card-tag accent-tag">Perfil viajero</span>
+      <div class="features-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <article class="feature-card reveal" aria-label="&iquest;A d&oacute;nde ir?">
+          <div class="feature-card-icon icon-accent" aria-hidden="true">&#x1F4C5;</div>
+          <h3>&#xBF;A d&oacute;nde ir?</h3>
+          <p>Elige el mes y te recomendamos el destino perfecto seg&uacute;n clima, precio de vuelos y qu&eacute; esperar. Sin agobios, sin horas de investigaci&oacute;n.</p>
+          <a href="fechas.html" class="feature-card-tag accent-tag" style="text-decoration:none; display:inline-block; margin-top:20px;">Ver recomendaciones &rarr;</a>
         </article>
-        <article class="feature-card teal-card reveal reveal-delay-1" aria-label="Encontrar compa&ntilde;eros de viaje">
-          <div class="feature-card-icon icon-teal" aria-hidden="true">&#x1F91D;</div>
-          <h3>Matching de viajeros</h3>
-          <p>Encuentra personas con tu mismo estilo, presupuesto y destino. Filtra por tipo de viaje, fechas e intereses. Viaja acompa&ntilde;ado sin conocer a nadie.</p>
-          <span class="feature-card-tag">Conecta</span>
+        <article class="feature-card teal-card reveal reveal-delay-1" aria-label="Ya tengo destino">
+          <div class="feature-card-icon icon-teal" aria-hidden="true">&#x2708;&#xFE0F;</div>
+          <h3>Ya tengo destino</h3>
+          <p>Cu&aacute;ndo ir, qu&eacute; ver, cu&aacute;nto cuesta. Gu&iacute;as r&aacute;pidas con lo esencial para planificar tu viaje: mejor &eacute;poca, presupuesto, imprescindibles.</p>
+          <a href="destino-elegido.html" class="feature-card-tag" style="text-decoration:none; display:inline-block; margin-top:20px;">Planificar mi viaje &rarr;</a>
         </article>
-        <article class="feature-card reveal reveal-delay-2" aria-label="Itinerarios colaborativos">
-          <div class="feature-card-icon icon-purple" aria-hidden="true">&#x1F4CB;</div>
-          <h3>Itinerarios colaborativos</h3>
-          <p>Crea itinerarios d&iacute;a a d&iacute;a y comp&aacute;rtelos con tu grupo. A&ntilde;ade paradas, alojamiento, presupuesto y notas. Planificad juntos en tiempo real.</p>
-          <span class="feature-card-tag accent-tag">Planifica</span>
+        <article class="feature-card reveal reveal-delay-2" aria-label="Mi perfil viajero">
+          <div class="feature-card-icon icon-purple" aria-hidden="true">&#x1F5FA;&#xFE0F;</div>
+          <h3>Mi perfil viajero</h3>
+          <p>Registra los pa&iacute;ses que has pisado, los kil&oacute;metros recorridos y las maravillas del mundo que has visto. Tu historia viajera en un mapa.</p>
+          <a href="profile.html" class="feature-card-tag accent-tag" style="text-decoration:none; display:inline-block; margin-top:20px;">Ver mi mapa &rarr;</a>
         </article>
-        <article class="feature-card teal-card reveal" aria-label="Reviews y opiniones reales">
-          <div class="feature-card-icon icon-gold" aria-hidden="true">&#x2B50;</div>
-          <h3>Reviews de todo</h3>
-          <p>Hoteles, restaurantes, gu&iacute;as, actividades, transportes. Reviews reales de viajeros reales con un sistema de reputaci&oacute;n que premia la calidad y la honestidad.</p>
-          <span class="feature-card-tag">Reputaci&oacute;n</span>
-        </article>
-        <article class="feature-card reveal reveal-delay-1" aria-label="Feed social de viajes">
-          <div class="feature-card-icon icon-accent" aria-hidden="true">&#x1F4F1;</div>
-          <h3>Feed social</h3>
-          <p>Sigue a viajeros que te inspiran. Ve sus actualizaciones en directo, sus fotos, sus descubrimientos. Un feed sin publicidad, solo experiencias reales.</p>
-          <span class="feature-card-tag accent-tag">Social</span>
-        </article>
-        <article class="feature-card teal-card reveal reveal-delay-2" aria-label="Bucket list y alertas">
-          <div class="feature-card-icon icon-teal" aria-hidden="true">&#x1F514;</div>
-          <h3>Bucket list + alertas</h3>
-          <p>Guarda destinos en tu bucket list y recibe alertas cuando bajen los vuelos o aparezca una oferta irresistible. Tu lista de sue&ntilde;os, activa.</p>
-          <span class="feature-card-tag">Alertas</span>
-        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Destinos Populares -->
+  <section class="section-padding" id="destinos" aria-labelledby="destinos-title" style="background: var(--sand);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label reveal">Destinos populares</span>
+        <h2 class="section-title reveal" id="destinos-title">Los destinos que m&aacute;s<br>se est&aacute;n planificando</h2>
+        <p class="section-subtitle reveal">Pulsa en cualquiera para ver la gu&iacute;a completa: cu&aacute;ndo ir, qu&eacute; ver y cu&aacute;nto cuesta.</p>
+      </div>
+      <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto;">
+        <a href="destino-elegido.html?destino=japon" style="text-decoration:none; display:block; background:var(--white); border:1px solid var(--gray-200); border-radius:20px; overflow:hidden; transition:all 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 48px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+          <div style="height:140px; background:linear-gradient(135deg, #e8f4f8 0%, #b8d8e8 100%); display:flex; align-items:center; justify-content:center; font-size:3rem;">&#x1F5FE;&#xFE0F;</div>
+          <div style="padding: 20px 20px 22px;">
+            <h4 style="font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:4px;">Jap&oacute;n</h4>
+            <p style="font-size:0.8rem; color:var(--gray-600); line-height:1.5;">La mejor &eacute;poca: marzo-abril (flores de cerezo) o noviembre. Vuela desde ~600&euro;.</p>
+            <span style="display:inline-block; margin-top:10px; font-size:0.72rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em;">Ver gu&iacute;a &rarr;</span>
+          </div>
+        </a>
+        <a href="destino-elegido.html?destino=tailandia" style="text-decoration:none; display:block; background:var(--white); border:1px solid var(--gray-200); border-radius:20px; overflow:hidden; transition:all 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 48px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+          <div style="height:140px; background:linear-gradient(135deg, #f0e8d8 0%, #d4b896 100%); display:flex; align-items:center; justify-content:center; font-size:3rem;">&#x1F334;</div>
+          <div style="padding: 20px 20px 22px;">
+            <h4 style="font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:4px;">Tailandia</h4>
+            <p style="font-size:0.8rem; color:var(--gray-600); line-height:1.5;">Mejor noviembre-febrero. Playas, templos y street food. Desde 30€/d&iacute;a todo inclu&iacute;do.</p>
+            <span style="display:inline-block; margin-top:10px; font-size:0.72rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em;">Ver gu&iacute;a &rarr;</span>
+          </div>
+        </a>
+        <a href="destino-elegido.html?destino=grecia" style="text-decoration:none; display:block; background:var(--white); border:1px solid var(--gray-200); border-radius:20px; overflow:hidden; transition:all 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 48px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+          <div style="height:140px; background:linear-gradient(135deg, #dce8f8 0%, #a8c8f0 100%); display:flex; align-items:center; justify-content:center; font-size:3rem;">&#x1F3DB;&#xFE0F;</div>
+          <div style="padding: 20px 20px 22px;">
+            <h4 style="font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:4px;">Grecia</h4>
+            <p style="font-size:0.8rem; color:var(--gray-600); line-height:1.5;">Mayo-junio o septiembre: sin aglomeraciones. Islas + Atenas en 10-14 d&iacute;as.</p>
+            <span style="display:inline-block; margin-top:10px; font-size:0.72rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em;">Ver gu&iacute;a &rarr;</span>
+          </div>
+        </a>
+        <a href="destino-elegido.html?destino=colombia" style="text-decoration:none; display:block; background:var(--white); border:1px solid var(--gray-200); border-radius:20px; overflow:hidden; transition:all 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 48px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+          <div style="height:140px; background:linear-gradient(135deg, #e8f8e8 0%, #a8d8a8 100%); display:flex; align-items:center; justify-content:center; font-size:3rem;">&#x1F33A;</div>
+          <div style="padding: 20px 20px 22px;">
+            <h4 style="font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:4px;">Colombia</h4>
+            <p style="font-size:0.8rem; color:var(--gray-600); line-height:1.5;">Todo el a&ntilde;o es viable. Cartagena, Coffee Region y Medell&iacute;n en 2-3 semanas.</p>
+            <span style="display:inline-block; margin-top:10px; font-size:0.72rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em;">Ver gu&iacute;a &rarr;</span>
+          </div>
+        </a>
+      </div>
+      <div class="reveal" style="text-align:center; margin-top:36px;">
+        <a href="destino-elegido.html" style="display:inline-flex; align-items:center; gap:8px; padding:12px 28px; border:1.5px solid var(--gray-300); border-radius:100px; font-size:0.9rem; font-weight:600; color:var(--dark); text-decoration:none; transition:all .2s; font-family:'Inter',sans-serif;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--gray-300)';this.style.color='var(--dark)'">
+          Ver todos los destinos &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof / Numbers -->
+  <section class="section-padding" id="numeros" aria-label="N&uacute;meros de ViajeraMente" style="background: var(--white); border-top: 1px solid var(--gray-100);">
+    <div class="container">
+      <div class="reveal" style="display:flex; justify-content:center; align-items:center; gap:60px; flex-wrap:wrap; text-align:center;">
+        <div>
+          <div style="font-family:'Space Grotesk',sans-serif; font-size:2.8rem; font-weight:800; color:var(--dark); letter-spacing:-0.04em; line-height:1;">47</div>
+          <div style="font-size:0.82rem; font-weight:500; color:var(--gray-600); margin-top:6px; letter-spacing:0.02em;">destinos con gu&iacute;a completa</div>
+        </div>
+        <div style="width:1px; height:48px; background:var(--gray-200);"></div>
+        <div>
+          <div style="font-family:'Space Grotesk',sans-serif; font-size:2.8rem; font-weight:800; color:var(--dark); letter-spacing:-0.04em; line-height:1;">5</div>
+          <div style="font-size:0.82rem; font-weight:500; color:var(--gray-600); margin-top:6px; letter-spacing:0.02em;">rutas &eacute;picas documentadas</div>
+        </div>
+        <div style="width:1px; height:48px; background:var(--gray-200);"></div>
+        <div>
+          <div style="font-family:'Space Grotesk',sans-serif; font-size:2.8rem; font-weight:800; color:var(--dark); letter-spacing:-0.04em; line-height:1;">&#x1F30D;</div>
+          <div style="font-size:0.82rem; font-weight:500; color:var(--gray-600); margin-top:6px; letter-spacing:0.02em;">comunidad de viajeros activa</div>
+        </div>
       </div>
     </div>
   </section>
@@ -1416,137 +1495,107 @@
           <span class="map-visual-label">Tu mapa personal &mdash; cada pa&iacute;s que pises se iluminar&aacute;</span>
         </div>
         <div class="map-text-content">
-          <span class="section-label reveal" style="color:var(--teal-light)">Tu perfil viajero</span>
+          <span class="section-label reveal" style="color:var(--teal-light)">Mi perfil viajero</span>
           <h3 class="reveal" id="map-title">Tu mapa.<br>Tu historia.</h3>
-          <p class="reveal">Cada pa&iacute;s que pisas se ilumina en tu mapa. Cada viaje cuenta. Tu perfil habla de qui&eacute;n eres como viajero sin que tengas que explicarlo.</p>
+          <p class="reveal">Cada pa&iacute;s que pisas se ilumina en tu mapa. Registra kil&oacute;metros, maravillas del mundo y viajes pasados. Tu perfil habla por ti sin que tengas que explicar nada.</p>
           <div class="map-feature-list">
             <div class="map-feature-item reveal">
               <div class="map-feature-icon" aria-hidden="true">&#x1F5FA;</div>
               <div>
-                <h4>Mapa interactivo</h4>
-                <p>Colorea pa&iacute;ses visitados, marca ciudades favoritas y rutas recorridas</p>
+                <h4>Mapa interactivo de pa&iacute;ses</h4>
+                <p>Colorea los pa&iacute;ses que has visitado y ve cu&aacute;nto mundo te queda por descubrir</p>
               </div>
             </div>
             <div class="map-feature-item reveal reveal-delay-1">
               <div class="map-feature-icon" aria-hidden="true">&#x1F4CA;</div>
               <div>
-                <h4>Estad&iacute;sticas viajeras</h4>
-                <p>Pa&iacute;ses, continentes, d&iacute;as viajando, kil&oacute;metros recorridos</p>
+                <h4>Kil&oacute;metros y estad&iacute;sticas</h4>
+                <p>Pa&iacute;ses, continentes, km recorridos y maravillas del mundo visitadas</p>
               </div>
             </div>
             <div class="map-feature-item reveal reveal-delay-2">
               <div class="map-feature-icon" aria-hidden="true">&#x1F4C5;</div>
               <div>
-                <h4>Timeline de viajes</h4>
-                <p>Pasados, en curso y futuros. Tu historial completo organizado</p>
+                <h4>Historial de aventuras</h4>
+                <p>Todos tus viajes organizados: pasados, en curso y los que vienen</p>
               </div>
             </div>
             <div class="map-feature-item reveal reveal-delay-3">
               <div class="map-feature-icon" aria-hidden="true">&#x1F3C6;</div>
               <div>
-                <h4>Logros y badges</h4>
-                <p>Desbloquea insignias por pa&iacute;ses, continentes y tipos de viaje</p>
+                <h4>Logros desbloqueables</h4>
+                <p>Badges por pa&iacute;ses, continentes, tipos de viaje y maravillas del mundo</p>
               </div>
             </div>
           </div>
+          <a href="profile.html" class="feature-card-tag accent-tag reveal" style="text-decoration:none; display:inline-block; margin-top:28px; color:var(--teal-light); background:rgba(16,185,129,0.12); font-size:0.75rem;">Ver mi perfil de viajero &rarr;</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Matching / Social -->
-  <section class="matching section-padding" id="matching" aria-labelledby="matching-title">
+  <!-- Rutas épicas -->
+  <section class="matching section-padding" id="rutas" aria-labelledby="rutas-title">
     <div class="container">
       <div class="matching-layout">
         <div class="matching-text">
-          <span class="section-label reveal">Compa&ntilde;eros de viaje</span>
-          <h3 class="reveal" id="matching-title">Encuentra a tu<br>viajero ideal</h3>
-          <p class="reveal">No es una app de citas. Es matching inteligente basado en c&oacute;mo viajas: tu presupuesto, tu ritmo, tus intereses. Para que viajar solo sea una elecci&oacute;n, no una obligaci&oacute;n.</p>
+          <span class="section-label reveal">Rutas &eacute;picas</span>
+          <h3 class="reveal" id="rutas-title">Viajes que merece<br>la pena documentar</h3>
+          <p class="reveal">No son itinerarios gen&eacute;ricos de Google. Son rutas reales, con precios actuales, opciones de transporte y todo lo que necesitas saber antes de ir. Hechas para que puedas replicarlas.</p>
           <div class="matching-checklist reveal">
             <div class="matching-check-item">
               <span class="check-icon" aria-hidden="true">&#x2713;</span>
-              Filtra por estilo: mochilero, comfort, lujo, aventura
+              Ruta por Jap&oacute;n: Tokio &rarr; Kioto &rarr; Osaka en 14 d&iacute;as
             </div>
             <div class="matching-check-item">
               <span class="check-icon" aria-hidden="true">&#x2713;</span>
-              Busca por destino y fechas concretas
+              Sudeste Asi&aacute;tico: Tailandia + Vietnam en 3 semanas
             </div>
             <div class="matching-check-item">
               <span class="check-icon" aria-hidden="true">&#x2713;</span>
-              Compatibilidad de presupuesto diario
+              Balk&aacute;nes en furgoneta: 7 pa&iacute;ses en 4 semanas
             </div>
             <div class="matching-check-item">
               <span class="check-icon" aria-hidden="true">&#x2713;</span>
-              Perfiles verificados con reviews de otros viajeros
+              Am&eacute;rica del Sur: Colombia &rarr; Per&uacute; &rarr; Bolivia
             </div>
             <div class="matching-check-item">
               <span class="check-icon" aria-hidden="true">&#x2713;</span>
-              Chat integrado para coordinar antes del viaje
+              Marruecos en 10 d&iacute;as: ciudades, desierto y costa
             </div>
           </div>
+          <a href="guias.html#rutas" class="feature-card-tag accent-tag reveal" style="text-decoration:none; display:inline-block; margin-top:24px; font-size:0.75rem;">Ver todas las rutas &rarr;</a>
         </div>
-        <div class="matching-visual reveal" aria-label="Ilustraci&oacute;n del sistema de matching por filtros">
+        <div class="matching-visual reveal" aria-label="Ilustraci&oacute;n de rutas documentadas">
           <div class="matching-mockup">
-            <div class="matching-mockup-header">Buscar compa&ntilde;ero de viaje</div>
+            <div class="matching-mockup-header">&#x1F5FA;&#xFE0F; Rutas documentadas</div>
+            <div class="filter-row">
+              <span class="filter-pill active">Asia</span>
+              <span class="filter-pill">Europa</span>
+              <span class="filter-pill">Am&eacute;rica</span>
+              <span class="filter-pill">Africa</span>
+            </div>
+            <div class="filter-row">
+              <span class="filter-pill accent-active">7-14 d&iacute;as</span>
+              <span class="filter-pill">3 semanas</span>
+              <span class="filter-pill">+1 mes</span>
+            </div>
             <div class="filter-row">
               <span class="filter-pill active">Mochilero</span>
-              <span class="filter-pill">Comfort</span>
-              <span class="filter-pill">Aventura</span>
+              <span class="filter-pill accent-active">Confort</span>
               <span class="filter-pill">Lujo</span>
+              <span class="filter-pill">Furgoneta</span>
             </div>
-            <div class="filter-row">
-              <span class="filter-pill accent-active">30-50&euro;/d&iacute;a</span>
-              <span class="filter-pill">50-100&euro;</span>
-              <span class="filter-pill">+100&euro;</span>
-            </div>
-            <div class="filter-row">
-              <span class="filter-pill active">Trekking</span>
-              <span class="filter-pill accent-active">Fotograf&iacute;a</span>
-              <span class="filter-pill">Gastronom&iacute;a</span>
-              <span class="filter-pill">Surf</span>
-            </div>
-            <button class="mockup-cta" tabindex="-1" aria-hidden="true">
-              <span>&#x1F50D;</span> Buscar viajeros compatibles
-            </button>
-            <p class="mockup-hint">Disponible al lanzar &mdash; &uacute;nete a la lista</p>
+            <a href="guias.html#rutas" class="mockup-cta" style="display:block; text-align:center; text-decoration:none;">
+              <span>&#x1F9ED;</span> Explorar rutas
+            </a>
+            <p class="mockup-hint">5 rutas disponibles &mdash; m&aacute;s en camino</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- How It Works -->
-  <section class="how-it-works section-padding" id="como-funciona" aria-labelledby="how-title">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-label reveal">C&oacute;mo funcionar&aacute;</span>
-        <h2 class="section-title reveal" id="how-title">De cero a viajando en 4 pasos</h2>
-        <p class="section-subtitle reveal">Sin fricci&oacute;n. Sin 47 pesta&ntilde;as abiertas. Un flujo natural desde la idea hasta la maleta.</p>
-      </div>
-      <div class="steps-grid">
-        <div class="step-card reveal">
-          <div class="step-number-circle">1</div>
-          <h3>Crea tu perfil</h3>
-          <p>Tu mapa, tu estilo viajero, tus pr&oacute;ximos destinos. En 2 minutos tienes tu identidad viajera.</p>
-        </div>
-        <div class="step-card reveal reveal-delay-1">
-          <div class="step-number-circle">2</div>
-          <h3>Explora y conecta</h3>
-          <p>Descubre destinos, lee gu&iacute;as de otros viajeros y encuentra personas que quieren ir donde t&uacute;.</p>
-        </div>
-        <div class="step-card reveal reveal-delay-2">
-          <div class="step-number-circle">3</div>
-          <h3>Planifica juntos</h3>
-          <p>Crea itinerarios colaborativos, comparte ideas y organiza cada d&iacute;a del viaje con tu grupo.</p>
-        </div>
-        <div class="step-card reveal reveal-delay-3">
-          <div class="step-number-circle">4</div>
-          <h3>Viaja y comparte</h3>
-          <p>Publica tu experiencia, deja reviews, sube fotos y ayuda a la siguiente persona que vaya all&iacute;.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Gamification -->
   <section class="gamification section-padding" aria-labelledby="gamification-title">
@@ -1608,8 +1657,8 @@
           <span class="dot" aria-hidden="true"></span>
           Conexiones
         </div>
-        <h2 class="section-title reveal" id="conexiones-title" style="color:var(--white)">Conecta tus apps<br>de <span class="text-accent">aventura</span></h2>
-        <p class="section-subtitle reveal" style="max-width:560px; margin: 0 auto; color: rgba(255,255,255,0.5);">Vincula tus plataformas favoritas a tu perfil. Tus rutas, spots y actividades, todo en un solo lugar.</p>
+        <h2 class="section-title reveal" id="conexiones-title" style="color:var(--white)">Todo tu historial<br>de <span class="text-accent">aventuras</span> conectado</h2>
+        <p class="section-subtitle reveal" style="max-width:560px; margin: 0 auto; color: rgba(255,255,255,0.5);">Importa tus rutas de Wikiloc, Komoot o Strava directamente a tu perfil. Un solo lugar para todo lo que ya has vivido.</p>
       </div>
       <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; max-width: 1060px; margin: 0 auto;">
         <!-- Wikiloc -->
@@ -1673,14 +1722,14 @@
       <div class="waitlist-box">
         <div class="waitlist-eyebrow reveal">
           <span class="dot" aria-hidden="true"></span>
-          Ya disponible
+          Gratis &mdash; sin tarjeta
         </div>
         <h2 class="reveal" id="waitlist-title">
-          &Uacute;nete a la<br>comunidad <span class="text-accent">viajera</span>
+          &Uacute;nete gratis.<br>Empieza a <span class="text-accent">viajar mejor</span>.
         </h2>
         <p class="reveal">
-          Crea tu perfil, marca los pa&iacute;ses que has visitado, conecta con otros viajeros
-          y planifica tu pr&oacute;xima aventura. Gratis, sin tarjeta.
+          Descubre destinos, planifica tu pr&oacute;ximo viaje y registra todos los pa&iacute;ses
+          que ya has pisado. Todo en un solo sitio, sin coste.
         </p>
         <div class="waitlist-form-wrap reveal" style="text-align:center;">
           <h3>Empieza ahora</h3>
