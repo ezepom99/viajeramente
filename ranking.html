@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking de viajeros — ViajeraMente</title>
+  <meta name="description" content="Los viajeros más aventureros de ViajeraMente. Ranking por países visitados, kilómetros, maravillas y continentes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T1HJ3PJWYN');
+  </script>
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #F8FAFC;
+      --bg-soft: #F1F5F9;
+      --text: #0F172A;
+      --text-2: #64748B;
+      --text-3: #94A3B8;
+      --border: #E2E8F0;
+      --accent: #0EA5E9;
+      --accent-dark: #0284C7;
+      --accent-light: #E0F2FE;
+      --green: #10B981;
+      --gold: #F59E0B;
+      --gold-dark: #D97706;
+      --gold-light: #FEF3C7;
+      --silver: #94A3B8;
+      --silver-light: #F1F5F9;
+      --bronze: #CD7F32;
+      --bronze-light: #FDF4E7;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
+      --shadow-lg: 0 10px 40px rgba(0,0,0,.1), 0 4px 12px rgba(0,0,0,.06);
+      --radius: 20px;
+      --radius-sm: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-nav-login {
+      font-size: .82rem;
+      color: var(--text-2);
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .2s;
+      display: inline-flex;
+      align-items: center;
+    }
+    .btn-nav-login:hover { background: var(--bg-soft); color: var(--text); }
+    @media (max-width: 600px) { .nav-links { display: none; } }
+
+    /* ── PAGE WRAP ── */
+    .page-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 16px 80px;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      text-align: center;
+      padding: 48px 16px 32px;
+    }
+    .page-header-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .page-header p {
+      font-size: .9rem;
+      color: var(--text-2);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    @media (max-width: 480px) {
+      .page-header { padding: 32px 8px 24px; }
+      .page-header h1 { font-size: 1.6rem; }
+    }
+
+    /* ── TABS ── */
+    .tabs-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      margin-bottom: 24px;
+    }
+    .tabs-wrap::-webkit-scrollbar { display: none; }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      padding: 4px 0;
+      width: max-content;
+      min-width: 100%;
+      justify-content: center;
+    }
+    .tab-btn {
+      padding: 10px 20px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      font-size: .875rem;
+      font-weight: 600;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tab-btn:hover { border-color: var(--gold); color: var(--gold-dark); }
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(245,158,11,.3);
+    }
+    @media (max-width: 480px) {
+      .tabs { justify-content: flex-start; padding-left: 4px; }
+      .tab-btn { padding: 9px 16px; font-size: .82rem; }
+    }
+
+    /* ── PODIUM ── */
+    .podium-section {
+      margin-bottom: 24px;
+    }
+    .podium {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 8px;
+    }
+    .podium-item {
+      flex: 1;
+      max-width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: transform .2s;
+    }
+    .podium-item:hover { transform: translateY(-3px); }
+    .podium-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #fff;
+      margin-bottom: 8px;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    }
+    .podium-item.first .podium-avatar { width: 68px; height: 68px; font-size: 1.8rem; }
+    .podium-crown {
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+    }
+    .podium-item.first .podium-crown { font-size: 1.8rem; }
+    .podium-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .podium-item.first .podium-name { font-size: .95rem; }
+    .podium-username {
+      font-size: .72rem;
+      color: var(--text-3);
+      margin-bottom: 6px;
+    }
+    .podium-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .85rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 6px;
+    }
+    .podium-block {
+      width: 100%;
+      border-radius: 14px 14px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 900;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #fff;
+      box-shadow: 0 -4px 12px rgba(0,0,0,.1);
+    }
+    /* Heights */
+    .podium-item.first .podium-block  { height: 90px; }
+    .podium-item.second .podium-block { height: 68px; }
+    .podium-item.third .podium-block  { height: 50px; }
+
+    /* Gold */
+    .podium-item.first .podium-avatar { background: linear-gradient(135deg, #F59E0B, #D97706); }
+    .podium-item.first .podium-value  { background: var(--gold-light); color: var(--gold-dark); }
+    .podium-item.first .podium-block  { background: linear-gradient(180deg, #F59E0B, #D97706); }
+    /* Silver */
+    .podium-item.second .podium-avatar { background: linear-gradient(135deg, #94A3B8, #64748B); }
+    .podium-item.second .podium-value  { background: var(--silver-light); color: #475569; }
+    .podium-item.second .podium-block  { background: linear-gradient(180deg, #94A3B8, #64748B); }
+    /* Bronze */
+    .podium-item.third .podium-avatar { background: linear-gradient(135deg, #CD7F32, #A0522D); }
+    .podium-item.third .podium-value  { background: var(--bronze-light); color: #92400E; }
+    .podium-item.third .podium-block  { background: linear-gradient(180deg, #CD7F32, #A0522D); }
+
+    /* ── LEADERBOARD LIST ── */
+    .leaderboard-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+    }
+    .lb-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .lb-item:last-child { border-bottom: none; }
+    .lb-item:hover { background: var(--bg-soft); }
+    .lb-item.is-me {
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+    }
+    .lb-pos {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--text-3);
+      min-width: 28px;
+      text-align: center;
+    }
+    .lb-pos.top1 { color: var(--gold-dark); }
+    .lb-pos.top2 { color: var(--silver); }
+    .lb-pos.top3 { color: var(--bronze); }
+    .lb-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .lb-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .lb-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .lb-handle {
+      font-size: .75rem;
+      color: var(--text-3);
+    }
+    .lb-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+    }
+    .lb-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .lb-value-label {
+      font-size: .7rem;
+      color: var(--text-3);
+      font-weight: 500;
+    }
+    .lb-level {
+      font-size: .72rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    .lb-level.bronze  { background: rgba(205,127,50,.12);  color: #92400E; }
+    .lb-level.silver  { background: rgba(148,163,184,.15); color: #475569; }
+    .lb-level.gold    { background: rgba(245,158,11,.15);  color: var(--gold-dark); }
+    .lb-level.diamond { background: rgba(14,165,233,.12);  color: var(--accent-dark); }
+    .lb-level.sapphire{ background: rgba(124,58,237,.12);  color: #5B21B6; }
+
+    /* ── MY POSITION CARD ── */
+    .my-position-card {
+      background: #fff;
+      border: 2px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 16px rgba(14,165,233,.12);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .my-position-label {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 4px;
+    }
+    .my-position-rank {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .my-position-rank span {
+      font-size: 1rem;
+      color: var(--text-3);
+    }
+    .my-position-info { flex: 1; }
+    .my-position-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .my-position-sub { font-size: .82rem; color: var(--text-2); }
+
+    /* ── LOADING / EMPTY ── */
+    .list-placeholder {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-3);
+    }
+    .list-placeholder .pl-icon { font-size: 2.4rem; margin-bottom: 12px; }
+    .list-placeholder p { font-size: .88rem; }
+
+    /* ── SKELETON ── */
+    .skeleton {
+      background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .skeleton-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .skeleton-row:last-child { border-bottom: none; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--text);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: .875rem;
+      font-weight: 600;
+      z-index: 9999;
+      transition: transform .3s ease, opacity .3s ease;
+      opacity: 0;
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: var(--shadow-lg);
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* ── LOGIN CTA ── */
+    .login-cta {
+      background: var(--accent-light);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .login-cta-text { flex: 1; font-size: .9rem; color: var(--accent-dark); }
+    .login-cta-text strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 1rem; }
+    .btn-cta-login {
+      padding: 10px 20px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 12px;
+      font-size: .875rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+    .btn-cta-login:hover { background: var(--accent-dark); }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="index.html">🌍 ViajeraMente</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="guias.html">Guías</a></li>
+    <li><a href="plan.html">Planifica</a></li>
+  </ul>
+  <div class="nav-right">
+    <a class="btn-nav-login" href="profile.html" id="navProfileLink">Mi perfil</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-header-icon">🏆</div>
+    <h1>Ranking de viajeros</h1>
+    <p>Los exploradores más aventureros de la comunidad ViajeraMente</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab-btn active" data-metric="countries" onclick="switchTab(this,'countries')">
+        🌍 Países
+      </button>
+      <button class="tab-btn" data-metric="km" onclick="switchTab(this,'km')">
+        🗺️ Kilómetros
+      </button>
+      <button class="tab-btn" data-metric="wonders" onclick="switchTab(this,'wonders')">
+        ⭐ Maravillas
+      </button>
+      <button class="tab-btn" data-metric="continents" onclick="switchTab(this,'continents')">
+        🌐 Continentes
+      </button>
+    </div>
+  </div>
+
+  <!-- MY POSITION (if logged in and found) -->
+  <div id="myPositionCard" style="display:none;" class="my-position-card">
+    <div>
+      <div class="my-position-label">Tu posición</div>
+      <div class="my-position-rank" id="myRank">#—</div>
+    </div>
+    <div class="my-position-info">
+      <div class="my-position-name" id="myPositionName">—</div>
+      <div class="my-position-sub" id="myPositionSub">—</div>
+    </div>
+  </div>
+
+  <!-- LOGIN CTA (if not logged in) -->
+  <div id="loginCta" class="login-cta" style="display:none;">
+    <div class="login-cta-text">
+      <strong>¿Dónde estás tú?</strong>
+      Entra para ver tu posición en el ranking
+    </div>
+    <a href="login.html" class="btn-cta-login">Entrar</a>
+  </div>
+
+  <!-- PODIUM (top 3) -->
+  <div class="podium-section" id="podiumSection" style="display:none;">
+    <div class="podium" id="podium"></div>
+    <div style="height:1px; background:var(--border); margin:24px 0;"></div>
+  </div>
+
+  <!-- LEADERBOARD LIST (4+) -->
+  <div class="leaderboard-card" id="leaderboardCard">
+    <!-- Skeletons while loading -->
+    <div id="lbSkeletons">
+      <div class="skeleton-row"><div class="skeleton" style="width:24px;height:20px;"></div><div class="skeleton" style="width:40px;height:40px;border-radius:50%;flex-shrink:0;"></div><div style="flex:1;"><div class="skeleton" style="width:120px;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:80px;height:11px;"></div></div><div class="skeleton" style="width:50px;height:20px;"></div></div>
+      <div class="skeleton-row"><div class="skeleton" style="width:24px;height:20px;"></div><div class="skeleton" style="width:40px;height:40px;border-radius:50%;flex-shrink:0;"></div><div style="flex:1;"><div class="skeleton" style="width:100px;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:70px;height:11px;"></div></div><div class="skeleton" style="width:50px;height:20px;"></div></div>
+      <div class="skeleton-row"><div class="skeleton" style="width:24px;height:20px;"></div><div class="skeleton" style="width:40px;height:40px;border-radius:50%;flex-shrink:0;"></div><div style="flex:1;"><div class="skeleton" style="width:140px;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:90px;height:11px;"></div></div><div class="skeleton" style="width:50px;height:20px;"></div></div>
+      <div class="skeleton-row"><div class="skeleton" style="width:24px;height:20px;"></div><div class="skeleton" style="width:40px;height:40px;border-radius:50%;flex-shrink:0;"></div><div style="flex:1;"><div class="skeleton" style="width:110px;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:75px;height:11px;"></div></div><div class="skeleton" style="width:50px;height:20px;"></div></div>
+      <div class="skeleton-row"><div class="skeleton" style="width:24px;height:20px;"></div><div class="skeleton" style="width:40px;height:40px;border-radius:50%;flex-shrink:0;"></div><div style="flex:1;"><div class="skeleton" style="width:130px;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:85px;height:11px;"></div></div><div class="skeleton" style="width:50px;height:20px;"></div></div>
+      <div class="skeleton-row"><div class="skeleton" style="width:24px;height:20px;"></div><div class="skeleton" style="width:40px;height:40px;border-radius:50%;flex-shrink:0;"></div><div style="flex:1;"><div class="skeleton" style="width:95px;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:65px;height:11px;"></div></div><div class="skeleton" style="width:50px;height:20px;"></div></div>
+      <div class="skeleton-row"><div class="skeleton" style="width:24px;height:20px;"></div><div class="skeleton" style="width:40px;height:40px;border-radius:50%;flex-shrink:0;"></div><div style="flex:1;"><div class="skeleton" style="width:125px;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:80px;height:11px;"></div></div><div class="skeleton" style="width:50px;height:20px;"></div></div>
+      <div class="skeleton-row"><div class="skeleton" style="width:24px;height:20px;"></div><div class="skeleton" style="width:40px;height:40px;border-radius:50%;flex-shrink:0;"></div><div style="flex:1;"><div class="skeleton" style="width:105px;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:72px;height:11px;"></div></div><div class="skeleton" style="width:50px;height:20px;"></div></div>
+    </div>
+    <div id="lbList" style="display:none;"></div>
+    <div id="lbEmpty" class="list-placeholder" style="display:none;">
+      <div class="pl-icon">🌍</div>
+      <p>No hay datos para esta categoría todavía.</p>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API_BASE = 'https://eze.saypeter.com';
+let currentMetric = 'countries';
+let currentData = [];
+
+// Check if logged in
+const token = localStorage.getItem('token');
+const myUsername = localStorage.getItem('user_name') || localStorage.getItem('username') || '';
+
+// Update nav
+if (token) {
+  document.getElementById('navProfileLink').href = 'profile.html';
+  document.getElementById('navProfileLink').textContent = 'Mi perfil';
+} else {
+  document.getElementById('loginCta').style.display = 'flex';
+}
+
+// ── METRIC CONFIG ──
+const METRICS = {
+  countries:  { label:'Países visitados',  unit:'país',   units:'países',    suffix: n => n === 1 ? '1 país' : `${n} países` },
+  km:         { label:'Kilómetros',        unit:'km',     units:'km',        suffix: n => n >= 1000 ? `${Math.round(n/1000)}k km` : `${n} km` },
+  wonders:    { label:'Maravillas',        unit:'marav.', units:'maravillas', suffix: n => `${n} marav.` },
+  continents: { label:'Continentes',       unit:'cont.',  units:'continentes', suffix: n => `${n} cont.` },
+};
+
+// ── AVATAR COLOR ──
+const COLORS = ['#0EA5E9','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899','#06B6D4','#84CC16'];
+function avatarColor(name) {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = name.charCodeAt(i) + ((h << 5) - h);
+  return COLORS[Math.abs(h) % COLORS.length];
+}
+
+// ── LEVEL FROM COUNTRIES ──
+function getLevel(countries) {
+  if (countries >= 100) return { name:'Zafiro',   cls:'sapphire' };
+  if (countries >= 50)  return { name:'Diamante', cls:'diamond'  };
+  if (countries >= 20)  return { name:'Oro',       cls:'gold'     };
+  if (countries >= 5)   return { name:'Plata',    cls:'silver'   };
+  return                       { name:'Bronce',   cls:'bronze'   };
+}
+
+// ── SWITCH TAB ──
+function switchTab(btn, metric) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentMetric = metric;
+  loadLeaderboard(metric);
+}
+
+// ── LOAD LEADERBOARD ──
+async function loadLeaderboard(metric = 'countries') {
+  // Show skeletons
+  document.getElementById('lbSkeletons').style.display = 'block';
+  document.getElementById('lbList').style.display = 'none';
+  document.getElementById('lbEmpty').style.display = 'none';
+  document.getElementById('podiumSection').style.display = 'none';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/leaderboard?metric=${metric}&limit=20`);
+    const data = await res.json();
+    const list = data.leaderboard || [];
+    currentData = list;
+    renderLeaderboard(list, metric);
+  } catch (err) {
+    console.error('Leaderboard error:', err);
+    // Show empty with error
+    document.getElementById('lbSkeletons').style.display = 'none';
+    document.getElementById('lbEmpty').style.display = 'block';
+    document.getElementById('lbEmpty').innerHTML = `
+      <div class="list-placeholder">
+        <div class="pl-icon">⚠️</div>
+        <p>No se pudo cargar el ranking. Intenta de nuevo.</p>
+      </div>`;
+  }
+}
+
+// ── RENDER LEADERBOARD ──
+function renderLeaderboard(list, metric) {
+  document.getElementById('lbSkeletons').style.display = 'none';
+
+  if (!list || list.length === 0) {
+    document.getElementById('lbEmpty').style.display = 'block';
+    return;
+  }
+
+  const cfg = METRICS[metric] || METRICS.countries;
+
+  // TOP 3 PODIUM
+  const top3 = list.slice(0, 3);
+  if (top3.length >= 1) {
+    document.getElementById('podiumSection').style.display = 'block';
+    renderPodium(top3, cfg);
+  }
+
+  // LIST (positions 4+)
+  const rest = list.slice(3);
+  document.getElementById('lbList').style.display = 'block';
+
+  if (rest.length === 0) {
+    document.getElementById('lbList').innerHTML = '<div style="padding:16px 20px; text-align:center; color:var(--text-3); font-size:.85rem;">Solo hay 3 viajeros en este ranking por ahora.</div>';
+    return;
+  }
+
+  document.getElementById('lbList').innerHTML = rest.map((user, i) => {
+    const pos = i + 4;
+    const color = avatarColor(user.name || user.username || '?');
+    const initial = (user.name || user.username || '?').charAt(0).toUpperCase();
+    const countries = user.countries_visited || 0;
+    const level = getLevel(countries);
+    const isMe = myUsername && (user.username === myUsername);
+    const value = cfg.suffix(user.value || user[metric] || 0);
+
+    return `<a class="lb-item ${isMe ? 'is-me' : ''}" href="perfil-publico.html?user=${encodeURIComponent(user.username || '')}">
+      <div class="lb-pos">${pos}</div>
+      <div class="lb-avatar" style="background:${color};">${initial}</div>
+      <div class="lb-info">
+        <div class="lb-name">${user.name || user.username || 'Viajero'}</div>
+        <div class="lb-handle">@${user.username || ''}</div>
+      </div>
+      <div class="lb-right">
+        <div class="lb-value">${value}</div>
+        <span class="lb-level ${level.cls}">${level.name}</span>
+      </div>
+    </a>`;
+  }).join('');
+
+  // My position
+  findMyPosition(list, cfg, metric);
+}
+
+// ── RENDER PODIUM ──
+function renderPodium(top3, cfg) {
+  // Reorder: 2nd, 1st, 3rd for visual podium layout
+  const order = top3.length >= 3
+    ? [top3[1], top3[0], top3[2]]
+    : top3.length === 2
+    ? [top3[1], top3[0]]
+    : [top3[0]];
+
+  const positions = top3.length >= 3 ? ['second','first','third'] : top3.length === 2 ? ['second','first'] : ['first'];
+  const crowns = { first:'🥇', second:'🥈', third:'🥉' };
+
+  document.getElementById('podium').innerHTML = order.map((user, idx) => {
+    const cls = positions[idx];
+    const color = avatarColor(user.name || user.username || '?');
+    const initial = (user.name || user.username || '?').charAt(0).toUpperCase();
+    const value = cfg.suffix(user.value || user[currentMetric] || 0);
+    const isMe = myUsername && (user.username === myUsername);
+
+    return `<div class="podium-item ${cls} ${isMe ? 'is-me' : ''}" onclick="window.location='perfil-publico.html?user=${encodeURIComponent(user.username || '')}'">
+      <div class="podium-crown">${crowns[cls]}</div>
+      <div class="podium-avatar" style="${cls !== 'first' ? `background:inherit;` : ''}">${initial}</div>
+      <div class="podium-name">${user.name || user.username || 'Viajero'}</div>
+      <div class="podium-username">@${user.username || ''}</div>
+      <div class="podium-value">${value}</div>
+      <div class="podium-block">${cls === 'first' ? '1' : cls === 'second' ? '2' : '3'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── MY POSITION ──
+function findMyPosition(list, cfg, metric) {
+  if (!token || !myUsername) return;
+
+  const idx = list.findIndex(u => u.username === myUsername);
+  if (idx >= 0) {
+    const user = list[idx];
+    const pos = idx + 1;
+    const value = cfg.suffix(user.value || user[metric] || 0);
+    document.getElementById('myRank').innerHTML = `#${pos} <span>/ ${list.length}</span>`;
+    document.getElementById('myPositionName').textContent = user.name || user.username || 'Tú';
+    document.getElementById('myPositionSub').textContent = value + ' · ' + cfg.label;
+    document.getElementById('myPositionCard').style.display = 'flex';
+    document.getElementById('loginCta').style.display = 'none';
+  } else if (token) {
+    // Logged in but not in top 20
+    document.getElementById('myRank').innerHTML = `>${list.length}`;
+    document.getElementById('myPositionName').textContent = myUsername;
+    document.getElementById('myPositionSub').textContent = 'Fuera del top ' + list.length;
+    document.getElementById('myPositionCard').style.display = 'flex';
+    document.getElementById('loginCta').style.display = 'none';
+  }
+}
+
+// ── TOAST ──
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── INIT ──
+loadLeaderboard('countries');
+</script>
+</body>
+</html>

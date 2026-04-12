@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil — ViajeraMente</title>
+  <meta name="description" content="Perfil público de viajero en ViajeraMente.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T1HJ3PJWYN');
+  </script>
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #F8FAFC;
+      --bg-soft: #F1F5F9;
+      --text: #0F172A;
+      --text-2: #64748B;
+      --text-3: #94A3B8;
+      --border: #E2E8F0;
+      --accent: #0EA5E9;
+      --accent-dark: #0284C7;
+      --accent-light: #E0F2FE;
+      --green: #10B981;
+      --green-light: #D1FAE5;
+      --gold: #F59E0B;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
+      --shadow-lg: 0 10px 40px rgba(0,0,0,.1), 0 4px 12px rgba(0,0,0,.06);
+      --radius: 20px;
+      --radius-sm: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, .stat-number, .level-badge {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-nav-secondary {
+      font-size: .82rem;
+      color: var(--text-2);
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-nav-secondary:hover { background: var(--bg-soft); color: var(--text); }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .page-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 0 80px;
+    }
+
+    /* ── HERO SECTION ── */
+    .profile-hero {
+      background: linear-gradient(145deg, #0EA5E9 0%, #0369A1 45%, #10B981 100%);
+      position: relative;
+      overflow: hidden;
+      padding-bottom: 0;
+      box-shadow: 0 4px 24px rgba(14,165,233,.18);
+      margin-bottom: 8px;
+    }
+    .profile-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(255,255,255,.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(16,185,129,.3) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='40' cy='40' r='30'/%3E%3Ccircle cx='0' cy='0' r='15'/%3E%3Ccircle cx='80' cy='80' r='15'/%3E%3C/g%3E%3C/svg%3E") repeat;
+    }
+
+    .hero-body {
+      position: relative;
+      z-index: 2;
+      padding: 48px 28px 0;
+      display: flex;
+      align-items: flex-end;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .avatar-placeholder {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,.9);
+      background: linear-gradient(135deg, rgba(255,255,255,.3), rgba(255,255,255,.1));
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem;
+      color: #fff;
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      flex-shrink: 0;
+    }
+    .avatar-img {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,.9);
+      object-fit: cover;
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
+      flex-shrink: 0;
+    }
+
+    .hero-info {
+      flex: 1;
+      min-width: 180px;
+      padding-bottom: 6px;
+    }
+    .hero-info h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      text-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+    .profile-handle {
+      font-size: .88rem;
+      color: rgba(255,255,255,.75);
+      margin-top: 2px;
+    }
+    .travel-level {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .level-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 700;
+      backdrop-filter: blur(8px);
+    }
+    .level-badge.bronze { background: rgba(245,158,11,.25); color: #fff; border: 1px solid rgba(245,158,11,.4); }
+    .level-badge.silver { background: rgba(255,255,255,.2); color: #fff; border: 1px solid rgba(255,255,255,.3); }
+    .level-badge.gold { background: rgba(245,158,11,.3); color: #fff; border: 1px solid rgba(245,158,11,.5); }
+    .level-badge.diamond { background: rgba(14,165,233,.3); color: #fff; border: 1px solid rgba(14,165,233,.5); }
+    .level-badge.sapphire { background: rgba(124,58,237,.35); color: #fff; border: 1px solid rgba(124,58,237,.5); }
+
+    .hero-actions {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      padding-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    .btn-hero {
+      padding: 9px 20px;
+      border-radius: 12px;
+      font-size: .875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
+      backdrop-filter: blur(8px);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+    .btn-follow {
+      background: #fff;
+      color: var(--accent-dark);
+      border: none;
+    }
+    .btn-follow:hover { background: var(--accent-light); }
+    .btn-share {
+      background: rgba(255,255,255,.15);
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,.4);
+    }
+    .btn-share:hover { background: rgba(255,255,255,.25); }
+
+    .profile-bio-wrap {
+      position: relative;
+      z-index: 2;
+      padding: 16px 28px 0;
+    }
+    .profile-bio {
+      font-size: .9rem;
+      color: rgba(255,255,255,.85);
+      line-height: 1.5;
+    }
+
+    .profile-meta {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 12px 28px 22px;
+      font-size: .82rem;
+      color: rgba(255,255,255,.7);
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+    .profile-meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* ── HERO STATS BAR ── */
+    .hero-stats-bar {
+      background: #fff;
+      border-top: 1px solid rgba(255,255,255,.2);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      position: relative;
+      z-index: 2;
+      border-radius: 0 0 24px 24px;
+    }
+    .hero-stat {
+      padding: 18px 12px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .hero-stat:last-child { border-right: none; }
+    .hero-stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: .72rem;
+      color: var(--text-3);
+      margin-top: 4px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .hero-stat-icon {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 600px) {
+      .hero-info h1 { font-size: 1.4rem; }
+      .hero-body { padding: 32px 20px 0; }
+      .profile-bio-wrap, .profile-meta { padding-left: 20px; padding-right: 20px; }
+      .hero-stat-num { font-size: 1.35rem; }
+      .hero-stat { padding: 14px 8px; }
+    }
+
+    /* ── PAGE CONTENT ── */
+    .page-content {
+      padding: 20px 16px;
+    }
+    @media (min-width: 600px) {
+      .page-content { padding: 24px 24px; }
+    }
+
+    /* ── SECTION CARD ── */
+    .section-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow .2s;
+    }
+    .section-card:hover { box-shadow: var(--shadow-md); }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    .section-badge {
+      font-size: .78rem;
+      background: var(--bg-soft);
+      color: var(--text-2);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+    }
+
+    /* ── WORLD MAP ── */
+    .map-container {
+      width: 100%;
+      position: relative;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%);
+      border: 1px solid var(--border);
+      min-height: 280px;
+    }
+    @media (min-width: 600px) {
+      .map-container { min-height: 360px; }
+    }
+    #worldMap {
+      width: 100%;
+      display: block;
+    }
+    .map-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-3);
+      font-size: .9rem;
+    }
+    .map-tooltip {
+      position: fixed;
+      background: var(--text);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: .8rem;
+      font-weight: 600;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .15s;
+      z-index: 999;
+      white-space: nowrap;
+    }
+    .map-tooltip.visible { opacity: 1; }
+    .map-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .map-counter {
+      font-size: .9rem;
+      color: var(--text-2);
+    }
+    .map-counter strong { color: var(--accent); font-size: 1.1rem; }
+    .map-legend {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: .8rem;
+      color: var(--text-2);
+    }
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    /* ── SOCIAL CHIPS ── */
+    .social-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .social-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: .85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .2s;
+      border: 1.5px solid var(--border);
+      background: var(--bg-soft);
+      color: var(--text);
+    }
+    .social-chip:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent-dark); }
+
+    /* ── TRIP CARDS ── */
+    .trips-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 500px) {
+      .trips-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .trip-card {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      transition: all .2s;
+    }
+    .trip-card:hover { box-shadow: var(--shadow-md); background: #fff; }
+    .trip-card-emoji { font-size: 1.8rem; margin-bottom: 8px; }
+    .trip-card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .trip-card-date {
+      font-size: .78rem;
+      color: var(--text-3);
+    }
+
+    /* ── DREAM DESTINATIONS ── */
+    .dream-placeholder {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--text-3);
+    }
+    .dream-placeholder .dream-icon {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    .dream-placeholder p {
+      font-size: .9rem;
+    }
+
+    /* ── NOT FOUND STATE ── */
+    .not-found {
+      text-align: center;
+      padding: 80px 24px;
+    }
+    .not-found-icon { font-size: 3rem; margin-bottom: 16px; }
+    .not-found h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .not-found p { color: var(--text-2); font-size: .9rem; margin-bottom: 24px; }
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 22px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 12px;
+      font-size: .9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .btn-back:hover { background: var(--accent-dark); }
+
+    /* ── SKELETON LOADING ── */
+    .skeleton {
+      background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--text);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: .875rem;
+      font-weight: 600;
+      z-index: 9999;
+      transition: transform .3s ease, opacity .3s ease;
+      opacity: 0;
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: var(--shadow-lg);
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* ── RANKING LINK ── */
+    .ranking-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 0 0;
+    }
+    .btn-ranking {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: #fff;
+      border-radius: 14px;
+      font-size: .9rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all .2s;
+      box-shadow: 0 4px 12px rgba(245,158,11,.3);
+    }
+    .btn-ranking:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(245,158,11,.4); }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="index.html">🌍 ViajeraMente</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="guias.html">Guías</a></li>
+    <li><a href="plan.html">Planifica</a></li>
+  </ul>
+  <div class="nav-right">
+    <a class="btn-nav-secondary" href="ranking.html">🏆 Ranking</a>
+    <a class="btn-nav-secondary" href="login.html">Entrar</a>
+  </div>
+</nav>
+
+<div class="page-wrap" id="pageWrap">
+
+  <!-- Loading state (shown initially) -->
+  <div id="loadingState" style="padding:60px 24px; text-align:center; color:var(--text-3);">
+    <div style="font-size:1.8rem; margin-bottom:12px;">✈️</div>
+    <p style="font-size:.9rem;">Cargando perfil...</p>
+  </div>
+
+  <!-- Not found state (hidden) -->
+  <div id="notFoundState" style="display:none;" class="not-found">
+    <div class="not-found-icon">🔍</div>
+    <h2>Usuario no encontrado</h2>
+    <p>No pudimos encontrar el perfil que buscas.</p>
+    <a href="index.html" class="btn-back">← Volver al inicio</a>
+  </div>
+
+  <!-- Profile content (hidden until loaded) -->
+  <div id="profileContent" style="display:none;">
+
+    <!-- HERO -->
+    <div class="profile-hero">
+      <div class="hero-body">
+        <div id="heroAvatar" class="avatar-placeholder">?</div>
+
+        <div class="hero-info">
+          <h1 id="profileName">—</h1>
+          <p class="profile-handle" id="profileHandle">@—</p>
+          <div class="travel-level">
+            <span class="level-badge bronze" id="levelBadge">🥉 Bronce</span>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <button class="btn-hero btn-follow" id="btnFollow">
+            ➕ Seguir
+          </button>
+          <button class="btn-hero btn-share" onclick="shareProfile()">
+            🔗 Compartir perfil
+          </button>
+        </div>
+      </div>
+
+      <div class="profile-bio-wrap">
+        <p class="profile-bio" id="profileBio"></p>
+      </div>
+
+      <div class="profile-meta">
+        <span id="profileCityMeta" style="display:none;">📍 <span id="profileCity"></span></span>
+        <span id="profileStyleMeta" style="display:none;">✈️ <span id="profileStyle"></span></span>
+      </div>
+
+      <div class="hero-stats-bar">
+        <div class="hero-stat">
+          <div class="hero-stat-icon">🌍</div>
+          <div class="hero-stat-num" id="statCountries">0</div>
+          <div class="hero-stat-label">Países</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-icon">🏙️</div>
+          <div class="hero-stat-num" id="statCities">0</div>
+          <div class="hero-stat-label">Ciudades</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-icon">🗺️</div>
+          <div class="hero-stat-num" id="statKm">0</div>
+          <div class="hero-stat-label">Km</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-icon">⭐</div>
+          <div class="hero-stat-num" id="statWonders">0</div>
+          <div class="hero-stat-label">Maravillas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+
+      <!-- MAP -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-title-icon">🗺️</div>
+            Mapa de viajes
+          </div>
+          <span class="section-badge" id="mapBadge">0 países</span>
+        </div>
+        <div class="map-container">
+          <div class="map-loading" id="mapLoading">Cargando mapa...</div>
+          <svg id="worldMap" style="display:none;"></svg>
+        </div>
+        <div class="map-footer">
+          <div class="map-counter">
+            Ha visitado <strong id="visitedCountBig">0</strong> países
+          </div>
+          <div class="map-legend">
+            <span><span class="legend-dot" style="background:#0EA5E9;"></span> Visitado</span>
+            <span><span class="legend-dot" style="background:#E2E8F0;"></span> No visitado</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOCIAL NETWORKS -->
+      <div class="section-card" id="socialCard" style="display:none;">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-title-icon">📱</div>
+            Redes sociales
+          </div>
+        </div>
+        <div class="social-chips" id="socialChips"></div>
+      </div>
+
+      <!-- RECENT TRIPS -->
+      <div class="section-card" id="tripsCard">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-title-icon">✈️</div>
+            Viajes recientes
+          </div>
+          <span class="section-badge" id="tripsBadge">0 viajes</span>
+        </div>
+        <div id="tripsContent">
+          <div style="text-align:center; padding:32px 16px; color:var(--text-3);">
+            <div style="font-size:2rem; margin-bottom:10px;">🗺️</div>
+            <p style="font-size:.88rem;">Este viajero aún no ha registrado viajes públicos.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DREAM DESTINATIONS -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-title-icon">💭</div>
+            Destinos soñados
+          </div>
+        </div>
+        <div class="dream-placeholder">
+          <div class="dream-icon">🌟</div>
+          <p>Los destinos soñados estarán disponibles próximamente.</p>
+        </div>
+      </div>
+
+      <!-- RANKING CTA -->
+      <div class="ranking-cta">
+        <a href="ranking.html" class="btn-ranking">🏆 Ver ranking de viajeros</a>
+      </div>
+
+    </div><!-- /page-content -->
+  </div><!-- /profileContent -->
+
+</div><!-- /page-wrap -->
+
+<div class="map-tooltip" id="mapTooltip"></div>
+<div class="toast" id="toast"></div>
+
+<!-- D3 + TopoJSON -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+
+<script>
+const API_BASE = 'https://eze.saypeter.com';
+const username = new URLSearchParams(window.location.search).get('user');
+if (!username) window.location.href = 'index.html';
+
+// Visited countries set loaded from API
+let visitedCodesPublic = new Set();
+
+// ── LEVEL CALC ──
+function getTravelLevel(km) {
+  km = km || 0;
+  if (km >= 500000) return { name:'Zafiro', emoji:'💎', cls:'sapphire' };
+  if (km >= 200000) return { name:'Diamante', emoji:'💠', cls:'diamond' };
+  if (km >= 50000)  return { name:'Oro', emoji:'🥇', cls:'gold' };
+  if (km >= 10000)  return { name:'Plata', emoji:'🥈', cls:'silver' };
+  return { name:'Bronce', emoji:'🥉', cls:'bronze' };
+}
+
+// Also compute level from countries if no km
+function getLevelFromCountries(n) {
+  if (n >= 100) return { name:'Zafiro', emoji:'💎', cls:'sapphire' };
+  if (n >= 50)  return { name:'Diamante', emoji:'💠', cls:'diamond' };
+  if (n >= 20)  return { name:'Oro', emoji:'🥇', cls:'gold' };
+  if (n >= 5)   return { name:'Plata', emoji:'🥈', cls:'silver' };
+  return { name:'Bronce', emoji:'🥉', cls:'bronze' };
+}
+
+// ── RENDER PUBLIC PROFILE ──
+function renderPublicProfile(user) {
+  // Update page title
+  document.title = `${user.name || user.username} — ViajeraMente`;
+
+  // Avatar
+  const avatarEl = document.getElementById('heroAvatar');
+  const initials = (user.name || user.username || '?').charAt(0).toUpperCase();
+  if (user.avatar_url) {
+    const img = document.createElement('img');
+    img.className = 'avatar-img';
+    img.src = user.avatar_url;
+    img.alt = user.name || user.username;
+    img.onerror = () => { avatarEl.textContent = initials; };
+    avatarEl.replaceWith(img);
+  } else {
+    avatarEl.textContent = initials;
+  }
+
+  // Name / handle
+  document.getElementById('profileName').textContent = user.name || user.username || 'Viajero';
+  document.getElementById('profileHandle').textContent = '@' + (user.username || '');
+
+  // Bio
+  const bioEl = document.getElementById('profileBio');
+  bioEl.textContent = user.bio || '';
+  if (!user.bio) bioEl.parentElement.style.display = 'none';
+
+  // City
+  if (user.city) {
+    document.getElementById('profileCity').textContent = user.city + (user.country ? ', ' + user.country : '');
+    document.getElementById('profileCityMeta').style.display = 'flex';
+  }
+
+  // Travel style
+  if (user.travel_style) {
+    document.getElementById('profileStyle').textContent = user.travel_style;
+    document.getElementById('profileStyleMeta').style.display = 'flex';
+  }
+
+  // Level badge
+  const km = user.km_traveled || 0;
+  const countries = user.countries_visited || 0;
+  const level = km > 0 ? getTravelLevel(km) : getLevelFromCountries(countries);
+  const badge = document.getElementById('levelBadge');
+  badge.textContent = `${level.emoji} ${level.name}`;
+  badge.className = `level-badge ${level.cls}`;
+
+  // Stats
+  document.getElementById('statCountries').textContent = countries;
+  document.getElementById('statCities').textContent = user.cities_visited || 0;
+  document.getElementById('statKm').textContent = km >= 1000 ? Math.round(km/1000) + 'k' : km;
+  document.getElementById('statWonders').textContent = user.wonders_visited || 0;
+  document.getElementById('mapBadge').textContent = `${countries} ${countries === 1 ? 'país' : 'países'}`;
+  document.getElementById('visitedCountBig').textContent = countries;
+
+  // Visited country codes
+  if (Array.isArray(user.visited_country_ids)) {
+    visitedCodesPublic = new Set(user.visited_country_ids.map(String));
+  } else if (Array.isArray(user.countries_list)) {
+    visitedCodesPublic = new Set(user.countries_list.map(String));
+  }
+
+  // Social networks (from API response if available)
+  const NETWORKS = [
+    { key:'instagram', label:'Instagram', icon:'📸', url: u => `https://instagram.com/${u.replace('@','')}` },
+    { key:'tiktok',    label:'TikTok',    icon:'🎵', url: u => `https://tiktok.com/@${u.replace('@','')}` },
+    { key:'youtube',   label:'YouTube',   icon:'▶️',  url: u => `https://youtube.com/@${u.replace('@','')}` },
+    { key:'facebook',  label:'Facebook',  icon:'👥', url: u => `https://facebook.com/${u}` },
+    { key:'website',   label:'Web',       icon:'🌐', url: u => u.startsWith('http') ? u : 'https://' + u },
+  ];
+  const chips = NETWORKS.filter(n => user[n.key]);
+  if (chips.length > 0) {
+    document.getElementById('socialCard').style.display = 'block';
+    document.getElementById('socialChips').innerHTML = chips.map(n =>
+      `<a class="social-chip" href="${n.url(user[n.key])}" target="_blank" rel="noopener">
+        ${n.icon} ${n.label}
+      </a>`
+    ).join('');
+  }
+
+  // Trips
+  if (Array.isArray(user.recent_trips) && user.recent_trips.length > 0) {
+    renderTrips(user.recent_trips);
+  }
+
+  // Show profile
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('profileContent').style.display = 'block';
+
+  // Init map
+  initPublicMap();
+}
+
+// ── TRIPS ──
+function renderTrips(trips) {
+  const COUNTRY_EMOJIS = {
+    'España':'🇪🇸','Francia':'🇫🇷','Italia':'🇮🇹','Japón':'🇯🇵','México':'🇲🇽',
+    'Argentina':'🇦🇷','Brasil':'🇧🇷','Colombia':'🇨🇴','Perú':'🇵🇪','Chile':'🇨🇱',
+    'Tailandia':'🇹🇭','Indonesia':'🇮🇩','India':'🇮🇳','China':'🇨🇳','Marruecos':'🇲🇦',
+  };
+  document.getElementById('tripsBadge').textContent = `${trips.length} viaje${trips.length !== 1 ? 's' : ''}`;
+  document.getElementById('tripsContent').innerHTML = `<div class="trips-grid">${
+    trips.map(t => {
+      const emoji = COUNTRY_EMOJIS[t.country] || '🌍';
+      const dateStr = t.date ? new Date(t.date).toLocaleDateString('es-ES', {month:'long', year:'numeric'}) : '';
+      return `<div class="trip-card">
+        <div class="trip-card-emoji">${emoji}</div>
+        <div class="trip-card-title">${t.destination || t.country || 'Destino'}</div>
+        ${dateStr ? `<div class="trip-card-date">${dateStr}</div>` : ''}
+      </div>`;
+    }).join('')
+  }</div>`;
+}
+
+// ── WORLD MAP (read-only) ──
+async function initPublicMap() {
+  const container = document.querySelector('.map-container');
+  let width = container ? container.offsetWidth : 0;
+  if (!width || width < 50) {
+    setTimeout(initPublicMap, 400);
+    return;
+  }
+  const height = Math.max(width * 0.5, 200);
+
+  const svg = d3.select('#worldMap')
+    .attr('width', width)
+    .attr('height', height);
+
+  const projection = d3.geoNaturalEarth1()
+    .scale(width / 6.5)
+    .translate([width / 2, height / 2]);
+
+  const path = d3.geoPath().projection(projection);
+  const tooltip = document.getElementById('mapTooltip');
+
+  try {
+    const world = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+    const countries = topojson.feature(world, world.objects.countries);
+
+    document.getElementById('mapLoading').style.display = 'none';
+    document.getElementById('worldMap').style.display = 'block';
+
+    svg.selectAll('.country')
+      .data(countries.features)
+      .enter().append('path')
+      .attr('class', 'country')
+      .attr('d', path)
+      .attr('fill', d => visitedCodesPublic.has(String(d.id)) ? '#0EA5E9' : '#E2E8F0')
+      .attr('stroke', 'white')
+      .attr('stroke-width', 0.5)
+      .on('mousemove', (event, d) => {
+        const NAMES = {724:'España',250:'Francia',380:'Italia',276:'Alemania',826:'Reino Unido',840:'Estados Unidos',484:'México',32:'Argentina',76:'Brasil',392:'Japón',156:'China',356:'India',764:'Tailandia',360:'Indonesia',504:'Marruecos',724:'España'};
+        const name = NAMES[d.id] || `País ${d.id}`;
+        tooltip.textContent = (visitedCodesPublic.has(String(d.id)) ? '✓ ' : '') + name;
+        tooltip.style.left = (event.clientX + 12) + 'px';
+        tooltip.style.top  = (event.clientY - 8) + 'px';
+        tooltip.classList.add('visible');
+      })
+      .on('mouseleave', () => tooltip.classList.remove('visible'));
+
+  } catch (err) {
+    document.getElementById('mapLoading').innerHTML = '⚠️ No se pudo cargar el mapa.';
+  }
+}
+
+// ── SHARE ──
+function shareProfile() {
+  const url = window.location.href;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => showToast('🔗 Enlace copiado al portapapeles'));
+  } else {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showToast('🔗 Enlace copiado'); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+}
+
+// ── TOAST ──
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── LOAD PROFILE ──
+async function loadPublicProfile() {
+  try {
+    const res = await fetch(`${API_BASE}/api/user/${username}`);
+    const data = await res.json();
+    if (!data.ok || !data.user) {
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('notFoundState').style.display = 'block';
+      return;
+    }
+    renderPublicProfile(data.user);
+  } catch (err) {
+    console.error('Error loading public profile:', err);
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('notFoundState').style.display = 'block';
+  }
+}
+
+loadPublicProfile();
+</script>
+</body>
+</html>

@@ -274,6 +274,8 @@
       display: flex;
       align-items: flex-end;
       padding-bottom: 6px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .btn-edit-profile {
       padding: 9px 20px;
@@ -1718,6 +1720,8 @@
 
       <div class="hero-actions">
         <button class="btn-edit-profile" id="btnEdit" onclick="toggleEdit()">✏️ Editar perfil</button>
+        <a class="btn-edit-profile" id="btnPublicProfile" href="perfil-publico.html?user=" style="text-decoration:none;">👤 Ver perfil público</a>
+        <a class="btn-edit-profile" href="ranking.html" style="text-decoration:none;">🏆 Ranking</a>
       </div>
     </div>
 
@@ -2354,6 +2358,12 @@ function renderProfile(user) {
   document.getElementById('profileName').textContent = name;
   document.getElementById('profileHandle').textContent = '@' + (user.username || 'usuario');
   document.getElementById('profileBio').textContent = user.bio || 'Viajero apasionado en busca de nuevas aventuras por el mundo.';
+
+  // Update public profile link with actual username
+  const btnPublic = document.getElementById('btnPublicProfile');
+  if (btnPublic && user.username) {
+    btnPublic.href = 'perfil-publico.html?user=' + encodeURIComponent(user.username);
+  }
   document.getElementById('profileCity').textContent = user.city || '—';
 
   // Nav avatar initials
