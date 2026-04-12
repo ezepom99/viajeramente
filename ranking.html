@@ -634,6 +634,9 @@
       <button class="tab-btn" data-metric="continents" onclick="switchTab(this,'continents')">
         🌐 Continentes
       </button>
+      <button class="tab-btn" data-metric="cities" onclick="switchTab(this,'cities')">
+        🏙️ Ciudades
+      </button>
     </div>
   </div>
 
@@ -722,6 +725,7 @@ const METRICS = {
   km:         { label:'Kilómetros',        unit:'km',     units:'km',        suffix: n => n >= 1000 ? `${Math.round(n/1000)}k km` : `${n} km` },
   wonders:    { label:'Maravillas',        unit:'marav.', units:'maravillas', suffix: n => `${n} marav.` },
   continents: { label:'Continentes',       unit:'cont.',  units:'continentes', suffix: n => `${n} cont.` },
+  cities:     { label:'Ciudades visitadas',unit:'ciudad', units:'ciudades',  suffix: n => n === 1 ? '1 ciudad' : `${n} ciudades` },
 };
 
 // ── AVATAR COLOR ──
