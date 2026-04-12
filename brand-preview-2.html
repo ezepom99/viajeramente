@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logos V2 — ViajeraMente (énfasis MENTE)</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Blue-green-lila palette (vivid version of #13 style) */
+      --sky: #0EA5E9;
+      --teal: #0D9488;
+      --mint: #34D399;
+      --lila: #A78BFA;
+      --violet: #7C3AED;
+      --indigo: #4F46E5;
+      --rose: #F472B6;
+      --white: #FFFFFF;
+      --dark: #0F172A;
+      --mid: #334155;
+      --soft: #94A3B8;
+      /* Gradients */
+      --grad-main: linear-gradient(135deg, #0EA5E9 0%, #0D9488 50%, #A78BFA 100%);
+      --grad-vivid: linear-gradient(120deg, #06B6D4 0%, #8B5CF6 100%);
+      --grad-warm: linear-gradient(135deg, #34D399 0%, #0EA5E9 50%, #A78BFA 100%);
+      --bg: #F0F9FF;
+      --card: #FFFFFF;
+      --border: #E0F2FE;
+      --text: #0F172A;
+      --subtext: #64748B;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--dark);
+      color: white;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    header h1 span {
+      background: var(--grad-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      font-size: 0.75rem;
+      opacity: 0.45;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .note {
+      background: linear-gradient(90deg, #EFF6FF, #F5F3FF);
+      border-left: 3px solid #7C3AED;
+      padding: 14px 24px;
+      font-size: 0.82rem;
+      color: #4338CA;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      padding: 20px 32px;
+      flex-wrap: wrap;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .filter-btn {
+      padding: 7px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--subtext);
+    }
+
+    .filter-btn:hover { border-color: var(--indigo); color: var(--indigo); }
+    .filter-btn.active { background: var(--indigo); color: white; border-color: var(--indigo); }
+
+    .section-title {
+      padding: 28px 32px 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding: 12px 32px 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1100px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 760px)  { .grid { grid-template-columns: repeat(2, 1fr); padding: 16px; } }
+    @media (max-width: 420px)  { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 12px 40px rgba(79,70,229,0.12);
+    }
+
+    .card:hover .copy-btn { opacity: 1; }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+      min-height: 180px;
+    }
+
+    .card-info {
+      padding: 14px 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 0.75rem;
+      color: var(--subtext);
+      line-height: 1.4;
+    }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 100px;
+      margin-bottom: 6px;
+    }
+
+    .tag-icon      { background: #EEF2FF; color: #4338CA; }
+    .tag-wordmark  { background: #F0FDFA; color: #0F766E; }
+    .tag-circle    { background: #FAF5FF; color: #7C3AED; }
+    .tag-square    { background: #FFF7ED; color: #B45309; }
+    .tag-gradient  { background: #ECFDF5; color: #065F46; }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 10;
+    }
+
+    .copy-btn:hover { background: var(--indigo); color: white; border-color: var(--indigo); }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.75);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: white;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 90%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      min-height: 320px;
+    }
+
+    .modal-logo svg { max-width: 380px; max-height: 260px; }
+
+    .modal-info {
+      padding: 20px 28px 28px;
+      border-top: 1px solid var(--border);
+    }
+
+    .modal-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .modal-desc {
+      font-size: 0.9rem;
+      color: var(--subtext);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .modal-copy-btn {
+      padding: 9px 18px;
+      background: var(--indigo);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtext);
+    }
+
+    .modal-close:hover { background: var(--dark); color: white; }
+
+    .concept-num {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--subtext);
+      opacity: 0.5;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Logos V2 — <span>Viajera<strong>MENTE</strong></span></h1>
+  <p>Énfasis en MENTE · Paleta azul-verde-lila · Uso interno</p>
+</header>
+
+<div class="note">
+  Todos los conceptos con MENTE visualmente prominente — diferente color, peso o con elemento visual mente/cerebro.
+  Incluye iconos circulares (WhatsApp/Instagram) y cuadrados (YouTube).
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" data-filter="all">Todos</button>
+  <button class="filter-btn" data-filter="wordmark">Wordmark</button>
+  <button class="filter-btn" data-filter="icon">Icono</button>
+  <button class="filter-btn" data-filter="circle">Circular</button>
+  <button class="filter-btn" data-filter="square">Cuadrado</button>
+  <button class="filter-btn" data-filter="gradient">Gradiente</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">×</button>
+    <div class="modal-logo" id="modal-logo"></div>
+    <div class="modal-info">
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-desc" id="modal-desc"></div>
+      <div><button class="modal-copy-btn" id="modal-copy">Copiar SVG</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const concepts = [
+
+  // ── WORDMARKS: MENTE prominente ─────────────────────────────────────────────
+
+  {
+    id: 1, cat: 'wordmark',
+    name: 'Viajera·MENTE Split Color',
+    desc: '"Viajera" en azul cielo ligero, "MENTE" en violeta bold. Space Grotesk. La doble lectura es inmediata.',
+    bg: '#FFFFFF',
+    svg: `<svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg" width="300" height="84">
+      <defs>
+        <linearGradient id="gViolet" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#7C3AED"/>
+          <stop offset="100%" stop-color="#A78BFA"/>
+        </linearGradient>
+      </defs>
+      <text x="12" y="54" font-family="'Space Grotesk',sans-serif" font-size="38" fill="#0EA5E9" font-weight="400" letter-spacing="-1">Viajera</text>
+      <text x="185" y="54" font-family="'Space Grotesk',sans-serif" font-size="42" fill="url(#gViolet)" font-weight="800" letter-spacing="-1.5">MENTE</text>
+      <line x1="12" y1="62" x2="308" y2="62" stroke="#E0F2FE" stroke-width="1.5"/>
+      <text x="160" y="76" text-anchor="middle" font-family="'Inter',sans-serif" font-size="7.5" fill="#94A3B8" font-weight="500" letter-spacing="3.5">TRAVEL · MIND · EXPLORE</text>
+    </svg>`
+  },
+
+  {
+    id: 2, cat: 'wordmark',
+    name: 'ViajeraMENTE Highlight Box',
+    desc: 'Nombre completo en una línea. MENTE en caja violeta invertida. Tipografía Inter. Impacto visual claro.',
+    bg: '#F8FAFF',
+    svg: `<svg viewBox="0 0 340 80" xmlns="http://www.w3.org/2000/svg" width="320" height="75">
+      <text x="10" y="50" font-family="'Inter',sans-serif" font-size="34" fill="#0F172A" font-weight="300" letter-spacing="-0.5">Viajera</text>
+      <rect x="178" y="14" width="144" height="44" rx="8" fill="#7C3AED"/>
+      <text x="250" y="47" text-anchor="middle" font-family="'Inter',sans-serif" font-size="34" fill="#FFFFFF" font-weight="800" letter-spacing="-0.5">MENTE</text>
+    </svg>`
+  },
+
+  {
+    id: 3, cat: 'wordmark',
+    name: 'Viajera|MENTE Gradient',
+    desc: '"Viajera" teal medium, "MENTE" en gradiente azul-lila bold italic. El gradiente llama la atención en MENTE.',
+    bg: '#FAFFFE',
+    svg: `<svg viewBox="0 0 340 95" xmlns="http://www.w3.org/2000/svg" width="320" height="90">
+      <defs>
+        <linearGradient id="gMente3" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#0EA5E9"/>
+          <stop offset="100%" stop-color="#A78BFA"/>
+        </linearGradient>
+      </defs>
+      <text x="10" y="56" font-family="'Playfair Display',serif" font-size="36" fill="#0D9488" font-weight="400" letter-spacing="-0.5">Viajera</text>
+      <text x="186" y="56" font-family="'Playfair Display',serif" font-size="40" fill="url(#gMente3)" font-weight="700" font-style="italic" letter-spacing="-1">Mente</text>
+      <!-- dot separator -->
+      <circle cx="177" cy="42" r="4" fill="#34D399"/>
+      <text x="170" y="75" text-anchor="middle" font-family="'Inter',sans-serif" font-size="7" fill="#94A3B8" letter-spacing="4">viajeramente.com</text>
+    </svg>`
+  },
+
+  {
+    id: 4, cat: 'wordmark',
+    name: 'VIAJERA·mente lowercase',
+    desc: '"VIAJERA" caps teal, "mente" minúscula lila extra-bold. Contraste caps/minúsculas refuerza el juego de palabras.',
+    bg: '#FFFFFF',
+    svg: `<svg viewBox="0 0 340 90" xmlns="http://www.w3.org/2000/svg" width="320" height="84">
+      <defs>
+        <linearGradient id="gTeal4" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#0EA5E9"/>
+          <stop offset="100%" stop-color="#0D9488"/>
+        </linearGradient>
+      </defs>
+      <text x="10" y="52" font-family="'Space Grotesk',sans-serif" font-size="30" fill="url(#gTeal4)" font-weight="700" letter-spacing="4">VIAJERA</text>
+      <text x="10" y="80" font-family="'Space Grotesk',sans-serif" font-size="38" fill="#7C3AED" font-weight="800" letter-spacing="-1">mente</text>
+      <!-- vertical bar accent -->
+      <rect x="0" y="10" width="3.5" height="80" rx="2" fill="url(#gTeal4)"/>
+    </svg>`
+  },
+
+  {
+    id: 5, cat: 'wordmark',
+    name: 'Viajera + brain wave + MENTE',
+    desc: 'MENTE con onda de cerebro/mente encima. La onda conecta el concepto mental con el viaje. Azul-lila.',
+    bg: '#0F172A',
+    svg: `<svg viewBox="0 0 340 100" xmlns="http://www.w3.org/2000/svg" width="320" height="94">
+      <defs>
+        <linearGradient id="gWave" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#34D399"/>
+          <stop offset="50%" stop-color="#0EA5E9"/>
+          <stop offset="100%" stop-color="#A78BFA"/>
+        </linearGradient>
+      </defs>
+      <!-- brain wave line above MENTE -->
+      <path d="M176,22 C182,22 184,14 192,14 C200,14 202,30 210,30 C218,30 220,10 228,10 C236,10 238,28 246,28 C254,28 256,18 262,18 C268,18 270,22 276,22" fill="none" stroke="url(#gWave)" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- text -->
+      <text x="10" y="70" font-family="'Inter',sans-serif" font-size="36" fill="#94A3B8" font-weight="300" letter-spacing="-0.5">Viajera</text>
+      <text x="176" y="70" font-family="'Inter',sans-serif" font-size="38" fill="url(#gWave)" font-weight="900" letter-spacing="-1">MENTE</text>
+      <line x1="10" y1="78" x2="330" y2="78" stroke="#1E293B" stroke-width="1"/>
+      <text x="170" y="92" text-anchor="middle" font-family="'Inter',sans-serif" font-size="7" fill="#475569" letter-spacing="3">DESCUBRE · VIAJA · PIENSA</text>
+    </svg>`
+  },
+
+  {
+    id: 6, cat: 'wordmark',
+    name: 'Stacked: Viajera / MENTE big',
+    desc: 'Dos líneas: "Viajera" pequeña arriba, "MENTE" grande abajo. MENTE domina visualmente. Gradiente azul-lila.',
+    bg: '#FFFFFF',
+    svg: `<svg viewBox="0 0 280 110" xmlns="http://www.w3.org/2000/svg" width="260" height="102">
+      <defs>
+        <linearGradient id="gBig6" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0EA5E9"/>
+          <stop offset="100%" stop-color="#8B5CF6"/>
+        </linearGradient>
+      </defs>
+      <text x="10" y="35" font-family="'Inter',sans-serif" font-size="18" fill="#64748B" font-weight="400" letter-spacing="6">VIAJERA</text>
+      <text x="10" y="95" font-family="'Space Grotesk',sans-serif" font-size="68" fill="url(#gBig6)" font-weight="800" letter-spacing="-3">MENTE</text>
+      <!-- accent line -->
+      <line x1="10" y1="40" x2="200" y2="40" stroke="#E0F2FE" stroke-width="1.5"/>
+    </svg>`
+  },
+
+  {
+    id: 7, cat: 'wordmark',
+    name: 'Viajera*MENTE* asterisk',
+    desc: '"Viajera" texto plano, "*MENTE*" con asteriscos estilo Markdown. Metáfora: MENTE es el énfasis del nombre.',
+    bg: '#FAFFFE',
+    svg: `<svg viewBox="0 0 340 80" xmlns="http://www.w3.org/2000/svg" width="320" height="75">
+      <text x="10" y="52" font-family="'Space Grotesk',sans-serif" font-size="32" fill="#334155" font-weight="400" letter-spacing="-0.5">Viajera</text>
+      <text x="176" y="52" font-family="'Space Grotesk',sans-serif" font-size="18" fill="#A78BFA" font-weight="600">*</text>
+      <text x="196" y="52" font-family="'Space Grotesk',sans-serif" font-size="32" fill="#7C3AED" font-weight="800" letter-spacing="-0.5">MENTE</text>
+      <text x="310" y="52" font-family="'Space Grotesk',sans-serif" font-size="18" fill="#A78BFA" font-weight="600">*</text>
+    </svg>`
+  },
+
+  {
+    id: 8, cat: 'wordmark',
+    name: 'Plane + MENTE arc text',
+    desc: 'Avión pequeño + "ViajeraMENTE" en arco. MENTE en lila, Viajera en teal. Estilo sello/stamp circular.',
+    bg: '#0F172A',
+    svg: `<svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" width="240" height="148">
+      <defs>
+        <path id="topArc8" d="M40,120 A90,90 0 0,1 220,120"/>
+      </defs>
+      <!-- airplane icon centered -->
+      <g transform="translate(130,78)">
+        <path d="M0,-18 C4,-18 8,-14 8,-6 L20,2 L20,8 L8,4 L6,18 L10,20 L10,24 L0,21 L-10,24 L-10,20 L-6,18 L-8,4 L-20,8 L-20,2 L-8,-6 C-8,-14 -4,-18 0,-18 Z" fill="#34D399" opacity="0.9"/>
+      </g>
+      <!-- arc text -->
+      <text font-family="'Space Grotesk',sans-serif" font-size="15" font-weight="600" letter-spacing="1.5">
+        <textPath href="#topArc8" startOffset="5%">
+          <tspan fill="#0EA5E9">Viajera</tspan><tspan fill="#A78BFA" font-weight="800">MENTE</tspan>
+        </textPath>
+      </text>
+      <!-- circle border -->
+      <circle cx="130" cy="85" r="90" fill="none" stroke="#1E293B" stroke-width="2"/>
+      <text x="130" y="140" text-anchor="middle" font-family="'Inter',sans-serif" font-size="8" fill="#475569" letter-spacing="3">viajeramente.com</text>
+    </svg>`
+  },
+
+  {
+    id: 9, cat: 'wordmark',
+    name: 'VM monogram + full name',
+    desc: '"VM" monograma teal-lila con el nombre completo abajo. "MENTE" en violeta. Versátil para múltiples tamaños.',
+    bg: '#FFFFFF',
+    svg: `<svg viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg" width="280" height="122">
+      <defs>
+        <linearGradient id="gVM9" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0EA5E9"/>
+          <stop offset="100%" stop-color="#7C3AED"/>
+        </linearGradient>
+      </defs>
+      <!-- VM monogram large -->
+      <text x="150" y="68" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="72" fill="url(#gVM9)" font-weight="800" letter-spacing="-4">VM</text>
+      <!-- underline -->
+      <line x1="60" y1="76" x2="240" y2="76" stroke="#E0F2FE" stroke-width="2"/>
+      <!-- full name -->
+      <text x="150" y="98" text-anchor="middle" font-family="'Inter',sans-serif" font-size="14" letter-spacing="0.5">
+        <tspan fill="#0EA5E9" font-weight="400">Viajera</tspan><tspan fill="#7C3AED" font-weight="800">MENTE</tspan>
+      </text>
+      <text x="150" y="114" text-anchor="middle" font-family="'Inter',sans-serif" font-size="7.5" fill="#94A3B8" letter-spacing="3.5">TRAVEL · MIND · DISCOVER</text>
+    </svg>`
+  },
+
+  {
+    id: 10, cat: 'wordmark',
+    name: 'Split diagonal MENTE',
+    desc: 'Diagonal line splits "Viajera" (izquierda, azul) de "MENTE" (derecha, lila bold). Efecto de movimiento y dualidad.',
+    bg: '#F8FAFF',
+    svg: `<svg viewBox="0 0 340 95" xmlns="http://www.w3.org/2000/svg" width="320" height="89">
+      <defs>
+        <clipPath id="leftClip10">
+          <polygon points="0,0 200,0 170,95 0,95"/>
+        </clipPath>
+        <clipPath id="rightClip10">
+          <polygon points="200,0 340,0 340,95 170,95"/>
+        </clipPath>
+      </defs>
+      <!-- full text duplicated, clipped by each side -->
+      <text x="10" y="62" font-family="'Space Grotesk',sans-serif" font-size="42" fill="#0EA5E9" font-weight="700" letter-spacing="-1" clip-path="url(#leftClip10)">ViajeraMENTE</text>
+      <text x="10" y="62" font-family="'Space Grotesk',sans-serif" font-size="42" fill="#7C3AED" font-weight="800" letter-spacing="-1" clip-path="url(#rightClip10)">ViajeraMENTE</text>
+      <!-- diagonal divider -->
+      <line x1="200" y1="0" x2="170" y2="95" stroke="#E0F2FE" stroke-width="2"/>
+    </svg>`
+  },
+
+  // ── ICON / CIRCULAR (WhatsApp, Instagram) ──────────────────────────────────
+
+  {
+    id: 11, cat: 'circle',
+    name: 'VM Circular — Gradiente azul-lila',
+    desc: 'Icono circular para WhatsApp/Instagram. "VM" bold blanco sobre gradiente azul-teal-lila. Limpio y reconocible.',
+    bg: '#F0F9FF',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+      <defs>
+        <linearGradient id="gCirc11" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0EA5E9"/>
+          <stop offset="50%" stop-color="#0D9488"/>
+          <stop offset="100%" stop-color="#8B5CF6"/>
+        </linearGradient>
+      </defs>
+      <circle cx="100" cy="100" r="90" fill="url(#gCirc11)"/>
+      <text x="100" y="118" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="72" fill="white" font-weight="800" letter-spacing="-4">VM</text>
+    </svg>`
+  },
+
+  {
+    id: 12, cat: 'circle',
+    name: 'Circular — Avión + MENTE',
+    desc: 'Círculo gradiente oscuro. Avión pequeño arriba + "MENTE" grande abajo en blanco. Para grupos de WhatsApp.',
+    bg: '#0F172A',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+      <defs>
+        <linearGradient id="gCirc12" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0C4A6E"/>
+          <stop offset="100%" stop-color="#312E81"/>
+        </linearGradient>
+      </defs>
+      <circle cx="100" cy="100" r="90" fill="url(#gCirc12)"/>
+      <!-- plane icon -->
+      <g transform="translate(100,62)">
+        <path d="M0,-14 C3,-14 6,-10 6,-4 L15,1 L15,5 L6,2 L5,12 L8,14 L8,17 L0,15 L-8,17 L-8,14 L-5,12 L-6,2 L-15,5 L-15,1 L-6,-4 C-6,-10 -3,-14 0,-14 Z" fill="#34D399"/>
+      </g>
+      <!-- MENTE -->
+      <text x="100" y="140" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="36" fill="white" font-weight="800" letter-spacing="-1">MENTE</text>
+      <!-- thin divider -->
+      <line x1="40" y1="80" x2="160" y2="80" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+    </svg>`
+  },
+
+  {
+    id: 13, cat: 'circle',
+    name: 'Circular — Brain waves',
+    desc: 'Círculo blanco con borde gradiente. Ondas cerebrales estilizadas + "VM" minimalista. Estilo moderno.',
+    bg: '#F5F3FF',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+      <defs>
+        <linearGradient id="gBorder13" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0EA5E9"/>
+          <stop offset="100%" stop-color="#7C3AED"/>
+        </linearGradient>
+      </defs>
+      <!-- gradient ring -->
+      <circle cx="100" cy="100" r="90" fill="none" stroke="url(#gBorder13)" stroke-width="6"/>
+      <circle cx="100" cy="100" r="84" fill="white"/>
+      <!-- brain wave lines -->
+      <path d="M40,88 C50,88 52,72 64,72 C76,72 78,100 90,100 C102,100 104,64 116,64 C128,64 130,96 142,96 C154,96 156,80 166,80" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+      <path d="M50,108 C58,108 60,96 70,96 C80,96 82,118 92,118 C102,118 104,94 114,94 C124,94 126,112 136,112 C146,112 148,102 156,102" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+      <!-- VM text -->
+      <text x="100" y="154" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="28" font-weight="800" letter-spacing="-1">
+        <tspan fill="#0EA5E9">V</tspan><tspan fill="#7C3AED">M</tspan>
+      </text>
+    </svg>`
+  },
+
+  {
+    id: 14, cat: 'circle',
+    name: 'Circular — Globe + MENTE ring',
+    desc: '"MENTE" en texto circular alrededor de un globo estilizado. Concept: la mente rodea el mundo. Teal+lila.',
+    bg: '#F0FDFA',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+      <defs>
+        <linearGradient id="gGlobe14" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0D9488"/>
+          <stop offset="100%" stop-color="#7C3AED"/>
+        </linearGradient>
+        <path id="ring14" d="M100,22 A78,78 0 1,1 99.99,22"/>
+      </defs>
+      <!-- globe -->
+      <circle cx="100" cy="100" r="40" fill="none" stroke="url(#gGlobe14)" stroke-width="2.5"/>
+      <ellipse cx="100" cy="100" rx="20" ry="40" fill="none" stroke="url(#gGlobe14)" stroke-width="1.5" opacity="0.6"/>
+      <line x1="60" y1="100" x2="140" y2="100" stroke="url(#gGlobe14)" stroke-width="1.5" opacity="0.6"/>
+      <ellipse cx="100" cy="100" rx="40" ry="14" fill="none" stroke="url(#gGlobe14)" stroke-width="1.5" opacity="0.4"/>
+      <!-- ring text MENTE -->
+      <text font-family="'Space Grotesk',sans-serif" font-size="13" font-weight="700" fill="#7C3AED" letter-spacing="8">
+        <textPath href="#ring14" startOffset="10%">MENTE · VIAJERA · MENTE · VIAJERA ·</textPath>
+      </text>
+    </svg>`
+  },
+
+  // ── SQUARE ICONS (YouTube) ──────────────────────────────────────────────────
+
+  {
+    id: 15, cat: 'square',
+    name: 'Cuadrado YouTube — VM gradiente',
+    desc: 'Icono cuadrado para YouTube. Esquinas redondeadas, gradiente azul-lila, "VM" blanco bold. Legible a todos los tamaños.',
+    bg: '#F0F9FF',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+      <defs>
+        <linearGradient id="gSq15" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0EA5E9"/>
+          <stop offset="50%" stop-color="#0D9488"/>
+          <stop offset="100%" stop-color="#7C3AED"/>
+        </linearGradient>
+      </defs>
+      <rect x="10" y="10" width="180" height="180" rx="32" fill="url(#gSq15)"/>
+      <text x="100" y="122" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="86" fill="white" font-weight="800" letter-spacing="-5">VM</text>
+    </svg>`
+  },
+
+  {
+    id: 16, cat: 'square',
+    name: 'Cuadrado — Avión diagonal + MENTE',
+    desc: 'Fondo oscuro. Avión diagonal grande en teal + "MENTE" en lila abajo. Para YouTube / thumbnails.',
+    bg: '#0F172A',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+      <defs>
+        <linearGradient id="gSq16" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0F172A"/>
+          <stop offset="100%" stop-color="#1E1B4B"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="200" height="200" rx="28" fill="url(#gSq16)"/>
+      <!-- plane diagonal -->
+      <g transform="translate(100,85) rotate(-35)">
+        <path d="M0,-26 C6,-26 11,-18 11,-6 L28,4 L28,12 L11,6 L9,26 L14,30 L14,36 L0,31 L-14,36 L-14,30 L-9,26 L-11,6 L-28,12 L-28,4 L-11,-6 C-11,-18 -6,-26 0,-26 Z" fill="#34D399"/>
+      </g>
+      <text x="100" y="156" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="32" fill="#A78BFA" font-weight="800" letter-spacing="-0.5">MENTE</text>
+      <line x1="28" y1="135" x2="172" y2="135" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+    </svg>`
+  },
+
+  {
+    id: 17, cat: 'square',
+    name: 'Cuadrado — V/M split diagonal',
+    desc: 'Diagonal split: mitad azul con "V", mitad lila con "M". Dinámico y memorable. Para YouTube.',
+    bg: '#F0F9FF',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+      <defs>
+        <clipPath id="leftSplit17">
+          <polygon points="0,0 120,0 80,200 0,200"/>
+        </clipPath>
+        <clipPath id="rightSplit17">
+          <polygon points="120,0 200,0 200,200 80,200"/>
+        </clipPath>
+      </defs>
+      <rect x="0" y="0" width="200" height="200" rx="28" fill="#0EA5E9"/>
+      <rect x="0" y="0" width="200" height="200" rx="28" fill="#7C3AED" clip-path="url(#rightSplit17)"/>
+      <text x="52" y="132" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="100" fill="white" font-weight="800" opacity="0.95" clip-path="url(#leftSplit17)">VM</text>
+      <text x="52" y="132" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="100" fill="white" font-weight="800" opacity="0.95" clip-path="url(#rightSplit17)">VM</text>
+    </svg>`
+  },
+
+  // ── GRADIENT / SPECIAL ──────────────────────────────────────────────────────
+
+  {
+    id: 18, cat: 'gradient',
+    name: '#13-style Vivid: Viajera·MENTE',
+    desc: 'Evolución directa del concepto #13 con la paleta azul-verde-lila. "Viajera" teal, "MENTE" violeta bold italic. El más cercano al favorito.',
+    bg: '#FFFFFF',
+    svg: `<svg viewBox="0 0 310 90" xmlns="http://www.w3.org/2000/svg" width="290" height="84">
+      <defs>
+        <linearGradient id="gV18" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#0EA5E9"/>
+          <stop offset="100%" stop-color="#0D9488"/>
+        </linearGradient>
+        <linearGradient id="gM18" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#7C3AED"/>
+          <stop offset="100%" stop-color="#A78BFA"/>
+        </linearGradient>
+      </defs>
+      <text x="8" y="54" font-family="'Playfair Display',serif" font-size="38" fill="url(#gV18)" font-weight="600" letter-spacing="-0.5">Viajera</text>
+      <text x="180" y="54" font-family="'Playfair Display',serif" font-size="42" fill="url(#gM18)" font-weight="700" font-style="italic" letter-spacing="-1">Mente</text>
+      <circle cx="172" cy="38" r="4.5" fill="#34D399"/>
+      <line x1="8" y1="62" x2="300" y2="62" stroke="#E0F2FE" stroke-width="1.5"/>
+      <text x="154" y="78" text-anchor="middle" font-family="'Inter',sans-serif" font-size="7.5" fill="#94A3B8" font-weight="500" letter-spacing="3.5">TRAVEL · DISCOVER · EXPLORE</text>
+    </svg>`
+  },
+
+  {
+    id: 19, cat: 'gradient',
+    name: 'Full gradient wordmark',
+    desc: '"ViajeraMENTE" en una línea con gradiente azul→verde→lila. "MENTE" ocupa la parte lila del gradiente. Llamativo.',
+    bg: '#0F172A',
+    svg: `<svg viewBox="0 0 340 80" xmlns="http://www.w3.org/2000/svg" width="320" height="75">
+      <defs>
+        <linearGradient id="gFull19" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#0EA5E9"/>
+          <stop offset="45%" stop-color="#34D399"/>
+          <stop offset="100%" stop-color="#A78BFA"/>
+        </linearGradient>
+      </defs>
+      <text x="10" y="54" font-family="'Space Grotesk',sans-serif" font-size="40" fill="url(#gFull19)" font-weight="700" letter-spacing="-1.5">ViajeraMENTE</text>
+    </svg>`
+  },
+
+  {
+    id: 20, cat: 'gradient',
+    name: 'Viajera∞MENTE infinity',
+    desc: 'Símbolo infinito ∞ entre Viajera y MENTE — "viajar es infinito para la mente". Teal + violeta. Diferente y memorable.',
+    bg: '#FAFFFE',
+    svg: `<svg viewBox="0 0 340 90" xmlns="http://www.w3.org/2000/svg" width="320" height="84">
+      <defs>
+        <linearGradient id="gInf20" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#0D9488"/>
+          <stop offset="100%" stop-color="#7C3AED"/>
+        </linearGradient>
+      </defs>
+      <text x="10" y="56" font-family="'Inter',sans-serif" font-size="36" fill="#0D9488" font-weight="300" letter-spacing="-0.5">Viajera</text>
+      <text x="178" y="56" font-family="'Inter',sans-serif" font-size="32" fill="url(#gInf20)" font-weight="300">∞</text>
+      <text x="210" y="56" font-family="'Inter',sans-serif" font-size="36" fill="#7C3AED" font-weight="800" letter-spacing="-1">MENTE</text>
+      <line x1="10" y1="64" x2="320" y2="64" stroke="#CCFBF1" stroke-width="1.5"/>
+    </svg>`
+  },
+
+];
+
+const tagMap = {
+  wordmark: { label: 'Wordmark', cls: 'tag-wordmark' },
+  icon:     { label: 'Icono',    cls: 'tag-icon' },
+  circle:   { label: 'Circular', cls: 'tag-circle' },
+  square:   { label: 'Cuadrado', cls: 'tag-square' },
+  gradient: { label: 'Gradiente',cls: 'tag-gradient' },
+};
+
+function renderGrid(filter = 'all') {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  concepts.forEach(c => {
+    if (filter !== 'all' && c.cat !== filter) return;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.id = c.id;
+    const tag = tagMap[c.cat];
+    card.innerHTML = `
+      <span class="concept-num">#${c.id}</span>
+      <button class="copy-btn" data-id="${c.id}">Copiar SVG</button>
+      <div class="logo-area" style="background:${c.bg}">${c.svg}</div>
+      <div class="card-info">
+        <div class="card-tag ${tag.cls}">${tag.label}</div>
+        <div class="card-name">${c.name}</div>
+        <div class="card-desc">${c.desc}</div>
+      </div>
+    `;
+    card.addEventListener('click', (e) => {
+      if (e.target.classList.contains('copy-btn')) return;
+      openModal(c);
+    });
+    card.querySelector('.copy-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      copySVG(c);
+    });
+    grid.appendChild(card);
+  });
+}
+
+function openModal(c) {
+  const tag = tagMap[c.cat];
+  document.getElementById('modal-logo').style.background = c.bg;
+  document.getElementById('modal-logo').innerHTML = c.svg;
+  document.getElementById('modal-name').innerHTML = `<span class="card-tag ${tag.cls}" style="margin-right:8px">${tag.label}</span>${c.name}`;
+  document.getElementById('modal-desc').textContent = c.desc;
+  document.getElementById('modal-copy').onclick = () => copySVG(c);
+  document.getElementById('modal').classList.add('open');
+}
+
+function copySVG(c) {
+  navigator.clipboard.writeText(c.svg).then(() => {
+    const btn = document.querySelector(`[data-id="${c.id}"].copy-btn`) || document.getElementById('modal-copy');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copiado';
+    setTimeout(() => btn.textContent = orig, 1800);
+  });
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGrid(btn.dataset.filter);
+  });
+});
+
+document.getElementById('modal-close').addEventListener('click', () => {
+  document.getElementById('modal').classList.remove('open');
+});
+document.getElementById('modal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('open');
+  }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') document.getElementById('modal').classList.remove('open');
+});
+
+renderGrid();
+</script>
+</body>
+</html>
