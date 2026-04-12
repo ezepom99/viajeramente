@@ -411,6 +411,11 @@
     }
     .info-card p { color: var(--text-2); line-height: 1.75; font-size: .92rem; }
 
+    /* ── Guide sections ── */
+    .guide-section { margin: 32px 0; padding: 0; }
+    .guide-section-title { font-size: 1.3rem; font-weight: 700; color: #0F172A; margin-bottom: 12px; border-left: 3px solid #0EA5E9; padding-left: 12px; }
+    .guide-section-body { font-size: 0.95rem; line-height: 1.75; color: #475569; }
+
     /* ── Related destinations ── */
     .related-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
@@ -610,6 +615,11 @@
     </div>
   </section>
 
+  <!-- Guide sections -->
+  <div id="guideSections" class="section" style="display:none;">
+    <div id="guideSectionsContent"></div>
+  </div>
+
   <!-- Related -->
   <section class="section" id="relatedSection" style="display:none">
     <h2>🌍 Destinos similares</h2>
@@ -629,6 +639,11 @@
   const CLIMATE_MAP   = { warm:'☀️ Cálido', mild:'🌤️ Templado', cold:'❄️ Frío', tropical:'🌴 Tropical', desert:'🏜️ Árido', mediterranean:'🌊 Mediterráneo' };
   const IMPACT_LABELS = { must_see:'No te lo pierdas', very_good:'Muy recomendado', interesting:'Interesante' };
   const IMPACT_ICONS  = { must_see:'🌟', very_good:'⭐', interesting:'📌' };
+
+  /* ─── HTML ESCAPE ─── */
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
 
   /* ─── FALLBACK DATA ─── */
   const FALLBACKS = {
@@ -985,6 +1000,18 @@
 
     // Related
     renderRelated(d);
+
+    // Guide sections
+    const sections = d.guide_sections || [];
+    if (sections.length > 0) {
+      document.getElementById('guideSections').style.display = 'block';
+      document.getElementById('guideSectionsContent').innerHTML = sections.map(s => `
+        <div class="guide-section">
+          <h2 class="guide-section-title">${escHtml(s.section || '')}</h2>
+          <div class="guide-section-body">${escHtml(s.content || '').replace(/\n/g,'<br>')}</div>
+        </div>
+      `).join('');
+    }
   }
 
   /* ─── MONTHS ─── */
