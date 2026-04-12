@@ -659,9 +659,10 @@ function initMap() {
     worldCopyJump: false,
   });
 
-  // Esri World Topo Map — reliably shows English-language country names
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles &copy; Esri',
+  // CARTO Voyager — shows labels in local Latin script, no Arabic
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
+    subdomains: 'abcd',
     maxZoom: 19,
   }).addTo(map);
 
@@ -886,16 +887,16 @@ function refreshHeatmap() {
   if (points.length === 0) return;
 
   heatLayer = L.heatLayer(points, {
-    radius: 80,
-    blur: 55,
+    radius: 90,
+    blur: 50,
     maxZoom: 8,
     max: 1.0,
-    minOpacity: 0.4,
+    minOpacity: 0.65,
     gradient: {
-      0.0: '#0EA5E9',
-      0.4: '#6366F1',
-      0.7: '#8B5CF6',
-      1.0: '#DB2777',
+      0.0: '#38BDF8',
+      0.3: '#818CF8',
+      0.6: '#A855F7',
+      1.0: '#EC4899',
     },
   }).addTo(map);
 }
