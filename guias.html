@@ -19,7 +19,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
 
     :root {
       --bg: #FFFFFF;
@@ -39,14 +39,14 @@
       --radius: 16px;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden !important; }
 
     body {
       font-family: 'Inter', -apple-system, sans-serif;
       color: var(--text);
       background: var(--bg-soft);
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+      overflow-x: hidden !important;
       min-height: 100vh;
       font-size: 15px;
     }
@@ -701,7 +701,7 @@
 
 <!-- Nav -->
 <nav>
-  <a href="index.html" id="navLogo" class="nav-logo">
+  <a href="main.html" id="navLogo" class="nav-logo">
     <span class="nav-logo-icon">✈️</span>
     ViajeraMente
   </a>
@@ -728,13 +728,13 @@
 <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
   <div class="mobile-menu">
     <div class="mobile-menu-header">
-      <a href="index.html" class="nav-logo" style="text-decoration:none;">
+      <a href="main.html" class="nav-logo" style="text-decoration:none;">
         <span class="nav-logo-icon">✈️</span> ViajeraMente
       </a>
       <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
     </div>
     <div class="mobile-menu-links">
-      <a href="index.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
+      <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
       <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
       <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planificador</a>
       <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>

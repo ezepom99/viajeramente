@@ -19,7 +19,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
 
     :root {
       --bg: #FFFFFF;
@@ -660,8 +660,12 @@
 
     /* ── Mobile ── */
     @media (max-width: 600px) {
-      nav { padding: 0 14px; }
-      .nav-logo span { display: none; }
+      nav { padding: 0 12px; gap: 6px; }
+      .nav-logo { display: none; }
+      .nav-back { font-size: .8rem; padding: 5px 8px; }
+      #btnShare { padding: 6px 10px; font-size: .75rem; }
+      #btnShare span { display: none; } /* hide text, keep emoji */
+      #btnWishlist, #btnVisited { display: none !important; }
       .hero-content { padding: 20px 16px 24px; }
       .page-body { padding: 0 14px 60px; }
       .quick-stats { grid-template-columns: repeat(2, 1fr); }
@@ -671,10 +675,11 @@
       .activities-grid { grid-template-columns: 1fr; }
       .budget-grid { grid-template-columns: 1fr; }
       #budgetDetail { grid-template-columns: 1fr !important; }
-      .related-grid { grid-template-columns: repeat(2, 1fr); }
+      .related-grid { grid-template-columns: 1fr 1fr; }
       .related-grid .related-card:last-child { display: none; }
       .sleep-tabs { overflow-x: auto; }
       .month-card { width: 68px; }
+      .city-cards-grid { grid-template-columns: 1fr !important; }
     }
 
     @media (max-width: 400px) {
@@ -725,7 +730,7 @@
 <!-- ── Nav ── -->
 <nav>
   <a href="guias.html" class="nav-back">← Guías</a>
-  <a href="index.html" id="navLogo" class="nav-logo">
+  <a href="main.html" id="navLogo" class="nav-logo">
     <span>✈️</span>
     <span>ViajeraMente</span>
   </a>
@@ -781,8 +786,17 @@
     </div>
   </div>
 
+  <!-- Mobile action buttons (shown only on small screens since nav hides them) -->
+  <div id="mobileActions" style="display:none; gap:10px; padding: 16px 0 4px; flex-wrap:wrap;">
+    <button onclick="toggleWishlist()" id="btnWishlistMobile" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border-radius:100px;border:1.5px solid #E2E8F0;background:#fff;color:#64748B;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;">♡ Quiero ir</button>
+    <button onclick="toggleVisitedDest()" id="btnVisitedMobile" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border-radius:100px;border:1.5px solid #E2E8F0;background:#fff;color:#64748B;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;">✓ Visitado</button>
+  </div>
+  <style>
+    @media (max-width: 600px) { #mobileActions { display: flex !important; } }
+  </style>
+
   <!-- Calendar -->
-  <section class="section">
+  <section class="section" id="calendarSection" style="display:none">
     <h2>📅 ¿Cuándo ir?</h2>
     <div class="months-scroll-wrapper">
       <div class="months-grid" id="monthsGrid"></div>
@@ -1398,32 +1412,68 @@
     // Quick stats
     const visaShort = d.visa_info ? (d.visa_info.includes('Sin visado') || d.visa_info.includes('sin visado') ? '✅ Sin visado' : '🛂 Visado requerido') : '—';
     document.getElementById('statVisa').textContent = visaShort;
-    document.getElementById('statBest').textContent = d.best_months_label || getBestMonths(d.seasons);
+    // Handle both legacy best_months_label and new best_months array from API
+    let bestMonthsText = d.best_months_label;
+    if (!bestMonthsText && d.best_months && Array.isArray(d.best_months) && d.best_months.length) {
+      const monthMap = { enero:'Ene', febrero:'Feb', marzo:'Mar', abril:'Abr', mayo:'May', junio:'Jun',
+        julio:'Jul', agosto:'Ago', septiembre:'Sep', octubre:'Oct', noviembre:'Nov', diciembre:'Dic' };
+      bestMonthsText = d.best_months.slice(0, 3).map(m => monthMap[m.toLowerCase()] || m).join('–');
+    }
+    document.getElementById('statBest').textContent = bestMonthsText || getBestMonths(d.seasons);
     document.getElementById('statBudget').textContent = d.budget_daily_mid ? `${d.budget_daily_low}–${d.budget_daily_mid}€` : '—';
-    document.getElementById('statFlight').textContent = d.flight_hours || '—';
+    // flight_hours may not be in API response — extract estimate from how_to_get_there if possible
+    let flightText = d.flight_hours;
+    if (!flightText && d.how_to_get_there) {
+      const match = d.how_to_get_there.match(/(\d+[-–]\d+|\d+)\s*h(?:oras?)?/i);
+      if (match) flightText = match[0];
+    }
+    document.getElementById('statFlight').textContent = flightText || '—';
 
     // Save button state
     updateSaveBtn();
 
     // Sections
-    if (d.seasons?.length) renderMonths(d.seasons, d.events || []);
+    if (d.seasons?.length) { renderMonths(d.seasons, d.events || []); document.getElementById('calendarSection').style.display = ''; }
     if (d.events?.length) renderEvents(d.events);
     if (d.what_to_do?.length) renderActivities(d.what_to_do);
     if (d.where_to_sleep) renderSleep(d.where_to_sleep);
     if (d.budget_daily_low) renderBudget(d);
     // Initialize cost estimator with destination data
+    if (!d.budget_daily_low) {
+      const ces = document.getElementById('costEstimatorSection');
+      if (ces) ces.style.display = 'none';
+    }
     // Pre-select tier from user profile if available
     const profileTier = localStorage.getItem('budget_range') || 'mid';
     const tierMap = { mochilero: 'low', medio: 'mid', premium: 'high' };
     const mappedTier = tierMap[profileTier.toLowerCase()] || 'mid';
     const tierEl = document.getElementById('estTier');
     if (tierEl) { tierEl.value = mappedTier; calcCost(); }
-    if (d.how_to_get_there) document.getElementById('howToGet').textContent = d.how_to_get_there;
+    if (d.how_to_get_there) {
+      document.getElementById('howToGet').textContent = d.how_to_get_there;
+    } else {
+      const fs = document.getElementById('flightSection');
+      if (fs) fs.style.display = 'none';
+    }
     // Origin city personalization
     renderOriginBanner();
-    if (d.local_transport) document.getElementById('localTransport').textContent = d.local_transport;
-    if (d.food_and_drink) document.getElementById('foodText').textContent = d.food_and_drink;
+    if (d.local_transport) {
+      document.getElementById('localTransport').textContent = d.local_transport;
+    } else {
+      const ts = document.getElementById('transportSection');
+      if (ts) ts.style.display = 'none';
+    }
+    if (d.food_and_drink) {
+      document.getElementById('foodText').textContent = d.food_and_drink;
+    } else {
+      const fd = document.getElementById('foodSection');
+      if (fd) fd.style.display = 'none';
+    }
     if (d.local_tips?.length) renderTips(d.local_tips);
+    if (!d.visa_info) {
+      const vs = document.getElementById('visaSection');
+      if (vs) vs.style.display = 'none';
+    }
     if (d.visa_info) {
       document.getElementById('visaInfo').textContent = d.visa_info;
       // Personalize visa section based on user's passport country
@@ -2036,7 +2086,9 @@
     if (!userToken) return;
     const inWishlist = wishlistSlugs.has(slug);
     const btn = document.getElementById('btnWishlist');
-    btn.disabled = true;
+    const btnM = document.getElementById('btnWishlistMobile');
+    if (btn) btn.disabled = true;
+    if (btnM) btnM.disabled = true;
     try {
       if (inWishlist) {
         await fetch(API_BASE + '/api/wishlist/' + slug, {
@@ -2053,16 +2105,23 @@
         wishlistSlugs.add(slug);
       }
     } catch(e) {}
-    btn.disabled = false;
+    if (btn) btn.disabled = false;
+    if (btnM) btnM.disabled = false;
     updateWishlistBtn();
   }
 
   function updateWishlistBtn() {
-    const btn = document.getElementById('btnWishlist');
-    if (!btn) return;
     const inWishlist = wishlistSlugs.has(slug);
-    btn.textContent = inWishlist ? '♥ Quiero ir' : '♡ Quiero ir';
-    btn.classList.toggle('wished', inWishlist);
+    const label = inWishlist ? '♥ Quiero ir' : '♡ Quiero ir';
+    const btn = document.getElementById('btnWishlist');
+    const btnM = document.getElementById('btnWishlistMobile');
+    if (btn) { btn.textContent = label; btn.classList.toggle('wished', inWishlist); }
+    if (btnM) {
+      btnM.textContent = label;
+      btnM.style.borderColor = inWishlist ? '#EF4444' : '#E2E8F0';
+      btnM.style.color = inWishlist ? '#EF4444' : '#64748B';
+      btnM.style.background = inWishlist ? '#FEF2F2' : '#fff';
+    }
   }
 
   /* ─── VISITED DEST ─── */
@@ -2075,11 +2134,17 @@
     updateVisitedBtn();
   }
   function updateVisitedBtn() {
-    const btn = document.getElementById('btnVisited');
-    if (!btn) return;
     const isVisited = visitedDestSlugs.has(slug);
-    btn.textContent = isVisited ? '✓ Visitado' : '✓ Visitado';
-    btn.classList.toggle('visited', isVisited);
+    const label = isVisited ? '✓ Visitado' : '✓ Visitado';
+    const btn = document.getElementById('btnVisited');
+    const btnM = document.getElementById('btnVisitedMobile');
+    if (btn) { btn.textContent = label; btn.classList.toggle('visited', isVisited); }
+    if (btnM) {
+      btnM.textContent = label;
+      btnM.style.borderColor = isVisited ? '#10B981' : '#E2E8F0';
+      btnM.style.color = isVisited ? '#10B981' : '#64748B';
+      btnM.style.background = isVisited ? '#D1FAE5' : '#fff';
+    }
   }
 
   /* ─── SAVE (legacy, kept for backwards compat) ─── */

@@ -45,15 +45,14 @@
       --radius-sm: 12px;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden !important; }
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
-      overflow-x: hidden;
+      overflow-x: hidden !important;
     }
-    html { overflow-x: hidden; }
     h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
 
     /* ── NAV ── */
@@ -192,22 +191,18 @@
 
     /* ── TABS ── */
     .tabs-wrap {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
       margin-bottom: 24px;
+      overflow: visible;
     }
-    .tabs-wrap::-webkit-scrollbar { display: none; }
     .tabs {
       display: flex;
+      flex-wrap: wrap;
       gap: 8px;
       padding: 4px 0;
-      width: max-content;
-      min-width: 100%;
       justify-content: center;
     }
     .tab-btn {
-      padding: 10px 20px;
+      padding: 10px 18px;
       border-radius: 12px;
       border: 1.5px solid var(--border);
       background: #fff;
@@ -229,8 +224,8 @@
       box-shadow: 0 4px 12px rgba(245,158,11,.3);
     }
     @media (max-width: 480px) {
-      .tabs { justify-content: flex-start; padding-left: 4px; }
-      .tab-btn { padding: 9px 16px; font-size: .82rem; }
+      .tabs { justify-content: flex-start; }
+      .tab-btn { padding: 8px 14px; font-size: .8rem; }
     }
 
     /* ── PODIUM ── */
@@ -579,9 +574,9 @@
 <body>
 
 <nav class="nav">
-  <a class="nav-logo" href="index.html">🌍 ViajeraMente</a>
+  <a class="nav-logo" href="main.html">🌍 ViajeraMente</a>
   <ul class="nav-links">
-    <li><a href="index.html">Inicio</a></li>
+    <li><a href="main.html">Inicio</a></li>
     <li><a href="guias.html">Guías</a></li>
     <li><a href="plan.html">Planifica</a></li>
     <li><a href="ranking.html" style="color:var(--accent);font-weight:600;">🏆 Ranking</a></li>
@@ -597,11 +592,11 @@
 <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
   <div class="mobile-menu">
     <div class="mobile-menu-header">
-      <a class="nav-logo" href="index.html" style="text-decoration:none;">🌍 ViajeraMente</a>
+      <a class="nav-logo" href="main.html" style="text-decoration:none;">🌍 ViajeraMente</a>
       <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
     </div>
     <div class="mobile-menu-links">
-      <a href="index.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
+      <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
       <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
       <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planifica</a>
       <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>

@@ -39,14 +39,14 @@
       --shadow-card: 0 4px 24px rgba(0,0,0,.06);
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden !important; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--text);
       background: var(--bg-soft);
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+      overflow-x: hidden !important;
       min-height: 100vh;
       font-size: 15px;
     }
