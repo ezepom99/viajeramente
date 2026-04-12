@@ -88,6 +88,59 @@
     #btnSave:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
     #btnSave.saved { border-color: var(--green); color: var(--green); background: var(--green-light); }
 
+    /* ── Nav auth ── */
+    .nav-btn-login {
+      font-size: .82rem; font-weight: 500; color: var(--text-2);
+      text-decoration: none; padding: 6px 12px; border-radius: 8px;
+      transition: all .2s; white-space: nowrap;
+    }
+    .nav-btn-login:hover { color: var(--text); background: var(--bg-soft); }
+    .nav-btn-signup {
+      font-size: .82rem; font-weight: 600; color: #fff;
+      background: var(--accent); text-decoration: none;
+      padding: 7px 14px; border-radius: 100px; transition: all .2s; white-space: nowrap;
+    }
+    .nav-btn-signup:hover { background: var(--accent-dark); }
+
+    /* ── Login gate ── */
+    .gate-wrap {
+      position: relative;
+      margin-top: -40px;
+    }
+    .gate-fade {
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, #fff);
+      pointer-events: none;
+    }
+    .gate-card {
+      text-align: center;
+      padding: 40px 24px 48px;
+      max-width: 440px;
+      margin: 0 auto 60px;
+    }
+    .gate-icon { font-size: 2.8rem; margin-bottom: 16px; }
+    .gate-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem; font-weight: 700; color: var(--text);
+      margin-bottom: 10px;
+    }
+    .gate-card p {
+      color: var(--text-2); font-size: .95rem; line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .gate-btn-primary {
+      display: inline-block; background: var(--accent); color: #fff;
+      font-weight: 700; font-size: 1rem; padding: 14px 32px;
+      border-radius: 100px; text-decoration: none; transition: all .2s;
+      margin-bottom: 14px; width: 100%; max-width: 320px;
+    }
+    .gate-btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+    .gate-btn-secondary {
+      display: block; color: var(--text-2); font-size: .9rem;
+      text-decoration: none; transition: color .2s;
+    }
+    .gate-btn-secondary:hover { color: var(--accent); }
+
     /* ── Hero ── */
     .dest-hero {
       height: 52vh; min-height: 360px; max-height: 600px;
@@ -495,11 +548,18 @@
 <!-- ── Nav ── -->
 <nav>
   <a href="guias.html" class="nav-back">← Guías</a>
-  <a href="main.html" class="nav-logo">
+  <a href="main.html" id="navLogo" class="nav-logo">
     <span>✈️</span>
     <span>ViajeraMente</span>
   </a>
   <div class="nav-actions">
+    <div id="navGuest" style="display:none; align-items:center; gap:6px;">
+      <a href="login.html" class="nav-btn-login">Entrar</a>
+      <a href="signup.html" class="nav-btn-signup">Registrarse</a>
+    </div>
+    <div id="navUser" style="display:none; align-items:center; gap:8px;">
+      <a href="profile.html" class="nav-btn-login">👤 Mi perfil</a>
+    </div>
     <button id="btnSave" onclick="toggleSave()">♡ Guardar</button>
   </div>
 </nav>
@@ -533,7 +593,7 @@
       <div class="stat-value" id="statBudget">—</div>
     </div>
     <div class="stat-item">
-      <div class="stat-label">Vuelo desde Madrid</div>
+      <div class="stat-label" id="flightStatLabel">Vuelo</div>
       <div class="stat-value" id="statFlight">—</div>
     </div>
   </div>
@@ -579,10 +639,26 @@
   <!-- How to get there -->
   <section class="section" id="flightSection">
     <h2>✈️ Cómo llegar</h2>
+    <div id="originBanner" style="margin-bottom:12px;"></div>
     <div class="info-card">
       <p id="howToGet">Cargando información de vuelos…</p>
     </div>
   </section>
+
+  <!-- LOGIN GATE (shown to guests) -->
+  <div id="loginGate" style="display:none;">
+    <div class="gate-fade"></div>
+    <div class="gate-card">
+      <div class="gate-icon">🗺️</div>
+      <h3>Accede a la guía completa</h3>
+      <p>Crea tu cuenta gratuita y desbloquea todo: transporte local, gastronomía, dónde dormir, presupuesto, consejos de viajero y mucho más.</p>
+      <a href="signup.html" class="gate-btn-primary" id="gateSignupBtn">Crear cuenta gratis →</a>
+      <a href="login.html" class="gate-btn-secondary" id="gateLoginBtn">Ya tengo cuenta — Entrar</a>
+    </div>
+  </div>
+
+  <!-- GATED CONTENT (only for logged-in users) -->
+  <div id="gatedContent">
 
   <!-- Local transport -->
   <section class="section" id="transportSection">
@@ -609,9 +685,8 @@
   <!-- Visa -->
   <section class="section" id="visaSection">
     <h2>🛂 Visado e entrada</h2>
-    <div class="visa-strip">
-      <span class="visa-icon">✅</span>
-      <p id="visaInfo">Consultando requisitos de entrada para españoles…</p>
+    <div id="visaContent">
+      <p id="visaInfo" style="font-size:.9rem;line-height:1.75;color:#374151;white-space:pre-line;"></p>
     </div>
   </section>
 
@@ -626,9 +701,33 @@
     <div class="related-grid" id="relatedGrid"></div>
   </section>
 
+  </div><!-- /gatedContent -->
+
 </div><!-- /page-body -->
 
 <script>
+  /* ─── AUTH ─── */
+  (function() {
+    const token = localStorage.getItem('token');
+    const currentUrl = encodeURIComponent(window.location.href);
+    if (token) {
+      document.getElementById('navUser').style.display = 'flex';
+      document.getElementById('gatedContent').style.display = '';
+      document.getElementById('loginGate').style.display = 'none';
+    } else {
+      document.getElementById('navGuest').style.display = 'flex';
+      document.getElementById('gatedContent').style.display = 'none';
+      document.getElementById('loginGate').style.display = 'block';
+      // Guardar button redirects to login
+      document.getElementById('btnSave').onclick = () => {
+        window.location.href = 'login.html?next=' + currentUrl;
+      };
+      // Add ?next= to gate links so user returns after login/signup
+      document.getElementById('gateSignupBtn').href = 'signup.html?next=' + currentUrl;
+      document.getElementById('gateLoginBtn').href = 'login.html?next=' + currentUrl;
+    }
+  })();
+
   /* ─── CONFIG ─── */
   const API_BASE = 'https://eze.saypeter.com';
   const slug = new URLSearchParams(window.location.search).get('slug');
@@ -639,6 +738,31 @@
   const CLIMATE_MAP   = { warm:'☀️ Cálido', mild:'🌤️ Templado', cold:'❄️ Frío', tropical:'🌴 Tropical', desert:'🏜️ Árido', mediterranean:'🌊 Mediterráneo' };
   const IMPACT_LABELS = { must_see:'No te lo pierdas', very_good:'Muy recomendado', interesting:'Interesante' };
   const IMPACT_ICONS  = { must_see:'🌟', very_good:'⭐', interesting:'📌' };
+
+  /* ─── ORIGIN BANNER ─── */
+  function renderOriginBanner() {
+    const banner = document.getElementById('originBanner');
+    if (!banner) return;
+    const city = localStorage.getItem('editCity') || '';
+    const country = localStorage.getItem('editCountry') || '';
+    const origin = city ? `${city}${country ? ', ' + country : ''}` : (country || '');
+
+    if (origin) {
+      banner.innerHTML = `
+        <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#EFF6FF;border-radius:10px;font-size:.85rem;color:#1E40AF;">
+          <span>📍</span>
+          <span>Conexiones desde <strong>${escHtml(origin)}</strong></span>
+          <a href="profile.html" style="margin-left:auto;color:#3B82F6;text-decoration:none;font-size:.8rem;">Cambiar</a>
+        </div>`;
+      document.getElementById('flightStatLabel').textContent = `Vuelo desde ${city || country}`;
+    } else {
+      banner.innerHTML = `
+        <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#FFF7ED;border-radius:10px;font-size:.85rem;color:#92400E;">
+          <span>📍</span>
+          <span>¿Desde dónde viajas? <a href="profile.html" style="color:#D97706;font-weight:600;text-decoration:none;">Añade tu ciudad en tu perfil →</a></span>
+        </div>`;
+    }
+  }
 
   /* ─── HTML ESCAPE ─── */
   function escHtml(s) {
@@ -654,8 +778,8 @@
       budget_daily_low:70, budget_daily_mid:140, budget_daily_high:350,
       best_months_label:'Mar–Abr / Oct',
       flight_hours:'~13h',
-      visa_info:'Sin visado hasta 90 días para españoles.',
-      how_to_get_there:'Vuelo directo Iberia desde Madrid en ~13h. También Japan Airlines y ANA con escala en ciudades asiáticas. Mejores precios reservando con 3-4 meses de antelación.',
+      visa_info:'✅ Sin visado (~90 días): UE/Schengen, EEUU, UK, Canadá, Australia, NZ, México, Brasil, Argentina, Chile, Colombia, Corea del Sur\n🔴 Visado requerido: India, China, Rusia, Pakistán, Bangladesh y la mayoría de países africanos\nVisa por correo o consulado, tramitar con 1-2 meses de antelación.',
+      how_to_get_there:'Vuelo directo desde Europa: Iberia (Madrid), Japan Airlines y ANA. Desde América: United, Delta, American. Desde Asia: muchas opciones directas. Duración ~12-14h desde Europa, ~13-14h desde Costa Este de EEUU. Reservar con 3-4 meses de antelación.',
       when_to_go:'Marzo-abril (sakura) y octubre (momiji) son los mejores meses. Enero-febrero es más barato y tranquilo. Evita agosto: calor extremo y precios altos.',
       local_transport:'JR Pass para el shinkansen (comprar en España, más barato). Suica card recargable para metro y bus en ciudades. IC Card funciona en casi todo el país.',
       food_and_drink:'Ramen, sushi, tempura, okonomiyaki, yakitori… La gastronomía japonesa es excepcional en todos los rangos de precio. Los konbini (7-Eleven, Lawson) tienen comida caliente excelente por 1-2€.',
@@ -700,8 +824,8 @@
       budget_daily_low:35, budget_daily_mid:80, budget_daily_high:300,
       best_months_label:'May–Sep',
       flight_hours:'~16h c/escala',
-      visa_info:'Visa on arrival 30 días para españoles (35 USD). Prorrogable 30 días más.',
-      how_to_get_there:'No hay vuelo directo desde España. Las mejores conexiones son Emirates (Dubai) o Singapore Airlines (Singapur). Duración total 16-20h.',
+      visa_info:'✅ Sin visado (30 días): Singapur, Tailandia, Malasia, Filipinas, Vietnam y países ASEAN\n📋 Visa on Arrival (35 USD, 30 días, prorrogable): UE, EEUU, UK, Canadá, Australia, NZ, México, Brasil, Argentina, Colombia, Chile, Japón, Corea del Sur, y +50 países más\n🔴 Visado previo requerido: India, China, Pakistán, Bangladesh, Nigeria y algunos países africanos',
+      how_to_get_there:'No hay vuelo directo desde Europa ni América. Mejores conexiones: Emirates (Dubai), Singapore Airlines (Singapur), Cathay Pacific (Hong Kong), Qatar Airways. Desde Australia hay vuelos directos desde Sydney y Perth. Duración total desde Europa: 16-20h.',
       when_to_go:'La temporada seca de mayo a septiembre es ideal: poca lluvia, cielos azules. Julio y agosto son los más concurridos. Diciembre-enero tiene monzones pero precios más bajos.',
       local_transport:'Alquiler de moto (10-15€/día, carnet internacional necesario). GoJek y Grab para taxis. Contratar conductor privado para un día (40-60€) vale mucho la pena.',
       food_and_drink:'Nasi goreng, mie goreng, satay, gado-gado, babi guling. Los warungs (restaurantes locales) sirven platos completos por 2-4€. La escena de cafés en Canggu es excelente.',
@@ -745,8 +869,8 @@
       budget_daily_low:100, budget_daily_mid:200, budget_daily_high:500,
       best_months_label:'Jun–Ago / Feb (auroras)',
       flight_hours:'~3h desde Madrid',
-      visa_info:'Sin visado para españoles. Espacio Schengen. Pasaporte o DNI válido.',
-      how_to_get_there:'Icelandair y Wizz Air tienen vuelos directos desde Madrid (~3h). Vuelos desde 80€ ida en temporada baja.',
+      visa_info:'✅ Sin visado: UE/Schengen (libre circulación, DNI válido)\n✅ Sin visado 90 días: EEUU, UK, Canadá, Australia, NZ, Japón, Corea del Sur, México, Brasil, Argentina, Chile\n🔴 Visado Schengen necesario: India, China, Rusia, Turquía, Marruecos, Argelia, Colombia y la mayoría de países africanos y asiáticos',
+      how_to_get_there:'Desde Europa: Icelandair y Wizz Air desde múltiples ciudades europeas (Madrid, Londres, París, Amsterdam). Desde EEUU: Icelandair vuela directo desde Nueva York, Boston, Chicago, Seattle. Desde Sudamérica: conexión en Europa. Duración desde Europa ~2-4h.',
       when_to_go:'Para auroras boreales: noviembre–marzo (necesitas noches oscuras y cielo despejado). Para paisajes y senderismo: junio–agosto (sol de medianoche). Septiembre es un equilibrio excelente.',
       local_transport:'Alquiler de coche imprescindible para la Ring Road. 4x4 necesario en las pistas interiores (F-roads). No se puede hacer sin coche propio.',
       food_and_drink:'El skyr (yogur local), el cordero de pasto libre y el bacalao son los básicos. Comer en restaurantes es caro (40-60€/persona). El supermercado Bonus y cocinar ahorra mucho dinero.',
@@ -790,8 +914,8 @@
       budget_daily_low:50, budget_daily_mid:100, budget_daily_high:250,
       best_months_label:'Abr–Jun / Sep–Oct',
       flight_hours:'~2h desde Madrid',
-      visa_info:'Sin visado. Espacio Schengen. DNI válido.',
-      how_to_get_there:'Vuelo directo desde Madrid, Barcelona o Bilbao en 1h30-2h. TAP, Iberia, Vueling y Ryanair. También en coche desde Madrid en 6h.',
+      visa_info:'✅ Sin visado: UE/Schengen (libre circulación, DNI válido)\n✅ Sin visado 90 días: EEUU, UK, Canadá, Australia, NZ, Japón, Corea del Sur, México, Brasil, Argentina, Chile\n🔴 Visado Schengen necesario: India, China, Rusia, Turquía, Marruecos y la mayoría de países africanos y asiáticos',
+      how_to_get_there:'Desde Europa: vuelo directo desde la mayoría de ciudades europeas, desde 30-80€. Desde EEUU: TAP tiene vuelos directos desde Newark, JFK, Boston, Miami. Desde Latinoamérica: TAP desde São Paulo, Rio, Lima, Bogotá. Desde España: también accesible en coche o AVE+bus.',
       when_to_go:'Abril-junio y septiembre-octubre son los meses perfectos: buen tiempo sin el calor del verano ni las multitudes de agosto. Lisboa en enero es gris pero tiene encanto.',
       local_transport:'El metro de Lisboa es excelente y barato. Los eléctricos históricos para ver la ciudad. Alquiler de coche necesario para el Alentejo y el Algarve.',
       food_and_drink:'Bacalhau à brás, pastéis de nata en Belém, bifanas, sardinhas assadas, cataplana. Vinho verde y vinho do Alentejo son excepcionales. Comer bien por 10-15€ es fácil.',
@@ -835,8 +959,8 @@
       budget_daily_low:60, budget_daily_mid:120, budget_daily_high:400,
       best_months_label:'May–Jun / Sep–Oct',
       flight_hours:'~3h desde Madrid',
-      visa_info:'Sin visado. Espacio Schengen. DNI válido.',
-      how_to_get_there:'Vuelo directo a Atenas desde Madrid en ~3h. Ryanair, Vueling, Iberia, Aegean. Para las islas, ferry desde El Pireo o vuelo doméstico barato.',
+      visa_info:'✅ Sin visado: UE/Schengen (libre circulación, DNI válido)\n✅ Sin visado 90 días: EEUU, UK, Canadá, Australia, NZ, Japón, Corea del Sur, México, Brasil, Argentina, Chile\n🔴 Visado Schengen necesario: India, China, Rusia, Turquía, Marruecos y la mayoría de países africanos y asiáticos',
+      how_to_get_there:'Desde Europa: vuelo directo a Atenas o Tesalónica desde casi todas las ciudades. Desde EEUU: Delta y American directos desde JFK a Atenas. Desde Latinoamérica: conexión en Europa o Medio Oriente. Para las islas: ferry desde El Pireo o vuelo doméstico (~30-60€).',
       when_to_go:'Mayo-junio y septiembre-octubre son los meses dorados: sol garantizado, mar cálido y sin la locura de agosto. Santorini en agosto es bellísima pero superpoblada.',
       local_transport:'Ferry entre islas (SEAJETS y Blue Star). En las islas, moto de alquiler (20-30€/día). Atenas tiene metro excelente.',
       food_and_drink:'Spanakopita, moussaka, souvlaki, taramasalata, fresh fish, baklava. La cocina griega es abundante y barata. Una buena taverna cobra 15-25€ por persona con vino.',
@@ -993,10 +1117,35 @@
     if (d.where_to_sleep) renderSleep(d.where_to_sleep);
     if (d.budget_daily_low) renderBudget(d);
     if (d.how_to_get_there) document.getElementById('howToGet').textContent = d.how_to_get_there;
+    // Origin city personalization
+    renderOriginBanner();
     if (d.local_transport) document.getElementById('localTransport').textContent = d.local_transport;
     if (d.food_and_drink) document.getElementById('foodText').textContent = d.food_and_drink;
     if (d.local_tips?.length) renderTips(d.local_tips);
-    if (d.visa_info) document.getElementById('visaInfo').textContent = d.visa_info;
+    if (d.visa_info) {
+      document.getElementById('visaInfo').textContent = d.visa_info;
+      // Update quick stat based on user's country
+      const userCountry = localStorage.getItem('editCountry') || '';
+      const visaLower = d.visa_info.toLowerCase();
+      let visaShortPersonal = visaShort; // fallback to generic
+      if (userCountry) {
+        // Try to detect if user's country is specifically mentioned
+        const countryLower = userCountry.toLowerCase();
+        if (visaLower.includes(countryLower)) {
+          // Find which section it's in
+          const lines = d.visa_info.split('\n');
+          for (const line of lines) {
+            if (line.toLowerCase().includes(countryLower)) {
+              if (line.startsWith('✅')) visaShortPersonal = '✅ Sin visado';
+              else if (line.startsWith('📋')) visaShortPersonal = '📋 Visa on arrival';
+              else if (line.startsWith('🔴')) visaShortPersonal = '🔴 Visado requerido';
+              break;
+            }
+          }
+        }
+      }
+      document.getElementById('statVisa').textContent = visaShortPersonal;
+    }
 
     // Related
     renderRelated(d);

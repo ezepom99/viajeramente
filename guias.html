@@ -504,13 +504,45 @@
       margin-bottom: 8px;
     }
     footer p { font-size: .78rem; color: var(--text-3); }
+
+    /* ── Bottom Tab Bar (mobile) ── */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-top: 1px solid #E2E8F0;
+      z-index: 1000;
+      padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+    }
+    @media (max-width: 768px) {
+      .bottom-nav { display: flex; }
+      body { padding-bottom: 64px; }
+    }
+    .tab-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #94A3B8;
+      font-size: 0.65rem;
+      font-weight: 500;
+      padding: 4px 0;
+      gap: 2px;
+      transition: color .15s;
+    }
+    .tab-item.active { color: #0EA5E9; }
+    .tab-item:hover { color: #0EA5E9; }
+    .tab-icon { font-size: 1.3rem; line-height: 1; }
   </style>
 </head>
 <body>
 
 <!-- Nav -->
 <nav>
-  <a href="main.html" class="nav-logo">
+  <a href="index.html" id="navLogo" class="nav-logo">
     <span class="nav-logo-icon">✈️</span>
     ViajeraMente
   </a>
@@ -964,6 +996,9 @@ function goSurprise(e) {
       document.getElementById('nav-initials').textContent = initials;
       document.getElementById('nav-user').style.display = 'flex';
       document.getElementById('nav-guest').style.display = 'none';
+      // Logo → main when logged in
+      const logo = document.getElementById('navLogo');
+      if (logo) logo.href = 'main.html';
     }
   } catch(e) {}
 })();
@@ -973,5 +1008,29 @@ renderFeatured();
 renderRutas();
 loadGuides();
 </script>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <a href="main.html" class="tab-item">
+    <span class="tab-icon">🏠</span>
+    <span>Inicio</span>
+  </a>
+  <a href="guias.html" class="tab-item active">
+    <span class="tab-icon">🗺️</span>
+    <span>Guías</span>
+  </a>
+  <a href="plan.html" class="tab-item">
+    <span class="tab-icon">✈️</span>
+    <span>Planifica</span>
+  </a>
+  <a href="mapa.html" class="tab-item">
+    <span class="tab-icon">🌍</span>
+    <span>Mapa</span>
+  </a>
+  <a href="profile.html" class="tab-item">
+    <span class="tab-icon">👤</span>
+    <span>Perfil</span>
+  </a>
+</nav>
 </body>
 </html>
