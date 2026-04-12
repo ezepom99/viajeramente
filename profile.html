@@ -2581,6 +2581,47 @@
       </p>
     </div>
 
+    <!-- ── LISTAS DE EQUIPAJE ── -->
+    <div class="section-card" id="packingSection">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-title-icon">🎒</div>
+          Lista de equipaje
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="section-action" onclick="resetPackingList()" id="packingResetBtn" style="background:transparent;border:1px solid var(--border);color:var(--text-3);font-size:.72rem;">Reiniciar</button>
+          <button class="section-action" onclick="togglePackingEdit()" id="packingEditBtn">Personalizar</button>
+        </div>
+      </div>
+      <!-- Category tabs -->
+      <div id="packingTabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+        <button class="packing-tab active" onclick="switchPackingTab('docs')" id="tab-docs">📄 Documentación</button>
+        <button class="packing-tab" onclick="switchPackingTab('ropa')" id="tab-ropa">👕 Ropa</button>
+        <button class="packing-tab" onclick="switchPackingTab('botiquin')" id="tab-botiquin">💊 Botiquín</button>
+        <button class="packing-tab" onclick="switchPackingTab('neceser')" id="tab-neceser">🧴 Neceser</button>
+        <button class="packing-tab" onclick="switchPackingTab('tech')" id="tab-tech">📱 Tecnología</button>
+      </div>
+      <!-- Checklist area -->
+      <div id="packingList" style="display:flex;flex-direction:column;gap:6px;"></div>
+      <!-- Add item (hidden by default) -->
+      <div id="packingAddRow" style="display:none;margin-top:12px;">
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input id="packingNewItem" type="text" placeholder="Añadir elemento..." class="edit-input" style="flex:1;" onkeydown="if(event.key==='Enter')addPackingItem()">
+          <button class="section-action" onclick="addPackingItem()">Añadir</button>
+        </div>
+      </div>
+      <!-- Progress bar -->
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:.75rem;color:var(--text-3);">Progreso del equipaje</span>
+          <span id="packingProgress" style="font-size:.75rem;font-weight:600;color:var(--accent);">0 / 0 listos</span>
+        </div>
+        <div style="height:4px;background:var(--border);border-radius:4px;overflow:hidden;">
+          <div id="packingProgressBar" style="height:100%;background:var(--accent);border-radius:4px;width:0%;transition:width .3s;"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="section-card">
       <div class="section-header">
         <div class="section-title">
@@ -2706,6 +2747,38 @@
   cursor:pointer; font-size:1rem; color:#94A3B8;
 }
 .btn-remove-leg:hover { color:#EF4444; }
+
+/* Packing list */
+.packing-tab {
+  padding: 5px 12px; border-radius: 100px;
+  border: 1.5px solid var(--border); background: transparent;
+  font-size: .75rem; font-weight: 600; cursor: pointer; transition: all .15s;
+  color: var(--text-2); font-family: inherit;
+}
+.packing-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.packing-tab:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+.packing-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 10px;
+  background: var(--bg-soft); cursor: pointer; transition: background .15s;
+  font-size: .85rem; color: var(--text);
+  user-select: none;
+}
+.packing-item:hover { background: var(--border); }
+.packing-item.done { opacity: .55; }
+.packing-item.done span { text-decoration: line-through; }
+.packing-checkbox {
+  width: 18px; height: 18px; border-radius: 5px; border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all .15s; font-size: .7rem;
+}
+.packing-item.done .packing-checkbox { background: var(--accent); border-color: var(--accent); color: #fff; }
+.packing-delete {
+  margin-left: auto; padding: 2px 6px; background: transparent; border: none;
+  font-size: .8rem; color: var(--text-3); cursor: pointer; border-radius: 5px;
+  opacity: 0; transition: opacity .15s; flex-shrink: 0;
+}
+.packing-item:hover .packing-delete { opacity: 1; }
 </style>
 
 <!-- ── TOAST ── -->
@@ -3133,6 +3206,143 @@ function saveLivedPlaces() {
 }
 
 // ── API ──
+// ── Packing List ──────────────────────────────────────────────────────────────
+const PACKING_DEFAULTS = {
+  docs: [
+    'Pasaporte', 'DNI', 'Visado (si necesario)', 'Seguro de viaje',
+    'Tarjeta sanitaria / EHIC', 'Billetes de avión', 'Reservas de alojamiento',
+    'Número de emergencias del país', 'Carnet de conducir internacional', 'Fotocopias de documentos'
+  ],
+  ropa: [
+    'Camisetas (3-4)', 'Pantalones (2)', 'Ropa interior (4-5)',
+    'Calcetines (4-5)', 'Jersey o forro polar', 'Chaqueta impermeable',
+    'Ropa de dormir', 'Bañador', 'Zapatos cómodos', 'Chanclas o sandalias'
+  ],
+  botiquin: [
+    'Ibuprofeno / paracetamol', 'Antihistamínico', 'Antidiarreico',
+    'Repelente de mosquitos', 'Crema solar SPF50', 'Tiritas y esparadrapo',
+    'Vendaje elástico', 'Gotas oculares', 'Pastillas potabilizadoras', 'Termómetro'
+  ],
+  neceser: [
+    'Cepillo y pasta de dientes', 'Desodorante', 'Champú y acondicionador',
+    'Jabón o gel', 'Crema hidratante', 'Maquinilla de afeitar',
+    'Toalla de secado rápido', 'Cortaúñas', 'Preservativos', 'Medicación habitual'
+  ],
+  tech: [
+    'Móvil + cargador', 'Power bank', 'Auriculares', 'Adaptador de enchufe',
+    'Cámara de fotos', 'Tarjetas de memoria', 'Portátil (si necesario)',
+    'Cable multi USB', 'SIM local / eSIM', 'Candado para mochila'
+  ]
+};
+
+let currentPackingTab = 'docs';
+let packingData = {};  // { category: { items: [{text, done}], ...} }
+let packingEditMode = false;
+
+function initPackingList() {
+  const saved = localStorage.getItem('vm_packing');
+  if (saved) {
+    try { packingData = JSON.parse(saved); } catch { packingData = {}; }
+  }
+  // Ensure all categories exist
+  Object.keys(PACKING_DEFAULTS).forEach(cat => {
+    if (!packingData[cat]) {
+      packingData[cat] = PACKING_DEFAULTS[cat].map(t => ({ text: t, done: false }));
+    }
+  });
+  renderPackingList();
+}
+
+function savePackingData() {
+  localStorage.setItem('vm_packing', JSON.stringify(packingData));
+}
+
+function switchPackingTab(cat) {
+  currentPackingTab = cat;
+  document.querySelectorAll('.packing-tab').forEach(t => t.classList.remove('active'));
+  const tab = document.getElementById('tab-' + cat);
+  if (tab) tab.classList.add('active');
+  renderPackingList();
+}
+
+function renderPackingList() {
+  const list = document.getElementById('packingList');
+  if (!list) return;
+  const items = packingData[currentPackingTab] || [];
+  list.innerHTML = '';
+  items.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'packing-item' + (item.done ? ' done' : '');
+    el.onclick = () => togglePackingItem(i);
+    el.innerHTML = `
+      <div class="packing-checkbox">${item.done ? '✓' : ''}</div>
+      <span>${item.text}</span>
+      ${packingEditMode ? `<button class="packing-delete" onclick="event.stopPropagation();deletePackingItem(${i})" title="Eliminar">✕</button>` : ''}
+    `;
+    list.appendChild(el);
+  });
+  updatePackingProgress();
+}
+
+function togglePackingItem(index) {
+  const items = packingData[currentPackingTab];
+  if (!items) return;
+  items[index].done = !items[index].done;
+  savePackingData();
+  renderPackingList();
+}
+
+function deletePackingItem(index) {
+  const items = packingData[currentPackingTab];
+  if (!items) return;
+  items.splice(index, 1);
+  savePackingData();
+  renderPackingList();
+}
+
+function addPackingItem() {
+  const input = document.getElementById('packingNewItem');
+  const text = input.value.trim();
+  if (!text) return;
+  if (!packingData[currentPackingTab]) packingData[currentPackingTab] = [];
+  packingData[currentPackingTab].push({ text, done: false });
+  savePackingData();
+  input.value = '';
+  renderPackingList();
+}
+
+function togglePackingEdit() {
+  packingEditMode = !packingEditMode;
+  const btn = document.getElementById('packingEditBtn');
+  const addRow = document.getElementById('packingAddRow');
+  if (btn) btn.textContent = packingEditMode ? 'Listo' : 'Personalizar';
+  if (addRow) addRow.style.display = packingEditMode ? '' : 'none';
+  renderPackingList();
+}
+
+function resetPackingList() {
+  if (!confirm('¿Reiniciar todos los checks? Tus ítems personalizados no se borrarán.')) return;
+  Object.keys(packingData).forEach(cat => {
+    packingData[cat] = packingData[cat].map(i => ({ ...i, done: false }));
+  });
+  savePackingData();
+  renderPackingList();
+  showToast('🎒 Lista reiniciada', 'success');
+}
+
+function updatePackingProgress() {
+  let total = 0, done = 0;
+  Object.values(packingData).forEach(items => {
+    total += items.length;
+    done += items.filter(i => i.done).length;
+  });
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  const el = document.getElementById('packingProgress');
+  const bar = document.getElementById('packingProgressBar');
+  if (el) el.textContent = `${done} / ${total} listos`;
+  if (bar) bar.style.width = pct + '%';
+}
+
 async function loadProfile() {
   try {
     const res = await fetch(`${API_BASE}/api/me`, {
@@ -4328,6 +4538,7 @@ async function init() {
   renderBadges();
   renderTrips();
   renderLivedList();
+  initPackingList();
   updateStats();
 
   // Load profile from API
