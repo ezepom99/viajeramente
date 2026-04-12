@@ -426,10 +426,6 @@
     <span class="layer-toggle"></span>
     🏛️ 7 Maravillas Modernas
   </div>
-  <div class="layer-item" id="layer-maravillas_nat" onclick="toggleLayer('maravillas_nat')">
-    <span class="layer-toggle"></span>
-    🌿 7 Maravillas Naturales
-  </div>
   <div class="layer-divider"></div>
   <div class="layer-item" id="layer-ciudades" onclick="toggleLayer('ciudades')">
     <span class="layer-toggle"></span>
@@ -631,7 +627,7 @@ let visitedWonders = new Set(
 // visitedCities is an array of city name strings in profile.html
 let visitedCities = JSON.parse(localStorage.getItem('visitedCities') || '[]');
 
-let layers = { heatmap: false, maravillas_new: false, maravillas_nat: false, ciudades: false };
+let layers = { heatmap: false, maravillas_new: false, ciudades: false };
 let layersPanelOpen = false;
 
 let map, geoLayer, heatLayer, wonderLayer;
@@ -861,7 +857,6 @@ function toggleLayer(name) {
 
   if (name === 'heatmap')         refreshHeatmap();
   if (name === 'maravillas_new')  refreshWonders();
-  if (name === 'maravillas_nat')  refreshWonders();
   if (name === 'ciudades')        refreshCities();
 }
 
@@ -909,13 +904,12 @@ function refreshHeatmap() {
 
 function refreshWonders() {
   if (wonderLayer) { map.removeLayer(wonderLayer); wonderLayer = null; }
-  if (!layers.maravillas_new && !layers.maravillas_nat) return;
+  if (!layers.maravillas_new) return;
 
   wonderLayer = L.layerGroup().addTo(map);
 
   const toShow = [];
   if (layers.maravillas_new) toShow.push(...WONDERS_NEW);
-  if (layers.maravillas_nat) toShow.push(...WONDERS_NATURAL);
 
   toShow.forEach(w => {
     const isVisited = visitedWonders.has(w.id);
