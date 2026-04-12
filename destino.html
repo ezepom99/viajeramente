@@ -1765,8 +1765,15 @@
       html += `<div class="vaccines-notes">${escHtml(notes)}</div>`;
     }
 
-    // Medical disclaimer
-    html += `<div class="vaccines-disclaimer">⚕️ <em>Información orientativa. Consulta siempre con tu médico o centro de vacunación internacional antes del viaje. Los requisitos pueden cambiar.</em></div>`;
+    // Medical disclaimer + official links
+    const destSlugForCDC = encodeURIComponent((currentDest && currentDest.name) || '');
+    html += `<div class="vaccines-disclaimer">⚕️ <em>Información orientativa. Consulta siempre con tu médico o centro de vacunación internacional antes del viaje. Los requisitos pueden cambiar.</em>
+      <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:8px;">
+        <a href="https://wwwnc.cdc.gov/travel/destinations/list" target="_blank" rel="noopener" style="font-size:.78rem;color:#3B82F6;text-decoration:none;padding:3px 8px;border:1px solid #BFDBFE;border-radius:6px;">🔗 CDC Travel Health</a>
+        <a href="https://www.who.int/travel-advice" target="_blank" rel="noopener" style="font-size:.78rem;color:#3B82F6;text-decoration:none;padding:3px 8px;border:1px solid #BFDBFE;border-radius:6px;">🔗 OMS Travel Advice</a>
+        <a href="https://www.mscbs.gob.es/profesionales/saludPublica/sanidadExterior/saludViajerosEsp/home.htm" target="_blank" rel="noopener" style="font-size:.78rem;color:#3B82F6;text-decoration:none;padding:3px 8px;border:1px solid #BFDBFE;border-radius:6px;">🔗 Sanidad España</a>
+      </div>
+    </div>`;
 
     content.innerHTML = html;
     el.style.display = '';
