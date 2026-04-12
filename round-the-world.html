@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía Vuelta al Mundo (RTW) 2025 — Cómo planificar una Round The World Trip · ViajeraMente</title>
+  <meta name="description" content="Guía completa para planificar una vuelta al mundo: tickets RTW, alianzas de vuelo, rutas, presupuesto y consejos reales para circunnavegar el planeta.">
+  <meta property="og:title" content="Guía Vuelta al Mundo RTW 2025 — ViajeraMente">
+  <meta property="og:description" content="Todo lo que necesitas saber para dar la vuelta al mundo en avión. Desde 2.000€ hasta 8.000€. Alianzas, rutas y consejos reales.">
+  <meta property="og:image" content="https://images.pexels.com/photos/2007401/pexels-photo-2007401.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&fit=crop">
+  <meta property="og:url" content="https://viajeramente.com/round-the-world.html">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #FFFFFF;
+      --bg-soft: #F8FAFC;
+      --text: #0F172A;
+      --text-2: #64748B;
+      --text-3: #9CA3AF;
+      --border: #E2E8F0;
+      --accent: #0EA5E9;
+      --accent-dark: #0284C7;
+      --accent-light: #E0F2FE;
+      --green: #10B981;
+      --green-light: #D1FAE5;
+      --gold: #F59E0B;
+      --gold-light: #FFFBEB;
+      --orange: #F97316;
+      --orange-light: #FFF7ED;
+      --shadow: 0 2px 12px rgba(0,0,0,.07);
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+      font-size: 15px;
+    }
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+    @keyframes fadeInUp  { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      animation: slideDown .4s ease both;
+    }
+    .nav-back {
+      font-size: .85rem; font-weight: 500; color: var(--text-2);
+      text-decoration: none; padding: 6px 10px; border-radius: 8px;
+      transition: all .2s; display: flex; align-items: center; gap: 5px;
+    }
+    .nav-back:hover { color: var(--text); background: var(--bg-soft); }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem; font-weight: 700; color: var(--text);
+      text-decoration: none; display: flex; align-items: center; gap: 6px;
+      transition: opacity .2s;
+    }
+    .nav-logo:hover { opacity: .75; }
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-btn {
+      font-size: .82rem; font-weight: 600; color: #fff;
+      background: var(--accent); text-decoration: none;
+      padding: 7px 14px; border-radius: 100px; transition: all .2s;
+    }
+    .nav-btn:hover { background: var(--accent-dark); }
+    .nav-btn-ghost {
+      font-size: .82rem; font-weight: 500; color: var(--text-2);
+      text-decoration: none; padding: 7px 12px; border-radius: 8px; transition: all .2s;
+    }
+    .nav-btn-ghost:hover { color: var(--text); background: var(--bg-soft); }
+    #navUser { display: none; }
+    .nav-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--accent-light); border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 700; color: var(--accent);
+      text-decoration: none; overflow: hidden; transition: border-color .2s;
+    }
+    .nav-avatar:hover { border-color: var(--accent); }
+    .nav-avatar img { width:100%; height:100%; object-fit:cover; }
+
+    /* ── Hero ── */
+    .dest-hero {
+      height: 52vh; min-height: 380px; max-height: 620px;
+      background: #111 center/cover no-repeat;
+      position: relative;
+      display: flex; align-items: flex-end;
+      margin-top: 56px;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.15) 0%, rgba(0,0,0,.72) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 1;
+      padding: 28px 28px 36px;
+      width: 100%; max-width: 900px; margin: 0 auto;
+      animation: fadeInUp .6s ease both;
+    }
+    .hero-eyebrow {
+      font-size: .75rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.8);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+    }
+    .hero-badge {
+      background: var(--orange); color: #fff;
+      padding: 3px 10px; border-radius: 100px;
+      font-size: .65rem; font-weight: 700; letter-spacing: .08em;
+    }
+    .hero-content h1 {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 800; color: #fff;
+      line-height: 1.05; letter-spacing: -.03em;
+      margin-bottom: 12px;
+    }
+    .hero-tagline {
+      font-size: 1.05rem; color: rgba(255,255,255,.88);
+      margin-bottom: 18px; max-width: 560px; line-height: 1.5;
+    }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .hero-chip {
+      padding: 5px 12px; border-radius: 20px;
+      background: rgba(255,255,255,.15);
+      backdrop-filter: blur(8px);
+      color: #fff; font-size: .8rem; font-weight: 500;
+      border: 1px solid rgba(255,255,255,.25);
+    }
+
+    /* ── Page body ── */
+    .page-body {
+      max-width: 900px; margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    /* ── Quick stats ── */
+    .quick-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin: 28px 0 0;
+      animation: fadeInUp .5s .1s ease both;
+    }
+    @media (max-width: 600px) { .quick-stats { grid-template-columns: repeat(2, 1fr); } }
+    .stat-item {
+      padding: 18px 16px; text-align: center;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-item:nth-child(4n) { border-right: none; }
+    @media (max-width: 600px) {
+      .stat-item:nth-child(2n) { border-right: none; }
+      .stat-item:nth-child(n+3) { border-bottom: none; }
+    }
+    .stat-label {
+      font-size: .7rem; font-weight: 600; letter-spacing: .05em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 6px;
+    }
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem; font-weight: 700; color: var(--text);
+    }
+    .stat-sub { font-size: .74rem; color: var(--text-3); margin-top: 3px; }
+
+    /* ── Sections ── */
+    .section { margin-top: 52px; animation: fadeInUp .5s .15s ease both; }
+    .section h2 {
+      font-size: 1.3rem; font-weight: 700; letter-spacing: -.02em;
+      color: var(--text); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-prose { color: var(--text-2); line-height: 1.8; font-size: .95rem; }
+    .section-prose p { margin-bottom: 12px; }
+    .section-prose p:last-child { margin-bottom: 0; }
+    .section-prose strong { color: var(--text); font-weight: 600; }
+
+    /* ── Info card ── */
+    .info-card {
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 24px;
+    }
+
+    /* ── Alliance cards ── */
+    .alliance-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    @media (max-width: 600px) { .alliance-grid { grid-template-columns: 1fr; } }
+    .alliance-card {
+      border-radius: 14px; padding: 20px 18px;
+      border: 2px solid var(--border); text-align: center;
+    }
+    .alliance-card.oneworld { border-color: #C41E3A; background: #FFF5F5; }
+    .alliance-card.star { border-color: #1A4FAB; background: #EEF2FF; }
+    .alliance-card.skyteam { border-color: #006CB7; background: #EFF6FF; }
+    .alliance-logo { font-size: 1.8rem; margin-bottom: 8px; }
+    .alliance-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem; font-weight: 800; margin-bottom: 6px;
+    }
+    .alliance-card.oneworld .alliance-name { color: #C41E3A; }
+    .alliance-card.star .alliance-name { color: #1A4FAB; }
+    .alliance-card.skyteam .alliance-name { color: #006CB7; }
+    .alliance-members { font-size: .78rem; color: var(--text-2); line-height: 1.65; }
+    .alliance-price {
+      margin-top: 10px; font-size: .82rem; font-weight: 700;
+      color: var(--text-2);
+    }
+
+    /* ── Options comparison ── */
+    .options-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    @media (max-width: 540px) { .options-grid { grid-template-columns: 1fr; } }
+    .option-card {
+      border-radius: 14px; padding: 22px 20px;
+      border: 2px solid var(--border);
+    }
+    .option-card.official { border-color: var(--orange); background: var(--orange-light); }
+    .option-card.diy { border-color: var(--green); background: var(--green-light); }
+    .option-badge {
+      display: inline-block; font-size: .65rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 100px; margin-bottom: 10px;
+    }
+    .option-card.official .option-badge { background: var(--orange); color: #fff; }
+    .option-card.diy .option-badge { background: var(--green); color: #fff; }
+    .option-card h3 {
+      font-size: 1rem; font-weight: 700; margin-bottom: 8px;
+    }
+    .option-card.official h3 { color: var(--orange); }
+    .option-card.diy h3 { color: var(--green); }
+    .option-pros-cons { font-size: .84rem; color: var(--text-2); line-height: 1.7; }
+    .pro { color: var(--green); font-weight: 600; }
+    .con { color: #EF4444; font-weight: 600; }
+
+    /* ── Rutas ── */
+    .rutas-list { display: flex; flex-direction: column; gap: 20px; }
+    .ruta-item {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--bg); overflow: hidden; transition: box-shadow .2s;
+    }
+    .ruta-item:hover { box-shadow: 0 6px 24px rgba(0,0,0,.09); }
+    .ruta-header {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 20px 20px 16px;
+    }
+    .ruta-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--orange); color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .ruta-info { flex: 1; }
+    .ruta-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 4px;
+    }
+    .ruta-path { font-size: .83rem; color: var(--orange); font-weight: 600; margin-bottom: 6px; }
+    .ruta-desc { font-size: .88rem; color: var(--text-2); line-height: 1.65; }
+    .ruta-meta {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      padding: 12px 20px 16px 72px;
+      border-top: 1px solid var(--bg-soft);
+    }
+    .ruta-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 11px; border-radius: 100px;
+      background: var(--bg-soft); border: 1px solid var(--border);
+      font-size: .76rem; font-weight: 600; color: var(--text-2);
+    }
+
+    /* ── Stops timeline ── */
+    .stops-timeline { padding: 16px 0; }
+    .stop-row {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding-bottom: 16px; position: relative;
+    }
+    .stop-row:last-child { padding-bottom: 0; }
+    .stop-dot-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      flex-shrink: 0; width: 28px;
+    }
+    .stop-dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--orange); border: 2px solid #fff;
+      box-shadow: 0 0 0 2px var(--orange);
+      flex-shrink: 0; margin-top: 3px;
+    }
+    .stop-line {
+      width: 2px; background: var(--border); flex: 1;
+      min-height: 24px; margin-top: 4px;
+    }
+    .stop-row:last-child .stop-line { display: none; }
+    .stop-city {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .92rem; font-weight: 700; color: var(--text);
+      margin-bottom: 2px;
+    }
+    .stop-note { font-size: .82rem; color: var(--text-2); line-height: 1.55; }
+    .stop-days {
+      margin-left: auto; flex-shrink: 0;
+      font-size: .75rem; font-weight: 700; color: var(--orange);
+      background: var(--orange-light); border: 1px solid #FED7AA;
+      padding: 3px 9px; border-radius: 100px;
+    }
+
+    /* ── Tips grid ── */
+    .tips-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+    }
+    @media (max-width: 560px) { .tips-grid { grid-template-columns: 1fr; } }
+    .tip-card {
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px 18px;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .tip-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+    .tip-content h4 { font-size: .88rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .tip-content p { font-size: .82rem; color: var(--text-2); line-height: 1.6; }
+
+    /* ── Budget ── */
+    .budget-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    @media (max-width: 560px) { .budget-grid { grid-template-columns: 1fr; } }
+    .budget-card {
+      border-radius: 14px; padding: 20px 18px;
+      border: 2px solid var(--border); text-align: center;
+    }
+    .budget-card.budget { border-color: var(--green); background: var(--green-light); }
+    .budget-card.mid { border-color: var(--accent); background: var(--accent-light); }
+    .budget-card.premium { border-color: var(--gold); background: var(--gold-light); }
+    .budget-tier { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+    .budget-card.budget .budget-tier { color: var(--green); }
+    .budget-card.mid .budget-tier { color: var(--accent-dark); }
+    .budget-card.premium .budget-tier { color: var(--gold); }
+    .budget-amount { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+    .budget-period { font-size: .75rem; color: var(--text-3); margin-bottom: 12px; }
+    .budget-items { list-style: none; text-align: left; font-size: .8rem; color: var(--text-2); line-height: 1.9; }
+    .budget-items li::before { content: "· "; color: var(--text-3); }
+
+    /* ── Alert ── */
+    .alert {
+      padding: 14px 18px; border-radius: 12px;
+      font-size: .88rem; line-height: 1.65;
+      display: flex; gap: 10px; align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .alert-warning { background: var(--gold-light); border: 1px solid #FDE68A; color: #92400E; }
+    .alert-info { background: var(--accent-light); border: 1px solid #BAE6FD; color: #0C4A6E; }
+    .alert-green { background: var(--green-light); border: 1px solid #A7F3D0; color: #065F46; }
+    .alert-orange { background: var(--orange-light); border: 1px solid #FED7AA; color: #9A3412; }
+    .alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Rules table ── */
+    .rules-list { display: flex; flex-direction: column; gap: 12px; }
+    .rule-item {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 14px 18px; background: var(--bg-soft);
+      border: 1px solid var(--border); border-radius: 12px;
+    }
+    .rule-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--orange); color: #fff;
+      font-weight: 800; font-size: .82rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .rule-text h4 { font-size: .88rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .rule-text p { font-size: .82rem; color: var(--text-2); line-height: 1.6; }
+
+    /* ── Visa table ── */
+    .visa-table {
+      width: 100%; border-collapse: collapse; font-size: .85rem;
+      border-radius: 12px; overflow: hidden; border: 1px solid var(--border);
+    }
+    .visa-table th {
+      background: var(--bg-soft); padding: 10px 14px;
+      text-align: left; font-size: .72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .04em; color: var(--text-3);
+      border-bottom: 1px solid var(--border);
+    }
+    .visa-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-2); }
+    .visa-table tr:last-child td { border-bottom: none; }
+    .badge-yes { background: var(--green-light); color: #065F46; padding: 2px 8px; border-radius: 100px; font-size: .7rem; font-weight: 700; }
+    .badge-no { background: #FEE2E2; color: #DC2626; padding: 2px 8px; border-radius: 100px; font-size: .7rem; font-weight: 700; }
+    .badge-check { background: var(--gold-light); color: #B45309; padding: 2px 8px; border-radius: 100px; font-size: .7rem; font-weight: 700; }
+
+    /* ── CTA ── */
+    .cta-section {
+      margin-top: 60px;
+      background: linear-gradient(135deg, #1E3A5F 0%, #0EA5E9 100%);
+      border-radius: 20px; padding: 40px 32px; text-align: center; color: #fff;
+    }
+    .cta-section h2 { font-size: 1.6rem; font-weight: 800; letter-spacing: -.03em; color: #fff; margin-bottom: 10px; }
+    .cta-section p { font-size: .95rem; color: rgba(255,255,255,.85); margin-bottom: 24px; max-width: 420px; margin-left: auto; margin-right: auto; }
+    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta-btn-primary {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #fff; color: #1E3A5F;
+      font-weight: 700; font-size: .95rem;
+      padding: 13px 26px; border-radius: 100px;
+      text-decoration: none; transition: all .2s;
+    }
+    .cta-btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .cta-btn-secondary {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.15); color: #fff;
+      font-weight: 600; font-size: .95rem;
+      padding: 13px 26px; border-radius: 100px;
+      text-decoration: none; border: 1.5px solid rgba(255,255,255,.35); transition: all .2s;
+    }
+    .cta-btn-secondary:hover { background: rgba(255,255,255,.25); }
+
+    /* Footer */
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 32px 24px; text-align: center;
+    }
+    .footer-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; color: var(--text-2); margin-bottom: 8px; }
+    footer p { font-size: .78rem; color: var(--text-3); }
+
+    /* ── Bottom Tab Bar (mobile) ── */
+    .bottom-nav {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #fff; border-top: 1px solid #E2E8F0;
+      z-index: 1000; padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+    }
+    @media (max-width: 768px) { .bottom-nav { display: flex; } body { padding-bottom: 64px; } }
+    .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; color: #94A3B8; font-size: 0.65rem; font-weight: 500; padding: 4px 0; gap: 2px; transition: color .15s; }
+    .tab-item.active { color: #0EA5E9; }
+    .tab-icon { font-size: 1.3rem; line-height: 1; }
+
+    @media (max-width: 640px) {
+      .hero-content { padding: 20px 20px 28px; }
+      .page-body { padding: 0 16px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="guias.html" class="nav-back">← Guías</a>
+  <a href="index.html" class="nav-logo">✈️ ViajeraMente</a>
+  <div class="nav-actions">
+    <div id="navGuest">
+      <a href="login.html" class="nav-btn-ghost">Entrar</a>
+      <a href="signup.html" class="nav-btn">Registrarse</a>
+    </div>
+    <div id="navUser" style="display:none;">
+      <a href="profile.html" class="nav-avatar" id="navAvatarLink">
+        <span id="navInitials">?</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="dest-hero" style="background-image: url('https://images.pexels.com/photos/2007401/pexels-photo-2007401.jpeg?auto=compress&cs=tinysrgb&w=1400&h=700&fit=crop');">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-badge">Experiencia especial</span>
+      🌍 Vuelta al mundo
+    </div>
+    <h1>Round The World Trip</h1>
+    <p class="hero-tagline">El viaje definitivo. Un billete, todo el planeta, sin límite de sueños. La vuelta al mundo es posible desde 2.000€.</p>
+    <div class="hero-chips">
+      <span class="hero-chip">🌏 Circunnavegar el planeta</span>
+      <span class="hero-chip">💰 Desde 2.000€</span>
+      <span class="hero-chip">⏱️ 3 meses a 1 año</span>
+      <span class="hero-chip">✈️ Alianzas oficiales</span>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<div class="page-body">
+
+  <!-- Quick stats -->
+  <div class="quick-stats">
+    <div class="stat-item">
+      <div class="stat-label">Presupuesto mínimo</div>
+      <div class="stat-value">~2.000€</div>
+      <div class="stat-sub">vuelos low-cost</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Ticket alianza RTW</div>
+      <div class="stat-value">4.000–8.000€</div>
+      <div class="stat-sub">OneWorld / Star Alliance</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Duración típica</div>
+      <div class="stat-value">3–12 meses</div>
+      <div class="stat-sub">tú decides cuándo volver</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Paradas habituales</div>
+      <div class="stat-value">5–15</div>
+      <div class="stat-sub">según presupuesto</div>
+    </div>
+  </div>
+
+  <!-- Qué es -->
+  <section class="section">
+    <h2>🌍 ¿Qué es un viaje RTW?</h2>
+    <div class="section-prose">
+      <p>Un <strong>Round The World Trip (RTW)</strong> es el acto de circunnavegar el planeta Tierra haciendo escala en varios continentes. No hay una definición rígida: puede durar 3 meses o 2 años, puede costar 3.000€ o 25.000€, puede hacerse en avión, barco, tren o combinando todo.</p>
+      <p>Lo que lo hace especial no es el precio ni la distancia — es la mentalidad. Un RTW implica cruzar al menos 2 continentes, generalmente visitando <strong>Asia, Oceanía, América y Europa</strong> en un solo viaje conectado. La dirección puede ser este u oeste, pero siempre tienes que mantener la <strong>progresión continua</strong> (sin dar media vuelta).</p>
+      <p>Hay dos formas principales de hacerlo: comprar un <strong>ticket RTW oficial</strong> de las grandes alianzas de aerolíneas, o <strong>construirlo tú mismo</strong> con vuelos separados (la opción más flexible y habitualmente más barata).</p>
+    </div>
+  </section>
+
+  <!-- Las alianzas -->
+  <section class="section">
+    <h2>✈️ Las alianzas: OneWorld, Star Alliance y SkyTeam</h2>
+    <div class="section-prose" style="margin-bottom: 18px;">
+      <p>Las tres grandes alianzas de aerolíneas ofrecen tickets RTW que te permiten hacer escala en sus aeropuertos con un solo billete. Los precios se calculan según <strong>número de continentes, kilómetros volados o número de vuelos</strong> dependiendo de la alianza.</p>
+    </div>
+    <div class="alliance-grid">
+      <div class="alliance-card oneworld">
+        <div class="alliance-logo">🔴</div>
+        <div class="alliance-name">oneworld Explorer</div>
+        <div class="alliance-members">Iberia · British Airways · American Airlines · Cathay Pacific · Qantas · JAL · Finnair · Royal Jordanian · Qatar Airways</div>
+        <div class="alliance-price">Desde ~3.300€ (3 cont.) · ~4.200€ (4 cont.) · ~5.500€ (5 cont.)</div>
+      </div>
+      <div class="alliance-card star">
+        <div class="alliance-logo">⭐</div>
+        <div class="alliance-name">Star Alliance RTW</div>
+        <div class="alliance-members">Lufthansa · United · Air Canada · Singapore · ANA · Turkish · TAP · Avianca · South African · Thai · Scandinavian</div>
+        <div class="alliance-price">Desde ~3.500€ (26.000 km) · ~4.500€ (36.000 km) · ~6.000€ (49.000 km)</div>
+      </div>
+      <div class="alliance-card skyteam">
+        <div class="alliance-logo">🔵</div>
+        <div class="alliance-name">SkyTeam RTW</div>
+        <div class="alliance-members">Air France · KLM · Delta · Air Europa · Aeromexico · Korean Air · Vietnam Airlines · China Airlines · Alitalia</div>
+        <div class="alliance-price">Precios similares · cotizar en web oficial según ruta específica</div>
+      </div>
+    </div>
+    <div class="alert alert-info" style="margin-top: 16px;">
+      <span class="alert-icon">💡</span>
+      <span>Si vuelas desde España, <strong>oneworld</strong> (con Iberia) es habitualmente la opción más conveniente y bien conectada. Puedes cotizar online en <a href="https://www.oneworld.com/flights/round-the-world-fares" target="_blank" rel="noopener" style="color:#0C4A6E;font-weight:600;">oneworld.com</a> o llamando directamente a Iberia.</span>
+    </div>
+  </section>
+
+  <!-- Ticket oficial vs DIY -->
+  <section class="section">
+    <h2>🤔 Ticket oficial vs. Construirlo tú mismo</h2>
+    <div class="options-grid">
+      <div class="option-card official">
+        <div class="option-badge">Ticket oficial RTW</div>
+        <h3>Alianza aerolíneas</h3>
+        <div class="option-pros-cons">
+          <p><span class="pro">✅ Ventajas:</span></p>
+          <p>Un solo pago, un solo billete. Cambios de fecha incluidos (con cargo). Mejor integración de equipaje. Atención de aerolínea si hay problemas. Más fácil de gestionar.</p>
+          <br>
+          <p><span class="con">❌ Inconvenientes:</span></p>
+          <p>Más caro que hacerlo tú. Tienes que planear la ruta por adelantado. Restricciones de dirección y continentes. No aprovechas aerolíneas de bajo coste.</p>
+          <br>
+          <p><strong>Precio:</strong> 3.300–8.000€ según continentes</p>
+        </div>
+      </div>
+      <div class="option-card diy">
+        <div class="option-badge">DIY — Vuelos separados</div>
+        <h3>Montas la ruta tú mismo</h3>
+        <div class="option-pros-cons">
+          <p><span class="pro">✅ Ventajas:</span></p>
+          <p>Mucho más barato (2.000–3.500€ el total de vuelos). Total flexibilidad de fechas y destinos. Puedes aprovechar aerolíneas budget de cada región. Cambias el plan sin perder el billete entero.</p>
+          <br>
+          <p><span class="con">❌ Inconvenientes:</span></p>
+          <p>Más trabajo de investigación. Si un vuelo se cancela, cada tramo va por separado. Gestión de múltiples reservas. Equipaje facturado se cobra en cada vuelo.</p>
+          <br>
+          <p><strong>Precio:</strong> 2.000–4.000€ total de vuelos</p>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-green" style="margin-top: 16px;">
+      <span class="alert-icon">💡</span>
+      <span><strong>Recomendación de ViajeraMente:</strong> Para menos de 6 meses → DIY con vuelos separados. Para más de 6 meses con muchos continentes → ticket oficial. Usa <a href="https://www.google.com/flights" target="_blank" rel="noopener" style="color:#065F46;font-weight:600;">Google Flights</a>, <a href="https://www.skyscanner.es" target="_blank" rel="noopener" style="color:#065F46;font-weight:600;">Skyscanner</a> y <a href="https://www.kayak.es" target="_blank" rel="noopener" style="color:#065F46;font-weight:600;">Kayak</a> para comparar.</span>
+    </div>
+  </section>
+
+  <!-- Reglas RTW -->
+  <section class="section">
+    <h2>📋 Reglas de los tickets RTW oficiales</h2>
+    <div class="rules-list">
+      <div class="rule-item">
+        <div class="rule-num">1</div>
+        <div class="rule-text">
+          <h4>Dirección continua — sin dar media vuelta</h4>
+          <p>Debes volar siempre en la misma dirección: o siempre hacia el este, o siempre hacia el oeste. No puedes ir Madrid → Tokyo → Nueva York → Buenos Aires → Bangkok (cambias de dirección). La ruta debe ser coherente.</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">2</div>
+        <div class="rule-text">
+          <h4>Empiezas y terminas en el mismo país</h4>
+          <p>El ticket RTW debe comenzar y terminar en el mismo país (normalmente el de tu residencia). El viaje es literalmente una vuelta al mundo — sales de Madrid y vuelves a Madrid.</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">3</div>
+        <div class="rule-text">
+          <h4>Mínimo 3 continentes</h4>
+          <p>Los tickets RTW oficiales requieren visitar al menos 3 continentes distintos. La mayoría de rutas populares cubren 4–5: Europa, Asia, Oceanía/América del Sur, América del Norte.</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">4</div>
+        <div class="rule-text">
+          <h4>Duración máxima: 1 año</h4>
+          <p>El ticket RTW caduca a los 12 meses desde el primer vuelo. Puedes tomarte el tiempo que quieras entre paradas, pero tienes que terminar en 1 año. La mayoría de la gente lo hace en 3–6 meses.</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">5</div>
+        <div class="rule-text">
+          <h4>Número de paradas según el paquete</h4>
+          <p>Según la alianza y el nivel del ticket, puedes hacer entre 5 y 16 paradas. Cambios de fecha: sí (con cargo). Cambios de destino: sí, pero con restricciones y coste adicional.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rutas recomendadas -->
+  <section class="section">
+    <h2>🗺️ Rutas recomendadas</h2>
+    <div class="rutas-list">
+
+      <div class="ruta-item">
+        <div class="ruta-header">
+          <div class="ruta-num">1</div>
+          <div class="ruta-info">
+            <div class="ruta-name">La Ruta Clásica — Dirección Este</div>
+            <div class="ruta-path">Madrid → Nueva York → Los Ángeles → Tokyo → Bangkok → Bali → Dubai → Madrid</div>
+            <div class="ruta-desc">El recorrido más popular para una primera vuelta al mundo. Combina la Costa Este y Oeste de EEUU, Japón (imprescindible), el Sudeste Asiático con Tailandia e Indonesia, y una escala en Dubai de vuelta. Aproximadamente 4 continentes, 5–7 paradas.</div>
+          </div>
+        </div>
+        <div class="ruta-meta">
+          <span class="ruta-chip">⏱️ 3–5 meses</span>
+          <span class="ruta-chip">💰 ~2.800–4.500€ vuelos</span>
+          <span class="ruta-chip">🌍 4 continentes</span>
+          <span class="ruta-chip">🌟 Para primeras veces</span>
+        </div>
+      </div>
+
+      <div class="ruta-item">
+        <div class="ruta-header">
+          <div class="ruta-num">2</div>
+          <div class="ruta-info">
+            <div class="ruta-name">La Australiana</div>
+            <div class="ruta-path">Madrid → Nueva York → Sydney → Bali → Singapur → Dubai → Madrid</div>
+            <div class="ruta-desc">Para quien Australia es el destino soñado. Combina un road trip americano, el espectáculo natural de Australia (Great Barrier Reef, Uluru, Tasmania), el caos multicolor de Bali y la eficiencia asiática de Singapur. Ideal para 4–6 meses con trabajo remoto.</div>
+          </div>
+        </div>
+        <div class="ruta-meta">
+          <span class="ruta-chip">⏱️ 4–6 meses</span>
+          <span class="ruta-chip">💰 ~3.200–5.000€ vuelos</span>
+          <span class="ruta-chip">🌏 Oceanía incluida</span>
+          <span class="ruta-chip">🌊 Naturaleza</span>
+        </div>
+      </div>
+
+      <div class="ruta-item">
+        <div class="ruta-header">
+          <div class="ruta-num">3</div>
+          <div class="ruta-info">
+            <div class="ruta-name">Sudamérica + Asia (dirección Oeste)</div>
+            <div class="ruta-path">Madrid → Buenos Aires → Lima → Ciudad de México → Tokyo → Vietnam → India → Madrid</div>
+            <div class="ruta-desc">Para quien quiere ver América Latina de verdad. Empieza en Buenos Aires (Patagonia, tango), sube por Perú (Machu Picchu, Amazonía), cruzas a México y vuelas a Japón. La India como final explosivo antes de volver. Esta es una ruta de aventureros de verdad.</div>
+          </div>
+        </div>
+        <div class="ruta-meta">
+          <span class="ruta-chip">⏱️ 5–8 meses</span>
+          <span class="ruta-chip">💰 ~2.500–4.000€ vuelos</span>
+          <span class="ruta-chip">🦙 América del Sur</span>
+          <span class="ruta-chip">💪 Nivel avanzado</span>
+        </div>
+      </div>
+
+      <div class="ruta-item">
+        <div class="ruta-header">
+          <div class="ruta-num">4</div>
+          <div class="ruta-info">
+            <div class="ruta-name">El Gran RTW (5 continentes)</div>
+            <div class="ruta-path">Madrid → Nairobi/Ciudad del Cabo → Bombay → Bangkok → Tokyo → Sydney → Buenos Aires → Nueva York → Madrid</div>
+            <div class="ruta-desc">Para quien quiere hacerlo de verdad. África, India, Sudeste Asiático, Japón, Australia, Argentina y EEUU en un solo viaje. Requiere mínimo 6 meses y un presupuesto total de €12.000–20.000 todo incluido. El billete RTW oficial aquí sí empieza a compensar frente al DIY.</div>
+          </div>
+        </div>
+        <div class="ruta-meta">
+          <span class="ruta-chip">⏱️ 6–12 meses</span>
+          <span class="ruta-chip">💰 ~5.000–8.000€ vuelos RTW</span>
+          <span class="ruta-chip">🌍 5 continentes</span>
+          <span class="ruta-chip">💎 El viaje de tu vida</span>
+        </div>
+      </div>
+
+      <div class="ruta-item">
+        <div class="ruta-header">
+          <div class="ruta-num">5</div>
+          <div class="ruta-info">
+            <div class="ruta-name">RTW Budget — Lo máximo por menos dinero</div>
+            <div class="ruta-path">Madrid → Bangkok → Kuala Lumpur → Bali → Sydney (work holiday visa) → Nueva Zelanda → Lima → Bogotá → Madrid</div>
+            <div class="ruta-desc">La vuelta al mundo más económica posible. El Sudeste Asiático es barato, Australia y NZ se financian con la Working Holiday Visa (hasta 1 año de trabajo legal), y Sudamérica cierra el círculo. Con trabajo en destino, este viaje puede ser prácticamente autosuficiente. Requiere visas con antelación.</div>
+          </div>
+        </div>
+        <div class="ruta-meta">
+          <span class="ruta-chip">⏱️ 6–12 meses</span>
+          <span class="ruta-chip">💰 ~2.000–2.800€ vuelos</span>
+          <span class="ruta-chip">💼 Work & Travel</span>
+          <span class="ruta-chip">🎒 Budget total</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Ejemplo de ruta detallada -->
+  <section class="section">
+    <h2>📍 Ejemplo de ruta detallada: La Clásica</h2>
+    <div class="info-card">
+      <div class="stops-timeline">
+        <div class="stop-row">
+          <div class="stop-dot-wrap"><div class="stop-dot"></div><div class="stop-line"></div></div>
+          <div style="flex:1">
+            <div class="stop-city">Madrid 🇪🇸 → Nueva York 🇺🇸</div>
+            <div class="stop-note">Vuelo directo Iberia/AA/Delta. NYC: Brooklyn, museos gratuitos, el metro que nunca duerme.</div>
+          </div>
+          <span class="stop-days">7–10 días</span>
+        </div>
+        <div class="stop-row">
+          <div class="stop-dot-wrap"><div class="stop-dot"></div><div class="stop-line"></div></div>
+          <div style="flex:1">
+            <div class="stop-city">Nueva York → Los Ángeles 🇺🇸</div>
+            <div class="stop-note">Vuelo doméstico o (épico) en Greyhound/Amtrak atravesando el país. Venice Beach, Malibu, Joshua Tree.</div>
+          </div>
+          <span class="stop-days">5–8 días</span>
+        </div>
+        <div class="stop-row">
+          <div class="stop-dot-wrap"><div class="stop-dot"></div><div class="stop-line"></div></div>
+          <div style="flex:1">
+            <div class="stop-city">Los Ángeles → Tokyo 🇯🇵</div>
+            <div class="stop-note">~10h de vuelo. Tokyo es el golpe de electricidad. Shinkansen a Kioto (30 min), Hiroshima y Osaka.</div>
+          </div>
+          <span class="stop-days">10–15 días</span>
+        </div>
+        <div class="stop-row">
+          <div class="stop-dot-wrap"><div class="stop-dot"></div><div class="stop-line"></div></div>
+          <div style="flex:1">
+            <div class="stop-city">Tokyo → Bangkok 🇹🇭</div>
+            <div class="stop-note">~6h. Bangkok: templos, mercados flotantes, comida que enloquece. Gateway a todo el Sudeste Asiático.</div>
+          </div>
+          <span class="stop-days">5–10 días</span>
+        </div>
+        <div class="stop-row">
+          <div class="stop-dot-wrap"><div class="stop-dot"></div><div class="stop-line"></div></div>
+          <div style="flex:1">
+            <div class="stop-city">Bangkok → Bali 🇮🇩</div>
+            <div class="stop-note">~4h. Ubud para los arrozales y el yoga. Seminyak para la playa y los atardeceres. Canggu para los surfers.</div>
+          </div>
+          <span class="stop-days">7–14 días</span>
+        </div>
+        <div class="stop-row">
+          <div class="stop-dot-wrap"><div class="stop-dot"></div><div class="stop-line"></div></div>
+          <div style="flex:1">
+            <div class="stop-city">Bali → Dubai 🇦🇪</div>
+            <div class="stop-note">~8h. Escala de 1–3 días. Rascacielos en el desierto, souks y el Burj Khalifa. Opcional: Abu Dhabi.</div>
+          </div>
+          <span class="stop-days">1–3 días</span>
+        </div>
+        <div class="stop-row">
+          <div class="stop-dot-wrap"><div class="stop-dot"></div></div>
+          <div style="flex:1">
+            <div class="stop-city">Dubai → Madrid 🇪🇸</div>
+            <div class="stop-note">~7h. Emirates directo. Llegas diferente de como saliste.</div>
+          </div>
+          <span class="stop-days">Vuelta a casa</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visas -->
+  <section class="section">
+    <h2>🛂 Visados más comunes (pasaporte español/UE)</h2>
+    <div class="section-prose" style="margin-bottom: 14px;">
+      <p>Con pasaporte europeo tienes mucho terreno ganado, pero algunos destinos clave del RTW requieren visado previo o e-Visa. Tramítalos antes de salir — en destino puede ser complicado y más caro.</p>
+    </div>
+    <table class="visa-table">
+      <thead>
+        <tr><th>Destino</th><th>Visa española</th><th>Tipo</th><th>Tramitar</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>🇺🇸 EEUU</td><td><span class="badge-yes">Sin visado</span></td><td>ESTA (5€ online)</td><td>esta.cbp.dhs.gov · 72h antes</td></tr>
+        <tr><td>🇯🇵 Japón</td><td><span class="badge-yes">Sin visado</span></td><td>90 días libre</td><td>Solo pasaporte</td></tr>
+        <tr><td>🇹🇭 Tailandia</td><td><span class="badge-yes">Sin visado</span></td><td>30 días (extensible)</td><td>Solo pasaporte</td></tr>
+        <tr><td>🇮🇩 Indonesia / Bali</td><td><span class="badge-check">Visa on arrival</span></td><td>35 USD · 30 días</td><td>Al llegar al aeropuerto</td></tr>
+        <tr><td>🇦🇺 Australia</td><td><span class="badge-check">eVisitor</span></td><td>Gratuita online</td><td>immi.homeaffairs.gov.au</td></tr>
+        <tr><td>🇳🇿 Nueva Zelanda</td><td><span class="badge-check">NZeTA</span></td><td>17 NZD (~10€)</td><td>App NZeTA · anticipación</td></tr>
+        <tr><td>🇮🇳 India</td><td><span class="badge-check">e-Visa</span></td><td>~80€ · 90 días</td><td>indianvisaonline.gov.in</td></tr>
+        <tr><td>🇨🇳 China</td><td><span class="badge-no">Visa requerida</span></td><td>Consulado (2–4 sem.)</td><td>Consulado chino en Madrid</td></tr>
+        <tr><td>🇿🇦 Sudáfrica</td><td><span class="badge-yes">Sin visado</span></td><td>90 días libre</td><td>Solo pasaporte</td></tr>
+        <tr><td>🇧🇷 Brasil</td><td><span class="badge-yes">Sin visado</span></td><td>90 días libre</td><td>Solo pasaporte</td></tr>
+        <tr><td>🇦🇪 EAU / Dubai</td><td><span class="badge-yes">Sin visado</span></td><td>30 días libre</td><td>Solo pasaporte</td></tr>
+      </tbody>
+    </table>
+    <div class="alert alert-warning" style="margin-top: 14px;">
+      <span class="alert-icon">⚠️</span>
+      <span>Las políticas de visado cambian constantemente. Verifica siempre en la web oficial del consulado y en <a href="https://www.iata.org/en/services/compliance/timatic/timatic-web/" target="_blank" rel="noopener" style="color:#92400E;font-weight:600;">IATA Timatic</a> (la base de datos oficial de las aerolíneas) antes de sacar el billete.</span>
+    </div>
+  </section>
+
+  <!-- Tips prácticos -->
+  <section class="section">
+    <h2>💡 Consejos reales para un RTW</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <span class="tip-icon">🛡️</span>
+        <div class="tip-content">
+          <h4>Seguro de viaje — absolutamente imprescindible</h4>
+          <p>Un RTW sin seguro es una irresponsabilidad. Necesitas cobertura de asistencia médica internacional (mínimo 100.000€), evacuación de emergencia, cancelación y equipaje. iati.es, AXA y Heymondo son los más usados entre viajeros de largo plazo.</p>
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">📅</span>
+        <div class="tip-content">
+          <h4>Sé flexible con las fechas</h4>
+          <p>Los vuelos de "±3 días" pueden ahorrar 200–400€ por tramo. En Google Flights activa la vista de "Cuadrícula de precios" para ver el rango de fechas. Evita volar en festivos locales de los destinos.</p>
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🎒</span>
+        <div class="tip-content">
+          <h4>Solo equipaje de mano — la regla de oro</h4>
+          <p>Con vuelos DIY, facturar maleta en cada tramo puede costarte 500–800€ extra en el total del viaje. Aprende a vivir con una mochila de 40L máximo. Lo que no quepa, no va.</p>
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">💳</span>
+        <div class="tip-content">
+          <h4>Tarjeta sin comisiones + efectivo</h4>
+          <p>Revolut, Wise o N26 para no pagar comisiones en el extranjero. Lleva siempre algo de efectivo en USD (la moneda de reserva universal). En Sudeste Asiático muchos sitios solo aceptan efectivo.</p>
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🌐</span>
+        <div class="tip-content">
+          <h4>eSIM por regiones</h4>
+          <p>No hay SIM que cubra todo el planeta. Usa Airalo o Holafly para comprar eSIMs regionales antes de llegar a cada zona. Asia, Oceanía, Américas — una eSIM por bloque. Mucho más barato que el roaming.</p>
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🏥</span>
+        <div class="tip-content">
+          <h4>Vacunas y salud</h4>
+          <p>Visita el Centro de Vacunación Internacional de tu ciudad 6–8 semanas antes de salir. Fiebre amarilla (necesaria en algunos países de África y América), Hepatitis A/B, tétanos y según ruta: malaria, tifoidea y meningitis.</p>
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">📲</span>
+        <div class="tip-content">
+          <h4>Apps imprescindibles</h4>
+          <p>Google Maps offline (descarga los mapas antes), Maps.me (sin conexión), iOverlander (campings), Hostelworld, Booking, Grab/Gojek (taxis en Asia), WhatsApp (comunicación), XE Currency (tipos de cambio).</p>
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🏦</span>
+        <div class="tip-content">
+          <h4>Presupuesto de emergencia</h4>
+          <p>Siempre guarda 1.500–2.000€ intocables para emergencias: vuelo de vuelta urgente, hospitalización, robo. No los toques salvo emergencia real. Un RTW puede torcerse, y ese colchón marca la diferencia.</p>
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🔒</span>
+        <div class="tip-content">
+          <h4>Domiciliaciones y banco</h4>
+          <p>Antes de salir: avisa a tu banco del viaje largo, activa las notificaciones de transacciones, configura el acceso online, y avisa a la Agencia Tributaria si vas a pasar más de 183 días fuera de España (puede afectar tu residencia fiscal).</p>
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">📝</span>
+        <div class="tip-content">
+          <h4>Visados: hazlos con antelación</h4>
+          <p>India (e-Visa), Australia (eVisitor), ESTA para EEUU — todos se hacen online pero necesitan tiempo de tramitación. Empieza a gestionar los visados con 2–3 meses de antelación. Un visado rechazado puede arruinar toda la ruta.</p>
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🌤️</span>
+        <div class="tip-content">
+          <h4>Respeta las temporadas</h4>
+          <p>Bali en temporada de lluvias (nov–mar) puede ser agradable, pero el monzón en India o Bangladesh es otra historia. Consulta el clima de cada destino en la fecha que planeas visitar. Un buen RTW tiene en cuenta las estaciones.</p>
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">📧</span>
+        <div class="tip-content">
+          <h4>Guarda copias digitales de todo</h4>
+          <p>Pasaporte, seguro, visados, cartilla de vacunación — escanéalos y guárdalos en Google Drive, email y una memoria USB. Si te roban la mochila, recuperar el pasaporte en un consulado con copias es mucho más rápido.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Presupuesto -->
+  <section class="section">
+    <h2>💰 Presupuesto total por tipo de viajero</h2>
+    <div class="section-prose" style="margin-bottom: 20px;">
+      <p>Presupuesto estimado para un RTW de <strong>4 continentes en 4 meses</strong>. Incluye vuelos, alojamiento, comida, transporte local, visados y actividades. El seguro es aparte (400–800€ para 4 meses).</p>
+    </div>
+    <div class="budget-grid">
+      <div class="budget-card budget">
+        <div class="budget-tier">🎒 Budget Mochilero</div>
+        <div class="budget-amount">6.000–9.000€</div>
+        <div class="budget-period">4 meses, 4 continentes</div>
+        <ul class="budget-items">
+          <li>Vuelos DIY: ~2.000–2.500€</li>
+          <li>Alojamiento: hostel dorm</li>
+          <li>Comida: street food / cocina propia</li>
+          <li>30–45€/día en destino</li>
+          <li>Aprovechar Work Holiday Visa</li>
+          <li>Evitar países caros (Jap/Aus/NZ)</li>
+        </ul>
+      </div>
+      <div class="budget-card mid">
+        <div class="budget-tier">✈️ Viajero medio</div>
+        <div class="budget-amount">12.000–18.000€</div>
+        <div class="budget-period">4 meses, 4 continentes</div>
+        <ul class="budget-items">
+          <li>Vuelos DIY o ticket alianza: ~3.500€</li>
+          <li>Alojamiento: hostel privado / Airbnb</li>
+          <li>Restaurantes locales a diario</li>
+          <li>70–110€/día en destino</li>
+          <li>Actividades pagadas (excursiones)</li>
+          <li>Japón, Australia y NZ incluidos</li>
+        </ul>
+      </div>
+      <div class="budget-card premium">
+        <div class="budget-tier">💎 Confort / Premium</div>
+        <div class="budget-amount">25.000–45.000€</div>
+        <div class="budget-period">4 meses, 4–5 continentes</div>
+        <ul class="budget-items">
+          <li>Ticket RTW 1ª clase: ~8.000€+</li>
+          <li>Hoteles 4–5 estrellas</li>
+          <li>Restaurantes gastronómicos</li>
+          <li>150–300€/día en destino</li>
+          <li>Tours privados y experiencias</li>
+          <li>Safari, crucero, Maldivas</li>
+        </ul>
+      </div>
+    </div>
+    <div class="alert alert-orange" style="margin-top: 16px;">
+      <span class="alert-icon">🌏</span>
+      <span>El mayor error es subestimar el coste de los países "caros": <strong>Japón</strong> (~100–150€/día), <strong>Australia y Nueva Zelanda</strong> (~100–180€/día), <strong>Escandinavia</strong> (~150€/día), <strong>EEUU</strong> (~100–150€/día). El Sudeste Asiático y América del Sur compensan, pero no siempre suficiente.</span>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>¿Listo para planificar tu vuelta al mundo?</h2>
+    <p>Usa el planificador de ViajeraMente para diseñar tu ruta, calcular el presupuesto y organizar cada etapa del viaje.</p>
+    <div class="cta-btns">
+      <a href="plan.html" class="cta-btn-primary">✈️ Abrir planificador</a>
+      <a href="signup.html" class="cta-btn-secondary">Crear cuenta gratis →</a>
+    </div>
+  </div>
+
+</div><!-- /page-body -->
+
+<footer>
+  <div class="footer-logo">✈️ ViajeraMente</div>
+  <p>Guías escritas desde dentro · actualizadas con datos reales</p>
+</footer>
+
+<!-- Bottom nav mobile -->
+<nav class="bottom-nav" id="bottomNav" style="display:none;">
+  <a href="index.html" class="tab-item"><span class="tab-icon">🏠</span>Inicio</a>
+  <a href="guias.html" class="tab-item active"><span class="tab-icon">🗺️</span>Guías</a>
+  <a href="plan.html" class="tab-item"><span class="tab-icon">✈️</span>Planificador</a>
+  <a href="mapa.html" class="tab-item"><span class="tab-icon">🌍</span>Mapa</a>
+  <a href="profile.html" class="tab-item"><span class="tab-icon">👤</span>Perfil</a>
+</nav>
+
+<script>
+  // Auth
+  (function() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      document.getElementById('navUser').style.display = 'flex';
+      document.getElementById('navGuest').style.display = 'none';
+      document.getElementById('bottomNav').style.display = 'flex';
+      const name = localStorage.getItem('userName') || '';
+      if (name) {
+        const parts = name.trim().split(' ');
+        document.getElementById('navInitials').textContent = parts.map(p => p[0]).join('').slice(0,2).toUpperCase();
+      }
+    } else {
+      document.getElementById('navGuest').style.display = 'flex';
+      document.getElementById('navUser').style.display = 'none';
+    }
+  })();
+</script>
+</body>
+</html>

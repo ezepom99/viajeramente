@@ -217,13 +217,12 @@
       max-width: 700px; margin: 0 auto;
     }
     .filters-row-wrap {
-      overflow-x: auto; -webkit-overflow-scrolling: touch;
-      padding-bottom: 4px; scrollbar-width: none; margin-bottom: 10px;
+      overflow: visible;
+      margin-bottom: 10px;
     }
-    .filters-row-wrap::-webkit-scrollbar { display: none; }
     .filters-row {
-      display: flex; gap: 8px; align-items: center;
-      white-space: nowrap; justify-content: center;
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      justify-content: center;
     }
     @media (max-width: 600px) { .filters-row { justify-content: flex-start; } }
 
@@ -389,22 +388,22 @@
       font-size: 1.3rem; font-weight: 800; letter-spacing: -.03em; color: var(--text);
     }
     .rutas-scroll-wrap {
-      overflow-x: auto; -webkit-overflow-scrolling: touch;
-      scrollbar-width: none; margin: 0 -24px; padding: 0 24px 4px;
+      overflow: hidden;
+      margin: 0; padding: 0 0 4px;
     }
-    .rutas-scroll-wrap::-webkit-scrollbar { display: none; }
     .rutas-scroll {
-      display: flex; gap: 16px; white-space: nowrap;
-      padding-right: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
     }
     .ruta-card {
-      flex-shrink: 0; width: 280px; height: 180px;
+      flex-shrink: 0; width: 100%; height: 180px;
       border-radius: var(--radius); overflow: hidden;
       position: relative; cursor: pointer; text-decoration: none;
       transition: transform .25s, box-shadow .25s;
       display: block;
     }
-    @media (max-width: 540px) { .ruta-card { width: 240px; height: 155px; } }
+    @media (max-width: 540px) { .ruta-card { width: 100%; height: 155px; } }
     .ruta-card:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,0,0,.18); }
     .ruta-card-img {
       width: 100%; height: 100%; object-fit: cover;
@@ -602,6 +601,57 @@
     .empty-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
     .empty-desc { font-size: .88rem; color: var(--text-2); line-height: 1.6; }
 
+    /* ── Experiencias Especiales ── */
+    .experiencias-section { margin-bottom: 56px; }
+    .experiencias-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    @media (max-width: 620px) { .experiencias-grid { grid-template-columns: 1fr; } }
+    .exp-card {
+      position: relative; border-radius: var(--radius); overflow: hidden;
+      height: 200px; cursor: pointer; text-decoration: none; display: block;
+      box-shadow: 0 4px 20px rgba(0,0,0,.14);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .exp-card:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,0,0,.2); }
+    .exp-card-img {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      transition: transform .4s ease;
+    }
+    .exp-card:hover .exp-card-img { transform: scale(1.04); }
+    .exp-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.25) 55%, rgba(0,0,0,.08) 100%);
+    }
+    .exp-card-body {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 18px 20px; display: flex; flex-direction: column; gap: 3px;
+    }
+    .exp-card-tag {
+      display: inline-flex; align-items: center;
+      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3);
+      border-radius: 100px; padding: 3px 9px;
+      font-size: .63rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      color: rgba(255,255,255,.9); width: fit-content; margin-bottom: 4px;
+    }
+    .exp-card-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem; font-weight: 800; letter-spacing: -.03em;
+      color: #fff; line-height: 1.15;
+    }
+    .exp-card-sub {
+      font-size: .75rem; color: rgba(255,255,255,.75); margin-bottom: 8px;
+    }
+    .exp-card-cta {
+      display: inline-flex; align-items: center;
+      font-size: .78rem; font-weight: 700; color: #fff;
+      background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+      border-radius: 100px; padding: 5px 14px; width: fit-content;
+      transition: background .2s;
+    }
+    .exp-card:hover .exp-card-cta { background: rgba(255,255,255,.28); }
+
     /* Footer */
     footer {
       background: var(--bg); border-top: 1px solid var(--border);
@@ -769,8 +819,41 @@
     </div>
   </section>
 
+  <!-- Experiencias Especiales -->
+  <section class="experiencias-section" id="experiencias-section">
+    <div class="rutas-label">
+      <span class="rutas-label-dot" style="background:var(--gold);"></span>
+      Guías especiales
+    </div>
+    <div class="rutas-title-row">
+      <h2 class="rutas-title">Experiencias que no son un destino</h2>
+    </div>
+    <div class="experiencias-grid">
+      <a href="interrail.html" class="exp-card">
+        <div class="exp-card-img" style="background-image:url('https://images.pexels.com/photos/1134166/pexels-photo-1134166.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop');"></div>
+        <div class="exp-card-overlay"></div>
+        <div class="exp-card-body">
+          <span class="exp-card-tag">🚂 Europa en tren</span>
+          <span class="exp-card-name">Interrail & Eurail</span>
+          <span class="exp-card-sub">33 países · desde 185€ · el pase de la libertad</span>
+          <span class="exp-card-cta">Ver guía completa →</span>
+        </div>
+      </a>
+      <a href="round-the-world.html" class="exp-card">
+        <div class="exp-card-img" style="background-image:url('https://images.pexels.com/photos/2007401/pexels-photo-2007401.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop');"></div>
+        <div class="exp-card-overlay"></div>
+        <div class="exp-card-body">
+          <span class="exp-card-tag">🌍 Vuelta al mundo</span>
+          <span class="exp-card-name">Round The World</span>
+          <span class="exp-card-sub">4–5 continentes · desde 2.000€ en vuelos · el viaje de tu vida</span>
+          <span class="exp-card-cta">Ver guía completa →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
   <!-- All guides -->
-  <div class="section-header">
+  <div class="section-header" style="margin-top: 48px;">
     <span class="section-title">Todos los destinos</span>
     <span class="section-count" id="count-label"></span>
   </div>
@@ -865,11 +948,21 @@ const RUTAS_DATA = [
   },
   {
     slug: 'interrail-europa',
+    href: 'interrail.html',
     name: 'Interrail Europa',
-    subtitle: '30+ países en tren',
+    subtitle: '33 países en tren · desde 185€',
     tag: '🚂 Europa',
     photo_id: 1134166,
     color: '#6B21A8'
+  },
+  {
+    slug: 'round-the-world',
+    href: 'round-the-world.html',
+    name: 'Vuelta al Mundo RTW',
+    subtitle: '4–5 continentes · desde 2.000€ en vuelos',
+    tag: '🌍 RTW',
+    photo_id: 2007401,
+    color: '#0F4C81'
   },
   {
     slug: 'sudeste-asiatico',
@@ -1001,7 +1094,7 @@ function budgetLabel(d) {
 function renderRutas() {
   const container = document.getElementById('rutas-scroll');
   container.innerHTML = RUTAS_DATA.map(r => `
-    <a href="destino.html?slug=${r.slug}" class="ruta-card">
+    <a href="${r.href || ('destino.html?slug=' + r.slug)}" class="ruta-card">
       <div class="ruta-card-img" style="background-image:url('${rutaPhotoUrl(r.photo_id)}'); background-size:cover; background-position:center; position:absolute; inset:0;"></div>
       <div class="ruta-card-overlay"></div>
       <div class="ruta-card-body">
@@ -1062,12 +1155,15 @@ function renderGrid() {
   const cityNote = cityCount > 0 ? ` + ${cityCount} ciudad${cityCount !== 1 ? 'es' : ''}` : '';
   countEl.textContent = `${countryCount} destino${countryCount !== 1 ? 's' : ''}${cityNote}`;
 
-  // Hide/show rutas section
+  // Hide/show rutas and experiencias sections
   const rutasSection = document.getElementById('rutas-section');
+  const experienciasSection = document.getElementById('experiencias-section');
   if (activeContinent === 'Rutas' || activeStyle || searchQuery.trim()) {
     rutasSection.style.display = 'none';
+    if (experienciasSection) experienciasSection.style.display = 'none';
   } else {
     rutasSection.style.display = '';
+    if (experienciasSection) experienciasSection.style.display = '';
   }
 
   // Only show empty state if text search returns nothing (can't relax a text query)
