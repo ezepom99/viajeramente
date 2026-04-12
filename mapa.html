@@ -422,9 +422,13 @@
     <span class="layer-toggle"></span>
     <span>🌡️ Heatmap</span>
   </div>
-  <div class="layer-item" id="layer-maravillas" onclick="toggleLayer('maravillas')">
+  <div class="layer-item" id="layer-maravillas_new" onclick="toggleLayer('maravillas_new')">
     <span class="layer-toggle"></span>
-    <span>⭐ Maravillas</span>
+    🏛️ 7 Maravillas Modernas
+  </div>
+  <div class="layer-item" id="layer-maravillas_nat" onclick="toggleLayer('maravillas_nat')">
+    <span class="layer-toggle"></span>
+    🌿 7 Maravillas Naturales
   </div>
   <div class="layer-divider"></div>
   <div class="layer-item" id="layer-ciudades" onclick="toggleLayer('ciudades')">
@@ -627,7 +631,7 @@ let visitedWonders = new Set(
 // visitedCities is an array of city name strings in profile.html
 let visitedCities = JSON.parse(localStorage.getItem('visitedCities') || '[]');
 
-let layers = { heatmap: false, maravillas: false, ciudades: false };
+let layers = { heatmap: false, maravillas_new: false, maravillas_nat: false, ciudades: false };
 let layersPanelOpen = false;
 
 let map, geoLayer, heatLayer, wonderLayer;
@@ -659,10 +663,9 @@ function initMap() {
     worldCopyJump: false,
   });
 
-  // CartoDB Voyager — shows country names, city names, roads at all zoom levels
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
+  // Esri World Topo Map — reliably shows English-language country names
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri',
     maxZoom: 19,
   }).addTo(map);
 
@@ -676,6 +679,7 @@ function initMap() {
   map.on('click', () => closeSheet());
 
   loadGeoJSON();
+  syncFromAPI();
 }
 
 // ── GEOJSON ───────────────────────────────────────────────────────────────────
@@ -719,6 +723,49 @@ async function loadGeoJSON() {
     console.error('Error loading GeoJSON:', err);
     setLoadingText('Error cargando mapa. Recarga la página.');
   }
+}
+
+// ── API SYNC ──────────────────────────────────────────────────────────────────
+
+async function syncFromAPI() {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+  const API = 'https://eze.saypeter.com';
+  try {
+    // Sync countries
+    const cr = await fetch(`${API}/api/visited-countries`, { headers: { Authorization: `Bearer ${token}` } });
+    if (cr.ok) {
+      const cd = await cr.json();
+      if (cd.ok && cd.countries) {
+        let changed = false;
+        for (const c of cd.countries) {
+          const iso = (c.country_code || '').toUpperCase();
+          if (iso && !visitedCountries.has(iso)) { visitedCountries.add(iso); changed = true; }
+        }
+        if (changed) { saveCountries(); refreshGeoLayer(); updateStats(); }
+      }
+    }
+    // Sync cities
+    const vr = await fetch(`${API}/api/visited-cities`, { headers: { Authorization: `Bearer ${token}` } });
+    if (vr.ok) {
+      const vd = await vr.json();
+      if (vd.ok && vd.cities) {
+        let citiesChanged = false;
+        for (const c of vd.cities) {
+          const name = c.city_name;
+          if (name && !visitedCities.some(v => v.toLowerCase() === name.toLowerCase())) {
+            visitedCities.push(name); citiesChanged = true;
+          }
+        }
+        if (citiesChanged) {
+          localStorage.setItem('visitedCities', JSON.stringify(visitedCities));
+          if (layers.ciudades) refreshCities();
+        }
+      }
+    }
+    // Refresh active layers after sync
+    if (layers.heatmap) refreshHeatmap();
+  } catch(e) { console.warn('API sync failed:', e); }
 }
 
 // ── COUNTRY STYLING ───────────────────────────────────────────────────────────
@@ -812,9 +859,10 @@ function toggleLayer(name) {
   layers[name] = !layers[name];
   document.getElementById('layer-' + name).classList.toggle('active', layers[name]);
 
-  if (name === 'heatmap')    refreshHeatmap();
-  if (name === 'maravillas') refreshWonders();
-  if (name === 'ciudades')   refreshCities();
+  if (name === 'heatmap')         refreshHeatmap();
+  if (name === 'maravillas_new')  refreshWonders();
+  if (name === 'maravillas_nat')  refreshWonders();
+  if (name === 'ciudades')        refreshCities();
 }
 
 // ── HEATMAP ───────────────────────────────────────────────────────────────────
@@ -843,15 +891,15 @@ function refreshHeatmap() {
   if (points.length === 0) return;
 
   heatLayer = L.heatLayer(points, {
-    radius: 65,
-    blur: 45,
-    maxZoom: 6,
+    radius: 80,
+    blur: 55,
+    maxZoom: 8,
     max: 1.0,
+    minOpacity: 0.4,
     gradient: {
-      0.0: '#06B6D4',
-      0.3: '#0EA5E9',
-      0.6: '#6366F1',
-      0.8: '#8B5CF6',
+      0.0: '#0EA5E9',
+      0.4: '#6366F1',
+      0.7: '#8B5CF6',
       1.0: '#DB2777',
     },
   }).addTo(map);
@@ -861,11 +909,15 @@ function refreshHeatmap() {
 
 function refreshWonders() {
   if (wonderLayer) { map.removeLayer(wonderLayer); wonderLayer = null; }
-  if (!layers.maravillas) return;
+  if (!layers.maravillas_new && !layers.maravillas_nat) return;
 
   wonderLayer = L.layerGroup().addTo(map);
 
-  ALL_WONDERS.forEach(w => {
+  const toShow = [];
+  if (layers.maravillas_new) toShow.push(...WONDERS_NEW);
+  if (layers.maravillas_nat) toShow.push(...WONDERS_NATURAL);
+
+  toShow.forEach(w => {
     const isVisited = visitedWonders.has(w.id);
     const icon = L.divIcon({
       html: `<div class="wonder-marker${isVisited ? ' visited-wonder' : ''}">${w.emoji}</div>`,
@@ -873,15 +925,12 @@ function refreshWonders() {
       iconSize: [30, 30],
       iconAnchor: [15, 15],
     });
-
     const marker = L.marker([w.lat, w.lng], { icon });
-
     marker.bindPopup(`<div class="wonder-popup-inner">
       <strong>${w.emoji} ${w.name}</strong>
       <span>${w.type}</span>
       ${isVisited ? '<div class="wonder-visited-badge">✓ Visitada</div>' : ''}
     </div>`, { maxWidth: 220, offset: [0, -6] });
-
     marker.addTo(wonderLayer);
   });
 }
@@ -1009,12 +1058,7 @@ const ALPHA2_TO_NUMERIC = Object.fromEntries(
 );
 
 function saveCountries() {
-  // Convert alpha-2 codes back to numeric so profile.html can read them
-  const numericCodes = [...visitedCountries].map(a2 => {
-    const num = ALPHA2_TO_NUMERIC[a2.toUpperCase()];
-    return num != null ? String(num) : a2;
-  });
-  localStorage.setItem('visitedCountries', JSON.stringify(numericCodes));
+  localStorage.setItem('visitedCountries', JSON.stringify([...visitedCountries]));
 }
 
 // ── FLAG EMOJI ────────────────────────────────────────────────────────────────
