@@ -8,6 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <!-- TopoJSON client (for world-atlas data) -->
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
   <!-- Google tag -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
   <script>
@@ -488,23 +493,31 @@
     /* ── OLD STATS (hidden — replaced by hero bar) ── */
     .stats-grid { display: none !important; }
 
-    /* ── WORLD MAP ── */
+    /* ── WORLD MAP (Leaflet) ── */
     .map-container {
       width: 100%;
       position: relative;
       border-radius: var(--radius-sm);
       overflow: hidden;
-      background: linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%);
       border: 1px solid var(--border);
-      min-height: 280px;
+      min-height: 400px;
+      height: 420px;
     }
     @media (min-width: 600px) {
-      .map-container { min-height: 360px; }
+      .map-container { min-height: 460px; height: 460px; }
     }
-    #worldMap {
+    #leafletMap {
       width: 100%;
-      display: block;
+      height: 100%;
     }
+    /* Override Leaflet popup style */
+    .leaflet-popup-content-wrapper {
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      font-family: 'Inter', sans-serif;
+      font-size: .85rem;
+    }
+    .leaflet-popup-content { margin: 8px 14px; }
     .map-tooltip {
       position: fixed;
       background: var(--text);
@@ -1132,17 +1145,16 @@
       box-shadow: var(--shadow-sm);
     }
 
-    /* ── WORLD MAP ── */
+    /* ── WORLD MAP (Leaflet) ── */
     .map-container {
       width: 100%;
       position: relative;
       border-radius: 12px;
       overflow: hidden;
-      background: var(--bg-soft);
     }
-    #worldMap {
+    #leafletMap {
       width: 100%;
-      display: block;
+      height: 100%;
     }
     .map-tooltip {
       position: fixed;
@@ -1713,21 +1725,15 @@
       background: none; border: 1px solid rgba(255,255,255,.2); color: white;
       width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 1.1rem;
     }
-    #mapModalSvg { flex: 1; width: 100%; cursor: grab; }
-    #mapModalSvg:active { cursor: grabbing; }
-    .map-zoom-controls {
-      position: absolute; bottom: 20px; right: 20px;
-      display: flex; flex-direction: column; gap: 4px;
+    #mapModalLeaflet { flex: 1; width: 100%; }
+    /* Style Leaflet controls in dark modal */
+    #mapModal .leaflet-control-zoom a {
+      background: #1E293B; color: white; border-color: #334155;
     }
-    .zoom-btn {
-      width: 36px; height: 36px; background: rgba(255,255,255,.1);
-      border: 1px solid rgba(255,255,255,.2); color: white;
-      border-radius: 8px; cursor: pointer; font-size: 1.2rem;
-      display: flex; align-items: center; justify-content: center;
+    #mapModal .leaflet-control-zoom a:hover {
+      background: #334155;
     }
-    .zoom-btn:hover { background: rgba(255,255,255,.2); }
     .map-modal-search {
-      position: absolute; top: 56px; left: 16px;
       background: rgba(30,41,59,.9); border: 1px solid rgba(255,255,255,.15);
       color: white; padding: 8px 14px; border-radius: 20px;
       font-size: .85rem; width: 200px; outline: none;
@@ -1987,9 +1993,9 @@
       <div class="section-header">
         <div class="section-title">
           <div class="section-title-icon">🗺️</div>
-          Mi mapa mundial
+          Mis países visitados
         </div>
-        <span class="section-hint">Toca un país para marcarlo · Ver mapa completo ↗</span>
+        <span class="section-hint">Toca un país para marcarlo como visitado</span>
       </div>
 
       <div class="map-container">
@@ -1997,10 +2003,8 @@
           <div class="spinner"></div>
           Cargando mapa...
         </div>
-        <svg id="worldMap" style="display:none;"></svg>
+        <div id="leafletMap"></div>
       </div>
-
-      <div class="map-tooltip" id="mapTooltip"></div>
 
       <div id="cityPicker" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:500; background:white; border-radius:20px 20px 0 0; padding:20px; box-shadow:0 -4px 24px rgba(0,0,0,0.15); max-height:60vh; overflow-y:auto;">
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
@@ -2020,8 +2024,8 @@
           Has visitado <strong id="visitedCount">0</strong> de 195 países
         </div>
         <div class="map-legend">
-          <span><span class="legend-dot" style="background:#0EA5E9;"></span> Visitado</span>
-          <span><span class="legend-dot" style="background:#E2E8F0;"></span> No visitado</span>
+          <span><span class="legend-dot" style="background:#6C63FF;"></span> Visitado</span>
+          <span><span class="legend-dot" style="background:#CBD5E1;"></span> No visitado</span>
         </div>
       </div>
 
@@ -2039,7 +2043,7 @@
       </div>
 
       <a href="mapa.html" target="_blank" style="display:block;width:100%;margin-top:10px;padding:10px;border-radius:12px;border:1.5px solid var(--border);background:white;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--accent);text-align:center;text-decoration:none;box-sizing:border-box;">
-        🗺️ Ver mapa grande
+        🗺️ Ver mapa completo
       </a>
     </div>
 
@@ -2054,11 +2058,7 @@
         <button class="map-modal-close" onclick="closeMapModal()">✕</button>
       </div>
       <div style="position:relative;flex:1;overflow:hidden;">
-        <svg id="mapModalSvg"></svg>
-        <div class="map-zoom-controls">
-          <button class="zoom-btn" onclick="modalZoomIn()">+</button>
-          <button class="zoom-btn" onclick="modalZoomOut()">−</button>
-        </div>
+        <div id="mapModalLeaflet" style="width:100%;height:100%;"></div>
       </div>
     </div>
 
@@ -2217,9 +2217,7 @@
 <!-- ── TOAST ── -->
 <div class="toast" id="toast"></div>
 
-<!-- D3 + TopoJSON -->
-<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<!-- (Leaflet + TopoJSON loaded in <head>) -->
 
 <script>
 const API_BASE = 'https://eze.saypeter.com';
@@ -2538,79 +2536,142 @@ function updateStats() {
   renderTrips();
 }
 
-// ── WORLD MAP ──
-let mapSvg = null;
-let mapCountriesSel = null;
+// ── WORLD MAP (Leaflet) ──
+let leafletMap = null;
+let worldGeoJSON = null;
+let leafletLayer = null;
+
+// Get fill color for a country feature based on visit recency
+function getCountryFill(featureId) {
+  const code = String(featureId);
+  if (!visitedCodes.has(code)) return '#E2E8F0';
+  // Check recency from visitedDates (if available)
+  const dateStr = visitedDates ? visitedDates[code] : null;
+  if (!dateStr) return '#6C63FF'; // no date → solid brand color
+  const now = Date.now();
+  const visited = new Date(dateStr).getTime();
+  const ageMs = now - visited;
+  const oneYear = 365 * 24 * 3600 * 1000;
+  // Recent (< 1yr) = full opacity, older = lighter
+  const opacity = Math.max(0.35, 1 - (ageMs / (5 * oneYear)));
+  return opacity > 0.9 ? '#6C63FF' : `rgba(108,99,255,${opacity.toFixed(2)})`;
+}
+
+// Visited dates by numeric code (populated from trips if available)
+let visitedDates = {};
+
+function buildVisitedDates() {
+  // Try to extract first-visit dates from trips
+  visitedDates = {};
+  for (const trip of trips) {
+    if (!trip.countryCode && !trip.country_code) continue;
+    // trip may have numeric code
+    const code = String(trip.countryCode || trip.country_code);
+    const date = trip.date_start || trip.dateStart;
+    if (!code || !date) continue;
+    if (!visitedDates[code] || date < visitedDates[code]) {
+      visitedDates[code] = date;
+    }
+  }
+}
+
+function countryStyle(feature) {
+  const id = String(feature.id);
+  const isVisited = visitedCodes.has(id);
+  return {
+    fillColor: isVisited ? '#6C63FF' : '#CBD5E1',
+    fillOpacity: isVisited ? (visitedDates[id] ? Math.max(0.35, 1 - ((Date.now() - new Date(visitedDates[id]).getTime()) / (5 * 365 * 24 * 3600 * 1000))) : 0.85) : 0.6,
+    color: '#ffffff',
+    weight: 0.6,
+    opacity: 1
+  };
+}
 
 async function initMap() {
-  const container = document.querySelector('.map-container');
-  let width = container ? container.offsetWidth : 0;
-  if (!width || width < 50) {
-    // Container not visible yet, retry
-    setTimeout(initMap, 500);
-    return;
-  }
-  const height = Math.max(width * 0.5, 200);
+  const container = document.getElementById('leafletMap');
+  if (!container) return;
 
-  const svg = d3.select('#worldMap')
-    .attr('width', width)
-    .attr('height', height);
+  // Build visit dates from trips data
+  buildVisitedDates();
 
-  mapSvg = svg;
+  // Hide loading
+  document.getElementById('mapLoading').style.display = 'none';
 
-  const projection = d3.geoNaturalEarth1()
-    .scale(width / 6.5)
-    .translate([width / 2, height / 2]);
+  // Init Leaflet map
+  leafletMap = L.map('leafletMap', {
+    center: [20, 0],
+    zoom: 2,
+    zoomControl: true,
+    scrollWheelZoom: true,
+    attributionControl: false
+  });
 
-  const path = d3.geoPath().projection(projection);
+  // CartoDB Positron tiles (clean look)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 10
+  }).addTo(leafletMap);
 
-  const tooltip = document.getElementById('mapTooltip');
-
+  // Load world topojson and convert to GeoJSON
   try {
-    const world = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
-    const countries = topojson.feature(world, world.objects.countries);
+    const world = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(r => r.json());
+    worldGeoJSON = topojson.feature(world, world.objects.countries);
 
-    document.getElementById('mapLoading').style.display = 'none';
-    document.getElementById('worldMap').style.display = 'block';
+    // Add GeoJSON layer
+    leafletLayer = L.geoJSON(worldGeoJSON, {
+      style: countryStyle,
+      onEachFeature: (feature, layer) => {
+        const id = String(feature.id);
+        const name = getCountryName(id);
 
-    mapCountriesSel = svg.selectAll('.country')
-      .data(countries.features)
-      .enter().append('path')
-      .attr('class', 'country')
-      .attr('d', path)
-      .attr('fill', d => visitedCodes.has(String(d.id)) ? '#0EA5E9' : '#E2E8F0')
-      .attr('stroke', 'white')
-      .attr('stroke-width', 0.5)
-      .style('cursor', 'pointer')
-      .style('transition', 'fill .2s')
-      .on('mousemove', (event, d) => {
-        const name = getCountryName(d.id);
-        tooltip.textContent = (visitedCodes.has(String(d.id)) ? '✓ ' : '') + name;
-        tooltip.style.left = (event.clientX + 12) + 'px';
-        tooltip.style.top = (event.clientY - 8) + 'px';
-        tooltip.classList.add('visible');
-      })
-      .on('mouseleave', () => {
-        tooltip.classList.remove('visible');
-      })
-      .on('click', (event, d) => {
-        toggleCountry(String(d.id), getCountryName(d.id));
-      });
+        layer.on('click', () => {
+          toggleCountry(id, name);
+          // updateMapColors() is called inside toggleCountry
+        });
+
+        layer.on('mouseover', function(e) {
+          if (!visitedCodes.has(id)) {
+            this.setStyle({ fillColor: '#94A3B8', fillOpacity: 0.8 });
+          }
+        });
+
+        layer.on('mouseout', function() {
+          leafletLayer.resetStyle(this);
+        });
+
+        // Popup on visited countries
+        if (visitedCodes.has(id)) {
+          const dateStr = visitedDates[id] ? `<br><small style="color:#94A3B8;">${new Date(visitedDates[id]).toLocaleDateString('es-ES', {year:'numeric',month:'long'})}</small>` : '';
+          layer.bindPopup(`<strong>${name}</strong>${dateStr}`, { maxWidth: 200 });
+        }
+      }
+    }).addTo(leafletMap);
 
   } catch (err) {
     console.error('Map load error:', err);
     document.getElementById('mapLoading').innerHTML = '⚠️ No se pudo cargar el mapa.';
+    document.getElementById('mapLoading').style.display = 'flex';
   }
 }
 
 function updateMapColors() {
-  if (!mapCountriesSel) {
-    // Try to init the map if container is visible
-    const container = document.querySelector('.map-container');
-    if (container && container.offsetWidth > 50) initMap();
-    return;
-  }
-  mapCountriesSel.attr('fill', d => visitedCodes.has(String(d.id)) ? '#0EA5E9' : '#E2E8F0');
+  if (!leafletLayer) return;
+  buildVisitedDates();
+  leafletLayer.eachLayer(layer => {
+    if (!layer.feature) return;
+    const id = String(layer.feature.id);
+    const isVisited = visitedCodes.has(id);
+    layer.setStyle(countryStyle(layer.feature));
+    // Update popup
+    const name = getCountryName(id);
+    if (isVisited) {
+      const dateStr = visitedDates[id] ? `<br><small style="color:#94A3B8;">${new Date(visitedDates[id]).toLocaleDateString('es-ES', {year:'numeric',month:'long'})}</small>` : '';
+      layer.bindPopup(`<strong>${name}</strong>${dateStr}`, { maxWidth: 200 });
+    } else {
+      layer.unbindPopup();
+    }
+  });
 }
 
 function toggleCountry(id, name) {
@@ -2724,21 +2785,34 @@ for (const c of allCountries) {
 }
 uniqueCountries.sort((a, b) => a.name.localeCompare(b.name, 'es'));
 
+// Normalize string: remove accents and lowercase for comparison
+function normalizeStr(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 function filterCountries(q) {
   const container = document.getElementById('countryResults');
-  q = q.trim().toLowerCase();
-  if (!q) { container.classList.remove('open'); container.innerHTML = ''; return; }
+  const rawQ = q.trim();
+  if (!rawQ) { container.classList.remove('open'); container.innerHTML = ''; return; }
+  const normQ = normalizeStr(rawQ);
 
-  const matches = uniqueCountries.filter(c => c.name.toLowerCase().includes(q)).slice(0, 12);
+  const matches = uniqueCountries.filter(c => normalizeStr(c.name).includes(normQ)).slice(0, 15);
   if (!matches.length) { container.innerHTML = '<div class="country-result-item">Sin resultados</div>'; container.classList.add('open'); return; }
 
-  container.innerHTML = matches.map(c => {
+  container.innerHTML = '';
+  matches.forEach(c => {
     const visited = visitedCodes.has(String(c.id));
-    return `<div class="country-result-item ${visited ? 'visited' : ''}" onclick="toggleCountry('${c.id}','${c.name}');filterCountries('${q}');">
-      ${c.name}
-      ${visited ? '<span class="visited-tag">✓ Visitado</span>' : '<span style="font-size:.75rem;color:var(--text-3);">+ Añadir</span>'}
-    </div>`;
-  }).join('');
+    const div = document.createElement('div');
+    div.className = 'country-result-item' + (visited ? ' visited' : '');
+    div.innerHTML = c.name + (visited
+      ? ' <span class="visited-tag">✓ Visitado</span>'
+      : ' <span style="font-size:.75rem;color:var(--text-3);">+ Añadir</span>');
+    div.addEventListener('click', () => {
+      toggleCountry(c.id, c.name);
+      filterCountries(rawQ);
+    });
+    container.appendChild(div);
+  });
   container.classList.add('open');
 }
 
@@ -3133,32 +3207,27 @@ function saveSocialNetworks() {
   showToast('✓ Redes sociales guardadas', 'success');
 }
 
-// Resize map on window resize
-let resizeTimer;
+// Resize map on window resize (Leaflet handles this natively)
 window.addEventListener('resize', () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => {
-    const svg = document.getElementById('worldMap');
-    if (svg.style.display !== 'none') {
-      // Reinit map on resize
-      svg.innerHTML = '';
-      svg.style.display = 'none';
-      document.getElementById('mapLoading').style.display = 'flex';
-      mapCountriesSel = null;
-      initMap();
-    }
-  }, 400);
+  if (leafletMap) leafletMap.invalidateSize();
 });
 
-// ── FULLSCREEN MAP MODAL ──
-let modalMap = null; // { svg, projection, path, countries, g, zoom }
+// ── FULLSCREEN MAP MODAL (Leaflet) ──
+let modalLeafletMap = null;
+let modalLeafletLayer = null;
 
 function openMapModal() {
   document.getElementById('mapModal').classList.add('open');
   document.body.style.overflow = 'hidden';
-  if (!modalMap) initModalMap();
-  else updateModalMapColors();
   updateModalStats();
+  // Delay init to allow DOM to be visible and sized
+  setTimeout(() => {
+    if (!modalLeafletMap) initModalMap();
+    else {
+      modalLeafletMap.invalidateSize();
+      updateModalMapColors();
+    }
+  }, 120);
 }
 
 function closeMapModal() {
@@ -3172,86 +3241,93 @@ function updateModalStats() {
 }
 
 async function initModalMap() {
-  const svgEl = document.getElementById('mapModalSvg');
-  const w = svgEl.clientWidth || window.innerWidth;
-  const h = svgEl.clientHeight || (window.innerHeight - 56);
+  const container = document.getElementById('mapModalLeaflet');
+  if (!container) return;
 
-  const zoom = d3.zoom()
-    .scaleExtent([1, 8])
-    .on('zoom', (event) => {
-      g.attr('transform', event.transform);
-    });
+  modalLeafletMap = L.map('mapModalLeaflet', {
+    center: [20, 0],
+    zoom: 2,
+    zoomControl: true,
+    scrollWheelZoom: true,
+    attributionControl: false
+  });
 
-  const svg = d3.select('#mapModalSvg')
-    .attr('width', w).attr('height', h)
-    .call(zoom);
+  // Dark tiles for modal
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+    maxZoom: 10
+  }).addTo(modalLeafletMap);
 
-  const g = svg.append('g');
+  // Re-use already-loaded GeoJSON if available, else fetch
+  const geoData = worldGeoJSON || await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+    .then(r => r.json())
+    .then(w => topojson.feature(w, w.objects.countries));
 
-  const projection = d3.geoNaturalEarth1()
-    .scale(w / 6)
-    .translate([w / 2, h / 2]);
+  modalLeafletLayer = L.geoJSON(geoData, {
+    style: feature => {
+      const id = String(feature.id);
+      const isVisited = visitedCodes.has(id);
+      return {
+        fillColor: isVisited ? '#6C63FF' : '#334155',
+        fillOpacity: isVisited ? 0.85 : 0.7,
+        color: '#1E293B',
+        weight: 0.5,
+        opacity: 1
+      };
+    },
+    onEachFeature: (feature, layer) => {
+      const id = String(feature.id);
+      const name = getCountryName(id);
 
-  const path = d3.geoPath().projection(projection);
-  const tooltip = document.getElementById('mapTooltip');
-
-  try {
-    const world = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
-    const countries = topojson.feature(world, world.objects.countries);
-
-    const paths = g.selectAll('.modal-country')
-      .data(countries.features)
-      .enter().append('path')
-      .attr('class', 'modal-country')
-      .attr('d', path)
-      .attr('fill', d => visitedCodes.has(String(d.id)) ? '#0EA5E9' : '#334155')
-      .attr('stroke', '#1E293B')
-      .attr('stroke-width', 0.5)
-      .style('cursor', 'pointer')
-      .on('mousemove', (event, d) => {
-        const name = getCountryName(d.id);
-        tooltip.textContent = (visitedCodes.has(String(d.id)) ? '✓ ' : '') + name;
-        tooltip.style.left = (event.clientX + 12) + 'px';
-        tooltip.style.top = (event.clientY - 8) + 'px';
-        tooltip.classList.add('visible');
-      })
-      .on('mouseleave', () => tooltip.classList.remove('visible'))
-      .on('click', (event, d) => {
-        toggleCountry(String(d.id), getCountryName(d.id));
+      layer.on('click', () => {
+        toggleCountry(id, name);
         updateModalMapColors();
+        updateMapColors();
         updateModalStats();
       });
 
-    modalMap = { svg, g, paths, zoom };
-  } catch(e) {
-    console.error('Modal map error:', e);
-  }
+      layer.on('mouseover', function() {
+        this.setStyle({ fillColor: '#F59E0B', fillOpacity: 0.9 });
+      });
+      layer.on('mouseout', function() {
+        modalLeafletLayer.resetStyle(this);
+      });
+
+      // Tooltip with country name
+      layer.bindTooltip(name, { permanent: false, direction: 'top', sticky: true });
+    }
+  }).addTo(modalLeafletMap);
 }
 
 function updateModalMapColors() {
-  if (!modalMap) return;
-  modalMap.paths.attr('fill', d => visitedCodes.has(String(d.id)) ? '#0EA5E9' : '#334155');
-}
-
-function modalZoomIn() {
-  if (!modalMap) return;
-  const svgEl = d3.select('#mapModalSvg');
-  svgEl.transition().call(modalMap.zoom.scaleBy, 1.5);
-}
-
-function modalZoomOut() {
-  if (!modalMap) return;
-  const svgEl = d3.select('#mapModalSvg');
-  svgEl.transition().call(modalMap.zoom.scaleBy, 0.667);
+  if (!modalLeafletLayer) return;
+  modalLeafletLayer.eachLayer(layer => {
+    if (!layer.feature) return;
+    const id = String(layer.feature.id);
+    const isVisited = visitedCodes.has(id);
+    layer.setStyle({
+      fillColor: isVisited ? '#6C63FF' : '#334155',
+      fillOpacity: isVisited ? 0.85 : 0.7
+    });
+  });
 }
 
 function filterModalMap(q) {
-  if (!modalMap || !q) { updateModalMapColors(); return; }
-  const lower = q.toLowerCase();
-  modalMap.paths.attr('fill', d => {
-    const name = getCountryName(d.id).toLowerCase();
-    if (name.includes(lower)) return '#F59E0B'; // highlight matching
-    return visitedCodes.has(String(d.id)) ? '#0EA5E9' : '#334155';
+  if (!modalLeafletLayer) return;
+  const normQ = normalizeStr(q || '');
+  modalLeafletLayer.eachLayer(layer => {
+    if (!layer.feature) return;
+    const id = String(layer.feature.id);
+    const name = getCountryName(id);
+    if (normQ && normalizeStr(name).includes(normQ)) {
+      layer.setStyle({ fillColor: '#F59E0B', fillOpacity: 0.9 });
+    } else {
+      const isVisited = visitedCodes.has(id);
+      layer.setStyle({
+        fillColor: isVisited ? '#6C63FF' : '#334155',
+        fillOpacity: isVisited ? 0.85 : 0.7
+      });
+    }
   });
 }
 

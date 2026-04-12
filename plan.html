@@ -367,7 +367,7 @@
     .results-screen { display: none; }
     .results-screen.active { display: block; animation: fadeInUp .4s ease both; }
 
-    .results-header { margin-bottom: 24px; }
+    .results-header { margin-bottom: 20px; }
     .results-eyebrow {
       font-size: .68rem; font-weight: 700; letter-spacing: .09em;
       text-transform: uppercase; color: var(--teal); margin-bottom: 8px;
@@ -442,20 +442,34 @@
     .btn-guide:hover { background: var(--accent-text); }
 
     /* ── Type filter pills ── */
+    .type-pills-wrap {
+      margin-bottom: 20px;
+    }
+    .type-pills-label {
+      font-size: .68rem; font-weight: 700; letter-spacing: .09em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 10px;
+    }
     .type-pills {
       display: flex; gap: 8px; flex-wrap: wrap;
-      padding: 12px 16px 0;
     }
     .type-pill {
-      padding: 6px 14px; border-radius: 100px;
+      padding: 7px 16px; border-radius: 100px;
       border: 1.5px solid var(--border);
       background: var(--bg-card); color: var(--text-secondary);
-      font-size: .8rem; font-weight: 600; cursor: pointer;
+      font-size: .82rem; font-weight: 600; cursor: pointer;
       transition: all .2s;
+      white-space: nowrap;
+    }
+    .type-pill:hover:not(.disabled) {
+      border-color: #CBD5E1; background: var(--bg-soft);
     }
     .type-pill.active {
       border-color: var(--accent); background: var(--accent-light);
       color: var(--accent-text);
+    }
+    .type-pill.disabled {
+      opacity: 0.38; cursor: default; pointer-events: none;
     }
 
     /* ── Result hero image ── */
@@ -1909,16 +1923,33 @@ function renderResults() {
 }
 
 function showResults() {
-  // Build type pills based on available destination types
-  const types = [...new Set(DESTINATIONS.map(d => d.type || 'country'))];
-  const typeLabels = { country: '🌍 Países', city: '🏙️ Ciudades', route: '🗺️ Rutas' };
-  let pillsHtml = '';
-  if (types.length > 1) {
-    pillsHtml = `<div class="type-pills">
-      <button class="type-pill active" data-type="all" onclick="setTypeFilter('all')">✨ Todos</button>
-      ${types.map(t => `<button class="type-pill" data-type="${t}" onclick="setTypeFilter('${t}')">${typeLabels[t] || t}</button>`).join('')}
+  // Count destinations per type for greying out empty pills
+  const typeCounts = { country: 0, city: 0, route: 0 };
+  DESTINATIONS.forEach(d => {
+    const t = d.type || 'country';
+    if (t in typeCounts) typeCounts[t]++;
+  });
+
+  // Always render all 4 pills; grey out types with 0 results
+  const allCount = DESTINATIONS.length;
+  const pills = [
+    { type: 'all',     label: '🌍 Todos',   count: allCount },
+    { type: 'country', label: '🌍 Países',   count: typeCounts.country },
+    { type: 'city',    label: '🏙️ Ciudades', count: typeCounts.city },
+    { type: 'route',   label: '🗺️ Rutas',    count: typeCounts.route },
+  ];
+
+  const pillsHtml = `
+    <div class="type-pills-wrap">
+      <div class="type-pills-label">Filtrar por tipo</div>
+      <div class="type-pills">
+        ${pills.map(p => {
+          const isActive = p.type === 'all' ? ' active' : '';
+          const isDisabled = p.count === 0 ? ' disabled' : '';
+          return `<button class="type-pill${isActive}${isDisabled}" data-type="${p.type}" onclick="setTypeFilter('${p.type}')">${p.label}</button>`;
+        }).join('')}
+      </div>
     </div>`;
-  }
 
   const pillsEl = document.getElementById('typePills');
   if (pillsEl) pillsEl.innerHTML = pillsHtml;

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Mi Mapa de Viajes · ViajeraMente</title>
+  <title>Mi Mapa de Países Visitados · ViajeraMente</title>
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -397,9 +397,20 @@
 <!-- Floating back button -->
 <a id="back-btn" href="profile.html" title="Volver al perfil" aria-label="Volver">←</a>
 
+<!-- Fullscreen landscape button -->
+<button id="landscape-btn" onclick="toggleLandscape()" title="Pantalla completa horizontal" style="
+  position:fixed; top:16px; left:64px; z-index:500;
+  width:40px; height:40px; border-radius:50%;
+  background:rgba(15,23,42,0.85); backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.12); color:#fff;
+  font-size:1.1rem; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; box-shadow:0 2px 12px rgba(0,0,0,0.35);
+  transition:background 0.2s;
+">⛶</button>
+
 <!-- Floating stats badge -->
 <div id="stats-badge">
-  <span id="stat-countries">0</span> países &nbsp;·&nbsp; <span id="stat-continents">0</span> continentes
+  Mis países visitados: <span id="stat-countries">0</span> &nbsp;·&nbsp; <span id="stat-continents">0</span> continentes
 </div>
 
 <!-- Floating layers toggle button -->
@@ -564,11 +575,42 @@ const COUNTRY_CENTROIDS = {
   YE:[15.55,48.52], ZM:[-13.13,27.85], ZW:[-19.02,29.15],
 };
 
+// ── NUMERIC → ALPHA-2 CONVERSION (for profile.html numeric codes) ─────────────
+
+const NUMERIC_TO_ALPHA2 = {
+  4:'AF',8:'AL',12:'DZ',20:'AD',24:'AO',32:'AR',36:'AU',40:'AT',50:'BD',
+  56:'BE',64:'BT',68:'BO',76:'BR',84:'BZ',100:'BG',104:'MM',112:'BY',
+  116:'KH',120:'CM',124:'CA',140:'CF',144:'LK',148:'TD',152:'CL',156:'CN',
+  170:'CO',174:'KM',178:'CG',188:'CR',191:'HR',192:'CU',196:'CY',203:'CZ',
+  204:'BJ',208:'DK',214:'DO',218:'EC',222:'SV',226:'GQ',231:'ET',232:'ER',
+  233:'EE',242:'FJ',246:'FI',250:'FR',262:'DJ',266:'GA',268:'GE',270:'GM',
+  276:'DE',288:'GH',300:'GR',308:'GD',320:'GT',324:'GN',328:'GY',332:'HT',
+  340:'HN',348:'HU',356:'IN',360:'ID',364:'IR',368:'IQ',372:'IE',376:'IL',
+  380:'IT',388:'JM',392:'JP',398:'KZ',400:'JO',404:'KE',408:'KP',410:'KR',
+  414:'KW',417:'KG',418:'LA',422:'LB',428:'LV',430:'LR',434:'LY',440:'LT',
+  442:'LU',450:'MG',454:'MW',458:'MY',462:'MV',466:'ML',470:'MT',478:'MR',
+  484:'MX',496:'MN',498:'MD',499:'ME',504:'MA',508:'MZ',516:'NA',524:'NP',
+  528:'NL',554:'NZ',558:'NI',562:'NE',566:'NG',578:'NO',586:'PK',591:'PA',
+  598:'PG',600:'PY',604:'PE',608:'PH',616:'PL',620:'PT',630:'PR',634:'QA',
+  642:'RO',643:'RU',646:'RW',682:'SA',686:'SN',688:'RS',694:'SL',702:'SG',
+  703:'SK',704:'VN',705:'SI',706:'SO',710:'ZA',716:'ZW',724:'ES',729:'SD',
+  740:'SR',748:'SZ',752:'SE',756:'CH',760:'SY',762:'TJ',764:'TH',768:'TG',
+  780:'TT',784:'AE',788:'TN',792:'TR',795:'TM',800:'UG',804:'UA',818:'EG',
+  826:'GB',840:'US',854:'BF',858:'UY',860:'UZ',862:'VE',882:'WS',887:'YE',
+  894:'ZM'
+};
+
 // ── STATE ─────────────────────────────────────────────────────────────────────
 
 // Use same key as profile.html: 'visitedCountries' — array of ISO alpha-2 codes
 let visitedCountries = new Set(
   JSON.parse(localStorage.getItem('visitedCountries') || '[]')
+    .map(c => {
+      // Convert numeric codes (from profile.html) to alpha-2
+      if (/^\d+$/.test(String(c))) return NUMERIC_TO_ALPHA2[Number(c)] || null;
+      return c;
+    })
+    .filter(Boolean)
 );
 
 let visitedWonders = new Set(
@@ -927,24 +969,24 @@ function refreshCities() {
     const isVisited = visitedCities.some(
       vc => vc.toLowerCase() === city.name.toLowerCase()
     );
+    if (!isVisited) return; // Only show visited cities
 
     const icon = L.divIcon({
       html: `<div style="
-        width:${isVisited ? 10 : 8}px;
-        height:${isVisited ? 10 : 8}px;
-        background:${isVisited ? '#0EA5E9' : '#F97316'};
+        width:12px; height:12px;
+        background:#0EA5E9;
         border:2px solid #fff;
         border-radius:50%;
         box-shadow:0 1px 4px rgba(0,0,0,0.4);
       "></div>`,
       className: '',
-      iconSize: [isVisited ? 10 : 8, isVisited ? 10 : 8],
-      iconAnchor: [isVisited ? 5 : 4, isVisited ? 5 : 4],
+      iconSize: [12, 12],
+      iconAnchor: [6, 6],
     });
 
     const m = L.marker([city.lat, city.lng], { icon })
       .bindTooltip(
-        `<strong>${city.name}</strong><br><span style="font-size:.72rem;opacity:.75">${city.country}${isVisited ? ' · ✓ visitada' : ''}</span>`,
+        `<strong>${city.name}</strong><br><span style="font-size:.72rem;opacity:.75">${city.country} · ✓ visitada</span>`,
         { direction: 'top', offset: [0, -6], className: 'city-tooltip' }
       )
       .addTo(map);
@@ -979,6 +1021,35 @@ function setLoadingText(text) {
   const el = document.getElementById('loading-text');
   if (el) el.textContent = text;
 }
+
+// ── FULLSCREEN / LANDSCAPE ─────────────────────────────────────────────────
+
+let isFullscreen = false;
+async function toggleLandscape() {
+  try {
+    if (!isFullscreen) {
+      await document.documentElement.requestFullscreen();
+      if (screen.orientation && screen.orientation.lock) {
+        await screen.orientation.lock('landscape');
+      }
+      isFullscreen = true;
+      document.getElementById('landscape-btn').innerHTML = '✕';
+    } else {
+      if (document.exitFullscreen) await document.exitFullscreen();
+      if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
+      isFullscreen = false;
+      document.getElementById('landscape-btn').innerHTML = '⛶';
+    }
+    setTimeout(() => map.invalidateSize(), 300);
+  } catch(e) { console.warn('Fullscreen/orientation not supported:', e); }
+}
+
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement) {
+    isFullscreen = false;
+    document.getElementById('landscape-btn').innerHTML = '⛶';
+  }
+});
 
 </script>
 </body>
