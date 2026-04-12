@@ -2313,14 +2313,53 @@
 
 <!-- ── ADD TRIP MODAL ── -->
 <div class="modal-overlay" id="addTripModal" onclick="closeModalOnBackdrop(event)">
-  <div class="modal">
+  <div class="modal" style="max-width:560px;max-height:90vh;overflow-y:auto;">
     <button class="modal-close" onclick="closeAddTripModal()">✕</button>
     <h2 class="modal-title">✈️ Nuevo viaje</h2>
+
+    <!-- Tipo de viaje -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+      <button class="trip-type-btn active" data-type="single" onclick="setTripType('single',this)">🗺️ Destino único</button>
+      <button class="trip-type-btn" data-type="multi" onclick="setTripType('multi',this)">🌍 Multidestino</button>
+      <button class="trip-type-btn" data-type="rtw" onclick="setTripType('rtw',this)">🌐 Round The World</button>
+      <button class="trip-type-btn" data-type="interrail" onclick="setTripType('interrail',this)">🚂 Interrail/Eurail</button>
+    </div>
+
     <div style="display:flex;flex-direction:column;gap:12px;">
       <div class="edit-group">
-        <label class="edit-label">Destino</label>
+        <label class="edit-label">Nombre del viaje</label>
         <input class="edit-input" id="tripDestination" type="text" placeholder="Ej: Japón — Tokyo y Kioto">
       </div>
+
+      <!-- Destino único: país y ciudad -->
+      <div id="singleDestSection">
+        <div class="edit-grid" style="gap:10px;">
+          <div class="edit-group">
+            <label class="edit-label">País</label>
+            <input class="edit-input" id="tripCountry" type="text" placeholder="Ej: Japón">
+          </div>
+          <div class="edit-group">
+            <label class="edit-label">Código ISO (2 letras)</label>
+            <input class="edit-input" id="tripCountryCode" type="text" maxlength="2" placeholder="JP" style="text-transform:uppercase;">
+          </div>
+        </div>
+        <div class="edit-group" style="margin-top:10px;">
+          <label class="edit-label">Ciudad principal</label>
+          <input class="edit-input" id="tripCity" type="text" placeholder="Ej: Tokyo">
+        </div>
+      </div>
+
+      <!-- Multidestino: tramos -->
+      <div id="multiDestSection" style="display:none;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <label class="edit-label" style="margin:0;">Tramos del viaje</label>
+          <button onclick="addTripLeg()" style="padding:6px 12px;border:none;border-radius:8px;background:#6C63FF;color:white;cursor:pointer;font-size:.8rem;font-weight:600;">+ Añadir tramo</button>
+        </div>
+        <div id="tripLegsContainer">
+          <!-- Legs injected by JS -->
+        </div>
+      </div>
+
       <div class="edit-grid" style="gap:10px;">
         <div class="edit-group">
           <label class="edit-label">Fecha inicio</label>
@@ -2333,23 +2372,57 @@
       </div>
       <div class="edit-group">
         <label class="edit-label">Historia del viaje ✍️</label>
-        <textarea class="edit-textarea" id="tripDesc" placeholder="¿Cómo fue el viaje? Cuéntanos... Los mejores momentos, lo inesperado, lo que no cambiarías por nada." rows="4"></textarea>
+        <textarea class="edit-textarea" id="tripDesc" placeholder="¿Cómo fue el viaje? Los mejores momentos, lo inesperado, lo que no cambiarías por nada." rows="3"></textarea>
       </div>
-      <div class="edit-group">
-        <label class="edit-label">Distancia (km)</label>
-        <input class="edit-input" id="tripKm" type="number" placeholder="Ej: 12400">
-      </div>
-      <div class="edit-group">
-        <label class="edit-label">Etiqueta / Emoji</label>
-        <input class="edit-input" id="tripTag" type="text" placeholder="🌸 Sakura">
+      <div class="edit-grid" style="gap:10px;">
+        <div class="edit-group">
+          <label class="edit-label">Distancia aprox. (km)</label>
+          <input class="edit-input" id="tripKm" type="number" placeholder="Ej: 12400">
+        </div>
+        <div class="edit-group">
+          <label class="edit-label">Valoración (1-5)</label>
+          <input class="edit-input" id="tripRating" type="number" min="1" max="5" placeholder="5">
+        </div>
       </div>
     </div>
     <div class="edit-actions" style="margin-top:16px;">
-      <button class="btn-save" onclick="saveNewTrip()">Guardar viaje</button>
+      <button class="btn-save" id="btnSaveTrip" onclick="saveNewTrip()">Guardar viaje</button>
       <button class="btn-cancel" onclick="closeAddTripModal()">Cancelar</button>
     </div>
   </div>
 </div>
+
+<style>
+.trip-type-btn {
+  padding:7px 13px; border:1.5px solid #E2E8F0; border-radius:20px;
+  background:white; cursor:pointer; font-size:.8rem; font-weight:500;
+  color:var(--text-2,#475569); transition:all .15s;
+}
+.trip-type-btn.active {
+  background:#6C63FF; border-color:#6C63FF; color:white; font-weight:600;
+}
+.trip-leg {
+  background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px;
+  padding:12px; margin-bottom:10px; position:relative;
+}
+.transport-select {
+  display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;
+}
+.transport-btn {
+  padding:5px 10px; border:1.5px solid #E2E8F0; border-radius:16px;
+  background:white; cursor:pointer; font-size:.85rem; transition:all .12s;
+}
+.transport-btn.active { background:#0EA5E9; border-color:#0EA5E9; color:white; }
+.leg-num {
+  font-size:.7rem; font-weight:700; color:#6C63FF; text-transform:uppercase;
+  letter-spacing:.05em; margin-bottom:6px;
+}
+.btn-remove-leg {
+  position:absolute; top:8px; right:8px; border:none; background:none;
+  cursor:pointer; font-size:1rem; color:#94A3B8;
+}
+.btn-remove-leg:hover { color:#EF4444; }
+</style>
 
 <!-- ── TOAST ── -->
 <div class="toast" id="toast"></div>
@@ -2499,11 +2572,11 @@ function getCountryName(id) {
 const WONDERS = [
   { id:1, name:'Machu Picchu',       country:'Perú',     city:'Cusco',          countryCode:604, emoji:'🏔️', pexels:'2356059' },
   { id:2, name:'Cristo Redentor',    country:'Brasil',   city:'Río de Janeiro', countryCode:76,  emoji:'✝️', pexels:'2868146' },
-  { id:4, name:'Chichén Itzá',       country:'México',   city:'Yucatán',        countryCode:484, emoji:'🛕', pexels:'2350302' },
+  { id:4, name:'Chichén Itzá',       country:'México',   city:'Yucatán',        countryCode:484, emoji:'🛕', pexels:'31657159' },
   { id:3, name:'Coliseo de Roma',    country:'Italia',   city:'Roma',           countryCode:380, emoji:'🏛️', pexels:'1797166' },
   { id:5, name:'Gran Muralla China', country:'China',    city:'Pekín',          countryCode:156, emoji:'🧱', pexels:'2412950' },
   { id:6, name:'Taj Mahal',          country:'India',    city:'Agra',           countryCode:356, emoji:'🕌', pexels:'1603650' },
-  { id:7, name:'Petra',              country:'Jordania', city:'Petra',          countryCode:400, emoji:'🏜️', pexels:'1631665' },
+  { id:7, name:'Petra',              country:'Jordania', city:'Petra',          countryCode:400, emoji:'🏜️', pexels:'36723805' },
 ];
 
 // ── BADGES DATA ──
@@ -2570,12 +2643,9 @@ function saveVisitedContinents(continents) {
 function loadVisitedContinents() {
   return new Set(JSON.parse(localStorage.getItem('visitedContinents') || '[]'));
 }
-function saveTrips(t) {
-  localStorage.setItem('userTrips', JSON.stringify(t));
-}
-function loadTrips() {
-  return JSON.parse(localStorage.getItem('userTrips') || '[]');
-}
+// Trips are stored in the API (not localStorage) — these are kept for legacy compat
+function saveTrips(t) { /* no-op: trips live in DB */ }
+function loadTrips() { return trips; } // trips[] is populated from API on init
 
 // ── API ──
 async function loadProfile() {
@@ -2755,9 +2825,9 @@ function updateStats() {
   document.getElementById('statCountries').textContent = countries;
   document.getElementById('visitedCount').textContent = countries;
 
-  // Cities: estimate from trips
-  trips = loadTrips();
-  document.getElementById('statCities').textContent = trips.length * 2; // rough estimate
+  // Cities from API-backed visitedCitiesCount (set after API load)
+  const cityCount = typeof visitedCitiesCount !== 'undefined' ? visitedCitiesCount : 0;
+  document.getElementById('statCities').textContent = cityCount;
   document.getElementById('tripsCount').textContent = trips.length;
   document.getElementById('tripsCountLabel').textContent = `${trips.length} viaje${trips.length !== 1 ? 's' : ''}`;
 
@@ -3228,56 +3298,158 @@ function renderBadges() {
 }
 
 // ── TRIPS ──
+const TRANSPORT_ICONS = {
+  avion:'✈️', tren:'🚂', barco:'⛵', motorhome:'🚐', lancha:'🚤', coche:'🚗', autobus:'🚌', moto:'🏍️'
+};
+
 function renderTrips() {
-  trips = loadTrips();
   const list = document.getElementById('tripsList');
   if (!trips.length) {
-    list.innerHTML = `<div style="text-align:center;padding:30px;color:var(--text-3);font-size:.9rem;">
+    list.innerHTML = `<div style="text-align:center;padding:30px;color:var(--text-3,#94A3B8);font-size:.9rem;">
       Aún no has registrado viajes. ¡Empieza ahora!
     </div>`;
     return;
   }
 
   list.innerHTML = trips.map((trip, i) => {
-    const days = trip.start && trip.end
-      ? Math.round((new Date(trip.end) - new Date(trip.start)) / 86400000)
+    const ds = trip.date_start || trip.start;
+    const de = trip.date_end   || trip.end;
+    const days = ds && de
+      ? Math.round((new Date(de) - new Date(ds)) / 86400000)
       : null;
-    const dateLabel = trip.start
-      ? new Date(trip.start).toLocaleDateString('es', { month: 'long', year: 'numeric' })
+    const dateLabel = ds
+      ? new Date(ds).toLocaleDateString('es', { month: 'long', year: 'numeric' })
       : 'Fecha desconocida';
+    const title  = trip.title || trip.destination || 'Viaje sin nombre';
+    const km     = trip.km_distance || trip.km;
+    const descr  = trip.description;
+    const rating = trip.rating;
+
+    // Multi-destination legs
+    let legsHtml = '';
+    if (trip.destinations && trip.destinations.length > 0) {
+      legsHtml = `<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">`;
+      trip.destinations.forEach(d => {
+        const icon = TRANSPORT_ICONS[d.transport_to] || '';
+        legsHtml += `<span style="background:#EFF6FF;border-radius:20px;padding:3px 9px;font-size:.75rem;color:#3B82F6;">${icon} ${d.city || d.country || '?'}</span>`;
+      });
+      legsHtml += `</div>`;
+    } else if (trip.city || trip.country) {
+      legsHtml = `<span style="background:#EFF6FF;border-radius:20px;padding:3px 9px;font-size:.75rem;color:#3B82F6;">📍 ${trip.city || trip.country}</span>`;
+    }
+
+    const stars = rating ? '⭐'.repeat(Math.min(5,rating)) : '';
 
     return `
       <div class="trip-card">
         <div class="trip-photo-wrap">
           <img class="trip-photo"
-            src="https://source.unsplash.com/400x300/?travel,${encodeURIComponent(trip.destination || 'travel')}&sig=${i}"
-            alt="${trip.destination || 'Viaje'}"
-            onerror="this.style.background='linear-gradient(135deg,#E0F2FE,#D1FAE5)';this.src=''">
+            src="https://images.pexels.com/photos/${2356059 + i * 100}/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=200&w=400"
+            alt="${title}"
+            onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,#E0F2FE,#D1FAE5)'">
         </div>
         <div class="trip-info">
-          <h3>${trip.destination || 'Viaje sin nombre'}</h3>
+          <h3>${title} ${stars}</h3>
           <p class="trip-dates">${dateLabel}${days ? ' · ' + days + ' días' : ''}</p>
-          ${trip.description ? `<p class="trip-desc">✍️ ${trip.description}</p>` : ''}
-          <div class="trip-meta">
-            ${trip.km ? `<span>✈️ ${Number(trip.km).toLocaleString('es')} km</span>` : ''}
-            ${trip.tag ? `<span>${trip.tag}</span>` : ''}
+          ${legsHtml}
+          ${descr ? `<p class="trip-desc" style="margin-top:6px;font-size:.82rem;color:var(--text-2,#64748B);">✍️ ${descr.substring(0,120)}${descr.length>120?'…':''}</p>` : ''}
+          <div class="trip-meta" style="margin-top:6px;">
+            ${km ? `<span>✈️ ${Number(km).toLocaleString('es')} km</span>` : ''}
           </div>
         </div>
-        <button class="btn-trip-edit" onclick="deleteTrip(${i})">🗑️</button>
+        <button class="btn-trip-edit" onclick="deleteTrip(${trip.id || i},'${trip.id ? 'api' : 'idx'}')">🗑️</button>
       </div>
     `;
   }).join('');
 }
 
-function deleteTrip(index) {
+async function deleteTrip(idOrIdx, mode) {
   if (!confirm('¿Eliminar este viaje?')) return;
-  trips.splice(index, 1);
-  saveTrips(trips);
+  if (mode === 'api' && token) {
+    try {
+      await fetch(`${API_BASE}/api/trips/${idOrIdx}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+    } catch(e) { console.warn('Delete trip error:', e); }
+    trips = trips.filter(t => t.id !== idOrIdx);
+  } else {
+    trips.splice(idOrIdx, 1);
+  }
   updateStats();
 }
 
 // ── ADD TRIP MODAL ──
+let currentTripType = 'single';
+let tripLegs = []; // [{city, country, country_code, transport_to}]
+
+function setTripType(type, btn) {
+  currentTripType = type;
+  document.querySelectorAll('.trip-type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const single = document.getElementById('singleDestSection');
+  const multi  = document.getElementById('multiDestSection');
+  if (type === 'single') { single.style.display = ''; multi.style.display = 'none'; }
+  else { single.style.display = 'none'; multi.style.display = ''; if (!tripLegs.length) addTripLeg(); }
+}
+
+function addTripLeg(data) {
+  const leg = data || { city:'', country:'', country_code:'', transport_to:'avion' };
+  tripLegs.push(leg);
+  renderTripLegs();
+}
+
+function removeTripLeg(idx) {
+  tripLegs.splice(idx, 1);
+  renderTripLegs();
+}
+
+function renderTripLegs() {
+  const c = document.getElementById('tripLegsContainer');
+  c.innerHTML = tripLegs.map((leg, i) => `
+    <div class="trip-leg">
+      <div class="leg-num">Tramo ${i + 1}</div>
+      ${i > 0 ? `
+      <div style="margin-bottom:8px;">
+        <label class="edit-label" style="font-size:.72rem;">Transporte desde tramo anterior</label>
+        <div class="transport-select">
+          ${Object.entries(TRANSPORT_ICONS).map(([k,v]) => `
+            <button class="transport-btn ${leg.transport_to===k?'active':''}" onclick="setLegTransport(${i},'${k}',this)">${v} ${k}</button>
+          `).join('')}
+        </div>
+      </div>` : ''}
+      <div style="display:grid;grid-template-columns:1fr 1fr 80px;gap:8px;">
+        <div class="edit-group">
+          <label class="edit-label" style="font-size:.72rem;">Ciudad</label>
+          <input class="edit-input" style="padding:8px;" value="${leg.city||''}" oninput="tripLegs[${i}].city=this.value" placeholder="Ej: Bangkok">
+        </div>
+        <div class="edit-group">
+          <label class="edit-label" style="font-size:.72rem;">País</label>
+          <input class="edit-input" style="padding:8px;" value="${leg.country||''}" oninput="tripLegs[${i}].country=this.value" placeholder="Ej: Tailandia">
+        </div>
+        <div class="edit-group">
+          <label class="edit-label" style="font-size:.72rem;">ISO</label>
+          <input class="edit-input" style="padding:8px;text-transform:uppercase;" maxlength="2" value="${leg.country_code||''}" oninput="tripLegs[${i}].country_code=this.value.toUpperCase()" placeholder="TH">
+        </div>
+      </div>
+      ${i > 0 ? `<button class="btn-remove-leg" onclick="removeTripLeg(${i})">✕</button>` : ''}
+    </div>
+  `).join('');
+}
+
+function setLegTransport(idx, transport, btn) {
+  tripLegs[idx].transport_to = transport;
+  btn.closest('.transport-select').querySelectorAll('.transport-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
 function openAddTripModal() {
+  tripLegs = [];
+  currentTripType = 'single';
+  document.querySelectorAll('.trip-type-btn').forEach(b => b.classList.toggle('active', b.dataset.type==='single'));
+  document.getElementById('singleDestSection').style.display = '';
+  document.getElementById('multiDestSection').style.display = 'none';
+  document.getElementById('tripLegsContainer').innerHTML = '';
   document.getElementById('addTripModal').classList.add('open');
 }
 function closeAddTripModal() {
@@ -3287,31 +3459,98 @@ function closeModalOnBackdrop(e) {
   if (e.target === document.getElementById('addTripModal')) closeAddTripModal();
 }
 
-function saveNewTrip() {
-  const destination = document.getElementById('tripDestination').value.trim();
-  if (!destination) { showToast('Añade un destino', 'error'); return; }
+async function saveNewTrip() {
+  const title = document.getElementById('tripDestination').value.trim();
+  if (!title) { showToast('Añade un nombre al viaje', 'error'); return; }
 
-  const trip = {
-    destination,
-    start: document.getElementById('tripStart').value,
-    end: document.getElementById('tripEnd').value,
-    description: document.getElementById('tripDesc').value.trim(),
-    km: document.getElementById('tripKm').value,
-    tag: document.getElementById('tripTag').value.trim(),
+  const btn = document.getElementById('btnSaveTrip');
+  btn.disabled = true; btn.textContent = 'Guardando…';
+
+  const isMulti = currentTripType !== 'single';
+
+  const payload = {
+    title,
+    trip_type: currentTripType,
+    date_start: document.getElementById('tripStart').value || null,
+    date_end:   document.getElementById('tripEnd').value   || null,
+    description: document.getElementById('tripDesc').value.trim() || null,
+    km_distance: parseInt(document.getElementById('tripKm').value) || null,
+    rating: parseInt(document.getElementById('tripRating').value) || null,
   };
 
-  trips = loadTrips();
-  trips.unshift(trip);
-  saveTrips(trips);
-  closeAddTripModal();
-  showToast('✈️ Viaje registrado', 'success');
+  if (!isMulti) {
+    payload.country      = document.getElementById('tripCountry').value.trim() || null;
+    payload.country_code = (document.getElementById('tripCountryCode').value.trim() || '').toUpperCase() || null;
+    payload.city         = document.getElementById('tripCity').value.trim() || null;
+  } else {
+    payload.destinations = tripLegs.map((leg, i) => ({
+      city: leg.city || null,
+      country: leg.country || null,
+      country_code: leg.country_code ? leg.country_code.toUpperCase() : null,
+      transport_to: i > 0 ? (leg.transport_to || 'avion') : null,
+    }));
+  }
 
-  // Reset form
-  ['tripDestination','tripStart','tripEnd','tripDesc','tripKm','tripTag'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
+  try {
+    const res = await fetch(`${API_BASE}/api/trips`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.ok) {
+      closeAddTripModal();
+      showToast('✈️ Viaje guardado', 'success');
+      await loadTripsFromAPI();
+      // Sync visited countries back to map
+      await syncVisitedCountriesFromAPI();
+      updateStats();
+    } else {
+      showToast('Error: ' + (data.error || 'desconocido'), 'error');
+    }
+  } catch(e) {
+    showToast('Error de red al guardar', 'error');
+    console.error(e);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Guardar viaje';
+  }
+}
 
-  updateStats();
+async function loadTripsFromAPI() {
+  if (!token) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/trips`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.ok && data.trips) {
+      trips = data.trips;
+      renderTrips();
+      document.getElementById('tripsCount').textContent = trips.length;
+      document.getElementById('tripsCountLabel').textContent = `${trips.length} viaje${trips.length !== 1 ? 's' : ''}`;
+    }
+  } catch(e) {
+    console.warn('loadTripsFromAPI error:', e);
+  }
+}
+
+async function loadVisitedCitiesCount() {
+  if (!token) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/visited-cities`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (Array.isArray(data)) {
+      visitedCitiesCount = data.length;
+    } else if (data && Array.isArray(data.cities)) {
+      visitedCitiesCount = data.cities.length;
+    }
+  } catch(e) {
+    console.warn('loadVisitedCitiesCount error:', e);
+  }
 }
 
 // ── EDIT PROFILE ──
@@ -3418,6 +3657,8 @@ function showToast(msg, type = '') {
 }
 
 // ── INIT ──
+let visitedCitiesCount = 0;
+
 async function init() {
   // Render static parts immediately
   renderWonders();
@@ -3430,11 +3671,19 @@ async function init() {
   await loadProfile();
   loadSocialNetworks();
 
+  // Load trips from API
+  await loadTripsFromAPI();
+
+  // Load visited cities count from API
+  await loadVisitedCitiesCount();
+
   // Init map
   await initMap();
 
   // Sync visited countries from API (merges server data into localStorage + map)
   await syncVisitedCountriesFromAPI();
+
+  updateStats();
 
   // Welcome message for new users (redirected from signup)
   if (new URLSearchParams(window.location.search).get('welcome') === '1') {
