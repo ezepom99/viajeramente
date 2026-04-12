@@ -7,7 +7,7 @@
   <meta name="description" content="Tu punto de partida para descubrir el mundo.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
   <style>
@@ -23,9 +23,11 @@
       --accent:#2563EB;
       --accent-dark:#1D4ED8;
       --accent-light:#EFF6FF;
+      --gold:#C8A97E;
+      --gold-light:#F5EDD9;
       --shadow-sm:0 1px 4px rgba(0,0,0,.05);
       --shadow-md:0 4px 24px rgba(0,0,0,.08);
-      --shadow-lg:0 12px 48px rgba(0,0,0,.12);
+      --shadow-lg:0 12px 48px rgba(0,0,0,.14);
     }
     html { scroll-behavior:smooth; }
     body {
@@ -37,49 +39,50 @@
       min-height:100vh;
       font-size:15px;
     }
-    @keyframes fadeUp    { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeUp    { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
     @keyframes slideDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
     @keyframes shimmer   { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
+    @keyframes fadeIn    { from{opacity:0} to{opacity:1} }
 
     /* ── NAV ── */
     nav.topnav {
-      position:fixed;top:0;left:0;right:0;z-index:200;height:58px;
-      background:rgba(255,255,255,.98);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      position:fixed;top:0;left:0;right:0;z-index:200;height:60px;
+      background:rgba(255,255,255,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
       border-bottom:1px solid var(--border);
       display:flex;align-items:center;justify-content:space-between;
-      padding:0 24px;
-      animation:slideDown .3s ease both;
+      padding:0 32px;
+      animation:slideDown .35s ease both;
     }
     .nav-logo {
       font-family:'Playfair Display',serif;
-      font-size:1.15rem;font-weight:700;letter-spacing:-.01em;
+      font-size:1.1rem;font-weight:700;letter-spacing:-.01em;
       color:var(--text);text-decoration:none;
-      display:flex;align-items:center;gap:8px;
+      display:flex;align-items:center;gap:10px;
     }
     .nav-logo-mark {
-      width:28px;height:28px;border-radius:8px;
-      background:var(--accent);
+      width:30px;height:30px;border-radius:8px;
+      background:var(--text);
       display:flex;align-items:center;justify-content:center;
-      color:#fff;font-size:.7rem;font-weight:700;
-      letter-spacing:.02em;flex-shrink:0;
+      color:#fff;font-size:.62rem;font-weight:700;
+      letter-spacing:.05em;flex-shrink:0;
     }
-    .nav-dlinks { display:flex;align-items:center;gap:4px; }
+    .nav-dlinks { display:flex;align-items:center;gap:2px; }
     .nav-dlink {
       font-size:.8rem;font-weight:500;color:var(--text-2);
-      text-decoration:none;padding:6px 10px;border-radius:6px;
+      text-decoration:none;padding:6px 12px;border-radius:8px;
       transition:color .15s,background .15s;
     }
     .nav-dlink:hover { color:var(--text);background:var(--bg-soft); }
     @media(max-width:768px){.nav-dlinks{display:none;}}
     .nav-right { display:flex;align-items:center;gap:10px; }
     .nav-avatar {
-      width:32px;height:32px;border-radius:50%;
-      background:var(--accent-light);border:2px solid var(--border);
+      width:34px;height:34px;border-radius:50%;
+      background:var(--gold-light);border:2px solid var(--border);
       display:flex;align-items:center;justify-content:center;
-      font-size:.68rem;font-weight:700;color:var(--accent);
+      font-size:.68rem;font-weight:700;color:var(--gold);
       text-decoration:none;overflow:hidden;transition:border-color .2s;flex-shrink:0;
     }
-    .nav-avatar:hover { border-color:var(--accent); }
+    .nav-avatar:hover { border-color:var(--gold); }
     .nav-avatar img { width:100%;height:100%;object-fit:cover; }
     .nav-burger {
       display:none;background:none;border:none;cursor:pointer;
@@ -90,30 +93,30 @@
     @media(max-width:768px){.nav-burger{display:flex;align-items:center;}}
 
     /* ── MOBILE MENU ── */
-    .mob-ov { display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.35);backdrop-filter:blur(4px); }
+    .mob-ov { display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.4);backdrop-filter:blur(4px); }
     .mob-ov.open { display:block; }
     .mob-menu {
       position:absolute;top:0;left:0;right:0;
       background:#fff;border-bottom:1px solid var(--border);
-      padding:16px 18px 24px;
+      padding:16px 20px 28px;
       transform:translateY(-100%);transition:transform .22s cubic-bezier(.4,0,.2,1);
     }
     .mob-ov.open .mob-menu { transform:translateY(0); }
-    .mob-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:16px; }
+    .mob-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:18px; }
     .mob-x { background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--text-3);padding:4px;border-radius:6px; }
     .mob-x:hover { color:var(--text); }
     .mob-links { display:flex;flex-direction:column;gap:2px; }
     .mob-link {
-      display:flex;align-items:center;gap:12px;
+      display:flex;align-items:center;gap:14px;
       padding:12px 14px;border-radius:10px;
       text-decoration:none;color:var(--text);
       font-size:.9rem;font-weight:500;transition:background .12s;
     }
     .mob-link:hover { background:var(--bg-soft); }
     .mob-link .mi { font-size:1.1rem;width:24px;text-align:center; }
-    .mob-div { height:1px;background:var(--border);margin:8px 0; }
+    .mob-div { height:1px;background:var(--border);margin:10px 0; }
     .mob-out {
-      display:flex;align-items:center;gap:12px;
+      display:flex;align-items:center;gap:14px;
       padding:12px 14px;border-radius:10px;
       color:var(--text-3);font-size:.9rem;font-weight:500;
       background:none;border:none;cursor:pointer;width:100%;
@@ -122,184 +125,265 @@
     .mob-out:hover { background:var(--bg-soft);color:var(--text); }
 
     /* ── PAGE ── */
-    .page { margin-top:58px;opacity:0;transition:opacity .3s; }
+    .page { margin-top:60px;opacity:0;transition:opacity .4s; }
 
-    /* ── GREETING ── */
-    .greeting {
+    /* ── HERO ── */
+    .hero {
       background:var(--bg);
+      padding:64px 32px 56px;
       border-bottom:1px solid var(--border);
-      padding:40px 24px 36px;
+      text-align:center;
     }
-    .g-inner { max-width:700px;margin:0 auto; }
-    .g-eyebrow {
-      font-size:.68rem;font-weight:600;letter-spacing:.1em;
-      text-transform:uppercase;color:var(--accent);margin-bottom:10px;
-    }
-    .greeting h1 {
-      font-family:'Playfair Display',serif;
-      font-size:clamp(1.75rem,4.5vw,2.5rem);
-      font-weight:700;line-height:1.2;
-      color:var(--text);margin-bottom:10px;letter-spacing:-.01em;
-    }
-    .greeting h1 em { font-style:italic;color:var(--accent); }
-    .g-sub {
-      font-size:.875rem;color:var(--text-2);line-height:1.6;max-width:440px;
-    }
-
-    /* ── STATS STRIP ── */
-    .stats-strip {
-      background:var(--bg);
-      border-bottom:1px solid var(--border);
-      padding:14px 24px;
-      display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-    }
-    .s-pill {
-      display:inline-flex;align-items:center;gap:5px;
-      padding:5px 13px;border-radius:100px;
-      background:var(--bg-soft);border:1px solid var(--border);
-      font-size:.73rem;font-weight:600;color:var(--text);white-space:nowrap;
-    }
-    .s-pill strong { color:var(--accent); }
-    .s-level {
-      display:inline-flex;align-items:center;gap:5px;
-      padding:5px 13px;border-radius:100px;
-      background:#F0FDF4;border:1px solid #BBF7D0;
-      font-size:.73rem;font-weight:700;color:#166534;white-space:nowrap;
-    }
-
-    /* ── CONTENT WRAPPER ── */
-    .content { max-width:720px;margin:0 auto;padding:0 24px; }
-    @media(max-width:520px){ .content { padding:0 16px; } }
-
-    /* ── SECTION ── */
-    .sec { padding-top:40px; }
-    .sec:last-of-type { padding-bottom:48px; }
-    .sec-head {
-      display:flex;align-items:baseline;justify-content:space-between;
+    .hero-eyebrow {
+      display:inline-block;
+      font-size:.68rem;font-weight:600;letter-spacing:.12em;
+      text-transform:uppercase;color:var(--gold);
       margin-bottom:20px;
     }
-    .sec-title {
-      font-size:.75rem;font-weight:700;
-      letter-spacing:.08em;text-transform:uppercase;
+    .hero h1 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2rem,5vw,3rem);
+      font-weight:600;line-height:1.15;
+      color:var(--text);margin-bottom:16px;letter-spacing:-.02em;
+    }
+    .hero h1 em { font-style:italic;color:var(--text-2); }
+    .hero-sub {
+      font-size:.92rem;color:var(--text-2);line-height:1.7;
+      max-width:400px;margin:0 auto 40px;
+    }
+
+    /* ── STATS BAR ── */
+    .hero-stats {
+      display:flex;align-items:center;justify-content:center;
+      gap:0;flex-wrap:wrap;
+      max-width:560px;margin:0 auto;
+      border:1px solid var(--border);border-radius:16px;
+      background:var(--bg-soft);
+      overflow:hidden;
+    }
+    .hstat {
+      flex:1;min-width:110px;
+      padding:20px 16px;
+      text-align:center;
+      border-right:1px solid var(--border);
+    }
+    .hstat:last-child { border-right:none; }
+    .hstat-val {
+      font-family:'Playfair Display',serif;
+      font-size:1.75rem;font-weight:700;
+      color:var(--text);line-height:1;margin-bottom:5px;
+    }
+    .hstat-label {
+      font-size:.65rem;font-weight:600;
+      text-transform:uppercase;letter-spacing:.08em;
       color:var(--text-3);
+    }
+    .hstat-level {
+      font-size:.72rem;font-weight:600;
+      color:var(--gold);
+    }
+    @media(max-width:520px){
+      .hero { padding:48px 20px 44px; }
+      .hero-stats { margin:0 0; border-radius:14px; }
+      .hstat { padding:16px 10px; min-width:90px; }
+      .hstat-val { font-size:1.4rem; }
+    }
+
+    /* ── CONTENT ── */
+    .content { max-width:760px;margin:0 auto;padding:0 32px; }
+    @media(max-width:520px){ .content { padding:0 18px; } }
+
+    /* ── SECTION ── */
+    .sec { padding-top:56px; }
+    .sec:last-of-type { padding-bottom:64px; }
+    .sec-header {
+      margin-bottom:28px;
+    }
+    .sec-label {
+      font-size:.62rem;font-weight:700;
+      letter-spacing:.14em;text-transform:uppercase;
+      color:var(--text-3);margin-bottom:8px;
+    }
+    .sec-title {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.25rem,3vw,1.6rem);
+      font-weight:600;color:var(--text);
+      letter-spacing:-.02em;line-height:1.2;
+    }
+    .sec-title em { font-style:italic;color:var(--text-2); }
+    .sec-header-row {
+      display:flex;align-items:flex-end;justify-content:space-between;
+      gap:16px;
     }
     .sec-link {
       font-size:.78rem;font-weight:600;
-      color:var(--accent);text-decoration:none;transition:color .15s;
+      color:var(--text-3);text-decoration:none;
+      transition:color .15s;white-space:nowrap;flex-shrink:0;
+      padding-bottom:2px;
+      border-bottom:1px solid transparent;
     }
-    .sec-link:hover { color:var(--accent-dark); }
+    .sec-link:hover { color:var(--text);border-bottom-color:var(--text); }
 
-    /* ── FEATURED HERO ── */
-    .feat {
-      position:relative;border-radius:16px;overflow:hidden;
-      height:320px;text-decoration:none;display:block;
+    /* ── FEATURED COVER ── */
+    .cover-card {
+      position:relative;border-radius:20px;overflow:hidden;
+      height:440px;text-decoration:none;display:block;
       box-shadow:var(--shadow-md);
-      transition:transform .22s,box-shadow .22s;
-      background:#D4D0C8;
+      transition:box-shadow .28s;
+      background:#C8C0B0;
     }
-    .feat:hover { transform:translateY(-3px);box-shadow:var(--shadow-lg); }
-    .feat-img {
+    .cover-card:hover { box-shadow:var(--shadow-lg); }
+    .cover-img {
       position:absolute;inset:0;width:100%;height:100%;
       object-fit:cover;object-position:center 40%;
-      transition:transform .4s;
+      transition:transform .5s ease;
     }
-    .feat:hover .feat-img { transform:scale(1.03); }
-    .feat-gradient {
+    .cover-card:hover .cover-img { transform:scale(1.04); }
+    .cover-fade {
       position:absolute;inset:0;
-      background:linear-gradient(to bottom, transparent 30%, rgba(0,0,0,.65) 100%);
+      background:linear-gradient(to bottom, rgba(0,0,0,.05) 0%, rgba(0,0,0,.18) 40%, rgba(0,0,0,.72) 100%);
     }
-    .feat-body { position:absolute;bottom:0;left:0;right:0;padding:24px 28px; }
-    .feat-region {
+    .cover-body {
+      position:absolute;bottom:0;left:0;right:0;padding:36px 36px;
+    }
+    .cover-tag {
       display:inline-flex;align-items:center;gap:6px;
-      background:rgba(255,255,255,.15);
-      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-      border:1px solid rgba(255,255,255,.25);
-      color:#fff;font-size:.65rem;font-weight:700;
-      letter-spacing:.1em;text-transform:uppercase;
-      padding:4px 12px;border-radius:100px;margin-bottom:10px;
+      background:rgba(200,169,126,.2);
+      border:1px solid rgba(200,169,126,.4);
+      backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+      color:var(--gold-light);font-size:.62rem;font-weight:700;
+      letter-spacing:.12em;text-transform:uppercase;
+      padding:5px 14px;border-radius:100px;margin-bottom:14px;
     }
-    .feat-name {
+    .cover-name {
       font-family:'Playfair Display',serif;
-      font-size:clamp(1.5rem,4vw,2rem);font-weight:700;
-      color:#fff;line-height:1.15;margin-bottom:6px;
+      font-size:clamp(1.75rem,5vw,2.6rem);
+      font-weight:600;color:#fff;line-height:1.1;
+      margin-bottom:8px;letter-spacing:-.02em;
     }
-    .feat-tagline { font-size:.82rem;color:rgba(255,255,255,.8);line-height:1.45; }
-    .feat-cta {
-      position:absolute;top:18px;right:18px;
-      width:38px;height:38px;border-radius:50%;
-      background:rgba(255,255,255,.18);backdrop-filter:blur(8px);
-      border:1px solid rgba(255,255,255,.28);
+    .cover-tagline {
+      font-size:.85rem;color:rgba(255,255,255,.72);
+      line-height:1.55;max-width:480px;
+    }
+    .cover-arrow {
+      position:absolute;top:24px;right:24px;
+      width:42px;height:42px;border-radius:50%;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.22);
+      backdrop-filter:blur(10px);
       display:flex;align-items:center;justify-content:center;
-      color:#fff;font-size:.9rem;
+      color:#fff;font-size:1rem;
       transition:background .2s;
     }
-    .feat:hover .feat-cta { background:rgba(255,255,255,.3); }
-    .feat-shimmer {
-      background:linear-gradient(90deg,#ddd8ce 25%,#e8e3d8 50%,#ddd8ce 75%);
-      background-size:600px 100%;animation:shimmer 1.5s infinite;
+    .cover-card:hover .cover-arrow { background:rgba(255,255,255,.26); }
+    .cover-shimmer {
+      background:linear-gradient(90deg,#cdc7bc 25%,#ddd7cc 50%,#cdc7bc 75%);
+      background-size:600px 100%;animation:shimmer 1.6s infinite;
     }
 
-    /* ── DESTINATION GRID ── */
-    .dest-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
-    @media(min-width:600px){ .dest-grid { grid-template-columns:1fr 1fr 1fr 1fr; } }
-    .dest-card {
-      border-radius:12px;overflow:hidden;text-decoration:none;
-      display:block;position:relative;height:160px;
-      background:#D4D0C8;transition:transform .2s,box-shadow .2s;
+    @media(max-width:600px){
+      .cover-card { height:340px; }
+      .cover-body { padding:24px 22px; }
+    }
+
+    /* ── PHOTO GRID ── */
+    .photo-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    @media(min-width:580px){
+      .photo-grid { grid-template-columns:repeat(4,1fr); }
+    }
+    .photo-card {
+      border-radius:14px;overflow:hidden;text-decoration:none;
+      display:block;position:relative;
+      aspect-ratio:3/4;
+      background:#C8C0B0;
+      transition:box-shadow .22s;
       box-shadow:var(--shadow-sm);
     }
-    .dest-card:hover { transform:translateY(-2px);box-shadow:var(--shadow-md); }
-    .dest-card img {
+    .photo-card:hover { box-shadow:var(--shadow-md); }
+    .photo-card img {
       position:absolute;inset:0;width:100%;height:100%;
-      object-fit:cover;transition:transform .3s;
+      object-fit:cover;
+      transition:transform .35s ease;
     }
-    .dest-card:hover img { transform:scale(1.04); }
-    .dc-ov {
+    .photo-card:hover img { transform:scale(1.06); }
+    .pc-fade {
       position:absolute;inset:0;
-      background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.65) 100%);
+      background:linear-gradient(to bottom,transparent 45%,rgba(0,0,0,.72) 100%);
     }
-    .dc-info { position:absolute;bottom:0;left:0;right:0;padding:10px 12px; }
-    .dc-name {
+    .pc-info { position:absolute;bottom:0;left:0;right:0;padding:14px 14px; }
+    .pc-name {
       font-size:.82rem;font-weight:700;color:#fff;
       line-height:1.2;letter-spacing:-.01em;
     }
-    .dc-sub { font-size:.62rem;color:rgba(255,255,255,.72);margin-top:2px; }
-
-    /* ── ACTION LIST ── */
-    .act-list {
-      border-radius:14px;overflow:hidden;
-      border:1px solid var(--border);background:var(--bg);
-      box-shadow:var(--shadow-sm);
-    }
-    .act-row {
-      display:flex;align-items:center;gap:16px;
-      padding:18px 20px;
-      text-decoration:none;color:var(--text);
-      transition:background .12s;
-      border-bottom:1px solid var(--border);
-    }
-    .act-row:last-child { border-bottom:none; }
-    .act-row:hover { background:var(--bg-warm); }
-    .act-icon { font-size:1.2rem;width:28px;text-align:center;flex-shrink:0; }
-    .act-text { flex:1;min-width:0; }
-    .act-label { font-size:.88rem;font-weight:600;color:var(--text);line-height:1.3; }
-    .act-desc { font-size:.74rem;color:var(--text-2);margin-top:2px; }
-    .act-arr { font-size:.8rem;color:var(--text-3);flex-shrink:0;transition:color .15s,transform .15s; }
-    .act-row:hover .act-arr { color:var(--accent);transform:translateX(2px); }
+    .pc-sub { font-size:.62rem;color:rgba(255,255,255,.65);margin-top:3px; }
 
     /* ── SKELETON ── */
     .sk {
       background:linear-gradient(90deg,#eae6df 25%,#f2efe8 50%,#eae6df 75%);
       background-size:600px 100%;animation:shimmer 1.5s infinite;
-      border-radius:12px;
+      border-radius:14px;
     }
 
-    .spacer { height:60px; }
+    /* ── QUICK ACTIONS ── */
+    .actions-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    @media(min-width:580px){
+      .actions-grid { grid-template-columns:repeat(3,1fr); }
+    }
+    .action-card {
+      display:flex;flex-direction:column;
+      padding:24px 20px;
+      border-radius:16px;
+      background:var(--bg);
+      border:1px solid var(--border);
+      text-decoration:none;
+      color:var(--text);
+      transition:border-color .2s, box-shadow .2s, transform .2s;
+      gap:12px;
+    }
+    .action-card:hover {
+      border-color:#C8C0B0;
+      box-shadow:var(--shadow-md);
+      transform:translateY(-2px);
+    }
+    .action-icon {
+      font-size:1.5rem;line-height:1;
+    }
+    .action-label {
+      font-size:.88rem;font-weight:600;
+      color:var(--text);line-height:1.3;
+    }
+    .action-desc {
+      font-size:.74rem;color:var(--text-2);
+      line-height:1.5;margin-top:-4px;
+    }
+    .action-arr {
+      font-size:.75rem;color:var(--text-3);
+      margin-top:auto;
+      transition:color .15s,transform .15s;
+    }
+    .action-card:hover .action-arr { color:var(--text);transform:translateX(3px); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height:1px;background:var(--border);
+      margin:0 0;
+    }
+
+    /* ── SPACER ── */
+    .spacer { height:64px; }
 
     /* ── BOTTOM NAV ── */
     nav.botnav {
       display:none;position:fixed;bottom:0;left:0;right:0;
-      background:rgba(255,255,255,.98);backdrop-filter:blur(12px);
+      background:rgba(255,255,255,.98);backdrop-filter:blur(14px);
       border-top:1px solid var(--border);z-index:200;
       padding:6px 0 max(6px,env(safe-area-inset-bottom));
     }
@@ -310,15 +394,8 @@
       color:var(--text-3);font-size:.58rem;font-weight:500;
       gap:3px;padding:4px 0;transition:color .15s;
     }
-    .tab.active,.tab:hover { color:var(--accent); }
+    .tab.active,.tab:hover { color:var(--text); }
     .tab-ic { font-size:1.2rem;line-height:1; }
-
-    @media(max-width:520px){
-      .greeting { padding:30px 16px 26px; }
-      .stats-strip { padding:12px 16px; }
-      .feat { height:260px; }
-      .feat-body { padding:20px; }
-    }
   </style>
 </head>
 <body>
@@ -363,98 +440,130 @@
 
 <div class="page" id="mainPage">
 
-  <div class="greeting">
-    <div class="g-inner">
-      <div class="g-eyebrow" id="gLabel">Cargando…</div>
-      <h1>Tu próximo destino<br>te está <em>esperando</em></h1>
-      <p class="g-sub">Descubre, planifica e inspírate para tu próxima aventura.</p>
+  <!-- HERO / STATS -->
+  <div class="hero" id="heroSection">
+    <div class="hero-eyebrow" id="heroEyebrow">Tu diario de viajes</div>
+    <h1 id="heroTitle">El mundo es<br>tuyo para <em>descubrir</em></h1>
+    <p class="hero-sub" id="heroSub">Registra cada aventura, descubre nuevos destinos e inspírate cada día.</p>
+
+    <div class="hero-stats" id="heroStats" style="display:none;">
+      <div class="hstat">
+        <div class="hstat-val" id="statCountries">—</div>
+        <div class="hstat-label">Países</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val" id="statCities">—</div>
+        <div class="hstat-label">Ciudades</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val" id="statKm">—</div>
+        <div class="hstat-label">km viajados</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val hstat-level" id="statLevel">—</div>
+        <div class="hstat-label">Nivel</div>
+      </div>
     </div>
   </div>
 
-  <div class="stats-strip" id="statsStrip" style="display:none;"></div>
-
   <div class="content">
 
+    <!-- DESTINO DEL DÍA -->
     <div class="sec">
-      <div class="sec-head">
-        <span class="sec-title">Destino del día</span>
-        <a href="guias.html" class="sec-link">Ver todos →</a>
-      </div>
-      <a href="#" class="feat feat-shimmer" id="featCard">
-        <img class="feat-img" id="featImg" src="" alt="" loading="eager">
-        <div class="feat-gradient"></div>
-        <div class="feat-body">
-          <div class="feat-region">🌍 <span id="featContinent">…</span></div>
-          <div class="feat-name" id="featName">Cargando…</div>
-          <div class="feat-tagline" id="featTag"></div>
+      <div class="sec-header">
+        <div class="sec-header-row">
+          <div>
+            <div class="sec-label">Destino del día</div>
+            <div class="sec-title">Te presentamos <em>tu próxima aventura</em></div>
+          </div>
+          <a href="guias.html" class="sec-link">Ver todos →</a>
         </div>
-        <div class="feat-cta">→</div>
+      </div>
+      <a href="#" class="cover-card cover-shimmer" id="featCard">
+        <img class="cover-img" id="featImg" src="" alt="" loading="eager">
+        <div class="cover-fade"></div>
+        <div class="cover-body">
+          <div class="cover-tag">✦ <span id="featContinent">…</span></div>
+          <div class="cover-name" id="featName">Cargando…</div>
+          <div class="cover-tagline" id="featTag"></div>
+        </div>
+        <div class="cover-arrow">→</div>
       </a>
     </div>
 
+    <!-- DESCUBRIR DESTINOS -->
     <div class="sec">
-      <div class="sec-head">
-        <span class="sec-title">Descubrir destinos</span>
-        <a href="guias.html" class="sec-link">Explorar →</a>
+      <div class="sec-header">
+        <div class="sec-header-row">
+          <div>
+            <div class="sec-label">Descubrir</div>
+            <div class="sec-title">Destinos que te <em>esperan</em></div>
+          </div>
+          <a href="guias.html" class="sec-link">Explorar →</a>
+        </div>
       </div>
-      <div class="dest-grid" id="destGrid">
-        <div style="height:160px;" class="sk"></div>
-        <div style="height:160px;" class="sk"></div>
-        <div style="height:160px;" class="sk"></div>
-        <div style="height:160px;" class="sk"></div>
+      <div class="photo-grid" id="destGrid">
+        <div style="aspect-ratio:3/4;" class="sk"></div>
+        <div style="aspect-ratio:3/4;" class="sk"></div>
+        <div style="aspect-ratio:3/4;" class="sk"></div>
+        <div style="aspect-ratio:3/4;" class="sk"></div>
       </div>
     </div>
 
+    <!-- ACCIONES -->
     <div class="sec">
-      <div class="sec-head"><span class="sec-title">Empieza por aquí</span></div>
-      <div class="act-list">
-        <a href="plan.html" class="act-row">
-          <span class="act-icon">✈️</span>
-          <div class="act-text">
-            <div class="act-label">Planifica tu aventura</div>
-            <div class="act-desc">Responde 9 preguntas, descubre destinos a tu medida</div>
+      <div class="sec-header">
+        <div class="sec-label">Por dónde empezar</div>
+        <div class="sec-title">Tu próxima <em>escapada</em></div>
+      </div>
+      <div class="actions-grid">
+        <a href="plan.html" class="action-card">
+          <span class="action-icon">✈️</span>
+          <div>
+            <div class="action-label">Planifica tu aventura</div>
+            <div class="action-desc">9 preguntas, destinos a tu medida</div>
           </div>
-          <span class="act-arr">→</span>
+          <span class="action-arr">→</span>
         </a>
-        <a href="guias.html" class="act-row">
-          <span class="act-icon">🗺️</span>
-          <div class="act-text">
-            <div class="act-label">Guías de destinos</div>
-            <div class="act-desc">+40 destinos: visas, precios, lo mejor de cada lugar</div>
+        <a href="guias.html" class="action-card">
+          <span class="action-icon">🗺️</span>
+          <div>
+            <div class="action-label">Guías de destinos</div>
+            <div class="action-desc">Visas, precios y lo mejor de cada lugar</div>
           </div>
-          <span class="act-arr">→</span>
+          <span class="action-arr">→</span>
         </a>
-        <a href="fechas.html" class="act-row">
-          <span class="act-icon">📅</span>
-          <div class="act-text">
-            <div class="act-label">Ya tengo fechas</div>
-            <div class="act-desc">Dime cuándo viajas y te digo adónde</div>
+        <a href="fechas.html" class="action-card">
+          <span class="action-icon">📅</span>
+          <div>
+            <div class="action-label">Ya tengo fechas</div>
+            <div class="action-desc">Dime cuándo y te digo adónde</div>
           </div>
-          <span class="act-arr">→</span>
+          <span class="action-arr">→</span>
         </a>
-        <a href="mapa.html" class="act-row">
-          <span class="act-icon">🌍</span>
-          <div class="act-text">
-            <div class="act-label">Mi mapa mundial</div>
-            <div class="act-desc">Todos los países que has pisado</div>
+        <a href="mapa.html" class="action-card">
+          <span class="action-icon">🌍</span>
+          <div>
+            <div class="action-label">Mi mapa mundial</div>
+            <div class="action-desc">Todos los países que has pisado</div>
           </div>
-          <span class="act-arr">→</span>
+          <span class="action-arr">→</span>
         </a>
-        <a href="ranking.html" class="act-row">
-          <span class="act-icon">🏆</span>
-          <div class="act-text">
-            <div class="act-label">Ranking viajeros</div>
-            <div class="act-desc">Sistema de puntos y podio de la comunidad</div>
+        <a href="ranking.html" class="action-card">
+          <span class="action-icon">🏆</span>
+          <div>
+            <div class="action-label">Ranking viajeros</div>
+            <div class="action-desc">Tu posición en la comunidad</div>
           </div>
-          <span class="act-arr">→</span>
+          <span class="action-arr">→</span>
         </a>
-        <a href="profile.html" class="act-row">
-          <span class="act-icon">👤</span>
-          <div class="act-text">
-            <div class="act-label">Mi perfil viajero</div>
-            <div class="act-desc">Países visitados, viajes y estilo</div>
+        <a href="profile.html" class="action-card">
+          <span class="action-icon">👤</span>
+          <div>
+            <div class="action-label">Mi perfil viajero</div>
+            <div class="action-desc">Tus países, viajes y estilo</div>
           </div>
-          <span class="act-arr">→</span>
+          <span class="action-arr">→</span>
         </a>
       </div>
     </div>
@@ -492,46 +601,67 @@
     return base + '?auto=compress&cs=tinysrgb&h=' + (h||700) + '&w=' + (w||1200);
   }
 
-  // Pexels fallback: build URL from known photo IDs indexed by destination name keywords
+  // Pexels fallback by slug keywords
   var PEXELS_FALLBACKS = {
-    'noruega':   'https://images.pexels.com/photos/1891550/pexels-photo-1891550.jpeg',
+    'noruega':         'https://images.pexels.com/photos/29821695/pexels-photo-29821695.jpeg',
     'noruega-fiordos': 'https://images.pexels.com/photos/1891550/pexels-photo-1891550.jpeg',
-    'japan':     'https://images.pexels.com/photos/590478/pexels-photo-590478.jpeg',
-    'default':   'https://images.pexels.com/photos/2356059/pexels-photo-2356059.jpeg'
+    'japan':           'https://images.pexels.com/photos/590478/pexels-photo-590478.jpeg',
+    'default':         'https://images.pexels.com/photos/2356059/pexels-photo-2356059.jpeg'
   };
 
   function getFallbackPhoto(slug) {
     return PEXELS_FALLBACKS[slug] || PEXELS_FALLBACKS['default'];
   }
 
-  function buildGreeting(name) {
-    var h = new Date().getHours();
-    var emoji  = h < 6 ? '🌙' : h < 13 ? '☀️' : h < 20 ? '🌤️' : '🌙';
-    var saludo = h < 13 ? 'Buenos días' : h < 20 ? 'Buenas tardes' : 'Buenas noches';
-    var first  = name ? name.split(' ')[0] : null;
-    document.getElementById('gLabel').textContent = emoji + '  ' + saludo + (first ? ', ' + first : '');
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length-1; i>0; i--) {
+      var j = Math.floor(Math.random()*(i+1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
   }
 
   function setAvatar(user) {
-    var av = document.getElementById('navAvatar');
+    var el = document.getElementById('navAvatar');
     if (user.avatar_url) {
-      av.innerHTML = '<img src="' + user.avatar_url + '" alt="">';
+      el.innerHTML = '<img src="' + user.avatar_url + '" alt="">';
     } else {
-      av.textContent = (user.name||'V').split(' ').map(function(n){return n[0];}).join('').slice(0,2).toUpperCase();
+      var name = (user.name || user.email || 'U').trim();
+      el.textContent = name[0].toUpperCase();
     }
   }
 
-  function setStats(user) {
-    var strip    = document.getElementById('statsStrip');
-    var countries = user.stats_countries || (user.countries_visited && user.countries_visited.length) || 0;
-    var km       = user.km_traveled || 0;
-    var rank     = user.rank_level || 'Curioso';
-    var pts      = user.points || 0;
-    strip.innerHTML =
-      '<span class="s-pill">🌍 <strong>' + countries + '</strong>&nbsp;países</span>' +
-      (km > 0 ? '<span class="s-pill">✈️ <strong>' + km.toLocaleString('es-ES') + '</strong>&nbsp;km</span>' : '') +
-      '<span class="s-level">⭐ ' + rank + ' · ' + pts + ' pts</span>';
-    strip.style.display = 'flex';
+  function setHero(user) {
+    var name = (user.name || '').split(' ')[0] || 'Viajero';
+    var h = new Date().getHours();
+    var greeting = h < 6 ? 'Buenas noches' : h < 13 ? 'Buenos días' : h < 20 ? 'Buenas tardes' : 'Buenas noches';
+    document.getElementById('heroEyebrow').textContent = greeting + ', ' + name;
+
+    // API /me returns: km_traveled, stats_countries, rank_level, points
+    var countries = user.stats_countries || 0;
+    var km        = user.km_traveled     || 0;
+    var level     = user.rank_level      || '';
+    var pts       = user.points          || 0;
+
+    if (countries > 0 || km > 0 || level) {
+      document.getElementById('statCountries').textContent = countries;
+      document.getElementById('statCities').textContent    = pts + ' pts';
+      document.getElementById('statKm').textContent        = km > 0 ? km.toLocaleString('es-ES') : '0';
+      document.getElementById('statLevel').textContent     = level || '—';
+
+      // Rename the cities label to "Puntos" since we show points there
+      var labels = document.querySelectorAll('.hstat-label');
+      if (labels[1]) labels[1].textContent = 'Puntos';
+
+      document.getElementById('heroStats').style.display = 'flex';
+      if (countries > 0) {
+        document.getElementById('heroTitle').innerHTML = 'Has viajado por<br><em>' + countries + ' países</em>';
+        document.getElementById('heroSub').textContent = level
+          ? 'Nivel ' + level + '. Sigue explorando el mundo.'
+          : 'Sigue explorando el mundo y añade más destinos.';
+      }
+    }
   }
 
   function setFeatured(d) {
@@ -539,19 +669,16 @@
     var img  = document.getElementById('featImg');
 
     card.href = 'destino.html?slug=' + d.slug;
-    card.classList.remove('feat-shimmer');
+    card.classList.remove('cover-shimmer');
 
-    // Always show a photo: use hero_photo_url or fallback
-    var photoSrc = d.hero_photo_url
-      ? photoUrl(d.hero_photo_url, 700, 1400)
-      : photoUrl(getFallbackPhoto(d.slug), 700, 1400);
+    var rawUrl   = d.hero_photo_url || getFallbackPhoto(d.slug);
+    var photoSrc = photoUrl(rawUrl, 800, 1600);
 
     img.src = photoSrc;
     img.alt = d.name || '';
 
-    // If the chosen URL fails, try the default fallback
     img.onerror = function() {
-      var fb = photoUrl(PEXELS_FALLBACKS['default'], 700, 1400);
+      var fb = photoUrl(getFallbackPhoto(d.slug), 800, 1600);
       if (img.src !== fb) { img.src = fb; }
     };
 
@@ -566,27 +693,18 @@
     dests.slice(0,4).forEach(function(d) {
       var a = document.createElement('a');
       a.href      = 'destino.html?slug=' + d.slug;
-      a.className = 'dest-card';
+      a.className = 'photo-card';
       var rawUrl  = d.hero_photo_url || getFallbackPhoto(d.slug);
-      var imgUrl  = photoUrl(rawUrl, 400, 600);
+      var imgUrl  = photoUrl(rawUrl, 600, 400);
       a.innerHTML =
-        '<img src="' + imgUrl + '" alt="' + d.name + '" loading="lazy">' +
-        '<div class="dc-ov"></div>' +
-        '<div class="dc-info">' +
-          '<div class="dc-name">' + d.name + '</div>' +
-          '<div class="dc-sub">' + (d.continent||d.region||'') + '</div>' +
+        '<img src="' + imgUrl + '" alt="' + (d.name||'') + '" loading="lazy">' +
+        '<div class="pc-fade"></div>' +
+        '<div class="pc-info">' +
+          '<div class="pc-name">' + (d.name||'') + '</div>' +
+          '<div class="pc-sub">' + (d.continent||'') + '</div>' +
         '</div>';
       el.appendChild(a);
     });
-  }
-
-  function shuffle(arr) {
-    var a = arr.slice();
-    for (var i = a.length-1; i > 0; i--) {
-      var j = Math.floor(Math.random()*(i+1));
-      var t = a[i]; a[i]=a[j]; a[j]=t;
-    }
-    return a;
   }
 
   async function init() {
@@ -600,20 +718,19 @@
 
       var meData = await meRes.json();
       var user   = meData.user || meData;
-      buildGreeting(user.name);
       setAvatar(user);
-      setStats(user);
+      setHero(user);
 
       if (destsRes.ok) {
-        var data = await destsRes.json();
+        var data  = await destsRes.json();
         var dests = data.destinations || [];
 
-        // Prefer destinations with photos, but don't require them (we have fallbacks)
+        // Prefer destinations with photos, but don't require them
         var withPhoto = dests.filter(function(d){ return d.hero_photo_url; });
         var pool = withPhoto.length >= 10 ? withPhoto : dests;
 
         // Featured: pick from top quality destinations, rotate by day of month
-        var top = pool.slice().sort(function(a,b){ return (b.guide_quality||0)-(a.guide_quality||0); }).slice(0,20);
+        var top   = pool.slice().sort(function(a,b){ return (b.guide_quality||0)-(a.guide_quality||0); }).slice(0,20);
         var today = top[new Date().getDate() % top.length];
         setFeatured(today);
 

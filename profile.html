@@ -3273,9 +3273,11 @@ function toggleCountry(id, name) {
   if (visitedCodes.has(strId)) {
     visitedCodes.delete(strId);
     showToast(`${name || 'País'} eliminado`);
+    syncCountryToAPI(id, name, true);
   } else {
     visitedCodes.add(strId);
     showToast(`✓ ${name || 'País'} añadido`);
+    syncCountryToAPI(id, name, false);
     saveVisitedCountries(visitedCodes);
     updateStats();
     // Update continent auto-detection
@@ -3348,6 +3350,48 @@ function closeCityPicker() {
 const NUMERIC_TO_ALPHA2 = {};
 for (const [a2, num] of Object.entries(ALPHA2_TO_NUMERIC)) {
   NUMERIC_TO_ALPHA2[String(num)] = a2;
+}
+
+// Build numeric-ID → continent name map from CONTINENT_CODES
+const NUMERIC_TO_CONTINENT = {};
+const CONTINENT_LABEL = { america:'América', europa:'Europa', asia:'Asia', africa:'África', oceania:'Oceanía', antartica:'Antártida' };
+for (const [cont, codes] of Object.entries(CONTINENT_CODES)) {
+  for (const c of codes) NUMERIC_TO_CONTINENT[String(c)] = CONTINENT_LABEL[cont] || cont;
+}
+
+// Silently sync a country add/remove to the API (fire-and-forget)
+function syncCountryToAPI(numericId, name, remove) {
+  if (!token) return;
+  const alpha2 = NUMERIC_TO_ALPHA2[String(numericId)];
+  if (!alpha2) return;
+  if (remove) {
+    fetch(`${API_BASE}/api/visited-countries/${alpha2}`, {
+      method: 'DELETE', headers: { Authorization: `Bearer ${token}` }
+    }).catch(() => {});
+  } else {
+    const continent = NUMERIC_TO_CONTINENT[String(numericId)] || null;
+    fetch(`${API_BASE}/api/visited-countries`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ country_code: alpha2, country_name: name || getCountryName(numericId), continent })
+    }).catch(() => {});
+  }
+}
+
+// Silently sync a wonder add/remove to the API (fire-and-forget)
+function syncWonderToAPI(wonderId, remove) {
+  if (!token) return;
+  if (remove) {
+    fetch(`${API_BASE}/api/wonders/${wonderId}/visit`, {
+      method: 'DELETE', headers: { Authorization: `Bearer ${token}` }
+    }).catch(() => {});
+  } else {
+    fetch(`${API_BASE}/api/wonders/${wonderId}/visit`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({})
+    }).catch(() => {});
+  }
 }
 
 function addCustomCity() {
@@ -3520,8 +3564,10 @@ function toggleWonder(id, el) {
     el.classList.remove('visited');
     el.querySelector('.wonder-check').textContent = '';
     showToast('Maravilla eliminada');
+    syncWonderToAPI(id, true);
   } else {
     visitedWonders.add(id);
+    syncWonderToAPI(id, false);
     el.classList.add('visited');
     el.querySelector('.wonder-check').textContent = '✓';
     // Auto-add the country if not already visited
@@ -3531,6 +3577,7 @@ function toggleWonder(id, el) {
       const strCode = String(countryCode);
       if (!visitedCodes.has(strCode)) {
         visitedCodes.add(strCode);
+        syncCountryToAPI(countryCode, countryName, false);
         saveVisitedCountries(visitedCodes);
         updateStats();
         autoDetectContinents();
@@ -3960,6 +4007,41 @@ async function init() {
 
   // Sync visited countries from API (merges server data into localStorage + map)
   await syncVisitedCountriesFromAPI();
+
+  // Push any existing localStorage countries/wonders to the API (one-time bootstrap)
+  if (token) {
+    // Only do this if we have localStorage data but not yet in API
+    try {
+      const apiRes = await fetch(`${API_BASE}/api/visited-countries`, { headers: { Authorization: `Bearer ${token}` } });
+      const apiData = apiRes.ok ? await apiRes.json() : { countries: [] };
+      const serverCodes = new Set((apiData.countries || []).map(c => (c.country_code||'').toUpperCase()));
+      // Push countries that are in localStorage but not yet on server
+      for (const numId of visitedCodes) {
+        const a2 = NUMERIC_TO_ALPHA2[String(numId)];
+        if (a2 && !serverCodes.has(a2)) {
+          const name = getCountryName(numId);
+          const continent = NUMERIC_TO_CONTINENT[String(numId)] || null;
+          fetch(`${API_BASE}/api/visited-countries`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ country_code: a2, country_name: name, continent })
+          }).catch(() => {});
+        }
+      }
+      // Push wonders that are in localStorage but not yet on server (only if not bootstrapped)
+      const wondersBootstrapped = localStorage.getItem('wondersBootstrapped_v1');
+      if (!wondersBootstrapped && visitedWonders.size > 0) {
+        for (const wid of visitedWonders) {
+          fetch(`${API_BASE}/api/wonders/${wid}/visit`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({})
+          }).catch(() => {});
+        }
+        localStorage.setItem('wondersBootstrapped_v1', '1');
+      }
+    } catch(e) {}
+  }
 
   updateStats();
 

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /brand-preview.html
+Disallow: /admin
+
+Sitemap: https://viajeramente.com/sitemap.xml
