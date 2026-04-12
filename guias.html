@@ -606,6 +606,16 @@
       white-space: nowrap; flex-shrink: 0;
     }
     .card-cta:hover { background: var(--accent-text); }
+    .card-wishlist-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 1.5px solid var(--border); background: var(--bg);
+      color: #94A3B8; font-size: 1rem; cursor: pointer;
+      flex-shrink: 0; transition: all .2s; line-height: 1;
+      font-family: inherit;
+    }
+    .card-wishlist-btn:hover { border-color: #F43F5E; color: #F43F5E; background: #FFF1F2; }
+    .card-wishlist-btn.wishlisted { border-color: #F43F5E; color: #F43F5E; background: #FFF1F2; }
 
     /* Skeleton */
     .skeleton-card {
@@ -959,6 +969,47 @@ function renderFeatured() {
 // ── Constants ─────────────────────────────────────────────────────────────────
 const API_BASE = 'https://eze.saypeter.com';
 
+// ── Wishlist state ─────────────────────────────────────────────────────────────
+let wishlistSlugsGuias = new Set();
+
+async function loadWishlistSlugsGuias() {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/wishlist/slugs`, { headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) return;
+    const data = await res.json();
+    wishlistSlugsGuias = new Set(data.slugs || []);
+  } catch(e) {}
+}
+
+async function toggleWishlistGuias(e, slug, name) {
+  e.preventDefault();
+  e.stopPropagation();
+  const token = localStorage.getItem('token');
+  if (!token) { window.location.href = 'login.html?next=' + encodeURIComponent(window.location.href); return; }
+  const btn = document.querySelector(`[data-wishlist-slug="${CSS.escape(slug)}"]`);
+  const inWishlist = wishlistSlugsGuias.has(slug);
+  try {
+    if (inWishlist) {
+      await fetch(`${API_BASE}/api/wishlist/${slug}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      wishlistSlugsGuias.delete(slug);
+    } else {
+      await fetch(`${API_BASE}/api/wishlist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ destination_slug: slug })
+      });
+      wishlistSlugsGuias.add(slug);
+    }
+    if (btn) {
+      btn.textContent = wishlistSlugsGuias.has(slug) ? '♥' : '♡';
+      btn.title = wishlistSlugsGuias.has(slug) ? 'Quitar de mi lista' : 'Quiero ir';
+      btn.classList.toggle('wishlisted', wishlistSlugsGuias.has(slug));
+    }
+  } catch(e) {}
+}
+
 const RUTAS_DATA = [
   {
     slug: 'ruta-66',
@@ -1280,6 +1331,7 @@ function renderGrid() {
           </div>
           <div class="card-footer">
             <span class="card-budget">${budgetLabel(d)}</span>
+            <button class="card-wishlist-btn${wishlistSlugsGuias.has(d.slug) ? ' wishlisted' : ''}" data-wishlist-slug="${d.slug}" title="${wishlistSlugsGuias.has(d.slug) ? 'Quitar de mi lista' : 'Quiero ir'}" onclick="toggleWishlistGuias(event,'${d.slug}',${JSON.stringify(d.name)})">${wishlistSlugsGuias.has(d.slug) ? '♥' : '♡'}</button>
             <span class="card-cta">Leer guía →</span>
           </div>
         </div>
@@ -1302,6 +1354,7 @@ function renderGrid() {
           <p class="card-tagline">${c.tagline}</p>
           <div class="card-footer">
             <span class="card-budget">${budgetLabel(c)}</span>
+            <button class="card-wishlist-btn${wishlistSlugsGuias.has(c.slug) ? ' wishlisted' : ''}" data-wishlist-slug="${c.slug}" title="${wishlistSlugsGuias.has(c.slug) ? 'Quitar de mi lista' : 'Quiero ir'}" onclick="toggleWishlistGuias(event,'${c.slug}',${JSON.stringify(c.name)})">${wishlistSlugsGuias.has(c.slug) ? '♥' : '♡'}</button>
             <span class="card-cta">Ver guía →</span>
           </div>
         </div>
@@ -1428,7 +1481,8 @@ function goSurprise(e) {
 // ── Init ──────────────────────────────────────────────────────────────────────
 renderFeatured();
 renderRutas();
-loadGuides();
+// Load wishlist slugs first so heart buttons render correctly, then load guides
+loadWishlistSlugsGuias().then(() => loadGuides()).catch(() => loadGuides());
 </script>
 
 <!-- Bottom Nav -->

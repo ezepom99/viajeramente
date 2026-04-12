@@ -963,12 +963,13 @@
   <div id="guideRequestSection" style="display:none;padding:40px 0 20px;">
     <div style="max-width:520px;margin:0 auto;background:linear-gradient(135deg,#F0FDF4 0%,#EFF6FF 100%);border:1.5px solid #BBF7D0;border-radius:20px;padding:36px 32px;text-align:center;">
       <div style="font-size:2.5rem;margin-bottom:12px;">✉️</div>
-      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:#111;margin:0 0 10px;">Guía en preparación</h3>
-      <p style="font-size:.95rem;color:#4B5563;line-height:1.6;margin:0 0 24px;">Todavía no tenemos una guía completa para este destino. Pídenos que la hagamos y te avisamos cuando esté lista.</p>
-      <button id="guideRequestBtn" onclick="openGuideRequest()" style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:100px;border:none;background:linear-gradient(135deg,#10B981,#059669);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(16,185,129,.3);">
-        <span>📋</span> Pedir esta guía
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:#111;margin:0 0 10px;">Guía en construcción</h3>
+      <p style="font-size:.95rem;color:#4B5563;line-height:1.6;margin:0 0 20px;">Todavía no tenemos una guía completa para este destino. Pídenos que la hagamos y te avisamos cuando esté lista.</p>
+      <p id="guideRequestCount" style="font-size:.85rem;color:#6B7280;margin:0 0 20px;min-height:1.2em;"></p>
+      <button id="guideRequestBtn" onclick="submitGuideRequest()" style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:100px;border:none;background:linear-gradient(135deg,#10B981,#059669);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(16,185,129,.3);">
+        🙋 Pedir esta guía
       </button>
-      <p id="guideRequestThanks" style="display:none;margin:16px 0 0;font-size:.9rem;color:#059669;font-weight:600;">¡Pedido registrado! Te avisaremos cuando esté lista ✅</p>
+      <p id="guideRequestThanks" style="display:none;margin:16px 0 0;font-size:.9rem;color:#059669;font-weight:600;">✓ Ya has pedido esta guía</p>
     </div>
   </div>
 
@@ -1706,6 +1707,8 @@
       // Store slug for request
       window._guideRequestSlug = d.slug;
       window._guideRequestName = d.name;
+      // Load request count and user status from API
+      loadGuideRequestStatus(d.slug);
     }
   }
 
@@ -2334,41 +2337,61 @@
   }
 
   /* ─── GUIDE REQUEST ─── */
-  async function openGuideRequest() {
+  async function loadGuideRequestStatus(slug) {
+    if (!slug) return;
+    try {
+      const authToken = localStorage.getItem('token');
+      const headers = {};
+      if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
+      const res = await fetch(`${API_BASE}/api/guide-requests/${slug}`, { headers });
+      if (!res.ok) return;
+      const data = await res.json();
+      const countEl = document.getElementById('guideRequestCount');
+      const btn = document.getElementById('guideRequestBtn');
+      const thanks = document.getElementById('guideRequestThanks');
+      if (countEl && data.count > 0) {
+        countEl.textContent = `${data.count} persona${data.count === 1 ? '' : 's'} ha${data.count === 1 ? '' : 'n'} pedido esta guía`;
+      }
+      if (data.user_requested) {
+        if (btn) btn.style.display = 'none';
+        if (thanks) thanks.style.display = 'block';
+      }
+    } catch(e) {}
+  }
+
+  async function submitGuideRequest() {
     const slug = window._guideRequestSlug || '';
     const name = window._guideRequestName || slug;
     const btn = document.getElementById('guideRequestBtn');
     const thanks = document.getElementById('guideRequestThanks');
+    const countEl = document.getElementById('guideRequestCount');
     if (!slug) return;
 
-    // Check if already requested in this session
-    const alreadyKey = 'guideReq_' + slug;
-    if (localStorage.getItem(alreadyKey)) {
-      thanks.style.display = 'block';
-      btn.style.display = 'none';
-      return;
-    }
-
-    btn.textContent = 'Enviando...';
+    btn.innerHTML = 'Enviando...';
     btn.disabled = true;
 
     try {
       const authToken = localStorage.getItem('token');
       const headers = { 'Content-Type': 'application/json' };
       if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
-      await fetch(`${API_BASE}/api/suggestions`, {
+      const res = await fetch(`${API_BASE}/api/guide-requests`, {
         method: 'POST',
         headers,
-        body: JSON.stringify({
-          message: `Solicitud de guía para: ${name} (slug: ${slug})`,
-          category: 'guide_request'
-        })
+        body: JSON.stringify({ destination_slug: slug, destination_name: name })
       });
-      localStorage.setItem(alreadyKey, '1');
-      btn.style.display = 'none';
-      thanks.style.display = 'block';
+      const data = await res.json();
+      if (data.ok) {
+        btn.style.display = 'none';
+        thanks.style.display = 'block';
+        if (countEl && data.count > 0) {
+          countEl.textContent = `${data.count} persona${data.count === 1 ? '' : 's'} ha${data.count === 1 ? '' : 'n'} pedido esta guía`;
+        }
+      } else {
+        btn.innerHTML = '🙋 Pedir esta guía';
+        btn.disabled = false;
+      }
     } catch(e) {
-      btn.textContent = '📋 Pedir esta guía';
+      btn.innerHTML = '🙋 Pedir esta guía';
       btn.disabled = false;
     }
   }
