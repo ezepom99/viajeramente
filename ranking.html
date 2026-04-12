@@ -51,7 +51,9 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      overflow-x: hidden;
     }
+    html { overflow-x: hidden; }
     h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
 
     /* ── NAV ── */
@@ -577,14 +579,16 @@
 <body>
 
 <nav class="nav">
-  <a class="nav-logo" href="main.html">🌍 ViajeraMente</a>
+  <a class="nav-logo" href="index.html">🌍 ViajeraMente</a>
   <ul class="nav-links">
-    <li><a href="main.html">Inicio</a></li>
+    <li><a href="index.html">Inicio</a></li>
     <li><a href="guias.html">Guías</a></li>
     <li><a href="plan.html">Planifica</a></li>
+    <li><a href="ranking.html" style="color:var(--accent);font-weight:600;">🏆 Ranking</a></li>
   </ul>
   <div class="nav-right">
-    <a class="btn-nav-login" href="profile.html" id="navProfileLink">Mi perfil</a>
+    <a class="btn-nav-login" href="login.html" id="navLoginLink" style="display:none;">Entrar</a>
+    <a class="btn-nav-login" href="profile.html" id="navProfileLink" style="display:none;">Mi perfil</a>
     <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
   </div>
 </nav>
@@ -593,11 +597,11 @@
 <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
   <div class="mobile-menu">
     <div class="mobile-menu-header">
-      <a class="nav-logo" href="main.html" style="text-decoration:none;">🌍 ViajeraMente</a>
+      <a class="nav-logo" href="index.html" style="text-decoration:none;">🌍 ViajeraMente</a>
       <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
     </div>
     <div class="mobile-menu-links">
-      <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
+      <a href="index.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
       <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
       <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planifica</a>
       <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
@@ -704,8 +708,7 @@ const myUsername = localStorage.getItem('user_name') || localStorage.getItem('us
 
 // Update nav
 if (token) {
-  document.getElementById('navProfileLink').href = 'profile.html';
-  document.getElementById('navProfileLink').textContent = 'Mi perfil';
+  document.getElementById('navProfileLink').style.display = '';
   // Mobile menu auth state
   const mmp = document.getElementById('mm-profile');
   const mml = document.getElementById('mm-login');
@@ -714,6 +717,7 @@ if (token) {
   if (mml) mml.style.display = 'none';
   if (mms) mms.style.display = 'none';
 } else {
+  document.getElementById('navLoginLink').style.display = '';
   document.getElementById('loginCta').style.display = 'flex';
 }
 
@@ -733,13 +737,15 @@ function avatarColor(name) {
   return COLORS[Math.abs(h) % COLORS.length];
 }
 
-// ── LEVEL FROM COUNTRIES ──
-function getLevel(countries) {
-  if (countries >= 100) return { name:'Zafiro',   cls:'sapphire' };
-  if (countries >= 50)  return { name:'Diamante', cls:'diamond'  };
-  if (countries >= 20)  return { name:'Oro',       cls:'gold'     };
-  if (countries >= 5)   return { name:'Plata',    cls:'silver'   };
-  return                       { name:'Bronce',   cls:'bronze'   };
+// ── LEVEL FROM KM ──
+function getLevel(km) {
+  if (km >= 100000) return { name:'Ciudadano del mundo', emoji:'🌌', cls:'sapphire' };
+  if (km >= 50000)  return { name:'Nómada global',       emoji:'🚀', cls:'diamond'  };
+  if (km >= 30000)  return { name:'Viajero empedernido', emoji:'✈️', cls:'gold'     };
+  if (km >= 15000)  return { name:'Mochilero',           emoji:'🗺️', cls:'silver'   };
+  if (km >= 5000)   return { name:'Explorador',          emoji:'🌍', cls:'bronze'   };
+  if (km >= 1000)   return { name:'Pollito viajero',     emoji:'🐣', cls:'bronze'   };
+  return                   { name:'Huevo',               emoji:'🥚', cls:'bronze'   };
 }
 
 // ── SWITCH TAB ──
@@ -808,8 +814,8 @@ function renderLeaderboard(list, metric) {
     const pos = i + 4;
     const color = avatarColor(user.name || user.username || '?');
     const initial = (user.name || user.username || '?').charAt(0).toUpperCase();
-    const countries = user.countries_visited || 0;
-    const level = getLevel(countries);
+    const userKm = user.total_km || user.km || 0;
+    const level = getLevel(userKm);
     const isMe = myUsername && (user.username === myUsername);
     const value = cfg.suffix(user.value || user[metric] || 0);
 

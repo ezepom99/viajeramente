@@ -105,7 +105,7 @@
     .nav-cta {
       font-size: .82rem; font-weight: 600;
       background: var(--accent); color: #fff;
-      padding: 7px 16px; border-radius: 20px;
+      padding: 7px 16px; border-radius: 100px;
       text-decoration: none; transition: background .2s;
     }
     .nav-cta:hover { background: var(--accent-text); }
@@ -388,6 +388,11 @@
     }
     .result-card:nth-child(2) { animation-delay: .07s; }
     .result-card:nth-child(3) { animation-delay: .14s; }
+    .result-card:nth-child(4) { animation-delay: .21s; }
+    .result-card:nth-child(5) { animation-delay: .28s; }
+    .result-card:nth-child(6) { animation-delay: .35s; }
+    .result-card:nth-child(7) { animation-delay: .42s; }
+    .result-card:nth-child(8) { animation-delay: .49s; }
     .result-card:hover { box-shadow: var(--shadow-md); border-color: #D1D5DB; }
 
     .result-rank {
@@ -397,6 +402,14 @@
     .result-rank.first { color: #D97706; }
     .result-rank.second { color: #64748B; }
     .result-rank.third { color: var(--accent); }
+    .result-rank.fourth { color: var(--text-muted); }
+
+    .relaxed-note {
+      text-align: center; color: var(--text-secondary);
+      font-size: .85rem; padding: 12px 16px 4px;
+      background: var(--accent-light); border-radius: 10px;
+      margin-bottom: 16px;
+    }
 
     .result-top {
       display: flex; align-items: flex-start; gap: 16px; margin-bottom: 14px;
@@ -490,6 +503,50 @@
     .type-badge.city { background: #E0F2FE; color: #0284C7; }
     .type-badge.route { background: #F0FDF4; color: #16A34A; }
 
+    /* ── Route itinerary expander ── */
+    .route-itinerary-toggle {
+      width: 100%; padding: 9px 14px;
+      background: #F0FDF4; border: 1.5px solid #86EFAC;
+      border-radius: 10px; color: #15803D;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 10px; text-align: left;
+    }
+    .route-itinerary-toggle:hover { background: #DCFCE7; border-color: #4ADE80; }
+    .route-itinerary-toggle .toggle-arrow { transition: transform .3s; font-size: 1rem; }
+    .route-itinerary-toggle.open .toggle-arrow { transform: rotate(180deg); }
+    .route-itinerary-body {
+      display: none;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 10px;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .route-itinerary-body.open { display: block; }
+    .route-itin-day {
+      margin-top: 14px;
+      margin-bottom: 4px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: .88rem;
+      color: #0F172A;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .route-itin-day:first-child { margin-top: 0; }
+    .route-itin-day-badge {
+      background: #EFF6FF; color: #0EA5E9;
+      border-radius: 6px; padding: 2px 8px;
+      font-size: .75rem; white-space: nowrap; flex-shrink: 0;
+    }
+    .route-itin-line {
+      color: #475569; line-height: 1.7; font-size: .85rem;
+    }
+    .route-itin-body { border-left: 3px solid #E0F2FE; padding-left: 14px; margin-top: 2px; }
+
     /* ── Nueva búsqueda ── */
     .btn-restart {
       width: 100%; margin-top: 24px;
@@ -502,6 +559,163 @@
       cursor: pointer; transition: all .2s;
     }
     .btn-restart:hover { background: var(--accent); color: #fff; }
+
+    /* ── Packing List ── */
+    .packing-section {
+      display: none;
+      margin-top: 32px;
+      animation: fadeInUp .4s ease both;
+    }
+    .packing-section.active { display: block; }
+    .packing-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .packing-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem; font-weight: 700; color: var(--text);
+    }
+    .packing-progress-text {
+      font-size: .78rem; font-weight: 600; color: var(--teal-text);
+      background: var(--teal-light); padding: 3px 10px; border-radius: 100px;
+      border: 1px solid #99F6E4; white-space: nowrap;
+    }
+    .packing-progress-bar {
+      height: 6px; background: var(--border); border-radius: 100px;
+      margin-bottom: 20px; overflow: hidden;
+    }
+    .packing-progress-fill {
+      height: 100%; background: var(--teal);
+      border-radius: 100px;
+      transition: width .4s cubic-bezier(.4,0,.2,1);
+    }
+    .packing-category {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .packing-cat-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px;
+      cursor: pointer;
+      user-select: none;
+      transition: background .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .packing-cat-header:hover { background: var(--bg-soft); }
+    .packing-cat-left { display: flex; align-items: center; gap: 10px; }
+    .packing-cat-emoji { font-size: 1.2rem; }
+    .packing-cat-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .92rem; font-weight: 700; color: var(--text);
+    }
+    .packing-cat-count {
+      font-size: .72rem; color: var(--text-muted); font-weight: 500;
+    }
+    .packing-cat-arrow {
+      font-size: .8rem; color: var(--text-muted);
+      transition: transform .2s;
+    }
+    .packing-cat-arrow.open { transform: rotate(180deg); }
+    .packing-cat-items {
+      display: none;
+      padding: 0 18px 14px;
+      border-top: 1px solid var(--border);
+    }
+    .packing-cat-items.open { display: block; }
+    .packing-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .packing-item:last-child { border-bottom: none; }
+    .packing-item input[type="checkbox"] {
+      width: 18px; height: 18px;
+      accent-color: var(--teal);
+      cursor: pointer; flex-shrink: 0;
+    }
+    .packing-item-label {
+      font-size: .875rem; color: var(--text);
+      transition: color .15s; line-height: 1.4;
+    }
+    .packing-item.checked .packing-item-label {
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+    .packing-reset {
+      width: 100%; margin-top: 16px;
+      padding: 10px;
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      color: var(--text-muted);
+      font-family: 'Space Grotesk', sans-serif; font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+    .packing-reset:hover { border-color: var(--text-muted); color: var(--text); }
+
+    /* ── Inline per-card packing toggle ── */
+    .packing-inline-toggle {
+      width: 100%; margin-top: 10px;
+      padding: 9px 14px;
+      background: var(--teal-light); border: 1.5px solid #99F6E4;
+      border-radius: 10px; color: var(--teal-text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+      display: flex; align-items: center; justify-content: space-between;
+      text-align: left;
+    }
+    .packing-inline-toggle:hover { background: #CCFBF1; border-color: #2DD4BF; }
+    .packing-inline-toggle.open .toggle-arrow { transform: rotate(180deg); }
+    .packing-inline-toggle .toggle-arrow { transition: transform .3s; font-size: 1rem; }
+    .packing-inline-body {
+      display: none;
+      margin-top: 10px;
+    }
+    .packing-inline-body.open { display: block; }
+    .packing-inline-cat {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .packing-inline-cat-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px;
+      cursor: pointer; user-select: none;
+      transition: background .15s;
+    }
+    .packing-inline-cat-header:hover { background: var(--border); }
+    .packing-inline-cat-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .85rem; font-weight: 700; color: var(--text);
+    }
+    .packing-inline-cat-arrow { font-size: .75rem; color: var(--text-muted); transition: transform .2s; }
+    .packing-inline-cat-arrow.open { transform: rotate(180deg); }
+    .packing-inline-items {
+      display: none;
+      padding: 0 14px 10px;
+      border-top: 1px solid var(--border);
+    }
+    .packing-inline-items.open { display: block; }
+    .packing-inline-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 0; border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .packing-inline-item:last-child { border-bottom: none; }
+    .packing-inline-item input[type="checkbox"] {
+      width: 16px; height: 16px; accent-color: var(--teal); cursor: pointer; flex-shrink: 0;
+    }
+    .packing-inline-item-label { font-size: .83rem; color: var(--text); line-height: 1.4; }
+    .packing-inline-item.checked .packing-inline-item-label { color: var(--text-muted); text-decoration: line-through; }
 
     /* ── Mobile ── */
     @media (max-width: 480px) {
@@ -554,6 +768,7 @@ nav { padding: 0 18px; }
   <div class="nav-right">
     <a href="guias.html" class="nav-link">Guías</a>
     <a href="fechas.html" class="nav-link">Por fechas</a>
+    <a href="ranking.html" class="nav-link">🏆 Ranking</a>
     <span class="nav-user-name" id="navName"></span>
     <div class="nav-avatar" id="navAvatar" onclick="window.location='profile.html'"></div>
     <button class="nav-logout" onclick="logout()">Salir</button>
@@ -961,6 +1176,19 @@ nav { padding: 0 18px; }
     <div id="resultsList"></div>
 
     <button class="btn-restart" onclick="restart()">Nueva búsqueda →</button>
+  </div>
+
+  <!-- ══ PACKING LIST ══ -->
+  <div class="packing-section" id="packingSection">
+    <div class="packing-header">
+      <div class="packing-title">🧳 Lista de viaje</div>
+      <div class="packing-progress-text" id="packingProgressText">0/0 listos</div>
+    </div>
+    <div class="packing-progress-bar">
+      <div class="packing-progress-fill" id="packingProgressFill" style="width:0%"></div>
+    </div>
+    <div id="packingCategories"></div>
+    <button class="packing-reset" onclick="resetPacking()">↺ Reiniciar lista</button>
   </div>
 
 </main>
@@ -1843,6 +2071,32 @@ const STYLE_LABELS = { backpacker:'🎒 Mochilero', campervan:'🚐 Campervan', 
 const BUDGET_LABELS = { budget:'💸 Budget', mid:'💰 Medio', luxury:'💎 Lujo' };
 const VIBE_LABELS = { romantic:'💑 Romántico', adventure:'🏃 Aventura', culture:'🏛️ Cultura', nature:'🌿 Naturaleza', party:'🎉 Fiesta' };
 
+const DURATION_LABELS = { week:'1 semana', twoweeks:'2 semanas', month:'1 mes', weekend:'fin de semana' };
+
+function buildMatchReason(dest) {
+  // Build a "✓ X · ✓ Y · ✓ Z" reason string based on actual matches
+  const reasons = [];
+  if (answers.budget && dest.budget.includes(answers.budget)) {
+    reasons.push(BUDGET_LABELS[answers.budget]);
+  }
+  if (answers.climate && answers.climate !== 'any' && dest.climate === answers.climate) {
+    reasons.push(CLIMATE_LABELS[dest.climate]);
+  }
+  if (answers.vibes?.length) {
+    answers.vibes.forEach(v => {
+      if (dest.vibes.includes(v)) reasons.push(VIBE_LABELS[v]);
+    });
+  }
+  if (answers.style && answers.style !== 'any' && dest.styles.includes(answers.style)) {
+    reasons.push(STYLE_LABELS[answers.style]);
+  }
+  if (answers.duration && dest.duration.includes(answers.duration) && DURATION_LABELS[answers.duration]) {
+    reasons.push(`${DURATION_LABELS[answers.duration]} perfectas`);
+  }
+  if (!reasons.length) return '';
+  return reasons.map(r => `✓ ${r}`).join(' · ');
+}
+
 function buildMatchTags(dest) {
   const tags = [];
   if (answers.climate && answers.climate !== 'any' && dest.climate === answers.climate) {
@@ -1873,23 +2127,36 @@ function setTypeFilter(type) {
 }
 
 function renderResults() {
-  const scored = DESTINATIONS
-    .filter(d => activeTypeFilter === 'all' || (d.type || 'country') === activeTypeFilter)
-    .map(d => ({ dest: d, score: scoreDestination(d, answers) }));
+  let filtered = DESTINATIONS
+    .filter(d => activeTypeFilter === 'all' || (d.type || 'country') === activeTypeFilter);
+
+  let scored = filtered.map(d => ({ dest: d, score: scoreDestination(d, answers) }));
   scored.sort((a,b) => b.score - a.score);
-  const top3 = scored.slice(0,3);
 
-  const rankClasses = ['first','second','third'];
-  const rankLabels = ['🥇 Mejor opción', '🥈 Segunda opción', '🥉 Tercera opción'];
+  // Show top 8 by score (positive scores preferred)
+  let topResults = scored.filter(item => item.score >= 0).slice(0, 8);
+  let relaxedNote = '';
 
-  if (!top3.length) {
-    document.getElementById('resultsList').innerHTML = '<p style="text-align:center;color:var(--text-secondary);padding:32px">No hay destinos de este tipo para tu selección.</p>';
+  // FIX 3: If fewer than 3 results pass the score threshold, relax and show best available
+  // (only relax scoring, not the type filter — respect what the user asked for)
+  if (topResults.length < 3 && scored.length >= 3) {
+    topResults = scored.slice(0, 8);
+    relaxedNote = '<p class="relaxed-note">No encontramos coincidencia exacta, pero te puede gustar... 👇</p>';
+  } else if (topResults.length < 3 && scored.length > 0) {
+    topResults = scored.slice(0, 8);
+  }
+
+  const rankClasses = ['first','second','third','fourth','fourth','fourth','fourth','fourth'];
+  const rankLabels  = ['🥇 Mejor opción', '🥈 Segunda opción', '🥉 Tercera opción', '4.ª opción', '5.ª opción', '6.ª opción', '7.ª opción', '8.ª opción'];
+
+  if (!topResults.length) {
+    document.getElementById('resultsList').innerHTML = '<p style="text-align:center;color:var(--text-secondary);padding:32px">No hay destinos disponibles para esta selección. Prueba a cambiar el tipo de viaje.</p>';
     return;
   }
 
-  const html = top3.map((item, i) => {
+  const html = relaxedNote + topResults.map((item, i) => {
     const d = item.dest;
-    const tags = buildMatchTags(d);
+    const matchReason = buildMatchReason(d);
     const heroImg = d.hero_photo_url
       ? `<div class="result-hero" style="background-image:url('${d.hero_photo_url}')"></div>`
       : '';
@@ -1897,6 +2164,15 @@ function renderResults() {
       ? '<span class="type-badge city">🏙️ Ciudad</span>'
       : d.type === 'route'
       ? '<span class="type-badge route">🗺️ Ruta</span>'
+      : '';
+    const routeItinerarySection = d.type === 'route'
+      ? `<button class="route-itinerary-toggle" onclick="toggleRouteItinerary(this,'${d.id}')" data-slug="${d.id}">
+          <span>🗺️ Ver itinerario día a día</span>
+          <span class="toggle-arrow">▼</span>
+        </button>
+        <div class="route-itinerary-body" id="itin-${d.id}">
+          <div style="color:#64748B;font-size:.85rem;">Cargando itinerario...</div>
+        </div>`
       : '';
     return `
       <div class="result-card">
@@ -1910,16 +2186,146 @@ function renderResults() {
             <div class="result-tagline">${d.tagline}</div>
           </div>
         </div>
-        ${tags ? `<div class="match-tags">${tags}</div>` : ''}
-        <a class="btn-guide" href="destino.html?slug=${d.id}">
+        ${matchReason ? `<div style="font-size:.8rem;color:#0D9488;font-weight:500;margin-bottom:12px;line-height:1.5;">${matchReason}</div>` : ''}
+        ${routeItinerarySection}
+        <a class="btn-guide" href="destino.html?slug=${d.id}" target="_blank">
           <span>Ver guía completa</span>
           <span>→</span>
         </a>
+        <button class="packing-inline-toggle" onclick="toggleInlinePacking(this,'${d.id}','${d.climate || 'mild'}','${(d.vibes||[]).join(',')}')">
+          <span>🎒 Ver packing list</span>
+          <span class="toggle-arrow">▼</span>
+        </button>
+        <div class="packing-inline-body" id="packing-inline-${d.id}"></div>
       </div>
     `;
   }).join('');
 
   document.getElementById('resultsList').innerHTML = html;
+}
+
+// ── Inline per-card packing list ──
+function toggleInlinePacking(btn, slug, climate, vibesStr) {
+  const body = document.getElementById('packing-inline-' + slug);
+  if (!body) return;
+  const isOpen = body.classList.contains('open');
+  if (isOpen) {
+    body.classList.remove('open');
+    btn.classList.remove('open');
+    return;
+  }
+  btn.classList.add('open');
+  body.classList.add('open');
+
+  if (body.dataset.rendered) return;
+  body.dataset.rendered = '1';
+
+  const vibes = vibesStr ? vibesStr.split(',').filter(Boolean) : [];
+  const conditional = getConditionalItems(slug, climate, vibes);
+  const items = mergeItems(PACKING_BASE, conditional);
+  const lsKey = 'vm_packing_inline_' + slug;
+
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(lsKey)) || {}; } catch {}
+
+  const categories = [
+    { key: 'documentacion', emoji: '📄', name: 'Documentación' },
+    { key: 'botiquin',      emoji: '💊', name: 'Botiquín' },
+    { key: 'ropa',          emoji: '👕', name: 'Ropa' },
+    { key: 'neceser',       emoji: '🧴', name: 'Neceser' },
+  ];
+
+  body.innerHTML = categories.map((cat, ci) => {
+    const catItems = items[cat.key] || [];
+    const isFirst = ci === 0;
+    const itemsHtml = catItems.map(item => {
+      const checked = !!state[item.id];
+      return `<label class="packing-inline-item${checked ? ' checked' : ''}" id="pii_${slug}_${item.id}" onclick="toggleInlineItem('${slug}','${item.id}',this)">
+        <input type="checkbox" ${checked ? 'checked' : ''}>
+        <span class="packing-inline-item-label">${item.label}</span>
+      </label>`;
+    }).join('');
+
+    return `<div class="packing-inline-cat">
+      <div class="packing-inline-cat-header" onclick="toggleInlineCat(this)">
+        <span class="packing-inline-cat-name">${cat.emoji} ${cat.name}</span>
+        <span class="packing-inline-cat-arrow${isFirst ? ' open' : ''}">▼</span>
+      </div>
+      <div class="packing-inline-items${isFirst ? ' open' : ''}">${itemsHtml}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleInlineCat(header) {
+  const items = header.nextElementSibling;
+  const arrow = header.querySelector('.packing-inline-cat-arrow');
+  const isOpen = items.classList.toggle('open');
+  arrow.classList.toggle('open', isOpen);
+}
+
+function toggleInlineItem(slug, itemId, label) {
+  const cb = label.querySelector('input[type="checkbox"]');
+  const checked = !label.classList.contains('checked');
+  if (cb) cb.checked = checked;
+  label.classList.toggle('checked', checked);
+  const lsKey = 'vm_packing_inline_' + slug;
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(lsKey)) || {}; } catch {}
+  state[itemId] = checked;
+  try { localStorage.setItem(lsKey, JSON.stringify(state)); } catch {}
+}
+
+// ── Route itinerary toggle ──
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+const _itinCache = {};
+async function toggleRouteItinerary(btn, slug) {
+  const body = document.getElementById('itin-' + slug);
+  if (!body) return;
+  const isOpen = body.classList.contains('open');
+  if (isOpen) {
+    body.classList.remove('open');
+    btn.classList.remove('open');
+    return;
+  }
+  btn.classList.add('open');
+  body.classList.add('open');
+
+  // Already rendered
+  if (_itinCache[slug]) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/destinations/${slug}`);
+    const data = await res.json();
+    const dest = data.destination || {};
+    const sections = dest.guide_sections || [];
+    const itinSection = sections.find(s => s.section === 'Itinerario día a día');
+    if (!itinSection) {
+      body.innerHTML = '<div style="color:#64748B;font-size:.85rem;">Itinerario no disponible — <a href="destino.html?slug=' + slug + '" target="_blank" style="color:#0EA5E9">ver guía completa</a></div>';
+      _itinCache[slug] = true;
+      return;
+    }
+    const lines = (itinSection.content || '').split('\n');
+    let html = '<div class="route-itin-body">';
+    for (const line of lines) {
+      if (!line.trim()) { html += '<div style="height:4px"></div>'; continue; }
+      if (/^(Día\s+\d|Etapa\s+\d|TRAMO\s+\d)/i.test(line.trim())) {
+        const parts = line.trim().split(/\s+—\s+|:\s+/);
+        const badge = parts[0] || '';
+        const rest = line.trim().slice(badge.length).replace(/^\s*[—:]\s*/, '');
+        html += `<div class="route-itin-day"><span class="route-itin-day-badge">${escHtml(badge)}</span><span>${escHtml(rest)}</span></div>`;
+      } else {
+        html += `<div class="route-itin-line">${escHtml(line.trim())}</div>`;
+      }
+    }
+    html += '</div>';
+    html += `<div style="margin-top:12px;text-align:right;"><a href="destino.html?slug=${slug}" target="_blank" style="font-size:.8rem;color:#0EA5E9;font-weight:600;text-decoration:none;">Ver guía completa →</a></div>`;
+    body.innerHTML = html;
+    _itinCache[slug] = true;
+  } catch(e) {
+    body.innerHTML = '<div style="color:#64748B;font-size:.85rem;">Error cargando itinerario.</div>';
+  }
 }
 
 function showResults() {
@@ -1959,6 +2365,264 @@ function showResults() {
   document.getElementById('resultsScreen').classList.add('active');
   document.getElementById('progressFill').style.width = '100%';
   window.scrollTo({top: 0, behavior: 'smooth'});
+
+  // Show packing list after results
+  initPackingList();
+}
+
+// ══════════════════════════════════════════════
+// PACKING LIST
+// ══════════════════════════════════════════════
+
+// Base items for each category — always shown
+const PACKING_BASE = {
+  documentacion: [
+    { id: 'doc_pasaporte',  label: 'Pasaporte (vigente mínimo 6 meses)' },
+    { id: 'doc_dnifoto',    label: 'Fotocopia del pasaporte/DNI' },
+    { id: 'doc_seguro',     label: 'Seguro de viaje (imprimido y en el móvil)' },
+    { id: 'doc_vuelos',     label: 'Billetes de avión (offline descargados)' },
+    { id: 'doc_alojam',     label: 'Confirmaciones de alojamiento' },
+    { id: 'doc_dinero',     label: 'Efectivo en moneda local + tarjeta de débito' },
+  ],
+  botiquin: [
+    { id: 'bot_ibuprofeno', label: 'Ibuprofeno / paracetamol' },
+    { id: 'bot_tiritas',    label: 'Tiritas y gasas' },
+    { id: 'bot_antiseptico',label: 'Antiséptico (toallitas o spray)' },
+    { id: 'bot_pomada',     label: 'Pomada antibiótica' },
+    { id: 'bot_antidiarrea', label: 'Antidiarreico y sales de rehidratación' },
+  ],
+  ropa: [
+    { id: 'ropa_camisetas',  label: 'Camisetas (3–5 unidades, tejido rápido secado)' },
+    { id: 'ropa_pantalones', label: 'Pantalones largos / cortos' },
+    { id: 'ropa_interior',   label: 'Ropa interior (5–7 mudas)' },
+    { id: 'ropa_calzado',    label: 'Calzado cómodo para caminar' },
+    { id: 'ropa_flip',       label: 'Chanclas / sandalias' },
+    { id: 'ropa_lluvia',     label: 'Chubasquero o impermeable ligero' },
+  ],
+  neceser: [
+    { id: 'nec_dentifrico',  label: 'Pasta y cepillo de dientes' },
+    { id: 'nec_champu',      label: 'Champú y gel (formato viaje < 100ml)' },
+    { id: 'nec_desodorante', label: 'Desodorante' },
+    { id: 'nec_maquinilla',  label: 'Maquinilla de afeitar / depiladora' },
+    { id: 'nec_toalla',      label: 'Toalla de microfibra' },
+    { id: 'nec_papelwc',     label: 'Papel higiénico de viaje / pañuelos' },
+  ]
+};
+
+// Conditional items based on destination context
+function getConditionalItems(destSlug, climate, vibes) {
+  const items = [];
+
+  // Tropical / warm climate
+  if (climate === 'warm') {
+    items.push(
+      { category: 'botiquin', item: { id: 'bot_repelente', label: 'Repelente de mosquitos (DEET 30%+)' } },
+      { category: 'botiquin', item: { id: 'bot_solar',     label: 'Crema solar SPF 50+' } },
+      { category: 'botiquin', item: { id: 'bot_afterbite', label: 'After bite / pomada para picaduras' } },
+      { category: 'ropa',     item: { id: 'ropa_bador',    label: 'Bañador / bikini' } },
+      { category: 'ropa',     item: { id: 'ropa_uvshirt',  label: 'Camiseta manga larga anti-UV' } }
+    );
+  }
+
+  // Cold climate
+  if (climate === 'cold') {
+    items.push(
+      { category: 'ropa', item: { id: 'ropa_abrigo',   label: 'Abrigo o chaqueta de plumas' } },
+      { category: 'ropa', item: { id: 'ropa_guantes',  label: 'Guantes y gorro de lana' } },
+      { category: 'ropa', item: { id: 'ropa_thermals', label: 'Ropa térmica interior' } },
+      { category: 'ropa', item: { id: 'ropa_botas',    label: 'Botas de invierno impermeables' } },
+      { category: 'botiquin', item: { id: 'bot_labial', label: 'Protector labial (frío extremo)' } }
+    );
+  }
+
+  // Adventure vibes
+  if (vibes && vibes.includes('adventure')) {
+    items.push(
+      { category: 'ropa',     item: { id: 'ropa_trekking', label: 'Botas de trekking' } },
+      { category: 'ropa',     item: { id: 'ropa_calcetines', label: 'Calcetines técnicos de senderismo' } },
+      { category: 'botiquin', item: { id: 'bot_blister',  label: 'Parches anti-ampollas' } },
+      { category: 'neceser',  item: { id: 'nec_protlabios', label: 'Protector solar de labios' } }
+    );
+  }
+
+  // Nature vibes (wildlife, jungle)
+  if (vibes && vibes.includes('nature')) {
+    items.push(
+      { category: 'ropa',     item: { id: 'ropa_largos2', label: 'Pantalón largo impermeable / trekking' } },
+      { category: 'botiquin', item: { id: 'bot_repelente2', label: 'Repelente de insectos en spray (si no hay ya)' } }
+    );
+  }
+
+  // Visa needed (non-Europe destinations)
+  const europeIds = ['interrail-europa', 'berlin', 'paris', 'amsterdam', 'lisboa', 'praga', 'budapest', 'roma'];
+  if (!europeIds.includes(destSlug)) {
+    items.push(
+      { category: 'documentacion', item: { id: 'doc_visa', label: 'Visado / e-visa tramitado (si aplica)' } }
+    );
+  }
+
+  // Route-specific
+  const routeIds = ['ruta-40', 'panamericana', 'camino-de-santiago', 'interrail-europa', 'ruta-66'];
+  if (routeIds.includes(destSlug)) {
+    items.push(
+      { category: 'documentacion', item: { id: 'doc_map_offline', label: 'Mapas offline descargados (Maps.me / OsmAnd)' } },
+      { category: 'ropa',          item: { id: 'ropa_capas',      label: 'Sistema de capas (por cambios de temperatura)' } }
+    );
+    if (destSlug === 'camino-de-santiago') {
+      items.push(
+        { category: 'documentacion', item: { id: 'doc_credencial', label: 'Credencial del peregrino' } },
+        { category: 'ropa',          item: { id: 'ropa_poles',     label: 'Bastones de trekking' } },
+        { category: 'botiquin',      item: { id: 'bot_rodillas',   label: 'Rodilleras / vendas elásticas' } }
+      );
+    }
+    if (destSlug === 'ruta-66' || destSlug === 'ruta-40' || destSlug === 'panamericana') {
+      items.push(
+        { category: 'documentacion', item: { id: 'doc_carnet',    label: 'Carnet de conducir internacional' } },
+        { category: 'documentacion', item: { id: 'doc_seguroauto', label: 'Seguro del vehículo / carta verde' } }
+      );
+    }
+  }
+
+  return items;
+}
+
+// Deduplicate items by id
+function mergeItems(base, conditional) {
+  const result = JSON.parse(JSON.stringify(base)); // deep copy
+  conditional.forEach(({ category, item }) => {
+    const catKey = { documentacion: 'documentacion', botiquin: 'botiquin', ropa: 'ropa', neceser: 'neceser' }[category];
+    if (!catKey) return;
+    if (!result[catKey].find(i => i.id === item.id)) {
+      result[catKey].push(item);
+    }
+  });
+  return result;
+}
+
+let PACKING_ITEMS = null;
+let PACKING_SLUG = null;
+
+function initPackingList() {
+  // Determine the top destination from results
+  const topCard = document.querySelector('#resultsList .result-card a.btn-guide');
+  let slug = 'unknown';
+  if (topCard) {
+    const href = topCard.getAttribute('href');
+    const match = href && href.match(/slug=([^&]+)/);
+    if (match) slug = match[1];
+  }
+
+  // Get climate and vibes from top destination
+  const topDest = DESTINATIONS.find(d => d.id === slug) || DESTINATIONS[0];
+  const climate = topDest ? topDest.climate : 'mild';
+  const vibes   = topDest ? topDest.vibes : [];
+
+  PACKING_SLUG = slug;
+  const conditional = getConditionalItems(slug, climate, vibes);
+  PACKING_ITEMS = mergeItems(PACKING_BASE, conditional);
+
+  renderPackingList();
+  document.getElementById('packingSection').classList.add('active');
+}
+
+const PACKING_LS_KEY = () => `viajeramente_packing_${PACKING_SLUG || 'default'}`;
+
+function getPackingState() {
+  try { return JSON.parse(localStorage.getItem(PACKING_LS_KEY())) || {}; } catch { return {}; }
+}
+
+function savePackingState(state) {
+  try { localStorage.setItem(PACKING_LS_KEY(), JSON.stringify(state)); } catch {}
+}
+
+function renderPackingList() {
+  const state = getPackingState();
+  const categories = [
+    { key: 'documentacion', emoji: '📋', name: 'Documentación' },
+    { key: 'botiquin',      emoji: '💊', name: 'Botiquín' },
+    { key: 'ropa',          emoji: '👕', name: 'Ropa' },
+    { key: 'neceser',       emoji: '🧴', name: 'Neceser' },
+  ];
+
+  let totalItems = 0, checkedItems = 0;
+
+  const html = categories.map((cat, ci) => {
+    const items = PACKING_ITEMS[cat.key] || [];
+    const catChecked = items.filter(i => state[i.id]).length;
+    totalItems += items.length;
+    checkedItems += catChecked;
+    const isOpen = ci === 0; // first category open by default
+
+    const itemsHtml = items.map(item => {
+      const checked = !!state[item.id];
+      return `<label class="packing-item${checked ? ' checked' : ''}" id="pi_${item.id}">
+        <input type="checkbox" ${checked ? 'checked' : ''} onchange="togglePackingItem('${item.id}', this.checked)">
+        <span class="packing-item-label">${item.label}</span>
+      </label>`;
+    }).join('');
+
+    return `<div class="packing-category">
+      <div class="packing-cat-header" onclick="togglePackingCat(this)">
+        <div class="packing-cat-left">
+          <span class="packing-cat-emoji">${cat.emoji}</span>
+          <span class="packing-cat-name">${cat.name}</span>
+          <span class="packing-cat-count">(${catChecked}/${items.length})</span>
+        </div>
+        <span class="packing-cat-arrow${isOpen ? ' open' : ''}">▼</span>
+      </div>
+      <div class="packing-cat-items${isOpen ? ' open' : ''}">${itemsHtml}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('packingCategories').innerHTML = html;
+  updatePackingProgress(checkedItems, totalItems);
+}
+
+function updatePackingProgress(checked, total) {
+  const pct = total > 0 ? Math.round(checked / total * 100) : 0;
+  document.getElementById('packingProgressText').textContent = `${checked}/${total} listos`;
+  document.getElementById('packingProgressFill').style.width = pct + '%';
+}
+
+function togglePackingItem(id, checked) {
+  const state = getPackingState();
+  state[id] = checked;
+  savePackingState(state);
+
+  // Update row styling without full re-render
+  const label = document.getElementById('pi_' + id);
+  if (label) label.classList.toggle('checked', checked);
+
+  // Recount for progress
+  let total = 0, checkedCount = 0;
+  Object.keys(PACKING_ITEMS).forEach(cat => {
+    PACKING_ITEMS[cat].forEach(item => {
+      total++;
+      if (state[item.id]) checkedCount++;
+    });
+  });
+  updatePackingProgress(checkedCount, total);
+
+  // Update category count label
+  const header = label && label.closest('.packing-category') && label.closest('.packing-category').querySelector('.packing-cat-count');
+  if (header) {
+    const catItems = label.closest('.packing-cat-items').querySelectorAll('.packing-item');
+    const catChecked = [...catItems].filter(i => i.classList.contains('checked')).length;
+    header.textContent = `(${catChecked}/${catItems.length})`;
+  }
+}
+
+function togglePackingCat(header) {
+  const items = header.nextElementSibling;
+  const arrow = header.querySelector('.packing-cat-arrow');
+  const isOpen = items.classList.toggle('open');
+  arrow.classList.toggle('open', isOpen);
+}
+
+function resetPacking() {
+  if (!confirm('¿Reiniciar toda la lista? Se borrarán todos los checks.')) return;
+  try { localStorage.removeItem(PACKING_LS_KEY()); } catch {}
+  renderPackingList();
 }
 
 </script>

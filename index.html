@@ -1274,7 +1274,15 @@
       .steps-grid { grid-template-columns: 1fr; }
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 769px) and (max-width: 1023px) {
+      nav { padding: 14px 24px; }
+      nav.scrolled { padding: 10px 24px; }
+      .nav-links { gap: 14px; }
+      .nav-link { font-size: .78rem; }
+      /* Hide secondary links on medium screens — hamburger covers them */
+      #nav-link-funciones, #nav-link-tengo-destino { display: none !important; }
+    }
+    @media (min-width: 1024px) {
       nav { padding: 22px 48px; }
       nav.scrolled { padding: 14px 48px; }
       .section-padding { padding: 110px 48px; }
@@ -1310,16 +1318,17 @@
 
   <!-- Nav -->
   <nav id="nav" aria-label="Navegaci&oacute;n principal">
-    <a href="#" class="nav-logo" aria-label="ViajeraMente - Inicio">
+    <a href="index.html" class="nav-logo" aria-label="ViajeraMente - Inicio">
       <span class="nav-logo-icon" aria-hidden="true">V</span>
       ViajeraMente
     </a>
     <div class="nav-links" id="nav-links">
-      <a href="#features" class="nav-link">Funciones</a>
+      <a href="#features" class="nav-link" id="nav-link-funciones">Funciones</a>
       <a href="plan.html" class="nav-link">Planificador</a>
       <a href="fechas.html" class="nav-link">¿A dónde ir?</a>
-      <a href="destino-elegido.html" class="nav-link">Tengo destino</a>
+      <a href="destino-elegido.html" class="nav-link" id="nav-link-tengo-destino">Tengo destino</a>
       <a href="guias.html" class="nav-link">Guías</a>
+      <a href="ranking.html" class="nav-link">🏆 Ranking</a>
       <a href="profile.html" class="nav-link" id="nav-profile" style="display:none;">Mi perfil</a>
       <a href="login.html" class="nav-link" id="nav-login">Iniciar sesión</a>
       <a href="signup.html" class="nav-cta" id="nav-signup">Crear cuenta</a>
@@ -1951,9 +1960,7 @@
         // Hide hero login hint when logged in
         const heroHint = document.querySelector('.hero-login-hint');
         if (heroHint) heroHint.style.display = 'none';
-        // Logo → profile when logged in
-        const logo = document.querySelector('.nav-logo');
-        if (logo) logo.href = 'profile.html';
+        // Logo stays on index.html (home) regardless of auth state
       }
     })();
   </script>

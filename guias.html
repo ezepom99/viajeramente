@@ -3,8 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guías de viaje — ViajeraMente</title>
-  <meta name="description" content="Guías de destinos escritas desde dentro. Actualizadas con datos reales. Filtra por continente, clima, estilo y presupuesto.">
+  <title>Guías de viaje 2025 — Destinos, rutas y ciudades · ViajeraMente</title>
+  <meta name="description" content="Descubre guías de viaje para más de 200 destinos: visa, presupuesto, qué ver, vacunas y más. Personalizado a tu país de origen.">
+  <meta property="og:title" content="Guías de viaje 2025 — Destinos, rutas y ciudades · ViajeraMente">
+  <meta property="og:description" content="Descubre guías de viaje para más de 200 destinos: visa, presupuesto, qué ver, vacunas y más. Personalizado a tu país de origen.">
+  <meta property="og:image" content="https://viajeramente.com/og-default.jpg">
+  <meta property="og:url" content="https://viajeramente.com/guias.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Guías de viaje 2025 — Destinos, rutas y ciudades · ViajeraMente">
+  <meta name="twitter:description" content="Descubre guías de viaje para más de 200 destinos: visa, presupuesto, qué ver, vacunas y más. Personalizado a tu país de origen.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -436,6 +444,12 @@
     @media (max-width: 900px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 480px)  { .cards-grid { grid-template-columns: 1fr; gap: 14px; } }
 
+    /* ── Dest card wrapper (country + nested cities) ── */
+    .dest-card-wrapper {
+      display: flex; flex-direction: column;
+      gap: 0;
+    }
+
     .dest-card {
       background: var(--bg); border: 1px solid var(--border);
       border-radius: var(--radius); overflow: hidden;
@@ -444,7 +458,57 @@
       display: flex; flex-direction: column;
       cursor: pointer;
     }
+    .dest-card-wrapper .dest-card {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
     .dest-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,.11); transform: translateY(-3px); }
+    .dest-card-wrapper:has(.nested-cities) .dest-card:hover {
+      transform: none;
+      box-shadow: var(--shadow);
+    }
+
+    /* ── Nested city chips ── */
+    .nested-cities {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-bottom-left-radius: var(--radius);
+      border-bottom-right-radius: var(--radius);
+      padding: 10px 12px;
+    }
+    .nested-cities-label {
+      font-size: .68rem; font-weight: 700; letter-spacing: .05em;
+      text-transform: uppercase; color: var(--text-3);
+      margin-bottom: 8px;
+    }
+    .nested-cities-row {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .nested-city-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px 4px 5px;
+      border-radius: 100px;
+      background: var(--bg); border: 1px solid var(--border);
+      text-decoration: none; color: var(--text);
+      font-size: .75rem; font-weight: 600;
+      transition: all .2s;
+    }
+    .nested-city-chip:hover {
+      background: var(--accent-light); border-color: var(--accent);
+      color: var(--accent-dark);
+    }
+    .nested-city-dot {
+      width: 22px; height: 22px; border-radius: 50%;
+      background-size: cover; background-position: center;
+      flex-shrink: 0;
+    }
+    .nested-city-dot-placeholder {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--accent-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; flex-shrink: 0;
+    }
 
     .card-photo {
       height: 210px; background-size: cover; background-position: center;
@@ -587,13 +651,14 @@
 
 <!-- Nav -->
 <nav>
-  <a href="main.html" id="navLogo" class="nav-logo">
+  <a href="index.html" id="navLogo" class="nav-logo">
     <span class="nav-logo-icon">✈️</span>
     ViajeraMente
   </a>
   <div class="nav-links">
     <a href="plan.html">Planificador</a>
     <a href="guias.html" class="active">Guías</a>
+    <a href="ranking.html">🏆 Ranking</a>
   </div>
   <div class="nav-right">
     <div id="nav-guest">
@@ -613,13 +678,13 @@
 <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
   <div class="mobile-menu">
     <div class="mobile-menu-header">
-      <a href="main.html" class="nav-logo" style="text-decoration:none;">
+      <a href="index.html" class="nav-logo" style="text-decoration:none;">
         <span class="nav-logo-icon">✈️</span> ViajeraMente
       </a>
       <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
     </div>
     <div class="mobile-menu-links">
-      <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
+      <a href="index.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
       <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
       <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planificador</a>
       <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
@@ -791,7 +856,7 @@ const RUTAS_DATA = [
     color: '#1A7A3D'
   },
   {
-    slug: 'camino-santiago',
+    slug: 'camino-de-santiago',
     name: 'Camino de Santiago',
     subtitle: 'St. Jean → Santiago · 780 km',
     tag: '🚶 Caminata',
@@ -799,12 +864,44 @@ const RUTAS_DATA = [
     color: '#8B4513'
   },
   {
-    slug: 'interrail',
+    slug: 'interrail-europa',
     name: 'Interrail Europa',
     subtitle: '30+ países en tren',
     tag: '🚂 Europa',
     photo_id: 1134166,
     color: '#6B21A8'
+  },
+  {
+    slug: 'sudeste-asiatico',
+    name: 'Sudeste Asiático clásico',
+    subtitle: 'Tailandia · Vietnam · Camboya · Bali · 30 días',
+    tag: '🌴 Asia',
+    photo_id: 1007657,
+    color: '#0F766E'
+  },
+  {
+    slug: 'america-del-sur',
+    name: 'América del Sur andina',
+    subtitle: 'Colombia · Perú · Bolivia · Argentina · 45 días',
+    tag: '🦙 Andes',
+    photo_id: 2356059,
+    color: '#B45309'
+  },
+  {
+    slug: 'marruecos-profundidad',
+    name: 'Marruecos en profundidad',
+    subtitle: 'Casablanca → Sahara → Marrakech · 14 días',
+    tag: '🏜️ África',
+    photo_id: 3889843,
+    color: '#C2440E'
+  },
+  {
+    slug: 'japon-norte-sur',
+    name: 'Japón de norte a sur',
+    subtitle: 'Tokyo → Kioto → Osaka → Hiroshima → Okinawa · 21 días',
+    tag: '🗾 Japón',
+    photo_id: 2070485,
+    color: '#DC2626'
   }
 ];
 
@@ -866,7 +963,9 @@ function normalizeDestination(d) {
     budget_max: d.budget_max || d.budget_to || null,
     hero_photo_id: d.hero_photo_id || d.photo_id || null,
     hero_photo_url: d.hero_photo_url || null,
-    tagline: d.tagline || ''
+    tagline: d.tagline || '',
+    type: d.type || 'country',
+    parent_country_slug: d.parent_country_slug || null
   };
 }
 
@@ -958,7 +1057,10 @@ function renderGrid() {
   const grid = document.getElementById('cards-grid');
   const results = filteredDestinations();
   const countEl = document.getElementById('count-label');
-  countEl.textContent = `${results.length} destino${results.length !== 1 ? 's' : ''}`;
+  const countryCount = results.filter(d => d.type !== 'city').length;
+  const cityCount = results.filter(d => d.type === 'city').length;
+  const cityNote = cityCount > 0 ? ` + ${cityCount} ciudad${cityCount !== 1 ? 'es' : ''}` : '';
+  countEl.textContent = `${countryCount} destino${countryCount !== 1 ? 's' : ''}${cityNote}`;
 
   // Hide/show rutas section
   const rutasSection = document.getElementById('rutas-section');
@@ -970,11 +1072,13 @@ function renderGrid() {
 
   // Only show empty state if text search returns nothing (can't relax a text query)
   if (!results.length) {
+    const safeQ = searchQuery.replace(/</g,'&lt;').replace(/>/g,'&gt;');
     grid.innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">🔍</div>
-        <div class="empty-title">Sin resultados para "${searchQuery}"</div>
-        <p class="empty-desc">Prueba con otro término de búsqueda.</p>
+        <div class="empty-title">No encontramos "${safeQ}"</div>
+        <p class="empty-desc">Aún no tenemos guía para ese destino.<br>Prueba con otro nombre o usa el planificador para explorar opciones.</p>
+        <a href="plan.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:11px 22px;border-radius:100px;background:var(--accent);color:#fff;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .2s;">✈️ Ir al planificador</a>
       </div>`;
     return;
   }
@@ -986,26 +1090,85 @@ function renderGrid() {
     ? `<p style="font-size:.82rem;color:var(--text-2);margin-bottom:12px;">Sin coincidencia exacta — mostrando todos los destinos disponibles.</p>`
     : '';
 
-  grid.innerHTML = relaxedNote + results.map(d => `
-    <a href="destino.html?slug=${d.slug}" class="dest-card">
-      <div class="card-photo" style="background-image:url('${photoUrl(d)}')">
-        <div class="card-photo-overlay"></div>
-        <span class="card-continent-badge">${d.continent}</span>
-      </div>
-      <div class="card-body">
-        <div class="card-name">${d.name}</div>
-        <div class="card-country">${d.country}</div>
-        <p class="card-tagline">${d.tagline}</p>
-        <div class="card-vibes">
-          ${(d.vibes||[]).slice(0,3).map(v => `<span class="vibe-pill">${v}</span>`).join('')}
+  // Separate countries from cities
+  const countries = results.filter(d => d.type !== 'city');
+  const citiesInResults = results.filter(d => d.type === 'city');
+  const countrySlugsInResults = new Set(countries.map(d => d.slug));
+
+  // Build a map of parent_country_slug → [city, ...] for cities whose parent IS in results
+  const cityByParent = {};
+  const orphanCities = []; // cities whose parent country is NOT in filtered results
+  for (const c of citiesInResults) {
+    if (c.parent_country_slug && countrySlugsInResults.has(c.parent_country_slug)) {
+      if (!cityByParent[c.parent_country_slug]) cityByParent[c.parent_country_slug] = [];
+      cityByParent[c.parent_country_slug].push(c);
+    } else {
+      orphanCities.push(c); // city matched search but parent didn't → show standalone
+    }
+  }
+
+  function renderCountryCard(d) {
+    const childCities = cityByParent[d.slug] || [];
+    const citySubHtml = childCities.length > 0 ? `
+      <div class="nested-cities">
+        <div class="nested-cities-label">🏙️ Ciudades con guía</div>
+        <div class="nested-cities-row">
+          ${childCities.map(c => `
+            <a href="destino.html?slug=${c.slug}" class="nested-city-chip">
+              ${c.hero_photo_id ? `<div class="nested-city-dot" style="background-image:url('${photoUrl(c)}')"></div>` : '<div class="nested-city-dot-placeholder">🏙️</div>'}
+              <span>${c.name}</span>
+            </a>
+          `).join('')}
         </div>
-        <div class="card-footer">
-          <span class="card-budget">${budgetLabel(d)}</span>
-          <span class="card-cta">Leer guía →</span>
+      </div>` : '';
+    return `
+    <div class="dest-card-wrapper">
+      <a href="destino.html?slug=${d.slug}" class="dest-card">
+        <div class="card-photo" style="background-image:url('${photoUrl(d)}')">
+          <div class="card-photo-overlay"></div>
+          <span class="card-continent-badge">${d.continent}</span>
         </div>
-      </div>
-    </a>
-  `).join('');
+        <div class="card-body">
+          <div class="card-name">${d.name}</div>
+          <div class="card-country">${d.country}</div>
+          <p class="card-tagline">${d.tagline}</p>
+          <div class="card-vibes">
+            ${(d.vibes||[]).slice(0,3).map(v => `<span class="vibe-pill">${v}</span>`).join('')}
+          </div>
+          <div class="card-footer">
+            <span class="card-budget">${budgetLabel(d)}</span>
+            <span class="card-cta">Leer guía →</span>
+          </div>
+        </div>
+      </a>
+      ${citySubHtml}
+    </div>`;
+  }
+
+  function renderCityCard(c) {
+    return `
+    <div class="dest-card-wrapper">
+      <a href="destino.html?slug=${c.slug}" class="dest-card">
+        <div class="card-photo" style="background-image:url('${photoUrl(c)}')">
+          <div class="card-photo-overlay"></div>
+          <span class="card-continent-badge" style="background:rgba(14,165,233,.15);color:#0284C7;">🏙️ Ciudad</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">${c.name}</div>
+          <div class="card-country">${c.country}</div>
+          <p class="card-tagline">${c.tagline}</p>
+          <div class="card-footer">
+            <span class="card-budget">${budgetLabel(c)}</span>
+            <span class="card-cta">Ver guía →</span>
+          </div>
+        </div>
+      </a>
+    </div>`;
+  }
+
+  grid.innerHTML = relaxedNote
+    + countries.map(d => renderCountryCard(d)).join('')
+    + orphanCities.map(c => renderCityCard(c)).join('');
 }
 
 // ── Filter logic ──────────────────────────────────────────────────────────────
@@ -1093,10 +1256,14 @@ function goSurprise(e) {
 (function initNav() {
   try {
     const token = localStorage.getItem('token');
-    const userRaw = localStorage.getItem('viajeramente_user') || localStorage.getItem('user');
-    if (token && userRaw) {
-      const u = JSON.parse(userRaw);
-      const initials = ((u.name || u.email || '?').trim().split(' ').map(n => n[0]).join('').slice(0,2)).toUpperCase();
+    if (token) {
+      // Get user info from localStorage (stored by login/signup)
+      const userRaw = localStorage.getItem('viajeramente_user') || localStorage.getItem('user');
+      let name = localStorage.getItem('user_name') || localStorage.getItem('user_email') || '?';
+      if (userRaw) {
+        try { const u = JSON.parse(userRaw); name = u.name || u.email || name; } catch(e) {}
+      }
+      const initials = name.trim().split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase() || '?';
       document.getElementById('nav-initials').textContent = initials;
       document.getElementById('nav-user').style.display = 'flex';
       document.getElementById('nav-guest').style.display = 'none';
@@ -1107,9 +1274,10 @@ function goSurprise(e) {
       if (mmp) mmp.style.display = '';
       if (mml) mml.style.display = 'none';
       if (mms) mms.style.display = 'none';
-      // Logo → main when logged in
+      // Logo → main.html (authenticated home) when logged in
       const logo = document.getElementById('navLogo');
       if (logo) logo.href = 'main.html';
+
     }
   } catch(e) {}
 })();

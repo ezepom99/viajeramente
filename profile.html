@@ -28,6 +28,7 @@
     :root {
       --bg: #F8FAFC;
       --bg-soft: #F1F5F9;
+      --bg-card: #FFFFFF;
       --text: #0F172A;
       --text-2: #64748B;
       --text-3: #94A3B8;
@@ -38,20 +39,23 @@
       --green: #10B981;
       --green-light: #D1FAE5;
       --gold: #F59E0B;
+      --shadow: 0 2px 12px rgba(0,0,0,.07);
       --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
       --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
       --shadow-lg: 0 10px 40px rgba(0,0,0,.1), 0 4px 12px rgba(0,0,0,.06);
-      --radius: 20px;
+      --radius: 16px;
+      --radius-lg: 20px;
       --radius-sm: 12px;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
 
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     h1, h2, h3, .stat-number, .level-badge {
@@ -63,12 +67,12 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(255,255,255,.95);
+      background: rgba(255,255,255,.96);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 24px;
-      height: 60px;
+      height: 56px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -77,24 +81,32 @@
     .nav-logo {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: var(--accent);
       text-decoration: none;
       white-space: nowrap;
+      flex-shrink: 1;
+      min-width: 0;
+      letter-spacing: -.02em;
+    }
+    @media (max-width: 380px) {
+      .nav-logo { font-size: .95rem; }
     }
     .nav-links {
       display: flex;
-      gap: 28px;
+      gap: 4px;
       list-style: none;
     }
     .nav-links a {
-      font-size: .9rem;
+      font-size: .82rem;
       font-weight: 500;
       color: var(--text-2);
       text-decoration: none;
-      transition: color .2s;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all .2s;
     }
-    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover { background: var(--bg-soft); color: var(--accent); }
     .nav-right {
       display: flex;
       align-items: center;
@@ -335,6 +347,28 @@
     .level-km {
       font-size: .8rem;
       color: rgba(255,255,255,.7);
+    }
+    .level-progress-wrap {
+      margin-top: 6px;
+      width: 100%;
+    }
+    .level-progress-bar {
+      height: 4px;
+      background: rgba(255,255,255,.2);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .level-progress-fill {
+      height: 100%;
+      background: rgba(255,255,255,.7);
+      border-radius: 4px;
+      transition: width .5s ease;
+    }
+    .level-progress-label {
+      font-size: .72rem;
+      color: rgba(255,255,255,.6);
+      margin-top: 3px;
     }
 
     .hero-actions {
@@ -1709,6 +1743,30 @@
     .section-action { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 5px 12px; font-size: .8rem; font-weight: 600; color: var(--text-2); cursor: pointer; transition: all .2s; }
     .section-action:hover { background: var(--bg-soft); color: var(--text); }
 
+    /* ── MAP FULLSCREEN BUTTON ── */
+    .map-fullscreen-btn {
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: 8px; padding: 4px 10px; font-size: 1rem;
+      cursor: pointer; color: var(--text-2); transition: all .2s;
+      line-height: 1.4;
+    }
+    .map-fullscreen-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+
+    /* ── MAP LAYER FILTER PILLS ── */
+    .map-layer-filters {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .map-layer-pill {
+      padding: 5px 13px; border-radius: 20px; border: 1.5px solid var(--border);
+      background: white; color: var(--text-2); font-size: .8rem; font-weight: 600;
+      cursor: pointer; transition: all .18s; font-family: inherit;
+    }
+    .map-layer-pill.active {
+      background: var(--accent-light); color: var(--accent); border-color: var(--accent);
+    }
+    .map-layer-pill:hover:not(.active) { background: var(--bg-soft); }
+
     /* ── FULLSCREEN MAP MODAL ── */
     #mapModal {
       display: none; position: fixed; inset: 0; z-index: 1000;
@@ -1725,6 +1783,11 @@
       background: none; border: 1px solid rgba(255,255,255,.2); color: white;
       width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 1.1rem;
     }
+    .map-modal-landscape-btn {
+      background: none; border: 1px solid rgba(255,255,255,.2); color: white;
+      width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 1.1rem;
+    }
+    .map-modal-landscape-btn:hover { background: rgba(255,255,255,.1); }
     #mapModalLeaflet { flex: 1; width: 100%; }
     /* Style Leaflet controls in dark modal */
     #mapModal .leaflet-control-zoom a {
@@ -1739,6 +1802,26 @@
       font-size: .85rem; width: 200px; outline: none;
     }
     .map-modal-search::placeholder { color: #64748B; }
+    /* Portrait overlay inside modal */
+    .map-portrait-notice {
+      display: none;
+      position: absolute; inset: 0; z-index: 10;
+      background: rgba(15,23,42,.92);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 16px; color: white; text-align: center; padding: 32px;
+    }
+    .map-portrait-notice .rotate-icon { font-size: 3rem; animation: rotateHint 2s ease-in-out infinite; }
+    .map-portrait-notice p { font-size: 1rem; font-weight: 500; line-height: 1.5; max-width: 260px; }
+    @keyframes rotateHint {
+      0%, 100% { transform: rotate(0deg); }
+      40%, 60% { transform: rotate(90deg); }
+    }
+    @media (orientation: portrait) {
+      #mapModal.open .map-portrait-notice { display: flex; }
+    }
+    @media (orientation: landscape) {
+      #mapModal.open .map-portrait-notice { display: none !important; }
+    }
     /* ── Bottom Tab Bar (mobile) ── */
     .bottom-nav {
       display: none;
@@ -1781,7 +1864,7 @@
     <li><a href="main.html">Inicio</a></li>
     <li><a href="guias.html">Guías</a></li>
     <li><a href="plan.html">Planifica</a></li>
-    <li><a href="ranking.html">Ranking</a></li>
+    <li><a href="ranking.html">🏆 Ranking</a></li>
   </ul>
   <div class="nav-right">
     <span class="nav-avatar" id="navAvatar"></span>
@@ -1801,7 +1884,7 @@
       <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
       <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
       <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planifica</a>
-      <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
+      <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mi Mapamundi</a>
       <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>Por fechas</a>
       <a href="ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
       <div class="mobile-menu-divider"></div>
@@ -1837,11 +1920,18 @@
         <div class="travel-level">
           <span class="level-badge bronze" id="levelBadge">🥉 Bronce</span>
           <span class="level-km" id="levelKm">0 km viajados</span>
+          <div class="level-progress-wrap" id="levelProgressWrap" style="display:none;">
+            <div class="level-progress-bar">
+              <div class="level-progress-fill" id="levelProgressFill" style="width:0%"></div>
+            </div>
+            <div class="level-progress-label" id="levelProgressLabel"></div>
+          </div>
         </div>
       </div>
 
       <div class="hero-actions">
         <button class="btn-edit-profile" id="btnEdit" onclick="toggleEdit()">✏️ Editar perfil</button>
+        <a class="btn-edit-profile" id="btnNavPublicProfile" href="perfil-publico.html" style="text-decoration:none;background:var(--bg-soft);border:1.5px solid var(--border);color:var(--text-2);font-size:.82rem;padding:8px 14px;border-radius:10px;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:all .2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-2)'">👤 Ver mi perfil público →</a>
       </div>
     </div>
 
@@ -1851,8 +1941,13 @@
     </div>
     <div class="profile-meta">
       <span>📍 <span id="profileCity">—</span></span>
+      <span id="profileHomeCountrySpan" style="display:none">🏠 <span id="profileHomeCountry"></span></span>
       <span>🗓️ Desde <span id="memberSince">2024</span></span>
       <span>✈️ <span id="tripsCount">0</span> viajes</span>
+    </div>
+    <!-- CTA banner: shown if home_country not set -->
+    <div id="homeCountryCTA" style="display:none;margin-top:12px;padding:10px 16px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:10px;font-size:.85rem;color:#92400E;cursor:pointer;" onclick="toggleEdit()">
+      💡 <strong>Completa tu país de origen</strong> para personalizar visas, vuelos y precios en cada guía →
     </div>
 
     <!-- Stats bar pinned to the bottom of the hero -->
@@ -1915,8 +2010,12 @@
           <input class="edit-input" id="editCity" type="text" placeholder="Buenos Aires">
         </div>
         <div class="edit-group">
-          <label class="edit-label">País</label>
+          <label class="edit-label">País (residencia)</label>
           <input class="edit-input" id="editCountry" type="text" placeholder="Argentina">
+        </div>
+        <div class="edit-group">
+          <label class="edit-label">País de origen <span style="font-size:.75rem;color:var(--text-3);font-weight:400">(pasaporte — para info de visa)</span></label>
+          <input class="edit-input" id="editHomeCountry" type="text" placeholder="Argentina, España, México...">
         </div>
         <div class="edit-group">
           <label class="edit-label">Presupuesto diario</label>
@@ -1993,9 +2092,20 @@
       <div class="section-header">
         <div class="section-title">
           <div class="section-title-icon">🗺️</div>
-          Mis países visitados
+          Mi Mapamundi
         </div>
-        <span class="section-hint">Toca un país para marcarlo como visitado</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="section-hint">Toca un país para marcarlo</span>
+          <button class="map-fullscreen-btn" onclick="openShareMenu()" title="Compartir mi Mapamundi" style="font-size:.8rem;padding:6px 10px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;color:var(--text-2);transition:all .2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-2)'">📤 Compartir</button>
+          <button class="map-fullscreen-btn" onclick="openMapModal()" title="Ver en pantalla completa">⛶</button>
+        </div>
+      </div>
+
+      <!-- Layer filter pills -->
+      <div class="map-layer-filters">
+        <button class="map-layer-pill active" id="pillPaises" onclick="toggleMapLayer('paises')">🌍 Países</button>
+        <button class="map-layer-pill" id="pillCiudades" onclick="toggleMapLayer('ciudades')">🏙️ Ciudades</button>
+        <button class="map-layer-pill" id="pillHeatmap" onclick="toggleMapLayer('heatmap')">🔥 Heatmap</button>
       </div>
 
       <div class="map-container">
@@ -2012,6 +2122,12 @@
           <button onclick="closeCityPicker()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#64748B;">✕</button>
         </div>
         <div id="cityPickerChips" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;"></div>
+        <div style="display:flex; gap:8px; margin-bottom:12px;">
+          <input id="cityPickerCustomInput" type="text" placeholder="Añadir ciudad a mano..."
+            style="flex:1; padding:10px 14px; border:1.5px solid #E2E8F0; border-radius:12px; font-size:.85rem; outline:none;"
+            onkeydown="if(event.key==='Enter'){addCustomCity();}">
+          <button onclick="addCustomCity()" style="padding:10px 14px; border:none; border-radius:12px; background:#F1F5F9; cursor:pointer; font-size:.85rem; color:#374151; font-weight:600;">+</button>
+        </div>
         <div style="display:flex; gap:10px;">
           <button onclick="closeCityPicker()" style="flex:1; padding:12px; border:1.5px solid #E2E8F0; border-radius:12px; background:white; cursor:pointer; font-size:.9rem; color:#64748B;">Saltar</button>
           <button onclick="saveCities()" style="flex:2; padding:12px; border:none; border-radius:12px; background:#0EA5E9; color:white; cursor:pointer; font-size:.9rem; font-weight:600;">Guardar ciudades</button>
@@ -2051,13 +2167,19 @@
     <div id="mapModal">
       <div class="map-modal-header">
         <div>
-          <div class="map-modal-title">🗺️ Mi Mapa de Viajes</div>
+          <div class="map-modal-title">🗺️ Mi Mapamundi</div>
           <div class="map-modal-stats" id="modalStats">0 países visitados</div>
         </div>
         <input class="map-modal-search" id="modalSearch" placeholder="🔍 Buscar país..." oninput="filterModalMap(this.value)">
+        <button class="map-modal-landscape-btn" id="modalLandscapeBtn" onclick="toggleModalFullscreen()" title="Pantalla completa horizontal">⛶</button>
         <button class="map-modal-close" onclick="closeMapModal()">✕</button>
       </div>
       <div style="position:relative;flex:1;overflow:hidden;">
+        <!-- Portrait mode nudge (shown on mobile portrait) -->
+        <div class="map-portrait-notice">
+          <span class="rotate-icon">📱</span>
+          <p>Gira tu móvil para la mejor experiencia</p>
+        </div>
         <div id="mapModalLeaflet" style="width:100%;height:100%;"></div>
       </div>
     </div>
@@ -2160,6 +2282,21 @@
     </div>
 
     <!-- ── BADGES ── -->
+    <!-- ── LISTA DE DESEOS ── -->
+    <div class="section-card" id="wishlistSection">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-title-icon">♥</div>
+          Mi lista de deseos
+        </div>
+        <span class="section-badge" id="wishlistCountBadge">0 destinos</span>
+      </div>
+      <div id="wishlistGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-top:4px;"></div>
+      <p id="wishlistEmpty" style="color:var(--text-3);font-size:.85rem;text-align:center;padding:20px 0;display:none;">
+        ¿A dónde quieres ir? Añade destinos a tu lista →&nbsp;<a href="guias.html" style="color:var(--accent);font-weight:600;text-decoration:none;">Ver destinos</a>
+      </p>
+    </div>
+
     <div class="section-card">
       <div class="section-header">
         <div class="section-title">
@@ -2362,11 +2499,11 @@ function getCountryName(id) {
 const WONDERS = [
   { id:1, name:'Machu Picchu',       country:'Perú',     city:'Cusco',          countryCode:604, emoji:'🏔️', pexels:'2356059' },
   { id:2, name:'Cristo Redentor',    country:'Brasil',   city:'Río de Janeiro', countryCode:76,  emoji:'✝️', pexels:'2868146' },
-  { id:3, name:'Chichén Itzá',       country:'México',   city:'Yucatán',        countryCode:484, emoji:'🛕', pexels:'4388167' },
-  { id:4, name:'Coliseo de Roma',    country:'Italia',   city:'Roma',           countryCode:380, emoji:'🏛️', pexels:'1797166' },
-  { id:5, name:'Gran Muralla China', country:'China',    city:'Pekín',          countryCode:156, emoji:'🧱', pexels:'2846217' },
+  { id:4, name:'Chichén Itzá',       country:'México',   city:'Yucatán',        countryCode:484, emoji:'🛕', pexels:'2350302' },
+  { id:3, name:'Coliseo de Roma',    country:'Italia',   city:'Roma',           countryCode:380, emoji:'🏛️', pexels:'1797166' },
+  { id:5, name:'Gran Muralla China', country:'China',    city:'Pekín',          countryCode:156, emoji:'🧱', pexels:'2412950' },
   { id:6, name:'Taj Mahal',          country:'India',    city:'Agra',           countryCode:356, emoji:'🕌', pexels:'1603650' },
-  { id:7, name:'Petra',              country:'Jordania', city:'Petra',          countryCode:400, emoji:'🏜️', pexels:'3290068' },
+  { id:7, name:'Petra',              country:'Jordania', city:'Petra',          countryCode:400, emoji:'🏜️', pexels:'1631665' },
 ];
 
 // ── BADGES DATA ──
@@ -2383,12 +2520,43 @@ const BADGES = [
   { id:'globetrotter', emoji:'💎',  name:'Globetrotter',      req: u => visitedCodes.size >= 20, progress: () => `${visitedCodes.size}/20` },
 ];
 
+// ── ISO alpha-2 → numeric (world-atlas TopoJSON feature.id) ──
+// Allows profile.html to read localStorage written by mapa.html (which stores ISO-2)
+const ALPHA2_TO_NUMERIC = {
+  AF:4,AL:8,DZ:12,AD:20,AO:24,AR:32,AU:36,AT:40,BD:50,BE:56,BT:64,BO:68,
+  BR:76,BZ:84,BG:100,MM:104,BY:112,KH:116,CM:120,CA:124,CF:140,LK:144,
+  TD:148,CL:152,CN:156,CO:170,KM:174,CG:178,CR:188,HR:191,CU:192,CY:196,
+  CZ:203,BJ:204,DK:208,DO:214,EC:218,SV:222,GQ:226,ET:231,ER:232,EE:233,
+  FJ:242,FI:246,FR:250,DJ:262,GA:266,GE:268,GM:270,DE:276,GH:288,GR:300,
+  GD:308,GT:320,GN:324,GY:328,HT:332,HN:340,HU:348,IN:356,ID:360,IR:364,
+  IQ:368,IE:372,IL:376,IT:380,JM:388,JP:392,KZ:398,JO:400,KE:404,KP:408,
+  KR:410,KW:414,KG:417,LA:418,LB:422,LV:428,LR:430,LY:434,LT:440,LU:442,
+  MG:450,MW:454,MY:458,MV:462,ML:466,MT:470,MR:478,MX:484,MN:496,MD:498,
+  ME:499,MA:504,MZ:508,NA:516,NP:524,NL:528,NZ:554,NI:558,NE:562,NG:566,
+  NO:578,PK:586,PA:591,PG:598,PY:600,PE:604,PH:608,PL:616,PT:620,PR:630,
+  QA:634,RO:642,RU:643,RW:646,SA:682,SN:686,RS:688,SL:694,SG:702,SK:703,
+  VN:704,SI:705,SO:706,ZA:710,ZW:716,ES:724,SD:729,SR:740,SZ:748,SE:752,
+  CH:756,SY:760,TJ:762,TH:764,TG:768,TT:780,AE:784,TN:788,TR:792,TM:795,
+  UG:800,UA:804,EG:818,GB:826,US:840,BF:854,UY:858,UZ:860,VE:862,WS:882,
+  YE:887,ZM:894,IS:352,RS:688,MK:807,BA:70,
+};
+
 // ── LOCAL STORAGE ──
 function saveVisitedCountries(codes) {
   localStorage.setItem('visitedCountries', JSON.stringify([...codes]));
 }
 function loadVisitedCountries() {
-  return new Set(JSON.parse(localStorage.getItem('visitedCountries') || '[]'));
+  const raw = JSON.parse(localStorage.getItem('visitedCountries') || '[]');
+  // Normalize: convert ISO alpha-2 strings (from mapa.html) to numeric strings
+  const normalized = raw.map(c => {
+    const s = String(c);
+    // If already numeric, keep as-is
+    if (/^\d+$/.test(s)) return s;
+    // If ISO-2 code (2 uppercase letters), convert to numeric
+    const num = ALPHA2_TO_NUMERIC[s.toUpperCase()];
+    return num ? String(num) : s;
+  });
+  return new Set(normalized);
 }
 function saveVisitedWonders(wonders) {
   localStorage.setItem('visitedWonders', JSON.stringify([...wonders]));
@@ -2423,12 +2591,47 @@ async function loadProfile() {
     const data = await res.json();
     if (data.ok && data.user) {
       currentUser = data.user;
+      // Cache budget preference in localStorage for guide pages
+      localStorage.setItem('vm_budget_range', data.user.budget_range || '');
+      localStorage.setItem('vm_travel_styles', JSON.stringify(data.user.travel_styles || []));
       renderProfile(data.user);
     }
   } catch (err) {
     console.error('Error loading profile:', err);
     // Render with placeholder data
     renderProfile({ name: 'Viajero', username: 'viajero', bio: '' });
+  }
+}
+
+// Load visited countries from server and merge with localStorage
+async function syncVisitedCountriesFromAPI() {
+  try {
+    const res = await fetch(`${API_BASE}/api/visited-countries`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data.ok || !data.countries || !data.countries.length) return;
+    // data.countries[i].country_code is ISO alpha-2 (e.g. "ES")
+    let changed = false;
+    for (const c of data.countries) {
+      const code = c.country_code ? c.country_code.toUpperCase() : null;
+      if (!code) continue;
+      // Convert alpha-2 to numeric (world-atlas feature.id format)
+      const num = ALPHA2_TO_NUMERIC[code];
+      if (num && !visitedCodes.has(String(num))) {
+        visitedCodes.add(String(num));
+        changed = true;
+      }
+    }
+    if (changed) {
+      saveVisitedCountries(visitedCodes);
+      updateStats();
+      autoDetectContinents();
+      updateMapColors();
+    }
+  } catch (e) {
+    console.warn('Could not sync visited countries from API:', e);
   }
 }
 
@@ -2472,13 +2675,24 @@ function renderProfile(user) {
     document.getElementById('memberSince').textContent = year;
   }
 
-  // Travel level
+  // Travel level (basado en km)
   const km = user.km_traveled || 0;
   const level = getTravelLevel(km);
   const badge = document.getElementById('levelBadge');
   badge.textContent = `${level.emoji} ${level.name}`;
   badge.className = `level-badge ${level.cls}`;
   document.getElementById('levelKm').textContent = km.toLocaleString('es') + ' km viajados';
+  // Progress bar al siguiente nivel
+  if (level.next !== null) {
+    const progressWrap = document.getElementById('levelProgressWrap');
+    const progressFill = document.getElementById('levelProgressFill');
+    const progressLabel = document.getElementById('levelProgressLabel');
+    const pct = Math.min(100, Math.round(((km - level.min) / (level.next - level.min)) * 100));
+    const remaining = (level.next - km).toLocaleString('es');
+    progressFill.style.width = pct + '%';
+    progressLabel.textContent = `${remaining} km más para ${level.nextName}`;
+    progressWrap.style.display = 'block';
+  }
 
   // Fill edit fields
   document.getElementById('editName').value = user.name || '';
@@ -2486,7 +2700,24 @@ function renderProfile(user) {
   document.getElementById('editBio').value = user.bio || '';
   document.getElementById('editCity').value = user.city || '';
   document.getElementById('editCountry').value = user.country || '';
+  document.getElementById('editHomeCountry').value = user.home_country || '';
   document.getElementById('editBudget').value = user.budget_range || '';
+
+  // Display home country in profile meta
+  const hcSpan = document.getElementById('profileHomeCountrySpan');
+  const hcText = document.getElementById('profileHomeCountry');
+  if (user.home_country) {
+    hcText.textContent = user.home_country;
+    hcSpan.style.display = '';
+    if (document.getElementById('homeCountryCTA')) document.getElementById('homeCountryCTA').style.display = 'none';
+  } else {
+    hcSpan.style.display = 'none';
+    if (document.getElementById('homeCountryCTA')) document.getElementById('homeCountryCTA').style.display = 'block';
+  }
+  // Persist user location + passport country to localStorage for use in guide pages
+  localStorage.setItem('homeCountry', user.home_country || '');
+  localStorage.setItem('editCity', user.city || '');
+  localStorage.setItem('editCountry', user.country || '');
   document.getElementById('editInstagram').value = user.instagram || '';
   document.getElementById('editWebsite').value = user.website || '';
   document.getElementById('editLanguages').value = (user.languages || []).join(', ');
@@ -2500,12 +2731,22 @@ function renderProfile(user) {
   updateStats();
 }
 
+// Nivel basado en km viajados
+const LEVEL_THRESHOLDS = [
+  { min: 100000, name: 'Ciudadano del mundo', emoji: '🌌', cls: 'sapphire',  next: null,    nextName: null },
+  { min: 50000,  name: 'Nómada global',       emoji: '🚀', cls: 'diamond',  next: 100000,  nextName: 'Ciudadano del mundo' },
+  { min: 30000,  name: 'Viajero empedernido', emoji: '✈️', cls: 'gold',     next: 50000,   nextName: 'Nómada global' },
+  { min: 15000,  name: 'Mochilero',           emoji: '🗺️', cls: 'silver',   next: 30000,   nextName: 'Viajero empedernido' },
+  { min: 5000,   name: 'Explorador',          emoji: '🌍', cls: 'bronze',   next: 15000,   nextName: 'Mochilero' },
+  { min: 1000,   name: 'Pollito viajero',     emoji: '🐣', cls: 'bronze',   next: 5000,    nextName: 'Explorador' },
+  { min: 0,      name: 'Huevo',               emoji: '🥚', cls: 'bronze',   next: 1000,    nextName: 'Pollito viajero' },
+];
+
 function getTravelLevel(km) {
-  if (km >= 500000) return { name:'Zafiro', emoji:'💎', cls:'sapphire' };
-  if (km >= 200000) return { name:'Diamante', emoji:'💠', cls:'diamond' };
-  if (km >= 50000)  return { name:'Oro', emoji:'🥇', cls:'gold' };
-  if (km >= 10000)  return { name:'Plata', emoji:'🥈', cls:'silver' };
-  return { name:'Bronce', emoji:'🥉', cls:'bronze' };
+  for (const lvl of LEVEL_THRESHOLDS) {
+    if (km >= lvl.min) return lvl;
+  }
+  return LEVEL_THRESHOLDS[LEVEL_THRESHOLDS.length - 1];
 }
 
 // ── STATS ──
@@ -2606,11 +2847,11 @@ async function initMap() {
     attributionControl: false
   });
 
-  // CartoDB Positron tiles (clean look)
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+  // CartoDB Voyager tiles (with country + city labels)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
     subdomains: 'abcd',
-    maxZoom: 10
+    maxZoom: 19
   }).addTo(leafletMap);
 
   // Load world topojson and convert to GeoJSON
@@ -2657,6 +2898,11 @@ async function initMap() {
 
 function updateMapColors() {
   if (!leafletLayer) return;
+  // If heatmap is active, re-render heatmap instead of normal colors
+  if (mapLayerState.heatmap && heatmapLayer) {
+    renderHeatmap();
+    return;
+  }
   buildVisitedDates();
   leafletLayer.eachLayer(layer => {
     if (!layer.feature) return;
@@ -2750,12 +2996,48 @@ function closeCityPicker() {
   selectedPickerCities = new Set();
 }
 
-function saveCities() {
+// Reverse map: numeric country code → ISO alpha-2
+const NUMERIC_TO_ALPHA2 = {};
+for (const [a2, num] of Object.entries(ALPHA2_TO_NUMERIC)) {
+  NUMERIC_TO_ALPHA2[String(num)] = a2;
+}
+
+function addCustomCity() {
+  const input = document.getElementById('cityPickerCustomInput');
+  const city = (input.value || '').trim();
+  if (!city) return;
+  selectedPickerCities.add(city);
+  const chips = document.getElementById('cityPickerChips');
+  const btn = document.createElement('button');
+  btn.className = 'city-chip selected';
+  btn.textContent = city;
+  btn.style.cssText = 'padding:8px 14px; border-radius:20px; border:1.5px solid #0EA5E9; background:#E0F2FE; cursor:pointer; font-size:.85rem; color:#0284C7; font-weight:500; transition:all .15s;';
+  btn.onclick = () => toggleCityChip(btn, city);
+  chips.appendChild(btn);
+  input.value = '';
+}
+
+async function saveCities() {
   const existing = JSON.parse(localStorage.getItem('visitedCities') || '[]');
   const merged = [...new Set([...existing, ...selectedPickerCities])];
   localStorage.setItem('visitedCities', JSON.stringify(merged));
   const cityCountEl = document.getElementById('statCities');
   if (cityCountEl) cityCountEl.textContent = merged.length;
+
+  // Sync to API if logged in
+  if (token && cityPickerCountryId) {
+    const countryCode = NUMERIC_TO_ALPHA2[String(cityPickerCountryId)] || '';
+    for (const cityName of selectedPickerCities) {
+      try {
+        await fetch(API_BASE + '/api/visited-cities', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ city_name: cityName, country_code: countryCode })
+        });
+      } catch(e) { console.warn('City sync failed:', e); }
+    }
+  }
+
   closeCityPicker();
   showToast(`✓ ${selectedPickerCities.size} ciudad${selectedPickerCities.size !== 1 ? 'es' : ''} guardada${selectedPickerCities.size !== 1 ? 's' : ''}`, 'success');
 }
@@ -2877,8 +3159,8 @@ function renderWonders() {
 const WONDER_COUNTRY_MAP = {
   1:  [604, 'Perú',         'Cusco'],
   2:  [76,  'Brasil',       'Río de Janeiro'],
-  3:  [484, 'México',       'Yucatán'],
-  4:  [380, 'Italia',       'Roma'],
+  3:  [380, 'Italia',       'Roma'],
+  4:  [484, 'México',       'Yucatán'],
   5:  [156, 'China',        'Pekín'],
   6:  [356, 'India',        'Agra'],
   7:  [400, 'Jordania',     'Petra'],
@@ -3062,6 +3344,7 @@ async function saveProfileChanges() {
     bio: document.getElementById('editBio').value.trim(),
     city: document.getElementById('editCity').value.trim(),
     country: document.getElementById('editCountry').value.trim(),
+    home_country: document.getElementById('editHomeCountry').value.trim(),
     budget_range: document.getElementById('editBudget').value,
     instagram: document.getElementById('editInstagram').value.trim(),
     website: document.getElementById('editWebsite').value.trim(),
@@ -3072,6 +3355,9 @@ async function saveProfileChanges() {
   const ok = await saveProfile(data);
   if (ok !== false) {
     currentUser = { ...currentUser, ...data };
+    // Cache budget preference in localStorage for guide pages
+    localStorage.setItem('vm_budget_range', data.budget_range || '');
+    localStorage.setItem('vm_travel_styles', JSON.stringify(data.travel_styles || []));
     renderProfile(currentUser);
     toggleEdit();
     showToast('✓ Perfil guardado', 'success');
@@ -3146,6 +3432,21 @@ async function init() {
 
   // Init map
   await initMap();
+
+  // Sync visited countries from API (merges server data into localStorage + map)
+  await syncVisitedCountriesFromAPI();
+
+  // Welcome message for new users (redirected from signup)
+  if (new URLSearchParams(window.location.search).get('welcome') === '1') {
+    setTimeout(() => {
+      showToast('¡Bienvenido/a! Completa tu perfil para personalizar tu experiencia ✈️', 'success');
+      // Auto-open edit panel after 1.5s
+      setTimeout(() => {
+        const editBtn = document.getElementById('btnEdit');
+        if (editBtn) editBtn.click();
+      }, 1500);
+    }, 600);
+  }
 }
 
 init();
@@ -3215,6 +3516,7 @@ window.addEventListener('resize', () => {
 // ── FULLSCREEN MAP MODAL (Leaflet) ──
 let modalLeafletMap = null;
 let modalLeafletLayer = null;
+let modalIsFullscreen = false;
 
 function openMapModal() {
   document.getElementById('mapModal').classList.add('open');
@@ -3231,6 +3533,15 @@ function openMapModal() {
 }
 
 function closeMapModal() {
+  // Exit fullscreen if active before closing modal
+  if (modalIsFullscreen) {
+    if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
+    modalIsFullscreen = false;
+    const btn = document.getElementById('modalLandscapeBtn');
+    if (btn) btn.innerHTML = '⛶';
+  }
   document.getElementById('mapModal').classList.remove('open');
   document.body.style.overflow = '';
 }
@@ -3252,10 +3563,11 @@ async function initModalMap() {
     attributionControl: false
   });
 
-  // Dark tiles for modal
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+  // Dark tiles for modal (with labels for country/city names)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
     subdomains: 'abcd',
-    maxZoom: 10
+    maxZoom: 19
   }).addTo(modalLeafletMap);
 
   // Re-use already-loaded GeoJSON if available, else fetch
@@ -3335,6 +3647,324 @@ function filterModalMap(q) {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeMapModal();
 });
+
+// ── FULLSCREEN / LANDSCAPE for map modal ──
+
+async function toggleModalFullscreen() {
+  const btn = document.getElementById('modalLandscapeBtn');
+  try {
+    if (!modalIsFullscreen) {
+      // Request fullscreen on the map modal element
+      const el = document.getElementById('mapModal');
+      if (el.requestFullscreen) await el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) await el.webkitRequestFullscreen();
+      // Lock to landscape on mobile
+      if (screen.orientation && screen.orientation.lock) {
+        try { await screen.orientation.lock('landscape'); } catch(e) { /* not supported on desktop */ }
+      }
+      modalIsFullscreen = true;
+      if (btn) btn.innerHTML = '✕ salir';
+    } else {
+      if (document.exitFullscreen) await document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
+      modalIsFullscreen = false;
+      if (btn) btn.innerHTML = '⛶';
+    }
+    // Resize map after transition
+    setTimeout(() => { if (modalLeafletMap) modalLeafletMap.invalidateSize(); }, 300);
+  } catch(e) {
+    console.warn('Fullscreen/orientation not supported:', e);
+  }
+}
+
+// Listen for external fullscreen exit (e.g. pressing Escape in browser)
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement && modalIsFullscreen) {
+    modalIsFullscreen = false;
+    const btn = document.getElementById('modalLandscapeBtn');
+    if (btn) btn.innerHTML = '⛶';
+    if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
+  }
+});
+
+// ── MAP LAYER FILTERS ──
+const mapLayerState = { paises: true, ciudades: false, heatmap: false };
+let cityMarkersLayer = null;
+let heatmapLayer = null;
+
+function toggleMapLayer(layer) {
+  mapLayerState[layer] = !mapLayerState[layer];
+  const pill = document.getElementById('pill' + layer.charAt(0).toUpperCase() + layer.slice(1));
+  if (pill) pill.classList.toggle('active', mapLayerState[layer]);
+
+  if (layer === 'paises') {
+    if (leafletLayer) {
+      if (mapLayerState.paises) leafletLayer.addTo(leafletMap);
+      else leafletMap.removeLayer(leafletLayer);
+    }
+  }
+
+  if (layer === 'ciudades') {
+    if (mapLayerState.ciudades) {
+      renderCityMarkers();
+    } else {
+      if (cityMarkersLayer) { leafletMap.removeLayer(cityMarkersLayer); cityMarkersLayer = null; }
+    }
+  }
+
+  if (layer === 'heatmap') {
+    if (mapLayerState.heatmap) {
+      renderHeatmap();
+    } else {
+      clearHeatmap();
+    }
+  }
+}
+
+// City coordinates — covers all cities in COUNTRY_CITIES plus extras
+const CITY_COORDS = {
+  // Argentina
+  'Buenos Aires': [-34.6037, -58.3816], 'Mendoza': [-32.8908, -68.8272],
+  'Córdoba': [-31.4201, -64.1888], 'Bariloche': [-41.1335, -71.3103],
+  'Rosario': [-32.9468, -60.6393], 'Salta': [-24.7859, -65.4117],
+  // Australia
+  'Sídney': [-33.8688, 151.2093], 'Melbourne': [-37.8136, 144.9631],
+  'Brisbane': [-27.4698, 153.0251], 'Cairns': [-16.9186, 145.7781],
+  'Perth': [-31.9505, 115.8605], 'Adelaide': [-34.9285, 138.6007],
+  // Brazil
+  'Río de Janeiro': [-22.9068, -43.1729], 'São Paulo': [-23.5505, -46.6333],
+  'Salvador': [-12.9714, -38.5014], 'Florianópolis': [-27.5954, -48.5480],
+  'Manaos': [-3.1190, -60.0217],
+  // Cambodia
+  'Siem Riep': [13.3671, 103.8448], 'Phnom Penh': [11.5564, 104.9282],
+  'Koh Rong': [10.6180, 103.2450],
+  // Canada
+  'Toronto': [43.6532, -79.3832], 'Montreal': [45.5017, -73.5673],
+  'Vancouver': [49.2827, -123.1207], 'Quebec': [46.8139, -71.2082],
+  'Calgary': [51.0447, -114.0719],
+  // Chile
+  'Santiago': [-33.4489, -70.6693], 'Valparaíso': [-33.0472, -71.6127],
+  'San Pedro de Atacama': [-22.9087, -68.1997], 'Hanga Roa': [-27.1492, -109.4265],
+  'Puerto Natales': [-51.7320, -72.4958],
+  // China
+  'Pekín': [39.9042, 116.4074], 'Shanghái': [31.2304, 121.4737],
+  'Chengdu': [30.5728, 104.0668], 'Xian': [34.3416, 108.9398],
+  'Hong Kong': [22.3193, 114.1694], 'Guilin': [25.2736, 110.2900],
+  // Colombia
+  'Cartagena': [10.3910, -75.4794], 'Medellín': [6.2442, -75.5812],
+  'Bogotá': [4.7110, -74.0721], 'Cali': [3.4516, -76.5320],
+  'Santa Marta': [11.2408, -74.1990], 'Tayrona': [11.3097, -74.0274],
+  // Ecuador
+  'Quito': [-0.1807, -78.4678], 'Galápagos': [-0.9538, -90.9656],
+  'Cuenca': [-2.9001, -79.0059], 'Baños': [-1.3928, -78.4269],
+  // France
+  'París': [48.8566, 2.3522], 'Niza': [43.7102, 7.2620],
+  'Lyon': [45.7640, 4.8357], 'Burdeos': [44.8378, -0.5792],
+  'Marsella': [43.2965, 5.3698], 'Estrasburgo': [48.5734, 7.7521],
+  'Mont Saint-Michel': [48.6359, -1.5116],
+  // Germany
+  'Berlín': [52.5200, 13.4050], 'Munich': [48.1351, 11.5820],
+  'Múnich': [48.1351, 11.5820], 'Hamburgo': [53.5753, 10.0153],
+  'Colonia': [50.9333, 6.9500], 'Frankfurt': [50.1109, 8.6821],
+  'Heidelberg': [49.3988, 8.6724],
+  // Greece
+  'Atenas': [37.9838, 23.7275], 'Santorini': [36.3932, 25.4615],
+  'Mykonos': [37.4467, 25.3289], 'Creta': [35.2401, 24.8093],
+  'Rodas': [36.4341, 28.2176], 'Naxos': [37.1035, 25.3765],
+  'Corfu': [39.6243, 19.9217],
+  // India
+  'Delhi': [28.6139, 77.2090], 'Mumbai': [19.0760, 72.8777],
+  'Jaipur': [26.9124, 75.7873], 'Agra': [27.1767, 78.0081],
+  'Goa': [15.2993, 74.1240], 'Kerala': [10.8505, 76.2711],
+  'Varanasi': [25.3176, 82.9739],
+  // Indonesia
+  'Bali': [-8.3405, 115.0920], 'Yakarta': [-6.2088, 106.8456],
+  'Yogyakarta': [-7.7956, 110.3695], 'Komodo': [-8.5509, 119.4897],
+  'Raja Ampat': [-0.5000, 130.5000],
+  // Italy
+  'Roma': [41.9028, 12.4964], 'Florencia': [43.7696, 11.2558],
+  'Venecia': [45.4408, 12.3155], 'Milán': [45.4654, 9.1859],
+  'Nápoles': [40.8518, 14.2681], 'Cinque Terre': [44.1278, 9.7077],
+  'Sicilia': [37.5990, 14.0154],
+  // Japan
+  'Tokio': [35.6762, 139.6503], 'Kioto': [35.0116, 135.7681],
+  'Osaka': [34.6937, 135.5023], 'Hiroshima': [34.3853, 132.4553],
+  'Nara': [34.6851, 135.8048], 'Hakone': [35.2324, 139.1069],
+  // Jordan
+  'Petra': [30.3285, 35.4444], 'Wadi Rum': [29.5760, 35.4227],
+  'Amán': [31.9454, 35.9284], 'Aqaba': [29.5321, 35.0069],
+  // Mexico
+  'Ciudad de México': [19.4326, -99.1332], 'Cancún': [21.1619, -86.8515],
+  'Oaxaca': [17.0732, -96.7266], 'Guadalajara': [20.6597, -103.3496],
+  'San Cristóbal': [16.7370, -92.6376], 'Chichén Itzá': [20.6843, -88.5678],
+  'Yucatán': [20.9674, -89.5926],
+  // Morocco
+  'Marrakech': [31.6295, -7.9811], 'Fez': [34.0181, -5.0078],
+  'Chefchaouen': [35.1714, -5.2697], 'Essaouira': [31.5125, -9.7749],
+  'Sahara': [30.0000, -4.0000], 'Casablanca': [33.5731, -7.5898],
+  // Nepal
+  'Katmandú': [27.7172, 85.3240], 'Pokhara': [28.2096, 83.9856],
+  'Everest Base Camp': [28.0026, 86.8528],
+  // Netherlands
+  'Ámsterdam': [52.3676, 4.9041], 'Rotterdam': [51.9244, 4.4777],
+  'La Haya': [52.0705, 4.3007], 'Utrecht': [52.0907, 5.1214],
+  // New Zealand
+  'Auckland': [-36.8509, 174.7645], 'Queenstown': [-45.0312, 168.6626],
+  'Fiordland': [-44.5000, 167.8000], 'Rotorua': [-38.1368, 176.2497],
+  // Norway
+  'Tromsø': [69.6492, 18.9553], 'Bergen': [60.3913, 5.3221],
+  'Oslo': [59.9139, 10.7522], 'Lofoten': [68.1300, 13.5800],
+  'Ålesund': [62.4722, 6.1495],
+  // Peru
+  'Lima': [-12.0464, -77.0428], 'Cusco': [-13.5319, -71.9675],
+  'Machu Picchu': [-13.1631, -72.5450], 'Arequipa': [-16.4090, -71.5375],
+  'Huacachina': [-14.0875, -75.7626], 'Puno': [-15.8402, -70.0219],
+  // Portugal
+  'Lisboa': [38.7169, -9.1395], 'Oporto': [41.1579, -8.6291],
+  'Sintra': [38.7977, -9.3877], 'Algarve': [37.0179, -8.0500],
+  'Madeira': [32.7607, -16.9595], 'Azores': [37.7412, -25.6756],
+  // Russia
+  'Moscú': [55.7558, 37.6173], 'San Petersburgo': [59.9311, 30.3609],
+  'Baikal': [53.5587, 108.1650],
+  // Spain
+  'Madrid': [40.4168, -3.7038], 'Barcelona': [41.3851, 2.1734],
+  'Sevilla': [37.3891, -5.9845], 'Granada': [37.1773, -3.5986],
+  'Valencia': [39.4699, -0.3763], 'San Sebastián': [43.3183, -1.9812],
+  'Toledo': [39.8628, -4.0273],
+  // Thailand
+  'Bangkok': [13.7563, 100.5018], 'Chiang Mai': [18.7883, 98.9853],
+  'Phuket': [7.8804, 98.3923], 'Koh Samui': [9.5120, 100.0136],
+  'Pai': [19.3563, 98.4417], 'Ayutthaya': [14.3692, 100.5877],
+  // Turkey
+  'Estambul': [41.0082, 28.9784], 'Capadocia': [38.6591, 34.8260],
+  'Éfeso': [37.9375, 27.3408], 'Bodrum': [37.0342, 27.4305],
+  'Antalya': [36.8969, 30.7133], 'Pamukkale': [37.9214, 29.1211],
+  // Egypt
+  'El Cairo': [30.0444, 31.2357], 'Alejandría': [31.2001, 29.9187],
+  'Luxor': [25.6872, 32.6396], 'Asuán': [24.0889, 32.8998],
+  'Sinaí': [28.5000, 33.7000],
+  // UK
+  'Londres': [51.5074, -0.1278], 'Edimburgo': [55.9533, -3.1883],
+  'Glasgow': [55.8642, -4.2518], 'Liverpool': [53.4084, -2.9916],
+  'Stonehenge': [51.1789, -1.8262], 'Cotswolds': [51.8330, -1.7800],
+  // USA
+  'Nueva York': [40.7128, -74.0060], 'Los Ángeles': [34.0522, -118.2437],
+  'San Francisco': [37.7749, -122.4194], 'Chicago': [41.8781, -87.6298],
+  'Miami': [25.7617, -80.1918], 'Las Vegas': [36.1699, -115.1398],
+  'New Orleans': [29.9511, -90.0715],
+  // Uruguay
+  'Montevideo': [-34.9011, -56.1645], 'Punta del Este': [-34.9675, -54.9438],
+  'Colonia del Sacramento': [-34.4626, -57.8400],
+  // Venezuela
+  'Caracas': [10.4806, -66.9036], 'Canaima': [6.2333, -62.8500],
+  'Isla Margarita': [10.9741, -63.9112], 'Los Roques': [11.8500, -66.7700],
+  // Vietnam
+  'Hanói': [21.0285, 105.8542], 'Ho Chi Minh': [10.8231, 106.6297],
+  'Hội An': [15.8800, 108.3380], 'Huế': [16.4637, 107.5909],
+  'Ha Long': [20.9538, 107.0848], 'Dalat': [11.9465, 108.4419],
+  // Extras
+  'Seúl': [37.5665, 126.9780], 'Singapur': [1.3521, 103.8198],
+  'Dubái': [25.2048, 55.2708], 'Bruselas': [50.8503, 4.3517],
+  'Zürich': [47.3769, 8.5417], 'Ciudad del Cabo': [-33.9249, 18.4241],
+  'Nairobi': [-1.2921, 36.8219], 'Praga': [50.0755, 14.4378],
+  'Budapest': [47.4979, 19.0402], 'Varsovia': [52.2297, 21.0122],
+  'Viena': [48.2082, 16.3738], 'Wadi Rum': [29.5760, 35.4227],
+};
+
+function renderCityMarkers() {
+  if (cityMarkersLayer) { leafletMap.removeLayer(cityMarkersLayer); cityMarkersLayer = null; }
+  if (!leafletMap) return;
+
+  const visitedCities = JSON.parse(localStorage.getItem('visitedCities') || '[]');
+  if (!visitedCities.length) return;
+
+  cityMarkersLayer = L.layerGroup();
+
+  visitedCities.forEach(city => {
+    const coords = CITY_COORDS[city];
+    if (!coords) return;
+    const marker = L.circleMarker(coords, {
+      radius: 6,
+      fillColor: '#0EA5E9',
+      color: '#fff',
+      weight: 2,
+      fillOpacity: 0.9
+    });
+    marker.bindTooltip(city, { permanent: false, direction: 'top' });
+    cityMarkersLayer.addLayer(marker);
+  });
+
+  cityMarkersLayer.addTo(leafletMap);
+}
+
+function renderHeatmap() {
+  heatmapLayer = null; // reset sentinel before re-render
+  if (!leafletMap || !worldGeoJSON) return;
+
+  // Build city count per country numeric code
+  const visitedCities = JSON.parse(localStorage.getItem('visitedCities') || '[]');
+  const citiesPerCountry = {}; // numericCode -> count
+
+  // Map each COUNTRY_CITIES entry to count how many are visited
+  Object.entries(COUNTRY_CITIES).forEach(([numCode, citiesArr]) => {
+    const count = citiesArr.filter(c => visitedCities.includes(c)).length;
+    if (count > 0) citiesPerCountry[numCode] = count;
+  });
+
+  // Find max for normalization
+  const maxCities = Math.max(1, ...Object.values(citiesPerCountry));
+
+  // Color scale: visited country with 0 cities → brand purple,
+  //              more cities → deeper orange/red heat
+  function heatColor(numCode, isVisited) {
+    if (!isVisited) return null; // not visited → grey
+    const count = citiesPerCountry[numCode] || 0;
+    if (count === 0) {
+      // Visited country, no cities tagged → solid brand purple (clearly visible)
+      return { fillColor: '#6C63FF', fillOpacity: 0.75, color: '#ffffff', weight: 0.6 };
+    }
+    const ratio = Math.min(1, count / maxCities);
+    // gradient: light purple (1 city) → orange → red (many cities)
+    const hue = Math.round(55 - ratio * 55); // 55=yellow, 0=red
+    return {
+      fillColor: `hsl(${hue}, 95%, 50%)`,
+      fillOpacity: 0.65 + ratio * 0.30,
+      color: '#ffffff',
+      weight: 0.6
+    };
+  }
+
+  // Instead of adding a new layer, recolor the existing leafletLayer for heatmap mode
+  if (leafletLayer) {
+    leafletLayer.eachLayer(layer => {
+      if (!layer.feature) return;
+      const id = String(layer.feature.id);
+      const isVisited = visitedCodes.has(id);
+      const style = heatColor(id, isVisited);
+      if (style) {
+        layer.setStyle(style);
+      } else {
+        layer.setStyle({ fillColor: '#CBD5E1', fillOpacity: 0.5, color: '#ffffff', weight: 0.4 });
+      }
+    });
+  }
+
+  // Store a sentinel so we know heatmap is active
+  heatmapLayer = { _isHeatmap: true };
+}
+
+function clearHeatmap() {
+  heatmapLayer = null;
+  // Restore normal country colors
+  if (leafletLayer) {
+    buildVisitedDates();
+    leafletLayer.eachLayer(layer => {
+      if (!layer.feature) return;
+      layer.setStyle(countryStyle(layer.feature));
+    });
+  }
+}
 </script>
 
 <!-- Bottom Nav -->
@@ -3353,12 +3983,88 @@ document.addEventListener('keydown', e => {
   </a>
   <a href="mapa.html" class="tab-item">
     <span class="tab-icon">🌍</span>
-    <span>Mapa</span>
+    <span>Mi Mapamundi</span>
   </a>
   <a href="profile.html" class="tab-item active">
     <span class="tab-icon">👤</span>
     <span>Perfil</span>
   </a>
 </nav>
+
+<!-- ── Share Mapamundi Modal ── -->
+<div id="shareModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeShareMenu()">
+  <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 32px;box-shadow:0 -4px 32px rgba(0,0,0,0.18);animation:slideUp .25s ease;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;">📤 Compartir mi Mapamundi</div>
+      <button onclick="closeShareMenu()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:#64748B;padding:4px;">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button onclick="shareAction('copy')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#0EA5E9';this.style.background='#E0F2FE'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
+        <span style="font-size:1.3rem;">📋</span>
+        <div><div style="font-weight:600;">Copiar enlace</div><div style="font-size:.8rem;color:#64748B;">viajeramente.com/perfil-publico.html?user=...</div></div>
+      </button>
+      <button onclick="shareAction('whatsapp')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#25D366';this.style.background='#F0FDF4'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
+        <span style="font-size:1.3rem;">📱</span>
+        <div><div style="font-weight:600;">Compartir en WhatsApp</div><div style="font-size:.8rem;color:#64748B;">Enviar enlace a un amigo</div></div>
+      </button>
+      <button onclick="shareAction('twitter')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#1DA1F2';this.style.background='#EFF6FF'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
+        <span style="font-size:1.3rem;">🐦</span>
+        <div><div style="font-weight:600;">X / Twitter</div><div style="font-size:.8rem;color:#64748B;">Tuitear mi mapa de viajes</div></div>
+      </button>
+      <button onclick="shareAction('instagram')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#E1306C';this.style.background='#FFF1F5'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
+        <span style="font-size:1.3rem;">📸</span>
+        <div><div style="font-weight:600;">Instagram Stories</div><div style="font-size:.8rem;color:#64748B;">Descarga tu mapa y comparte en stories</div></div>
+      </button>
+    </div>
+    <div id="shareCopiedMsg" style="display:none;margin-top:14px;padding:10px 14px;background:#F0FDF4;border-radius:10px;font-size:.85rem;color:#065F46;font-weight:500;">✅ Enlace copiado al portapapeles</div>
+    <div id="shareInstagramMsg" style="display:none;margin-top:14px;padding:10px 14px;background:#FFF1F5;border-radius:10px;font-size:.85rem;color:#9D174D;line-height:1.5;">📸 Para compartir en Instagram Stories:<br>1. Abre tu mapa completo (botón ⛶)<br>2. Haz una captura de pantalla<br>3. Súbela a tus stories con el hashtag <strong>#ViajeraMente</strong></div>
+  </div>
+</div>
+
+<style>
+  @keyframes slideUp { from { transform: translateY(100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
+</style>
+
+<script>
+  function getPublicProfileUrl() {
+    const username = (typeof currentUser !== 'undefined' && currentUser?.username)
+      || localStorage.getItem('vm_username') || 'viajero';
+    return `https://viajeramente.com/perfil-publico.html?user=${encodeURIComponent(username)}`;
+  }
+
+  function openShareMenu() {
+    const modal = document.getElementById('shareModal');
+    modal.style.display = 'flex';
+    document.getElementById('shareCopiedMsg').style.display = 'none';
+    document.getElementById('shareInstagramMsg').style.display = 'none';
+  }
+
+  function closeShareMenu() {
+    document.getElementById('shareModal').style.display = 'none';
+  }
+
+  function shareAction(type) {
+    const url = getPublicProfileUrl();
+    const username = url.split('user=')[1] || 'viajero';
+    const text = `Mira cuántos países he visitado en mi Mapamundi ViajeraMente 🌍`;
+
+    if (type === 'copy') {
+      navigator.clipboard.writeText(url).then(() => {
+        document.getElementById('shareCopiedMsg').style.display = 'block';
+        document.getElementById('shareInstagramMsg').style.display = 'none';
+      }).catch(() => {
+        prompt('Copia este enlace:', url);
+      });
+    } else if (type === 'whatsapp') {
+      window.open(`https://wa.me/?text=${encodeURIComponent(text + '\n' + url)}`, '_blank');
+    } else if (type === 'twitter') {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&hashtags=ViajeraMente,Viajes`, '_blank');
+    } else if (type === 'instagram') {
+      document.getElementById('shareInstagramMsg').style.display = 'block';
+      document.getElementById('shareCopiedMsg').style.display = 'none';
+    }
+  }
+</script>
+
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Mi Mapa de Países Visitados · ViajeraMente</title>
+  <title>Mi Mapamundi · ViajeraMente</title>
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -996,9 +996,18 @@ function refreshCities() {
 
 // ── PERSISTENCE ───────────────────────────────────────────────────────────────
 
+// Invert NUMERIC_TO_ALPHA2 for saving back as numeric codes (profile.html format)
+const ALPHA2_TO_NUMERIC = Object.fromEntries(
+  Object.entries(NUMERIC_TO_ALPHA2).map(([num, alpha]) => [alpha, Number(num)])
+);
+
 function saveCountries() {
-  // Match profile.html key: 'visitedCountries' → array of ISO alpha-2 strings
-  localStorage.setItem('visitedCountries', JSON.stringify([...visitedCountries]));
+  // Convert alpha-2 codes back to numeric so profile.html can read them
+  const numericCodes = [...visitedCountries].map(a2 => {
+    const num = ALPHA2_TO_NUMERIC[a2.toUpperCase()];
+    return num != null ? String(num) : a2;
+  });
+  localStorage.setItem('visitedCountries', JSON.stringify(numericCodes));
 }
 
 // ── FLAG EMOJI ────────────────────────────────────────────────────────────────

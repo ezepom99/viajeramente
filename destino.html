@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title id="pageTitle">Destino — ViajeraMente</title>
   <meta name="description" content="Guía completa del destino: cuándo ir, qué hacer, dónde dormir y mucho más.">
+  <meta property="og:title" content="Destino — ViajeraMente">
+  <meta property="og:description" content="Guía completa del destino: cuándo ir, qué hacer, dónde dormir y mucho más.">
+  <meta property="og:image" content="https://viajeramente.com/og-default.jpg">
+  <meta property="og:url" content="https://viajeramente.com/destino.html">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Destino — ViajeraMente">
+  <meta name="twitter:description" content="Guía completa del destino: cuándo ir, qué hacer, dónde dormir y mucho más.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -77,7 +85,7 @@
     }
     .nav-logo:hover { opacity: .75; }
     .nav-actions { display: flex; align-items: center; gap: 8px; }
-    #btnSave {
+    .nav-dest-btn {
       display: flex; align-items: center; gap: 5px;
       padding: 7px 14px; border-radius: 20px;
       border: 1.5px solid var(--border);
@@ -85,6 +93,12 @@
       font-size: .82rem; font-weight: 600;
       cursor: pointer; transition: all .2s; white-space: nowrap;
     }
+    #btnSave { display: flex; align-items: center; gap: 5px; padding: 7px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--bg); color: var(--text-2); font-size: .82rem; font-weight: 600; cursor: pointer; transition: all .2s; white-space: nowrap; }
+    .nav-dest-btn:hover { border-color: #EF4444; color: #EF4444; background: #FEF2F2; }
+    .nav-dest-btn.wished { border-color: #EF4444; color: #EF4444; background: #FEF2F2; }
+    #btnVisited { display: flex; align-items: center; gap: 5px; padding: 7px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--bg); color: var(--text-2); font-size: .82rem; font-weight: 600; cursor: pointer; transition: all .2s; white-space: nowrap; }
+    #btnVisited:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+    #btnVisited.visited { border-color: var(--green); color: var(--green); background: var(--green-light); }
     #btnSave:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
     #btnSave.saved { border-color: var(--green); color: var(--green); background: var(--green-light); }
 
@@ -102,7 +116,7 @@
     }
     .nav-btn-signup:hover { background: var(--accent-dark); }
     @media (max-width: 768px) {
-      #navGuest, #navUser { display: none !important; }
+      #navGuest .nav-btn-signup { display: none; }
     }
 
     /* ── Login gate ── */
@@ -187,6 +201,15 @@
       color: #fff; font-size: .8rem; font-weight: 500;
       border: 1px solid rgba(255,255,255,.25);
     }
+    .hero-photo-credit {
+      position: absolute; bottom: 8px; right: 12px;
+      font-size: .68rem; color: rgba(255,255,255,.5);
+      z-index: 2;
+    }
+    .hero-photo-credit a {
+      color: rgba(255,255,255,.5); text-decoration: none;
+    }
+    .hero-photo-credit a:hover { color: rgba(255,255,255,.8); }
 
     /* ── Main layout ── */
     .page-body {
@@ -430,6 +453,21 @@
     .sleep-notes { font-size: .87rem; color: var(--text-2); line-height: 1.7; }
 
     /* ── Budget breakdown ── */
+    .budget-toggle {
+      display: flex; gap: 6px; margin-bottom: 18px;
+      background: var(--bg-soft); border-radius: 100px;
+      padding: 4px; width: fit-content;
+    }
+    .budget-toggle-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 7px 16px; border-radius: 100px;
+      font-size: .82rem; font-weight: 600; color: var(--text-2);
+      transition: all .2s; white-space: nowrap;
+    }
+    .budget-toggle-btn.active {
+      background: #fff; color: var(--accent);
+      box-shadow: 0 1px 6px rgba(0,0,0,.1);
+    }
     .budget-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
     }
@@ -437,7 +475,9 @@
       border: 1px solid var(--border); border-radius: 12px;
       padding: 20px; background: var(--bg); text-align: center;
     }
-    .budget-card.mid { border-color: var(--accent); background: var(--accent-light); }
+    .budget-card.active-tier { border-color: var(--accent); background: var(--accent-light); }
+    .budget-card.active-tier .budget-amount { color: var(--accent-dark); }
+    .budget-card.active-tier .budget-level { color: var(--accent); }
     .budget-level {
       font-size: .72rem; font-weight: 700; letter-spacing: .06em;
       text-transform: uppercase; color: var(--text-3); margin-bottom: 8px;
@@ -446,8 +486,6 @@
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: 8px;
     }
-    .budget-card.mid .budget-amount { color: var(--accent-dark); }
-    .budget-card.mid .budget-level { color: var(--accent); }
     .budget-desc { font-size: .78rem; color: var(--text-3); line-height: 1.55; }
 
     /* ── Tips ── */
@@ -471,6 +509,106 @@
     .guide-section { margin: 32px 0; padding: 0; }
     .guide-section-title { font-size: 1.3rem; font-weight: 700; color: #0F172A; margin-bottom: 12px; border-left: 3px solid #0EA5E9; padding-left: 12px; }
     .guide-section-body { font-size: 0.95rem; line-height: 1.75; color: #475569; }
+
+    /* ── City cards (Ciudades destacadas) ── */
+    .city-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .city-card {
+      display: block;
+      text-decoration: none;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      box-shadow: var(--shadow);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .city-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.1); }
+    .city-card-photo {
+      height: 120px;
+      background: #C8D6DF center/cover no-repeat;
+      position: relative;
+    }
+    .city-card-photo-placeholder {
+      height: 120px;
+      background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+    }
+    .city-card-body {
+      padding: 12px 14px;
+    }
+    .city-card-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem; font-weight: 700;
+      color: var(--text); margin-bottom: 3px;
+    }
+    .city-card-tagline {
+      font-size: .78rem; color: var(--text-2);
+      line-height: 1.4;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .city-card-cta {
+      font-size: .75rem; font-weight: 600; color: var(--accent);
+      margin-top: 8px; display: flex; align-items: center; gap: 3px;
+    }
+
+    /* ── Parent country breadcrumb ── */
+    .parent-country-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: 20px;
+      background: var(--accent-light); color: var(--accent-dark);
+      font-size: .8rem; font-weight: 600;
+      text-decoration: none; margin-bottom: 20px;
+      transition: background .2s;
+    }
+    .parent-country-badge:hover { background: #BAE6FD; }
+
+    /* ── Inline section photos ── */
+    .guide-inline-photo {
+      margin: 36px -20px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 0;
+    }
+    @media (min-width: 600px) {
+      .guide-inline-photo {
+        margin: 36px 0;
+        border-radius: 16px;
+      }
+    }
+    .guide-inline-photo img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease;
+    }
+    @media (min-width: 600px) {
+      .guide-inline-photo img { height: 320px; }
+    }
+    .guide-inline-photo:hover img { transform: scale(1.02); }
+    .guide-inline-photo-caption {
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      font-size: .7rem;
+      color: rgba(255,255,255,.7);
+      background: rgba(0,0,0,.3);
+      padding: 2px 8px;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .guide-inline-photo-caption:hover {
+      background: rgba(0,0,0,.5);
+      color: #fff;
+    }
 
     /* ── Vaccines section ── */
     .vaccines-subsection { margin: 14px 0; }
@@ -532,6 +670,7 @@
       .stat-item:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
       .activities-grid { grid-template-columns: 1fr; }
       .budget-grid { grid-template-columns: 1fr; }
+      #budgetDetail { grid-template-columns: 1fr !important; }
       .related-grid { grid-template-columns: repeat(2, 1fr); }
       .related-grid .related-card:last-child { display: none; }
       .sleep-tabs { overflow-x: auto; }
@@ -558,6 +697,27 @@
     }
     .visa-strip .visa-icon { font-size: 1.2rem; }
     .visa-strip p { font-size: .87rem; color: #065F46; }
+
+    /* ── Bottom Nav ── */
+    .bottom-nav {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(255,255,255,.97); backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      height: 60px; padding: 0 8px;
+      justify-content: space-around; align-items: center;
+    }
+    @media (max-width: 700px) { .bottom-nav { display: flex; } }
+    .tab-item {
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      text-decoration: none; color: var(--text-2);
+      font-size: .68rem; font-weight: 500; padding: 4px 10px; border-radius: 10px;
+      transition: color .15s;
+    }
+    .tab-item.active { color: var(--accent); }
+    .tab-item:hover { color: var(--accent); }
+    .tab-icon { font-size: 1.3rem; line-height: 1; }
   </style>
 </head>
 <body>
@@ -565,7 +725,7 @@
 <!-- ── Nav ── -->
 <nav>
   <a href="guias.html" class="nav-back">← Guías</a>
-  <a href="main.html" id="navLogo" class="nav-logo">
+  <a href="index.html" id="navLogo" class="nav-logo">
     <span>✈️</span>
     <span>ViajeraMente</span>
   </a>
@@ -577,7 +737,9 @@
     <div id="navUser" style="display:none; align-items:center; gap:8px;">
       <a href="profile.html" class="nav-btn-login">👤 Mi perfil</a>
     </div>
-    <button id="btnSave" onclick="toggleSave()">♡ Guardar</button>
+    <button id="btnShare" onclick="openGuideShareMenu()" style="display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-2);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)';this.style.background='var(--accent-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-2)';this.style.background='var(--bg)'">📤 Compartir</button>
+    <button id="btnWishlist" class="nav-dest-btn" onclick="toggleWishlist()">♡ Quiero ir</button>
+    <button id="btnVisited" onclick="toggleVisitedDest()">✓ Visitado</button>
   </div>
 </nav>
 
@@ -590,10 +752,14 @@
     <p class="hero-tagline" id="destTagline"></p>
     <div class="hero-chips" id="destChips"></div>
   </div>
+  <div class="hero-photo-credit" id="heroPhotoCredit"></div>
 </div>
 
 <!-- ── Page body ── -->
 <div class="page-body">
+
+  <!-- Parent country breadcrumb (shown for cities) -->
+  <div id="parentCountryBreadcrumb" style="display:none;margin-top:20px;"></div>
 
   <!-- Quick stats -->
   <div class="quick-stats" id="quickStats">
@@ -650,7 +816,59 @@
   <!-- Budget -->
   <section class="section" id="budgetSection" style="display:none">
     <h2>💰 Presupuesto</h2>
+    <div class="budget-toggle" id="budgetToggle">
+      <button class="budget-toggle-btn" data-tier="low" onclick="selectBudgetTier('low')">🎒 Mochilero</button>
+      <button class="budget-toggle-btn" data-tier="mid" onclick="selectBudgetTier('mid')">✈️ Medio</button>
+      <button class="budget-toggle-btn" data-tier="high" onclick="selectBudgetTier('high')">💎 Premium</button>
+    </div>
     <div class="budget-grid" id="budgetGrid"></div>
+  </section>
+
+  <!-- Cost Estimator -->
+  <section class="section" id="costEstimatorSection">
+    <h2>🧮 Estimador de coste</h2>
+    <div class="info-card" style="padding:20px 24px;">
+      <div style="display:grid;gap:20px;">
+        <!-- Días -->
+        <div>
+          <label style="font-size:.85rem;font-weight:600;color:var(--text-2);display:block;margin-bottom:8px;">
+            Nº de días: <strong id="estDaysLabel">7</strong>
+          </label>
+          <input type="range" id="estDays" min="1" max="90" value="7"
+            style="width:100%;accent-color:var(--accent);"
+            oninput="document.getElementById('estDaysLabel').textContent=this.value; calcCost()">
+        </div>
+        <!-- Personas + Tipo -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div>
+            <label style="font-size:.85rem;font-weight:600;color:var(--text-2);display:block;margin-bottom:8px;">Personas</label>
+            <select id="estPersons" onchange="calcCost()"
+              style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:.9rem;background:var(--bg);color:var(--text);cursor:pointer;">
+              <option value="1">1 persona</option>
+              <option value="2">2 personas</option>
+              <option value="3">3 personas</option>
+              <option value="4">4 personas</option>
+              <option value="5">5 personas</option>
+              <option value="6">6 personas</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.85rem;font-weight:600;color:var(--text-2);display:block;margin-bottom:8px;">Tipo de viaje</label>
+            <select id="estTier" onchange="calcCost()"
+              style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:.9rem;background:var(--bg);color:var(--text);cursor:pointer;">
+              <option value="low">🎒 Mochilero</option>
+              <option value="mid" selected>✈️ Medio</option>
+              <option value="high">💎 Premium</option>
+            </select>
+          </div>
+        </div>
+        <!-- Output -->
+        <div id="costOutput" style="background:var(--bg-soft);border-radius:12px;padding:18px 20px;border:1.5px solid var(--border);font-size:.88rem;line-height:1.9;"></div>
+        <p style="font-size:.76rem;color:var(--text-3);text-align:center;">
+          Estimación orientativa. Los precios reales varían según temporada y disponibilidad.
+        </p>
+      </div>
+    </div>
   </section>
 
   <!-- How to get there -->
@@ -702,6 +920,8 @@
   <!-- Visa -->
   <section class="section" id="visaSection">
     <h2>🛂 Visado e entrada</h2>
+    <!-- Passport personalization banner -->
+    <div id="visaPassportBanner" style="display:none;margin-bottom:14px;"></div>
     <div id="visaContent">
       <p id="visaInfo" style="font-size:.9rem;line-height:1.75;color:#374151;white-space:pre-line;"></p>
     </div>
@@ -711,6 +931,12 @@
   <section class="section" id="vaccinesSection" style="display:none">
     <h2>💉 Vacunas</h2>
     <div id="vaccinesContent"></div>
+  </section>
+
+  <!-- Child cities section (shown for countries with city guides) -->
+  <section class="section" id="childCitiesSection" style="display:none;">
+    <h2>🏙️ Ciudades destacadas</h2>
+    <div id="childCitiesGrid"></div>
   </section>
 
   <!-- Guide sections -->
@@ -737,14 +963,17 @@
       document.getElementById('navUser').style.display = 'flex';
       document.getElementById('gatedContent').style.display = '';
       document.getElementById('loginGate').style.display = 'none';
+      // Show bottom nav for logged-in users (mobile)
+      const bn = document.getElementById('bottomNav');
+      if (bn) bn.style.display = '';
     } else {
       document.getElementById('navGuest').style.display = 'flex';
       document.getElementById('gatedContent').style.display = 'none';
       document.getElementById('loginGate').style.display = 'block';
-      // Guardar button redirects to login
-      document.getElementById('btnSave').onclick = () => {
-        window.location.href = 'login.html?next=' + currentUrl;
-      };
+      // Wishlist and visited buttons redirect to login for guests
+      const goLogin = () => { window.location.href = 'login.html?next=' + currentUrl; };
+      document.getElementById('btnWishlist').onclick = goLogin;
+      document.getElementById('btnVisited').onclick = goLogin;
       // Add ?next= to gate links so user returns after login/signup
       document.getElementById('gateSignupBtn').href = 'signup.html?next=' + currentUrl;
       document.getElementById('gateLoginBtn').href = 'login.html?next=' + currentUrl;
@@ -768,21 +997,23 @@
     if (!banner) return;
     const city = localStorage.getItem('editCity') || '';
     const country = localStorage.getItem('editCountry') || '';
-    const origin = city ? `${city}${country ? ', ' + country : ''}` : (country || '');
+    const homeCountry = localStorage.getItem('homeCountry') || '';
+    // Use city+country (residence) if set, else fall back to homeCountry (passport country)
+    const origin = city ? `${city}${country ? ', ' + country : ''}` : (country || homeCountry || '');
 
     if (origin) {
       banner.innerHTML = `
         <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#EFF6FF;border-radius:10px;font-size:.85rem;color:#1E40AF;">
-          <span>📍</span>
-          <span>Conexiones desde <strong>${escHtml(origin)}</strong></span>
+          <span>✈️</span>
+          <span>Vuelos desde <strong>${escHtml(origin)}</strong> a este destino</span>
           <a href="profile.html" style="margin-left:auto;color:#3B82F6;text-decoration:none;font-size:.8rem;">Cambiar</a>
         </div>`;
-      document.getElementById('flightStatLabel').textContent = `Vuelo desde ${city || country}`;
+      document.getElementById('flightStatLabel').textContent = `Vuelo desde ${city || country || homeCountry}`;
     } else {
       banner.innerHTML = `
         <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#FFF7ED;border-radius:10px;font-size:.85rem;color:#92400E;">
-          <span>📍</span>
-          <span>¿Desde dónde viajas? <a href="profile.html" style="color:#D97706;font-weight:600;text-decoration:none;">Añade tu ciudad en tu perfil →</a></span>
+          <span>🌍</span>
+          <span>Personaliza tus guías indicando tu país de origen → <a href="profile.html" style="color:#D97706;font-weight:600;text-decoration:none;">Completar perfil</a></span>
         </div>`;
     }
   }
@@ -1027,7 +1258,7 @@
       budget_daily_low:120, budget_daily_mid:220, budget_daily_high:600,
       best_months_label:'Jun–Ago / Feb (auroras)',
       flight_hours:'~3h desde Madrid',
-      visa_info:'Sin visado. Espacio Schengen. DNI válido.',
+      visa_info:'✅ Sin visado: UE/Schengen (libre circulación, DNI válido)\n✅ Sin visado 90 días: EEUU, UK, Canadá, Australia, NZ, Japón, Corea del Sur, México, Brasil, Argentina, Chile, Colombia\n🔴 Visado Schengen necesario: India, China, Rusia, Turquía, Marruecos, Argelia y la mayoría de países africanos y asiáticos',
       how_to_get_there:'Vuelo directo a Oslo desde Madrid (Iberia, Ryanair, Norwegian) en ~3h. Para Bergen o Ålesund, con escala en Oslo o Copenhagen.',
       when_to_go:'Verano (junio-agosto) para fiordos, senderismo y sol de medianoche. Invierno (enero-marzo) para auroras boreales en Tromsø. Septiembre tiene auroras tempranas y colores otoñales.',
       local_transport:'NSB trenes nacionales para Oslo-Bergen-Ålesund. Flybussen aeropuerto. En los fiordos, ferry es parte del paisaje y de la experiencia.',
@@ -1071,9 +1302,16 @@
   let currentDest = null;
   let activeMonth = null;
   let savedDests = JSON.parse(localStorage.getItem('vm_saved') || '[]');
+  let wishlistSlugs = new Set();
+  let visitedDestSlugs = new Set(JSON.parse(localStorage.getItem('vm_visited_dests') || '[]'));
+  const userToken = localStorage.getItem('token');
 
   /* ─── INIT ─── */
-  document.addEventListener('DOMContentLoaded', loadDestination);
+  document.addEventListener('DOMContentLoaded', () => {
+    loadDestination();
+    loadWishlistState();
+    updateVisitedBtn();
+  });
 
   /* ─── LOAD ─── */
   async function loadDestination() {
@@ -1104,17 +1342,51 @@
   /* ─── RENDER ─── */
   function renderDestination(d) {
     currentDest = d;
-    document.title = `${d.name} — ViajeraMente`;
+    document.title = `Guía de viaje a ${d.name} 2025 — ViajeraMente`;
+
+    // ── Dynamic SEO meta tags ──
+    const visaHint = d.visa_info
+      ? (d.visa_info.includes('Sin visado') || d.visa_info.includes('sin visado') ? 'sin visado para muchos países' : 'visado requerido según tu pasaporte')
+      : 'visa y documentación';
+    const topActivity = d.what_to_do?.[0]?.title || (d.tagline || '');
+    const seoDesc = `Todo lo que necesitas saber para viajar a ${d.name}: ${visaHint}, mejor época, presupuesto diario y qué ver. ${topActivity ? topActivity + '.' : ''}`.trim();
+    const heroPhotoId = d.hero_photo_id;
+    const ogImage = heroPhotoId
+      ? `https://images.pexels.com/photos/${heroPhotoId}/pexels-photo-${heroPhotoId}.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&fit=crop`
+      : 'https://viajeramente.com/og-default.jpg';
+    const ogUrl = `https://viajeramente.com/destino.html?slug=${encodeURIComponent(d.slug || slug)}`;
+
+    const setMeta = (sel, attr, val) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
+    setMeta('meta[name="description"]', 'content', seoDesc);
+    setMeta('meta[property="og:title"]', 'content', `Guía de viaje a ${d.name} — ViajeraMente`);
+    setMeta('meta[property="og:description"]', 'content', seoDesc);
+    setMeta('meta[property="og:image"]', 'content', ogImage);
+    setMeta('meta[property="og:url"]', 'content', ogUrl);
+    setMeta('meta[name="twitter:title"]', 'content', `Guía de viaje a ${d.name} — ViajeraMente`);
+    setMeta('meta[name="twitter:description"]', 'content', seoDesc);
 
     // Hero photo
     const photoId = d.hero_photo_id;
     if (photoId) {
       const url = `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&h=900&w=1600`;
       document.getElementById('destHero').style.backgroundImage = `url('${url}')`;
+      document.getElementById('heroPhotoCredit').innerHTML = `<a href="https://www.pexels.com" target="_blank" rel="noopener">Foto: Pexels</a>`;
     }
     document.getElementById('destContinent').textContent = d.continent || '';
     document.getElementById('destName').textContent = d.name || slug;
     document.getElementById('destTagline').textContent = d.tagline || '';
+
+    // Parent country breadcrumb (for cities)
+    const breadcrumbEl = document.getElementById('parentCountryBreadcrumb');
+    if (d.parent_country && d.parent_country.slug) {
+      breadcrumbEl.innerHTML = `
+        <a href="destino.html?slug=${escHtml(d.parent_country.slug)}" class="parent-country-badge">
+          ← Volver a ${escHtml(d.parent_country.name)}
+        </a>`;
+      breadcrumbEl.style.display = 'block';
+    } else {
+      breadcrumbEl.style.display = 'none';
+    }
 
     // Chips
     const chips = [];
@@ -1139,6 +1411,13 @@
     if (d.what_to_do?.length) renderActivities(d.what_to_do);
     if (d.where_to_sleep) renderSleep(d.where_to_sleep);
     if (d.budget_daily_low) renderBudget(d);
+    // Initialize cost estimator with destination data
+    // Pre-select tier from user profile if available
+    const profileTier = localStorage.getItem('budget_range') || 'mid';
+    const tierMap = { mochilero: 'low', medio: 'mid', premium: 'high' };
+    const mappedTier = tierMap[profileTier.toLowerCase()] || 'mid';
+    const tierEl = document.getElementById('estTier');
+    if (tierEl) { tierEl.value = mappedTier; calcCost(); }
     if (d.how_to_get_there) document.getElementById('howToGet').textContent = d.how_to_get_there;
     // Origin city personalization
     renderOriginBanner();
@@ -1147,43 +1426,193 @@
     if (d.local_tips?.length) renderTips(d.local_tips);
     if (d.visa_info) {
       document.getElementById('visaInfo').textContent = d.visa_info;
-      // Update quick stat based on user's country
-      const userCountry = localStorage.getItem('editCountry') || '';
+      // Personalize visa section based on user's passport country
+      const homeCountry = localStorage.getItem('homeCountry') || localStorage.getItem('editCountry') || '';
       const visaLower = d.visa_info.toLowerCase();
       let visaShortPersonal = visaShort; // fallback to generic
-      if (userCountry) {
-        // Try to detect if user's country is specifically mentioned
-        const countryLower = userCountry.toLowerCase();
+      const passportBanner = document.getElementById('visaPassportBanner');
+
+      if (homeCountry) {
+        // Show personalization banner with specific matching visa line
+        const countryLower = homeCountry.toLowerCase();
+        let personalStatus = null;
+        let matchingLine = null;
         if (visaLower.includes(countryLower)) {
-          // Find which section it's in
           const lines = d.visa_info.split('\n');
           for (const line of lines) {
             if (line.toLowerCase().includes(countryLower)) {
-              if (line.startsWith('✅')) visaShortPersonal = '✅ Sin visado';
-              else if (line.startsWith('📋')) visaShortPersonal = '📋 Visa on arrival';
-              else if (line.startsWith('🔴')) visaShortPersonal = '🔴 Visado requerido';
+              matchingLine = line;
+              if (line.startsWith('✅')) { visaShortPersonal = '✅ Sin visado'; personalStatus = 'ok'; }
+              else if (line.startsWith('📋')) { visaShortPersonal = '📋 Visa on arrival'; personalStatus = 'arrival'; }
+              else if (line.startsWith('🔴')) { visaShortPersonal = '🔴 Visado requerido'; personalStatus = 'required'; }
               break;
             }
           }
         }
+        // Banner color based on status
+        const bannerColors = {
+          ok:       { bg:'#F0FDF4', border:'#BBF7D0', color:'#065F46' },
+          arrival:  { bg:'#FFFBEB', border:'#FDE68A', color:'#78350F' },
+          required: { bg:'#FEF2F2', border:'#FECACA', color:'#7F1D1D' },
+          default:  { bg:'#EFF6FF', border:'#BFDBFE', color:'#1E40AF' },
+        };
+        const c = bannerColors[personalStatus] || bannerColors.default;
+        // Show the actual matching visa line if found, otherwise generic header
+        const bannerContent = matchingLine
+          ? `<div style="font-size:.9rem;font-weight:600;margin-bottom:2px;">Desde ${escHtml(homeCountry)}</div><div style="font-size:.85rem;line-height:1.5;">${escHtml(matchingLine)}</div>`
+          : `<div style="font-size:.85rem;">ℹ️ Info de visa personalizada para <strong>${escHtml(homeCountry)}</strong> — consulta las líneas de abajo</div>`;
+        passportBanner.innerHTML = `<div style="padding:12px 16px;background:${c.bg};border:1px solid ${c.border};border-radius:12px;color:${c.color};">${bannerContent}<a href="profile.html" style="display:inline-block;margin-top:6px;font-size:.78rem;color:inherit;opacity:.7;text-decoration:underline;">Cambiar país de origen</a></div>`;
+        passportBanner.style.display = 'block';
+      } else {
+        // Show CTA to set home country
+        passportBanner.innerHTML = `<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;font-size:.85rem;color:#92400E;">🌍 <span>Personaliza tus guías indicando tu país de origen → <a href="profile.html" style="color:#D97706;font-weight:600;text-decoration:none;">Completar perfil</a></span></div>`;
+        passportBanner.style.display = 'block';
       }
       document.getElementById('statVisa').textContent = visaShortPersonal;
+    } else {
+      // No visa_info in JS data — show CTA anyway
+      const passportBanner = document.getElementById('visaPassportBanner');
+      const homeCountry = localStorage.getItem('homeCountry') || localStorage.getItem('editCountry') || '';
+      if (!homeCountry && passportBanner) {
+        passportBanner.innerHTML = `<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;font-size:.85rem;color:#92400E;">🌍 <span>Personaliza tus guías indicando tu país de origen → <a href="profile.html" style="color:#D97706;font-weight:600;text-decoration:none;">Completar perfil</a></span></div>`;
+        passportBanner.style.display = 'block';
+      } else if (homeCountry && passportBanner) {
+        passportBanner.innerHTML = `<div style="padding:12px 16px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;font-size:.85rem;color:#1E40AF;">ℹ️ Mostrando info para viajeros desde <strong>${escHtml(homeCountry)}</strong><br><a href="profile.html" style="font-size:.78rem;color:#3B82F6;text-decoration:underline;">Cambiar país de origen</a></div>`;
+        passportBanner.style.display = 'block';
+      }
     }
 
     // Related
     renderRelated(d);
 
+    // Child cities section (for countries)
+    renderChildCities(d);
+
     // Guide sections (exclude Vacunas — rendered separately)
     const sections = d.guide_sections || [];
-    const nonVaccineSections = sections.filter(s => s.section !== 'Vacunas');
+    let nonVaccineSections = sections.filter(s => s.section !== 'Vacunas');
+    // For route destinations: promote "Itinerario día a día" to position 1 (after intro)
+    if (d.type === 'route') {
+      const itinIdx = nonVaccineSections.findIndex(s => s.section === 'Itinerario día a día');
+      if (itinIdx > 1) {
+        const [itinSection] = nonVaccineSections.splice(itinIdx, 1);
+        nonVaccineSections.splice(1, 0, itinSection);
+      }
+    }
     if (nonVaccineSections.length > 0) {
       document.getElementById('guideSections').style.display = 'block';
-      document.getElementById('guideSectionsContent').innerHTML = nonVaccineSections.map(s => `
-        <div class="guide-section">
-          <h2 class="guide-section-title">${escHtml(s.section || '')}</h2>
-          <div class="guide-section-body">${escHtml(s.content || '').replace(/\n/g,'<br>')}</div>
-        </div>
-      `).join('');
+
+      // Build inline photo HTML — use per-section photo from DB if available, else hero crop
+      const photoId = d.hero_photo_id || '';
+      function inlinePhotoForSection(section) {
+        // Use section-specific photo from DB if available
+        if (section.inline_photo_url) {
+          const credit = section.inline_photo_credit || 'Pexels';
+          const creditText = credit.includes('/') ? credit : credit + ' / Pexels';
+          return `
+            <div class="guide-inline-photo">
+              <img src="${section.inline_photo_url}" alt="${escHtml(d.name)} — ${escHtml(section.section)}" loading="lazy">
+              <a href="https://www.pexels.com" target="_blank" rel="noopener" class="guide-inline-photo-caption">Foto: ${escHtml(creditText)}</a>
+            </div>`;
+        }
+        return '';
+      }
+      function inlinePhoto(crop) {
+        if (!photoId) return '';
+        // Use different crop params for visual variety
+        const crops = {
+          mid: `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&w=1200&h=500&fit=crop&crop=center`,
+          low: `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&w=1200&h=500&fit=crop&crop=bottom`,
+        };
+        const url = crops[crop] || crops.mid;
+        return `
+          <div class="guide-inline-photo">
+            <img src="${url}" alt="${escHtml(d.name)} travel" loading="lazy">
+            <a href="https://www.pexels.com" target="_blank" rel="noopener" class="guide-inline-photo-caption">Foto: Pexels</a>
+          </div>`;
+      }
+
+      document.getElementById('guideSectionsContent').innerHTML = nonVaccineSections.map((s, i) => {
+        // Inject a photo after each section that has an inline_photo_url, or fallback after index 1 and 4
+        let bodyHtml;
+        if (s.style === 'city_links' || s.section === 'Ciudades destacadas') {
+          // Render city links as cards — parse markdown [Name](url) links from content
+          const lines = (s.content || '').split('\n');
+          const cityCards = [];
+          let introText = '';
+          for (const line of lines) {
+            const mdLink = line.match(/\[([^\]]+)\]\(([^)]+)\)/);
+            if (mdLink) {
+              const cityName = mdLink[1];
+              const cityUrl = mdLink[2];
+              // Extract slug from URL
+              const slugMatch = cityUrl.match(/slug=([^&]+)/);
+              const citySlug = slugMatch ? slugMatch[1] : null;
+              // Find city tagline hint from text after the link
+              const afterLink = line.slice(line.indexOf(mdLink[0]) + mdLink[0].length).replace(/^[\s—–-]+/, '').trim();
+              cityCards.push({ name: cityName, url: cityUrl, slug: citySlug, hint: afterLink });
+            } else if (line.trim() && cityCards.length === 0) {
+              introText += (introText ? ' ' : '') + line.trim();
+            }
+          }
+          if (cityCards.length > 0) {
+            const introHtml = introText ? `<p style="color:#475569;font-size:.9rem;line-height:1.7;margin-bottom:14px;">${escHtml(introText)}</p>` : '';
+            const cardsHtml = cityCards.map(c => {
+              // Find matching child city for photo
+              const cityData = (d.child_cities || []).find(x => x.slug === c.slug);
+              let photoEl = '';
+              if (cityData && cityData.hero_photo_id) {
+                const pid = cityData.hero_photo_id;
+                const purl = `https://images.pexels.com/photos/${pid}/pexels-photo-${pid}.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop`;
+                photoEl = `<div class="city-card-photo" style="background-image:url('${purl}')"></div>`;
+              } else {
+                photoEl = `<div class="city-card-photo-placeholder">🏙️</div>`;
+              }
+              const tagline = (cityData && cityData.tagline) ? cityData.tagline : (c.hint || '');
+              return `<a href="${escHtml(c.url)}" class="city-card">
+                ${photoEl}
+                <div class="city-card-body">
+                  <div class="city-card-name">${escHtml(c.name)}</div>
+                  ${tagline ? `<div class="city-card-tagline">${escHtml(tagline)}</div>` : ''}
+                  <div class="city-card-cta">Ver guía →</div>
+                </div>
+              </a>`;
+            }).join('');
+            bodyHtml = `${introHtml}<div class="city-cards-grid">${cardsHtml}</div>`;
+          } else {
+            bodyHtml = `<div class="guide-section-body">${escHtml(s.content || '').replace(/\n/g,'<br>')}</div>`;
+          }
+        } else if (s.section === 'Itinerario día a día') {
+          // Render day-by-day itinerary with special styling
+          const lines = (s.content || '').split('\n');
+          bodyHtml = lines.map(line => {
+            if (!line.trim()) return '<div style="height:6px"></div>';
+            // Day headers: lines starting with "Día" or "Etapa" or "TRAMO"
+            if (/^(Día\s+\d|Etapa\s+\d|TRAMO\s+\d)/i.test(line.trim())) {
+              return `<div style="margin-top:18px;margin-bottom:4px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;color:#0F172A;display:flex;align-items:center;gap:8px;"><span style="background:#EFF6FF;color:#0EA5E9;border-radius:6px;padding:2px 8px;font-size:.8rem;white-space:nowrap;">${escHtml(line.trim().split(' ').slice(0,4).join(' '))}</span><span>${escHtml(line.trim().split(' ').slice(4).join(' '))}</span></div>`;
+            }
+            // Sub-day headers (e.g. "Día 1-3:" style lines)
+            if (/^Día\s+\d+[-–]\d+/i.test(line.trim())) {
+              return `<div style="margin-top:14px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem;color:#0F172A;">${escHtml(line.trim())}</div>`;
+            }
+            return `<div style="color:#475569;line-height:1.7;font-size:.92rem;">${escHtml(line.trim())}</div>`;
+          }).join('');
+          bodyHtml = `<div style="border-left:3px solid #E0F2FE;padding-left:16px;margin-top:8px;">${bodyHtml}</div>`;
+        } else {
+          bodyHtml = `<div class="guide-section-body">${escHtml(s.content || '').replace(/\n/g,'<br>')}</div>`;
+        }
+        const sectionHtml = `
+          <div class="guide-section">
+            <h2 class="guide-section-title">${escHtml(s.section || '')}</h2>
+            ${bodyHtml}
+          </div>`;
+        // Prefer per-section photo from DB, fall back to hero crops at positions 1 and 4
+        const sectionPhoto = inlinePhotoForSection(s);
+        if (sectionPhoto) return sectionHtml + sectionPhoto;
+        if (i === 1) return sectionHtml + inlinePhoto('mid');
+        if (i === 4) return sectionHtml + inlinePhoto('low');
+        return sectionHtml;
+      }).join('');
     }
 
     // Vaccines section
@@ -1394,21 +1823,126 @@
   }
 
   /* ─── BUDGET ─── */
-  function renderBudget(d) {
-    const section = document.getElementById('budgetSection');
-    const grid    = document.getElementById('budgetGrid');
-    const items = [
-      { cls:'', level:'Budget', amount: d.budget_daily_low ? `${d.budget_daily_low}€/día` : '—', desc:'Hostel, transporte público, comida local y mercados.' },
-      { cls:'mid', level:'Estándar', amount: d.budget_daily_mid ? `${d.budget_daily_mid}€/día` : '—', desc:'Hotel 3★, restaurantes medios, algunas excursiones.' },
-      { cls:'', level:'Premium', amount: d.budget_daily_high ? `${d.budget_daily_high}€/día` : '—', desc:'Hotel boutique, restaurantes top, tours privados.' }
-    ];
-    grid.innerHTML = items.map(i => `
-      <div class="budget-card ${i.cls}">
-        <div class="budget-level">${i.level}</div>
-        <div class="budget-amount">${i.amount}</div>
-        <div class="budget-desc">${i.desc}</div>
+  let _budgetData = null;
+  let _activeBudgetTier = 'mid';
+
+  // Map profile budget_range values to tier keys
+  const BUDGET_RANGE_MAP = {
+    'budget': 'low',
+    'mid': 'mid',
+    'comfort': 'high',
+    'luxury': 'high'
+  };
+
+  // Detailed info per tier
+  const BUDGET_TIER_INFO = {
+    low: {
+      label: '🎒 Mochilero',
+      items: [
+        { icon: '🛏️', label: 'Alojamiento', key: 'hostel', fallback: 'Hostels, guesthouses y camas en dorms.' },
+        { icon: '🍜', label: 'Comida', key: 'street_food', fallback: 'Mercados locales, street food y tiendas.' },
+        { icon: '🚌', label: 'Transporte', key: 'local_bus', fallback: 'Autobuses públicos, metro y trenes de 2ª clase.' },
+        { icon: '🎟️', label: 'Actividades', key: 'free_activities', fallback: 'Parques, playas, museos gratuitos y caminatas.' }
+      ]
+    },
+    mid: {
+      label: '✈️ Medio',
+      items: [
+        { icon: '🏨', label: 'Alojamiento', key: 'hotel_3star', fallback: 'Hoteles 3★ y apartamentos.' },
+        { icon: '🍽️', label: 'Comida', key: 'mid_restaurants', fallback: 'Restaurantes medios y algún capricho gastronómico.' },
+        { icon: '🚕', label: 'Transporte', key: 'taxi_tours', fallback: 'Taxis, Uber y algunos tours organizados.' },
+        { icon: '🎭', label: 'Actividades', key: 'paid_tours', fallback: 'Tours grupales, visitas guiadas y excursiones.' }
+      ]
+    },
+    high: {
+      label: '💎 Premium',
+      items: [
+        { icon: '🏩', label: 'Alojamiento', key: 'hotel_5star', fallback: 'Hoteles 4-5★, resorts y villas boutique.' },
+        { icon: '⭐', label: 'Comida', key: 'fine_dining', fallback: 'Restaurantes top, degustaciones y chefs locales.' },
+        { icon: '🚁', label: 'Transporte', key: 'private_transfer', fallback: 'Traslados privados, business class y alquileres premium.' },
+        { icon: '🤿', label: 'Actividades', key: 'exclusive', fallback: 'Experiencias exclusivas, tours privados y aceso VIP.' }
+      ]
+    }
+  };
+
+  function selectBudgetTier(tier) {
+    _activeBudgetTier = tier;
+    // Update toggle buttons
+    document.querySelectorAll('.budget-toggle-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tier === tier);
+    });
+    // Re-render grid if data available
+    if (_budgetData) renderBudgetGrid(_budgetData, tier);
+  }
+
+  function renderBudgetGrid(d, tier) {
+    const grid = document.getElementById('budgetGrid');
+    const tiers = {
+      low:  { amount: d.budget_daily_low,  label: 'Mochilero',  cls: 'low'  },
+      mid:  { amount: d.budget_daily_mid,  label: 'Estándar',   cls: 'mid'  },
+      high: { amount: d.budget_daily_high, label: 'Premium',    cls: 'high' }
+    };
+    const tierInfo = BUDGET_TIER_INFO[tier];
+    const activeTier = tiers[tier];
+
+    // Show all 3 cards but highlight the active tier
+    const allTiers = ['low', 'mid', 'high'];
+    grid.innerHTML = allTiers.map(t => {
+      const td = tiers[t];
+      const info = BUDGET_TIER_INFO[t];
+      const isActive = t === tier;
+      return `
+        <div class="budget-card${isActive ? ' active-tier' : ''}" style="cursor:pointer" onclick="selectBudgetTier('${t}')">
+          <div class="budget-level">${info.label}</div>
+          <div class="budget-amount">${td.amount ? td.amount + '€/día' : '—'}</div>
+          <div class="budget-desc">${info.items.map(i => i.fallback).slice(0,1).join(' ')}</div>
+        </div>
+      `;
+    }).join('');
+
+    // Show detail breakdown below
+    let detail = document.getElementById('budgetDetail');
+    if (!detail) {
+      detail = document.createElement('div');
+      detail.id = 'budgetDetail';
+      detail.style.cssText = 'margin-top:18px; display:grid; grid-template-columns:repeat(2,1fr); gap:10px;';
+      grid.parentNode.insertBefore(detail, grid.nextSibling);
+    }
+    detail.innerHTML = tierInfo.items.map(item => `
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--bg-soft);border-radius:12px;border:1px solid var(--border);">
+        <span style="font-size:1.3rem;flex-shrink:0">${item.icon}</span>
+        <div>
+          <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-3);margin-bottom:3px">${item.label}</div>
+          <div style="font-size:.82rem;color:var(--text-2);line-height:1.5">${item.fallback}</div>
+        </div>
       </div>
     `).join('');
+  }
+
+  function renderBudget(d) {
+    _budgetData = d;
+    const section = document.getElementById('budgetSection');
+
+    // Determine default tier from profile
+    const profileBudget = localStorage.getItem('vm_budget_range') || '';
+    let profileStyles = [];
+    try { profileStyles = JSON.parse(localStorage.getItem('vm_travel_styles') || '[]'); } catch(e) {}
+    let defaultTier = 'mid';
+    if (BUDGET_RANGE_MAP[profileBudget]) {
+      defaultTier = BUDGET_RANGE_MAP[profileBudget];
+    } else if (profileStyles.includes('mochilero')) {
+      defaultTier = 'low';
+    } else if (profileStyles.includes('lujo')) {
+      defaultTier = 'high';
+    }
+    _activeBudgetTier = defaultTier;
+
+    // Activate correct toggle button
+    document.querySelectorAll('.budget-toggle-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tier === defaultTier);
+    });
+
+    renderBudgetGrid(d, defaultTier);
     section.style.display = '';
   }
 
@@ -1424,6 +1958,36 @@
       </div>
     `).join('');
     section.style.display = '';
+  }
+
+  /* ─── CHILD CITIES ─── */
+  function renderChildCities(d) {
+    const section = document.getElementById('childCitiesSection');
+    const grid    = document.getElementById('childCitiesGrid');
+    if (!section || !grid) return;
+    const cities = d.child_cities || [];
+    if (cities.length === 0) { section.style.display = 'none'; return; }
+    section.style.display = '';
+    grid.innerHTML = `<div class="city-cards-grid">` + cities.map(c => {
+      let photoEl = '';
+      if (c.hero_photo_id) {
+        const pid = c.hero_photo_id;
+        const purl = `https://images.pexels.com/photos/${pid}/pexels-photo-${pid}.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop`;
+        photoEl = `<div class="city-card-photo" style="background-image:url('${purl}')"></div>`;
+      } else if (c.hero_photo_url) {
+        photoEl = `<div class="city-card-photo" style="background-image:url('${escHtml(c.hero_photo_url)}')"></div>`;
+      } else {
+        photoEl = `<div class="city-card-photo-placeholder">🏙️</div>`;
+      }
+      return `<a href="destino.html?slug=${escHtml(c.slug)}" class="city-card">
+        ${photoEl}
+        <div class="city-card-body">
+          <div class="city-card-name">${escHtml(c.name)}</div>
+          ${c.tagline ? `<div class="city-card-tagline">${escHtml(c.tagline)}</div>` : ''}
+          <div class="city-card-cta">Ver guía completa →</div>
+        </div>
+      </a>`;
+    }).join('') + `</div>`;
   }
 
   /* ─── RELATED ─── */
@@ -1453,19 +2017,163 @@
     section.style.display = '';
   }
 
-  /* ─── SAVE ─── */
+  /* ─── WISHLIST ─── */
+  async function loadWishlistState() {
+    if (!userToken || !slug) return;
+    try {
+      const res = await fetch(API_BASE + '/api/wishlist/slugs', {
+        headers: { 'Authorization': 'Bearer ' + userToken }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        wishlistSlugs = new Set(data.slugs || []);
+        updateWishlistBtn();
+      }
+    } catch(e) {}
+  }
+
+  async function toggleWishlist() {
+    if (!userToken) return;
+    const inWishlist = wishlistSlugs.has(slug);
+    const btn = document.getElementById('btnWishlist');
+    btn.disabled = true;
+    try {
+      if (inWishlist) {
+        await fetch(API_BASE + '/api/wishlist/' + slug, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + userToken }
+        });
+        wishlistSlugs.delete(slug);
+      } else {
+        await fetch(API_BASE + '/api/wishlist', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + userToken, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ destination_slug: slug })
+        });
+        wishlistSlugs.add(slug);
+      }
+    } catch(e) {}
+    btn.disabled = false;
+    updateWishlistBtn();
+  }
+
+  function updateWishlistBtn() {
+    const btn = document.getElementById('btnWishlist');
+    if (!btn) return;
+    const inWishlist = wishlistSlugs.has(slug);
+    btn.textContent = inWishlist ? '♥ Quiero ir' : '♡ Quiero ir';
+    btn.classList.toggle('wished', inWishlist);
+  }
+
+  /* ─── VISITED DEST ─── */
+  function toggleVisitedDest() {
+    if (!slug) return;
+    const isVisited = visitedDestSlugs.has(slug);
+    if (isVisited) visitedDestSlugs.delete(slug);
+    else visitedDestSlugs.add(slug);
+    localStorage.setItem('vm_visited_dests', JSON.stringify([...visitedDestSlugs]));
+    updateVisitedBtn();
+  }
+  function updateVisitedBtn() {
+    const btn = document.getElementById('btnVisited');
+    if (!btn) return;
+    const isVisited = visitedDestSlugs.has(slug);
+    btn.textContent = isVisited ? '✓ Visitado' : '✓ Visitado';
+    btn.classList.toggle('visited', isVisited);
+  }
+
+  /* ─── SAVE (legacy, kept for backwards compat) ─── */
   function toggleSave() {
     const idx = savedDests.indexOf(slug);
     if (idx >= 0) savedDests.splice(idx, 1);
     else savedDests.push(slug);
     localStorage.setItem('vm_saved', JSON.stringify(savedDests));
-    updateSaveBtn();
   }
-  function updateSaveBtn() {
-    const btn = document.getElementById('btnSave');
-    const saved = savedDests.includes(slug);
-    btn.textContent = saved ? '♥ Guardado' : '♡ Guardar';
-    btn.classList.toggle('saved', saved);
+
+  /* ─── COST ESTIMATOR ─── */
+  const REGIONAL_RATES = {
+    'Europa':             { low: 60,  mid: 120, high: 300 },
+    'Asia':               { low: 35,  mid: 80,  high: 200 },
+    'América del Sur':    { low: 45,  mid: 90,  high: 220 },
+    'América del Norte':  { low: 80,  mid: 150, high: 350 },
+    'África':             { low: 40,  mid: 85,  high: 200 },
+    'Oceanía':            { low: 90,  mid: 160, high: 350 },
+    'Oriente Medio':      { low: 55,  mid: 110, high: 280 },
+  };
+  const BREAKDOWN_RATIOS = {
+    low:  { accommodation: 0.30, food: 0.20, activities: 0.10, transport: 0.07, flights_pp: 150 },
+    mid:  { accommodation: 0.35, food: 0.22, activities: 0.12, transport: 0.06, flights_pp: 300 },
+    high: { accommodation: 0.40, food: 0.20, activities: 0.15, transport: 0.05, flights_pp: 600 },
+  };
+
+  function getRegion(dest) {
+    if (!dest) return null;
+    const c = (dest.continent || '').trim();
+    // Direct match
+    if (REGIONAL_RATES[c]) return c;
+    // Partial matches
+    if (c.includes('América') && (c.includes('Sur') || c.includes('Latin'))) return 'América del Sur';
+    if (c.includes('América') || c.includes('America')) return 'América del Norte';
+    if (c.includes('Asia') || c.includes('Pacífico')) return 'Asia';
+    if (c.includes('Europa') || c.includes('Europe')) return 'Europa';
+    if (c.includes('África') || c.includes('Africa')) return 'África';
+    if (c.includes('Oceanía') || c.includes('Oceania')) return 'Oceanía';
+    if (c.includes('Oriente') || c.includes('Middle')) return 'Oriente Medio';
+    return null;
+  }
+
+  function getDayRate(dest, tier) {
+    // Try to use dest's own budget data first
+    if (dest) {
+      if (tier === 'low' && dest.budget_daily_low) return dest.budget_daily_low;
+      if (tier === 'mid' && dest.budget_daily_mid) return dest.budget_daily_mid;
+      if (tier === 'high' && dest.budget_daily_high) return dest.budget_daily_high;
+    }
+    const region = getRegion(dest);
+    const rates = region ? REGIONAL_RATES[region] : { low: 60, mid: 120, high: 300 };
+    return rates[tier];
+  }
+
+  function calcCost() {
+    const days = parseInt(document.getElementById('estDays').value) || 7;
+    const persons = parseInt(document.getElementById('estPersons').value) || 1;
+    const tier = document.getElementById('estTier').value || 'mid';
+    const dayRate = getDayRate(currentDest, tier);
+    const ratios = BREAKDOWN_RATIOS[tier];
+
+    const flightsTotal = ratios.flights_pp * persons;
+    const accomPerNightPP = dayRate * ratios.accommodation;
+    const accomTotal = accomPerNightPP * days * persons;
+    const foodTotal = dayRate * ratios.food * days * persons;
+    const activTotal = dayRate * ratios.activities * days * persons;
+    const transTotal = dayRate * ratios.transport * days * persons;
+    const grandTotal = flightsTotal + accomTotal + foodTotal + activTotal + transTotal;
+    const perPerson = grandTotal / persons;
+
+    const tierLabel = tier === 'low' ? '🎒 Mochilero' : tier === 'mid' ? '✈️ Medio' : '💎 Premium';
+    const personStr = persons === 1 ? '1 persona' : `${persons} personas`;
+    const region = getRegion(currentDest);
+
+    document.getElementById('costOutput').innerHTML = `
+      <div style="font-weight:700;font-size:1rem;margin-bottom:10px;color:var(--text);">
+        Estimación para <strong>${days} días</strong> (${personStr}) — ${tierLabel}
+        ${region ? `<span style="font-size:.75rem;font-weight:400;color:var(--text-3);margin-left:6px;">(${region})</span>` : ''}
+      </div>
+      <div style="font-size:1.1rem;font-weight:700;color:var(--accent);margin-bottom:12px;">
+        💰 Total: ~${fmt(grandTotal)}€ ${persons > 1 ? `<span style="font-size:.82rem;font-weight:500;color:var(--text-2);">(${fmt(perPerson)}€ por persona)</span>` : ''}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;color:var(--text-2);">
+        <span>✈️ Vuelos estimados: ~${fmt(ratios.flights_pp)}€ pp (ida y vuelta)</span>
+        <span>🏨 Alojamiento: ~${fmt(accomTotal)}€ (${fmt(accomPerNightPP)}€/noche pp)</span>
+        <span>🍜 Comida: ~${fmt(foodTotal)}€ (${fmt(dayRate * ratios.food)}€/día pp)</span>
+        <span>🎭 Actividades: ~${fmt(activTotal)}€ (${fmt(dayRate * ratios.activities)}€/día pp)</span>
+        <span>🚌 Transporte local: ~${fmt(transTotal)}€</span>
+      </div>
+    `;
+  }
+
+  function fmt(n) {
+    return Math.round(n).toLocaleString('es-ES');
   }
 
   /* ─── HELPERS ─── */
@@ -1514,5 +2222,92 @@
     }
   }
 </script>
+
+<!-- Bottom Nav (mobile only, logged-in users) -->
+<nav class="bottom-nav" id="bottomNav" style="display:none;">
+  <a href="main.html" class="tab-item">
+    <span class="tab-icon">🏠</span>
+    <span>Inicio</span>
+  </a>
+  <a href="guias.html" class="tab-item active">
+    <span class="tab-icon">🗺️</span>
+    <span>Guías</span>
+  </a>
+  <a href="plan.html" class="tab-item">
+    <span class="tab-icon">✈️</span>
+    <span>Planifica</span>
+  </a>
+  <a href="mapa.html" class="tab-item">
+    <span class="tab-icon">🌍</span>
+    <span>Mapa</span>
+  </a>
+  <a href="profile.html" class="tab-item">
+    <span class="tab-icon">👤</span>
+    <span>Perfil</span>
+  </a>
+</nav>
+
+<!-- ── Share Guide Modal ── -->
+<div id="guideShareModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeGuideShareMenu()">
+  <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 32px;box-shadow:0 -4px 32px rgba(0,0,0,0.18);animation:slideUp .25s ease;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;">📤 Compartir esta guía</div>
+      <button onclick="closeGuideShareMenu()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:#64748B;padding:4px;">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button onclick="guideShareAction('copy')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#0EA5E9';this.style.background='#E0F2FE'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
+        <span style="font-size:1.3rem;">📋</span>
+        <div><div style="font-weight:600;">Copiar enlace</div><div id="guideCopyHint" style="font-size:.8rem;color:#64748B;">viajeramente.com/destino.html?slug=...</div></div>
+      </button>
+      <button onclick="guideShareAction('whatsapp')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#25D366';this.style.background='#F0FDF4'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
+        <span style="font-size:1.3rem;">📱</span>
+        <div><div style="font-weight:600;">Compartir en WhatsApp</div><div style="font-size:.8rem;color:#64748B;">Enviar guía a un amigo</div></div>
+      </button>
+      <button onclick="guideShareAction('twitter')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#1DA1F2';this.style.background='#EFF6FF'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
+        <span style="font-size:1.3rem;">🐦</span>
+        <div><div style="font-weight:600;">X / Twitter</div><div style="font-size:.8rem;color:#64748B;">Tuitear esta guía de viaje</div></div>
+      </button>
+    </div>
+    <div id="guideCopiedMsg" style="display:none;margin-top:14px;padding:10px 14px;background:#F0FDF4;border-radius:10px;font-size:.85rem;color:#065F46;font-weight:500;">✅ Enlace copiado al portapapeles</div>
+  </div>
+</div>
+
+<style>
+  @keyframes slideUp { from { transform: translateY(100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
+</style>
+
+<script>
+  function openGuideShareMenu() {
+    const modal = document.getElementById('guideShareModal');
+    const destName = (currentDest && currentDest.name) ? currentDest.name : (slug || 'destino');
+    const guideUrl = `https://viajeramente.com/destino.html?slug=${encodeURIComponent(slug || '')}`;
+    document.getElementById('guideCopyHint').textContent = guideUrl;
+    modal.style.display = 'flex';
+    document.getElementById('guideCopiedMsg').style.display = 'none';
+  }
+
+  function closeGuideShareMenu() {
+    document.getElementById('guideShareModal').style.display = 'none';
+  }
+
+  function guideShareAction(type) {
+    const destName = (currentDest && currentDest.name) ? currentDest.name : (slug || 'destino');
+    const guideUrl = `https://viajeramente.com/destino.html?slug=${encodeURIComponent(slug || '')}`;
+    const shareText = `Guía de viaje a ${destName} — todo lo que necesitas saber 🌍`;
+
+    if (type === 'copy') {
+      navigator.clipboard.writeText(guideUrl).then(() => {
+        document.getElementById('guideCopiedMsg').style.display = 'block';
+      }).catch(() => {
+        prompt('Copia este enlace:', guideUrl);
+      });
+    } else if (type === 'whatsapp') {
+      window.open(`https://wa.me/?text=${encodeURIComponent(shareText + '\n' + guideUrl)}`, '_blank');
+    } else if (type === 'twitter') {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(guideUrl)}&hashtags=ViajeraMente,Viajes`, '_blank');
+    }
+  }
+</script>
+
 </body>
 </html>

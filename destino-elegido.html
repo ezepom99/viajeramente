@@ -691,7 +691,7 @@
       <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
     </div>
     <div class="mobile-menu-links">
-      <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
+      <a href="index.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
       <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planificador</a>
       <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>¿A dónde ir?</a>
       <a href="destino-elegido.html" class="mobile-menu-link"><span class="mm-icon">📍</span>Tengo destino</a>
@@ -1045,6 +1045,9 @@
         if (p) p.style.display = '';
         if (l) l.style.display = 'none';
         if (s) { s.textContent = 'Mi cuenta'; s.href = 'profile.html'; }
+        // Logo → main dashboard when logged in
+        const logo = document.querySelector('.nav-logo');
+        if (logo) logo.href = 'main.html';
         // Mobile menu auth state
         const mmp = document.getElementById('mm-profile');
         const mml = document.getElementById('mm-login');
@@ -1052,9 +1055,6 @@
         if (mmp) mmp.style.display = '';
         if (mml) mml.style.display = 'none';
         if (mms) mms.style.display = 'none';
-        // Logo → profile when logged in
-        const logo = document.querySelector('.nav-logo');
-        if (logo) logo.href = 'profile.html';
       }
     } catch {}
   }
