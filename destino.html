@@ -484,6 +484,7 @@
     .vaccines-list.recommended li::before { content: '✅'; }
     .vaccines-list.required li::before { content: '🔴'; }
     .vaccines-notes { font-size: .88rem; color: var(--text-2); line-height: 1.65; margin-top: 12px; padding: 10px 14px; background: var(--bg-2, #f8fafc); border-radius: 8px; border-left: 3px solid #94a3b8; }
+    .vaccines-disclaimer { font-size: .8rem; color: var(--text-3, #94a3b8); line-height: 1.5; margin-top: 16px; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border, #e2e8f0); font-style: italic; }
 
     /* ── Related destinations ── */
     .related-grid {
@@ -1245,6 +1246,9 @@
     if (notes) {
       html += `<div class="vaccines-notes">${escHtml(notes)}</div>`;
     }
+
+    // Medical disclaimer
+    html += `<div class="vaccines-disclaimer">⚕️ <em>Información orientativa. Consulta siempre con tu médico o centro de vacunación internacional antes del viaje. Los requisitos pueden cambiar.</em></div>`;
 
     content.innerHTML = html;
     el.style.display = '';
