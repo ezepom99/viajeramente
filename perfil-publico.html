@@ -110,9 +110,52 @@
       gap: 4px;
     }
     .btn-nav-secondary:hover { background: var(--bg-soft); color: var(--text); }
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .nav-links { display: none; }
+      .btn-nav-secondary { display: none; }
     }
+    /* ── Hamburger ── */
+    .nav-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      font-size: 1.4rem; color: var(--text); padding: 4px 6px;
+      line-height: 1; border-radius: 8px; transition: background .2s;
+    }
+    .nav-hamburger:hover { background: var(--bg-soft); }
+    @media (max-width: 768px) {
+      .nav-hamburger { display: flex; align-items: center; justify-content: center; }
+    }
+    /* ── Mobile overlay menu ── */
+    .mobile-menu-overlay {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.4); backdrop-filter: blur(4px);
+    }
+    .mobile-menu-overlay.open { display: block; }
+    .mobile-menu {
+      position: absolute; top: 0; left: 0; right: 0;
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 16px 20px 24px;
+      transform: translateY(-100%); transition: transform .25s ease;
+    }
+    .mobile-menu-overlay.open .mobile-menu { transform: translateY(0); }
+    .mobile-menu-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .mobile-menu-close {
+      background: none; border: none; cursor: pointer; font-size: 1.4rem;
+      color: var(--text-2); padding: 4px; border-radius: 6px; transition: color .2s;
+    }
+    .mobile-menu-close:hover { color: var(--text); }
+    .mobile-menu-links { display: flex; flex-direction: column; gap: 4px; }
+    .mobile-menu-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      font-size: 1rem; font-weight: 500; transition: background .15s;
+    }
+    .mobile-menu-link:hover { background: var(--bg-soft); }
+    .mobile-menu-link .mm-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+    .mobile-menu-divider { height: 1px; background: var(--border); margin: 10px 0; }
 
     /* ── MAIN LAYOUT ── */
     .page-wrap {
@@ -601,17 +644,39 @@
 <body>
 
 <nav class="nav">
-  <a class="nav-logo" href="index.html">🌍 ViajeraMente</a>
+  <a class="nav-logo" href="main.html">🌍 ViajeraMente</a>
   <ul class="nav-links">
-    <li><a href="index.html">Inicio</a></li>
+    <li><a href="main.html">Inicio</a></li>
     <li><a href="guias.html">Guías</a></li>
     <li><a href="plan.html">Planifica</a></li>
   </ul>
   <div class="nav-right">
     <a class="btn-nav-secondary" href="ranking.html">🏆 Ranking</a>
-    <a class="btn-nav-secondary" href="login.html">Entrar</a>
+    <a class="btn-nav-secondary" href="login.html" id="navLoginBtn">Entrar</a>
+    <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
   </div>
 </nav>
+
+<!-- Mobile menu overlay -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
+  <div class="mobile-menu">
+    <div class="mobile-menu-header">
+      <a class="nav-logo" href="main.html" style="text-decoration:none; font-family:'Space Grotesk',sans-serif; font-size:1.1rem; font-weight:700; color:var(--accent);">🌍 ViajeraMente</a>
+      <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
+    </div>
+    <div class="mobile-menu-links">
+      <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
+      <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
+      <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planifica</a>
+      <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
+      <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>Por fechas</a>
+      <a href="ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
+      <div class="mobile-menu-divider"></div>
+      <a href="profile.html" class="mobile-menu-link" id="mm-profile" style="display:none;"><span class="mm-icon">👤</span>Mi perfil</a>
+      <a href="login.html" class="mobile-menu-link" id="mm-login"><span class="mm-icon">🔑</span>Iniciar sesión</a>
+    </div>
+  </div>
+</div>
 
 <div class="page-wrap" id="pageWrap">
 
@@ -775,6 +840,24 @@
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 
 <script>
+function openMobileMenu() { document.getElementById('mobileMenuOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeMobileMenu() { document.getElementById('mobileMenuOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+function closeMobileMenuOnBg(e) { if (e.target === document.getElementById('mobileMenuOverlay')) closeMobileMenu(); }
+// Update mobile menu auth state on load
+(function() {
+  try {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const mmp = document.getElementById('mm-profile');
+      const mml = document.getElementById('mm-login');
+      if (mmp) mmp.style.display = '';
+      if (mml) mml.style.display = 'none';
+      const navLogin = document.getElementById('navLoginBtn');
+      if (navLogin) { navLogin.textContent = 'Mi perfil'; navLogin.href = 'profile.html'; }
+    }
+  } catch(e) {}
+})();
+
 const API_BASE = 'https://eze.saypeter.com';
 const username = new URLSearchParams(window.location.search).get('user');
 if (!username) window.location.href = 'index.html';

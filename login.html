@@ -444,7 +444,8 @@
         localStorage.setItem('user_name', data.name || data.user?.name || '');
         localStorage.setItem('token_stored_at', Date.now().toString());
 
-        window.location.href = 'main.html';
+        const nextUrl = new URLSearchParams(window.location.search).get('next');
+        window.location.href = nextUrl ? decodeURIComponent(nextUrl) : 'main.html';
       } catch (err) {
         generalError.textContent = err.message;
         generalError.classList.add('visible');

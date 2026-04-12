@@ -110,7 +110,50 @@
       align-items: center;
     }
     .btn-nav-login:hover { background: var(--bg-soft); color: var(--text); }
-    @media (max-width: 600px) { .nav-links { display: none; } }
+    @media (max-width: 768px) { .nav-links { display: none; } }
+    /* ── Hamburger ── */
+    .nav-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      font-size: 1.4rem; color: var(--text); padding: 4px 6px;
+      line-height: 1; border-radius: 8px; transition: background .2s;
+    }
+    .nav-hamburger:hover { background: var(--bg-soft); }
+    @media (max-width: 768px) {
+      .nav-hamburger { display: flex; align-items: center; justify-content: center; }
+      .btn-nav-login { display: none; }
+    }
+    /* ── Mobile overlay menu ── */
+    .mobile-menu-overlay {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.4); backdrop-filter: blur(4px);
+    }
+    .mobile-menu-overlay.open { display: block; }
+    .mobile-menu {
+      position: absolute; top: 0; left: 0; right: 0;
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 16px 20px 24px;
+      transform: translateY(-100%); transition: transform .25s ease;
+    }
+    .mobile-menu-overlay.open .mobile-menu { transform: translateY(0); }
+    .mobile-menu-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .mobile-menu-close {
+      background: none; border: none; cursor: pointer; font-size: 1.4rem;
+      color: var(--text-2); padding: 4px; border-radius: 6px; transition: color .2s;
+    }
+    .mobile-menu-close:hover { color: var(--text); }
+    .mobile-menu-links { display: flex; flex-direction: column; gap: 4px; }
+    .mobile-menu-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      font-size: 1rem; font-weight: 500; transition: background .15s;
+    }
+    .mobile-menu-link:hover { background: var(--bg-soft); }
+    .mobile-menu-link .mm-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+    .mobile-menu-divider { height: 1px; background: var(--border); margin: 10px 0; }
 
     /* ── PAGE WRAP ── */
     .page-wrap {
@@ -497,21 +540,76 @@
       white-space: nowrap;
     }
     .btn-cta-login:hover { background: var(--accent-dark); }
+
+    /* ── Bottom Tab Bar (mobile) ── */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-top: 1px solid #E2E8F0;
+      z-index: 1000;
+      padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+    }
+    @media (max-width: 768px) {
+      .bottom-nav { display: flex; }
+      body { padding-bottom: 64px; }
+    }
+    .tab-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #94A3B8;
+      font-size: 0.65rem;
+      font-weight: 500;
+      padding: 4px 0;
+      gap: 2px;
+      transition: color .15s;
+    }
+    .tab-item.active { color: #0EA5E9; }
+    .tab-item:hover { color: #0EA5E9; }
+    .tab-icon { font-size: 1.3rem; line-height: 1; }
   </style>
 </head>
 <body>
 
 <nav class="nav">
-  <a class="nav-logo" href="index.html">🌍 ViajeraMente</a>
+  <a class="nav-logo" href="main.html">🌍 ViajeraMente</a>
   <ul class="nav-links">
-    <li><a href="index.html">Inicio</a></li>
+    <li><a href="main.html">Inicio</a></li>
     <li><a href="guias.html">Guías</a></li>
     <li><a href="plan.html">Planifica</a></li>
   </ul>
   <div class="nav-right">
     <a class="btn-nav-login" href="profile.html" id="navProfileLink">Mi perfil</a>
+    <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
   </div>
 </nav>
+
+<!-- Mobile menu overlay -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
+  <div class="mobile-menu">
+    <div class="mobile-menu-header">
+      <a class="nav-logo" href="main.html" style="text-decoration:none;">🌍 ViajeraMente</a>
+      <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
+    </div>
+    <div class="mobile-menu-links">
+      <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
+      <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
+      <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planifica</a>
+      <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
+      <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>Por fechas</a>
+      <a href="ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
+      <div class="mobile-menu-divider"></div>
+      <a href="profile.html" class="mobile-menu-link" id="mm-profile" style="display:none;"><span class="mm-icon">👤</span>Mi perfil</a>
+      <a href="login.html" class="mobile-menu-link" id="mm-login"><span class="mm-icon">🔑</span>Iniciar sesión</a>
+      <a href="signup.html" class="mobile-menu-link" id="mm-signup"><span class="mm-icon">✨</span>Registrarse</a>
+    </div>
+  </div>
+</div>
 
 <div class="page-wrap">
 
@@ -592,6 +690,10 @@
 <div class="toast" id="toast"></div>
 
 <script>
+function openMobileMenu() { document.getElementById('mobileMenuOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeMobileMenu() { document.getElementById('mobileMenuOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+function closeMobileMenuOnBg(e) { if (e.target === document.getElementById('mobileMenuOverlay')) closeMobileMenu(); }
+
 const API_BASE = 'https://eze.saypeter.com';
 let currentMetric = 'countries';
 let currentData = [];
@@ -604,6 +706,13 @@ const myUsername = localStorage.getItem('user_name') || localStorage.getItem('us
 if (token) {
   document.getElementById('navProfileLink').href = 'profile.html';
   document.getElementById('navProfileLink').textContent = 'Mi perfil';
+  // Mobile menu auth state
+  const mmp = document.getElementById('mm-profile');
+  const mml = document.getElementById('mm-login');
+  const mms = document.getElementById('mm-signup');
+  if (mmp) mmp.style.display = '';
+  if (mml) mml.style.display = 'none';
+  if (mms) mms.style.display = 'none';
 } else {
   document.getElementById('loginCta').style.display = 'flex';
 }
@@ -789,5 +898,29 @@ function showToast(msg) {
 // ── INIT ──
 loadLeaderboard('countries');
 </script>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <a href="main.html" class="tab-item">
+    <span class="tab-icon">🏠</span>
+    <span>Inicio</span>
+  </a>
+  <a href="guias.html" class="tab-item">
+    <span class="tab-icon">🗺️</span>
+    <span>Guías</span>
+  </a>
+  <a href="plan.html" class="tab-item">
+    <span class="tab-icon">✈️</span>
+    <span>Planifica</span>
+  </a>
+  <a href="mapa.html" class="tab-item">
+    <span class="tab-icon">🌍</span>
+    <span>Mapa</span>
+  </a>
+  <a href="profile.html" class="tab-item">
+    <span class="tab-icon">👤</span>
+    <span>Perfil</span>
+  </a>
+</nav>
 </body>
 </html>

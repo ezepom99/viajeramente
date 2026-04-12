@@ -101,6 +101,9 @@
       padding: 7px 14px; border-radius: 100px; transition: all .2s; white-space: nowrap;
     }
     .nav-btn-signup:hover { background: var(--accent-dark); }
+    @media (max-width: 768px) {
+      #navGuest, #navUser { display: none !important; }
+    }
 
     /* ── Login gate ── */
     .gate-wrap {
@@ -469,6 +472,19 @@
     .guide-section-title { font-size: 1.3rem; font-weight: 700; color: #0F172A; margin-bottom: 12px; border-left: 3px solid #0EA5E9; padding-left: 12px; }
     .guide-section-body { font-size: 0.95rem; line-height: 1.75; color: #475569; }
 
+    /* ── Vaccines section ── */
+    .vaccines-subsection { margin: 14px 0; }
+    .vaccines-subsection-title { font-size: 1rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .vaccines-subsection-title.recommended { color: #15803d; }
+    .vaccines-subsection-title.required { color: #b91c1c; }
+    .vaccines-subsection-title.none-required { color: #15803d; font-weight: 600; font-size: .92rem; }
+    .vaccines-list { list-style: none; padding: 0; margin: 0; }
+    .vaccines-list li { font-size: .9rem; color: var(--text-2); line-height: 1.7; padding: 2px 0; }
+    .vaccines-list li::before { margin-right: 6px; }
+    .vaccines-list.recommended li::before { content: '✅'; }
+    .vaccines-list.required li::before { content: '🔴'; }
+    .vaccines-notes { font-size: .88rem; color: var(--text-2); line-height: 1.65; margin-top: 12px; padding: 10px 14px; background: var(--bg-2, #f8fafc); border-radius: 8px; border-left: 3px solid #94a3b8; }
+
     /* ── Related destinations ── */
     .related-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
@@ -688,6 +704,12 @@
     <div id="visaContent">
       <p id="visaInfo" style="font-size:.9rem;line-height:1.75;color:#374151;white-space:pre-line;"></p>
     </div>
+  </section>
+
+  <!-- Vaccines -->
+  <section class="section" id="vaccinesSection" style="display:none">
+    <h2>💉 Vacunas</h2>
+    <div id="vaccinesContent"></div>
   </section>
 
   <!-- Guide sections -->
@@ -1150,17 +1172,82 @@
     // Related
     renderRelated(d);
 
-    // Guide sections
+    // Guide sections (exclude Vacunas — rendered separately)
     const sections = d.guide_sections || [];
-    if (sections.length > 0) {
+    const nonVaccineSections = sections.filter(s => s.section !== 'Vacunas');
+    if (nonVaccineSections.length > 0) {
       document.getElementById('guideSections').style.display = 'block';
-      document.getElementById('guideSectionsContent').innerHTML = sections.map(s => `
+      document.getElementById('guideSectionsContent').innerHTML = nonVaccineSections.map(s => `
         <div class="guide-section">
           <h2 class="guide-section-title">${escHtml(s.section || '')}</h2>
           <div class="guide-section-body">${escHtml(s.content || '').replace(/\n/g,'<br>')}</div>
         </div>
       `).join('');
     }
+
+    // Vaccines section
+    const vaccineSection = sections.find(s => s.section === 'Vacunas');
+    renderVaccines(vaccineSection);
+  }
+
+  /* ─── VACCINES ─── */
+  function renderVaccines(vaccineSection) {
+    const el = document.getElementById('vaccinesSection');
+    const content = document.getElementById('vaccinesContent');
+    if (!vaccineSection || !vaccineSection.content) { el.style.display = 'none'; return; }
+
+    const raw = vaccineSection.content;
+    const lines = raw.split('\n');
+
+    // Parse sections from the plain-text content
+    let recommended = [];
+    let required = [];
+    let notes = '';
+    let mode = null;
+
+    for (const line of lines) {
+      const t = line.trim();
+      if (!t) continue;
+      if (t.startsWith('💉 VACUNAS RECOMENDADAS')) { mode = 'recommended'; continue; }
+      if (t.startsWith('🔴 VACUNAS OBLIGATORIAS')) { mode = 'required'; continue; }
+      if (t.startsWith('✅ No se requieren')) { mode = 'none_required'; continue; }
+      if (t.startsWith('📋 NOTAS')) { mode = 'notes'; continue; }
+      if (mode === 'recommended' && t.startsWith('•')) recommended.push(t.slice(1).trim());
+      else if (mode === 'required' && t.startsWith('•')) required.push(t.slice(1).trim());
+      else if (mode === 'notes') notes += (notes ? ' ' : '') + t;
+    }
+
+    let html = '';
+
+    // Recommended vaccines
+    html += `<div class="vaccines-subsection">
+      <div class="vaccines-subsection-title recommended">✅ Vacunas Recomendadas</div>
+      <ul class="vaccines-list recommended">
+        ${recommended.map(v => `<li>${escHtml(v)}</li>`).join('')}
+      </ul>
+    </div>`;
+
+    // Required vaccines
+    if (required.length > 0) {
+      html += `<div class="vaccines-subsection">
+        <div class="vaccines-subsection-title required">🔴 Vacunas Obligatorias para Entrar</div>
+        <ul class="vaccines-list required">
+          ${required.map(v => `<li>${escHtml(v)}</li>`).join('')}
+        </ul>
+      </div>`;
+    } else {
+      html += `<div class="vaccines-subsection">
+        <div class="vaccines-subsection-title none-required">✅ No se requieren vacunas obligatorias para entrar</div>
+      </div>`;
+    }
+
+    // Health notes
+    if (notes) {
+      html += `<div class="vaccines-notes">${escHtml(notes)}</div>`;
+    }
+
+    content.innerHTML = html;
+    el.style.display = '';
   }
 
   /* ─── MONTHS ─── */

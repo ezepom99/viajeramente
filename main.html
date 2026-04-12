@@ -79,7 +79,7 @@
       transition: all .2s;
     }
     .nav-link:hover { color: var(--text); background: var(--bg-soft); }
-    @media (max-width: 600px) { .nav-links { display: none; } }
+    @media (max-width: 768px) { .nav-links { display: none; } }
     .nav-right { display: flex; align-items: center; gap: 12px; }
     .nav-avatar {
       width: 32px; height: 32px; border-radius: 50%;
@@ -98,6 +98,61 @@
       font-family: inherit; transition: color .2s;
     }
     .nav-logout:hover { color: var(--text); }
+    /* ── Hamburger ── */
+    .nav-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      font-size: 1.4rem; color: var(--text); padding: 4px 6px;
+      line-height: 1; border-radius: 8px; transition: background .2s;
+    }
+    .nav-hamburger:hover { background: var(--bg-soft); }
+    @media (max-width: 768px) {
+      .nav-hamburger { display: flex; align-items: center; justify-content: center; }
+      .nav-logout { display: none; }
+    }
+    /* ── Mobile overlay menu ── */
+    .mobile-menu-overlay {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.4); backdrop-filter: blur(4px);
+    }
+    .mobile-menu-overlay.open { display: block; }
+    .mobile-menu {
+      position: absolute; top: 0; left: 0; right: 0;
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 16px 20px 24px;
+      transform: translateY(-100%); transition: transform .25s ease;
+    }
+    .mobile-menu-overlay.open .mobile-menu { transform: translateY(0); }
+    .mobile-menu-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .mobile-menu-close {
+      background: none; border: none; cursor: pointer; font-size: 1.4rem;
+      color: var(--text-muted); padding: 4px; border-radius: 6px;
+      transition: color .2s;
+    }
+    .mobile-menu-close:hover { color: var(--text); }
+    .mobile-menu-links { display: flex; flex-direction: column; gap: 4px; }
+    .mobile-menu-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      font-size: 1rem; font-weight: 500;
+      transition: background .15s;
+    }
+    .mobile-menu-link:hover { background: var(--bg-soft); }
+    .mobile-menu-link .mm-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+    .mobile-menu-divider {
+      height: 1px; background: var(--border); margin: 10px 0;
+    }
+    .mobile-menu-logout {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      color: var(--text-muted); font-size: 1rem; font-weight: 500;
+      background: none; border: none; cursor: pointer; width: 100%;
+      font-family: inherit; transition: background .15s, color .15s;
+    }
+    .mobile-menu-logout:hover { background: var(--bg-soft); color: var(--text); }
 
     /* ── Hero — contained photo with white below ── */
     .hero {
@@ -261,6 +316,38 @@
       .content { padding:22px 18px 60px; }
       nav { padding: 0 18px; }
     }
+
+    /* ── Bottom Tab Bar (mobile) ── */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-top: 1px solid #E2E8F0;
+      z-index: 1000;
+      padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+    }
+    @media (max-width: 768px) {
+      .bottom-nav { display: flex; }
+      body { padding-bottom: 64px; }
+    }
+    .tab-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #94A3B8;
+      font-size: 0.65rem;
+      font-weight: 500;
+      padding: 4px 0;
+      gap: 2px;
+      transition: color .15s;
+    }
+    .tab-item.active { color: #0EA5E9; }
+    .tab-item:hover { color: #0EA5E9; }
+    .tab-icon { font-size: 1.3rem; line-height: 1; }
   </style>
 </head>
 <body>
@@ -279,8 +366,32 @@
     <div class="nav-right">
       <a href="profile.html" class="nav-avatar" id="navAvatar" title="Mi perfil"></a>
       <button class="nav-logout" onclick="logout()">Salir</button>
+      <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
     </div>
   </nav>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
+    <div class="mobile-menu">
+      <div class="mobile-menu-header">
+        <a href="main.html" class="nav-logo" style="text-decoration:none;">
+          <span class="nav-logo-dot"></span> ViajeraMente
+        </a>
+        <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
+      </div>
+      <div class="mobile-menu-links">
+        <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
+        <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
+        <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planifica</a>
+        <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
+        <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>Por fechas</a>
+        <a href="ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
+        <div class="mobile-menu-divider"></div>
+        <a href="profile.html" class="mobile-menu-link"><span class="mm-icon">👤</span>Mi perfil</a>
+        <button class="mobile-menu-logout" onclick="logout()"><span class="mm-icon">🚪</span>Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Hero — photo, contained height -->
   <section class="hero">
@@ -381,6 +492,9 @@
     if (!token) window.location.href = 'login.html';
 
     function logout() { localStorage.removeItem('token'); window.location.href = 'login.html'; }
+    function openMobileMenu() { document.getElementById('mobileMenuOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeMobileMenu() { document.getElementById('mobileMenuOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+    function closeMobileMenuOnBg(e) { if (e.target === document.getElementById('mobileMenuOverlay')) closeMobileMenu(); }
     function dismissBanner() {
       document.getElementById('profileBanner').style.display = 'none';
       localStorage.setItem('vmBannerTs', Date.now());
@@ -425,5 +539,29 @@
 
     init();
   </script>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <a href="main.html" class="tab-item active">
+    <span class="tab-icon">🏠</span>
+    <span>Inicio</span>
+  </a>
+  <a href="guias.html" class="tab-item">
+    <span class="tab-icon">🗺️</span>
+    <span>Guías</span>
+  </a>
+  <a href="plan.html" class="tab-item">
+    <span class="tab-icon">✈️</span>
+    <span>Planifica</span>
+  </a>
+  <a href="mapa.html" class="tab-item">
+    <span class="tab-icon">🌍</span>
+    <span>Mapa</span>
+  </a>
+  <a href="profile.html" class="tab-item">
+    <span class="tab-icon">👤</span>
+    <span>Perfil</span>
+  </a>
+</nav>
 </body>
 </html>

@@ -355,6 +355,18 @@
       justify-content: center;
       flex-wrap: wrap;
     }
+    .hero-login-hint {
+      margin-top: 16px;
+      font-size: .85rem;
+      color: rgba(255,255,255,.65);
+      text-align: center;
+    }
+    .hero-login-link {
+      color: rgba(255,255,255,.9);
+      text-decoration: underline;
+      font-weight: 600;
+    }
+    .hero-login-link:hover { color: white; }
     .btn-primary {
       display: inline-flex;
       align-items: center;
@@ -1336,6 +1348,7 @@
         <a href="fechas.html" class="btn-secondary-white">¿Cuándo viajar?</a>
         <a href="destino-elegido.html" class="btn-secondary-white">Ya sé a dónde voy</a>
       </div>
+      <p class="hero-login-hint">¿Ya tienes cuenta? <a href="login.html" class="hero-login-link">Iniciar sesión</a></p>
     </div>
   </header>
 
@@ -1935,6 +1948,12 @@
         if (loginLink) loginLink.style.display = 'none';
         if (signupBtn) signupBtn.textContent = 'Mi cuenta';
         if (signupBtn) signupBtn.href = 'profile.html';
+        // Hide hero login hint when logged in
+        const heroHint = document.querySelector('.hero-login-hint');
+        if (heroHint) heroHint.style.display = 'none';
+        // Logo → profile when logged in
+        const logo = document.querySelector('.nav-logo');
+        if (logo) logo.href = 'profile.html';
       }
     })();
   </script>

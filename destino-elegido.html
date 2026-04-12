@@ -122,6 +122,51 @@
     }
     .nav-btn.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
     #navAuthArea { display: flex; align-items: center; gap: 8px; }
+    /* ── Hamburger ── */
+    .nav-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      font-size: 1.4rem; color: var(--text); padding: 4px 6px;
+      line-height: 1; border-radius: 8px; transition: background .2s;
+    }
+    .nav-hamburger:hover { background: var(--bg-soft); }
+    @media (max-width: 768px) {
+      .nav-hamburger { display: flex; align-items: center; justify-content: center; }
+      .nav-link { display: none; }
+      .nav-btn { display: none; }
+      #navAuthArea { display: none !important; }
+    }
+    /* ── Mobile overlay menu ── */
+    .mobile-menu-overlay {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.4); backdrop-filter: blur(4px);
+    }
+    .mobile-menu-overlay.open { display: block; }
+    .mobile-menu {
+      position: absolute; top: 0; left: 0; right: 0;
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 16px 20px 24px;
+      transform: translateY(-100%); transition: transform .25s ease;
+    }
+    .mobile-menu-overlay.open .mobile-menu { transform: translateY(0); }
+    .mobile-menu-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .mobile-menu-close {
+      background: none; border: none; cursor: pointer; font-size: 1.4rem;
+      color: var(--text-2); padding: 4px; border-radius: 6px; transition: color .2s;
+    }
+    .mobile-menu-close:hover { color: var(--text); }
+    .mobile-menu-links { display: flex; flex-direction: column; gap: 4px; }
+    .mobile-menu-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      font-size: 1rem; font-weight: 500; transition: background .15s;
+    }
+    .mobile-menu-link:hover { background: var(--bg-soft); }
+    .mobile-menu-link .mm-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+    .mobile-menu-divider { height: 1px; background: var(--border); margin: 10px 0; }
 
     /* ── Page wrap ── */
     .page-wrap {
@@ -508,6 +553,68 @@
       flex-shrink: 0; margin-top: 1px;
     }
 
+    /* ── Route card clickable ── */
+    .ruta-card { cursor: pointer; }
+    .ruta-see-more {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 12px; font-size: .78rem; font-weight: 700;
+      color: var(--accent); background: var(--accent-light);
+      padding: 4px 10px; border-radius: 20px;
+    }
+
+    /* ── Route detail modal ── */
+    #routeModal {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.55); backdrop-filter: blur(4px);
+      align-items: flex-end;
+    }
+    #routeModal.open { display: flex; }
+    .route-modal-sheet {
+      background: white; border-radius: 24px 24px 0 0;
+      width: 100%; max-height: 90vh; overflow: hidden;
+      display: flex; flex-direction: column;
+      animation: slideUp .3s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(60px); opacity:0; } to { transform: none; opacity:1; } }
+    .route-modal-header {
+      padding: 20px 20px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-shrink: 0;
+    }
+    .route-modal-title { font-size: 1rem; font-weight: 800; color: var(--text); line-height: 1.3; }
+    .route-modal-sub { font-size: .82rem; color: var(--text-2); margin-top: 3px; }
+    .route-modal-close {
+      background: var(--border); border: none; border-radius: 50%;
+      width: 32px; height: 32px; font-size: 1rem; cursor: pointer;
+      flex-shrink: 0; margin-left: 12px; line-height: 32px;
+    }
+    .route-modal-body { overflow-y: auto; padding: 20px; flex: 1; }
+    .day-item {
+      display: flex; gap: 14px; margin-bottom: 20px; position: relative;
+    }
+    .day-item:not(:last-child)::after {
+      content: ''; position: absolute; left: 22px; top: 44px;
+      width: 2px; background: var(--border); bottom: -20px;
+    }
+    .day-number {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--accent); color: white; font-weight: 800;
+      font-size: .8rem; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; z-index: 1;
+    }
+    .day-number.transit { background: var(--text-2); }
+    .day-content { flex: 1; }
+    .day-city { font-size: .72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px; }
+    .day-title { font-size: .9rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .day-desc { font-size: .82rem; color: var(--text-2); line-height: 1.5; }
+    .day-transport {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 7px; font-size: .75rem; font-weight: 600;
+      background: #FEF3C7; color: #92400E;
+      padding: 3px 9px; border-radius: 20px;
+    }
+
     /* ── Empty state ── */
     .empty-state {
       text-align: center; padding: 60px 24px;
@@ -570,8 +677,33 @@
     <a href="profile.html" class="nav-link" id="nav-profile" style="display:none;">Mi perfil</a>
     <a href="login.html" class="nav-btn" id="nav-login">Iniciar sesión</a>
     <a href="signup.html" class="nav-btn primary" id="nav-signup">Crear cuenta</a>
+    <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
   </div>
 </nav>
+
+<!-- Mobile menu overlay -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
+  <div class="mobile-menu">
+    <div class="mobile-menu-header">
+      <a href="index.html" class="nav-logo" style="text-decoration:none;">
+        <div class="nav-logo-dot"></div> ViajeraMente
+      </a>
+      <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
+    </div>
+    <div class="mobile-menu-links">
+      <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
+      <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planificador</a>
+      <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>¿A dónde ir?</a>
+      <a href="destino-elegido.html" class="mobile-menu-link"><span class="mm-icon">📍</span>Tengo destino</a>
+      <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
+      <a href="ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
+      <div class="mobile-menu-divider"></div>
+      <a href="profile.html" class="mobile-menu-link" id="mm-profile" style="display:none;"><span class="mm-icon">👤</span>Mi perfil</a>
+      <a href="login.html" class="mobile-menu-link" id="mm-login"><span class="mm-icon">🔑</span>Iniciar sesión</a>
+      <a href="signup.html" class="mobile-menu-link" id="mm-signup"><span class="mm-icon">✨</span>Crear cuenta</a>
+    </div>
+  </div>
+</div>
 
 <!-- ── Page ── -->
 <div class="page-wrap">
@@ -587,6 +719,7 @@
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
     <input type="text" id="searchInput" placeholder="¿A qué destino vas? Ej: Japón, Portugal…" autocomplete="off">
+    <button id="searchClear" onclick="clearDestination()" style="display:none;background:none;border:none;font-size:1.1rem;cursor:pointer;padding:0 8px;color:#64748B;" title="Cambiar destino">✕</button>
     <div class="autocomplete-dropdown" id="acDropdown"></div>
   </div>
 
@@ -694,7 +827,25 @@
 
 </div><!-- /page-wrap -->
 
+<!-- Route detail modal -->
+<div id="routeModal">
+  <div class="route-modal-sheet">
+    <div class="route-modal-header">
+      <div>
+        <div class="route-modal-title" id="routeModalTitle">Ruta completa</div>
+        <div class="route-modal-sub" id="routeModalSub"></div>
+      </div>
+      <button class="route-modal-close" onclick="closeRouteModal()">✕</button>
+    </div>
+    <div class="route-modal-body" id="routeModalBody"></div>
+  </div>
+</div>
+
 <script>
+  function openMobileMenu() { document.getElementById('mobileMenuOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeMobileMenu() { document.getElementById('mobileMenuOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+  function closeMobileMenuOnBg(e) { if (e.target === document.getElementById('mobileMenuOverlay')) closeMobileMenu(); }
+
   const API_BASE = 'https://eze.saypeter.com';
   const MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   const MONTHS_ABR = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
@@ -719,19 +870,139 @@
   // Itineraries per destination (slug-keyed, fallback to generic)
   const ITINERARIES = {
     japon: [
-      { days:'7 días', title:'Japón clásico: Tokio y Kioto', highlights:['Barrios de Shibuya y Shinjuku en Tokio','Bullet train Tokio–Kioto','Templos Kinkaku-ji y Fushimi Inari','Barrio Gion al atardecer','Nara y los ciervos sagrados'] },
-      { days:'10 días', title:'Tokio, Kioto, Hiroshima y Osaka', highlights:['3 noches Tokio + ruta Harajuku','Hiroshima y Miyajima en 1 día','Experiencia ryokan en Kioto','Tapeo nocturno en Dotonbori (Osaka)','Mercado de Nishiki en Kioto'] },
-      { days:'14 días', title:'Japón en profundidad', highlights:['Tokio y sus 5 barrios esenciales','Hakone con vistas al Fuji','Kioto, Nara y Osaka','Excursión a Hiroshima y Miyajima','Kiso Valley (aldeas históricas)','Takayama y los Alpes japoneses'] },
+      { days:'7 días', title:'Japón clásico: Tokio y Kioto', highlights:['Barrios de Shibuya y Shinjuku en Tokio','Bullet train Tokio–Kioto','Templos Kinkaku-ji y Fushimi Inari','Barrio Gion al atardecer','Nara y los ciervos sagrados'],
+        itinerary:[
+          {day:1,city:'Tokio',title:'Llegada — Shinjuku y primera noche',desc:'Aterrizas en Narita o Haneda. Toma el Narita Express (90 min, 3.270 ¥) hasta Shinjuku. Deja el equipaje, pasea por Kabukicho y el Golden Gai. Cena ramen en algún local de la calle Takashimaya.'},
+          {day:2,city:'Tokio',title:'Harajuku, Meiji y Shibuya',desc:'Mañana en el Santuario Meiji (entrada gratis, 1h). Paseo por Takeshita Street en Harajuku. Tarde en Omotesando para compras o arquitectura. Cierra el día en el Cruce de Shibuya al anochecer.',transport:null},
+          {day:3,city:'Tokio',title:'Templos y Akihabara',desc:'Asakusa: Senso-ji a primera hora (llega antes de las 9h para evitar masas). Nakamise Street para souvenirs. Tarde en Akihabara si te gusta la tecnología/cultura pop. Cena yakitori en Yurakucho.',transport:null},
+          {day:4,city:'Nara',title:'Excursión a Nara',desc:'Día de excursión a Nara (2h en tren desde Tokio, o 45 min desde Osaka). Ciervo libres por los jardines del Parque de Nara. Templo Todai-ji con el Gran Buda. De vuelta a Tokio para la noche.',transport:'Tren Tokio → Nara (JR Kintetsu, ~2h, cubierto con JR Pass)'},
+          {day:5,city:'Kioto',title:'Bullet train a Kioto — Barrio Gion',desc:'Shinkansen Tokio → Kioto por la mañana (2h15, disfruta del Fuji desde la ventana derecha). Instalación en el ryokan. Tarde en el barrio histórico de Gion: posibilidad de ver geishas al atardecer en Hanamikoji.',transport:'Shinkansen Nozomi: 2h15, ~13.600 ¥ (o JR Pass)'},
+          {day:6,city:'Kioto',title:'Kinkaku-ji, Fushimi Inari y Arashiyama',desc:'Kinkaku-ji (el Pabellón Dorado) a las 9h antes de las masas. Fushimi Inari a media mañana: los torii naranja son perfectos con niebla matutina. Tarde en Arashiyama: bambú y el templo Tenryu-ji.',transport:null},
+          {day:7,city:'Kioto',title:'Mercado de Nishiki y regreso',desc:'Mañana libre en el Mercado de Nishiki ("la cocina de Kioto"): prueba el pulpo relleno y el tofu. Paseo por Pontocho. Traslado al aeropuerto de Osaka-Kansai o Tokio según tu vuelo.',transport:'Kioto → KIX Airport: Haruka Express (75 min, 1.870 ¥)'},
+        ]
+      },
+      { days:'10 días', title:'Tokio, Kioto, Hiroshima y Osaka', highlights:['3 noches Tokio + ruta Harajuku','Hiroshima y Miyajima en 1 día','Experiencia ryokan en Kioto','Tapeo nocturno en Dotonbori (Osaka)','Mercado de Nishiki en Kioto'],
+        itinerary:[
+          {day:1,city:'Tokio',title:'Llegada y Shinjuku',desc:'Narita Express hasta Shinjuku. Primera noche en el barrio más vivo de Tokio. Cena en el Golden Gai.'},
+          {day:2,city:'Tokio',title:'Harajuku, Meiji, Shibuya',desc:'Santuario Meiji. Harajuku y Omotesando. Cruce de Shibuya al anochecer. Observatorio de Shibuya Sky (opcional, 2.000 ¥).'},
+          {day:3,city:'Tokio',title:'Asakusa, Ueno y Akihabara',desc:'Senso-ji a primera hora. Museo de Ueno (elige uno: Arte, Ciencias Naturales o Tokio National Museum). Tarde en Akihabara.'},
+          {day:4,city:'Kioto',title:'Bullet train a Kioto',desc:'Shinkansen a las 10h. Llegada a Kioto al mediodía. Instalación en ryokan tradicional. Tarde en Gion — paseo al atardecer por Hanamikoji.',transport:'Shinkansen Tokio → Kioto: 2h15, ~13.600 ¥'},
+          {day:5,city:'Kioto',title:'Templos y Arashiyama',desc:'Kinkaku-ji. Bosque de bambú de Arashiyama. Templo Tenryu-ji. Almuerzo en un kaiseki económico cerca del templo.'},
+          {day:6,city:'Kioto',title:'Fushimi Inari y Nishiki',desc:'Fushimi Inari temprano (los torii con niebla son mágicos). Vuelta por Nishiki Market para el almuerzo. Tarde libre en Pontocho.'},
+          {day:7,city:'Hiroshima',title:'Hiroshima — Paz y Memoria',desc:'Tren a Hiroshima por la mañana. Parque del Memorial de la Paz: museo (muy recomendable, 200 ¥) y Domo. Tarde en Miyajima en ferri: el torii flotante y los ciervos.',transport:'Kioto → Hiroshima: Shinkansen 50 min. Ferri Miyajima: 180 ¥'},
+          {day:8,city:'Osaka',title:'Hiroshima → Osaka. Dotonbori',desc:'Mañana en Hiroshima o Miyajima. Tren a Osaka al mediodía. Tarde en Dotonbori: el glico corriendo, el cangrejo gigante. Cena de takoyaki y okonomiyaki.',transport:'Hiroshima → Osaka: Shinkansen 30 min'},
+          {day:9,city:'Osaka',title:'Osaka Castle y Namba',desc:'Osaka Castle y su parque. Mercado cubierto de Kuromon. Tarde de compras en Shinsaibashi. Noche en Den Den Town (electrónica).'},
+          {day:10,city:'Osaka',title:'Regreso desde Kansai',desc:'Mañana libre en Osaka. Traslado al aeropuerto de Kansai (KIX). Haruka Express desde Osaka (50 min, 1.870 ¥).',transport:'Osaka → KIX: Haruka Express, 50 min'},
+        ]
+      },
+      { days:'14 días', title:'Japón en profundidad', highlights:['Tokio y sus 5 barrios esenciales','Hakone con vistas al Fuji','Kioto, Nara y Osaka','Excursión a Hiroshima y Miyajima','Kiso Valley (aldeas históricas)','Takayama y los Alpes japoneses'],
+        itinerary:[
+          {day:1,city:'Tokio',title:'Llegada y Shinjuku',desc:'Narita Express. Primera noche en Shinjuku. Kabukicho y Golden Gai.'},
+          {day:2,city:'Tokio',title:'Harajuku y Shibuya',desc:'Santuario Meiji. Harajuku. Cruce de Shibuya. Cenar en Ebisu.'},
+          {day:3,city:'Tokio',title:'Asakusa, Akihabara y Ueno',desc:'Senso-ji. Akihabara. Museo Nacional de Tokio en Ueno.'},
+          {day:4,city:'Tokio',title:'Ginza, Odaiba y Roppongi',desc:'Tsukiji Fish Market. Ginza. Tarde en Odaiba (vista de la bahía). Noche en Roppongi.'},
+          {day:5,city:'Hakone',title:'Hakone — Monte Fuji y onsen',desc:'Excursión a Hakone (Romancecar desde Shinjuku, 85 min). Lago Ashi con vistas al Fuji. Onsen en un ryokan de Hakone. Regreso a Tokio.',transport:'Shinjuku → Hakone: Romancecar, 85 min, ~2.470 ¥'},
+          {day:6,city:'Kioto',title:'Bullet train a Kioto',desc:'Shinkansen mañana. Kioto al mediodía. Instalación. Gion al atardecer.',transport:'Tokio → Kioto: Shinkansen 2h15'},
+          {day:7,city:'Kioto',title:'Kinkaku-ji y Arashiyama',desc:'Kinkaku-ji a las 9h. Arashiyama: bambú, Tenryu-ji y tofuya para almorzar.'},
+          {day:8,city:'Kioto',title:'Fushimi Inari y Nishiki',desc:'Fushimi Inari con niebla matutina. Nishiki Market. Pontocho por la tarde.'},
+          {day:9,city:'Nara',title:'Excursión a Nara',desc:'Nara en tren (45 min). Ciervo libres, Todai-ji, Kasuga Taisha. Regreso a Kioto por la tarde.',transport:'Kioto → Nara: 45 min, ~710 ¥ (JR o Kintetsu)'},
+          {day:10,city:'Hiroshima',title:'Hiroshima y Miyajima',desc:'Tren a Hiroshima. Parque de la Paz y museo. Ferri a Miyajima: torii flotante y ciervos.',transport:'Kioto → Hiroshima: Shinkansen 50 min'},
+          {day:11,city:'Takayama',title:'Los Alpes japoneses — Takayama',desc:'Ruta a Takayama vía Osaka y tren especial. Casco histórico del s.XVII impecable. Mercado de artesanía. Sake de la ciudad.',transport:'Hiroshima → Osaka (30min) → Takayama (2h30 en Wide View Hida)'},
+          {day:12,city:'Takayama',title:'Valle de Shirakawa-go',desc:'Excursión al pueblo de Shirakawa-go (UNESCO): casas gasshō-zukuri con techos de paja. Bus desde Takayama (50 min, 2.400 ¥ i/v).'},
+          {day:13,city:'Osaka',title:'Osaka — Vibrante y golosa',desc:'Tren desde Takayama a Osaka (3h). Dotonbori, Shinsaibashi, Osaka Castle. Cena de kobe beef si el presupuesto lo permite.',transport:'Takayama → Osaka: 3h en tren'},
+          {day:14,city:'Osaka',title:'Regreso desde Kansai',desc:'Mañana libre en Osaka. Traslado a KIX. Haruka Express.',transport:'Osaka → KIX: 50 min'},
+        ]
+      },
     ],
     portugal: [
-      { days:'7 días', title:'Lisboa y Oporto esencial', highlights:['Alfama y el fado en Lisboa','Sintra y sus palacios de cuento','Tuk-tuk por Bairro Alto','Oporto: Ribeira y las bodegas','Cata de vino del Duero'] },
-      { days:'10 días', title:'Lisboa, Alentejo y Oporto', highlights:['Lisboa 3 noches, ruta tranvía 28','Évora y las viñas del Alentejo','Comporta: la playa salvaje','Oporto y el puente Dom Luís','Guimarães, cuna de Portugal'] },
-      { days:'14 días', title:'Portugal de norte a sur', highlights:['Oporto y el valle del Duero','Parque Natural de Gerês','Coímbra universitaria','Costa de Prata desconocida','Lisboa profunda y los mercados','Algarve: Ponta da Piedade'] },
+      { days:'7 días', title:'Lisboa y Oporto esencial', highlights:['Alfama y el fado en Lisboa','Sintra y sus palacios de cuento','Tuk-tuk por Bairro Alto','Oporto: Ribeira y las bodegas','Cata de vino del Duero'],
+        itinerary:[
+          {day:1,city:'Lisboa',title:'Llegada — Bairro Alto y Chiado',desc:'Vuelo hasta Lisboa. Instalación en el Bairro Alto o Chiado. Primeros paseos por la Rua Garrett y una copa de vinho verde al atardecer.'},
+          {day:2,city:'Lisboa',title:'Alfama y el fado',desc:'Tranvía 28 por Alfama (sube a pie, baja en tranvía para evitar carteristas). Castillo de São Jorge. Mirador da Graça. Noche: cena con fado en vivo en la Mouraria.'},
+          {day:3,city:'Sintra',title:'Excursión a Sintra',desc:'Tren desde Rossio (40 min, 2.25€). Palácio da Pena (vistas increíbles). Quinta da Regaleira (jardines y grutas). Regreso a Lisboa para dormir.',transport:'Lisboa Rossio → Sintra: 40 min, 2,25 €'},
+          {day:4,city:'Lisboa',title:'LX Factory y Belém',desc:'Mañana en LX Factory (tiendas y cafés alternativos). Torre de Belém y Monasterio de los Jerónimos. Pastel de nata en la Pastéis de Belém original.'},
+          {day:5,city:'Oporto',title:'Tren a Oporto — Ribeira',desc:'AVE Lisboa → Oporto (3h). Instalación junto a la Ribeira. Tarde paseando frente al Douro. Puente Dom Luís al atardecer.',transport:'Lisboa → Oporto: Alfa Pendular 3h, ~25 €'},
+          {day:6,city:'Oporto',title:'Bodegas y Matosinhos',desc:'Visita a una bodega de oporto en Vila Nova de Gaia (Taylor's o Graham's, 15€ con cata). Tarde en Matosinhos para marisco fresco junto al mar.'},
+          {day:7,city:'Oporto',title:'Mercado y regreso',desc:'Mercado do Bolhão por la mañana. Livraria Lello (la librería más bonita del mundo, 5€). Vuelo de regreso desde el Aeropuerto Francisco Sá Carneiro.',transport:'Oporto → Aeropuerto: Metro línea E, 25 min, 2 €'},
+        ]
+      },
+      { days:'10 días', title:'Lisboa, Alentejo y Oporto', highlights:['Lisboa 3 noches, ruta tranvía 28','Évora y las viñas del Alentejo','Comporta: la playa salvaje','Oporto y el puente Dom Luís','Guimarães, cuna de Portugal'],
+        itinerary:[
+          {day:1,city:'Lisboa',title:'Llegada y primera noche',desc:'Instalación en el Chiado o Príncipe Real. Paseo nocturno por la Rua Nova do Carvalho (Rua Cor-de-Rosa).'},
+          {day:2,city:'Lisboa',title:'Alfama y el tranvía 28',desc:'Tranvía 28 completo (mañana temprano para evitar colas). Alfama, Castillo de São Jorge, Mirador de Santa Luzia.'},
+          {day:3,city:'Lisboa',title:'Belém y LX Factory',desc:'Monasterio de los Jerónimos, Torre de Belém, Pastel de Nata. Tarde en LX Factory.'},
+          {day:4,city:'Évora',title:'Évora — Alentejo',desc:'Autobús a Évora (1h30). Ciudad universitaria romana: templo de Diana, Capilla de los Huesos. Cena de porco preto y vino alentejano.',transport:'Lisboa Sete Rios → Évora: 1h30, ~12 €'},
+          {day:5,city:'Comporta',title:'Comporta — playa salvaje',desc:'Alquiler de coche o taxi para ir a Comporta (1h desde Évora). Playas de arena blanca y dunas. Arroz de lingueirão al mediodía. Viñedos al atardecer.'},
+          {day:6,city:'Oporto',title:'Tren a Oporto',desc:'Tren desde Lisboa a Oporto. Tarde en la Ribeira. Puente Dom Luís con las bodegas de Gaia al fondo.',transport:'Lisboa → Oporto: 3h, ~25 €'},
+          {day:7,city:'Oporto',title:'Bodegas y Boavista',desc:'Graham's o Ramos Pinto en Gaia (cata incluida). Tarde en Boavista y mercado Bom Sucesso.'},
+          {day:8,city:'Guimarães',title:'Guimarães, cuna de Portugal',desc:'Tren desde Oporto (1h). Ciudad medieval perfectamente conservada. Castillo de Guimarães, Paço dos Duques. Almuerzo de bacalhau. Regreso a Oporto.',transport:'Oporto → Guimarães: 1h, ~3 €'},
+          {day:9,city:'Oporto',title:'Matosinhos y día libre',desc:'Matosinhos para marisco (mercado y restaurantes junto al mar). Tarde libre en Oporto.'},
+          {day:10,city:'Oporto',title:'Livraria Lello y regreso',desc:'Livraria Lello y barrio de Cedofeita. Vuelo desde el aeropuerto de Oporto.',transport:'Oporto → Aeropuerto: Metro 25 min, 2 €'},
+        ]
+      },
+      { days:'14 días', title:'Portugal de norte a sur', highlights:['Oporto y el valle del Duero','Parque Natural de Gerês','Coímbra universitaria','Costa de Prata desconocida','Lisboa profunda y los mercados','Algarve: Ponta da Piedade'],
+        itinerary:[
+          {day:1,city:'Oporto',title:'Llegada a Oporto',desc:'Vuelo a Oporto. Metro al centro. Primera noche en la Ribeira.'},
+          {day:2,city:'Oporto',title:'Oporto — bodegas y vistas',desc:'Bodegas de Gaia, Livraria Lello, Puente Dom Luís. Cena en Matosinhos (marisco).'},
+          {day:3,city:'Douro',title:'Valle del Duero',desc:'Ruta en coche o tren por el valle del Duero. Viñedos en terrazas, bodegas Quinta do Crasto o Pinhão. Almuerzo con vistas al río.',transport:'Oporto → Pinhão (tren Douro Line): 2h, ~12 €'},
+          {day:4,city:'Gerês',title:'Parque Natural de Gerês',desc:'Alquiler de coche para el parque (1h30 desde Oporto). Cascada de Tahiti, lago Caniçada. Senderismo. Noche en alojamiento rural.'},
+          {day:5,city:'Braga',title:'Braga y Guimarães',desc:'Santuario de Bom Jesus (subida a pie o funicular). Luego Guimarães medieval. Regreso a Oporto.'},
+          {day:6,city:'Coímbra',title:'Coímbra — la universidad más antigua',desc:'Tren a Coímbra. Universidad en el casco histórico (Biblioteca Joanina, impresionante). Fado de Coímbra. Noche en Coímbra.',transport:'Oporto → Coímbra: 1h, ~10 €'},
+          {day:7,city:'Nazaré',title:'Nazaré — las olas gigantes',desc:'Costa de Prata: Nazaré (las olas grandes, mirador de Sítio), Óbidos medieval (muros del s. XII, ginja en chocolate). Conducción por la costa.'},
+          {day:8,city:'Lisboa',title:'Lisboa — Llegada',desc:'Llegada a Lisboa. Tarde libre en Príncipe Real o Intendente.'},
+          {day:9,city:'Lisboa',title:'Alfama y Chiado',desc:'Tranvía 28 por Alfama. Castillo. Tarde en el Chiado: librerías y cafés históricos.'},
+          {day:10,city:'Lisboa',title:'Belém y MAAT',desc:'Monasterio de los Jerónimos. Museo MAAT de arte contemporáneo. LX Factory.'},
+          {day:11,city:'Sintra',title:'Sintra',desc:'Palácio da Pena y Quinta da Regaleira. Regreso a Lisboa.',transport:'Lisboa → Sintra: 40 min, 2,25 €'},
+          {day:12,city:'Algarve',title:'Algarve — Faro y Lagos',desc:'Vuelo o autobús express a Faro. Tarde en Lagos: Ponta da Piedade (kayak recomendado).',transport:'Lisboa → Faro: volar 50 min o bus 4h'},
+          {day:13,city:'Algarve',title:'Sagres y Costa Vicentina',desc:'Cabo de São Vicente (el punto más al SO de Europa). Playa de Bordeira. Sagres. Tarde en Lagos.'},
+          {day:14,city:'Algarve',title:'Regreso desde Faro',desc:'Mañana en la playa. Vuelo desde el aeropuerto de Faro.',transport:'Faro Airport: 10 min del centro'},
+        ]
+      },
     ],
     grecia: [
-      { days:'7 días', title:'Atenas y Santorini', highlights:['Acrópolis y barrio de Plaka','Ferri nocturno a Santorini','Oia al atardecer','Baños en playas volcánicas','Cena con vistas a la caldera'] },
-      { days:'10 días', title:'Santorini, Mikonos y Creta', highlights:['3 islas en 10 días en ferri','Playas de Elafonisi en Creta','Vida nocturna en Mikonos','Senderismo en el volcán','Mercado de Heraklion'] },
-      { days:'14 días', title:'Ruta completa por las islas', highlights:['Atenas 2 noches','Santorini, Mikonos, Paros, Naxos','Rutas en quad por cada isla','Buceo en Zante','Kassos y Karpathos (islas secretas)'] },
+      { days:'7 días', title:'Atenas y Santorini', highlights:['Acrópolis y barrio de Plaka','Ferri nocturno a Santorini','Oia al atardecer','Baños en playas volcánicas','Cena con vistas a la caldera'],
+        itinerary:[
+          {day:1,city:'Atenas',title:'Llegada — Monasteraki y Plaka',desc:'Metro del aeropuerto al centro (40 min, 9€). Instalación. Paseo por Plaka y Monasteraki. Primera noche griega: ouzo y mezés.'},
+          {day:2,city:'Atenas',title:'Acrópolis y Museo',desc:'Acrópolis a las 8h (antes del calor y las masas). Museo de la Acrópolis justo abajo (10€). Tarde en el Mercado Central de Atenas.',transport:null},
+          {day:3,city:'Santorini',title:'Ferri a Santorini',desc:'Ferri desde el Pireo (5-8h según barco, High Speed 5h). Llegada a Fira. Instalación. Primera puesta de sol desde Imerovigli.',transport:'Pireo → Santorini: High Speed 5h, ~50-80 €'},
+          {day:4,city:'Santorini',title:'Oia al atardecer',desc:'Mañana en playas volcánicas (Perissa, negra; Vlychada, blanca). Tarde: paseo de Fira a Oia (3h, preciosa ruta litoral). Atardecer en Oia.'},
+          {day:5,city:'Santorini',title:'Caldera y viñedos',desc:'Excursión en barco a la caldera volcánica activa (aguas termales). Tarde degustando vino assyrtiko en bodegas de Santo Wines.'},
+          {day:6,city:'Santorini',title:'Día libre en la isla',desc:'Alquiler de quad o coche para explorar los pueblos menos conocidos: Pyrgos, Megalochori, la antigua Thira.'},
+          {day:7,city:'Santorini',title:'Regreso a Atenas y vuelo',desc:'Ferri o avión de vuelta a Atenas. Vuelo de regreso.',transport:'Santorini → Atenas: avión 50 min o ferri 5h'},
+        ]
+      },
+      { days:'10 días', title:'Santorini, Mikonos y Creta', highlights:['3 islas en 10 días en ferri','Playas de Elafonisi en Creta','Vida nocturna en Mikonos','Senderismo en el volcán','Mercado de Heraklion'],
+        itinerary:[
+          {day:1,city:'Atenas',title:'Llegada y Plaka',desc:'Metro al centro. Cena en Plaka.'},
+          {day:2,city:'Atenas',title:'Acrópolis',desc:'Acrópolis por la mañana. Museo. Tarde libre en Monastiraki.'},
+          {day:3,city:'Santorini',title:'Ferri a Santorini',desc:'Ferri desde el Pireo. Llegada y primera puesta de sol.',transport:'Pireo → Santorini: 5h, ~60 €'},
+          {day:4,city:'Santorini',title:'Oia y la caldera',desc:'Ruta Fira-Oia por el litoral (3h). Barco a la caldera volcánica por la tarde.'},
+          {day:5,city:'Mikonos',title:'Ferri a Mikonos',desc:'Ferri Santorini → Mikonos (2h). Tarde en el puerto de Hora. Noche en Little Venice.',transport:'Santorini → Mikonos: 2h, ~35 €'},
+          {day:6,city:'Mikonos',title:'Playas y fiesta',desc:'Playas de Super Paradise o Paradise Beach. Atardecer desde los molinos de viento. Noche: Mikonos tiene la mejor vida nocturna griega.'},
+          {day:7,city:'Creta',title:'Ferri a Creta — Heraklion',desc:'Ferri nocturno o diurno a Heraklion. Mercado cubierto de Heraklion. Palacio minoico de Knossos (tarde).',transport:'Mikonos → Heraklion: 4-5h en ferri'},
+          {day:8,city:'Creta',title:'Elafonisi y el oeste',desc:'Coche alquilado hasta Elafonisi (playas rosadas con lagunas, 2h). Garganta de Samaria (senderismo opcional, 6h). Noche en Chania.'},
+          {day:9,city:'Creta',title:'Chania — la Venecia griega',desc:'Casco histórico veneciano de Chania. Puerto medieval. Mercado de la cubierta. Tarde en la playa de Balos (excursión en barco).'},
+          {day:10,city:'Creta',title:'Regreso',desc:'Vuelo desde el aeropuerto de Heraklion o Chania de vuelta a casa.',transport:'Chania → Aeropuerto: taxi 20 min'},
+        ]
+      },
+      { days:'14 días', title:'Ruta completa por las islas', highlights:['Atenas 2 noches','Santorini, Mikonos, Paros, Naxos','Rutas en quad por cada isla','Buceo en Zante','Kassos y Karpathos (islas secretas)'],
+        itinerary:[
+          {day:1,city:'Atenas',title:'Llegada',desc:'Instalación en Atenas. Plaka y Monasteraki por la noche.'},
+          {day:2,city:'Atenas',title:'Acrópolis y Pireo',desc:'Acrópolis y museo. Tarde en el puerto del Pireo.'},
+          {day:3,city:'Santorini',title:'Ferri a Santorini',desc:'Ferri desde el Pireo. Primeros días en las Cícladas.',transport:'Pireo → Santorini: 5h, ~60 €'},
+          {day:4,city:'Santorini',title:'Oia y volcán',desc:'Paseo Fira-Oia. Excursión al volcán activo.'},
+          {day:5,city:'Paros',title:'Ferri a Paros',desc:'Isla menos masificada que Mikonos y Santorini. Naoussa (pueblo de pescadores). Quad por la isla.',transport:'Santorini → Paros: 2h, ~25 €'},
+          {day:6,city:'Naxos',title:'Naxos — la más grande',desc:'Ferri a Naxos. La isla más grande y verde de las Cícladas. Portara (puerta de mármol). Playas de Agios Prokopios.',transport:'Paros → Naxos: 30 min, ~12 €'},
+          {day:7,city:'Mikonos',title:'Mikonos',desc:'Ferri a Mikonos. Tarde en el puerto y Little Venice.',transport:'Naxos → Mikonos: 1h30, ~20 €'},
+          {day:8,city:'Mikonos',title:'Playas y atardecer en los molinos',desc:'Playas del sur. Molinos de viento. Noche en Mikonos.'},
+          {day:9,city:'Creta',title:'Vuelo o ferri a Creta',desc:'Creta: la isla grande. Heraklion y el Palacio de Knossos.',transport:'Mikonos → Heraklion: ferri 4h o avión 40 min'},
+          {day:10,city:'Creta',title:'Chania y sus playas',desc:'Chania veneciana. Playa de Balos en barco.'},
+          {day:11,city:'Creta',title:'Senderismo en Samaria',desc:'Garganta de Samaria (16 km, ~5h). La más espectacular de Europa. Terminas en el mar.'},
+          {day:12,city:'Zante',title:'Vuelo a Zante',desc:'Zante (Zakynthos): las tortugas Caretta-caretta. Naufragio Beach — la cala más fotografiada de Grecia. Buceo.',transport:'Heraklion → Zante: avión vía Atenas o ferri'},
+          {day:13,city:'Zante',title:'Blue Caves y atardeceres',desc:'Blue Caves en barco (azul eléctrico por dentro). Tarde en el pueblo de Zante.'},
+          {day:14,city:'Zante',title:'Regreso',desc:'Vuelo desde Zante al aeropuerto de origen.',transport:'Zante Airport: 5 min del centro'},
+        ]
+      },
     ],
   };
 
@@ -774,6 +1045,16 @@
         if (p) p.style.display = '';
         if (l) l.style.display = 'none';
         if (s) { s.textContent = 'Mi cuenta'; s.href = 'profile.html'; }
+        // Mobile menu auth state
+        const mmp = document.getElementById('mm-profile');
+        const mml = document.getElementById('mm-login');
+        const mms = document.getElementById('mm-signup');
+        if (mmp) mmp.style.display = '';
+        if (mml) mml.style.display = 'none';
+        if (mms) mms.style.display = 'none';
+        // Logo → profile when logged in
+        const logo = document.querySelector('.nav-logo');
+        if (logo) logo.href = 'profile.html';
       }
     } catch {}
   }
@@ -840,6 +1121,17 @@
     if (!e.target.closest('.search-wrap')) acDropdown.classList.remove('open');
   });
 
+  // Clear destination
+  function clearDestination() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('searchClear').style.display = 'none';
+    document.getElementById('destCard').classList.remove('visible');
+    document.getElementById('emptyState').style.display = '';
+    history.pushState({}, '', location.pathname);
+    currentDest = null;
+    document.getElementById('searchInput').focus();
+  }
+
   // Select a destination
   async function selectDestination(slug) {
     acDropdown.classList.remove('open');
@@ -860,6 +1152,7 @@
       const dest = await loadDestination(slug);
       currentDest = dest;
       searchInput.value = dest.name;
+      document.getElementById('searchClear').style.display = '';
       renderDestination(dest);
     } catch(e) {
       console.error(e);
@@ -1066,19 +1359,53 @@
     calcBudget();
   });
 
+  let currentItineraries = [];
+
   function renderRoutes(dest) {
     const slug = dest.slug;
     const itins = ITINERARIES[slug] || GENERIC_ITINERARIES;
-    document.getElementById('rutasGrid').innerHTML = itins.map(it => `
-      <div class="ruta-card">
+    currentItineraries = itins;
+    document.getElementById('rutasGrid').innerHTML = itins.map((it, idx) => `
+      <div class="ruta-card" onclick="openRouteModal(${idx})">
         <div class="ruta-duration">${it.days}</div>
         <div class="ruta-title">${it.title}</div>
         <ul class="ruta-highlights">
           ${it.highlights.map(h => `<li>${h}</li>`).join('')}
         </ul>
+        ${it.itinerary ? `<div class="ruta-see-more">📅 Ver día a día →</div>` : ''}
       </div>
     `).join('');
   }
+
+  function openRouteModal(idx) {
+    const it = currentItineraries[idx];
+    if (!it) return;
+    document.getElementById('routeModalTitle').textContent = it.title;
+    document.getElementById('routeModalSub').textContent = it.days + (currentDest ? ' · ' + currentDest.name : '');
+    const days = it.itinerary || it.highlights.map((h,i) => ({day:i+1,city:'',title:h,desc:'',transport:null}));
+    document.getElementById('routeModalBody').innerHTML = days.map(d => `
+      <div class="day-item">
+        <div class="day-number ${d.transport?'transit':''}">D${d.day}</div>
+        <div class="day-content">
+          ${d.city ? `<div class="day-city">📍 ${d.city}</div>` : ''}
+          <div class="day-title">${d.title}</div>
+          ${d.desc ? `<div class="day-desc">${d.desc}</div>` : ''}
+          ${d.transport ? `<div class="day-transport">🚄 ${d.transport}</div>` : ''}
+        </div>
+      </div>
+    `).join('');
+    document.getElementById('routeModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeRouteModal() {
+    document.getElementById('routeModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('routeModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('routeModal')) closeRouteModal();
+  });
 
   // Init
   async function init() {

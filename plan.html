@@ -101,6 +101,7 @@
       transition: color .2s;
     }
     .nav-link:hover { color: var(--accent); }
+    @media (max-width: 768px) { .nav-link { display: none; } }
     .nav-cta {
       font-size: .82rem; font-weight: 600;
       background: var(--accent); color: #fff;
@@ -126,6 +127,58 @@
       font-family: inherit; transition: color .2s;
     }
     .nav-logout:hover { color: var(--text); }
+    /* ── Hamburger ── */
+    .nav-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      font-size: 1.4rem; color: var(--text); padding: 4px 6px;
+      line-height: 1; border-radius: 8px; transition: background .2s;
+    }
+    .nav-hamburger:hover { background: var(--bg-soft); }
+    @media (max-width: 768px) {
+      .nav-hamburger { display: flex; align-items: center; justify-content: center; }
+      .nav-logout { display: none; }
+      .nav-user-name { display: none; }
+    }
+    /* ── Mobile overlay menu ── */
+    .mobile-menu-overlay {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.4); backdrop-filter: blur(4px);
+    }
+    .mobile-menu-overlay.open { display: block; }
+    .mobile-menu {
+      position: absolute; top: 0; left: 0; right: 0;
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 16px 20px 24px;
+      transform: translateY(-100%); transition: transform .25s ease;
+    }
+    .mobile-menu-overlay.open .mobile-menu { transform: translateY(0); }
+    .mobile-menu-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .mobile-menu-close {
+      background: none; border: none; cursor: pointer; font-size: 1.4rem;
+      color: var(--text-muted); padding: 4px; border-radius: 6px; transition: color .2s;
+    }
+    .mobile-menu-close:hover { color: var(--text); }
+    .mobile-menu-links { display: flex; flex-direction: column; gap: 4px; }
+    .mobile-menu-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      font-size: 1rem; font-weight: 500; transition: background .15s;
+    }
+    .mobile-menu-link:hover { background: var(--bg-soft); }
+    .mobile-menu-link .mm-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+    .mobile-menu-divider { height: 1px; background: var(--border); margin: 10px 0; }
+    .mobile-menu-logout {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      color: var(--text-muted); font-size: 1rem; font-weight: 500;
+      background: none; border: none; cursor: pointer; width: 100%;
+      font-family: inherit; transition: background .15s, color .15s;
+    }
+    .mobile-menu-logout:hover { background: var(--bg-soft); color: var(--text); }
 
     /* ── Main ── */
     main {
@@ -378,149 +431,50 @@
 
     .btn-guide {
       width: 100%; padding: 10px 16px;
-      background: var(--bg-soft); border: 1px solid var(--border);
-      border-radius: 11px; color: var(--text-secondary);
+      background: var(--accent); border: none;
+      border-radius: 11px; color: #fff;
       font-family: 'Space Grotesk', sans-serif;
       font-size: .84rem; font-weight: 600;
       cursor: pointer; transition: all .2s; text-align: left;
       display: flex; align-items: center; justify-content: space-between;
+      text-decoration: none;
     }
-    .btn-guide:hover { background: var(--bg-input); color: var(--text); border-color: #D1D5DB; }
-    .btn-guide .chevron { transition: transform .25s; display: inline-block; }
-    .btn-guide.open .chevron { transform: rotate(180deg); }
+    .btn-guide:hover { background: var(--accent-text); }
 
-    .guide-body {
-      display: none; margin-top: 16px;
-      border-top: 1px solid var(--border);
-      padding-top: 16px;
+    /* ── Type filter pills ── */
+    .type-pills {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      padding: 12px 16px 0;
     }
-    .guide-body.open { display: block; animation: fadeInUp .2s ease; }
-
-    .guide-section { margin-bottom: 18px; }
-    .guide-section:last-child { margin-bottom: 0; }
-    .guide-label {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: .78rem; font-weight: 700; color: var(--accent);
-      margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
-      text-transform: uppercase; letter-spacing: .04em;
-    }
-    .guide-text { font-size: .875rem; color: var(--text-secondary); line-height: 1.65; }
-    .guide-list { list-style: none; padding: 0; }
-    .guide-list li {
-      font-size: .875rem; color: var(--text-secondary); line-height: 1.6;
-      padding-left: 16px; position: relative; margin-bottom: 6px;
-    }
-    .guide-list li::before {
-      content: '→'; position: absolute; left: 0;
-      color: var(--accent); font-size: .75rem; top: 2px;
-    }
-
-    .guide-prices {
-      display: grid; grid-template-columns: repeat(3,1fr); gap: 8px;
-    }
-    .guide-price-item {
-      background: var(--bg-soft); border-radius: 10px; padding: 10px 12px;
-      border: 1px solid var(--border);
-    }
-    .guide-price-tier {
-      font-size: .65rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .07em; color: var(--text-muted); margin-bottom: 4px;
-    }
-    .guide-price-val {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: .8rem; font-weight: 600; color: var(--text);
-      line-height: 1.4;
-    }
-
-    .guide-tip {
-      background: var(--teal-light); border: 1px solid #99F6E4;
-      border-radius: 12px; padding: 12px 16px;
-      font-size: .875rem; color: var(--text-secondary); line-height: 1.6;
-    }
-    .guide-tip strong { color: var(--teal-text); }
-
-    .guide-disclaimer {
-      margin-top: 14px;
-      font-size: .72rem; color: var(--text-muted);
-      line-height: 1.5;
-      display: flex; align-items: flex-start; gap: 5px;
-    }
-    .guide-disclaimer::before {
-      content: 'ℹ';
-      flex-shrink: 0;
-      font-size: .75rem;
-      margin-top: 1px;
-    }
-
-    .guide-why {
-      display: flex; align-items: flex-start; gap: 10px;
-      background: #EFF6FF; border: 1px solid #BFDBFE;
-      border-radius: 12px; padding: 12px 14px;
-      font-size: .85rem; color: #1D4ED8; line-height: 1.55;
-      margin-bottom: 4px;
-    }
-    .guide-why-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
-    .budget-pill {
-      display: inline-block;
-      font-size: .7rem; font-weight: 600;
-      background: var(--accent-light); color: var(--accent-dark);
-      padding: 2px 8px; border-radius: 100px;
-      margin-left: 6px; vertical-align: middle;
-    }
-
-    /* ── Packing list ── */
-    .packing-section {
-      margin-top: 28px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: var(--shadow-sm);
-      animation: fadeInUp .4s ease both;
-    }
-    .packing-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .packing-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem; font-weight: 700; color: var(--text);
-      display: flex; align-items: center; gap: 8px;
-    }
-    .packing-subtitle {
-      font-size: .8rem; color: var(--text-secondary); margin-top: 2px;
-    }
-    .btn-gen-packing {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 9px 18px; border-radius: 100px;
-      background: var(--teal-light); border: 1.5px solid #99F6E4;
-      color: var(--teal-text); font-family: 'Space Grotesk', sans-serif;
-      font-size: .84rem; font-weight: 600; cursor: pointer;
+    .type-pill {
+      padding: 6px 14px; border-radius: 100px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-card); color: var(--text-secondary);
+      font-size: .8rem; font-weight: 600; cursor: pointer;
       transition: all .2s;
     }
-    .btn-gen-packing:hover { background: var(--teal); color: #fff; border-color: var(--teal); }
-    .packing-grid {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      margin-top: 16px;
+    .type-pill.active {
+      border-color: var(--accent); background: var(--accent-light);
+      color: var(--accent-text);
     }
-    .packing-chip {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 6px 12px; border-radius: 100px;
-      border: 1.5px solid var(--border); background: var(--bg-soft);
-      font-size: .8rem; color: var(--text-secondary);
-      cursor: pointer; transition: all .18s; user-select: none;
-      font-family: 'Inter', sans-serif;
+
+    /* ── Result hero image ── */
+    .result-hero {
+      width: 100%; height: 140px;
+      background-size: cover; background-position: center;
+      border-radius: 12px 12px 0 0;
+      margin: -16px -16px 12px;
+      width: calc(100% + 32px);
     }
-    .packing-chip:hover { border-color: #94A3B8; color: var(--text); }
-    .packing-chip.packed {
-      background: var(--teal-light); border-color: #99F6E4;
-      color: var(--teal-text); text-decoration: line-through;
-      opacity: .7;
+
+    /* ── Type badge in result name ── */
+    .type-badge {
+      display: inline-block; margin-left: 6px;
+      padding: 2px 8px; border-radius: 100px;
+      font-size: .72rem; font-weight: 600; vertical-align: middle;
     }
-    .packing-hint {
-      font-size: .72rem; color: var(--text-muted); margin-top: 12px;
-      font-style: italic;
-    }
+    .type-badge.city { background: #E0F2FE; color: #0284C7; }
+    .type-badge.route { background: #F0FDF4; color: #16A34A; }
 
     /* ── Nueva búsqueda ── */
     .btn-restart {
@@ -540,9 +494,40 @@
       .options-grid { grid-template-columns: repeat(2, 1fr); }
       .glass-card { padding: 22px 16px; }
       .nav-user-name { display: none; }
-      .guide-prices { grid-template-columns: 1fr; }
-      nav { padding: 0 18px; }
+nav { padding: 0 18px; }
     }
+
+    /* ── Bottom Tab Bar (mobile) ── */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-top: 1px solid #E2E8F0;
+      z-index: 1000;
+      padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+    }
+    @media (max-width: 768px) {
+      .bottom-nav { display: flex; }
+      body { padding-bottom: 64px; }
+    }
+    .tab-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #94A3B8;
+      font-size: 0.65rem;
+      font-weight: 500;
+      padding: 4px 0;
+      gap: 2px;
+      transition: color .15s;
+    }
+    .tab-item.active { color: #0EA5E9; }
+    .tab-item:hover { color: #0EA5E9; }
+    .tab-icon { font-size: 1.3rem; line-height: 1; }
   </style>
 </head>
 <body>
@@ -553,18 +538,37 @@
     ViajeraMente
   </a>
   <div class="nav-right">
-    <a href="plan.html" class="nav-link">Planificador</a>
-    <a href="fechas.html" class="nav-link">¿A dónde ir?</a>
-    <a href="destino-elegido.html" class="nav-link">Tengo destino</a>
     <a href="guias.html" class="nav-link">Guías</a>
-    <a href="profile.html" class="nav-link" id="nav-profile" style="display:none;">Mi perfil</a>
-    <a href="login.html" class="nav-link" id="nav-login">Iniciar sesión</a>
-    <a href="signup.html" class="nav-cta" id="nav-signup">Crear cuenta</a>
+    <a href="fechas.html" class="nav-link">Por fechas</a>
     <span class="nav-user-name" id="navName"></span>
     <div class="nav-avatar" id="navAvatar" onclick="window.location='profile.html'"></div>
     <button class="nav-logout" onclick="logout()">Salir</button>
+    <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
   </div>
 </nav>
+
+<!-- Mobile menu overlay -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
+  <div class="mobile-menu">
+    <div class="mobile-menu-header">
+      <a href="main.html" class="nav-logo" style="text-decoration:none;">
+        <span class="nav-logo-dot"></span> ViajeraMente
+      </a>
+      <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
+    </div>
+    <div class="mobile-menu-links">
+      <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
+      <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
+      <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planifica</a>
+      <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
+      <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>Por fechas</a>
+      <a href="ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
+      <div class="mobile-menu-divider"></div>
+      <a href="profile.html" class="mobile-menu-link"><span class="mm-icon">👤</span>Mi perfil</a>
+      <button class="mobile-menu-logout" onclick="logout()"><span class="mm-icon">🚪</span>Cerrar sesión</button>
+    </div>
+  </div>
+</div>
 
 <div class="wizard-progress">
   <div class="wizard-progress-fill" id="progressFill" style="width:0%"></div>
@@ -930,7 +934,7 @@
   <div class="loading-screen" id="loadingScreen">
     <div class="loading-spinner"></div>
     <div class="loading-title">Calculando tu viaje perfecto...</div>
-    <div class="loading-sub">Analizando 25 destinos con tus preferencias</div>
+    <div class="loading-sub" id="loadingSub">Analizando destinos con tus preferencias...</div>
   </div>
 
   <!-- ══ RESULTS ══ -->
@@ -939,20 +943,8 @@
       <div class="results-eyebrow">Tu selección personalizada</div>
       <div class="results-title">Los 3 destinos perfectos para ti</div>
     </div>
+    <div id="typePills"></div>
     <div id="resultsList"></div>
-
-    <!-- Packing list -->
-    <div class="packing-section" id="packingSection" style="display:none;">
-      <div class="packing-header">
-        <div>
-          <div class="packing-title">📦 Lista de equipaje sugerida</div>
-          <div class="packing-subtitle">Basada en tu estilo de viaje y clima elegido</div>
-        </div>
-        <button class="btn-gen-packing" id="btnGenPacking" onclick="showPackingList()">Generar lista</button>
-      </div>
-      <div id="packingGrid" class="packing-grid" style="display:none;"></div>
-      <div class="packing-hint" id="packingHint" style="display:none;">Toca cada ítem para marcarlo como empacado ✓</div>
-    </div>
 
     <button class="btn-restart" onclick="restart()">Nueva búsqueda →</button>
   </div>
@@ -981,6 +973,9 @@ function logout() {
   localStorage.removeItem('token');
   window.location.href = 'login.html';
 }
+function openMobileMenu() { document.getElementById('mobileMenuOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeMobileMenu() { document.getElementById('mobileMenuOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+function closeMobileMenuOnBg(e) { if (e.target === document.getElementById('mobileMenuOverlay')) closeMobileMenu(); }
 
 async function init() {
   try {
@@ -1121,10 +1116,30 @@ function selectMulti(card, step) {
 function finishWizard() {
   document.getElementById('wizardWrap').style.display = 'none';
   document.getElementById('loadingScreen').classList.add('active');
-  setTimeout(() => {
-    document.getElementById('loadingScreen').classList.remove('active');
-    showResults();
-  }, 1500);
+
+  // Fetch from API based on duration, then show results
+  const dur = answers.duration || '';
+  fetch(`${API_BASE}/api/planificador?duration=${dur}`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.ok && data.destinations && data.destinations.length > 0) {
+        DESTINATIONS = data.destinations.map(normalizeDest);
+        const sub = document.getElementById('loadingSub');
+        if (sub) sub.textContent = `Analizando ${DESTINATIONS.length} destinos con tus preferencias...`;
+      }
+      // Always show results (even if fetch failed, use existing DESTINATIONS)
+      setTimeout(() => {
+        document.getElementById('loadingScreen').classList.remove('active');
+        showResults();
+      }, 1200);
+    })
+    .catch(() => {
+      // Fallback to existing hardcoded list
+      setTimeout(() => {
+        document.getElementById('loadingScreen').classList.remove('active');
+        showResults();
+      }, 1200);
+    });
 }
 
 function restart() {
@@ -1147,13 +1162,85 @@ function restart() {
   document.getElementById('dateSalida').value = '';
   document.getElementById('dateVuelta').value = '';
   document.getElementById('resultsScreen').classList.remove('active');
-  document.getElementById('packingSection').style.display = 'none';
   document.getElementById('wizardWrap').style.display = '';
   showStep(1);
 }
 
-// ── Destination database ──
-const DESTINATIONS = [
+// ── Destination normalization (DB → scoring format) ──
+function normalizeDest(d) {
+  // continent → zone
+  const zoneMap = {
+    'Asia': 'asia', 'Europa': 'europe', 'África': 'africa',
+    'América': 'southamerica', 'América del Norte': 'northamerica',
+    'América del Sur': 'southamerica', 'Oceanía': 'oceania', 'Oriente Medio': 'asia'
+  };
+  const zone = zoneMap[d.continent] || 'any';
+
+  // climate array → single value
+  const climateRaw = (d.climate || []).join(' ').toLowerCase();
+  let climate = 'mild';
+  if (/tropical|warm|hot|calor/.test(climateRaw)) climate = 'warm';
+  else if (/cold|arctic|alpine|polar|subpolar|frío/.test(climateRaw)) climate = 'cold';
+
+  // vibes → normalized array
+  const vibeNorm = {
+    culture:'culture', cultura:'culture', cultural:'culture', history:'culture',
+    adventure:'adventure', aventura:'adventure', outdoor:'adventure',
+    nature:'nature', naturaleza:'nature', eco:'nature',
+    romantic:'romantic', romántico:'romantic', couples:'romantic',
+    party:'party', fiesta:'party',
+    wellness:'adventure', spiritual:'culture', urban:'culture',
+    silence:'nature', silence:'nature', tranquilo:'nature'
+  };
+  const vibes = [...new Set((d.vibes || []).map(v => vibeNorm[v.toLowerCase()] || null).filter(Boolean))];
+
+  // travel_styles → styles
+  const styleNorm = {
+    backpacker:'backpacker', mochilero:'backpacker',
+    comfort:'comfort', comfortable:'comfort', cómodo:'comfort', luxury:'comfort',
+    campervan:'campervan', roadtrip:'campervan',
+    sport:'sport', adventure:'sport', senderismo:'sport', trekking:'sport',
+    city:'comfort', cultura:'comfort', culture:'comfort'
+  };
+  const styles = [...new Set((d.travel_styles || []).map(s => styleNorm[s.toLowerCase()] || null).filter(Boolean))];
+  if (!styles.length) styles.push('comfort');
+
+  // budget_range → budget
+  const budgetNorm = { budget:'budget', bajo:'budget', low:'budget', mid:'mid', medio:'mid', medium:'mid', alto:'luxury', high:'luxury', luxury:'luxury' };
+  const budget = [...new Set((d.budget_range || []).map(b => budgetNorm[b.toLowerCase()] || null).filter(Boolean))];
+  if (!budget.length) budget.push('mid');
+
+  // ideal_duration → duration
+  const durNorm = {
+    weekend:'weekend', 'escapada':'weekend',
+    week:'week', '7-14 días':'week', '7-14 dias':'week',
+    twoweeks:'twoweeks', threeweeks:'twoweeks', '14-21 días':'twoweeks',
+    month:'month', 'mes':'month'
+  };
+  const duration = [...new Set((d.ideal_duration || []).map(x => durNorm[x.toLowerCase()] || null).filter(Boolean))];
+  if (!duration.length) duration.push('week', 'twoweeks');
+
+  return {
+    id: d.slug,
+    name: d.name,
+    country: d.country || d.name,
+    emoji: d.type === 'city' ? '🏙️' : d.type === 'route' ? '🗺️' : '🌍',
+    zone,
+    climate,
+    vibes: vibes.length ? vibes : ['adventure','nature'],
+    styles: styles.length ? styles : ['comfort'],
+    budget,
+    interests: vibes, // use vibes as proxy for interests
+    duration,
+    tagline: d.tagline || '',
+    hero_photo_url: d.hero_photo_url || '',
+    type: d.type || 'country',
+    guide: { when: '', todo: [], sleep: {}, daily: {}, how: '', tip: '' }
+  };
+}
+
+// ── Destination database (fallback hardcoded list, replaced dynamically from API) ──
+let DESTINATIONS = [
   {
     id:'bali', name:'Bali', country:'Indonesia', emoji:'🌺', zone:'asia',
     climate:'warm', vibes:['adventure','nature','romantic'],
@@ -1265,7 +1352,7 @@ const DESTINATIONS = [
     }
   },
   {
-    id:'srilanka', name:'Sri Lanka', country:'Sri Lanka', emoji:'🦁', zone:'asia',
+    id:'sri-lanka', name:'Sri Lanka', country:'Sri Lanka', emoji:'🦁', zone:'asia',
     climate:'warm', vibes:['nature','culture','adventure'],
     styles:['backpacker','comfort'], budget:['budget','mid'],
     interests:['food','water','photos','wildlife'],
@@ -1353,7 +1440,7 @@ const DESTINATIONS = [
     }
   },
   {
-    id:'italia', name:'Italia (Sicilia / Costa Amalfi)', country:'Italia', emoji:'🍋', zone:'europe',
+    id:'italia-amalfi-sicilia', name:'Italia (Sicilia / Costa Amalfi)', country:'Italia', emoji:'🍋', zone:'europe',
     climate:'warm', vibes:['romantic','culture'],
     styles:['comfort'], budget:['mid','luxury'],
     interests:['food','city','photos','water'],
@@ -1551,7 +1638,7 @@ const DESTINATIONS = [
     }
   },
   {
-    id:'patagonia', name:'Patagonia Argentina', country:'Argentina', emoji:'🏔️', zone:'latam',
+    id:'argentina', name:'Patagonia Argentina', country:'Argentina', emoji:'🏔️', zone:'latam',
     climate:'cold', vibes:['adventure','nature'],
     styles:['backpacker','campervan','sport'], budget:['mid'],
     interests:['photos','silence','wildlife','water'],
@@ -1573,7 +1660,7 @@ const DESTINATIONS = [
     }
   },
   {
-    id:'costarica', name:'Costa Rica', country:'Costa Rica', emoji:'🦜', zone:'latam',
+    id:'costa-rica', name:'Costa Rica', country:'Costa Rica', emoji:'🦜', zone:'latam',
     climate:'warm', vibes:['nature','adventure'],
     styles:['backpacker','comfort'], budget:['mid'],
     interests:['wildlife','water','photos'],
@@ -1639,7 +1726,7 @@ const DESTINATIONS = [
     }
   },
   {
-    id:'canada', name:'Canadá (Rocosas)', country:'Canadá', emoji:'🦌', zone:'northamerica',
+    id:'canada-rocosas', name:'Canadá (Rocosas)', country:'Canadá', emoji:'🦌', zone:'northamerica',
     climate:'cold', vibes:['nature','adventure','romantic','sport'],
     styles:['campervan','sport','comfort'], budget:['mid','luxury'],
     interests:['photos','silence','wildlife','water'],
@@ -1661,7 +1748,7 @@ const DESTINATIONS = [
     }
   },
   {
-    id:'eeuu', name:'EE.UU. (Parques del SW)', country:'Estados Unidos', emoji:'🏜️', zone:'northamerica',
+    id:'estados-unidos', name:'EE.UU. (Parques del SW)', country:'Estados Unidos', emoji:'🏜️', zone:'northamerica',
     climate:'mild', vibes:['adventure','nature'],
     styles:['campervan','sport'], budget:['mid','luxury'],
     interests:['photos','silence','wildlife'],
@@ -1683,7 +1770,7 @@ const DESTINATIONS = [
     }
   },
   {
-    id:'nuevazelanda', name:'Nueva Zelanda', country:'Nueva Zelanda', emoji:'🥝', zone:'northamerica',
+    id:'nueva-zelanda', name:'Nueva Zelanda', country:'Nueva Zelanda', emoji:'🥝', zone:'northamerica',
     climate:'mild', vibes:['adventure','nature','sport','romantic'],
     styles:['campervan','sport','comfort'], budget:['mid','luxury'],
     interests:['photos','water','wildlife','silence'],
@@ -1761,171 +1848,112 @@ function buildMatchTags(dest) {
   return tags.join('');
 }
 
-function buildGuide(dest) {
-  const b = answers.budget || 'mid';
-  const budgetLabel = { budget: '💸 Viaje budget', mid: '💰 Viaje estándar', luxury: '💎 Viaje premium' }[b];
-  const sleepContent = dest.guide.sleep[b] || dest.guide.sleep.mid;
-  const dailyContent = dest.guide.daily[b] || dest.guide.daily.mid;
-  // Budget-specific approx daily estimate
-  const dailyApprox = { budget: 'aprox. €35/día', mid: 'aprox. €100/día', luxury: 'aprox. €300+/día' }[b];
 
-  // Build personalized "why" intro
-  const whyParts = [];
-  if (answers.zone && answers.zone !== 'any' && dest.zone === answers.zone) {
-    const zoneNames = { asia:'Asia', europe:'Europa', americas:'América', africa:'África', oceania:'Oceanía' };
-    whyParts.push(`está en ${zoneNames[answers.zone] || answers.zone}`);
-  }
-  if (answers.climate && answers.climate !== 'any' && dest.climate === answers.climate) {
-    const climNames = { warm:'el clima cálido que buscas', cold:'el frío y la nieve que buscas', mild:'un clima templado ideal' };
-    whyParts.push(climNames[answers.climate]);
-  }
-  if (answers.style && dest.styles.includes(answers.style)) {
-    const styleNames = { backpacker:'perfecta para mochileros', comfort:'ideal para viaje cómodo', luxury:'pensado para viajeros premium', campervan:'genial en camper o autocaravana', sport:'con mucho potencial deportivo' };
-    whyParts.push(styleNames[answers.style]);
-  }
-  if (answers.budget && dest.budget.includes(answers.budget)) {
-    const budNames = { budget:'encaja en tu presupuesto ajustado', mid:'tiene una buena relación calidad-precio', luxury:'ofrece experiencias premium de verdad' };
-    whyParts.push(budNames[answers.budget]);
-  }
-  const whyText = whyParts.length > 0
-    ? `Te lo recomendamos porque ${whyParts.slice(0,3).join(', ')}.`
-    : `Un destino que encaja con tus preferencias de viaje.`;
+// ── Type filter state ──
+let activeTypeFilter = 'all';
 
-  return `
-    <div class="guide-why">
-      <span class="guide-why-icon">💡</span>
-      <span>${whyText}</span>
-    </div>
-    <div class="guide-section">
-      <div class="guide-label">🗓️ Cuándo ir</div>
-      <div class="guide-text">${dest.guide.when}</div>
-    </div>
-    <div class="guide-section">
-      <div class="guide-label">🎯 Qué hacer</div>
-      <ul class="guide-list">
-        ${dest.guide.todo.map(t=>`<li>${t}</li>`).join('')}
-      </ul>
-    </div>
-    <div class="guide-section">
-      <div class="guide-label">🏨 Dónde dormir <span class="budget-pill">${budgetLabel}</span></div>
-      <div class="guide-text">${sleepContent}</div>
-    </div>
-    <div class="guide-section">
-      <div class="guide-label">💰 Presupuesto diario <span class="budget-pill">${dailyApprox}</span></div>
-      <div class="guide-text">${dailyContent}</div>
-    </div>
-    <div class="guide-section">
-      <div class="guide-label">✈️ Cómo llegar</div>
-      <div class="guide-text">${dest.guide.how}</div>
-    </div>
-    <div class="guide-section">
-      <div class="guide-label">💡 Consejo local</div>
-      <div class="guide-tip">${dest.guide.tip}</div>
-    </div>
-    <div class="guide-disclaimer">Guía basada en fuentes reales como Lonely Planet y Nomadic Matt</div>
-  `;
+function setTypeFilter(type) {
+  activeTypeFilter = type;
+  document.querySelectorAll('.type-pill').forEach(p => p.classList.toggle('active', p.dataset.type === type));
+  renderResults();
 }
 
-function showResults() {
-  const scored = DESTINATIONS.map(d => ({ dest: d, score: scoreDestination(d, answers) }));
+function renderResults() {
+  const scored = DESTINATIONS
+    .filter(d => activeTypeFilter === 'all' || (d.type || 'country') === activeTypeFilter)
+    .map(d => ({ dest: d, score: scoreDestination(d, answers) }));
   scored.sort((a,b) => b.score - a.score);
   const top3 = scored.slice(0,3);
 
   const rankClasses = ['first','second','third'];
   const rankLabels = ['🥇 Mejor opción', '🥈 Segunda opción', '🥉 Tercera opción'];
 
+  if (!top3.length) {
+    document.getElementById('resultsList').innerHTML = '<p style="text-align:center;color:var(--text-secondary);padding:32px">No hay destinos de este tipo para tu selección.</p>';
+    return;
+  }
+
   const html = top3.map((item, i) => {
     const d = item.dest;
     const tags = buildMatchTags(d);
+    const heroImg = d.hero_photo_url
+      ? `<div class="result-hero" style="background-image:url('${d.hero_photo_url}')"></div>`
+      : '';
+    const typeBadge = d.type === 'city'
+      ? '<span class="type-badge city">🏙️ Ciudad</span>'
+      : d.type === 'route'
+      ? '<span class="type-badge route">🗺️ Ruta</span>'
+      : '';
     return `
       <div class="result-card">
+        ${heroImg}
         <div class="result-rank ${rankClasses[i]}">${rankLabels[i]}</div>
         <div class="result-top">
           <div class="result-emoji">${d.emoji}</div>
           <div class="result-info">
-            <div class="result-name">${d.name}</div>
+            <div class="result-name">${d.name}${typeBadge}</div>
             <div class="result-country">${d.country}</div>
             <div class="result-tagline">${d.tagline}</div>
           </div>
         </div>
         ${tags ? `<div class="match-tags">${tags}</div>` : ''}
-        <button class="btn-guide" onclick="toggleGuide(this, '${d.id}')">
+        <a class="btn-guide" href="destino.html?slug=${d.id}">
           <span>Ver guía completa</span>
-          <span class="chevron">↓</span>
-        </button>
-        <div class="guide-body" id="guide-${d.id}">
-          ${buildGuide(d)}
-        </div>
+          <span>→</span>
+        </a>
       </div>
     `;
   }).join('');
 
   document.getElementById('resultsList').innerHTML = html;
+}
+
+function showResults() {
+  // Build type pills based on available destination types
+  const types = [...new Set(DESTINATIONS.map(d => d.type || 'country'))];
+  const typeLabels = { country: '🌍 Países', city: '🏙️ Ciudades', route: '🗺️ Rutas' };
+  let pillsHtml = '';
+  if (types.length > 1) {
+    pillsHtml = `<div class="type-pills">
+      <button class="type-pill active" data-type="all" onclick="setTypeFilter('all')">✨ Todos</button>
+      ${types.map(t => `<button class="type-pill" data-type="${t}" onclick="setTypeFilter('${t}')">${typeLabels[t] || t}</button>`).join('')}
+    </div>`;
+  }
+
+  const pillsEl = document.getElementById('typePills');
+  if (pillsEl) pillsEl.innerHTML = pillsHtml;
+
+  activeTypeFilter = 'all';
+  renderResults();
   document.getElementById('resultsScreen').classList.add('active');
   document.getElementById('progressFill').style.width = '100%';
-  // Show packing list section
-  document.getElementById('packingSection').style.display = 'block';
-  document.getElementById('packingGrid').style.display = 'none';
-  document.getElementById('packingHint').style.display = 'none';
-  document.getElementById('btnGenPacking').style.display = 'inline-flex';
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-function toggleGuide(btn, id) {
-  const body = document.getElementById('guide-' + id);
-  const isOpen = body.classList.toggle('open');
-  btn.classList.toggle('open', isOpen);
-}
-
-// ── Packing list ──────────────────────────────────────────────────────────────
-function generatePackingList() {
-  const style = answers.style || null;
-  const budget = answers.budget || 'mid';
-  const climate = answers.climate || null;
-  const vibes = answers.vibes || [];
-
-  const base = ['📱 Teléfono + cargador', '💳 Tarjetas + efectivo', '🛂 Pasaporte/DNI', '🔌 Adaptador de corriente', '💊 Botiquín básico', '🎧 Auriculares'];
-
-  const byClimate = {
-    warm: ['👙 Bañador', '🕶️ Gafas de sol', '🧴 Protector solar 50+', '👒 Sombrero', '👕 Ropa ligera (x5)'],
-    cold: ['🧥 Abrigo', '🧤 Guantes', '🧣 Bufanda', '🥾 Botas impermeables', '🧦 Calcetines térmicos'],
-    mild: ['🌂 Chubasquero', '👗 Capas de ropa', '👟 Zapatillas cómodas'],
-    any:  ['👗 Capas de ropa', '🌂 Chubasquero', '👟 Zapatillas cómodas']
-  };
-
-  const byStyle = {
-    backpacker: ['🎒 Mochila 40-50L', '🔒 Candado', '💦 Botella reutilizable', '🛏️ Sábana saco', '🧴 Jabón multifunción'],
-    campervan:  ['🗺️ Mapa de carretera', '🔦 Linterna', '🧰 Kit de herramientas básico', '🪣 Cubo plegable', '⛺ Silla de camping'],
-    sport:      ['🚴 Casco', '🩹 Botiquín deportivo', '💪 Ropa técnica (x3)', '🥤 Bidón de agua', '🔭 Pulsómetro'],
-    comfort:    ['🧳 Maleta con ruedas', '👔 Ropa elegante (cenas)', '💆 Neceser premium', '📖 Libro para el vuelo', '🎁 Snacks para el vuelo']
-  };
-
-  const byVibe = {
-    nature:    ['🥾 Botas de senderismo', '🎒 Mochila día', '🌿 Repelente mosquitos', '🔭 Prismáticos'],
-    culture:   ['📚 Libro sobre el destino', '📓 Diario de viaje', '📷 Cámara'],
-    adventure: ['🧗 Arnés + mosquetón', '🏕️ Tienda de campaña', '🗺️ Mapa topográfico'],
-    romantic:  ['🕯️ Velas pequeñas', '💐 Detalles sorpresa', '📸 Cámara instantánea'],
-    party:     ['👗 Ropa de fiesta', '💊 Tapones para los oídos', '🎉 Espíritu festivo']
-  };
-
-  let list = [...base];
-  if (climate && byClimate[climate]) list.push(...byClimate[climate]);
-  if (style && byStyle[style]) list.push(...byStyle[style]);
-  vibes.forEach(v => { if (byVibe[v]) list.push(...byVibe[v]); });
-
-  return [...new Set(list)];
-}
-
-function showPackingList() {
-  const list = generatePackingList();
-  const grid = document.getElementById('packingGrid');
-  grid.innerHTML = list.map(item => `
-    <div class="packing-chip" onclick="this.classList.toggle('packed')">${item}</div>
-  `).join('');
-  grid.style.display = 'flex';
-  document.getElementById('packingHint').style.display = 'block';
-  document.getElementById('btnGenPacking').style.display = 'none';
-}
 </script>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <a href="main.html" class="tab-item">
+    <span class="tab-icon">🏠</span>
+    <span>Inicio</span>
+  </a>
+  <a href="guias.html" class="tab-item">
+    <span class="tab-icon">🗺️</span>
+    <span>Guías</span>
+  </a>
+  <a href="plan.html" class="tab-item active">
+    <span class="tab-icon">✈️</span>
+    <span>Planifica</span>
+  </a>
+  <a href="mapa.html" class="tab-item">
+    <span class="tab-icon">🌍</span>
+    <span>Mapa</span>
+  </a>
+  <a href="profile.html" class="tab-item">
+    <span class="tab-icon">👤</span>
+    <span>Perfil</span>
+  </a>
+</nav>
 </body>
 </html>

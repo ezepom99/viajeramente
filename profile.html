@@ -100,10 +100,21 @@
       height: 34px;
       border-radius: 50%;
       background: var(--accent-light);
-      border: 2px solid var(--accent);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      overflow: hidden;
+      transition: border-color .2s;
+      flex-shrink: 0;
       cursor: pointer;
-      object-fit: cover;
     }
+    .nav-avatar:hover { border-color: var(--accent); }
+    .nav-avatar img { width:100%; height:100%; object-fit:cover; }
     .btn-logout {
       font-size: .82rem;
       color: var(--text-2);
@@ -116,9 +127,60 @@
     }
     .btn-logout:hover { background: var(--bg-soft); color: var(--text); }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .nav-links { display: none; }
+      .btn-logout { display: none; }
     }
+    /* ── Hamburger ── */
+    .nav-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      font-size: 1.4rem; color: var(--text); padding: 4px 6px;
+      line-height: 1; border-radius: 8px; transition: background .2s;
+    }
+    .nav-hamburger:hover { background: var(--bg-soft); }
+    @media (max-width: 768px) {
+      .nav-hamburger { display: flex; align-items: center; justify-content: center; }
+    }
+    /* ── Mobile overlay menu ── */
+    .mobile-menu-overlay {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.4); backdrop-filter: blur(4px);
+    }
+    .mobile-menu-overlay.open { display: block; }
+    .mobile-menu {
+      position: absolute; top: 0; left: 0; right: 0;
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 16px 20px 24px;
+      transform: translateY(-100%); transition: transform .25s ease;
+    }
+    .mobile-menu-overlay.open .mobile-menu { transform: translateY(0); }
+    .mobile-menu-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .mobile-menu-close {
+      background: none; border: none; cursor: pointer; font-size: 1.4rem;
+      color: var(--text-2); padding: 4px; border-radius: 6px; transition: color .2s;
+    }
+    .mobile-menu-close:hover { color: var(--text); }
+    .mobile-menu-links { display: flex; flex-direction: column; gap: 4px; }
+    .mobile-menu-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      font-size: 1rem; font-weight: 500; transition: background .15s;
+    }
+    .mobile-menu-link:hover { background: var(--bg-soft); }
+    .mobile-menu-link .mm-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+    .mobile-menu-divider { height: 1px; background: var(--border); margin: 10px 0; }
+    .mobile-menu-logout {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      color: var(--text-muted, #9CA3AF); font-size: 1rem; font-weight: 500;
+      background: none; border: none; cursor: pointer; width: 100%;
+      font-family: inherit; transition: background .15s, color .15s;
+    }
+    .mobile-menu-logout:hover { background: var(--bg-soft); color: var(--text); }
 
     /* ── MAIN LAYOUT ── */
     .page-wrap {
@@ -1671,23 +1733,77 @@
       font-size: .85rem; width: 200px; outline: none;
     }
     .map-modal-search::placeholder { color: #64748B; }
+    /* ── Bottom Tab Bar (mobile) ── */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-top: 1px solid #E2E8F0;
+      z-index: 1000;
+      padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+    }
+    @media (max-width: 768px) {
+      .bottom-nav { display: flex; }
+      body { padding-bottom: 64px; }
+    }
+    .tab-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #94A3B8;
+      font-size: 0.65rem;
+      font-weight: 500;
+      padding: 4px 0;
+      gap: 2px;
+      transition: color .15s;
+    }
+    .tab-item.active { color: #0EA5E9; }
+    .tab-item:hover { color: #0EA5E9; }
+    .tab-icon { font-size: 1.3rem; line-height: 1; }
   </style>
 </head>
 <body>
 
 <!-- ── NAV ── -->
 <nav class="nav">
-  <a href="index.html" class="nav-logo">🌍 ViajeraMente</a>
+  <a href="main.html" class="nav-logo">🌍 ViajeraMente</a>
   <ul class="nav-links">
-    <li><a href="index.html">Inicio</a></li>
+    <li><a href="main.html">Inicio</a></li>
     <li><a href="guias.html">Guías</a></li>
     <li><a href="plan.html">Planifica</a></li>
+    <li><a href="ranking.html">Ranking</a></li>
   </ul>
   <div class="nav-right">
-    <div class="avatar-placeholder" id="navAvatar" style="width:34px;height:34px;font-size:.9rem;border:2px solid var(--accent);">?</div>
+    <span class="nav-avatar" id="navAvatar"></span>
     <button class="btn-logout" onclick="logout()">Salir</button>
+    <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
   </div>
 </nav>
+
+<!-- Mobile menu overlay -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
+  <div class="mobile-menu">
+    <div class="mobile-menu-header">
+      <a href="main.html" class="nav-logo" style="text-decoration:none; font-family:'Space Grotesk',sans-serif; font-size:1.1rem; font-weight:700; color:var(--accent);">🌍 ViajeraMente</a>
+      <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
+    </div>
+    <div class="mobile-menu-links">
+      <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
+      <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
+      <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planifica</a>
+      <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
+      <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>Por fechas</a>
+      <a href="ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
+      <div class="mobile-menu-divider"></div>
+      <a href="profile.html" class="mobile-menu-link"><span class="mm-icon">👤</span>Mi perfil</a>
+      <button class="mobile-menu-logout" onclick="logout()"><span class="mm-icon">🚪</span>Cerrar sesión</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── PAGE WRAP (full width for hero) ── -->
 <div class="page-wrap">
@@ -1720,8 +1836,6 @@
 
       <div class="hero-actions">
         <button class="btn-edit-profile" id="btnEdit" onclick="toggleEdit()">✏️ Editar perfil</button>
-        <a class="btn-edit-profile" id="btnPublicProfile" href="perfil-publico.html?user=" style="text-decoration:none;">👤 Ver perfil público</a>
-        <a class="btn-edit-profile" href="ranking.html" style="text-decoration:none;">🏆 Ranking</a>
       </div>
     </div>
 
@@ -1875,7 +1989,7 @@
           <div class="section-title-icon">🗺️</div>
           Mi mapa mundial
         </div>
-        <span class="section-hint">Toca un país para marcarlo</span>
+        <span class="section-hint">Toca un país para marcarlo · Ver mapa completo ↗</span>
       </div>
 
       <div class="map-container">
@@ -1924,9 +2038,9 @@
         <div class="country-results" id="countryResults"></div>
       </div>
 
-      <button class="btn-outline" onclick="openMapModal()" style="width:100%;margin-top:10px;padding:10px;border-radius:12px;border:1.5px solid var(--border);background:white;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--accent);">
+      <a href="mapa.html" target="_blank" style="display:block;width:100%;margin-top:10px;padding:10px;border-radius:12px;border:1.5px solid var(--border);background:white;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--accent);text-align:center;text-decoration:none;box-sizing:border-box;">
         🗺️ Ver mapa grande
-      </button>
+      </a>
     </div>
 
     <!-- Fullscreen map modal -->
@@ -1996,9 +2110,9 @@
       <div class="section-header">
         <div class="section-title">
           <div class="section-title-icon">⭐</div>
-          Maravillas del mundo
+          7 Maravillas del Mundo Moderno
         </div>
-        <span class="section-badge"><strong id="wondersVisitedCount" style="color:var(--accent);">0</strong>/21 visitadas</span>
+        <span class="section-badge"><strong id="wondersVisitedCount" style="color:var(--accent);">0</strong>/7 visitadas</span>
       </div>
       <div class="wonders-grid" id="wondersGrid"></div>
     </div>
@@ -2246,32 +2360,15 @@ function getCountryName(id) {
   return COUNTRY_NAMES[parseInt(id)] || `País (${id})`;
 }
 
-// ── WONDERS DATA ──
+// ── WONDERS DATA — Las 7 Maravillas del Mundo Moderno (New7Wonders 2007) ──
 const WONDERS = [
-  // 7 Nuevas Maravillas del Mundo (2007)
-  { id:1,  name:'Machu Picchu',           country:'Perú',          city:'Cusco',         countryCode:604, emoji:'🏔️', pexels:'2356059' },
-  { id:2,  name:'Cristo Redentor',         country:'Brasil',        city:'Río de Janeiro', countryCode:76,  emoji:'✝️', pexels:'2868146' },
-  { id:3,  name:'Chichen Itzá',            country:'México',        city:'Yucatán',        countryCode:484, emoji:'🛕', pexels:'4388167' },
-  { id:4,  name:'Coliseo Romano',          country:'Italia',        city:'Roma',           countryCode:380, emoji:'🏛️', pexels:'1797166' },
-  { id:5,  name:'Gran Muralla China',      country:'China',         city:'Pekín',          countryCode:156, emoji:'🧱', pexels:'2846217' },
-  { id:6,  name:'Taj Mahal',              country:'India',         city:'Agra',           countryCode:356, emoji:'🕌', pexels:'1603650' },
-  { id:7,  name:'Petra',                  country:'Jordania',      city:'Petra',          countryCode:400, emoji:'🏜️', pexels:'3290068' },
-  // 7 Maravillas Naturales del Mundo
-  { id:8,  name:'Amazonas',              country:'Brasil',        city:'Manaos',         countryCode:76,  emoji:'🌿', pexels:'975771' },
-  { id:9,  name:'Bahía de Ha Long',       country:'Vietnam',       city:'Quảng Ninh',     countryCode:704, emoji:'🏝️', pexels:'1007070' },
-  { id:10, name:'Cataratas del Iguazú',   country:'Argentina',     city:'Puerto Iguazú',  countryCode:32,  emoji:'💧', pexels:'2389924' },
-  { id:11, name:'Isla Komodo',            country:'Indonesia',     city:'Flores',         countryCode:360, emoji:'🦎', pexels:'3522880' },
-  { id:12, name:'Monte Everest',          country:'Nepal',         city:'Katmandú',       countryCode:524, emoji:'🏔️', pexels:'753619' },
-  { id:13, name:'Gran Barrera de Coral',  country:'Australia',     city:'Cairns',         countryCode:36,  emoji:'🐠', pexels:'1049298' },
-  { id:14, name:'Aurora Boreal',          country:'Noruega',       city:'Tromsø',         countryCode:578, emoji:'🌌', pexels:'1212600' },
-  // 7 Maravillas Icónicas
-  { id:15, name:'Pirámides de Giza',      country:'Egipto',        city:'El Cairo',       countryCode:818, emoji:'🔺', pexels:'71241' },
-  { id:16, name:'Angkor Wat',             country:'Camboya',       city:'Siem Riep',      countryCode:116, emoji:'🛕', pexels:'3290070' },
-  { id:17, name:'Stonehenge',             country:'Reino Unido',   city:'Salisbury',      countryCode:826, emoji:'🗿', pexels:'589840' },
-  { id:18, name:'Isla de Pascua',         country:'Chile',         city:'Hanga Roa',      countryCode:152, emoji:'🗿', pexels:'1134166' },
-  { id:19, name:'Torre Eiffel',           country:'Francia',       city:'París',          countryCode:250, emoji:'🗼', pexels:'699466' },
-  { id:20, name:'Sagrada Família',        country:'España',        city:'Barcelona',      countryCode:724, emoji:'⛪', pexels:'1388030' },
-  { id:21, name:'Cataratas Victoria',     country:'Zimbabue',      city:'Victoria Falls', countryCode:716, emoji:'🌊', pexels:'417070' },
+  { id:1, name:'Machu Picchu',       country:'Perú',     city:'Cusco',          countryCode:604, emoji:'🏔️', pexels:'2356059' },
+  { id:2, name:'Cristo Redentor',    country:'Brasil',   city:'Río de Janeiro', countryCode:76,  emoji:'✝️', pexels:'2868146' },
+  { id:3, name:'Chichén Itzá',       country:'México',   city:'Yucatán',        countryCode:484, emoji:'🛕', pexels:'4388167' },
+  { id:4, name:'Coliseo de Roma',    country:'Italia',   city:'Roma',           countryCode:380, emoji:'🏛️', pexels:'1797166' },
+  { id:5, name:'Gran Muralla China', country:'China',    city:'Pekín',          countryCode:156, emoji:'🧱', pexels:'2846217' },
+  { id:6, name:'Taj Mahal',          country:'India',    city:'Agra',           countryCode:356, emoji:'🕌', pexels:'1603650' },
+  { id:7, name:'Petra',              country:'Jordania', city:'Petra',          countryCode:400, emoji:'🏜️', pexels:'3290068' },
 ];
 
 // ── BADGES DATA ──
@@ -2281,7 +2378,7 @@ const BADGES = [
   { id:'10countries',  emoji:'🗺️',  name:'10 países',         req: u => visitedCodes.size >= 10, progress: () => `${visitedCodes.size}/10` },
   { id:'3continents',  emoji:'🌐',  name:'3 continentes',     req: u => visitedContinents.size >= 3, progress: () => `${visitedContinents.size}/3` },
   { id:'wonder_first', emoji:'⭐',  name:'1ª maravilla',      req: u => visitedWonders.size >= 1 },
-  { id:'wonder5',      emoji:'🏆',  name:'5 maravillas',      req: u => visitedWonders.size >= 5,  progress: () => `${visitedWonders.size}/5` },
+  { id:'wonder5',      emoji:'🏆',  name:'Las 7 maravillas',  req: u => visitedWonders.size >= 7,  progress: () => `${visitedWonders.size}/7` },
   { id:'europe',       emoji:'🏰',  name:'Europeo',           req: u => visitedContinents.has('europa') },
   { id:'asia',         emoji:'🌏',  name:'Asiático',          req: u => visitedContinents.has('asia') },
   { id:'mochilero',    emoji:'🎒',  name:'Mochilero',         req: u => trips.length >= 3 },
@@ -2360,7 +2457,7 @@ function renderProfile(user) {
   document.getElementById('profileBio').textContent = user.bio || 'Viajero apasionado en busca de nuevas aventuras por el mundo.';
 
   // Update public profile link with actual username
-  const btnPublic = document.getElementById('btnPublicProfile');
+  const btnPublic = document.getElementById('btnNavPublicProfile');
   if (btnPublic && user.username) {
     btnPublic.href = 'perfil-publico.html?user=' + encodeURIComponent(user.username);
   }
@@ -2711,20 +2808,6 @@ const WONDER_COUNTRY_MAP = {
   5:  [156, 'China',        'Pekín'],
   6:  [356, 'India',        'Agra'],
   7:  [400, 'Jordania',     'Petra'],
-  8:  [76,  'Brasil',       'Manaos'],
-  9:  [704, 'Vietnam',      'Quảng Ninh'],
-  10: [32,  'Argentina',    'Puerto Iguazú'],
-  11: [360, 'Indonesia',    'Flores'],
-  12: [524, 'Nepal',        'Katmandú'],
-  13: [36,  'Australia',    'Cairns'],
-  14: [578, 'Noruega',      'Tromsø'],
-  15: [818, 'Egipto',       'El Cairo'],
-  16: [116, 'Camboya',      'Siem Riep'],
-  17: [826, 'Reino Unido',  'Salisbury'],
-  18: [152, 'Chile',        'Hanga Roa'],
-  19: [250, 'Francia',      'París'],
-  20: [724, 'España',       'Barcelona'],
-  21: [716, 'Zimbabue',     'Victoria Falls'],
 };
 
 function toggleWonder(id, el) {
@@ -2960,6 +3043,9 @@ function logout() {
   localStorage.removeItem('token');
   window.location.href = 'login.html';
 }
+function openMobileMenu() { document.getElementById('mobileMenuOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeMobileMenu() { document.getElementById('mobileMenuOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+function closeMobileMenuOnBg(e) { if (e.target === document.getElementById('mobileMenuOverlay')) closeMobileMenu(); }
 
 // ── TOAST ──
 let toastTimer;
@@ -3175,5 +3261,28 @@ document.addEventListener('keydown', e => {
 });
 </script>
 
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <a href="main.html" class="tab-item">
+    <span class="tab-icon">🏠</span>
+    <span>Inicio</span>
+  </a>
+  <a href="guias.html" class="tab-item">
+    <span class="tab-icon">🗺️</span>
+    <span>Guías</span>
+  </a>
+  <a href="plan.html" class="tab-item">
+    <span class="tab-icon">✈️</span>
+    <span>Planifica</span>
+  </a>
+  <a href="mapa.html" class="tab-item">
+    <span class="tab-icon">🌍</span>
+    <span>Mapa</span>
+  </a>
+  <a href="profile.html" class="tab-item active">
+    <span class="tab-icon">👤</span>
+    <span>Perfil</span>
+  </a>
+</nav>
 </body>
 </html>

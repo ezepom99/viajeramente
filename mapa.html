@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Mi Mapa de Viajes · ViajeraMente</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #0EA5E9;
+      --accent-dark: #0284C7;
+      --visited-fill: #0EA5E9;
+      --visited-stroke: #0284C7;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1e293b;
+    }
+
+    /* ── FULLSCREEN MAP ── */
+    #map {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+    }
+
+    /* ── FLOATING BACK BUTTON ── */
+    #back-btn {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 500;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+      transition: background 0.2s;
+    }
+    #back-btn:hover { background: rgba(15, 23, 42, 0.95); }
+
+    /* ── FLOATING STATS BADGE ── */
+    #stats-badge {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 500;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 8px 18px;
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      white-space: nowrap;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+      pointer-events: none;
+    }
+    #stats-badge span { color: var(--accent); font-weight: 800; }
+
+    /* ── FLOATING LAYERS PANEL ── */
+    #layers-btn {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 500;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+      transition: background 0.2s;
+    }
+    #layers-btn:hover { background: rgba(15, 23, 42, 0.95); }
+
+    #layers-panel {
+      position: fixed;
+      top: 64px;
+      right: 16px;
+      z-index: 500;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 12px 0;
+      min-width: 180px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      transform-origin: top right;
+      transform: scale(0.9);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1), opacity 0.15s;
+    }
+    #layers-panel.open {
+      transform: scale(1);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .layer-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: background 0.12s, color 0.12s;
+    }
+    .layer-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .layer-item.active { color: var(--accent); }
+
+    .layer-toggle {
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      border: 2px solid rgba(255,255,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .layer-item.active .layer-toggle {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .layer-toggle::after {
+      content: '';
+      display: none;
+      width: 5px;
+      height: 9px;
+      border: 2px solid #fff;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg) translate(-1px, -1px);
+    }
+    .layer-item.active .layer-toggle::after { display: block; }
+
+    .layer-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin: 6px 0;
+    }
+
+    /* ── BOTTOM SHEET ── */
+    #bottom-sheet {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 600;
+      background: #fff;
+      border-radius: 20px 20px 0 0;
+      padding: 0 0 max(24px, env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 30px rgba(0,0,0,0.2);
+      transform: translateY(100%);
+      transition: transform 0.32s cubic-bezier(0.32, 0, 0.67, 0);
+    }
+    #bottom-sheet.open {
+      transform: translateY(0);
+      transition: transform 0.32s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+
+    #sheet-handle-area {
+      padding: 12px 20px 8px;
+      cursor: pointer;
+      text-align: center;
+    }
+    #sheet-handle {
+      width: 36px;
+      height: 4px;
+      background: #CBD5E1;
+      border-radius: 2px;
+      margin: 0 auto;
+    }
+
+    #sheet-body {
+      padding: 4px 20px 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    #sheet-flag {
+      font-size: 2.4rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    #sheet-info { flex: 1; min-width: 0; }
+    #sheet-country-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #sheet-country-sub {
+      font-size: 0.8rem;
+      color: #64748B;
+    }
+
+    #sheet-btn {
+      flex-shrink: 0;
+      padding: 11px 20px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      white-space: nowrap;
+    }
+    #sheet-btn:active { transform: scale(0.96); }
+    #sheet-btn:hover { background: var(--accent-dark); }
+    #sheet-btn.visited {
+      background: #EFF6FF;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+    }
+    #sheet-btn.visited:hover { background: #DBEAFE; }
+
+    /* ── LOADING OVERLAY ── */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #0F172A;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s;
+    }
+    #loading.hidden { opacity: 0; pointer-events: none; }
+    #loading-logo {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    #loading-text {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+      margin-top: 16px;
+    }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── LEAFLET OVERRIDES ── */
+    .leaflet-control-zoom {
+      border: none !important;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3) !important;
+      border-radius: 12px !important;
+      overflow: hidden;
+    }
+    .leaflet-control-zoom-in,
+    .leaflet-control-zoom-out {
+      background: rgba(15, 23, 42, 0.85) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #fff !important;
+      border: none !important;
+      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+      font-size: 1rem !important;
+      font-weight: 400 !important;
+      width: 34px !important;
+      height: 34px !important;
+      line-height: 34px !important;
+    }
+    .leaflet-control-zoom-in:hover,
+    .leaflet-control-zoom-out:hover {
+      background: rgba(15, 23, 42, 0.95) !important;
+      color: var(--accent) !important;
+    }
+    .leaflet-bar a:last-child { border-bottom: none !important; }
+
+    .leaflet-control-attribution {
+      background: rgba(15,23,42,0.6) !important;
+      color: rgba(255,255,255,0.5) !important;
+      font-size: 0.65rem !important;
+      border-radius: 6px 0 0 0 !important;
+      padding: 2px 6px !important;
+    }
+    .leaflet-control-attribution a { color: rgba(255,255,255,0.5) !important; }
+
+    .leaflet-popup-content-wrapper {
+      border-radius: 14px !important;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important;
+      border: none !important;
+      padding: 0 !important;
+    }
+    .leaflet-popup-content { margin: 0 !important; }
+    .leaflet-popup-tip-container { display: none; }
+
+    .wonder-popup-inner {
+      padding: 12px 16px;
+      min-width: 160px;
+    }
+    .wonder-popup-inner strong { display: block; font-size: 0.9rem; color: #0F172A; margin-bottom: 2px; }
+    .wonder-popup-inner span { font-size: 0.75rem; color: #64748B; }
+    .wonder-visited-badge {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 8px;
+      background: #D1FAE5;
+      color: #065F46;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .wonder-marker {
+      font-size: 1.4rem;
+      line-height: 1;
+      text-align: center;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35));
+      cursor: pointer;
+    }
+    .wonder-marker.visited-wonder {
+      filter: drop-shadow(0 2px 8px rgba(14,165,233,0.7));
+    }
+
+    /* Tooltip for city markers */
+    .city-tooltip {
+      background: rgba(15,23,42,0.88) !important;
+      color: #fff !important;
+      border: none !important;
+      border-radius: 8px !important;
+      padding: 4px 10px !important;
+      font-size: 0.78rem !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+    }
+    .city-tooltip::before { display: none !important; }
+
+    /* Landscape on mobile: nudge stats badge */
+    @media (orientation: landscape) and (max-height: 500px) {
+      #stats-badge { top: 8px; }
+      #back-btn { top: 8px; left: 8px; }
+      #layers-btn { top: 8px; right: 8px; }
+      #layers-panel { top: 54px; right: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div id="loading">
+  <div id="loading-logo">🗺️</div>
+  <div class="spinner"></div>
+  <div id="loading-text">Cargando mapa...</div>
+</div>
+
+<!-- Fullscreen map -->
+<div id="map"></div>
+
+<!-- Floating back button -->
+<a id="back-btn" href="profile.html" title="Volver al perfil" aria-label="Volver">←</a>
+
+<!-- Floating stats badge -->
+<div id="stats-badge">
+  <span id="stat-countries">0</span> países &nbsp;·&nbsp; <span id="stat-continents">0</span> continentes
+</div>
+
+<!-- Floating layers toggle button -->
+<button id="layers-btn" onclick="toggleLayersPanel()" title="Capas" aria-label="Capas">⊞</button>
+
+<!-- Layers panel (dropdown) -->
+<div id="layers-panel" role="menu">
+  <div class="layer-item" id="layer-heatmap" onclick="toggleLayer('heatmap')">
+    <span class="layer-toggle"></span>
+    <span>🌡️ Heatmap</span>
+  </div>
+  <div class="layer-item" id="layer-maravillas" onclick="toggleLayer('maravillas')">
+    <span class="layer-toggle"></span>
+    <span>⭐ Maravillas</span>
+  </div>
+  <div class="layer-divider"></div>
+  <div class="layer-item" id="layer-ciudades" onclick="toggleLayer('ciudades')">
+    <span class="layer-toggle"></span>
+    <span>🏙️ Ciudades</span>
+  </div>
+</div>
+
+<!-- Bottom sheet -->
+<div id="bottom-sheet" role="dialog" aria-modal="true" aria-label="Información del país">
+  <div id="sheet-handle-area" onclick="closeSheet()">
+    <div id="sheet-handle"></div>
+  </div>
+  <div id="sheet-body">
+    <div id="sheet-flag">🌍</div>
+    <div id="sheet-info">
+      <div id="sheet-country-name">País</div>
+      <div id="sheet-country-sub"></div>
+    </div>
+    <button id="sheet-btn" onclick="toggleCurrentCountry()">+ Marcar como visitado</button>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+<script>
+'use strict';
+
+// ── CONSTANTS ─────────────────────────────────────────────────────────────────
+
+const GEOJSON_URL = 'https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson';
+
+// Continent by ISO alpha-2
+const ALPHA2_CONTINENT = {
+  AF:'Africa',AX:'Europe',AL:'Europe',DZ:'Africa',AS:'Oceania',AD:'Europe',
+  AO:'Africa',AI:'Americas',AQ:'Antarctica',AG:'Americas',AR:'Americas',
+  AM:'Asia',AW:'Americas',AU:'Oceania',AT:'Europe',AZ:'Asia',BS:'Americas',
+  BH:'Asia',BD:'Asia',BB:'Americas',BY:'Europe',BE:'Europe',BZ:'Americas',
+  BJ:'Africa',BM:'Americas',BT:'Asia',BO:'Americas',BQ:'Americas',BA:'Europe',
+  BW:'Africa',BR:'Americas',IO:'Asia',BN:'Asia',BG:'Europe',BF:'Africa',
+  BI:'Africa',CV:'Africa',KH:'Asia',CM:'Africa',CA:'Americas',KY:'Americas',
+  CF:'Africa',TD:'Africa',CL:'Americas',CN:'Asia',CX:'Asia',CC:'Asia',
+  CO:'Americas',KM:'Africa',CG:'Africa',CD:'Africa',CK:'Oceania',CR:'Americas',
+  CI:'Africa',HR:'Europe',CU:'Americas',CW:'Americas',CY:'Europe',CZ:'Europe',
+  DK:'Europe',DJ:'Africa',DM:'Americas',DO:'Americas',EC:'Americas',EG:'Africa',
+  SV:'Americas',GQ:'Africa',ER:'Africa',EE:'Europe',SZ:'Africa',ET:'Africa',
+  FK:'Americas',FO:'Europe',FJ:'Oceania',FI:'Europe',FR:'Europe',GF:'Americas',
+  PF:'Oceania',GA:'Africa',GM:'Africa',GE:'Asia',DE:'Europe',GH:'Africa',
+  GI:'Europe',GR:'Europe',GL:'Americas',GD:'Americas',GP:'Americas',GU:'Oceania',
+  GT:'Americas',GG:'Europe',GN:'Africa',GW:'Africa',GY:'Americas',HT:'Americas',
+  HM:'Antarctica',VA:'Europe',HN:'Americas',HK:'Asia',HU:'Europe',IS:'Europe',
+  IN:'Asia',ID:'Asia',IR:'Asia',IQ:'Asia',IE:'Europe',IM:'Europe',IL:'Asia',
+  IT:'Europe',JM:'Americas',JP:'Asia',JE:'Europe',JO:'Asia',KZ:'Asia',
+  KE:'Africa',KI:'Oceania',KP:'Asia',KR:'Asia',KW:'Asia',KG:'Asia',LA:'Asia',
+  LV:'Europe',LB:'Asia',LS:'Africa',LR:'Africa',LY:'Africa',LI:'Europe',
+  LT:'Europe',LU:'Europe',MO:'Asia',MG:'Africa',MW:'Africa',MY:'Asia',
+  MV:'Asia',ML:'Africa',MT:'Europe',MH:'Oceania',MQ:'Americas',MR:'Africa',
+  MU:'Africa',YT:'Africa',MX:'Americas',FM:'Oceania',MD:'Europe',MC:'Europe',
+  MN:'Asia',ME:'Europe',MS:'Americas',MA:'Africa',MZ:'Africa',MM:'Asia',
+  NA:'Africa',NR:'Oceania',NP:'Asia',NL:'Europe',NC:'Oceania',NZ:'Oceania',
+  NI:'Americas',NE:'Africa',NG:'Africa',NU:'Oceania',NF:'Oceania',MK:'Europe',
+  MP:'Oceania',NO:'Europe',OM:'Asia',PK:'Asia',PW:'Oceania',PS:'Asia',
+  PA:'Americas',PG:'Oceania',PY:'Americas',PE:'Americas',PH:'Asia',PN:'Oceania',
+  PL:'Europe',PT:'Europe',PR:'Americas',QA:'Asia',RE:'Africa',RO:'Europe',
+  RU:'Europe',RW:'Africa',BL:'Americas',SH:'Africa',KN:'Americas',LC:'Americas',
+  MF:'Americas',PM:'Americas',VC:'Americas',WS:'Oceania',SM:'Europe',ST:'Africa',
+  SA:'Asia',SN:'Africa',RS:'Europe',SC:'Africa',SL:'Africa',SG:'Asia',
+  SX:'Americas',SK:'Europe',SI:'Europe',SB:'Oceania',SO:'Africa',ZA:'Africa',
+  GS:'Antarctica',SS:'Africa',ES:'Europe',LK:'Asia',SD:'Africa',SR:'Americas',
+  SJ:'Europe',SE:'Europe',CH:'Europe',SY:'Asia',TW:'Asia',TJ:'Asia',TZ:'Africa',
+  TH:'Asia',TL:'Asia',TG:'Africa',TK:'Oceania',TO:'Oceania',TT:'Americas',
+  TN:'Africa',TR:'Asia',TM:'Asia',TC:'Americas',TV:'Oceania',UG:'Africa',
+  UA:'Europe',AE:'Asia',GB:'Europe',US:'Americas',UM:'Oceania',UY:'Americas',
+  UZ:'Asia',VU:'Oceania',VE:'Americas',VN:'Asia',VG:'Americas',VI:'Americas',
+  WF:'Oceania',EH:'Africa',YE:'Asia',ZM:'Africa',ZW:'Africa',
+};
+
+// 7 New Wonders of the World
+const WONDERS_NEW = [
+  {id:'w1', name:'Machu Picchu',       lat:-13.163,  lng:-72.545,  emoji:'🏔️', type:'Nueva Maravilla'},
+  {id:'w2', name:'Cristo Redentor',    lat:-22.952,  lng:-43.210,  emoji:'✝️',  type:'Nueva Maravilla'},
+  {id:'w3', name:'Chichen Itzá',       lat:20.683,   lng:-88.568,  emoji:'🛕', type:'Nueva Maravilla'},
+  {id:'w4', name:'Coliseo Romano',     lat:41.890,   lng:12.492,   emoji:'🏛️', type:'Nueva Maravilla'},
+  {id:'w5', name:'Gran Muralla China', lat:40.432,   lng:116.570,  emoji:'🧱', type:'Nueva Maravilla'},
+  {id:'w6', name:'Taj Mahal',          lat:27.174,   lng:78.042,   emoji:'🕌', type:'Nueva Maravilla'},
+  {id:'w7', name:'Petra',              lat:30.329,   lng:35.441,   emoji:'🏜️', type:'Nueva Maravilla'},
+];
+
+// 7 Natural Wonders
+const WONDERS_NATURAL = [
+  {id:'n1', name:'Amazonas',           lat:-3.47,    lng:-62.22,   emoji:'🌿', type:'Maravilla Natural'},
+  {id:'n2', name:'Bahía Ha Long',      lat:20.91,    lng:107.18,   emoji:'⛰️', type:'Maravilla Natural'},
+  {id:'n3', name:'Cataratas del Iguazú',lat:-25.69,  lng:-54.44,   emoji:'💧', type:'Maravilla Natural'},
+  {id:'n4', name:'Isla Jeju',          lat:33.49,    lng:126.53,   emoji:'🌋', type:'Maravilla Natural'},
+  {id:'n5', name:'Komodo',             lat:-8.54,    lng:119.47,   emoji:'🦎', type:'Maravilla Natural'},
+  {id:'n6', name:'Río Subterráneo de Puerto Princesa',lat:10.20,lng:118.93,emoji:'🌊',type:'Maravilla Natural'},
+  {id:'n7', name:'Table Mountain',     lat:-33.96,   lng:18.41,    emoji:'⛰️', type:'Maravilla Natural'},
+];
+
+const ALL_WONDERS = [...WONDERS_NEW, ...WONDERS_NATURAL];
+
+// Country centroids for heatmap (ISO alpha-2 → [lat, lng])
+const COUNTRY_CENTROIDS = {
+  AF:[33.83,66.02], AL:[41.15,20.17], DZ:[28.03,1.66], AO:[-11.20,17.87],
+  AR:[-38.42,-63.62], AM:[40.07,45.04], AU:[-25.27,133.78], AT:[47.52,14.55],
+  AZ:[40.14,47.58], BS:[25.03,-77.40], BH:[26.02,50.55], BD:[23.68,90.36],
+  BB:[13.19,-59.54], BY:[53.71,27.95], BE:[50.50,4.47], BZ:[17.19,-88.50],
+  BJ:[9.31,2.32], BT:[27.51,90.43], BO:[-16.29,-63.59], BA:[43.92,17.68],
+  BW:[-22.33,24.68], BR:[-14.24,-51.93], BN:[4.54,114.73], BG:[42.73,25.49],
+  BF:[12.36,-1.56], BI:[-3.38,29.92], CM:[3.85,11.50], CA:[56.13,-106.35],
+  CV:[15.12,-23.61], CF:[6.61,20.94], TD:[15.45,18.73], CL:[-35.68,-71.54],
+  CN:[35.86,104.20], CO:[4.57,-74.30], KM:[-11.64,43.33], CG:[-0.23,15.83],
+  CD:[-4.04,21.76], CR:[9.75,-83.75], CI:[7.54,-5.55], HR:[45.10,15.20],
+  CU:[21.52,-77.78], CY:[35.13,33.43], CZ:[49.82,15.47], DK:[56.26,9.50],
+  DJ:[11.83,42.59], DO:[18.74,-70.16], EC:[-1.83,-78.18], EG:[26.82,30.80],
+  SV:[13.79,-88.90], GQ:[1.65,10.27], ER:[15.18,39.78], EE:[58.60,25.01],
+  ET:[9.15,40.49], FJ:[-16.58,179.41], FI:[61.92,25.75], FR:[46.23,2.21],
+  GA:[-0.80,11.61], GM:[13.44,-15.31], GE:[42.32,43.36], DE:[51.17,10.45],
+  GH:[7.95,-1.02], GR:[39.07,21.82], GT:[15.78,-90.23], GN:[9.95,-11.81],
+  GW:[11.80,-15.18], GY:[4.86,-58.93], HT:[18.97,-72.29], HN:[15.20,-86.24],
+  HU:[47.16,19.50], IN:[20.59,78.96], ID:[-0.79,113.92], IR:[32.43,53.69],
+  IQ:[33.22,43.68], IE:[53.41,-8.24], IL:[31.05,34.85], IT:[41.87,12.57],
+  JM:[18.11,-77.30], JP:[36.20,138.25], JO:[30.59,36.24], KZ:[48.02,66.92],
+  KE:[-0.02,37.91], KP:[40.34,127.51], KR:[35.91,127.77], KW:[29.31,47.48],
+  KG:[41.20,74.77], LA:[19.86,102.50], LV:[56.88,24.60], LB:[33.85,35.86],
+  LS:[-29.61,28.23], LR:[6.43,-9.43], LY:[26.34,17.23], LI:[47.17,9.56],
+  LT:[55.17,23.88], LU:[49.82,6.13], MG:[-18.77,46.87], MW:[-13.25,34.30],
+  MY:[4.21,108.04], MV:[3.20,73.22], ML:[17.57,-3.99], MT:[35.94,14.38],
+  MR:[21.01,-10.94], MU:[-20.35,57.55], MX:[23.63,-102.55], MD:[47.41,28.37],
+  MC:[43.73,7.40], MN:[46.86,103.85], ME:[42.71,19.37], MA:[31.79,-7.09],
+  MZ:[-18.67,35.53], MM:[21.92,95.96], NA:[-22.96,18.49], NP:[28.39,84.12],
+  NL:[52.13,5.29], NZ:[-40.90,174.89], NI:[12.87,-85.21], NE:[17.61,8.08],
+  NG:[9.08,8.68], NO:[60.47,8.47], OM:[21.51,55.92], PK:[30.38,69.35],
+  PA:[8.54,-80.78], PG:[-6.31,143.96], PY:[-23.44,-58.44], PE:[-9.19,-75.02],
+  PH:[12.88,121.77], PL:[51.92,19.15], PT:[39.40,-8.22], QA:[25.35,51.18],
+  RO:[45.94,24.97], RU:[61.52,105.32], RW:[-1.94,29.87], SA:[23.89,45.08],
+  SN:[14.50,-14.45], RS:[44.02,21.01], SL:[8.46,-11.78], SG:[1.35,103.82],
+  SK:[48.67,19.70], SI:[46.15,14.99], SB:[-9.64,160.16], SO:[5.15,46.20],
+  ZA:[-30.56,22.94], SS:[4.86,31.57], ES:[40.46,-3.75], LK:[7.87,80.77],
+  SD:[12.86,30.22], SR:[3.92,-56.03], SE:[60.13,18.64], CH:[46.82,8.23],
+  SY:[34.80,38.99], TJ:[38.86,71.28], TZ:[-6.37,34.89], TH:[15.87,100.99],
+  TL:[-8.87,125.73], TG:[8.62,0.82], TO:[-21.18,-175.20], TT:[10.69,-61.22],
+  TN:[33.89,9.54], TR:[38.96,35.24], TM:[38.97,59.56], UG:[1.37,32.29],
+  UA:[48.38,31.17], AE:[23.42,53.85], GB:[55.38,-3.44], US:[37.09,-95.71],
+  UY:[-32.52,-55.77], UZ:[41.38,64.59], VE:[6.42,-66.59], VN:[14.06,108.28],
+  YE:[15.55,48.52], ZM:[-13.13,27.85], ZW:[-19.02,29.15],
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+
+// Use same key as profile.html: 'visitedCountries' — array of ISO alpha-2 codes
+let visitedCountries = new Set(
+  JSON.parse(localStorage.getItem('visitedCountries') || '[]')
+);
+
+let visitedWonders = new Set(
+  JSON.parse(localStorage.getItem('visitedWonders') || '[]')
+);
+
+// visitedCities is an array of city name strings in profile.html
+let visitedCities = JSON.parse(localStorage.getItem('visitedCities') || '[]');
+
+let layers = { heatmap: false, maravillas: false, ciudades: false };
+let layersPanelOpen = false;
+
+let map, geoLayer, heatLayer, wonderLayer;
+let cityMarkers = [];
+let currentIso = null;
+let currentCountryName = null;
+let geoFeaturesMap = {}; // iso2 → layer
+
+// ── MAP INIT ──────────────────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+  initMap();
+  // Close layers panel when clicking outside
+  document.addEventListener('click', (e) => {
+    if (layersPanelOpen &&
+        !document.getElementById('layers-panel').contains(e.target) &&
+        e.target.id !== 'layers-btn') {
+      closeLayersPanel();
+    }
+  });
+});
+
+function initMap() {
+  map = L.map('map', {
+    zoomControl: false,
+    attributionControl: true,
+    minZoom: 2,
+    maxZoom: 18,
+    worldCopyJump: false,
+  });
+
+  // CartoDB Voyager — shows country names, city names, roads at all zoom levels
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19,
+  }).addTo(map);
+
+  // Zoom control — bottom right
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+  // Fit world
+  map.setView([20, 0], 2);
+
+  // Close sheet on map click
+  map.on('click', () => closeSheet());
+
+  loadGeoJSON();
+}
+
+// ── GEOJSON ───────────────────────────────────────────────────────────────────
+
+async function loadGeoJSON() {
+  try {
+    setLoadingText('Cargando países...');
+    const res = await fetch(GEOJSON_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const geojson = await res.json();
+
+    geoLayer = L.geoJSON(geojson, {
+      style: styleCountry,
+      onEachFeature: (feature, layer) => {
+        const iso = feature.properties.ISO_A2 || feature.properties.iso_a2 || '';
+        if (iso) geoFeaturesMap[iso.toUpperCase()] = layer;
+
+        layer.on('click', (e) => {
+          L.DomEvent.stopPropagation(e);
+          const code = iso.toUpperCase();
+          const name = feature.properties.ADMIN || feature.properties.name || feature.properties.NAME || code;
+          showCountrySheet(code, name);
+        });
+
+        layer.on('mouseover', function() {
+          const code = iso.toUpperCase();
+          if (!visitedCountries.has(code)) {
+            this.setStyle({ fillColor: '#BAE6FD', fillOpacity: 0.45, weight: 1.5 });
+          }
+        });
+
+        layer.on('mouseout', function() {
+          geoLayer.resetStyle(this);
+        });
+      },
+    }).addTo(map);
+
+    updateStats();
+    hideLoading();
+  } catch (err) {
+    console.error('Error loading GeoJSON:', err);
+    setLoadingText('Error cargando mapa. Recarga la página.');
+  }
+}
+
+// ── COUNTRY STYLING ───────────────────────────────────────────────────────────
+
+function styleCountry(feature) {
+  const iso = (feature.properties.ISO_A2 || feature.properties.iso_a2 || '').toUpperCase();
+  const visited = visitedCountries.has(iso);
+  return {
+    fillColor: visited ? '#0EA5E9' : 'transparent',
+    fillOpacity: visited ? 0.55 : 0.01,
+    color: visited ? '#0284C7' : 'rgba(100,116,139,0.2)',
+    weight: visited ? 1.5 : 0.5,
+    interactive: true,
+  };
+}
+
+function refreshGeoLayer() {
+  if (geoLayer) geoLayer.setStyle(styleCountry);
+}
+
+// ── BOTTOM SHEET ──────────────────────────────────────────────────────────────
+
+function showCountrySheet(iso, name) {
+  currentIso = iso;
+  currentCountryName = name;
+
+  const flag = isoToFlag(iso);
+  const continent = ALPHA2_CONTINENT[iso] || '';
+
+  document.getElementById('sheet-flag').textContent = flag;
+  document.getElementById('sheet-country-name').textContent = name;
+  document.getElementById('sheet-country-sub').textContent = continent ? `${continent} · ${iso}` : iso;
+
+  updateSheetButton();
+  document.getElementById('bottom-sheet').classList.add('open');
+}
+
+function closeSheet() {
+  document.getElementById('bottom-sheet').classList.remove('open');
+  currentIso = null;
+}
+
+function updateSheetButton() {
+  const btn = document.getElementById('sheet-btn');
+  if (visitedCountries.has(currentIso)) {
+    btn.textContent = '✓ Quitar de visitados';
+    btn.classList.add('visited');
+  } else {
+    btn.textContent = '+ Marcar como visitado';
+    btn.classList.remove('visited');
+  }
+}
+
+function toggleCurrentCountry() {
+  if (!currentIso) return;
+  if (visitedCountries.has(currentIso)) {
+    visitedCountries.delete(currentIso);
+  } else {
+    visitedCountries.add(currentIso);
+  }
+  saveCountries();
+  refreshGeoLayer();
+  updateStats();
+  refreshHeatmap();
+  updateSheetButton();
+}
+
+// ── STATS ─────────────────────────────────────────────────────────────────────
+
+function updateStats() {
+  document.getElementById('stat-countries').textContent = visitedCountries.size;
+  const continents = new Set(
+    [...visitedCountries].map(c => ALPHA2_CONTINENT[c]).filter(Boolean)
+  );
+  document.getElementById('stat-continents').textContent = continents.size;
+}
+
+// ── LAYERS PANEL ──────────────────────────────────────────────────────────────
+
+function toggleLayersPanel() {
+  layersPanelOpen = !layersPanelOpen;
+  document.getElementById('layers-panel').classList.toggle('open', layersPanelOpen);
+}
+
+function closeLayersPanel() {
+  layersPanelOpen = false;
+  document.getElementById('layers-panel').classList.remove('open');
+}
+
+function toggleLayer(name) {
+  layers[name] = !layers[name];
+  document.getElementById('layer-' + name).classList.toggle('active', layers[name]);
+
+  if (name === 'heatmap')    refreshHeatmap();
+  if (name === 'maravillas') refreshWonders();
+  if (name === 'ciudades')   refreshCities();
+}
+
+// ── HEATMAP ───────────────────────────────────────────────────────────────────
+
+function refreshHeatmap() {
+  if (heatLayer) { map.removeLayer(heatLayer); heatLayer = null; }
+  if (!layers.heatmap) return;
+
+  // Build city count per country from visitedCities (array of city name strings)
+  // visitedCities in profile.html are stored as plain city names, not country-tagged
+  // We weight by visited-cities that partially match country name as fallback
+  // Main intensity = 1.0 per visited country, boosted by city count if available
+  const cityCountByCountry = {};
+  // visitedCities is a flat array of city name strings — we can't map them to countries
+  // without additional data, so we use uniform weight 1.0 base + bonus for multi-city
+
+  const points = [];
+  for (const iso of visitedCountries) {
+    const c = COUNTRY_CENTROIDS[iso];
+    if (!c) continue;
+    // Intensity: base 0.6, boosted if user has cities in that country
+    const intensity = 0.6 + Math.min((cityCountByCountry[iso] || 0) * 0.2, 0.4);
+    points.push([c[0], c[1], intensity]);
+  }
+
+  if (points.length === 0) return;
+
+  heatLayer = L.heatLayer(points, {
+    radius: 65,
+    blur: 45,
+    maxZoom: 6,
+    max: 1.0,
+    gradient: {
+      0.0: '#06B6D4',
+      0.3: '#0EA5E9',
+      0.6: '#6366F1',
+      0.8: '#8B5CF6',
+      1.0: '#DB2777',
+    },
+  }).addTo(map);
+}
+
+// ── WONDERS ───────────────────────────────────────────────────────────────────
+
+function refreshWonders() {
+  if (wonderLayer) { map.removeLayer(wonderLayer); wonderLayer = null; }
+  if (!layers.maravillas) return;
+
+  wonderLayer = L.layerGroup().addTo(map);
+
+  ALL_WONDERS.forEach(w => {
+    const isVisited = visitedWonders.has(w.id);
+    const icon = L.divIcon({
+      html: `<div class="wonder-marker${isVisited ? ' visited-wonder' : ''}">${w.emoji}</div>`,
+      className: '',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+    });
+
+    const marker = L.marker([w.lat, w.lng], { icon });
+
+    marker.bindPopup(`<div class="wonder-popup-inner">
+      <strong>${w.emoji} ${w.name}</strong>
+      <span>${w.type}</span>
+      ${isVisited ? '<div class="wonder-visited-badge">✓ Visitada</div>' : ''}
+    </div>`, { maxWidth: 220, offset: [0, -6] });
+
+    marker.addTo(wonderLayer);
+  });
+}
+
+// ── CITIES ────────────────────────────────────────────────────────────────────
+
+const MAJOR_CITIES = [
+  {name:'Madrid', lat:40.42, lng:-3.70, country:'España'},
+  {name:'Barcelona', lat:41.39, lng:2.15, country:'España'},
+  {name:'Sevilla', lat:37.39, lng:-5.99, country:'España'},
+  {name:'Valencia', lat:39.47, lng:-0.38, country:'España'},
+  {name:'París', lat:48.85, lng:2.35, country:'Francia'},
+  {name:'Londres', lat:51.51, lng:-0.13, country:'Reino Unido'},
+  {name:'Berlín', lat:52.52, lng:13.40, country:'Alemania'},
+  {name:'Roma', lat:41.90, lng:12.50, country:'Italia'},
+  {name:'Ámsterdam', lat:52.37, lng:4.90, country:'Países Bajos'},
+  {name:'Lisboa', lat:38.72, lng:-9.14, country:'Portugal'},
+  {name:'Viena', lat:48.21, lng:16.37, country:'Austria'},
+  {name:'Praga', lat:50.08, lng:14.44, country:'Chequia'},
+  {name:'Varsovia', lat:52.23, lng:21.01, country:'Polonia'},
+  {name:'Budapest', lat:47.50, lng:19.04, country:'Hungría'},
+  {name:'Atenas', lat:37.98, lng:23.73, country:'Grecia'},
+  {name:'Estambul', lat:41.01, lng:28.96, country:'Turquía'},
+  {name:'Moscú', lat:55.75, lng:37.62, country:'Rusia'},
+  {name:'Ámsterdam', lat:52.37, lng:4.90, country:'Países Bajos'},
+  {name:'Bruselas', lat:50.85, lng:4.35, country:'Bélgica'},
+  {name:'Zurich', lat:47.38, lng:8.54, country:'Suiza'},
+  {name:'Estocolmo', lat:59.33, lng:18.07, country:'Suecia'},
+  {name:'Oslo', lat:59.91, lng:10.75, country:'Noruega'},
+  {name:'Copenhague', lat:55.68, lng:12.57, country:'Dinamarca'},
+  {name:'Helsinki', lat:60.17, lng:24.94, country:'Finlandia'},
+  {name:'Dubrovnik', lat:42.65, lng:18.09, country:'Croacia'},
+  {name:'Nueva York', lat:40.71, lng:-74.01, country:'EE.UU.'},
+  {name:'Los Ángeles', lat:34.05, lng:-118.24, country:'EE.UU.'},
+  {name:'Miami', lat:25.76, lng:-80.19, country:'EE.UU.'},
+  {name:'Chicago', lat:41.88, lng:-87.63, country:'EE.UU.'},
+  {name:'San Francisco', lat:37.77, lng:-122.42, country:'EE.UU.'},
+  {name:'Ciudad de México', lat:19.43, lng:-99.13, country:'México'},
+  {name:'Cancún', lat:21.16, lng:-86.85, country:'México'},
+  {name:'Buenos Aires', lat:-34.61, lng:-58.38, country:'Argentina'},
+  {name:'São Paulo', lat:-23.55, lng:-46.63, country:'Brasil'},
+  {name:'Río de Janeiro', lat:-22.91, lng:-43.17, country:'Brasil'},
+  {name:'Bogotá', lat:4.71, lng:-74.07, country:'Colombia'},
+  {name:'Medellín', lat:6.24, lng:-75.57, country:'Colombia'},
+  {name:'Lima', lat:-12.05, lng:-77.04, country:'Perú'},
+  {name:'Cusco', lat:-13.53, lng:-71.97, country:'Perú'},
+  {name:'Santiago', lat:-33.45, lng:-70.67, country:'Chile'},
+  {name:'Tokio', lat:35.68, lng:139.69, country:'Japón'},
+  {name:'Osaka', lat:34.69, lng:135.50, country:'Japón'},
+  {name:'Kioto', lat:35.01, lng:135.77, country:'Japón'},
+  {name:'Pekín', lat:39.91, lng:116.39, country:'China'},
+  {name:'Shanghai', lat:31.23, lng:121.47, country:'China'},
+  {name:'Seúl', lat:37.57, lng:126.98, country:'Corea del Sur'},
+  {name:'Bangkok', lat:13.75, lng:100.52, country:'Tailandia'},
+  {name:'Chiang Mai', lat:18.79, lng:98.98, country:'Tailandia'},
+  {name:'Singapur', lat:1.35, lng:103.82, country:'Singapur'},
+  {name:'Bali', lat:-8.41, lng:115.19, country:'Indonesia'},
+  {name:'Jacarta', lat:-6.21, lng:106.85, country:'Indonesia'},
+  {name:'Dubái', lat:25.20, lng:55.27, country:'EAU'},
+  {name:'Mumbai', lat:19.08, lng:72.88, country:'India'},
+  {name:'Delhi', lat:28.61, lng:77.21, country:'India'},
+  {name:'Goa', lat:15.30, lng:74.00, country:'India'},
+  {name:'El Cairo', lat:30.06, lng:31.25, country:'Egipto'},
+  {name:'Marrakech', lat:31.63, lng:-8.00, country:'Marruecos'},
+  {name:'Nairobi', lat:-1.29, lng:36.82, country:'Kenia'},
+  {name:'Ciudad del Cabo', lat:-33.93, lng:18.42, country:'Sudáfrica'},
+  {name:'Johannesburgo', lat:-26.20, lng:28.04, country:'Sudáfrica'},
+  {name:'Sídney', lat:-33.87, lng:151.21, country:'Australia'},
+  {name:'Melbourne', lat:-37.81, lng:144.96, country:'Australia'},
+  {name:'Auckland', lat:-36.87, lng:174.77, country:'Nueva Zelanda'},
+  {name:'Toronto', lat:43.65, lng:-79.38, country:'Canadá'},
+  {name:'Vancouver', lat:49.28, lng:-123.12, country:'Canadá'},
+  {name:'La Habana', lat:23.14, lng:-82.36, country:'Cuba'},
+  {name:'San José', lat:9.93, lng:-84.08, country:'Costa Rica'},
+  {name:'Tel Aviv', lat:32.09, lng:34.78, country:'Israel'},
+  {name:'Ámman', lat:31.96, lng:35.95, country:'Jordania'},
+  {name:'Hanói', lat:21.03, lng:105.85, country:'Vietnam'},
+  {name:'Ho Chi Minh', lat:10.82, lng:106.63, country:'Vietnam'},
+  {name:'Katmandú', lat:27.72, lng:85.32, country:'Nepal'},
+  {name:'Reikiavik', lat:64.13, lng:-21.90, country:'Islandia'},
+  {name:'Casablanca', lat:33.59, lng:-7.62, country:'Marruecos'},
+  {name:'Lagos', lat:6.52, lng:3.38, country:'Nigeria'},
+  {name:'Accra', lat:5.56, lng:-0.20, country:'Ghana'},
+];
+
+function refreshCities() {
+  cityMarkers.forEach(m => map.removeLayer(m));
+  cityMarkers = [];
+  if (!layers.ciudades) return;
+
+  MAJOR_CITIES.forEach(city => {
+    const isVisited = visitedCities.some(
+      vc => vc.toLowerCase() === city.name.toLowerCase()
+    );
+
+    const icon = L.divIcon({
+      html: `<div style="
+        width:${isVisited ? 10 : 8}px;
+        height:${isVisited ? 10 : 8}px;
+        background:${isVisited ? '#0EA5E9' : '#F97316'};
+        border:2px solid #fff;
+        border-radius:50%;
+        box-shadow:0 1px 4px rgba(0,0,0,0.4);
+      "></div>`,
+      className: '',
+      iconSize: [isVisited ? 10 : 8, isVisited ? 10 : 8],
+      iconAnchor: [isVisited ? 5 : 4, isVisited ? 5 : 4],
+    });
+
+    const m = L.marker([city.lat, city.lng], { icon })
+      .bindTooltip(
+        `<strong>${city.name}</strong><br><span style="font-size:.72rem;opacity:.75">${city.country}${isVisited ? ' · ✓ visitada' : ''}</span>`,
+        { direction: 'top', offset: [0, -6], className: 'city-tooltip' }
+      )
+      .addTo(map);
+    cityMarkers.push(m);
+  });
+}
+
+// ── PERSISTENCE ───────────────────────────────────────────────────────────────
+
+function saveCountries() {
+  // Match profile.html key: 'visitedCountries' → array of ISO alpha-2 strings
+  localStorage.setItem('visitedCountries', JSON.stringify([...visitedCountries]));
+}
+
+// ── FLAG EMOJI ────────────────────────────────────────────────────────────────
+
+function isoToFlag(iso2) {
+  if (!iso2 || iso2.length !== 2) return '🌍';
+  const codePoints = [...iso2.toUpperCase()].map(c => 0x1F1E0 + c.charCodeAt(0) - 65);
+  return String.fromCodePoint(...codePoints);
+}
+
+// ── LOADING ───────────────────────────────────────────────────────────────────
+
+function hideLoading() {
+  const el = document.getElementById('loading');
+  el.classList.add('hidden');
+  setTimeout(() => { el.style.display = 'none'; }, 500);
+}
+
+function setLoadingText(text) {
+  const el = document.getElementById('loading-text');
+  if (el) el.textContent = text;
+}
+
+</script>
+</body>
+</html>
