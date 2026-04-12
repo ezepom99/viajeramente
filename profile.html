@@ -339,6 +339,8 @@
       font-size: .82rem;
       font-weight: 700;
       backdrop-filter: blur(8px);
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .level-badge.bronze  { background: rgba(245,158,11,.25); color: #fff; border: 1px solid rgba(245,158,11,.4); }
     .level-badge.silver  { background: rgba(255,255,255,.2); color: #fff; border: 1px solid rgba(255,255,255,.3); }
@@ -575,12 +577,15 @@
       line-height: 1;
     }
     .hero-stat-label {
-      font-size: .72rem;
+      font-size: .7rem;
       color: var(--text-3);
       margin-top: 4px;
       font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: .05em;
+      letter-spacing: .04em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .hero-stat-icon {
       font-size: 1rem;
@@ -2050,9 +2055,8 @@
         <p class="profile-handle" id="profileHandle">@usuario</p>
         <div class="travel-level">
           <span class="level-badge curioso" id="levelBadge">🌱 Curioso</span>
-          <span class="level-pts" id="levelPts">0 pts</span>
-          <span class="level-km" id="levelKm">0 km viajados</span>
-          <div class="level-progress-wrap" id="levelProgressWrap" style="display:none;">
+          <span class="level-pts" id="levelPts" style="font-size:.8rem;color:rgba(255,255,255,.8);font-weight:600;"></span>
+          <div class="level-progress-wrap" id="levelProgressWrap" style="display:none;width:100%;margin-top:4px;">
             <div class="level-progress-bar">
               <div class="level-progress-fill" id="levelProgressFill" style="width:0%"></div>
             </div>
@@ -2217,7 +2221,7 @@
       <div style="margin-bottom:20px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
           <span id="rankCardBadge" style="font-size:1.25rem;font-weight:800;font-family:'Space Grotesk',sans-serif;color:var(--text);">🌱 Curioso</span>
-          <span id="rankCardPts" style="font-size:.95rem;font-weight:700;color:var(--accent);">0 pts</span>
+          <span id="rankCardPts" style="font-size:.95rem;font-weight:700;color:var(--accent);">0 puntos</span>
         </div>
         <div style="height:8px;background:var(--bg-soft);border-radius:8px;overflow:hidden;border:1px solid var(--border);">
           <div id="rankProgressFill" style="height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:8px;width:0%;transition:width .7s ease;"></div>
@@ -2270,27 +2274,27 @@
           <div class="rank-earn-item">
             <span class="rank-earn-icon">🌍</span>
             <span class="rank-earn-label">País visitado en el mapa</span>
-            <span class="rank-earn-pts">+10 pts</span>
+            <span class="rank-earn-pts">+10 puntos</span>
           </div>
           <div class="rank-earn-item">
             <span class="rank-earn-icon">🗺️</span>
             <span class="rank-earn-label">Continente visitado (bonus)</span>
-            <span class="rank-earn-pts">+50 pts</span>
+            <span class="rank-earn-pts">+50 puntos</span>
           </div>
           <div class="rank-earn-item">
             <span class="rank-earn-icon">⭐</span>
             <span class="rank-earn-label">Maravilla del mundo visitada</span>
-            <span class="rank-earn-pts">+25 pts</span>
+            <span class="rank-earn-pts">+25 puntos</span>
           </div>
           <div class="rank-earn-item">
             <span class="rank-earn-icon">✈️</span>
             <span class="rank-earn-label">Viaje registrado</span>
-            <span class="rank-earn-pts">+5 pts</span>
+            <span class="rank-earn-pts">+5 puntos</span>
           </div>
           <div class="rank-earn-item">
             <span class="rank-earn-icon">📖</span>
             <span class="rank-earn-label">Guía guardada</span>
-            <span class="rank-earn-pts">+2 pts</span>
+            <span class="rank-earn-pts">+2 puntos</span>
           </div>
           <div class="rank-earn-item">
             <span class="rank-earn-icon">🚀</span>
@@ -3191,7 +3195,7 @@ function renderProfile(user) {
 
   // Travel level (basado en puntos — nuevo sistema de ranking)
   const km = user.km_traveled || 0;
-  const pts = user.points || 0;
+  const puntos = user.points || 0;
   const rankName = user.rank_level || 'Curioso';
   const rankInfo = getRankInfo(rankName);
 
@@ -3199,18 +3203,17 @@ function renderProfile(user) {
   const badge = document.getElementById('levelBadge');
   badge.textContent = `${rankInfo.emoji} ${rankName}`;
   badge.className = `level-badge ${rankInfo.cls}`;
-  document.getElementById('levelPts').textContent = pts.toLocaleString('es') + ' pts';
-  document.getElementById('levelKm').textContent = km.toLocaleString('es') + ' km viajados';
+  document.getElementById('levelPts').textContent = puntos > 0 ? puntos.toLocaleString('es') + ' puntos' : '';
 
   // Progress bar al siguiente rango
   const progressWrap = document.getElementById('levelProgressWrap');
   const progressFill = document.getElementById('levelProgressFill');
   const progressLabel = document.getElementById('levelProgressLabel');
   if (rankInfo.next !== null) {
-    const pct = Math.min(100, Math.round(((pts - rankInfo.min) / (rankInfo.next - rankInfo.min)) * 100));
-    const remaining = (rankInfo.next - pts).toLocaleString('es');
+    const pct = Math.min(100, Math.round(((puntos - rankInfo.min) / (rankInfo.next - rankInfo.min)) * 100));
+    const remaining = (rankInfo.next - puntos).toLocaleString('es');
     progressFill.style.width = pct + '%';
-    progressLabel.textContent = `${remaining} pts más para ${rankInfo.nextName}`;
+    progressLabel.textContent = `${remaining} puntos para ${rankInfo.nextName}`;
     progressWrap.style.display = 'block';
   }
 
@@ -3221,11 +3224,11 @@ function renderProfile(user) {
   const rankProgressLabel = document.getElementById('rankProgressLabel');
   if (rankCardBadge) {
     rankCardBadge.textContent = `${rankInfo.emoji} ${rankName}`;
-    rankCardPts.textContent = pts.toLocaleString('es') + ' pts';
+    rankCardPts.textContent = puntos.toLocaleString('es') + ' puntos';
     if (rankInfo.next !== null) {
-      const pct2 = Math.min(100, Math.round(((pts - rankInfo.min) / (rankInfo.next - rankInfo.min)) * 100));
+      const pct2 = Math.min(100, Math.round(((puntos - rankInfo.min) / (rankInfo.next - rankInfo.min)) * 100));
       rankProgressFill.style.width = pct2 + '%';
-      rankProgressLabel.textContent = `${(rankInfo.next - pts).toLocaleString('es')} pts para ${rankInfo.nextName}`;
+      rankProgressLabel.textContent = `${(rankInfo.next - puntos).toLocaleString('es')} puntos para ${rankInfo.nextName}`;
     } else {
       rankProgressFill.style.width = '100%';
       rankProgressLabel.textContent = 'Has alcanzado el rango máximo';
