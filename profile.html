@@ -2146,8 +2146,12 @@
           <input class="edit-input" id="editCountry" type="text" placeholder="Argentina">
         </div>
         <div class="edit-group">
-          <label class="edit-label">País de origen <span style="font-size:.75rem;color:var(--text-3);font-weight:400">(pasaporte — para info de visa)</span></label>
+          <label class="edit-label">Pasaporte principal <span style="font-size:.75rem;color:var(--text-3);font-weight:400">(para info de visa personalizada)</span></label>
           <input class="edit-input" id="editHomeCountry" type="text" placeholder="Argentina, España, México...">
+        </div>
+        <div class="edit-group">
+          <label class="edit-label">Segundo pasaporte <span style="font-size:.75rem;color:var(--text-3);font-weight:400">(opcional — si tienes doble nacionalidad)</span></label>
+          <input class="edit-input" id="editPassport2" type="text" placeholder="Ej: Italia, EEUU...">
         </div>
         <div class="edit-group">
           <label class="edit-label">Presupuesto diario</label>
@@ -3036,6 +3040,7 @@ function renderProfile(user) {
   document.getElementById('editCity').value = user.city || '';
   document.getElementById('editCountry').value = user.country || '';
   document.getElementById('editHomeCountry').value = user.home_country || '';
+  document.getElementById('editPassport2').value = user.passport2 || '';
   document.getElementById('editBudget').value = user.budget_range || '';
 
   // Display home country in profile meta
@@ -3051,6 +3056,7 @@ function renderProfile(user) {
   }
   // Persist user location + passport country to localStorage for use in guide pages
   localStorage.setItem('homeCountry', user.home_country || '');
+  localStorage.setItem('passport2', user.passport2 || '');
   localStorage.setItem('editCity', user.city || '');
   localStorage.setItem('editCountry', user.country || '');
   document.getElementById('editInstagram').value = user.instagram || '';
@@ -3909,6 +3915,7 @@ async function saveProfileChanges() {
     city: document.getElementById('editCity').value.trim(),
     country: document.getElementById('editCountry').value.trim(),
     home_country: document.getElementById('editHomeCountry').value.trim(),
+    passport2: document.getElementById('editPassport2').value.trim() || null,
     budget_range: document.getElementById('editBudget').value,
     instagram: document.getElementById('editInstagram').value.trim(),
     website: document.getElementById('editWebsite').value.trim(),

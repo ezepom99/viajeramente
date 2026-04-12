@@ -1492,27 +1492,35 @@
       document.getElementById('visaInfo').textContent = d.visa_info;
       // Personalize visa section based on user's passport country
       const homeCountry = localStorage.getItem('homeCountry') || localStorage.getItem('editCountry') || '';
+      const passport2 = localStorage.getItem('passport2') || '';
       const visaLower = d.visa_info.toLowerCase();
       let visaShortPersonal = visaShort; // fallback to generic
       const passportBanner = document.getElementById('visaPassportBanner');
 
-      if (homeCountry) {
-        // Show personalization banner with specific matching visa line
-        const countryLower = homeCountry.toLowerCase();
-        let personalStatus = null;
-        let matchingLine = null;
-        if (visaLower.includes(countryLower)) {
-          const lines = d.visa_info.split('\n');
-          for (const line of lines) {
-            if (line.toLowerCase().includes(countryLower)) {
-              matchingLine = line;
-              if (line.startsWith('✅')) { visaShortPersonal = '✅ Sin visado'; personalStatus = 'ok'; }
-              else if (line.startsWith('📋')) { visaShortPersonal = '📋 Visa on arrival'; personalStatus = 'arrival'; }
-              else if (line.startsWith('🔴')) { visaShortPersonal = '🔴 Visado requerido'; personalStatus = 'required'; }
-              break;
-            }
+      // Helper: check visa status for a given country in visa_info text
+      function getVisaStatus(country) {
+        if (!country) return null;
+        const cLower = country.toLowerCase();
+        if (!visaLower.includes(cLower)) return null;
+        const lines = d.visa_info.split('\n');
+        for (const line of lines) {
+          if (line.toLowerCase().includes(cLower)) {
+            if (line.startsWith('✅')) return { status: 'ok', line, label: '✅ Sin visado' };
+            if (line.startsWith('📋')) return { status: 'arrival', line, label: '📋 Visa on arrival' };
+            if (line.startsWith('🔴')) return { status: 'required', line, label: '🔴 Visado requerido' };
+            return { status: null, line, label: null };
           }
         }
+        return null;
+      }
+
+      if (homeCountry) {
+        const p1Result = getVisaStatus(homeCountry);
+        const p2Result = passport2 ? getVisaStatus(passport2) : null;
+        let personalStatus = p1Result?.status || null;
+        let matchingLine = p1Result?.line || null;
+        if (p1Result?.label) visaShortPersonal = p1Result.label;
+
         // Banner color based on status
         const bannerColors = {
           ok:       { bg:'#F0FDF4', border:'#BBF7D0', color:'#065F46' },
@@ -1522,10 +1530,17 @@
         };
         const c = bannerColors[personalStatus] || bannerColors.default;
         // Show the actual matching visa line if found, otherwise generic header
-        const bannerContent = matchingLine
-          ? `<div style="font-size:.9rem;font-weight:600;margin-bottom:2px;">Desde ${escHtml(homeCountry)}</div><div style="font-size:.85rem;line-height:1.5;">${escHtml(matchingLine)}</div>`
+        let bannerContent = matchingLine
+          ? `<div style="font-size:.9rem;font-weight:600;margin-bottom:2px;">Pasaporte ${escHtml(homeCountry)}</div><div style="font-size:.85rem;line-height:1.5;">${escHtml(matchingLine)}</div>`
           : `<div style="font-size:.85rem;">ℹ️ Info de visa personalizada para <strong>${escHtml(homeCountry)}</strong> — consulta las líneas de abajo</div>`;
-        passportBanner.innerHTML = `<div style="padding:12px 16px;background:${c.bg};border:1px solid ${c.border};border-radius:12px;color:${c.color};">${bannerContent}<a href="profile.html" style="display:inline-block;margin-top:6px;font-size:.78rem;color:inherit;opacity:.7;text-decoration:underline;">Cambiar país de origen</a></div>`;
+
+        // If passport1 requires visa but passport2 gives free access → show alert
+        if (personalStatus === 'required' && p2Result && (p2Result.status === 'ok' || p2Result.status === 'arrival')) {
+          bannerContent += `<div style="margin-top:8px;padding:8px 12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;font-size:.82rem;color:#065F46;">🌟 <strong>Con tu pasaporte ${escHtml(passport2)}</strong>: ${escHtml(p2Result.line)}</div>`;
+          visaShortPersonal = p2Result.label || visaShortPersonal;
+        }
+
+        passportBanner.innerHTML = `<div style="padding:12px 16px;background:${c.bg};border:1px solid ${c.border};border-radius:12px;color:${c.color};">${bannerContent}<a href="profile.html" style="display:inline-block;margin-top:6px;font-size:.78rem;color:inherit;opacity:.7;text-decoration:underline;">Cambiar pasaporte</a></div>`;
         passportBanner.style.display = 'block';
       } else {
         // Show CTA to set home country
