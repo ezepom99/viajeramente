@@ -181,6 +181,7 @@
     .hstat-level {
       font-size:.72rem;font-weight:600;
       color:var(--gold);
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     }
     @media(max-width:520px){
       .hero { padding:48px 20px 44px; }
@@ -664,7 +665,7 @@
 
     if (countries > 0 || km > 0 || level) {
       document.getElementById('statCountries').textContent = countries;
-      document.getElementById('statCities').textContent    = pts + ' pts';
+      document.getElementById('statCities').textContent    = pts.toLocaleString('es-ES');
       document.getElementById('statKm').textContent        = km > 0 ? km.toLocaleString('es-ES') : '0';
       document.getElementById('statLevel').textContent     = level || '—';
 
