@@ -1011,6 +1011,11 @@ const MAJOR_CITIES = [
   {name:'Accra', lat:5.56, lng:-0.20, country:'Ghana'},
 ];
 
+// Normalize strings for comparison: remove diacritics, lowercase
+function normCity(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 function refreshCities() {
   cityMarkers.forEach(m => map.removeLayer(m));
   cityMarkers = [];
@@ -1018,7 +1023,7 @@ function refreshCities() {
 
   MAJOR_CITIES.forEach(city => {
     const isVisited = visitedCities.some(
-      vc => vc.toLowerCase() === city.name.toLowerCase()
+      vc => normCity(vc) === normCity(city.name)
     );
     if (!isVisited) return; // Only show visited cities
 
