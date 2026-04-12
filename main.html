@@ -69,7 +69,7 @@
     .page { margin-top:56px; }
 
     /* GREETING */
-    .greeting { background:var(--bg);border-bottom:1px solid var(--border);padding:26px 20px 22px; }
+    .greeting { background:var(--bg);border-bottom:1px solid var(--border);padding:30px 20px 26px; }
     .g-inner { max-width:700px;margin:0 auto; }
     .g-eyebrow { font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;display:flex;align-items:center;gap:8px; }
     .g-eyebrow::before { content:'';width:16px;height:2px;background:var(--accent);border-radius:2px; }
@@ -78,14 +78,14 @@
     .g-sub { font-size:.87rem;color:var(--text-secondary);line-height:1.55;max-width:460px; }
 
     /* SECTION */
-    .sec { padding:22px 20px 4px;max-width:700px;margin:0 auto; }
-    .sec-head { display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px; }
-    .sec-title { font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--text); }
+    .sec { padding:28px 20px 4px;max-width:700px;margin:0 auto; }
+    .sec-head { display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px; }
+    .sec-title { font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--text); }
     .sec-link { font-size:.78rem;font-weight:600;color:var(--accent);text-decoration:none;transition:color .18s; }
     .sec-link:hover { color:var(--accent-dark); }
 
     /* FEATURED */
-    .feat { position:relative;border-radius:18px;overflow:hidden;height:220px;text-decoration:none;display:block;box-shadow:var(--shadow-md);transition:transform .22s,box-shadow .22s; }
+    .feat { position:relative;border-radius:18px;overflow:hidden;height:240px;text-decoration:none;display:block;box-shadow:var(--shadow-md);transition:transform .22s,box-shadow .22s; }
     .feat:hover { transform:translateY(-3px);box-shadow:var(--shadow-lg); }
     .feat img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;transition:transform .4s; }
     .feat:hover img { transform:scale(1.04); }
@@ -109,28 +109,20 @@
     .dc-reg  { font-size:.63rem;color:rgba(255,255,255,.75);margin-top:2px; }
 
     /* ACTIONS */
-    .act-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
-    .act-card { background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px 16px 14px;text-decoration:none;display:flex;flex-direction:column;transition:border-color .18s,transform .18s,box-shadow .18s;box-shadow:var(--shadow-sm);position:relative;overflow:hidden; }
-    .act-card::before { content:'';position:absolute;top:0;left:0;right:0;height:2.5px;border-radius:16px 16px 0 0; }
-    .act-card.c-blue::before   { background:var(--accent); }
-    .act-card.c-teal::before   { background:var(--teal); }
-    .act-card.c-gold::before   { background:var(--gold); }
-    .act-card.c-purple::before { background:var(--purple); }
-    .act-card.c-slate::before  { background:var(--slate); }
-    .act-card.c-rose::before   { background:var(--rose); }
-    .act-card:hover { transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:#CBD5E1; }
-    .act-icon  { font-size:1.3rem;margin-bottom:9px;line-height:1; }
-    .act-title { font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.25; }
-    .act-desc  { font-size:.7rem;color:var(--text-secondary);line-height:1.5;flex:1; }
-    .act-foot  { display:flex;justify-content:flex-end;margin-top:10px; }
-    .act-arr   { font-size:.78rem;color:var(--text-muted);transition:color .18s; }
-    .act-card:hover .act-arr { color:var(--text-secondary); }
-    .act-badge { position:absolute;top:10px;right:10px;font-size:.53rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:100px;background:var(--accent-light);color:var(--accent-dark); }
+    .act-grid { display:flex;flex-direction:column;gap:8px; }
+    .act-card { background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:16px 18px;text-decoration:none;display:flex;align-items:center;gap:16px;transition:border-color .18s,transform .18s,box-shadow .18s;box-shadow:var(--shadow-sm); }
+    .act-card:hover { transform:translateY(-1px);box-shadow:var(--shadow-md);border-color:#CBD5E1; }
+    .act-icon  { font-size:1.35rem;line-height:1;flex-shrink:0;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:var(--bg-soft);border-radius:10px; }
+    .act-body  { flex:1;min-width:0; }
+    .act-title { font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--text);line-height:1.25; }
+    .act-desc  { font-size:.72rem;color:var(--text-secondary);line-height:1.45;margin-top:2px; }
+    .act-arr   { font-size:.85rem;color:var(--text-muted);flex-shrink:0;transition:color .18s,transform .18s; }
+    .act-card:hover .act-arr { color:var(--text-secondary);transform:translateX(2px); }
 
     /* SKELETON */
     .sk { background:linear-gradient(90deg,#f0f4f8 25%,#e8ecf0 50%,#f0f4f8 75%);background-size:400px 100%;animation:shimmer 1.4s infinite;border-radius:14px; }
 
-    .spacer { height:32px; }
+    .spacer { height:48px; }
 
     /* BOTTOM NAV */
     nav.botnav { display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid var(--border);z-index:200;padding:6px 0 max(6px,env(safe-area-inset-bottom)); }
@@ -139,7 +131,7 @@
     .tab.active,.tab:hover { color:var(--accent); }
     .tab-ic { font-size:1.2rem;line-height:1; }
 
-    @media(max-width:520px) { .greeting{padding:20px 16px 18px;} .sec{padding:18px 16px 4px;} .feat{height:198px;} }
+    @media(max-width:520px) { .greeting{padding:22px 16px 20px;} .sec{padding:22px 16px 4px;} .feat{height:210px;} }
   </style>
 </head>
 <body>
@@ -224,42 +216,53 @@
       <span class="sec-title">⚡ Empieza por aquí</span>
     </div>
     <div class="act-grid">
-      <a href="plan.html" class="act-card c-blue">
-        <span class="act-badge">Popular</span>
+      <a href="plan.html" class="act-card">
         <div class="act-icon">✈️</div>
-        <div class="act-title">Planifica tu aventura</div>
-        <div class="act-desc">7 preguntas, 25 destinos personalizados para ti.</div>
-        <div class="act-foot"><span class="act-arr">→</span></div>
+        <div class="act-body">
+          <div class="act-title">Planifica tu aventura</div>
+          <div class="act-desc">7 preguntas, 25 destinos personalizados para ti.</div>
+        </div>
+        <span class="act-arr">›</span>
       </a>
-      <a href="profile.html" class="act-card c-teal">
-        <div class="act-icon">📌</div>
-        <div class="act-title">Mi perfil viajero</div>
-        <div class="act-desc">Países visitados, viajes y estilo de viaje.</div>
-        <div class="act-foot"><span class="act-arr">→</span></div>
-      </a>
-      <a href="mapa.html" class="act-card c-slate">
-        <div class="act-icon">🗺️</div>
-        <div class="act-title">Mi mapa mundial</div>
-        <div class="act-desc">Todos los países que has pisado, en el mapa.</div>
-        <div class="act-foot"><span class="act-arr">→</span></div>
-      </a>
-      <a href="fechas.html" class="act-card c-gold">
-        <div class="act-icon">📅</div>
-        <div class="act-title">Ya tengo fechas</div>
-        <div class="act-desc">¿Cuándo viajas? Te digo el mejor destino para ese mes.</div>
-        <div class="act-foot"><span class="act-arr">→</span></div>
-      </a>
-      <a href="guias.html" class="act-card c-rose">
+      <a href="guias.html" class="act-card">
         <div class="act-icon">📖</div>
-        <div class="act-title">Guías de destinos</div>
-        <div class="act-desc">+40 destinos: visas, precios, rutas, lo mejor.</div>
-        <div class="act-foot"><span class="act-arr">→</span></div>
+        <div class="act-body">
+          <div class="act-title">Guías de destinos</div>
+          <div class="act-desc">+200 destinos: visas, presupuesto, rutas, lo mejor.</div>
+        </div>
+        <span class="act-arr">›</span>
       </a>
-      <a href="ranking.html" class="act-card c-purple">
+      <a href="fechas.html" class="act-card">
+        <div class="act-icon">📅</div>
+        <div class="act-body">
+          <div class="act-title">Tengo fechas concretas</div>
+          <div class="act-desc">Dime cuándo viajas y te digo el mejor destino.</div>
+        </div>
+        <span class="act-arr">›</span>
+      </a>
+      <a href="mapa.html" class="act-card">
+        <div class="act-icon">🗺️</div>
+        <div class="act-body">
+          <div class="act-title">Mi mapa mundial</div>
+          <div class="act-desc">Todos los países que has pisado, visualizados.</div>
+        </div>
+        <span class="act-arr">›</span>
+      </a>
+      <a href="profile.html" class="act-card">
+        <div class="act-icon">👤</div>
+        <div class="act-body">
+          <div class="act-title">Mi perfil viajero</div>
+          <div class="act-desc">Países visitados, viajes y tu estilo de viaje.</div>
+        </div>
+        <span class="act-arr">›</span>
+      </a>
+      <a href="ranking.html" class="act-card">
         <div class="act-icon">🏆</div>
-        <div class="act-title">Ranking viajeros</div>
-        <div class="act-desc">¿Quién ha viajado más? Compite y sube puestos.</div>
-        <div class="act-foot"><span class="act-arr">→</span></div>
+        <div class="act-body">
+          <div class="act-title">Ranking viajeros</div>
+          <div class="act-desc">¿Quién ha viajado más? Compite y sube puestos.</div>
+        </div>
+        <span class="act-arr">›</span>
       </a>
     </div>
   </div>
@@ -306,8 +309,21 @@
 
   function setFeatured(d) {
     document.getElementById('featCard').href = 'destino.html?slug=' + d.slug;
-    document.getElementById('featImg').src   = d.hero_photo_url + '?auto=compress&cs=tinysrgb&h=800&w=1400';
-    document.getElementById('featImg').alt   = d.name;
+    const imgEl = document.getElementById('featImg');
+    if (d.hero_photo_url) {
+      // Add params only if not already present
+      const url = d.hero_photo_url.includes('?') ? d.hero_photo_url : d.hero_photo_url + '?auto=compress&cs=tinysrgb&h=800&w=1400';
+      imgEl.src = url;
+      imgEl.onerror = function() {
+        // Fallback to a nice generic travel photo if pexels fails
+        if (d.hero_photo_id) {
+          imgEl.src = 'https://images.pexels.com/photos/' + d.hero_photo_id + '/pexels-photo-' + d.hero_photo_id + '.jpeg?auto=compress&cs=tinysrgb&h=800&w=1400';
+        }
+      };
+    } else if (d.hero_photo_id) {
+      imgEl.src = 'https://images.pexels.com/photos/' + d.hero_photo_id + '/pexels-photo-' + d.hero_photo_id + '.jpeg?auto=compress&cs=tinysrgb&h=800&w=1400';
+    }
+    imgEl.alt = d.name;
     document.getElementById('featContinent').textContent = d.continent || d.region || '';
     document.getElementById('featName').textContent      = d.name;
     document.getElementById('featTag').textContent       = d.tagline || '';
@@ -320,7 +336,8 @@
       var a = document.createElement('a');
       a.href      = 'destino.html?slug=' + d.slug;
       a.className = 'dest-card';
-      a.innerHTML = '<img src="' + d.hero_photo_url + '?auto=compress&cs=tinysrgb&h=380&w=300" alt="' + d.name + '" loading="lazy"><div class="dc-ov"></div><div class="dc-info"><div class="dc-name">' + d.name + '</div><div class="dc-reg">' + (d.continent||d.region||'') + '</div></div>';
+      const photoUrl = d.hero_photo_url ? (d.hero_photo_url.includes('?') ? d.hero_photo_url : d.hero_photo_url + '?auto=compress&cs=tinysrgb&h=380&w=300') : (d.hero_photo_id ? 'https://images.pexels.com/photos/' + d.hero_photo_id + '/pexels-photo-' + d.hero_photo_id + '.jpeg?auto=compress&cs=tinysrgb&h=380&w=300' : '');
+      a.innerHTML = '<img src="' + photoUrl + '" alt="' + d.name + '" loading="lazy"><div class="dc-ov"></div><div class="dc-info"><div class="dc-name">' + d.name + '</div><div class="dc-reg">' + (d.continent||d.region||'') + '</div></div>';
       el.appendChild(a);
     });
   }
@@ -351,7 +368,7 @@
 
       if (destsRes.ok) {
         var data       = await destsRes.json();
-        var withPhoto  = data.destinations.filter(function(d){ return d.hero_photo_url; });
+        var withPhoto  = data.destinations.filter(function(d){ return d.hero_photo_url || d.hero_photo_id; });
         var top        = withPhoto.slice().sort(function(a,b){ return (b.guide_quality||0)-(a.guide_quality||0); }).slice(0,15);
         var today      = top[new Date().getDate() % top.length];
         setFeatured(today);
