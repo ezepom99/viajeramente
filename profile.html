@@ -2350,7 +2350,7 @@
         <div id="leafletMap"></div>
       </div>
 
-      <div id="cityPicker" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:500; background:white; border-radius:20px 20px 0 0; padding:20px; box-shadow:0 -4px 24px rgba(0,0,0,0.15); max-height:60vh; overflow-y:auto;">
+      <div id="cityPicker" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:1001; background:white; border-radius:20px 20px 0 0; padding:20px 20px max(20px, env(safe-area-inset-bottom)) 20px; box-shadow:0 -4px 24px rgba(0,0,0,0.15); max-height:70vh; overflow-y:auto;">
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
           <h3 id="cityPickerTitle" style="font-size:1rem; font-weight:700;">¿Qué ciudades visitaste?</h3>
           <button onclick="closeCityPicker()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#64748B;">✕</button>
@@ -2367,7 +2367,7 @@
           <button onclick="saveCities()" style="flex:2; padding:12px; border:none; border-radius:12px; background:#0EA5E9; color:white; cursor:pointer; font-size:.9rem; font-weight:600;">Guardar ciudades</button>
         </div>
       </div>
-      <div id="cityPickerOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:499;" onclick="closeCityPicker()"></div>
+      <div id="cityPickerOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1000;" onclick="closeCityPicker()"></div>
 
       <div class="map-footer">
         <div class="map-counter">
@@ -2784,8 +2784,35 @@ const COUNTRY_CITIES = {
   818: ['El Cairo', 'Alejandría', 'Luxor', 'Asuán', 'Sinaí'],
   826: ['Londres', 'Edimburgo', 'Glasgow', 'Liverpool', 'Stonehenge', 'Cotswolds'],
   840: ['Nueva York', 'Los Ángeles', 'San Francisco', 'Chicago', 'Miami', 'Las Vegas', 'New Orleans'],
+  752: ['Estocolmo', 'Gotemburgo', 'Malmö', 'Uppsala', 'Kiruna'],
+  756: ['Zúrich', 'Ginebra', 'Berna', 'Lausana', 'Lucerna', 'Interlaken', 'Lugano', 'Zermatt'],
+  804: ['Kiev', 'Leópolis', 'Odessa', 'Járkov'],
   858: ['Montevideo', 'Punta del Este', 'Colonia del Sacramento'],
   862: ['Caracas', 'Canaima', 'Isla Margarita', 'Los Roques'],
+  40:  ['Viena', 'Salzburgo', 'Innsbruck', 'Graz', 'Hallstatt'],
+  56:  ['Bruselas', 'Brujas', 'Gante', 'Amberes'],
+  191: ['Dubrovnik', 'Split', 'Zagreb', 'Pula', 'Hvar'],
+  203: ['Praga', 'Brno', 'Český Krumlov'],
+  208: ['Copenhague', 'Aarhus', 'Odense'],
+  246: ['Helsinki', 'Rovaniemi', 'Turku'],
+  348: ['Budapest', 'Debrecen', 'Pécs'],
+  372: ['Dublín', 'Galway', 'Cork', 'Killarney'],
+  428: ['Riga', 'Sigulda'],
+  438: ['Vaduz'],
+  440: ['Vilna', 'Trakai'],
+  616: ['Cracovia', 'Varsovia', 'Gdansk', 'Wroclaw'],
+  703: ['Bratislava', 'Košice'],
+  705: ['Liubliana', 'Bled', 'Piran'],
+  688: ['Belgrado', 'Novi Sad'],
+  807: ['Skopje', 'Ohrid'],
+  100: ['Sofía', 'Plovdiv', 'Varna', 'Nessebar'],
+  112: ['Minsk'],
+  442: ['Luxemburgo'],
+  492: ['Mónaco'],
+  498: ['Chisináu'],
+  499: ['Kotor', 'Budva', 'Podgorica'],
+  674: ['San Marino'],
+  336: ['Ciudad del Vaticano'],
 };
 
 // Continent country codes mapping
@@ -3305,8 +3332,7 @@ let cityPickerCountryId = null;
 let selectedPickerCities = new Set();
 
 function showCityPicker(countryId, countryName) {
-  const cities = COUNTRY_CITIES[parseInt(countryId)];
-  if (!cities || cities.length === 0) return; // No city data, skip
+  const cities = COUNTRY_CITIES[parseInt(countryId)] || []; // Show picker even if no predefined cities
 
   cityPickerCountryId = countryId;
   selectedPickerCities = new Set();
