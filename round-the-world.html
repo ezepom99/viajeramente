@@ -1000,7 +1000,7 @@
 
 <!-- Bottom nav mobile -->
 <nav class="bottom-nav" id="bottomNav" style="display:none;">
-  <a href="index.html" class="tab-item"><span class="tab-icon">🏠</span>Inicio</a>
+  <a href="main.html" class="tab-item"><span class="tab-icon">🏠</span>Inicio</a>
   <a href="guias.html" class="tab-item active"><span class="tab-icon">🗺️</span>Guías</a>
   <a href="plan.html" class="tab-item"><span class="tab-icon">✈️</span>Planificador</a>
   <a href="mapa.html" class="tab-item"><span class="tab-icon">🌍</span>Mapa</a>
@@ -1015,6 +1015,9 @@
       document.getElementById('navUser').style.display = 'flex';
       document.getElementById('navGuest').style.display = 'none';
       document.getElementById('bottomNav').style.display = 'flex';
+      // Logo → main dashboard when logged in
+      const logo = document.querySelector('.nav-logo');
+      if (logo) logo.href = 'main.html';
       const name = localStorage.getItem('userName') || '';
       if (name) {
         const parts = name.trim().split(' ');
