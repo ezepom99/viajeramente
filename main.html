@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ViajeraMente</title>
+  <title>ViajeraMente — Inicio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -24,10 +24,11 @@
       --accent-light: #E0F2FE;
       --accent-text: #0284C7;
       --teal: #10B981;
-      --teal-light: #F0FDFA;
+      --teal-light: #D1FAE5;
       --gold: #F5A623;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.07);
       --shadow-md: 0 4px 16px rgba(0,0,0,.08);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.1);
     }
 
     html { scroll-behavior: smooth; }
@@ -35,533 +36,695 @@
     body {
       font-family: 'Inter', -apple-system, sans-serif;
       color: var(--text);
-      background: var(--bg);
+      background: var(--bg-soft);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
       min-height: 100vh;
       font-size: 15px;
     }
 
-    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+    h1, h2, h3, h4, h5 { font-family: 'Space Grotesk', sans-serif; }
 
-    @keyframes fadeInUp  { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeInUp  { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
     @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes progressFill { from { width:0; } to { width:var(--w); } }
+    @keyframes spin      { to { transform: rotate(360deg); } }
 
-    /* ── Nav ── */
-    nav {
+    /* ── TOP NAV ── */
+    nav.top-nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 0 24px; height: 56px;
+      padding: 0 20px; height: 56px;
       display: flex; align-items: center; justify-content: space-between;
-      animation: slideDown .4s ease both;
+      animation: slideDown .35s ease both;
     }
     .nav-logo {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.15rem; font-weight: 700; letter-spacing: -.02em;
+      font-size: 1.1rem; font-weight: 700; letter-spacing: -.02em;
       color: var(--text); text-decoration: none;
       display: flex; align-items: center; gap: 6px;
-      transition: opacity 0.2s;
     }
-    .nav-logo:hover { opacity: 0.75; }
     .nav-logo-dot {
       width: 8px; height: 8px;
-      background: var(--accent); border-radius: 50%;
-      flex-shrink: 0;
+      background: var(--accent); border-radius: 50%; flex-shrink: 0;
     }
-    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links {
+      display: flex; align-items: center; gap: 2px;
+    }
     .nav-link {
       font-size: .82rem; font-weight: 500; color: var(--text-secondary);
       text-decoration: none; padding: 6px 10px; border-radius: 8px;
       transition: all .2s;
     }
     .nav-link:hover { color: var(--text); background: var(--bg-soft); }
-    @media (max-width: 768px) { .nav-links { display: none; } }
-    .nav-right { display: flex; align-items: center; gap: 12px; }
+    @media (max-width: 640px) { .nav-links { display: none; } }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
     .nav-avatar {
-      width: 32px; height: 32px; border-radius: 50%;
+      width: 34px; height: 34px; border-radius: 50%;
       background: var(--accent-light);
       border: 2px solid var(--border);
       display: flex; align-items: center; justify-content: center;
       font-size: .72rem; font-weight: 700; color: var(--accent);
       text-decoration: none; overflow: hidden; transition: border-color .2s;
-      flex-shrink: 0;
+      flex-shrink: 0; cursor: pointer;
     }
     .nav-avatar:hover { border-color: var(--accent); }
     .nav-avatar img { width:100%; height:100%; object-fit:cover; }
-    .nav-logout {
-      font-size: .8rem; color: var(--text-muted);
-      background: none; border: none; cursor: pointer;
-      font-family: inherit; transition: color .2s;
-    }
-    .nav-logout:hover { color: var(--text); }
-    /* ── Hamburger ── */
     .nav-hamburger {
       display: none; background: none; border: none; cursor: pointer;
-      font-size: 1.4rem; color: var(--text); padding: 4px 6px;
+      font-size: 1.3rem; color: var(--text); padding: 4px 6px;
       line-height: 1; border-radius: 8px; transition: background .2s;
     }
     .nav-hamburger:hover { background: var(--bg-soft); }
-    @media (max-width: 768px) {
-      .nav-hamburger { display: flex; align-items: center; justify-content: center; }
-      .nav-logout { display: none; }
+    @media (max-width: 640px) {
+      .nav-hamburger { display: flex; align-items: center; }
     }
-    /* ── Mobile overlay menu ── */
-    .mobile-menu-overlay {
+
+    /* ── MOBILE OVERLAY MENU ── */
+    .mobile-overlay {
       display: none; position: fixed; inset: 0; z-index: 2000;
-      background: rgba(0,0,0,.4); backdrop-filter: blur(4px);
+      background: rgba(0,0,0,.42); backdrop-filter: blur(4px);
     }
-    .mobile-menu-overlay.open { display: block; }
-    .mobile-menu {
+    .mobile-overlay.open { display: block; }
+    .mobile-drawer {
       position: absolute; top: 0; left: 0; right: 0;
       background: #fff; border-bottom: 1px solid var(--border);
       padding: 16px 20px 24px;
       transform: translateY(-100%); transition: transform .25s ease;
     }
-    .mobile-menu-overlay.open .mobile-menu { transform: translateY(0); }
-    .mobile-menu-header {
+    .mobile-overlay.open .mobile-drawer { transform: translateY(0); }
+    .mobile-drawer-head {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
-    .mobile-menu-close {
-      background: none; border: none; cursor: pointer; font-size: 1.4rem;
+    .mobile-close {
+      background: none; border: none; cursor: pointer; font-size: 1.3rem;
       color: var(--text-muted); padding: 4px; border-radius: 6px;
-      transition: color .2s;
     }
-    .mobile-menu-close:hover { color: var(--text); }
-    .mobile-menu-links { display: flex; flex-direction: column; gap: 4px; }
-    .mobile-menu-link {
+    .mobile-links { display: flex; flex-direction: column; gap: 2px; }
+    .mobile-link {
       display: flex; align-items: center; gap: 12px;
-      padding: 14px 16px; border-radius: 12px;
+      padding: 13px 14px; border-radius: 12px;
       text-decoration: none; color: var(--text);
-      font-size: 1rem; font-weight: 500;
-      transition: background .15s;
+      font-size: .95rem; font-weight: 500; transition: background .15s;
     }
-    .mobile-menu-link:hover { background: var(--bg-soft); }
-    .mobile-menu-link .mm-icon { font-size: 1.2rem; width: 28px; text-align: center; }
-    .mobile-menu-divider {
-      height: 1px; background: var(--border); margin: 10px 0;
-    }
-    .mobile-menu-logout {
+    .mobile-link:hover { background: var(--bg-soft); }
+    .mobile-link .mi { font-size: 1.15rem; width: 26px; text-align: center; }
+    .mobile-divider { height: 1px; background: var(--border); margin: 8px 0; }
+    .mobile-logout {
       display: flex; align-items: center; gap: 12px;
-      padding: 14px 16px; border-radius: 12px;
-      color: var(--text-muted); font-size: 1rem; font-weight: 500;
+      padding: 13px 14px; border-radius: 12px;
+      color: var(--text-muted); font-size: .95rem; font-weight: 500;
       background: none; border: none; cursor: pointer; width: 100%;
-      font-family: inherit; transition: background .15s, color .15s;
+      font-family: inherit; transition: color .15s, background .15s;
     }
-    .mobile-menu-logout:hover { background: var(--bg-soft); color: var(--text); }
+    .mobile-logout:hover { background: var(--bg-soft); color: var(--text); }
 
-    /* ── Hero — contained photo with white below ── */
+    /* ── HERO ── */
     .hero {
       position: relative;
-      height: 58vh;
-      min-height: 320px;
-      max-height: 520px;
-      overflow: hidden;
       margin-top: 56px;
+      height: 54vh; min-height: 300px; max-height: 480px;
+      overflow: hidden;
     }
-    .hero-bg img {
+    .hero-img {
       position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center 40%;
+      width: 100%; height: 100%; object-fit: cover; object-position: center 40%;
     }
     .hero-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,.08) 0%,
-        rgba(0,0,0,.3) 60%,
-        rgba(0,0,0,.65) 100%
+      background: linear-gradient(to bottom,
+        rgba(0,0,0,.06) 0%,
+        rgba(0,0,0,.28) 55%,
+        rgba(0,0,0,.72) 100%
       );
     }
     .hero-content {
       position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 0 24px 28px;
-      max-width: 720px;
-      animation: fadeInUp .6s ease .1s both;
+      padding: 0 20px 26px;
+      animation: fadeInUp .5s ease .1s both;
     }
     .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 7px;
+      display: inline-flex; align-items: center; gap: 6px;
       font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-      color: rgba(255,255,255,.8); margin-bottom: 10px;
+      color: rgba(255,255,255,.78); margin-bottom: 8px;
     }
     .hero-eyebrow .dot {
       width: 5px; height: 5px; border-radius: 50%;
       background: var(--accent); display: inline-block;
     }
     .hero h1 {
-      font-size: clamp(1.7rem, 5vw, 2.6rem);
+      font-size: clamp(1.6rem, 4.5vw, 2.4rem);
       font-weight: 800; letter-spacing: -.04em; line-height: 1.15;
-      color: #fff; margin-bottom: 16px;
+      color: #fff; margin-bottom: 14px;
     }
-    .hero h1 em {
-      font-style: normal;
-      color: rgba(255,255,255,.85);
-    }
-    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 12px 22px; border-radius: 100px;
+    .hero h1 span { color: rgba(255,255,255,.82); }
+    .hero-actions { display: flex; gap: 9px; flex-wrap: wrap; align-items: center; }
+    .btn-hero {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 11px 20px; border-radius: 100px;
       background: var(--accent); color: #fff;
-      font-size: .88rem; font-weight: 700; font-family: 'Inter', sans-serif;
+      font-size: .85rem; font-weight: 700; font-family: 'Inter', sans-serif;
       text-decoration: none; transition: all .2s; white-space: nowrap;
       border: none; cursor: pointer;
     }
-    .btn-primary:hover {
-      background: var(--accent-text); transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(14, 165, 233,.28);
-    }
-    .btn-secondary {
+    .btn-hero:hover { background: var(--accent-text); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(14,165,233,.3); }
+    .btn-hero-ghost {
       display: inline-flex; align-items: center; gap: 6px;
-      padding: 12px 20px; border-radius: 100px;
+      padding: 11px 18px; border-radius: 100px;
       border: 1.5px solid rgba(255,255,255,.5); color: #fff;
-      font-size: .88rem; font-weight: 600; font-family: 'Inter', sans-serif;
+      font-size: .85rem; font-weight: 600; font-family: 'Inter', sans-serif;
       text-decoration: none; transition: all .2s; white-space: nowrap;
       background: rgba(255,255,255,.1);
     }
-    .btn-secondary:hover {
-      border-color: rgba(255,255,255,.8);
-      background: rgba(255,255,255,.18);
-    }
+    .btn-hero-ghost:hover { border-color: rgba(255,255,255,.8); background: rgba(255,255,255,.18); }
 
-    /* ── Content section (white) ── */
-    .content {
+    /* ── MAIN CONTENT ── */
+    .page {
       background: var(--bg);
-      padding: 28px 24px 80px;
-      border-top: 1px solid var(--border);
-    }
-    .content-inner { max-width: 680px; margin: 0 auto; }
-
-    /* ── Profile banner ── */
-    .profile-banner {
-      display: none;
-      background: var(--accent-light);
-      border: 1px solid #FDDCCC;
-      border-left: 3px solid var(--accent);
-      border-radius: 14px; padding: 14px 18px;
-      margin-bottom: 24px;
-      position: relative;
-    }
-    .banner-inner { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-    .banner-text { flex:1; min-width:140px; }
-    .banner-title { font-size:.82rem; font-weight:600; color:var(--text); margin-bottom:2px; }
-    .banner-desc { font-size:.72rem; color:var(--text-secondary); line-height:1.4; }
-    .banner-progress { display:flex; align-items:center; gap:8px; margin-top:8px; }
-    .progress-track { flex:1; height:3px; background:rgba(14, 165, 233,.15); border-radius:100px; overflow:hidden; }
-    .progress-fill { height:100%; background:var(--accent); --w:0%; width:0; animation:progressFill .8s ease-out .5s both; }
-    .progress-pct { font-size:.68rem; color:var(--accent-text); font-weight:600; white-space:nowrap; }
-    .btn-banner-sm {
-      padding:7px 14px; border-radius:100px;
-      background:var(--accent); color:#fff;
-      font-size:.72rem; font-weight:700; font-family:'Inter',sans-serif;
-      text-decoration:none; white-space:nowrap; transition:background .2s; flex-shrink:0;
-    }
-    .btn-banner-sm:hover { background:var(--accent-text); }
-    .banner-dismiss {
-      position:absolute; top:10px; right:12px;
-      background:none; border:none; color:var(--text-muted);
-      cursor:pointer; font-size:.85rem; transition:color .2s;
-    }
-    .banner-dismiss:hover { color:var(--text-secondary); }
-
-    /* ── Section label ── */
-    .section-label {
-      font-size:.65rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
-      color:var(--text-muted); margin-bottom:14px;
+      padding-bottom: 80px;
     }
 
-    /* ── Cards grid ── */
-    .cards-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    /* ── TRAVELER STRIP ── */
+    .stats-strip {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px; flex-wrap: wrap;
+      animation: fadeInUp .5s ease .2s both;
+    }
+    .stats-pills {
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    }
+    .stat-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; border-radius: 100px;
+      background: var(--bg-soft); border: 1px solid var(--border);
+      font-size: .78rem; font-weight: 600; color: var(--text);
+      white-space: nowrap;
+    }
+    .stat-pill .sp-icon { font-size: .9rem; }
+    .stat-pill .sp-val { color: var(--accent); }
+    .level-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; border-radius: 100px;
+      background: var(--teal-light); border: 1px solid rgba(16,185,129,.25);
+      font-size: .78rem; font-weight: 700; color: #065F46;
+      white-space: nowrap;
+    }
+    .stats-strip-loading {
+      font-size: .78rem; color: var(--text-muted);
+    }
 
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px; padding: 20px 18px 16px;
-      text-decoration: none; display: flex; flex-direction: column;
+    /* ── SECTIONS ── */
+    .section {
+      padding: 28px 20px 0;
+      max-width: 680px; margin: 0 auto;
+    }
+    .section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem; font-weight: 700; letter-spacing: -.02em; color: var(--text);
+    }
+    .section-link {
+      font-size: .78rem; font-weight: 600; color: var(--accent);
+      text-decoration: none; transition: color .2s;
+    }
+    .section-link:hover { color: var(--accent-text); }
+
+    /* ── QUICK ACCESS GRID ── */
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .quick-item {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 7px;
+      padding: 16px 8px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; text-decoration: none;
       transition: border-color .2s, transform .2s, box-shadow .2s;
-      border-top: 2.5px solid transparent;
       box-shadow: var(--shadow-sm);
+      min-height: 82px;
     }
-    .card:hover {
-      border-color: var(--border);
-      border-top-width: 2.5px;
-      transform: translateY(-2px);
+    .quick-item:hover {
+      border-color: var(--accent); transform: translateY(-2px);
       box-shadow: var(--shadow-md);
     }
-
-    .card-blue { border-top-color: var(--accent); }
-    .card-teal   { border-top-color: var(--teal); }
-    .card-gold   { border-top-color: var(--gold); }
-    .card-purple { border-top-color: #8B5CF6; }
-    .card-green  { border-top-color: #10B981; }
-
-    .card-icon   { font-size:1.4rem; margin-bottom:10px; line-height:1; }
-    .card-title  { font-family:'Space Grotesk',sans-serif; font-size:.88rem; font-weight:700; color:var(--text); margin-bottom:4px; }
-    .card-desc   { font-size:.72rem; color:var(--text-secondary); line-height:1.5; flex:1; }
-    .card-footer { display:flex; align-items:center; justify-content:space-between; margin-top:12px; }
-    .card-tag    { font-size:.6rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:2px 8px; border-radius:100px; background:var(--bg-soft); color:var(--text-muted); border: 1px solid var(--border); }
-    .card-tag-new { background:var(--accent-light); color:var(--accent-text); border-color:#FDDCCC; }
-    .card-arrow  { font-size:.8rem; color:var(--text-muted); transition:color .2s; }
-    .card:hover .card-arrow { color: var(--text-secondary); }
-    .card-disabled { opacity:.35; cursor:default; pointer-events:none; }
-
-    /* ── Mobile ── */
-    @media (max-width:520px) {
-      .hero-content { padding: 0 18px 22px; }
-      .hero h1 { font-size:1.55rem; }
-      .cards-grid { grid-template-columns:1fr; }
-      .content { padding:22px 18px 60px; }
-      nav { padding: 0 18px; }
+    .quick-icon { font-size: 1.55rem; line-height: 1; }
+    .quick-label {
+      font-size: .72rem; font-weight: 600; color: var(--text);
+      text-align: center; letter-spacing: .01em; line-height: 1.3;
+    }
+    @media (max-width: 380px) {
+      .quick-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
-    /* ── Bottom Tab Bar (mobile) ── */
+    /* ── DISCOVER DESTINATION CARDS ── */
+    .dest-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 380px) {
+      .dest-grid { grid-template-columns: 1fr; }
+    }
+    .dest-card {
+      position: relative; border-radius: 18px; overflow: hidden;
+      aspect-ratio: 4/3;
+      text-decoration: none;
+      box-shadow: var(--shadow-md);
+      display: block;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .dest-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+    .dest-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .4s;
+    }
+    .dest-card:hover img { transform: scale(1.04); }
+    .dest-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,.72) 100%);
+    }
+    .dest-card-body {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 14px 14px 12px;
+    }
+    .dest-continent {
+      font-size: .6rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+      color: rgba(255,255,255,.75); margin-bottom: 3px;
+    }
+    .dest-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem; font-weight: 700; color: #fff; line-height: 1.2;
+      margin-bottom: 7px;
+    }
+    .dest-cta {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 100px;
+      background: rgba(255,255,255,.18); backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.35);
+      font-size: .68rem; font-weight: 700; color: #fff;
+    }
+
+    /* ── INSPIRE ROUTES ── */
+    .route-list {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .route-card {
+      display: flex; align-items: stretch; gap: 0;
+      border-radius: 18px; overflow: hidden;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      background: var(--bg-card);
+      box-shadow: var(--shadow-sm);
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .route-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: #CBD5E1; }
+    .route-img-wrap {
+      width: 110px; flex-shrink: 0; position: relative; overflow: hidden;
+    }
+    .route-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .4s;
+    }
+    .route-card:hover .route-img-wrap img { transform: scale(1.05); }
+    .route-body {
+      padding: 14px 16px; flex: 1; display: flex; flex-direction: column; justify-content: center;
+    }
+    .route-tag {
+      font-size: .6rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 5px;
+    }
+    .route-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem; font-weight: 700; color: var(--text);
+      margin-bottom: 5px; line-height: 1.3;
+    }
+    .route-desc {
+      font-size: .78rem; color: var(--text-secondary); line-height: 1.5; flex: 1;
+    }
+    .route-arrow {
+      align-self: center; padding-right: 14px;
+      font-size: .85rem; color: var(--text-muted);
+    }
+
+    /* ── BOTTOM PADDING ── */
+    .page-spacer { height: 28px; }
+
+    /* ── BOTTOM NAV ── */
     .bottom-nav {
       display: none;
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: #fff;
-      border-top: 1px solid #E2E8F0;
-      z-index: 1000;
-      padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #fff; border-top: 1px solid var(--border);
+      z-index: 200; padding: 6px 0 max(6px, env(safe-area-inset-bottom));
     }
     @media (max-width: 768px) {
       .bottom-nav { display: flex; }
       body { padding-bottom: 64px; }
     }
     .tab-item {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      color: #94A3B8;
-      font-size: 0.65rem;
-      font-weight: 500;
-      padding: 4px 0;
-      gap: 2px;
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-decoration: none; color: #94A3B8;
+      font-size: .62rem; font-weight: 500; padding: 4px 0; gap: 2px;
       transition: color .15s;
     }
-    .tab-item.active { color: #0EA5E9; }
-    .tab-item:hover { color: #0EA5E9; }
-    .tab-icon { font-size: 1.3rem; line-height: 1; }
+    .tab-item.active { color: var(--accent); }
+    .tab-item:hover { color: var(--accent); }
+    .tab-icon { font-size: 1.25rem; line-height: 1; }
+
+    /* ── MOBILE TWEAKS ── */
+    @media (max-width: 520px) {
+      .hero-content { padding: 0 16px 22px; }
+      .hero h1 { font-size: 1.5rem; }
+      nav.top-nav { padding: 0 16px; }
+      .section { padding: 22px 16px 0; }
+      .stats-strip { padding: 12px 16px; }
+      .route-img-wrap { width: 90px; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Nav — white, sticky -->
-  <nav>
-    <a href="main.html" class="nav-logo">
-      <span class="nav-logo-dot"></span>
-      ViajeraMente
-    </a>
-    <div class="nav-links">
-      <a href="guias.html" class="nav-link">Guías</a>
-      <a href="plan.html" class="nav-link">Planifica</a>
-      <a href="fechas.html" class="nav-link">Por fechas</a>
-    </div>
-    <div class="nav-right">
-      <a href="profile.html" class="nav-avatar" id="navAvatar" title="Mi perfil"></a>
-      <button class="nav-logout" onclick="logout()">Salir</button>
-      <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
-    </div>
-  </nav>
+<!-- ── TOP NAV ── -->
+<nav class="top-nav">
+  <a href="main.html" class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    ViajeraMente
+  </a>
+  <div class="nav-links">
+    <a href="guias.html" class="nav-link">Guías</a>
+    <a href="plan.html" class="nav-link">Planifica</a>
+    <a href="mapa.html" class="nav-link">Mapa</a>
+    <a href="fechas.html" class="nav-link">Por fechas</a>
+  </div>
+  <div class="nav-right">
+    <a href="profile.html" class="nav-avatar" id="navAvatar" title="Mi perfil"></a>
+    <button class="nav-hamburger" onclick="openMenu()" aria-label="Menú">☰</button>
+  </div>
+</nav>
 
-  <!-- Mobile menu overlay -->
-  <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
-    <div class="mobile-menu">
-      <div class="mobile-menu-header">
-        <a href="main.html" class="nav-logo" style="text-decoration:none;">
-          <span class="nav-logo-dot"></span> ViajeraMente
-        </a>
-        <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
-      </div>
-      <div class="mobile-menu-links">
-        <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
-        <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
-        <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planifica</a>
-        <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
-        <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>Por fechas</a>
-        <a href="ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
-        <div class="mobile-menu-divider"></div>
-        <a href="profile.html" class="mobile-menu-link"><span class="mm-icon">👤</span>Mi perfil</a>
-        <button class="mobile-menu-logout" onclick="logout()"><span class="mm-icon">🚪</span>Cerrar sesión</button>
-      </div>
+<!-- ── MOBILE DRAWER ── -->
+<div class="mobile-overlay" id="menuOverlay" onclick="closeBg(event)">
+  <div class="mobile-drawer">
+    <div class="mobile-drawer-head">
+      <a href="main.html" class="nav-logo"><span class="nav-logo-dot"></span>ViajeraMente</a>
+      <button class="mobile-close" onclick="closeMenu()">✕</button>
+    </div>
+    <div class="mobile-links">
+      <a href="main.html" class="mobile-link"><span class="mi">🏠</span>Inicio</a>
+      <a href="guias.html" class="mobile-link"><span class="mi">🗺️</span>Guías</a>
+      <a href="plan.html" class="mobile-link"><span class="mi">✈️</span>Planifica</a>
+      <a href="mapa.html" class="mobile-link"><span class="mi">🌍</span>Mi Mapa</a>
+      <a href="fechas.html" class="mobile-link"><span class="mi">📅</span>Por fechas</a>
+      <a href="ranking.html" class="mobile-link"><span class="mi">🏆</span>Ranking</a>
+      <div class="mobile-divider"></div>
+      <a href="profile.html" class="mobile-link"><span class="mi">👤</span>Mi perfil</a>
+      <button class="mobile-logout" onclick="logout()"><span class="mi">🚪</span>Cerrar sesión</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <img class="hero-img" id="heroBg"
+    src="https://images.pexels.com/photos/7430483/pexels-photo-7430483.jpeg?auto=compress&cs=tinysrgb&h=900&w=1600"
+    alt="Viaje aéreo sobre los Alpes suizos" loading="eager">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span class="dot"></span><span id="heroEyebrow">Bienvenido/a</span></div>
+    <h1 id="heroTitle">¿A dónde vas,<br><span id="heroName">viajero/a</span>?</h1>
+    <div class="hero-actions">
+      <a href="plan.html" class="btn-hero">✈️ Planifica tu viaje</a>
+      <a href="guias.html" class="btn-hero-ghost">Ver guías →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRAVELER STATS STRIP ── -->
+<div class="stats-strip" id="statsStrip">
+  <div class="stats-pills" id="statsPills">
+    <span class="stats-strip-loading">Cargando tu perfil…</span>
+  </div>
+</div>
+
+<!-- ── PAGE ── -->
+<div class="page">
+
+  <!-- QUICK ACCESS -->
+  <div class="section" style="animation: fadeInUp .5s ease .25s both;">
+    <div class="section-head">
+      <h2 class="section-title">Acceso rápido</h2>
+    </div>
+    <div class="quick-grid">
+      <a href="guias.html" class="quick-item">
+        <span class="quick-icon">🗺️</span>
+        <span class="quick-label">Guías</span>
+      </a>
+      <a href="plan.html" class="quick-item">
+        <span class="quick-icon">✈️</span>
+        <span class="quick-label">Planifica</span>
+      </a>
+      <a href="mapa.html" class="quick-item">
+        <span class="quick-icon">🌍</span>
+        <span class="quick-label">Mi Mapa</span>
+      </a>
+      <a href="fechas.html" class="quick-item">
+        <span class="quick-icon">📅</span>
+        <span class="quick-label">Por fechas</span>
+      </a>
+      <a href="ranking.html" class="quick-item">
+        <span class="quick-icon">🏆</span>
+        <span class="quick-label">Ranking</span>
+      </a>
+      <a href="profile.html" class="quick-item">
+        <span class="quick-icon">👤</span>
+        <span class="quick-label">Mi Perfil</span>
+      </a>
     </div>
   </div>
 
-  <!-- Hero — photo, contained height -->
-  <section class="hero">
-    <div class="hero-bg">
-      <img src="https://images.pexels.com/photos/4096283/pexels-photo-4096283.jpeg?auto=compress&cs=tinysrgb&h=1400&w=2100" alt="Vista desde avión sobre montañas" loading="eager">
+  <!-- DISCOVER -->
+  <div class="section" style="animation: fadeInUp .5s ease .3s both;">
+    <div class="section-head">
+      <h2 class="section-title">Descubre destinos</h2>
+      <a href="guias.html" class="section-link">Ver todos →</a>
     </div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow"><span class="dot"></span><span id="heroEyebrow">Bienvenido/a</span></div>
-      <h1>Tu próximo destino<br>te está <em>esperando</em></h1>
-      <div class="hero-actions">
-        <a href="plan.html" class="btn-primary">&#129517; Planifica tu aventura</a>
-        <a href="profile.html" class="btn-secondary">Mi perfil &rarr;</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Content — white, below photo -->
-  <div class="content">
-    <div class="content-inner">
-
-      <!-- Profile banner -->
-      <div class="profile-banner" id="profileBanner">
-        <button class="banner-dismiss" onclick="dismissBanner()">&#10005;</button>
-        <div class="banner-inner">
-          <div class="banner-text">
-            <div class="banner-title">&#127757; Diseña tu perfil de viajero</div>
-            <div class="banner-desc">Cuéntanos dónde has estado, cómo viajas y qué buscas.</div>
-            <div class="banner-progress">
-              <div class="progress-track"><div class="progress-fill" id="profileFill"></div></div>
-              <span class="progress-pct" id="profilePct">0%</span>
-            </div>
-          </div>
-          <a href="profile.html" class="btn-banner-sm">Completar &rarr;</a>
+    <div class="dest-grid" id="destGrid">
+      <!-- cards inyectadas por JS o fallback hardcoded -->
+      <a href="guias.html?q=japon" class="dest-card">
+        <img src="https://images.pexels.com/photos/33198749/pexels-photo-33198749.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=700" alt="Japón" loading="lazy">
+        <div class="dest-card-overlay"></div>
+        <div class="dest-card-body">
+          <div class="dest-continent">Asia · Japón</div>
+          <div class="dest-name">Kyoto</div>
+          <div class="dest-cta">Ver guía →</div>
         </div>
-      </div>
-
-      <div class="section-label">Qué puedes hacer</div>
-      <div class="cards-grid">
-
-        <a href="plan.html" class="card card-blue">
-          <div class="card-icon">&#129517;</div>
-          <div class="card-title">Planifica tu aventura</div>
-          <div class="card-desc">7 preguntas, 25 destinos, guía completa de cada uno.</div>
-          <div class="card-footer">
-            <span class="card-tag card-tag-new">Nuevo</span>
-            <span class="card-arrow">&rarr;</span>
-          </div>
-        </a>
-
-        <a href="profile.html" class="card card-teal">
-          <div class="card-icon">&#128282;</div>
-          <div class="card-title">Mi perfil</div>
-          <div class="card-desc">Bio, países visitados, estilo de viaje.</div>
-          <div class="card-footer">
-            <span class="card-tag">Perfil</span>
-            <span class="card-arrow">&rarr;</span>
-          </div>
-        </a>
-
-        <a href="guias.html" class="card card-gold">
-          <div class="card-icon">🗺️</div>
-          <div class="card-title">Guías de destinos</div>
-          <div class="card-desc">40 destinos con info real de blogs y viajeros.</div>
-          <div class="card-footer">
-            <span class="card-tag">Nuevo</span>
-            <span class="card-arrow">&rarr;</span>
-          </div>
-        </a>
-
-        <a href="fechas.html" class="card card-green">
-          <div class="card-icon">📅</div>
-          <div class="card-title">Ya tengo fechas</div>
-          <div class="card-desc">Te digo dónde ir según tu mes: auroras, sakura, festivales...</div>
-          <div class="card-footer">
-            <span class="card-tag">Nuevo</span>
-            <span class="card-arrow">&rarr;</span>
-          </div>
-        </a>
-
-        <a href="#" class="card card-purple card-disabled">
-          <div class="card-icon">&#128205;</div>
-          <div class="card-title">Mis rutas</div>
-          <div class="card-desc">Registra y comparte itinerarios.</div>
-          <div class="card-footer">
-            <span class="card-tag">Próximamente</span>
-            <span class="card-arrow">&rarr;</span>
-          </div>
-        </a>
-
-      </div>
+      </a>
+      <a href="guias.html?q=bali" class="dest-card">
+        <img src="https://images.pexels.com/photos/5151206/pexels-photo-5151206.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=700" alt="Bali" loading="lazy">
+        <div class="dest-card-overlay"></div>
+        <div class="dest-card-body">
+          <div class="dest-continent">Asia · Indonesia</div>
+          <div class="dest-name">Bali</div>
+          <div class="dest-cta">Ver guía →</div>
+        </div>
+      </a>
+      <a href="guias.html?q=marruecos" class="dest-card">
+        <img src="https://images.pexels.com/photos/6621125/pexels-photo-6621125.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=700" alt="Marrakech" loading="lazy">
+        <div class="dest-card-overlay"></div>
+        <div class="dest-card-body">
+          <div class="dest-continent">África · Marruecos</div>
+          <div class="dest-name">Marrakech</div>
+          <div class="dest-cta">Ver guía →</div>
+        </div>
+      </a>
+      <a href="guias.html?q=patagonia" class="dest-card">
+        <img src="https://images.pexels.com/photos/36951892/pexels-photo-36951892.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=700" alt="Patagonia" loading="lazy">
+        <div class="dest-card-overlay"></div>
+        <div class="dest-card-body">
+          <div class="dest-continent">América · Argentina</div>
+          <div class="dest-name">Patagonia</div>
+          <div class="dest-cta">Ver guía →</div>
+        </div>
+      </a>
     </div>
   </div>
 
-  <script>
-    const API_BASE = 'https://eze.saypeter.com';
-    const token = localStorage.getItem('token');
-    if (!token) window.location.href = 'login.html';
+  <!-- INSPIRE ME -->
+  <div class="section" style="animation: fadeInUp .5s ease .35s both;">
+    <div class="section-head">
+      <h2 class="section-title">Inspírate</h2>
+      <a href="guias.html" class="section-link">Ver más →</a>
+    </div>
+    <div class="route-list">
 
-    function logout() { localStorage.removeItem('token'); window.location.href = 'login.html'; }
-    function openMobileMenu() { document.getElementById('mobileMenuOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
-    function closeMobileMenu() { document.getElementById('mobileMenuOverlay').classList.remove('open'); document.body.style.overflow = ''; }
-    function closeMobileMenuOnBg(e) { if (e.target === document.getElementById('mobileMenuOverlay')) closeMobileMenu(); }
-    function dismissBanner() {
-      document.getElementById('profileBanner').style.display = 'none';
-      localStorage.setItem('vmBannerTs', Date.now());
-    }
-    function bannerDismissed() {
-      const ts = localStorage.getItem('vmBannerTs');
-      return ts && (Date.now() - +ts) < 7 * 86400000;
-    }
-    function profileScore(u) {
-      return Math.round([u.avatar_url, u.bio, u.city, u.country, u.travel_style,
-        u.budget_range, u.countries_visited?.length, u.languages?.length
-      ].filter(Boolean).length / 8 * 100);
-    }
+      <a href="guias.html" class="route-card">
+        <div class="route-img-wrap">
+          <img src="https://images.pexels.com/photos/11845845/pexels-photo-11845845.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=300&w=200" alt="Interrail Europa" loading="lazy">
+        </div>
+        <div class="route-body">
+          <div class="route-tag">Europa · Tren</div>
+          <div class="route-name">Interrail por Europa</div>
+          <div class="route-desc">De Madrid a Praga pasando por París, Ámsterdam y Berlín. La ruta clásica que nunca defrauda.</div>
+        </div>
+        <div class="route-arrow">→</div>
+      </a>
 
-    async function init() {
-      try {
-        const res = await fetch(`${API_BASE}/api/me`, { headers: { Authorization: `Bearer ${token}` } });
-        if (res.status === 401) { localStorage.removeItem('token'); window.location.href = 'login.html'; return; }
-        const { ok, user } = await res.json();
-        if (!ok || !user) return;
+      <a href="guias.html" class="route-card">
+        <div class="route-img-wrap">
+          <img src="https://images.pexels.com/photos/4981193/pexels-photo-4981193.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=300&w=200" alt="Sudeste Asiático" loading="lazy">
+        </div>
+        <div class="route-body">
+          <div class="route-tag">Asia · Mochilero</div>
+          <div class="route-name">Southeast Asia Circuit</div>
+          <div class="route-desc">Tailandia, Vietnam, Cambodia y Bali en 30-45 días. El viaje que engancha a todos.</div>
+        </div>
+        <div class="route-arrow">→</div>
+      </a>
 
-        const first = user.name?.split(' ')[0] || 'Viajero';
-        const h = new Date().getHours();
-        const saludo = h < 13 ? 'Buenos días' : h < 20 ? 'Buenas tardes' : 'Buenas noches';
-        document.getElementById('heroEyebrow').textContent = `${saludo}, ${first} 👋`;
+      <a href="guias.html" class="route-card">
+        <div class="route-img-wrap">
+          <img src="https://images.pexels.com/photos/21822256/pexels-photo-21822256.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=300&w=200" alt="Patagonia circuito" loading="lazy">
+        </div>
+        <div class="route-body">
+          <div class="route-tag">América del Sur · Nature</div>
+          <div class="route-name">Ruta de los Lagos, Patagonia</div>
+          <div class="route-desc">Torres del Paine, El Chaltén y los glaciares más impresionantes del planeta.</div>
+        </div>
+        <div class="route-arrow">→</div>
+      </a>
 
-        const av = document.getElementById('navAvatar');
-        if (user.avatar_url) {
-          av.innerHTML = `<img src="${user.avatar_url}" alt="">`;
-        } else {
-          av.textContent = (user.name||'V').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
-        }
+    </div>
+  </div>
 
-        const score = profileScore(user);
-        if (score < 80 && !bannerDismissed()) {
-          document.getElementById('profileBanner').style.display = 'block';
-          document.getElementById('profileFill').style.setProperty('--w', `${score}%`);
-          document.getElementById('profilePct').textContent = `${score}% completo`;
-        }
-      } catch(e) { console.error(e); }
-    }
+  <div class="page-spacer"></div>
+</div>
 
-    init();
-  </script>
-
-<!-- Bottom Nav -->
+<!-- ── BOTTOM NAV ── -->
 <nav class="bottom-nav">
   <a href="main.html" class="tab-item active">
-    <span class="tab-icon">🏠</span>
-    <span>Inicio</span>
+    <span class="tab-icon">🏠</span><span>Inicio</span>
   </a>
   <a href="guias.html" class="tab-item">
-    <span class="tab-icon">🗺️</span>
-    <span>Guías</span>
+    <span class="tab-icon">🗺️</span><span>Guías</span>
   </a>
   <a href="plan.html" class="tab-item">
-    <span class="tab-icon">✈️</span>
-    <span>Planifica</span>
+    <span class="tab-icon">✈️</span><span>Planifica</span>
   </a>
   <a href="mapa.html" class="tab-item">
-    <span class="tab-icon">🌍</span>
-    <span>Mapa</span>
+    <span class="tab-icon">🌍</span><span>Mapa</span>
   </a>
   <a href="profile.html" class="tab-item">
-    <span class="tab-icon">👤</span>
-    <span>Perfil</span>
+    <span class="tab-icon">👤</span><span>Perfil</span>
   </a>
 </nav>
+
+<script>
+  const API = 'https://eze.saypeter.com';
+  const token = localStorage.getItem('token');
+
+  // ── Auth guard ──
+  if (!token) {
+    window.location.href = 'login.html?next=' + encodeURIComponent(window.location.href);
+  }
+
+  // ── Menu helpers ──
+  function openMenu()  { document.getElementById('menuOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMenu() { document.getElementById('menuOverlay').classList.remove('open'); document.body.style.overflow=''; }
+  function closeBg(e)  { if (e.target===document.getElementById('menuOverlay')) closeMenu(); }
+  function logout()    { localStorage.removeItem('token'); window.location.href = 'login.html'; }
+
+  // ── Load user + stats ──
+  async function init() {
+    try {
+      const res = await fetch(`${API}/api/me`, { headers: { Authorization: `Bearer ${token}` } });
+      if (res.status === 401) { localStorage.removeItem('token'); window.location.href = 'login.html'; return; }
+      const { ok, user } = await res.json();
+      if (!ok || !user) return;
+
+      // Greeting
+      const first = (user.name || 'viajero').split(' ')[0];
+      const h = new Date().getHours();
+      const saludo = h < 13 ? 'Buenos días' : h < 20 ? 'Buenas tardes' : 'Buenas noches';
+      document.getElementById('heroEyebrow').textContent = `${saludo}, ${first} 👋`;
+      document.getElementById('heroName').textContent = first;
+
+      // Avatar
+      const av = document.getElementById('navAvatar');
+      if (user.avatar_url) {
+        av.innerHTML = `<img src="${user.avatar_url}" alt="">`;
+      } else {
+        av.textContent = (user.name||'V').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+      }
+
+      // Stats strip
+      const pills = document.getElementById('statsPills');
+      const countries = user.stats_countries || user.countries_visited?.length || 0;
+      const km = user.km_traveled || 0;
+      const level = (user.travel_level || 'huevo').charAt(0).toUpperCase() + (user.travel_level || 'huevo').slice(1);
+
+      pills.innerHTML = `
+        <span class="stat-pill"><span class="sp-icon">🌍</span><span class="sp-val">${countries}</span>&nbsp;países</span>
+        <span class="stat-pill"><span class="sp-icon">✈️</span><span class="sp-val">${km > 0 ? km.toLocaleString('es-ES') : '–'}</span>&nbsp;km</span>
+        <span class="level-pill">⭐ ${level}</span>
+      `;
+
+      // Load destinations from API for discover section
+      loadDestinations();
+
+    } catch(e) {
+      console.error(e);
+      // Keep fallback hardcoded cards
+    }
+  }
+
+  async function loadDestinations() {
+    try {
+      const res = await fetch(`${API}/api/destinations?limit=4`, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) return;
+      const { ok, destinations } = await res.json();
+      if (!ok || !destinations || destinations.length < 2) return;
+
+      const grid = document.getElementById('destGrid');
+      const continentLabel = { 'Asia': 'Asia', 'Europa': 'Europa', 'America': 'América', 'Africa': 'África', 'Oceania': 'Oceanía', 'America del Norte': 'Norteamérica', 'America del Sur': 'Sudamérica' };
+
+      // Pick up to 4 destinations that have a photo
+      const withPhoto = destinations.filter(d => d.hero_photo_url || d.hero_photo_id);
+      const picks = withPhoto.slice(0, 4);
+      if (picks.length < 2) return;
+
+      grid.innerHTML = picks.map(d => {
+        const imgUrl = d.hero_photo_url || `https://images.pexels.com/photos/${d.hero_photo_id}/pexels-photo-${d.hero_photo_id}.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=700`;
+        const cont = continentLabel[d.continent] || d.continent || '';
+        const country = d.country || '';
+        const label = [cont, country].filter(Boolean).join(' · ');
+        return `<a href="destino.html?slug=${encodeURIComponent(d.slug)}" class="dest-card">
+          <img src="${imgUrl}" alt="${d.name}" loading="lazy">
+          <div class="dest-card-overlay"></div>
+          <div class="dest-card-body">
+            <div class="dest-continent">${label}</div>
+            <div class="dest-name">${d.name}</div>
+            <div class="dest-cta">Ver guía →</div>
+          </div>
+        </a>`;
+      }).join('');
+    } catch(e) {
+      // Fallback cards already in HTML
+    }
+  }
+
+  init();
+</script>
+
 </body>
 </html>

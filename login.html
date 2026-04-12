@@ -366,6 +366,15 @@
   <script>
     const API_BASE = 'https://eze.saypeter.com';
 
+    // If already logged in, go to main.html (or ?next= destination)
+    (function() {
+      const existingToken = localStorage.getItem('token');
+      if (existingToken) {
+        const nextUrl = new URLSearchParams(window.location.search).get('next');
+        window.location.replace(nextUrl ? decodeURIComponent(nextUrl) : 'main.html');
+      }
+    })();
+
     // Show expired session message if redirected from auth failure
     if (new URLSearchParams(window.location.search).get('expired') === '1') {
       const generalError = document.getElementById('generalError');

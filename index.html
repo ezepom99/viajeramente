@@ -1946,21 +1946,11 @@
       });
     }
 
-    // Update nav based on auth
+    // Update nav based on auth — redirect logged-in users to home dashboard
     (function() {
       const token = localStorage.getItem('token');
       if (token) {
-        const profileLink = document.getElementById('nav-profile');
-        const loginLink = document.getElementById('nav-login');
-        const signupBtn = document.getElementById('nav-signup');
-        if (profileLink) profileLink.style.display = '';
-        if (loginLink) loginLink.style.display = 'none';
-        if (signupBtn) signupBtn.textContent = 'Mi cuenta';
-        if (signupBtn) signupBtn.href = 'profile.html';
-        // Hide hero login hint when logged in
-        const heroHint = document.querySelector('.hero-login-hint');
-        if (heroHint) heroHint.style.display = 'none';
-        // Logo stays on index.html (home) regardless of auth state
+        window.location.replace('main.html');
       }
     })();
   </script>
