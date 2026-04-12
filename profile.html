@@ -308,7 +308,7 @@
 
     .hero-info {
       flex: 1;
-      min-width: 180px;
+      min-width: 200px;
       padding-bottom: 6px;
     }
     .hero-info h1 {
@@ -2299,7 +2299,7 @@
           <div class="rank-earn-item">
             <span class="rank-earn-icon">🚀</span>
             <span class="rank-earn-label">Cada 10.000 km viajados</span>
-            <span class="rank-earn-pts">+1 pt</span>
+            <span class="rank-earn-pts">+1 punto</span>
           </div>
         </div>
       </div>
@@ -2977,8 +2977,22 @@ function saveTrips(t) { /* no-op: trips live in DB */ }
 function loadTrips() { return trips; } // trips[] is populated from API on init
 
 // ── LIVED PLACES ──────────────────────────────────────────────────────────────
-let livedPlaces = JSON.parse(localStorage.getItem('livedPlaces') || '[]');
-// Each entry: { country: 'España', city: 'Madrid' }  (city optional)
+// Migrate legacy key if needed
+(function migrateLivedPlaces() {
+  const legacy = localStorage.getItem('livedPlaces');
+  if (legacy && !localStorage.getItem('vm_lived_places')) {
+    localStorage.setItem('vm_lived_places', legacy);
+    localStorage.removeItem('livedPlaces');
+  }
+})();
+let livedPlaces = JSON.parse(localStorage.getItem('vm_lived_places') || '[]');
+// Each entry: { country: 'España', city: 'Madrid', flag: '🇪🇸' }  (city, flag optional)
+
+// Helper: alpha2 code → flag emoji
+function alpha2ToFlagEmoji(a2) {
+  if (!a2 || a2.length !== 2) return '🌍';
+  return String.fromCodePoint(...[...a2.toUpperCase()].map(c => 0x1F1E6 - 65 + c.charCodeAt(0)));
+}
 
 function renderLivedList() {
   const container = document.getElementById('livedList');
@@ -2992,8 +3006,9 @@ function renderLivedList() {
   if (empty) empty.style.display = 'none';
   container.innerHTML = livedPlaces.map((p, i) => {
     const label = p.city ? `${p.city}, ${p.country}` : p.country;
+    const icon = p.flag || '🏠';
     return `<div style="display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--bg-soft);border:1.5px solid var(--border);border-radius:20px;font-size:.85rem;font-weight:500;">
-      🏠 ${label}
+      ${icon} ${label}
       <button onclick="removeLivedPlace(${i})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:.85rem;padding:0 0 0 4px;line-height:1;">✕</button>
     </div>`;
   }).join('');
@@ -3001,7 +3016,7 @@ function renderLivedList() {
 
 function removeLivedPlace(index) {
   livedPlaces.splice(index, 1);
-  localStorage.setItem('livedPlaces', JSON.stringify(livedPlaces));
+  localStorage.setItem('vm_lived_places', JSON.stringify(livedPlaces));
   renderLivedList();
 }
 
@@ -3025,8 +3040,9 @@ function renderLivedPickerChips() {
   const chips = document.getElementById('livedPickerChips');
   chips.innerHTML = livedPlaces.map((p, i) => {
     const label = p.city ? `${p.city}, ${p.country}` : p.country;
+    const icon = p.flag || '🏠';
     return `<div style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:16px;font-size:.8rem;font-weight:500;color:#1D4ED8;">
-      🏠 ${label}
+      ${icon} ${label}
       <button onclick="removeLivedPickerChip(${i})" style="background:none;border:none;cursor:pointer;color:#93C5FD;font-size:.8rem;padding:0;">✕</button>
     </div>`;
   }).join('');
@@ -3044,17 +3060,19 @@ function filterLivedCountries(q) {
   const normQ = normalizeStr(rawQ);
   const matches = uniqueCountries.filter(c => normalizeStr(c.name).includes(normQ)).slice(0, 10);
   if (!matches.length) { results.style.display = 'none'; return; }
-  results.innerHTML = matches.map(c =>
-    `<div onclick="addLivedCountry('${c.name.replace(/'/g,"\\'")}', '${rawQ}')"
+  results.innerHTML = matches.map(c => {
+    const a2 = NUMERIC_TO_ALPHA2[String(c.id)] || '';
+    const flagIcon = a2 ? alpha2ToFlagEmoji(a2) : '🌍';
+    return `<div onclick="addLivedCountry('${c.name.replace(/'/g,"\\'")}', '${rawQ}', '${a2}')"
       style="padding:10px 14px;cursor:pointer;font-size:.85rem;border-bottom:1px solid #F1F5F9;transition:background .15s;"
       onmouseover="this.style.background='#F0F9FF'" onmouseout="this.style.background=''">
-      🌍 ${c.name}
-    </div>`
-  ).join('');
+      ${flagIcon} ${c.name}
+    </div>`;
+  }).join('');
   results.style.display = 'block';
 }
 
-function addLivedCountry(countryName, rawInput) {
+function addLivedCountry(countryName, rawInput, alpha2Code) {
   // Try to detect city from "CiudadX, País" or "País - Ciudad" input patterns
   let city = '';
   const input = document.getElementById('livedPickerInput');
@@ -3077,10 +3095,12 @@ function addLivedCountry(countryName, rawInput) {
       city = beforeDash;
     }
   }
+  // Compute flag emoji from alpha2 code
+  const flag = alpha2Code ? alpha2ToFlagEmoji(alpha2Code) : '🌍';
   // Avoid duplicates
   const exists = livedPlaces.some(p => p.country === countryName && p.city === city);
   if (!exists) {
-    livedPlaces.push({ country: countryName, city });
+    livedPlaces.push({ country: countryName, city, flag });
   }
   input.value = '';
   document.getElementById('livedPickerResults').style.display = 'none';
@@ -3089,7 +3109,7 @@ function addLivedCountry(countryName, rawInput) {
 }
 
 function saveLivedPlaces() {
-  localStorage.setItem('livedPlaces', JSON.stringify(livedPlaces));
+  localStorage.setItem('vm_lived_places', JSON.stringify(livedPlaces));
   renderLivedList();
   closeLivedPicker();
   showToast('🏠 Lugares guardados', 'success');
