@@ -322,6 +322,11 @@
       };
     } else if (d.hero_photo_id) {
       imgEl.src = 'https://images.pexels.com/photos/' + d.hero_photo_id + '/pexels-photo-' + d.hero_photo_id + '.jpeg?auto=compress&cs=tinysrgb&h=800&w=1400';
+      imgEl.onerror = function() {
+        imgEl.src = 'https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&h=800&w=1400';
+      };
+    } else {
+      imgEl.src = 'https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&h=800&w=1400';
     }
     imgEl.alt = d.name;
     document.getElementById('featContinent').textContent = d.continent || d.region || '';
@@ -336,8 +341,8 @@
       var a = document.createElement('a');
       a.href      = 'destino.html?slug=' + d.slug;
       a.className = 'dest-card';
-      const photoUrl = d.hero_photo_url ? (d.hero_photo_url.includes('?') ? d.hero_photo_url : d.hero_photo_url + '?auto=compress&cs=tinysrgb&h=380&w=300') : (d.hero_photo_id ? 'https://images.pexels.com/photos/' + d.hero_photo_id + '/pexels-photo-' + d.hero_photo_id + '.jpeg?auto=compress&cs=tinysrgb&h=380&w=300' : '');
-      a.innerHTML = '<img src="' + photoUrl + '" alt="' + d.name + '" loading="lazy"><div class="dc-ov"></div><div class="dc-info"><div class="dc-name">' + d.name + '</div><div class="dc-reg">' + (d.continent||d.region||'') + '</div></div>';
+      const photoUrl = d.hero_photo_url ? (d.hero_photo_url.includes('?') ? d.hero_photo_url : d.hero_photo_url + '?auto=compress&cs=tinysrgb&h=380&w=300') : (d.hero_photo_id ? 'https://images.pexels.com/photos/' + d.hero_photo_id + '/pexels-photo-' + d.hero_photo_id + '.jpeg?auto=compress&cs=tinysrgb&h=380&w=300' : 'https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&h=380&w=300');
+      a.innerHTML = '<img src="' + photoUrl + '" alt="' + d.name + '" loading="lazy" onerror="this.src=\'https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&h=380&w=300\'"><div class="dc-ov"></div><div class="dc-info"><div class="dc-name">' + d.name + '</div><div class="dc-reg">' + (d.continent||d.region||'') + '</div></div>';
       el.appendChild(a);
     });
   }

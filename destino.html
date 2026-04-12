@@ -259,19 +259,21 @@
 
     /* ── Months calendar ── */
     .months-scroll-wrapper {
-      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      overflow: hidden;
       padding-bottom: 8px;
-      margin: 0 -4px;
-      scrollbar-width: thin;
-      scrollbar-color: var(--border) transparent;
+      margin: 0;
     }
     .months-grid {
-      display: flex; gap: 8px;
-      min-width: max-content;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
       padding: 4px 4px 4px;
     }
+    @media (max-width: 540px) {
+      .months-grid { grid-template-columns: repeat(2, 1fr); }
+    }
     .month-card {
-      width: 76px; flex-shrink: 0;
+      width: 100%;
       border-radius: 12px; border: 2px solid var(--border);
       background: var(--bg-soft);
       padding: 12px 8px 10px;
@@ -677,13 +679,12 @@
       #budgetDetail { grid-template-columns: 1fr !important; }
       .related-grid { grid-template-columns: 1fr 1fr; }
       .related-grid .related-card:last-child { display: none; }
-      .sleep-tabs { overflow-x: auto; }
-      .month-card { width: 68px; }
+      .sleep-tabs { overflow-x: hidden; flex-wrap: wrap; }
       .city-cards-grid { grid-template-columns: 1fr !important; }
     }
 
     @media (max-width: 400px) {
-      .month-card { width: 62px; }
+      .month-card { width: 100%; }
     }
 
     /* ── Skeleton ── */
@@ -1561,7 +1562,7 @@
           const creditText = credit.includes('/') ? credit : credit + ' / Pexels';
           return `
             <div class="guide-inline-photo">
-              <img src="${section.inline_photo_url}" alt="${escHtml(d.name)} — ${escHtml(section.section)}" loading="lazy">
+              <img src="${section.inline_photo_url}" alt="${escHtml(d.name)} — ${escHtml(section.section)}" loading="lazy" onerror="this.style.display='none'">
               <a href="https://www.pexels.com" target="_blank" rel="noopener" class="guide-inline-photo-caption">Foto: ${escHtml(creditText)}</a>
             </div>`;
         }
@@ -1577,7 +1578,7 @@
         const url = crops[crop] || crops.mid;
         return `
           <div class="guide-inline-photo">
-            <img src="${url}" alt="${escHtml(d.name)} travel" loading="lazy">
+            <img src="${url}" alt="${escHtml(d.name)} travel" loading="lazy" onerror="this.style.display='none'">
             <a href="https://www.pexels.com" target="_blank" rel="noopener" class="guide-inline-photo-caption">Foto: Pexels</a>
           </div>`;
       }

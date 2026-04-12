@@ -23,7 +23,7 @@
   </script>
 
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
 
     :root {
       --bg: #F8FAFC;
@@ -769,10 +769,10 @@
     /* ── BADGES ── */
     .badges-scroll {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
-      overflow-x: auto;
+      overflow-x: hidden;
       padding-bottom: 4px;
-      -webkit-overflow-scrolling: touch;
     }
     .badges-scroll::-webkit-scrollbar { height: 4px; }
     .badges-scroll::-webkit-scrollbar-track { background: var(--bg-soft); border-radius: 2px; }
@@ -1407,10 +1407,10 @@
     /* ── BADGES ── */
     .badges-scroll {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
-      overflow-x: auto;
+      overflow-x: hidden;
       padding-bottom: 4px;
-      -webkit-overflow-scrolling: touch;
     }
     .badges-scroll::-webkit-scrollbar { height: 4px; }
     .badges-scroll::-webkit-scrollbar-track { background: var(--bg-soft); border-radius: 2px; }
@@ -2572,11 +2572,11 @@ function getCountryName(id) {
 const WONDERS = [
   { id:1, name:'Machu Picchu',       country:'Perú',     city:'Cusco',          countryCode:604, emoji:'🏔️', pexels:'2356059' },
   { id:2, name:'Cristo Redentor',    country:'Brasil',   city:'Río de Janeiro', countryCode:76,  emoji:'✝️', pexels:'2868146' },
-  { id:4, name:'Chichén Itzá',       country:'México',   city:'Yucatán',        countryCode:484, emoji:'🛕', pexels:'31657159' },
+  { id:4, name:'Chichén Itzá',       country:'México',   city:'Yucatán',        countryCode:484, emoji:'🛕', pexels:'3717471' },
   { id:3, name:'Coliseo de Roma',    country:'Italia',   city:'Roma',           countryCode:380, emoji:'🏛️', pexels:'1797166' },
   { id:5, name:'Gran Muralla China', country:'China',    city:'Pekín',          countryCode:156, emoji:'🧱', pexels:'2412950' },
   { id:6, name:'Taj Mahal',          country:'India',    city:'Agra',           countryCode:356, emoji:'🕌', pexels:'1603650' },
-  { id:7, name:'Petra',              country:'Jordania', city:'Petra',          countryCode:400, emoji:'🏜️', pexels:'36723805' },
+  { id:7, name:'Petra',              country:'Jordania', city:'Petra',          countryCode:400, emoji:'🏜️', pexels:'3581928' },
 ];
 
 // ── BADGES DATA ──
