@@ -426,6 +426,10 @@
     <span class="layer-toggle"></span>
     🏛️ 7 Maravillas Modernas
   </div>
+  <div class="layer-item" id="layer-maravillas_natural" onclick="toggleLayer('maravillas_natural')">
+    <span class="layer-toggle"></span>
+    🌿 7 Maravillas Naturales
+  </div>
   <div class="layer-divider"></div>
   <div class="layer-item" id="layer-ciudades" onclick="toggleLayer('ciudades')">
     <span class="layer-toggle"></span>
@@ -627,10 +631,16 @@ let visitedWonders = new Set(
 // visitedCities is an array of city name strings in profile.html
 let visitedCities = JSON.parse(localStorage.getItem('visitedCities') || '[]');
 
-let layers = { heatmap: false, maravillas_new: false, ciudades: false };
+// visitedNaturalWonders: array of DB IDs (8,9,10,26,27,28,29)
+const _naturalWonderRaw = JSON.parse(localStorage.getItem('visitedNaturalWonders') || '[]');
+// Map DB IDs to the n1..n7 ids used in WONDERS_NATURAL
+const NATURAL_WONDER_DB_TO_ID = { 8:'n1', 9:'n2', 10:'n3', 26:'n4', 27:'n5', 28:'n6', 29:'n7' };
+let visitedNaturalWonders = new Set(_naturalWonderRaw.map(id => NATURAL_WONDER_DB_TO_ID[id]).filter(Boolean));
+
+let layers = { heatmap: false, maravillas_new: false, maravillas_natural: false, ciudades: false };
 let layersPanelOpen = false;
 
-let map, geoLayer, heatLayer, wonderLayer;
+let map, geoLayer, heatLayer, wonderLayer, naturalWonderLayer;
 let cityMarkers = [];
 let currentIso = null;
 let currentCountryName = null;
@@ -856,9 +866,10 @@ function toggleLayer(name) {
   layers[name] = !layers[name];
   document.getElementById('layer-' + name).classList.toggle('active', layers[name]);
 
-  if (name === 'heatmap')         refreshHeatmap();
-  if (name === 'maravillas_new')  refreshWonders();
-  if (name === 'ciudades')        refreshCities();
+  if (name === 'heatmap')             refreshHeatmap();
+  if (name === 'maravillas_new')      refreshWonders();
+  if (name === 'maravillas_natural')  refreshNaturalWonders();
+  if (name === 'ciudades')            refreshCities();
 }
 
 // ── HEATMAP ───────────────────────────────────────────────────────────────────
@@ -927,6 +938,32 @@ function refreshWonders() {
       ${isVisited ? '<div class="wonder-visited-badge">✓ Visitada</div>' : ''}
     </div>`, { maxWidth: 220, offset: [0, -6] });
     marker.addTo(wonderLayer);
+  });
+}
+
+// ── NATURAL WONDERS ───────────────────────────────────────────────────────────
+
+function refreshNaturalWonders() {
+  if (naturalWonderLayer) { map.removeLayer(naturalWonderLayer); naturalWonderLayer = null; }
+  if (!layers.maravillas_natural) return;
+
+  naturalWonderLayer = L.layerGroup().addTo(map);
+
+  WONDERS_NATURAL.forEach(w => {
+    const isVisited = visitedNaturalWonders.has(w.id);
+    const icon = L.divIcon({
+      html: `<div class="wonder-marker${isVisited ? ' visited-wonder' : ''}">${w.emoji}</div>`,
+      className: '',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+    });
+    const marker = L.marker([w.lat, w.lng], { icon });
+    marker.bindPopup(`<div class="wonder-popup-inner">
+      <strong>${w.emoji} ${w.name}</strong>
+      <span>${w.type}</span>
+      ${isVisited ? '<div class="wonder-visited-badge">✓ Visitada</div>' : ''}
+    </div>`, { maxWidth: 220, offset: [0, -6] });
+    marker.addTo(naturalWonderLayer);
   });
 }
 
