@@ -183,7 +183,7 @@
       z-index: 600;
       background: #fff;
       border-radius: 20px 20px 0 0;
-      padding: 0 0 max(24px, env(safe-area-inset-bottom));
+      padding: 0 0 max(80px, calc(env(safe-area-inset-bottom) + 70px));
       box-shadow: 0 -4px 30px rgba(0,0,0,0.2);
       transform: translateY(100%);
       transition: transform 0.32s cubic-bezier(0.32, 0, 0.67, 0);
@@ -676,9 +676,9 @@ function initMap() {
     worldCopyJump: false,
   });
 
-  // CARTO Voyager — shows labels in local Latin script, no Arabic
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
+  // CARTO Voyager — English labels, good readability globally
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
     subdomains: 'abcd',
     maxZoom: 19,
   }).addTo(map);
@@ -759,33 +759,38 @@ async function syncFromAPI() {
         if (changed) { saveCountries(); refreshGeoLayer(); updateStats(); }
       }
     }
-    // Sync cities — API returns plain array of city objects
+    // Sync cities — API returns a plain array of city objects
     const vr = await fetch(`${API}/api/visited-cities`, { headers: { Authorization: `Bearer ${token}` } });
     if (vr.ok) {
       const vd = await vr.json();
-      // API returns either a plain array or {ok, cities}
+      // API always returns a plain array; guard against wrapped {ok, cities} format too
       const cityList = Array.isArray(vd) ? vd : (vd.cities || []);
-      if (cityList.length > 0) {
-        let citiesChanged = false;
-        for (const c of cityList) {
-          const name = c.city_name;
-          if (name && !visitedCities.some(v => v.toLowerCase() === name.toLowerCase())) {
-            visitedCities.push(name); citiesChanged = true;
-          }
-          // Store geo data if available
-          if (name && c.lat && c.lng) {
-            if (!visitedCitiesGeo.some(g => g.name.toLowerCase() === name.toLowerCase())) {
-              visitedCitiesGeo.push({ name, lat: parseFloat(c.lat), lng: parseFloat(c.lng), country_code: c.country_code || '' });
-              citiesChanged = true;
-            }
-          }
+      let citiesChanged = false;
+      for (const c of cityList) {
+        const name = (c.city_name || '').trim();
+        if (!name) continue;
+        if (!visitedCities.some(v => v.toLowerCase() === name.toLowerCase())) {
+          visitedCities.push(name); citiesChanged = true;
         }
-        if (citiesChanged) {
-          localStorage.setItem('visitedCities', JSON.stringify(visitedCities));
-          localStorage.setItem('visitedCitiesGeo', JSON.stringify(visitedCitiesGeo));
-          if (layers.ciudades) refreshCities();
+        // Store geo data when available (lat/lng may be null for manually-added cities)
+        if (c.lat != null && c.lng != null) {
+          if (!visitedCitiesGeo.some(g => g.name.toLowerCase() === name.toLowerCase())) {
+            visitedCitiesGeo.push({
+              name,
+              lat: parseFloat(c.lat),
+              lng: parseFloat(c.lng),
+              country_code: (c.country_code || '').trim(),
+            });
+            citiesChanged = true;
+          }
         }
       }
+      if (citiesChanged) {
+        localStorage.setItem('visitedCities', JSON.stringify(visitedCities));
+        localStorage.setItem('visitedCitiesGeo', JSON.stringify(visitedCitiesGeo));
+      }
+      // Refresh cities layer whether or not new cities were added (ensures layer is populated)
+      if (layers.ciudades) refreshCities();
     }
     // Sync wonders from API (categories: modern, natural, ancient)
     const wr = await fetch(`${API}/api/profile`, { headers: { Authorization: `Bearer ${token}` } });
@@ -944,9 +949,9 @@ function refreshHeatmap() {
       const iso = (feature.properties.ISO_A2 || feature.properties.iso_a2 || '').toUpperCase();
       if (!visitedCountries.has(iso)) return { fillOpacity: 0, color: 'transparent', weight: 0, interactive: false };
       return {
-        fillColor: '#0EA5E9',
+        fillColor: '#10B981',
         fillOpacity: 0.82,
-        color: '#0284C7',
+        color: '#059669',
         weight: 1.5,
         interactive: false,
       };
@@ -1000,13 +1005,17 @@ function refreshWonders() {
 function refreshNaturalWonders() {
   if (naturalWonderLayer) { map.removeLayer(naturalWonderLayer); naturalWonderLayer = null; }
   if (!layers.maravillas_natural) return;
+  // Only render the layer if the user has at least one natural wonder visited
+  if (visitedNaturalWonders.size === 0) return;
 
   naturalWonderLayer = L.layerGroup().addTo(map);
 
   WONDERS_NATURAL.forEach(w => {
     const isVisited = visitedNaturalWonders.has(w.id);
+    // Only show markers that the user has actually visited
+    if (!isVisited) return;
     const icon = L.divIcon({
-      html: `<div class="wonder-marker${isVisited ? ' visited-wonder' : ''}">${w.emoji}</div>`,
+      html: `<div class="wonder-marker visited-wonder">${w.emoji}</div>`,
       className: '',
       iconSize: [30, 30],
       iconAnchor: [15, 15],
@@ -1015,7 +1024,7 @@ function refreshNaturalWonders() {
     marker.bindPopup(`<div class="wonder-popup-inner">
       <strong>${w.emoji} ${w.name}</strong>
       <span>${w.type}</span>
-      ${isVisited ? '<div class="wonder-visited-badge">✓ Visitada</div>' : ''}
+      <div class="wonder-visited-badge">✓ Visitada</div>
     </div>`, { maxWidth: 220, offset: [0, -6] });
     marker.addTo(naturalWonderLayer);
   });
