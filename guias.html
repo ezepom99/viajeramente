@@ -250,16 +250,56 @@
       background: var(--green-light); font-weight: 600;
     }
 
-    /* Sorpréndeme */
-    .btn-surprise {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 7px 16px; border-radius: 100px;
-      border: 1.5px solid var(--teal); background: var(--teal-light);
-      font-size: .78rem; font-weight: 600; color: var(--teal);
-      cursor: pointer; transition: all .2s; font-family: 'Inter', sans-serif;
-      text-decoration: none; white-space: nowrap; flex-shrink: 0;
+    /* Sorpréndeme — CTA principal */
+    .surprise-cta-wrap {
+      display: flex; justify-content: center; margin-bottom: 22px;
     }
-    .btn-surprise:hover { background: var(--teal); color: #fff; }
+    .btn-surprise {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px; border-radius: 100px;
+      border: none; background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      font-size: 1rem; font-weight: 700; color: #fff;
+      cursor: pointer; transition: all .2s; font-family: 'Space Grotesk', sans-serif;
+      text-decoration: none; white-space: nowrap; flex-shrink: 0;
+      box-shadow: 0 4px 20px rgba(16,185,129,.35);
+      letter-spacing: -.01em;
+    }
+    .btn-surprise:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(16,185,129,.45);
+      color: #fff;
+    }
+    .btn-surprise .surprise-icon { font-size: 1.2rem; }
+
+    /* Filter divider */
+    .filters-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 16px; max-width: 700px; margin-left: auto; margin-right: auto;
+    }
+    .filters-divider-line {
+      flex: 1; height: 1px; background: var(--border);
+    }
+    .filters-divider-text {
+      font-size: .7rem; font-weight: 600; color: var(--text-3);
+      letter-spacing: .08em; text-transform: uppercase; white-space: nowrap;
+    }
+
+    /* Zone filter — distinct style */
+    .filter-pill.zone-pill {
+      border-color: #CBD5E1; background: #F8FAFC;
+    }
+    .filter-pill.zone-pill.active {
+      border-color: var(--accent); color: var(--accent);
+      background: var(--accent-light); font-weight: 600;
+    }
+    /* Style filter — distinct accent */
+    .filter-pill.style-pill {
+      border-color: #CBD5E1; background: #FAFAF7;
+    }
+    .filter-pill.style-pill.active, .filter-pill.style-pill.style-active {
+      border-color: var(--green); color: var(--green);
+      background: var(--green-light); font-weight: 600;
+    }
 
     /* Clear */
     .btn-clear {
@@ -765,32 +805,43 @@
     <input type="text" id="search-input" placeholder="Busca un destino..." autocomplete="off" aria-label="Buscar destino">
   </div>
 
-  <!-- Continent filter pills -->
+  <!-- Sorpréndeme — CTA principal -->
+  <div class="surprise-cta-wrap">
+    <a href="#" class="btn-surprise" id="btn-surprise" onclick="goSurprise(event)">
+      <span class="surprise-icon">🎲</span> Sorpréndeme
+    </a>
+  </div>
+
+  <!-- Filtros — refinamiento secundario -->
+  <div class="filters-divider">
+    <div class="filters-divider-line"></div>
+    <span class="filters-divider-text">o filtra por</span>
+    <div class="filters-divider-line"></div>
+  </div>
   <div class="filters-section">
     <div class="filters-row-wrap">
       <div class="filters-row" id="continent-pills">
         <span class="filter-label">Zona</span>
-        <button class="filter-pill active" data-filter="continent" data-value="">Todo el mundo</button>
-        <button class="filter-pill" data-filter="continent" data-value="Europa">🌍 Europa</button>
-        <button class="filter-pill" data-filter="continent" data-value="Asia">🌏 Asia</button>
-        <button class="filter-pill" data-filter="continent" data-value="América">🌎 América</button>
-        <button class="filter-pill" data-filter="continent" data-value="África">🌍 África</button>
-        <button class="filter-pill" data-filter="continent" data-value="Oceanía">🌏 Oceanía</button>
-        <button class="filter-pill" data-filter="continent" data-value="Rutas">🚗 Rutas</button>
+        <button class="filter-pill zone-pill active" data-filter="continent" data-value="">Todo el mundo</button>
+        <button class="filter-pill zone-pill" data-filter="continent" data-value="Europa">🌍 Europa</button>
+        <button class="filter-pill zone-pill" data-filter="continent" data-value="Asia">🌏 Asia</button>
+        <button class="filter-pill zone-pill" data-filter="continent" data-value="América">🌎 América</button>
+        <button class="filter-pill zone-pill" data-filter="continent" data-value="África">🌍 África</button>
+        <button class="filter-pill zone-pill" data-filter="continent" data-value="Oceanía">🌏 Oceanía</button>
+        <button class="filter-pill zone-pill" data-filter="continent" data-value="Rutas">🚗 Rutas</button>
       </div>
     </div>
     <div class="filters-row-wrap">
       <div class="filters-row" id="style-pills">
         <span class="filter-label">Estilo</span>
-        <button class="filter-pill active" data-filter="style" data-value="">Todos</button>
-        <button class="filter-pill" data-filter="style" data-value="Mochilero">🎒 Mochilero</button>
-        <button class="filter-pill" data-filter="style" data-value="Playa">🏖️ Playa</button>
-        <button class="filter-pill" data-filter="style" data-value="Ciudad">🏙️ Ciudad</button>
-        <button class="filter-pill" data-filter="style" data-value="Naturaleza">🌿 Naturaleza</button>
-        <button class="filter-pill" data-filter="style" data-value="Cultura">🏛️ Cultura</button>
-        <button class="filter-pill" data-filter="style" data-value="Aventura">🧗 Aventura</button>
-        <button class="filter-pill" data-filter="style" data-value="Gastronomía">🍜 Gastronomía</button>
-        <a href="#" class="btn-surprise" id="btn-surprise" onclick="goSurprise(event)">🎲 Sorpréndeme</a>
+        <button class="filter-pill style-pill active" data-filter="style" data-value="">Todos</button>
+        <button class="filter-pill style-pill" data-filter="style" data-value="Mochilero">🎒 Mochilero</button>
+        <button class="filter-pill style-pill" data-filter="style" data-value="Playa">🏖️ Playa</button>
+        <button class="filter-pill style-pill" data-filter="style" data-value="Ciudad">🏙️ Ciudad</button>
+        <button class="filter-pill style-pill" data-filter="style" data-value="Naturaleza">🌿 Naturaleza</button>
+        <button class="filter-pill style-pill" data-filter="style" data-value="Cultura">🏛️ Cultura</button>
+        <button class="filter-pill style-pill" data-filter="style" data-value="Aventura">🧗 Aventura</button>
+        <button class="filter-pill style-pill" data-filter="style" data-value="Gastronomía">🍜 Gastronomía</button>
         <button class="btn-clear" id="btn-clear" onclick="clearFilters()">✕ Limpiar</button>
       </div>
     </div>
@@ -1028,7 +1079,7 @@ let loading = true;
 // ── API ───────────────────────────────────────────────────────────────────────
 async function loadGuides(continent = '', style = '', query = '') {
   try {
-    const params = new URLSearchParams({ limit: 50 });
+    const params = new URLSearchParams({ limit: 500 });
     if (continent) params.append('continent', continent);
     if (style) params.append('style', style);
     const res = await fetch(`${API_BASE}/api/destinations?${params}`);
@@ -1118,7 +1169,8 @@ function filteredDestinations() {
       if (d.continent !== activeContinent) return false;
     }
     if (activeStyle) {
-      if (!(d.travel_styles||[]).includes(activeStyle)) return false;
+      const styleLC = activeStyle.toLowerCase();
+      if (!(d.travel_styles||[]).some(s => s.toLowerCase() === styleLC)) return false;
     }
     return true;
   });

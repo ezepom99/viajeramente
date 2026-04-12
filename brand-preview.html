@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conceptos de Logo — ViajeraMente (Uso Interno)</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --terracotta: #C9622F;
+      --cream: #FAF7F2;
+      --navy: #1B3A5C;
+      --gold: #D4AF37;
+      --forest: #2D5A27;
+      --mint: #7EC8A4;
+      --slate: #4A5568;
+      --coral: #FF6B6B;
+      --warmblack: #1A1A1A;
+      --sand: #E8D5B7;
+      --indigo: #3730A3;
+      --amber: #F59E0B;
+      --olive: #6B7A3E;
+      --bg: #F2EDE8;
+      --card: #FFFFFF;
+      --text: #1A1A1A;
+      --subtext: #6B7280;
+      --border: #E5E0D8;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--warmblack);
+      color: white;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    header span {
+      font-size: 0.75rem;
+      opacity: 0.5;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      padding: 20px 32px;
+      flex-wrap: wrap;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .filter-btn {
+      padding: 7px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--subtext);
+    }
+
+    .filter-btn:hover { border-color: var(--warmblack); color: var(--warmblack); }
+    .filter-btn.active { background: var(--warmblack); color: white; border-color: var(--warmblack); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding: 24px 32px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1100px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 760px) { .grid { grid-template-columns: repeat(2, 1fr); padding: 16px; } }
+    @media (max-width: 420px) { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    }
+
+    .card:hover .copy-btn { opacity: 1; }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+      min-height: 180px;
+    }
+
+    .card-info {
+      padding: 14px 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 0.75rem;
+      color: var(--subtext);
+      line-height: 1.4;
+    }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 100px;
+      margin-bottom: 6px;
+    }
+
+    .tag-icon { background: #EEF2FF; color: #3730A3; }
+    .tag-wordmark { background: #FFF7ED; color: #C2410C; }
+    .tag-geometric { background: #F0FDF4; color: #15803D; }
+    .tag-combined { background: #FFF1F2; color: #BE123C; }
+    .tag-special { background: #FEFCE8; color: #92400E; }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 10;
+    }
+
+    .copy-btn:hover { background: var(--warmblack); color: white; }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: white;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 90%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      min-height: 320px;
+    }
+
+    .modal-logo svg { max-width: 380px; max-height: 260px; }
+
+    .modal-info {
+      padding: 20px 28px 28px;
+      border-top: 1px solid var(--border);
+    }
+
+    .modal-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .modal-desc {
+      font-size: 0.9rem;
+      color: var(--subtext);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .modal-copy-btn {
+      padding: 9px 18px;
+      background: var(--warmblack);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtext);
+    }
+
+    .modal-close:hover { background: var(--warmblack); color: white; }
+
+    /* Number badge */
+    .concept-num {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--subtext);
+      opacity: 0.5;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Conceptos de Logo — ViajeraMente</h1>
+  <span>Uso interno · No publicar</span>
+</header>
+
+<div class="filters">
+  <button class="filter-btn active" data-filter="all">Todos</button>
+  <button class="filter-btn" data-filter="icon">Icono</button>
+  <button class="filter-btn" data-filter="wordmark">Wordmark</button>
+  <button class="filter-btn" data-filter="geometric">Geométrico</button>
+  <button class="filter-btn" data-filter="combined">Combinado</button>
+  <button class="filter-btn" data-filter="special">Especial</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">×</button>
+    <div class="modal-logo" id="modal-logo"></div>
+    <div class="modal-info">
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-desc" id="modal-desc"></div>
+      <div class="modal-actions">
+        <button class="modal-copy-btn" id="modal-copy">Copiar SVG</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const concepts = [
+
+  // ── ICON BASED ──────────────────────────────────────────────────────────────
+
+  {
+    id: 1, cat: 'icon',
+    name: 'Rosa de los Vientos',
+    desc: 'Compass rose clásica con wordmark bajo. Terracotta + crema. Evoca exploración náutica y aventura.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+      <g transform="translate(100,88)">
+        <circle cx="0" cy="0" r="52" fill="none" stroke="#C9622F" stroke-width="1.5" opacity="0.3"/>
+        <circle cx="0" cy="0" r="38" fill="none" stroke="#C9622F" stroke-width="0.8" opacity="0.2"/>
+        <!-- N arrow -->
+        <path d="M0,-52 L-7,-32 L0,-38 L7,-32 Z" fill="#C9622F"/>
+        <!-- S arrow -->
+        <path d="M0,52 L-7,32 L0,38 L7,32 Z" fill="#C9622F" opacity="0.4"/>
+        <!-- E arrow -->
+        <path d="M52,0 L32,-7 L38,0 L32,7 Z" fill="#C9622F" opacity="0.4"/>
+        <!-- W arrow -->
+        <path d="M-52,0 L-32,-7 L-38,0 L-32,7 Z" fill="#C9622F" opacity="0.4"/>
+        <!-- diagonal ticks -->
+        <path d="M36,-36 L26,-26" stroke="#C9622F" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+        <path d="M36,36 L26,26" stroke="#C9622F" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+        <path d="M-36,-36 L-26,-26" stroke="#C9622F" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+        <path d="M-36,36 L-26,26" stroke="#C9622F" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+        <circle cx="0" cy="0" r="5" fill="#C9622F"/>
+        <circle cx="0" cy="0" r="2.5" fill="#FAF7F2"/>
+        <text x="0" y="-56" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#C9622F" font-weight="700" letter-spacing="2">N</text>
+      </g>
+      <text x="100" y="158" text-anchor="middle" font-family="'Playfair Display',serif" font-size="15" fill="#C9622F" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 2, cat: 'icon',
+    name: 'Map Pin Minimalista',
+    desc: 'Location dot estilizado con mundo dentro. Navy + gold. Icono reconocible, moderno y limpio.',
+    bg: '#1B3A5C',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+      <g transform="translate(100,82)">
+        <ellipse cx="0" cy="-12" rx="30" ry="30" fill="#D4AF37" opacity="0.15"/>
+        <path d="M0,-42 C-17,-42 -30,-29 -30,-12 C-30,8 0,40 0,40 C0,40 30,8 30,-12 C30,-29 17,-42 0,-42 Z" fill="#D4AF37"/>
+        <!-- world lines inside pin -->
+        <ellipse cx="0" cy="-12" rx="16" ry="16" fill="#1B3A5C"/>
+        <ellipse cx="0" cy="-12" rx="8" ry="16" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.7"/>
+        <line x1="-16" y1="-12" x2="16" y2="-12" stroke="#D4AF37" stroke-width="1" opacity="0.7"/>
+        <ellipse cx="0" cy="-12" rx="16" ry="6" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.5"/>
+      </g>
+      <text x="100" y="142" text-anchor="middle" font-family="'Playfair Display',serif" font-size="13" fill="#D4AF37" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 3, cat: 'icon',
+    name: 'Avión Minimalista',
+    desc: 'Silueta de avión en trazo único, vuelo diagonal ascendente. Slate + coral. Editorial, ligero.',
+    bg: '#FFFFFF',
+    svg: `<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" width="200" height="160">
+      <g transform="translate(95,70) rotate(-30)">
+        <!-- fuselage -->
+        <ellipse cx="0" cy="0" rx="32" ry="8" fill="#4A5568"/>
+        <!-- wings -->
+        <path d="M-8,-4 L-22,-24 L-4,-16 Z" fill="#4A5568"/>
+        <path d="M-8,4 L-22,24 L-4,16 Z" fill="#4A5568" opacity="0.6"/>
+        <!-- tail -->
+        <path d="M-28,-2 L-38,-12 L-30,0 Z" fill="#4A5568"/>
+        <path d="M-28,2 L-38,8 L-30,0 Z" fill="#4A5568" opacity="0.5"/>
+        <!-- nose -->
+        <ellipse cx="30" cy="0" rx="6" ry="5" fill="#FF6B6B"/>
+      </g>
+      <!-- trail -->
+      <path d="M20,110 Q60,90 100,70" stroke="#FF6B6B" stroke-width="1.5" fill="none" stroke-dasharray="3,4" opacity="0.4"/>
+      <text x="100" y="135" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4A5568" font-weight="300" letter-spacing="3">VIAJERAMENTE</text>
+    </svg>`
+  },
+
+  {
+    id: 4, cat: 'icon',
+    name: 'Globo con Órbita',
+    desc: 'Globo terráqueo con trayectoria de vuelo elíptica. Indigo + amber. Evoca viaje global y conexión.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+      <g transform="translate(100,90)">
+        <!-- globe -->
+        <circle cx="0" cy="0" r="36" fill="#3730A3" opacity="0.1" stroke="#3730A3" stroke-width="1.5"/>
+        <ellipse cx="0" cy="0" rx="18" ry="36" fill="none" stroke="#3730A3" stroke-width="1" opacity="0.5"/>
+        <ellipse cx="0" cy="0" rx="36" ry="14" fill="none" stroke="#3730A3" stroke-width="1" opacity="0.5"/>
+        <ellipse cx="0" cy="0" rx="36" ry="26" fill="none" stroke="#3730A3" stroke-width="0.7" opacity="0.3"/>
+        <!-- orbit path -->
+        <ellipse cx="0" cy="0" rx="52" ry="20" fill="none" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4,3" transform="rotate(-20)"/>
+        <!-- plane on orbit -->
+        <g transform="rotate(-20) translate(52,0) rotate(70)">
+          <ellipse cx="0" cy="0" rx="6" ry="3" fill="#F59E0B"/>
+          <path d="M0,-2 L-5,-8 L0,-5 Z" fill="#F59E0B"/>
+          <path d="M0,2 L-5,8 L0,5 Z" fill="#F59E0B" opacity="0.6"/>
+        </g>
+      </g>
+      <text x="100" y="152" text-anchor="middle" font-family="'Playfair Display',serif" font-size="13" fill="#3730A3" font-weight="700">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 5, cat: 'icon',
+    name: 'Montaña Limpia',
+    desc: 'Pico de montaña geométrico con sol naciente. Forest + cream. Sencillo, atemporal, aspira a algo grande.',
+    bg: '#2D5A27',
+    svg: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" width="200" height="180">
+      <g transform="translate(100,95)">
+        <!-- back mountain -->
+        <path d="M-60,40 L-20,-30 L20,-10 L60,40 Z" fill="#7EC8A4" opacity="0.4"/>
+        <!-- front mountain -->
+        <path d="M-65,40 L0,-50 L65,40 Z" fill="#7EC8A4"/>
+        <!-- snow cap -->
+        <path d="M0,-50 L-14,-24 L14,-24 Z" fill="#FAF7F2"/>
+        <!-- sun arc -->
+        <path d="M-28,-48 A34,34 0 0,1 28,-48" fill="none" stroke="#FAF7F2" stroke-width="1.5" opacity="0.7"/>
+        <circle cx="0" cy="-56" r="5" fill="#FAF7F2" opacity="0.9"/>
+      </g>
+      <text x="100" y="152" text-anchor="middle" font-family="'Playfair Display',serif" font-size="14" fill="#FAF7F2" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 6, cat: 'icon',
+    name: 'Horizonte y Ola',
+    desc: 'Línea de horizonte con ola suave. Terracota + sand. Sensación de libertad, playa, destino lejano.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg" width="220" height="160">
+      <!-- sun -->
+      <circle cx="110" cy="65" r="22" fill="#C9622F" opacity="0.15"/>
+      <circle cx="110" cy="65" r="14" fill="#C9622F" opacity="0.4"/>
+      <circle cx="110" cy="65" r="7" fill="#C9622F"/>
+      <!-- horizon -->
+      <line x1="28" y1="82" x2="192" y2="82" stroke="#C9622F" stroke-width="1.5" opacity="0.4"/>
+      <!-- waves -->
+      <path d="M28,90 Q50,80 72,90 Q94,100 116,90 Q138,80 160,90 Q182,100 192,90" fill="none" stroke="#C9622F" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M38,102 Q60,92 82,102 Q104,112 126,102 Q148,92 170,102 Q180,107 192,102" fill="none" stroke="#C9622F" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+      <!-- rays -->
+      <line x1="110" y1="38" x2="110" y2="28" stroke="#C9622F" stroke-width="1.5" opacity="0.5"/>
+      <line x1="130" y1="44" x2="138" y2="36" stroke="#C9622F" stroke-width="1.5" opacity="0.4"/>
+      <line x1="90" y1="44" x2="82" y2="36" stroke="#C9622F" stroke-width="1.5" opacity="0.4"/>
+      <line x1="144" y1="58" x2="154" y2="54" stroke="#C9622F" stroke-width="1.5" opacity="0.3"/>
+      <line x1="76" y1="58" x2="66" y2="54" stroke="#C9622F" stroke-width="1.5" opacity="0.3"/>
+      <text x="110" y="134" text-anchor="middle" font-family="'Playfair Display',serif" font-size="13" fill="#C9622F" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 7, cat: 'icon',
+    name: 'Huella y Camino',
+    desc: 'Par de huellas formando un sendero que se aleja. Warm black + sand. Personal, íntimo, cada viaje propio.',
+    bg: '#E8D5B7',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+      <g transform="translate(100,100)">
+        <!-- path dotted -->
+        <path d="M0,60 Q-10,30 0,0 Q10,-30 0,-60" stroke="#1A1A1A" stroke-width="1" fill="none" stroke-dasharray="2,4" opacity="0.3"/>
+        <!-- footprints -->
+        <!-- right foot bottom -->
+        <ellipse cx="14" cy="55" rx="7" ry="10" fill="#1A1A1A" opacity="0.7" transform="rotate(10,14,55)"/>
+        <ellipse cx="10" cy="44" rx="3" ry="4" fill="#1A1A1A" opacity="0.5" transform="rotate(10,10,44)"/>
+        <ellipse cx="15" cy="43" rx="2.5" ry="3.5" fill="#1A1A1A" opacity="0.5" transform="rotate(10,15,43)"/>
+        <!-- left foot mid -->
+        <ellipse cx="-12" cy="25" rx="7" ry="10" fill="#1A1A1A" opacity="0.65" transform="rotate(-12,-12,25)"/>
+        <ellipse cx="-8" cy="14" rx="3" ry="4" fill="#1A1A1A" opacity="0.45" transform="rotate(-12,-8,14)"/>
+        <ellipse cx="-14" cy="13" rx="2.5" ry="3.5" fill="#1A1A1A" opacity="0.45" transform="rotate(-12,-14,13)"/>
+        <!-- right foot upper -->
+        <ellipse cx="12" cy="-5" rx="7" ry="10" fill="#1A1A1A" opacity="0.55" transform="rotate(10,12,-5)"/>
+        <ellipse cx="8" cy="-16" rx="3" ry="4" fill="#1A1A1A" opacity="0.35" transform="rotate(10,8,-16)"/>
+        <!-- left foot top -->
+        <ellipse cx="-10" cy="-35" rx="7" ry="10" fill="#1A1A1A" opacity="0.4" transform="rotate(-12,-10,-35)"/>
+      </g>
+      <text x="100" y="175" text-anchor="middle" font-family="'Playfair Display',serif" font-size="13" fill="#1A1A1A" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 8, cat: 'icon',
+    name: 'Binoculares',
+    desc: 'Binoculares con horizontes lejanos dentro de las lentes. Navy + gold. Curiosidad, descubrimiento, perspectiva.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 220 170" xmlns="http://www.w3.org/2000/svg" width="220" height="170">
+      <g transform="translate(110,80)">
+        <!-- left barrel -->
+        <rect x="-52" y="-20" width="38" height="36" rx="10" fill="#1B3A5C"/>
+        <!-- right barrel -->
+        <rect x="14" y="-20" width="38" height="36" rx="10" fill="#1B3A5C"/>
+        <!-- bridge -->
+        <rect x="-14" y="-6" width="28" height="14" rx="4" fill="#1B3A5C"/>
+        <!-- left lens -->
+        <circle cx="-33" cy="-2" r="14" fill="#D4AF37" opacity="0.15"/>
+        <circle cx="-33" cy="-2" r="12" fill="#1B3A5C" stroke="#D4AF37" stroke-width="2"/>
+        <!-- left lens scene: mountain -->
+        <path d="-45,-8 L-33,-16 L-21,-8" fill="none" stroke="#D4AF37" stroke-width="1.5" transform="translate(0,0)"/>
+        <line x1="-45" y1="-2" x2="-21" y2="-2" stroke="#D4AF37" stroke-width="0.8" opacity="0.5"/>
+        <!-- right lens -->
+        <circle cx="33" cy="-2" r="14" fill="#D4AF37" opacity="0.15"/>
+        <circle cx="33" cy="-2" r="12" fill="#1B3A5C" stroke="#D4AF37" stroke-width="2"/>
+        <!-- right lens scene: horizon+wave -->
+        <line x1="21" y1="-4" x2="45" y2="-4" stroke="#D4AF37" stroke-width="0.8" opacity="0.7"/>
+        <path d="M21,2 Q27,-2 33,2 Q39,6 45,2" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+        <!-- strap hints -->
+        <line x1="-52" y1="-8" x2="-62" y2="-18" stroke="#1B3A5C" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+        <line x1="52" y1="-8" x2="62" y2="-18" stroke="#1B3A5C" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+      </g>
+      <text x="110" y="142" text-anchor="middle" font-family="'Playfair Display',serif" font-size="13" fill="#1B3A5C" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 9, cat: 'icon',
+    name: 'Mochila Viajera',
+    desc: 'Mochila de montaña estilizada. Olive + cream. Grounded, aventurero, para el viajero independiente.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 180 200" xmlns="http://www.w3.org/2000/svg" width="170" height="190">
+      <g transform="translate(90,90)">
+        <!-- body -->
+        <rect x="-32" y="-40" width="64" height="72" rx="18" fill="#6B7A3E"/>
+        <!-- top loop/handle -->
+        <path d="M-10,-40 Q0,-52 10,-40" fill="none" stroke="#6B7A3E" stroke-width="5" stroke-linecap="round"/>
+        <!-- front pocket -->
+        <rect x="-22" y="4" width="44" height="24" rx="8" fill="#FAF7F2" opacity="0.2"/>
+        <!-- zipper dots -->
+        <circle cx="-8" cy="16" r="2" fill="#FAF7F2" opacity="0.5"/>
+        <circle cx="0" cy="16" r="2" fill="#FAF7F2" opacity="0.5"/>
+        <circle cx="8" cy="16" r="2" fill="#FAF7F2" opacity="0.5"/>
+        <!-- shoulder straps -->
+        <path d="M-20,-30 Q-42,-20 -38,32" fill="none" stroke="#FAF7F2" stroke-width="6" stroke-linecap="round" opacity="0.3"/>
+        <path d="M20,-30 Q42,-20 38,32" fill="none" stroke="#FAF7F2" stroke-width="6" stroke-linecap="round" opacity="0.3"/>
+        <!-- side pockets -->
+        <rect x="-40" y="-10" width="10" height="28" rx="5" fill="#6B7A3E" stroke="#FAF7F2" stroke-width="1" opacity="0.5"/>
+        <rect x="30" y="-10" width="10" height="28" rx="5" fill="#6B7A3E" stroke="#FAF7F2" stroke-width="1" opacity="0.5"/>
+        <!-- detail line -->
+        <line x1="-20" y1="-8" x2="20" y2="-8" stroke="#FAF7F2" stroke-width="1" opacity="0.4"/>
+      </g>
+      <text x="90" y="162" text-anchor="middle" font-family="'Playfair Display',serif" font-size="12.5" fill="#6B7A3E" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 10, cat: 'icon',
+    name: 'Mapa Plegado',
+    desc: 'Mapa plegado abierto con líneas de ruta. Terracota + cream. Clásico explorador, sentido de aventura física.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg" width="210" height="170">
+      <g transform="translate(110,82)">
+        <!-- map panels (folded) -->
+        <path d="M-60,-45 L-10,-55 L-10,45 L-60,55 Z" fill="#E8D5B7" stroke="#C9622F" stroke-width="1"/>
+        <path d="M-10,-55 L40,-45 L40,55 L-10,45 Z" fill="#FAF7F2" stroke="#C9622F" stroke-width="1"/>
+        <path d="M40,-45 L80,-55 L80,55 L40,45 Z" fill="#E8D5B7" stroke="#C9622F" stroke-width="1"/>
+        <!-- fold lines (creases) shadow -->
+        <line x1="-10" y1="-55" x2="-10" y2="45" stroke="#C9622F" stroke-width="1.5" opacity="0.4"/>
+        <line x1="40" y1="-45" x2="40" y2="55" stroke="#C9622F" stroke-width="1.5" opacity="0.4"/>
+        <!-- map details: roads -->
+        <path d="M-40,0 Q-20,-20 10,0 Q30,15 60,-5" fill="none" stroke="#C9622F" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <!-- dots: cities -->
+        <circle cx="-40" cy="0" r="3.5" fill="#C9622F"/>
+        <circle cx="10" cy="0" r="3.5" fill="#C9622F"/>
+        <circle cx="60" cy="-5" r="3.5" fill="#C9622F"/>
+        <!-- latitude lines -->
+        <line x1="-60" y1="-20" x2="80" y2="-20" stroke="#C9622F" stroke-width="0.5" opacity="0.25"/>
+        <line x1="-60" y1="20" x2="80" y2="20" stroke="#C9622F" stroke-width="0.5" opacity="0.25"/>
+      </g>
+      <text x="110" y="152" text-anchor="middle" font-family="'Playfair Display',serif" font-size="13" fill="#C9622F" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  // ── WORDMARK BASED ──────────────────────────────────────────────────────────
+
+  {
+    id: 11, cat: 'wordmark',
+    name: 'VM Geométrico',
+    desc: 'Monograma VM construido con formas geométricas precisas. Navy + gold. Fuerte, reconocible, escalable a ícono de app.',
+    bg: '#1B3A5C',
+    svg: `<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" width="150" height="150">
+      <rect width="160" height="160" rx="20" fill="#1B3A5C"/>
+      <g transform="translate(18,30)">
+        <!-- V shape -->
+        <path d="M0,0 L28,70 L56,0" fill="none" stroke="#D4AF37" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
+        <!-- M shape -->
+        <path d="M68,70 L68,0 L96,42 L124,0 L124,70" fill="none" stroke="#D4AF37" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
+      </g>
+    </svg>`
+  },
+
+  {
+    id: 12, cat: 'wordmark',
+    name: 'VM Script Fluido',
+    desc: 'Monograma VM en trazo continuo caligráfico. Terracota + crema. Elegante, artesanal, lleno de movimiento.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 180 160" xmlns="http://www.w3.org/2000/svg" width="180" height="160">
+      <!-- flowing V -->
+      <path d="M20,35 Q25,32 30,35 L56,102 Q58,108 62,102 L88,35 Q92,30 96,34" fill="none" stroke="#C9622F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- flowing M -->
+      <path d="M100,102 L100,34 Q102,28 108,32 L130,72 Q132,76 136,72 L158,32 Q164,26 166,34 L166,102" fill="none" stroke="#C9622F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- connecting swash -->
+      <path d="M95,100 Q97,116 102,102" fill="none" stroke="#C9622F" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+      <!-- underline flourish -->
+      <path d="M18,118 Q92,130 165,118" fill="none" stroke="#C9622F" stroke-width="1.5" stroke-linecap="round" opacity="0.35"/>
+    </svg>`
+  },
+
+  {
+    id: 13, cat: 'wordmark',
+    name: 'Wordmark Bicolor',
+    desc: '"Viajera" en terracota, "Mente" en navy. Playfair Display serif. Split de color que crea contraste conceptual.',
+    bg: '#FFFFFF',
+    svg: `<svg viewBox="0 0 280 90" xmlns="http://www.w3.org/2000/svg" width="280" height="90">
+      <text x="8" y="52" font-family="'Playfair Display',serif" font-size="36" fill="#C9622F" font-weight="700" letter-spacing="-0.5">Viajera</text>
+      <text x="172" y="52" font-family="'Playfair Display',serif" font-size="36" fill="#1B3A5C" font-weight="400" font-style="italic" letter-spacing="-0.5">Mente</text>
+      <text x="140" y="52" font-family="'Playfair Display',serif" font-size="36" fill="#C9622F" opacity="0.4">·</text>
+      <!-- fine line under -->
+      <line x1="8" y1="60" x2="272" y2="60" stroke="#E8D5B7" stroke-width="1.5"/>
+      <text x="140" y="76" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B7280" font-weight="500" letter-spacing="3">TRAVEL · DISCOVER · EXPLORE</text>
+    </svg>`
+  },
+
+  {
+    id: 14, cat: 'wordmark',
+    name: 'Viajera·Mente Punto',
+    desc: 'Wordmark con punto centrador tipográfico · entre palabras. Forest green. Elegante separación conceptual.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" width="300" height="80">
+      <text x="150" y="48" text-anchor="middle" font-family="'Playfair Display',serif" font-size="30" fill="#2D5A27" font-weight="600" letter-spacing="1">Viajera<tspan fill="#7EC8A4">·</tspan>Mente</text>
+      <line x1="60" y1="56" x2="240" y2="56" stroke="#7EC8A4" stroke-width="1" opacity="0.6"/>
+      <text x="150" y="70" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#2D5A27" font-weight="400" letter-spacing="4" opacity="0.6">DESCUBRE EL MUNDO</text>
+    </svg>`
+  },
+
+  {
+    id: 15, cat: 'wordmark',
+    name: 'mente viajera Editorial',
+    desc: '"mente viajera" todo minúsculas, Inter Light. Warm black. Estilo editorial de revista de viajes moderna.',
+    bg: '#1A1A1A',
+    svg: `<svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg" width="300" height="100">
+      <text x="150" y="56" text-anchor="middle" font-family="Inter,sans-serif" font-size="34" fill="#FAF7F2" font-weight="200" letter-spacing="8">mente viajera</text>
+      <!-- em dash underlines -->
+      <line x1="60" y1="66" x2="240" y2="66" stroke="#E8D5B7" stroke-width="0.5" opacity="0.4"/>
+    </svg>`
+  },
+
+  {
+    id: 16, cat: 'wordmark',
+    name: 'VM + Brújula Integrada',
+    desc: 'Las letras VM con aguja de brújula integrada en la V. Indigo + amber. Fusión tipográfica e icónica.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" width="190" height="170">
+      <g transform="translate(100,80)">
+        <!-- V with compass integrated -->
+        <path d="M-60,0 L0,65 L60,0" fill="none" stroke="#3730A3" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+        <!-- compass circle at V vertex -->
+        <circle cx="0" cy="65" r="16" fill="#3730A3"/>
+        <circle cx="0" cy="65" r="12" fill="#FAF7F2"/>
+        <!-- compass needle -->
+        <path d="M0,54 L-4,65 L0,76 L4,65 Z" fill="#F59E0B"/>
+        <path d="M0,76 L-4,65 L0,54 L4,65 Z" fill="#3730A3" opacity="0.3"/>
+        <!-- M right side -->
+        <path d="M68,-40 L68,50 L100,10 L132,50 L132,-40" fill="none" stroke="#3730A3" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+      </g>
+      <text x="100" y="162" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#3730A3" font-weight="600" letter-spacing="4">VIAJERAMENTE</text>
+    </svg>`
+  },
+
+  // ── GEOMETRIC ──────────────────────────────────────────────────────────────
+
+  {
+    id: 17, cat: 'geometric',
+    name: 'Círculos Superpuestos',
+    desc: 'Tres círculos solapados evocando países/continentes. Slate + coral. Abstracto, global, sobre conexiones.',
+    bg: '#FFFFFF',
+    svg: `<svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg" width="220" height="180">
+      <g transform="translate(110,80)">
+        <circle cx="-22" cy="-10" r="36" fill="#FF6B6B" opacity="0.22"/>
+        <circle cx="22" cy="-10" r="36" fill="#4A5568" opacity="0.22"/>
+        <circle cx="0" cy="18" r="36" fill="#FF6B6B" opacity="0.22"/>
+        <!-- intersections darker -->
+        <circle cx="-22" cy="-10" r="36" fill="none" stroke="#FF6B6B" stroke-width="2"/>
+        <circle cx="22" cy="-10" r="36" fill="none" stroke="#4A5568" stroke-width="2"/>
+        <circle cx="0" cy="18" r="36" fill="none" stroke="#4A5568" stroke-width="2" opacity="0.6"/>
+        <!-- center dot -->
+        <circle cx="0" cy="0" r="5" fill="#4A5568"/>
+      </g>
+      <text x="110" y="146" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A5568" font-weight="600" letter-spacing="2">VIAJERAMENTE</text>
+    </svg>`
+  },
+
+  {
+    id: 18, cat: 'geometric',
+    name: 'Silueta Mapa Punteado',
+    desc: 'Continentes del mundo dibujados con puntos. Navy + gold. Contemporáneo, data-driven, cosmopolita.',
+    bg: '#1B3A5C',
+    svg: `<svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg" width="260" height="160">
+      <g transform="translate(130,78)" opacity="0.85">
+        <!-- simplified continent dots: Europe/Africa -->
+        <circle cx="-18" cy="-20" r="1.8" fill="#D4AF37"/>
+        <circle cx="-12" cy="-26" r="1.8" fill="#D4AF37"/>
+        <circle cx="-8" cy="-22" r="1.8" fill="#D4AF37"/>
+        <circle cx="-4" cy="-28" r="1.8" fill="#D4AF37"/>
+        <circle cx="2" cy="-24" r="1.8" fill="#D4AF37"/>
+        <circle cx="-22" cy="-14" r="1.8" fill="#D4AF37"/>
+        <circle cx="-16" cy="-12" r="1.8" fill="#D4AF37"/>
+        <circle cx="-10" cy="-8" r="1.8" fill="#D4AF37"/>
+        <circle cx="-14" cy="2" r="1.8" fill="#D4AF37"/>
+        <circle cx="-10" cy="10" r="1.8" fill="#D4AF37"/>
+        <circle cx="-8" cy="18" r="1.8" fill="#D4AF37"/>
+        <circle cx="-6" cy="26" r="1.8" fill="#D4AF37"/>
+        <circle cx="-2" cy="32" r="1.8" fill="#D4AF37"/>
+        <!-- Americas -->
+        <circle cx="-68" cy="-30" r="1.8" fill="#D4AF37"/>
+        <circle cx="-62" cy="-24" r="1.8" fill="#D4AF37"/>
+        <circle cx="-58" cy="-18" r="1.8" fill="#D4AF37"/>
+        <circle cx="-64" cy="-10" r="1.8" fill="#D4AF37"/>
+        <circle cx="-60" cy="-2" r="1.8" fill="#D4AF37"/>
+        <circle cx="-56" cy="8" r="1.8" fill="#D4AF37"/>
+        <circle cx="-52" cy="18" r="1.8" fill="#D4AF37"/>
+        <circle cx="-54" cy="26" r="1.8" fill="#D4AF37"/>
+        <circle cx="-50" cy="34" r="1.8" fill="#D4AF37"/>
+        <!-- Asia -->
+        <circle cx="18" cy="-30" r="1.8" fill="#D4AF37"/>
+        <circle cx="26" cy="-24" r="1.8" fill="#D4AF37"/>
+        <circle cx="34" cy="-20" r="1.8" fill="#D4AF37"/>
+        <circle cx="42" cy="-16" r="1.8" fill="#D4AF37"/>
+        <circle cx="48" cy="-10" r="1.8" fill="#D4AF37"/>
+        <circle cx="38" cy="-8" r="1.8" fill="#D4AF37"/>
+        <circle cx="28" cy="-6" r="1.8" fill="#D4AF37"/>
+        <circle cx="22" cy="0" r="1.8" fill="#D4AF37"/>
+        <circle cx="30" cy="4" r="1.8" fill="#D4AF37"/>
+        <circle cx="44" cy="2" r="1.8" fill="#D4AF37"/>
+        <circle cx="52" cy="-2" r="1.8" fill="#D4AF37"/>
+        <!-- Oceania -->
+        <circle cx="56" cy="20" r="1.8" fill="#D4AF37"/>
+        <circle cx="64" cy="16" r="1.8" fill="#D4AF37"/>
+        <circle cx="62" cy="26" r="1.8" fill="#D4AF37"/>
+      </g>
+      <text x="130" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#D4AF37" font-weight="500" letter-spacing="3">VIAJERAMENTE</text>
+    </svg>`
+  },
+
+  {
+    id: 19, cat: 'geometric',
+    name: 'Constelación',
+    desc: 'Patrón de constelación estelar unida por líneas finas. Indigo + amber. Misterioso, soñador, guiado por las estrellas.',
+    bg: '#1A1A1A',
+    svg: `<svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg" width="220" height="180">
+      <g transform="translate(110,80)">
+        <!-- constellation lines -->
+        <line x1="-50" y1="-30" x2="-20" y2="-50" stroke="#F59E0B" stroke-width="0.8" opacity="0.5"/>
+        <line x1="-20" y1="-50" x2="10" y2="-40" stroke="#F59E0B" stroke-width="0.8" opacity="0.5"/>
+        <line x1="10" y1="-40" x2="40" y2="-55" stroke="#F59E0B" stroke-width="0.8" opacity="0.5"/>
+        <line x1="10" y1="-40" x2="30" y2="-10" stroke="#F59E0B" stroke-width="0.8" opacity="0.5"/>
+        <line x1="-20" y1="-50" x2="-30" y2="-10" stroke="#F59E0B" stroke-width="0.8" opacity="0.5"/>
+        <line x1="-30" y1="-10" x2="30" y2="-10" stroke="#F59E0B" stroke-width="0.8" opacity="0.5"/>
+        <line x1="-30" y1="-10" x2="-50" y2="20" stroke="#F59E0B" stroke-width="0.8" opacity="0.5"/>
+        <line x1="30" y1="-10" x2="50" y2="20" stroke="#F59E0B" stroke-width="0.8" opacity="0.5"/>
+        <line x1="-50" y1="20" x2="0" y2="40" stroke="#F59E0B" stroke-width="0.8" opacity="0.5"/>
+        <line x1="50" y1="20" x2="0" y2="40" stroke="#F59E0B" stroke-width="0.8" opacity="0.5"/>
+        <!-- stars -->
+        <circle cx="-50" cy="-30" r="3" fill="#F59E0B"/>
+        <circle cx="-20" cy="-50" r="4" fill="#F59E0B"/>
+        <circle cx="10" cy="-40" r="5" fill="#F59E0B"/>
+        <circle cx="40" cy="-55" r="3" fill="#F59E0B"/>
+        <circle cx="-30" cy="-10" r="3.5" fill="#F59E0B"/>
+        <circle cx="30" cy="-10" r="3.5" fill="#F59E0B"/>
+        <circle cx="-50" cy="20" r="2.5" fill="#F59E0B"/>
+        <circle cx="50" cy="20" r="2.5" fill="#F59E0B"/>
+        <circle cx="0" cy="40" r="4" fill="#F59E0B"/>
+        <!-- sparkles -->
+        <circle cx="0" cy="-30" r="1.5" fill="#F59E0B" opacity="0.4"/>
+        <circle cx="-60" cy="0" r="1" fill="#F59E0B" opacity="0.3"/>
+        <circle cx="60" cy="-30" r="1" fill="#F59E0B" opacity="0.3"/>
+      </g>
+      <text x="110" y="145" text-anchor="middle" font-family="'Playfair Display',serif" font-size="12" fill="#F59E0B" font-weight="400" font-style="italic" letter-spacing="2">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 20, cat: 'geometric',
+    name: 'Líneas de Latitud',
+    desc: 'Grid de meridianos y paralelos curvilíneos con punto de enfoque. Navy + mint. Técnico, global, cartográfico.',
+    bg: '#1B3A5C',
+    svg: `<svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg" width="220" height="180">
+      <g transform="translate(110,80)">
+        <!-- horizontal parallels (curved for globe effect) -->
+        <path d="M-70,-40 Q0,-50 70,-40" fill="none" stroke="#7EC8A4" stroke-width="0.8" opacity="0.5"/>
+        <path d="M-80,-20 Q0,-28 80,-20" fill="none" stroke="#7EC8A4" stroke-width="0.8" opacity="0.6"/>
+        <path d="M-80,0 Q0,-6 80,0" fill="none" stroke="#7EC8A4" stroke-width="0.8" opacity="0.7"/>
+        <ellipse cx="0" cy="0" rx="80" ry="46" fill="none" stroke="#7EC8A4" stroke-width="0.8" opacity="0.7"/>
+        <path d="M-80,20 Q0,26 80,20" fill="none" stroke="#7EC8A4" stroke-width="0.8" opacity="0.6"/>
+        <path d="M-70,40 Q0,48 70,40" fill="none" stroke="#7EC8A4" stroke-width="0.8" opacity="0.5"/>
+        <!-- meridians -->
+        <ellipse cx="0" cy="0" rx="26" ry="46" fill="none" stroke="#7EC8A4" stroke-width="0.8" opacity="0.45"/>
+        <ellipse cx="0" cy="0" rx="52" ry="46" fill="none" stroke="#7EC8A4" stroke-width="0.8" opacity="0.35"/>
+        <line x1="0" y1="-46" x2="0" y2="46" stroke="#7EC8A4" stroke-width="0.8" opacity="0.6"/>
+        <!-- focus dot -->
+        <circle cx="18" cy="-12" r="6" fill="#7EC8A4" opacity="0.3"/>
+        <circle cx="18" cy="-12" r="3" fill="#7EC8A4"/>
+      </g>
+      <text x="110" y="148" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#7EC8A4" font-weight="500" letter-spacing="3">VIAJERAMENTE</text>
+    </svg>`
+  },
+
+  {
+    id: 21, cat: 'geometric',
+    name: 'Espiral de Ruta',
+    desc: 'Espiral que se expande hacia afuera como un viaje. Terracota + cream. Filosofía del camino, curiosidad infinita.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="190" height="190">
+      <g transform="translate(100,96)">
+        <!-- spiral path -->
+        <path d="M0,0 Q8,-8 10,0 Q14,12 0,16 Q-18,20 -22,0 Q-26,-24 0,-30 Q28,-36 36,-8 Q44,24 16,38 Q-20,52 -44,22 Q-62,-12 -36,-48" fill="none" stroke="#C9622F" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- end arrow -->
+        <path d="-36,-48 L-44,-44 L-38,-56 L-30,-46 Z" fill="#C9622F" opacity="0.7"/>
+        <!-- center dot -->
+        <circle cx="0" cy="0" r="4" fill="#C9622F"/>
+        <circle cx="0" cy="0" r="2" fill="#FAF7F2"/>
+      </g>
+      <text x="100" y="172" text-anchor="middle" font-family="'Playfair Display',serif" font-size="12.5" fill="#C9622F" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 22, cat: 'geometric',
+    name: 'Flecha Camino',
+    desc: 'Flecha compuesta por varias líneas que convergen. Olive + amber. Forward-looking, dirección, propósito.',
+    bg: '#FFFFFF',
+    svg: `<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg" width="220" height="160">
+      <g transform="translate(110,72)">
+        <!-- arrow lines converging to point -->
+        <path d="M-80,-30 L20,0" stroke="#6B7A3E" stroke-width="3" stroke-linecap="round"/>
+        <path d="M-80,0 L20,0" stroke="#6B7A3E" stroke-width="3" stroke-linecap="round"/>
+        <path d="M-80,30 L20,0" stroke="#6B7A3E" stroke-width="3" stroke-linecap="round"/>
+        <path d="M-80,-14 L20,0" stroke="#6B7A3E" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+        <path d="M-80,14 L20,0" stroke="#6B7A3E" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+        <!-- arrowhead -->
+        <path d="M14,-12 L40,0 L14,12 Z" fill="#F59E0B"/>
+      </g>
+      <text x="110" y="128" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#6B7A3E" font-weight="500" letter-spacing="3">VIAJERAMENTE</text>
+    </svg>`
+  },
+
+  // ── COMBINED ───────────────────────────────────────────────────────────────
+
+  {
+    id: 23, cat: 'combined',
+    name: 'Brújula + Wordmark H',
+    desc: 'Brújula izquierda, wordmark derecha. Layout horizontal. Terracota. Clásico, equilibrado, profesional.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" width="320" height="120">
+      <g transform="translate(58,60)">
+        <circle cx="0" cy="0" r="42" fill="none" stroke="#C9622F" stroke-width="1.5" opacity="0.25"/>
+        <circle cx="0" cy="0" r="32" fill="none" stroke="#C9622F" stroke-width="1" opacity="0.2"/>
+        <!-- N diamond -->
+        <path d="M0,-42 L-5,-30 L0,-34 L5,-30 Z" fill="#C9622F"/>
+        <!-- S diamond -->
+        <path d="M0,42 L-5,30 L0,34 L5,30 Z" fill="#C9622F" opacity="0.35"/>
+        <!-- E/W small ticks -->
+        <line x1="36" y1="0" x2="42" y2="0" stroke="#C9622F" stroke-width="2" opacity="0.5"/>
+        <line x1="-36" y1="0" x2="-42" y2="0" stroke="#C9622F" stroke-width="2" opacity="0.5"/>
+        <!-- diagonal dots -->
+        <circle cx="26" cy="-26" r="2" fill="#C9622F" opacity="0.3"/>
+        <circle cx="26" cy="26" r="2" fill="#C9622F" opacity="0.3"/>
+        <circle cx="-26" cy="-26" r="2" fill="#C9622F" opacity="0.3"/>
+        <circle cx="-26" cy="26" r="2" fill="#C9622F" opacity="0.3"/>
+        <!-- needle -->
+        <path d="M0,-32 L-4,0 L0,4 L4,0 Z" fill="#C9622F"/>
+        <path d="M0,32 L-4,0 L0,4 L4,0 Z" fill="#C9622F" opacity="0.2"/>
+        <circle cx="0" cy="0" r="4" fill="white" stroke="#C9622F" stroke-width="1.5"/>
+      </g>
+      <!-- divider -->
+      <line x1="114" y1="22" x2="114" y2="98" stroke="#C9622F" stroke-width="1" opacity="0.25"/>
+      <text x="132" y="52" font-family="'Playfair Display',serif" font-size="26" fill="#C9622F" font-weight="700" letter-spacing="-0.3">ViajeraMente</text>
+      <text x="132" y="72" font-family="Inter,sans-serif" font-size="9" fill="#C9622F" font-weight="400" letter-spacing="3" opacity="0.6">DESCUBRE EL MUNDO</text>
+    </svg>`
+  },
+
+  {
+    id: 24, cat: 'combined',
+    name: 'Montaña + Stack Vertical',
+    desc: 'Pico de montaña arriba, wordmark debajo en stack. Forest + mint. Layout cuadrado, ideal para avatar.',
+    bg: '#2D5A27',
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="180" height="200">
+      <g transform="translate(100,88)">
+        <!-- back ranges -->
+        <path d="M-70,30 L-30,-20 L10,10 L50,-30 L80,30 Z" fill="#7EC8A4" opacity="0.3"/>
+        <!-- main mountain -->
+        <path d="M-60,32 L0,-48 L60,32 Z" fill="#7EC8A4"/>
+        <!-- snow -->
+        <path d="M0,-48 L-15,-20 L15,-20 Z" fill="#FAF7F2"/>
+        <!-- star -->
+        <polygon points="0,-56 2,-51 7,-51 3,-48 5,-43 0,-46 -5,-43 -3,-48 -7,-51 -2,-51" fill="#FAF7F2" opacity="0.8"/>
+      </g>
+      <text x="100" y="152" text-anchor="middle" font-family="'Playfair Display',serif" font-size="20" fill="#FAF7F2" font-weight="600" letter-spacing="0">Viajera</text>
+      <text x="100" y="175" text-anchor="middle" font-family="'Playfair Display',serif" font-size="20" fill="#7EC8A4" font-weight="400" font-style="italic">Mente</text>
+    </svg>`
+  },
+
+  {
+    id: 25, cat: 'combined',
+    name: 'Globo + Wordmark',
+    desc: 'Globo terráqueo estilizado con wordmark lateral. Indigo + cream. Aspiracional, worldwide, de impacto.',
+    bg: '#3730A3',
+    svg: `<svg viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg" width="300" height="130">
+      <g transform="translate(60,65)">
+        <circle cx="0" cy="0" r="46" fill="#FAF7F2" opacity="0.1"/>
+        <circle cx="0" cy="0" r="42" fill="none" stroke="#FAF7F2" stroke-width="1.5"/>
+        <ellipse cx="0" cy="0" rx="42" ry="18" fill="none" stroke="#FAF7F2" stroke-width="1" opacity="0.6"/>
+        <ellipse cx="0" cy="0" rx="42" ry="34" fill="none" stroke="#FAF7F2" stroke-width="0.7" opacity="0.4"/>
+        <ellipse cx="0" cy="0" rx="20" ry="42" fill="none" stroke="#FAF7F2" stroke-width="1" opacity="0.5"/>
+        <line x1="0" y1="-42" x2="0" y2="42" stroke="#FAF7F2" stroke-width="0.7" opacity="0.5"/>
+        <!-- land masses suggestion -->
+        <path d="M-14,-22 Q-4,-18 2,-28 Q14,-32 18,-20 Q22,-10 14,-4 Q6,2 -6,-2 Q-18,-6 -14,-22 Z" fill="#FAF7F2" opacity="0.15"/>
+        <path d="M-30,4 Q-22,0 -18,8 Q-14,16 -24,18 Q-34,18 -30,4 Z" fill="#FAF7F2" opacity="0.15"/>
+      </g>
+      <text x="128" y="54" font-family="'Playfair Display',serif" font-size="28" fill="#FAF7F2" font-weight="700" letter-spacing="-0.5">Viajera</text>
+      <text x="128" y="84" font-family="'Playfair Display',serif" font-size="28" fill="#F59E0B" font-weight="400" font-style="italic">Mente</text>
+    </svg>`
+  },
+
+  {
+    id: 26, cat: 'combined',
+    name: 'Trayectoria + Wordmark',
+    desc: 'Arco de vuelo de A a B con avión, wordmark bajo. Navy + coral. Dinámico, journey-focused.',
+    bg: '#FFFFFF',
+    svg: `<svg viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg" width="300" height="140">
+      <g transform="translate(20,70)">
+        <!-- arc path -->
+        <path d="M0,20 Q130,-50 260,20" fill="none" stroke="#1B3A5C" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.35"/>
+        <!-- origin dot -->
+        <circle cx="0" cy="20" r="5" fill="#1B3A5C"/>
+        <!-- destination dot -->
+        <circle cx="260" cy="20" r="5" fill="#FF6B6B"/>
+        <!-- plane at mid arc -->
+        <g transform="translate(132,-28) rotate(-10)">
+          <ellipse cx="0" cy="0" rx="14" ry="4.5" fill="#1B3A5C"/>
+          <path d="M0,-3 L-8,-12 L0,-8 Z" fill="#1B3A5C"/>
+          <path d="M0,3 L-8,12 L0,8 Z" fill="#1B3A5C" opacity="0.5"/>
+          <ellipse cx="12" cy="0" rx="4" ry="3.5" fill="#FF6B6B"/>
+        </g>
+      </g>
+      <text x="150" y="118" text-anchor="middle" font-family="'Playfair Display',serif" font-size="20" fill="#1B3A5C" font-weight="700" letter-spacing="0">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 27, cat: 'combined',
+    name: 'Flecha Errante + Wordmark',
+    desc: 'Flecha que serpentea antes de llegar a destino. Olive + cream. Sin prisa, el camino es la meta.',
+    bg: '#6B7A3E',
+    svg: `<svg viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg" width="300" height="130">
+      <g transform="translate(20,65)">
+        <!-- wandering path -->
+        <path d="M0,0 Q30,-30 60,0 Q90,30 120,0 Q150,-30 180,0 Q200,14 214,0" fill="none" stroke="#FAF7F2" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- arrowhead -->
+        <path d="M208,-10 L224,0 L208,10" fill="none" stroke="#FAF7F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+      <text x="150" y="118" text-anchor="middle" font-family="'Playfair Display',serif" font-size="18" fill="#FAF7F2" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 28, cat: 'combined',
+    name: 'Ojo/Lente + Wordmark',
+    desc: 'Ojo estilizado (perspectiva, curiosidad) con pupila-mundo. Slate + coral. Curioso, exploratorio, visionario.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg" width="300" height="130">
+      <g transform="translate(60,58)">
+        <!-- eye shape -->
+        <path d="M-50,0 Q0,-32 50,0 Q0,32 -50,0 Z" fill="none" stroke="#4A5568" stroke-width="2"/>
+        <!-- iris -->
+        <circle cx="0" cy="0" r="18" fill="#FF6B6B" opacity="0.2"/>
+        <circle cx="0" cy="0" r="16" fill="none" stroke="#4A5568" stroke-width="1.5"/>
+        <!-- world inside iris -->
+        <circle cx="0" cy="0" r="12" fill="#4A5568"/>
+        <ellipse cx="0" cy="0" rx="6" ry="12" fill="none" stroke="#FF6B6B" stroke-width="1" opacity="0.7"/>
+        <ellipse cx="0" cy="0" rx="12" ry="5" fill="none" stroke="#FF6B6B" stroke-width="1" opacity="0.7"/>
+        <!-- pupil -->
+        <circle cx="0" cy="0" r="4" fill="#FF6B6B"/>
+        <!-- highlight -->
+        <circle cx="-4" cy="-4" r="2" fill="white" opacity="0.7"/>
+        <!-- lashes/rays -->
+        <line x1="-52" y1="-2" x2="-60" y2="-6" stroke="#4A5568" stroke-width="1" opacity="0.35"/>
+        <line x1="52" y1="-2" x2="60" y2="-6" stroke="#4A5568" stroke-width="1" opacity="0.35"/>
+      </g>
+      <text x="150" y="115" text-anchor="middle" font-family="'Playfair Display',serif" font-size="20" fill="#4A5568" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 29, cat: 'combined',
+    name: 'Hoja Crecimiento + Wordmark',
+    desc: 'Hoja con nervios que forman mapa de rutas. Forest + amber. Viaje como crecimiento personal.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg" width="300" height="130">
+      <g transform="translate(60,64)">
+        <!-- leaf shape -->
+        <path d="M0,30 Q-36,-10 -20,-40 Q0,-58 20,-40 Q36,-10 0,30 Z" fill="#2D5A27" opacity="0.15"/>
+        <path d="M0,30 Q-36,-10 -20,-40 Q0,-58 20,-40 Q36,-10 0,30 Z" fill="none" stroke="#2D5A27" stroke-width="2"/>
+        <!-- stem -->
+        <line x1="0" y1="30" x2="0" y2="44" stroke="#2D5A27" stroke-width="2" stroke-linecap="round"/>
+        <!-- veins as routes -->
+        <line x1="0" y1="30" x2="0" y2="-50" stroke="#2D5A27" stroke-width="1.2" opacity="0.5"/>
+        <path d="M0,0 Q-12,-8 -22,-18" stroke="#2D5A27" stroke-width="1" fill="none" opacity="0.5"/>
+        <path d="M0,-14 Q-14,-20 -20,-30" stroke="#2D5A27" stroke-width="1" fill="none" opacity="0.4"/>
+        <path d="M0,0 Q12,-8 22,-18" stroke="#2D5A27" stroke-width="1" fill="none" opacity="0.5"/>
+        <path d="M0,-14 Q14,-20 20,-30" stroke="#2D5A27" stroke-width="1" fill="none" opacity="0.4"/>
+        <!-- route dots -->
+        <circle cx="-22" cy="-18" r="2.5" fill="#F59E0B"/>
+        <circle cx="22" cy="-18" r="2.5" fill="#F59E0B"/>
+        <circle cx="-20" cy="-30" r="2" fill="#F59E0B" opacity="0.7"/>
+        <circle cx="20" cy="-30" r="2" fill="#F59E0B" opacity="0.7"/>
+      </g>
+      <text x="150" y="118" text-anchor="middle" font-family="'Playfair Display',serif" font-size="20" fill="#2D5A27" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 30, cat: 'combined',
+    name: 'Grulla Origami + Wordmark',
+    desc: 'Ave origami (libertad) en trazo geométrico plegado. Slate + gold. Elegante, asiático-moderno, viaje libre.',
+    bg: '#FFFFFF',
+    svg: `<svg viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg" width="300" height="130">
+      <g transform="translate(60,58)">
+        <!-- origami bird - geometric facets -->
+        <!-- body -->
+        <path d="M0,-10 L18,8 L0,20 L-18,8 Z" fill="#4A5568"/>
+        <!-- left wing -->
+        <path d="M-18,8 L-50,-8 L-20,-2 Z" fill="#4A5568" opacity="0.7"/>
+        <path d="M-18,8 L-50,-8 L-30,16 Z" fill="#4A5568" opacity="0.4"/>
+        <!-- right wing -->
+        <path d="M18,8 L50,-8 L20,-2 Z" fill="#D4AF37"/>
+        <path d="M18,8 L50,-8 L30,16 Z" fill="#D4AF37" opacity="0.6"/>
+        <!-- head/beak -->
+        <path d="M0,-10 L-6,-24 L6,-20 Z" fill="#4A5568"/>
+        <path d="M-6,-24 L-14,-30 L-2,-22 Z" fill="#4A5568" opacity="0.7"/>
+        <!-- tail -->
+        <path d="M0,20 L-8,34 L0,26 L8,34 Z" fill="#4A5568" opacity="0.5"/>
+        <!-- fold lines -->
+        <line x1="-18" y1="8" x2="18" y2="8" stroke="#FAF7F2" stroke-width="0.8"/>
+        <line x1="0" y1="-10" x2="0" y2="20" stroke="#FAF7F2" stroke-width="0.8"/>
+      </g>
+      <text x="150" y="118" text-anchor="middle" font-family="'Playfair Display',serif" font-size="20" fill="#4A5568" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  // ── SPECIAL ────────────────────────────────────────────────────────────────
+
+  {
+    id: 31, cat: 'special',
+    name: 'VM Cordillera',
+    desc: '"VM" cuyas letras forman una cadena montañosa. Indigo + amber. Ingenioso, único, muy identitario.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" width="240" height="150">
+      <g transform="translate(120,80)">
+        <!-- mountain range that reads VM -->
+        <!-- V shape: left slope down, then up -->
+        <path d="M-100,40 L-60,-50 L-20,40" fill="#3730A3" opacity="0.12"/>
+        <path d="M-100,40 L-60,-50 L-20,40" fill="none" stroke="#3730A3" stroke-width="3" stroke-linejoin="round"/>
+        <!-- snow on V peak -->
+        <path d="M-60,-50 L-70,-28 L-50,-28 Z" fill="#F59E0B"/>
+        <!-- M shape: up, down, up, down -->
+        <path d="M-16,40 L-16,-40 L20,-10 L56,-40 L56,40" fill="#3730A3" opacity="0.12"/>
+        <path d="M-16,40 L-16,-40 L20,-10 L56,-40 L56,40" fill="none" stroke="#3730A3" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+        <!-- snow on M peaks -->
+        <path d="M-16,-40 L-24,-22 L-8,-22 Z" fill="#F59E0B"/>
+        <path d="M56,-40 L48,-22 L64,-22 Z" fill="#F59E0B"/>
+        <!-- baseline -->
+        <line x1="-100" y1="40" x2="56" y2="40" stroke="#3730A3" stroke-width="1.5" opacity="0.3"/>
+      </g>
+      <text x="120" y="148" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#3730A3" font-weight="600" letter-spacing="4" opacity="0.7">VIAJERAMENTE</text>
+    </svg>`
+  },
+
+  {
+    id: 32, cat: 'special',
+    name: 'Texto en Ruta',
+    desc: 'Las letras de "ViajeraMente" dispuestas en arco como una ruta de viaje. Terracota. Tipografía viajera.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" width="240" height="180">
+      <defs>
+        <path id="arcpath" d="M30,140 A100,100 0 0,1 210,140"/>
+      </defs>
+      <!-- arc path dotted -->
+      <path d="M30,140 A100,100 0 0,1 210,140" fill="none" stroke="#C9622F" stroke-width="1" stroke-dasharray="3,4" opacity="0.3"/>
+      <!-- text on arc -->
+      <text font-family="'Playfair Display',serif" font-size="17" fill="#C9622F" font-weight="600" letter-spacing="3">
+        <textPath href="#arcpath" startOffset="50%" text-anchor="middle">ViajeraMente</textPath>
+      </text>
+      <!-- origin dot -->
+      <circle cx="30" cy="140" r="5" fill="#C9622F"/>
+      <!-- destination dot -->
+      <circle cx="210" cy="140" r="5" fill="#C9622F"/>
+      <!-- small plane at arc top -->
+      <g transform="translate(120,42) rotate(0)">
+        <ellipse cx="0" cy="0" rx="10" ry="3" fill="#C9622F"/>
+        <path d="M0,-2 L-6,-8 L0,-5 Z" fill="#C9622F"/>
+        <path d="M0,2 L-6,8 L0,5 Z" fill="#C9622F" opacity="0.5"/>
+        <ellipse cx="9" cy="0" rx="3" ry="2.5" fill="#C9622F" opacity="0.7"/>
+      </g>
+    </svg>`
+  },
+
+  {
+    id: 33, cat: 'special',
+    name: 'Pin con Mundo Interior',
+    desc: 'Map pin grande con continentes detallados dentro. Navy + gold. Inmediatamente reconocible, profundo.',
+    bg: '#1B3A5C',
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="180" height="200">
+      <g transform="translate(100,95)">
+        <!-- pin shadow -->
+        <ellipse cx="0" cy="80" rx="18" ry="6" fill="#000" opacity="0.2"/>
+        <!-- pin body -->
+        <path d="M0,-75 C-42,-75 -60,-42 -60,-20 C-60,16 0,80 0,80 C0,80 60,16 60,-20 C60,-42 42,-75 0,-75 Z" fill="#D4AF37"/>
+        <!-- interior circle world -->
+        <circle cx="0" cy="-28" r="38" fill="#1B3A5C"/>
+        <!-- lat/lon lines -->
+        <ellipse cx="0" cy="-28" rx="38" ry="16" fill="none" stroke="#D4AF37" stroke-width="0.8" opacity="0.5"/>
+        <ellipse cx="0" cy="-28" rx="38" ry="28" fill="none" stroke="#D4AF37" stroke-width="0.6" opacity="0.35"/>
+        <line x1="0" y1="-66" x2="0" y2="10" stroke="#D4AF37" stroke-width="0.8" opacity="0.5"/>
+        <ellipse cx="0" cy="-28" rx="18" ry="38" fill="none" stroke="#D4AF37" stroke-width="0.7" opacity="0.4"/>
+        <!-- continents hint -->
+        <path d="M-10,-42 Q2,-38 6,-48 Q16,-50 18,-40 Q20,-32 12,-26 Q4,-20 -8,-24 Q-20,-28 -10,-42 Z" fill="#D4AF37" opacity="0.2"/>
+        <path d="M-24,-18 Q-18,-22 -14,-14 Q-10,-6 -18,-4 Q-28,-2 -24,-18 Z" fill="#D4AF37" opacity="0.2"/>
+      </g>
+      <text x="100" y="190" text-anchor="middle" font-family="'Playfair Display',serif" font-size="13" fill="#D4AF37" font-weight="600" letter-spacing="0.5">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 34, cat: 'special',
+    name: 'Sello Pasaporte',
+    desc: 'Sello circular estilo pasaporte. Forest + cream. Nostálgico, auténtico, cada viaje deja huella.',
+    bg: '#2D5A27',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="190" height="190">
+      <g transform="translate(100,100)">
+        <!-- outer ring -->
+        <circle cx="0" cy="0" r="80" fill="none" stroke="#FAF7F2" stroke-width="3"/>
+        <circle cx="0" cy="0" r="72" fill="none" stroke="#FAF7F2" stroke-width="1" opacity="0.4"/>
+        <!-- dashed inner ring -->
+        <circle cx="0" cy="0" r="64" fill="none" stroke="#FAF7F2" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+        <!-- serrated outer edge effect -->
+        <circle cx="0" cy="0" r="80" fill="none" stroke="#FAF7F2" stroke-width="4" stroke-dasharray="6,3" opacity="0.3"/>
+        <!-- main text on arc top -->
+        <defs>
+          <path id="toparc" d="M-65,-10 A66,66 0 0,1 65,-10"/>
+          <path id="botarc" d="M-58,20 A60,60 0 0,0 58,20"/>
+        </defs>
+        <text font-family="Inter,sans-serif" font-size="11" fill="#FAF7F2" font-weight="700" letter-spacing="4">
+          <textPath href="#toparc" startOffset="50%" text-anchor="middle">VIAJERAMENTE</textPath>
+        </text>
+        <text font-family="Inter,sans-serif" font-size="8" fill="#7EC8A4" font-weight="500" letter-spacing="3">
+          <textPath href="#botarc" startOffset="50%" text-anchor="middle">DESCUBRE · EXPLORA · VIVE</textPath>
+        </text>
+        <!-- center icon: mountain -->
+        <path d="M0,-24 L-22,8 L22,8 Z" fill="#FAF7F2"/>
+        <path d="M0,-24 L-8,-8 L8,-8 Z" fill="#2D5A27"/>
+        <!-- year -->
+        <text x="0" y="44" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#7EC8A4" font-weight="600" letter-spacing="2">EST. 2024</text>
+      </g>
+    </svg>`
+  },
+
+  {
+    id: 35, cat: 'special',
+    name: 'Insignia Explorador Vintage',
+    desc: 'Badge hexagonal estilo explorer vintage con lema. Terracota + sand. Cálido, aventurero retro, coleccionable.',
+    bg: '#E8D5B7',
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="190" height="210">
+      <g transform="translate(100,108)">
+        <!-- hexagon -->
+        <polygon points="0,-86 74,-43 74,43 0,86 -74,43 -74,-43" fill="#C9622F"/>
+        <polygon points="0,-78 68,-39 68,39 0,78 -68,39 -68,-39" fill="none" stroke="#E8D5B7" stroke-width="1.5" opacity="0.5"/>
+        <polygon points="0,-70 62,-35 62,35 0,70 -62,35 -62,-35" fill="none" stroke="#E8D5B7" stroke-width="0.8" opacity="0.3"/>
+        <!-- top banner -->
+        <rect x="-50" y="-54" width="100" height="20" rx="3" fill="#E8D5B7" opacity="0.15"/>
+        <text x="0" y="-40" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#E8D5B7" font-weight="700" letter-spacing="3">VIAJERA</text>
+        <!-- center VM -->
+        <text x="0" y="14" text-anchor="middle" font-family="'Playfair Display',serif" font-size="42" fill="#E8D5B7" font-weight="700" letter-spacing="-2">VM</text>
+        <!-- compass star small -->
+        <g transform="translate(0,-8)" opacity="0.3">
+          <polygon points="0,-10 2,-4 8,-4 3,0 5,6 0,2 -5,6 -3,0 -8,-4 -2,-4" fill="#E8D5B7"/>
+        </g>
+        <!-- bottom banner -->
+        <rect x="-50" y="36" width="100" height="20" rx="3" fill="#E8D5B7" opacity="0.15"/>
+        <text x="0" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#E8D5B7" font-weight="700" letter-spacing="3">MENTE</text>
+        <!-- stars -->
+        <circle cx="-62" cy="0" r="3" fill="#E8D5B7" opacity="0.5"/>
+        <circle cx="62" cy="0" r="3" fill="#E8D5B7" opacity="0.5"/>
+      </g>
+    </svg>`
+  },
+
+  {
+    id: 36, cat: 'special',
+    name: '·M· Minimal',
+    desc: 'Solo "·M·" en grande — mente, minimalismo, el punto de partida. Warm black. Ultra minimal para uso secundario.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" width="200" height="160">
+      <text x="100" y="92" text-anchor="middle" font-family="'Playfair Display',serif" font-size="80" fill="#1A1A1A" font-weight="400" font-style="italic" letter-spacing="-2">·M·</text>
+      <line x1="50" y1="105" x2="150" y2="105" stroke="#1A1A1A" stroke-width="1" opacity="0.2"/>
+      <text x="100" y="120" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#1A1A1A" font-weight="400" letter-spacing="5" opacity="0.4">VIAJERAMENTE</text>
+    </svg>`
+  },
+
+  {
+    id: 37, cat: 'special',
+    name: 'Badge Circular Tierra',
+    desc: 'Círculo con gradiente que evoca el planeta Tierra. Indigo + mint. Moderno, friendly, digital-first.',
+    bg: '#FFFFFF',
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="190" height="190">
+      <defs>
+        <radialGradient id="earthgrad" cx="35%" cy="30%">
+          <stop offset="0%" stop-color="#7EC8A4"/>
+          <stop offset="45%" stop-color="#3730A3"/>
+          <stop offset="100%" stop-color="#1B1B4B"/>
+        </radialGradient>
+        <clipPath id="circle-clip">
+          <circle cx="100" cy="90" r="68"/>
+        </clipPath>
+      </defs>
+      <circle cx="100" cy="90" r="68" fill="url(#earthgrad)"/>
+      <!-- atmosphere glow -->
+      <circle cx="100" cy="90" r="68" fill="none" stroke="#7EC8A4" stroke-width="3" opacity="0.4"/>
+      <!-- continents stylized -->
+      <g clip-path="url(#circle-clip)">
+        <path d="M74,52 Q86,44 94,54 Q102,64 96,76 Q88,84 78,78 Q66,70 74,52 Z" fill="#7EC8A4" opacity="0.35"/>
+        <path d="M96,60 Q110,52 118,64 Q124,74 116,82 Q108,88 98,82 Q90,74 96,60 Z" fill="#7EC8A4" opacity="0.3"/>
+        <path d="M60,80 Q70,74 76,82 Q80,90 72,96 Q64,100 58,92 Q54,84 60,80 Z" fill="#7EC8A4" opacity="0.25"/>
+        <path d="M108,88 Q120,84 126,94 Q130,104 120,110 Q110,114 104,106 Q100,98 108,88 Z" fill="#7EC8A4" opacity="0.25"/>
+        <!-- lat lines -->
+        <ellipse cx="100" cy="90" rx="68" ry="26" fill="none" stroke="#FAF7F2" stroke-width="0.5" opacity="0.15"/>
+        <line x1="32" y1="90" x2="168" y2="90" stroke="#FAF7F2" stroke-width="0.5" opacity="0.15"/>
+      </g>
+      <text x="100" y="180" text-anchor="middle" font-family="'Playfair Display',serif" font-size="14" fill="#3730A3" font-weight="700" letter-spacing="0">ViajeraMente</text>
+    </svg>`
+  },
+
+  {
+    id: 38, cat: 'special',
+    name: 'Pincel / Watercolor Wordmark',
+    desc: 'Wordmark con efecto de trazo de pincel rugoso usando filtros SVG. Terracota + crema. Artesanal, cálido, humano.',
+    bg: '#FAF7F2',
+    svg: `<svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" width="320" height="120">
+      <defs>
+        <filter id="rough" x="-5%" y="-20%" width="110%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>
+      <!-- brush stroke background -->
+      <path d="M12,72 Q50,52 100,62 Q160,74 220,58 Q274,44 308,64 Q304,80 308,82 Q274,70 220,82 Q160,98 100,86 Q50,76 12,90 Z" fill="#C9622F" opacity="0.12" filter="url(#rough)"/>
+      <!-- main text with slight roughness -->
+      <text x="160" y="72" text-anchor="middle" font-family="'Playfair Display',serif" font-size="40" fill="#C9622F" font-weight="700" letter-spacing="-0.5" filter="url(#rough)">ViajeraMente</text>
+      <!-- small underline brush -->
+      <path d="M60,84 Q160,90 260,84" fill="none" stroke="#C9622F" stroke-width="2.5" stroke-linecap="round" opacity="0.3" filter="url(#rough)"/>
+    </svg>`
+  },
+
+];
+
+// ── RENDER ──────────────────────────────────────────────────────────────────
+
+const tagMap = {
+  icon: { label: 'Icono', cls: 'tag-icon' },
+  wordmark: { label: 'Wordmark', cls: 'tag-wordmark' },
+  geometric: { label: 'Geométrico', cls: 'tag-geometric' },
+  combined: { label: 'Combinado', cls: 'tag-combined' },
+  special: { label: 'Especial', cls: 'tag-special' },
+};
+
+function renderGrid(filter = 'all') {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  concepts.forEach(c => {
+    if (filter !== 'all' && c.cat !== filter) return;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.id = c.id;
+    const tag = tagMap[c.cat];
+    card.innerHTML = `
+      <span class="concept-num">#${c.id}</span>
+      <button class="copy-btn" data-id="${c.id}">Copiar SVG</button>
+      <div class="logo-area" style="background:${c.bg}">${c.svg}</div>
+      <div class="card-info">
+        <div class="card-tag ${tag.cls}">${tag.label}</div>
+        <div class="card-name">${c.name}</div>
+        <div class="card-desc">${c.desc}</div>
+      </div>
+    `;
+    card.addEventListener('click', (e) => {
+      if (e.target.classList.contains('copy-btn')) return;
+      openModal(c);
+    });
+    card.querySelector('.copy-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      copySVG(c);
+    });
+    grid.appendChild(card);
+  });
+}
+
+function openModal(c) {
+  const tag = tagMap[c.cat];
+  document.getElementById('modal-logo').style.background = c.bg;
+  document.getElementById('modal-logo').innerHTML = c.svg;
+  document.getElementById('modal-name').innerHTML = `<span class="card-tag ${tag.cls}" style="margin-right:8px">${tag.label}</span>${c.name}`;
+  document.getElementById('modal-desc').textContent = c.desc;
+  document.getElementById('modal-copy').onclick = () => copySVG(c);
+  document.getElementById('modal').classList.add('open');
+}
+
+function copySVG(c) {
+  navigator.clipboard.writeText(c.svg).then(() => {
+    const btn = document.querySelector(`[data-id="${c.id}"].copy-btn`) || document.getElementById('modal-copy');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copiado';
+    setTimeout(() => btn.textContent = orig, 1800);
+  });
+}
+
+// filters
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGrid(btn.dataset.filter);
+  });
+});
+
+// modal close
+document.getElementById('modal-close').addEventListener('click', () => {
+  document.getElementById('modal').classList.remove('open');
+});
+document.getElementById('modal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('open');
+  }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') document.getElementById('modal').classList.remove('open');
+});
+
+renderGrid();
+</script>
+
+<footer style="text-align:center;padding:32px 24px 48px;color:#9CA3AF;font-size:.78rem;font-family:'Inter',sans-serif;">
+  Página temporal — no indexada
+</footer>
+</body>
+</html>
