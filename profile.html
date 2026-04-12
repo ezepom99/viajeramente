@@ -24,6 +24,7 @@
 
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
+    .hidden { display: none !important; }
 
     :root {
       --bg: #F8FAFC;
@@ -339,21 +340,32 @@
       font-weight: 700;
       backdrop-filter: blur(8px);
     }
-    .level-badge.bronze { background: rgba(245,158,11,.25); color: #fff; border: 1px solid rgba(245,158,11,.4); }
-    .level-badge.silver { background: rgba(255,255,255,.2); color: #fff; border: 1px solid rgba(255,255,255,.3); }
-    .level-badge.gold { background: rgba(245,158,11,.3); color: #fff; border: 1px solid rgba(245,158,11,.5); }
+    .level-badge.bronze  { background: rgba(245,158,11,.25); color: #fff; border: 1px solid rgba(245,158,11,.4); }
+    .level-badge.silver  { background: rgba(255,255,255,.2); color: #fff; border: 1px solid rgba(255,255,255,.3); }
+    .level-badge.gold    { background: rgba(245,158,11,.3); color: #fff; border: 1px solid rgba(245,158,11,.5); }
     .level-badge.diamond { background: rgba(14,165,233,.3); color: #fff; border: 1px solid rgba(14,165,233,.5); }
     .level-badge.sapphire { background: rgba(124,58,237,.35); color: #fff; border: 1px solid rgba(124,58,237,.5); }
+    /* Rank levels */
+    .level-badge.curioso     { background: rgba(100,116,139,.3); color: #fff; border: 1px solid rgba(100,116,139,.5); }
+    .level-badge.aventurero  { background: rgba(16,185,129,.25); color: #fff; border: 1px solid rgba(16,185,129,.45); }
+    .level-badge.explorador  { background: rgba(245,158,11,.28); color: #fff; border: 1px solid rgba(245,158,11,.48); }
+    .level-badge.nomada      { background: rgba(14,165,233,.3); color: #fff; border: 1px solid rgba(14,165,233,.5); }
+    .level-badge.sinfronteras { background: rgba(124,58,237,.35); color: #fff; border: 1px solid rgba(124,58,237,.55); }
     .level-km {
       font-size: .8rem;
       color: rgba(255,255,255,.7);
+    }
+    .level-pts {
+      font-size: .8rem;
+      color: rgba(255,255,255,.85);
+      font-weight: 600;
     }
     .level-progress-wrap {
       margin-top: 6px;
       width: 100%;
     }
     .level-progress-bar {
-      height: 4px;
+      height: 5px;
       background: rgba(255,255,255,.2);
       border-radius: 4px;
       overflow: hidden;
@@ -361,14 +373,133 @@
     }
     .level-progress-fill {
       height: 100%;
-      background: rgba(255,255,255,.7);
+      background: rgba(255,255,255,.75);
       border-radius: 4px;
-      transition: width .5s ease;
+      transition: width .6s ease;
     }
     .level-progress-label {
       font-size: .72rem;
       color: rgba(255,255,255,.6);
       margin-top: 3px;
+    }
+
+    /* ── RANKING EXPLANATION CARD ── */
+    .rank-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 28px 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .rank-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+    .rank-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .rank-card-subtitle {
+      font-size: .82rem;
+      color: var(--text-2);
+      margin-top: 2px;
+    }
+    .rank-levels-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .rank-level-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      transition: background .15s;
+    }
+    .rank-level-row.current {
+      background: var(--accent-light);
+      border-color: var(--accent);
+    }
+    .rank-level-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      width: 32px;
+      text-align: center;
+    }
+    .rank-level-info { flex: 1; min-width: 0; }
+    .rank-level-name {
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .rank-level-row.current .rank-level-name { color: var(--accent-dark); }
+    .rank-level-threshold {
+      font-size: .75rem;
+      color: var(--text-2);
+      margin-top: 1px;
+    }
+    .rank-current-tag {
+      font-size: .7rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-light);
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      padding: 2px 9px;
+      white-space: nowrap;
+    }
+    .rank-earn-title {
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .rank-earn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    @media (max-width: 480px) {
+      .rank-earn-grid { grid-template-columns: 1fr; }
+    }
+    .rank-earn-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+    }
+    .rank-earn-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .rank-earn-label {
+      font-size: .8rem;
+      color: var(--text-2);
+      flex: 1;
+      min-width: 0;
+      line-height: 1.3;
+    }
+    .rank-earn-pts {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--accent);
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .hero-actions {
@@ -1918,7 +2049,8 @@
         <h1 id="profileName">Cargando...</h1>
         <p class="profile-handle" id="profileHandle">@usuario</p>
         <div class="travel-level">
-          <span class="level-badge bronze" id="levelBadge">🥉 Bronce</span>
+          <span class="level-badge curioso" id="levelBadge">🌱 Curioso</span>
+          <span class="level-pts" id="levelPts">0 pts</span>
           <span class="level-km" id="levelKm">0 km viajados</span>
           <div class="level-progress-wrap" id="levelProgressWrap" style="display:none;">
             <div class="level-progress-bar">
@@ -2065,6 +2197,104 @@
       <div class="stat-card"><div class="stat-number" id="_statCities_unused">0</div></div>
       <div class="stat-card"><div class="stat-number" id="_statContinents_unused">0</div></div>
       <div class="stat-card"><div class="stat-number" id="_statWonders_unused">0</div></div>
+    </div>
+
+    <!-- ── RANKING ── -->
+    <div class="rank-card" id="rankCard">
+      <div class="rank-card-header">
+        <div>
+          <div class="rank-card-title">🏅 Tu rango viajero</div>
+          <div class="rank-card-subtitle">Acumula puntos explorando el mundo</div>
+        </div>
+        <button onclick="document.getElementById('rankExplainer').classList.toggle('hidden')" style="background:none;border:1.5px solid var(--border);border-radius:10px;padding:6px 12px;font-size:.78rem;font-weight:600;color:var(--text-2);cursor:pointer;transition:all .2s;white-space:nowrap;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-2)'">Cómo funciona</button>
+      </div>
+
+      <!-- Current rank + progress -->
+      <div style="margin-bottom:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span id="rankCardBadge" style="font-size:1.25rem;font-weight:800;font-family:'Space Grotesk',sans-serif;color:var(--text);">🌱 Curioso</span>
+          <span id="rankCardPts" style="font-size:.95rem;font-weight:700;color:var(--accent);">0 pts</span>
+        </div>
+        <div style="height:8px;background:var(--bg-soft);border-radius:8px;overflow:hidden;border:1px solid var(--border);">
+          <div id="rankProgressFill" style="height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:8px;width:0%;transition:width .7s ease;"></div>
+        </div>
+        <div id="rankProgressLabel" style="font-size:.75rem;color:var(--text-2);margin-top:5px;"></div>
+      </div>
+
+      <!-- Rank levels explainer (toggle) -->
+      <div id="rankExplainer" class="hidden">
+        <div class="rank-levels-list" id="rankLevelsList">
+          <div class="rank-level-row" data-rank="Curioso">
+            <div class="rank-level-icon">🌱</div>
+            <div class="rank-level-info">
+              <div class="rank-level-name">Curioso</div>
+              <div class="rank-level-threshold">0 – 49 puntos</div>
+            </div>
+          </div>
+          <div class="rank-level-row" data-rank="Aventurero">
+            <div class="rank-level-icon">🎒</div>
+            <div class="rank-level-info">
+              <div class="rank-level-name">Aventurero</div>
+              <div class="rank-level-threshold">50 – 199 puntos</div>
+            </div>
+          </div>
+          <div class="rank-level-row" data-rank="Explorador">
+            <div class="rank-level-icon">🧭</div>
+            <div class="rank-level-info">
+              <div class="rank-level-name">Explorador</div>
+              <div class="rank-level-threshold">200 – 499 puntos</div>
+            </div>
+          </div>
+          <div class="rank-level-row" data-rank="Nómada">
+            <div class="rank-level-icon">🗺️</div>
+            <div class="rank-level-info">
+              <div class="rank-level-name">Nómada</div>
+              <div class="rank-level-threshold">500 – 999 puntos</div>
+            </div>
+          </div>
+          <div class="rank-level-row" data-rank="Sin Fronteras">
+            <div class="rank-level-icon">✈️</div>
+            <div class="rank-level-info">
+              <div class="rank-level-name">Sin Fronteras</div>
+              <div class="rank-level-threshold">1000+ puntos</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rank-earn-title">¿Cómo ganar puntos?</div>
+        <div class="rank-earn-grid">
+          <div class="rank-earn-item">
+            <span class="rank-earn-icon">🌍</span>
+            <span class="rank-earn-label">País visitado en el mapa</span>
+            <span class="rank-earn-pts">+10 pts</span>
+          </div>
+          <div class="rank-earn-item">
+            <span class="rank-earn-icon">🗺️</span>
+            <span class="rank-earn-label">Continente visitado (bonus)</span>
+            <span class="rank-earn-pts">+50 pts</span>
+          </div>
+          <div class="rank-earn-item">
+            <span class="rank-earn-icon">⭐</span>
+            <span class="rank-earn-label">Maravilla del mundo visitada</span>
+            <span class="rank-earn-pts">+25 pts</span>
+          </div>
+          <div class="rank-earn-item">
+            <span class="rank-earn-icon">✈️</span>
+            <span class="rank-earn-label">Viaje registrado</span>
+            <span class="rank-earn-pts">+5 pts</span>
+          </div>
+          <div class="rank-earn-item">
+            <span class="rank-earn-icon">📖</span>
+            <span class="rank-earn-label">Guía guardada</span>
+            <span class="rank-earn-pts">+2 pts</span>
+          </div>
+          <div class="rank-earn-item">
+            <span class="rank-earn-icon">🚀</span>
+            <span class="rank-earn-label">Cada 10.000 km viajados</span>
+            <span class="rank-earn-pts">+1 pt</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ── VIAJES ── -->
@@ -2745,23 +2975,58 @@ function renderProfile(user) {
     document.getElementById('memberSince').textContent = year;
   }
 
-  // Travel level (basado en km)
+  // Travel level (basado en puntos — nuevo sistema de ranking)
   const km = user.km_traveled || 0;
-  const level = getTravelLevel(km);
+  const pts = user.points || 0;
+  const rankName = user.rank_level || 'Curioso';
+  const rankInfo = getRankInfo(rankName);
+
+  // Hero badge (in profile header)
   const badge = document.getElementById('levelBadge');
-  badge.textContent = `${level.emoji} ${level.name}`;
-  badge.className = `level-badge ${level.cls}`;
+  badge.textContent = `${rankInfo.emoji} ${rankName}`;
+  badge.className = `level-badge ${rankInfo.cls}`;
+  document.getElementById('levelPts').textContent = pts.toLocaleString('es') + ' pts';
   document.getElementById('levelKm').textContent = km.toLocaleString('es') + ' km viajados';
-  // Progress bar al siguiente nivel
-  if (level.next !== null) {
-    const progressWrap = document.getElementById('levelProgressWrap');
-    const progressFill = document.getElementById('levelProgressFill');
-    const progressLabel = document.getElementById('levelProgressLabel');
-    const pct = Math.min(100, Math.round(((km - level.min) / (level.next - level.min)) * 100));
-    const remaining = (level.next - km).toLocaleString('es');
+
+  // Progress bar al siguiente rango
+  const progressWrap = document.getElementById('levelProgressWrap');
+  const progressFill = document.getElementById('levelProgressFill');
+  const progressLabel = document.getElementById('levelProgressLabel');
+  if (rankInfo.next !== null) {
+    const pct = Math.min(100, Math.round(((pts - rankInfo.min) / (rankInfo.next - rankInfo.min)) * 100));
+    const remaining = (rankInfo.next - pts).toLocaleString('es');
     progressFill.style.width = pct + '%';
-    progressLabel.textContent = `${remaining} km más para ${level.nextName}`;
+    progressLabel.textContent = `${remaining} pts más para ${rankInfo.nextName}`;
     progressWrap.style.display = 'block';
+  }
+
+  // Ranking card (bigger card in page body)
+  const rankCardBadge = document.getElementById('rankCardBadge');
+  const rankCardPts = document.getElementById('rankCardPts');
+  const rankProgressFill = document.getElementById('rankProgressFill');
+  const rankProgressLabel = document.getElementById('rankProgressLabel');
+  if (rankCardBadge) {
+    rankCardBadge.textContent = `${rankInfo.emoji} ${rankName}`;
+    rankCardPts.textContent = pts.toLocaleString('es') + ' pts';
+    if (rankInfo.next !== null) {
+      const pct2 = Math.min(100, Math.round(((pts - rankInfo.min) / (rankInfo.next - rankInfo.min)) * 100));
+      rankProgressFill.style.width = pct2 + '%';
+      rankProgressLabel.textContent = `${(rankInfo.next - pts).toLocaleString('es')} pts para ${rankInfo.nextName}`;
+    } else {
+      rankProgressFill.style.width = '100%';
+      rankProgressLabel.textContent = 'Has alcanzado el rango máximo';
+    }
+    // Highlight current level row
+    document.querySelectorAll('.rank-level-row').forEach(row => {
+      row.classList.toggle('current', row.dataset.rank === rankName);
+      const tag = row.querySelector('.rank-current-tag');
+      if (row.dataset.rank === rankName && !tag) {
+        const t = document.createElement('span');
+        t.className = 'rank-current-tag';
+        t.textContent = 'Tu nivel';
+        row.appendChild(t);
+      }
+    });
   }
 
   // Fill edit fields
@@ -2801,7 +3066,20 @@ function renderProfile(user) {
   updateStats();
 }
 
-// Nivel basado en km viajados
+// Ranking basado en puntos — Curioso → Aventurero → Explorador → Nómada → Sin Fronteras
+const RANK_THRESHOLDS = [
+  { name: 'Sin Fronteras', min: 1000, next: null,  nextName: null,          emoji: '✈️',  cls: 'sinfronteras' },
+  { name: 'Nómada',        min: 500,  next: 1000,  nextName: 'Sin Fronteras', emoji: '🗺️', cls: 'nomada' },
+  { name: 'Explorador',    min: 200,  next: 500,   nextName: 'Nómada',       emoji: '🧭',  cls: 'explorador' },
+  { name: 'Aventurero',    min: 50,   next: 200,   nextName: 'Explorador',   emoji: '🎒',  cls: 'aventurero' },
+  { name: 'Curioso',       min: 0,    next: 50,    nextName: 'Aventurero',   emoji: '🌱',  cls: 'curioso' },
+];
+
+function getRankInfo(rankName) {
+  return RANK_THRESHOLDS.find(r => r.name === rankName) || RANK_THRESHOLDS[RANK_THRESHOLDS.length - 1];
+}
+
+// Kept for legacy compatibility (km-based levels still stored in DB)
 const LEVEL_THRESHOLDS = [
   { min: 100000, name: 'Ciudadano del mundo', emoji: '🌌', cls: 'sapphire',  next: null,    nextName: null },
   { min: 50000,  name: 'Nómada global',       emoji: '🚀', cls: 'diamond',  next: 100000,  nextName: 'Ciudadano del mundo' },
@@ -2809,7 +3087,7 @@ const LEVEL_THRESHOLDS = [
   { min: 15000,  name: 'Mochilero',           emoji: '🗺️', cls: 'silver',   next: 30000,   nextName: 'Viajero empedernido' },
   { min: 5000,   name: 'Explorador',          emoji: '🌍', cls: 'bronze',   next: 15000,   nextName: 'Mochilero' },
   { min: 1000,   name: 'Pollito viajero',     emoji: '🐣', cls: 'bronze',   next: 5000,    nextName: 'Explorador' },
-  { min: 0,      name: 'Huevo',               emoji: '🥚', cls: 'bronze',   next: 1000,    nextName: 'Pollito viajero' },
+  { min: 0,      name: 'Curioso',             emoji: '🌱', cls: 'curioso',  next: 1000,    nextName: 'Pollito viajero' },
 ];
 
 function getTravelLevel(km) {
