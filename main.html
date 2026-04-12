@@ -7,144 +7,333 @@
   <meta name="description" content="Tu punto de partida para descubrir el mundo.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     :root {
-      --bg:#FFFFFF; --bg-soft:#F8FAFC; --text:#0F172A;
-      --text-2:#64748B; --text-3:#94A3B8; --border:#E2E8F0;
-      --accent:#0EA5E9; --accent-dark:#0284C7; --accent-light:#E0F2FE;
-      --teal:#10B981; --gold:#F59E0B;
-      --shadow-sm:0 1px 3px rgba(0,0,0,.06);
-      --shadow-md:0 4px 20px rgba(0,0,0,.09);
-      --shadow-lg:0 8px 32px rgba(0,0,0,.13);
+      --bg:#FFFFFF;
+      --bg-soft:#F7F6F4;
+      --bg-warm:#FAF9F7;
+      --text:#1A1A1A;
+      --text-2:#6B6B6B;
+      --text-3:#A0A0A0;
+      --border:#E8E5E0;
+      --accent:#2563EB;
+      --accent-dark:#1D4ED8;
+      --accent-light:#EFF6FF;
+      --shadow-sm:0 1px 4px rgba(0,0,0,.05);
+      --shadow-md:0 4px 24px rgba(0,0,0,.08);
+      --shadow-lg:0 12px 48px rgba(0,0,0,.12);
     }
     html { scroll-behavior:smooth; }
-    body { font-family:'Inter',-apple-system,sans-serif; color:var(--text); background:var(--bg-soft); -webkit-font-smoothing:antialiased; overflow-x:hidden; min-height:100vh; font-size:15px; }
-    h1,h2,h3,h4 { font-family:'Space Grotesk',sans-serif; }
-    @keyframes fadeUp    { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+    body {
+      font-family:'Inter',-apple-system,sans-serif;
+      color:var(--text);
+      background:var(--bg-soft);
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+      min-height:100vh;
+      font-size:15px;
+    }
+    @keyframes fadeUp    { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
     @keyframes slideDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes shimmer   { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
+    @keyframes shimmer   { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
 
-    /* NAV */
-    nav.topnav { position:fixed;top:0;left:0;right:0;z-index:200;height:56px; background:rgba(255,255,255,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;animation:slideDown .35s ease both; }
-    .nav-logo { font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:-.02em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:6px; }
-    .nav-logo-dot { width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0; }
-    .nav-dlinks { display:flex;align-items:center;gap:2px; }
-    .nav-dlink { font-size:.81rem;font-weight:500;color:var(--text-2);text-decoration:none;padding:6px 10px;border-radius:8px;transition:all .18s; }
+    /* ── NAV ── */
+    nav.topnav {
+      position:fixed;top:0;left:0;right:0;z-index:200;height:58px;
+      background:rgba(255,255,255,.98);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 24px;
+      animation:slideDown .3s ease both;
+    }
+    .nav-logo {
+      font-family:'Playfair Display',serif;
+      font-size:1.15rem;font-weight:700;letter-spacing:-.01em;
+      color:var(--text);text-decoration:none;
+      display:flex;align-items:center;gap:8px;
+    }
+    .nav-logo-mark {
+      width:28px;height:28px;border-radius:8px;
+      background:var(--accent);
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-size:.7rem;font-weight:700;
+      letter-spacing:.02em;flex-shrink:0;
+    }
+    .nav-dlinks { display:flex;align-items:center;gap:4px; }
+    .nav-dlink {
+      font-size:.8rem;font-weight:500;color:var(--text-2);
+      text-decoration:none;padding:6px 10px;border-radius:6px;
+      transition:color .15s,background .15s;
+    }
     .nav-dlink:hover { color:var(--text);background:var(--bg-soft); }
     @media(max-width:768px){.nav-dlinks{display:none;}}
     .nav-right { display:flex;align-items:center;gap:10px; }
-    .nav-avatar { width:32px;height:32px;border-radius:50%;background:var(--accent-light);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--accent);text-decoration:none;overflow:hidden;transition:border-color .2s;flex-shrink:0; }
+    .nav-avatar {
+      width:32px;height:32px;border-radius:50%;
+      background:var(--accent-light);border:2px solid var(--border);
+      display:flex;align-items:center;justify-content:center;
+      font-size:.68rem;font-weight:700;color:var(--accent);
+      text-decoration:none;overflow:hidden;transition:border-color .2s;flex-shrink:0;
+    }
     .nav-avatar:hover { border-color:var(--accent); }
     .nav-avatar img { width:100%;height:100%;object-fit:cover; }
-    .nav-burger { display:none;background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--text);padding:4px 6px;border-radius:8px;transition:background .18s;line-height:1; }
+    .nav-burger {
+      display:none;background:none;border:none;cursor:pointer;
+      font-size:1.2rem;color:var(--text);padding:6px;
+      border-radius:6px;transition:background .15s;line-height:1;
+    }
     .nav-burger:hover { background:var(--bg-soft); }
     @media(max-width:768px){.nav-burger{display:flex;align-items:center;}}
 
-    /* MOBILE MENU */
-    .mob-ov { display:none;position:fixed;inset:0;z-index:500;background:rgba(15,23,42,.4);backdrop-filter:blur(4px); }
+    /* ── MOBILE MENU ── */
+    .mob-ov { display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.35);backdrop-filter:blur(4px); }
     .mob-ov.open { display:block; }
-    .mob-menu { position:absolute;top:0;left:0;right:0;background:#fff;border-bottom:1px solid var(--border);padding:14px 18px 22px;transform:translateY(-100%);transition:transform .24s cubic-bezier(.4,0,.2,1); }
+    .mob-menu {
+      position:absolute;top:0;left:0;right:0;
+      background:#fff;border-bottom:1px solid var(--border);
+      padding:16px 18px 24px;
+      transform:translateY(-100%);transition:transform .22s cubic-bezier(.4,0,.2,1);
+    }
     .mob-ov.open .mob-menu { transform:translateY(0); }
-    .mob-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:18px; }
-    .mob-x { background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--text-3);padding:4px;border-radius:6px; }
+    .mob-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:16px; }
+    .mob-x { background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--text-3);padding:4px;border-radius:6px; }
     .mob-x:hover { color:var(--text); }
     .mob-links { display:flex;flex-direction:column;gap:2px; }
-    .mob-link { display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;text-decoration:none;color:var(--text);font-size:.95rem;font-weight:500;transition:background .15s; }
+    .mob-link {
+      display:flex;align-items:center;gap:12px;
+      padding:12px 14px;border-radius:10px;
+      text-decoration:none;color:var(--text);
+      font-size:.9rem;font-weight:500;transition:background .12s;
+    }
     .mob-link:hover { background:var(--bg-soft); }
-    .mob-link .mi { font-size:1.15rem;width:26px;text-align:center; }
+    .mob-link .mi { font-size:1.1rem;width:24px;text-align:center; }
     .mob-div { height:1px;background:var(--border);margin:8px 0; }
-    .mob-out { display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;color:var(--text-3);font-size:.95rem;font-weight:500;background:none;border:none;cursor:pointer;width:100%;font-family:inherit;transition:background .15s,color .15s; }
+    .mob-out {
+      display:flex;align-items:center;gap:12px;
+      padding:12px 14px;border-radius:10px;
+      color:var(--text-3);font-size:.9rem;font-weight:500;
+      background:none;border:none;cursor:pointer;width:100%;
+      font-family:inherit;transition:background .12s,color .12s;
+    }
     .mob-out:hover { background:var(--bg-soft);color:var(--text); }
 
-    /* PAGE */
-    .page { margin-top:56px;opacity:0;transition:opacity .3s; }
+    /* ── PAGE ── */
+    .page { margin-top:58px;opacity:0;transition:opacity .3s; }
 
-    /* GREETING */
-    .greeting { background:var(--bg);border-bottom:1px solid var(--border);padding:32px 20px 28px; }
-    .g-inner { max-width:680px;margin:0 auto; }
-    .g-label { font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px; }
-    .greeting h1 { font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;letter-spacing:-.035em;line-height:1.2;color:var(--text);margin-bottom:8px; }
-    .greeting h1 em { font-style:normal;color:var(--accent); }
-    .g-sub { font-size:.87rem;color:var(--text-2);line-height:1.55;max-width:420px; }
+    /* ── GREETING ── */
+    .greeting {
+      background:var(--bg);
+      border-bottom:1px solid var(--border);
+      padding:40px 24px 36px;
+    }
+    .g-inner { max-width:700px;margin:0 auto; }
+    .g-eyebrow {
+      font-size:.68rem;font-weight:600;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--accent);margin-bottom:10px;
+    }
+    .greeting h1 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.75rem,4.5vw,2.5rem);
+      font-weight:700;line-height:1.2;
+      color:var(--text);margin-bottom:10px;letter-spacing:-.01em;
+    }
+    .greeting h1 em { font-style:italic;color:var(--accent); }
+    .g-sub {
+      font-size:.875rem;color:var(--text-2);line-height:1.6;max-width:440px;
+    }
 
-    /* STATS */
-    .stats-strip { background:var(--bg);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap; }
-    .s-pill { display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:100px;background:var(--bg-soft);border:1px solid var(--border);font-size:.75rem;font-weight:600;color:var(--text);white-space:nowrap; }
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      background:var(--bg);
+      border-bottom:1px solid var(--border);
+      padding:14px 24px;
+      display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    }
+    .s-pill {
+      display:inline-flex;align-items:center;gap:5px;
+      padding:5px 13px;border-radius:100px;
+      background:var(--bg-soft);border:1px solid var(--border);
+      font-size:.73rem;font-weight:600;color:var(--text);white-space:nowrap;
+    }
     .s-pill strong { color:var(--accent); }
-    .s-level { display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:100px;background:#D1FAE5;border:1px solid rgba(16,185,129,.2);font-size:.75rem;font-weight:700;color:#065F46;white-space:nowrap; }
+    .s-level {
+      display:inline-flex;align-items:center;gap:5px;
+      padding:5px 13px;border-radius:100px;
+      background:#F0FDF4;border:1px solid #BBF7D0;
+      font-size:.73rem;font-weight:700;color:#166534;white-space:nowrap;
+    }
 
-    /* SECTION */
-    .sec { padding:32px 20px 0;max-width:680px;margin:0 auto; }
-    .sec-head { display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px; }
-    .sec-title { font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--text); }
-    .sec-link { font-size:.78rem;font-weight:600;color:var(--accent);text-decoration:none;transition:color .18s; }
+    /* ── CONTENT WRAPPER ── */
+    .content { max-width:720px;margin:0 auto;padding:0 24px; }
+    @media(max-width:520px){ .content { padding:0 16px; } }
+
+    /* ── SECTION ── */
+    .sec { padding-top:40px; }
+    .sec:last-of-type { padding-bottom:48px; }
+    .sec-head {
+      display:flex;align-items:baseline;justify-content:space-between;
+      margin-bottom:20px;
+    }
+    .sec-title {
+      font-size:.75rem;font-weight:700;
+      letter-spacing:.08em;text-transform:uppercase;
+      color:var(--text-3);
+    }
+    .sec-link {
+      font-size:.78rem;font-weight:600;
+      color:var(--accent);text-decoration:none;transition:color .15s;
+    }
     .sec-link:hover { color:var(--accent-dark); }
 
-    /* FEATURED */
-    .feat { position:relative;border-radius:20px;overflow:hidden;height:260px;text-decoration:none;display:block;box-shadow:var(--shadow-md);transition:transform .22s,box-shadow .22s;background:#e0e7ef; }
+    /* ── FEATURED HERO ── */
+    .feat {
+      position:relative;border-radius:16px;overflow:hidden;
+      height:320px;text-decoration:none;display:block;
+      box-shadow:var(--shadow-md);
+      transition:transform .22s,box-shadow .22s;
+      background:#D4D0C8;
+    }
     .feat:hover { transform:translateY(-3px);box-shadow:var(--shadow-lg); }
-    .feat img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;transition:transform .4s; }
-    .feat:hover img { transform:scale(1.04); }
-    .feat-ov { position:absolute;inset:0;background:linear-gradient(to bottom,transparent 25%,rgba(0,0,0,.72) 100%); }
-    .feat-body { position:absolute;bottom:0;left:0;right:0;padding:20px 22px; }
-    .feat-chip { display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.2);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.28);color:#fff;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:8px; }
-    .feat-name { font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.15;margin-bottom:4px; }
-    .feat-tag { font-size:.8rem;color:rgba(255,255,255,.82);line-height:1.4; }
-    .feat-arr { position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;transition:background .2s; }
-    .feat:hover .feat-arr { background:rgba(255,255,255,.32); }
-    .feat-loading { background:linear-gradient(90deg,#e8edf2 25%,#f3f6f9 50%,#e8edf2 75%);background-size:400px 100%;animation:shimmer 1.4s infinite; }
+    .feat-img {
+      position:absolute;inset:0;width:100%;height:100%;
+      object-fit:cover;object-position:center 40%;
+      transition:transform .4s;
+    }
+    .feat:hover .feat-img { transform:scale(1.03); }
+    .feat-gradient {
+      position:absolute;inset:0;
+      background:linear-gradient(to bottom, transparent 30%, rgba(0,0,0,.65) 100%);
+    }
+    .feat-body { position:absolute;bottom:0;left:0;right:0;padding:24px 28px; }
+    .feat-region {
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(255,255,255,.15);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,.25);
+      color:#fff;font-size:.65rem;font-weight:700;
+      letter-spacing:.1em;text-transform:uppercase;
+      padding:4px 12px;border-radius:100px;margin-bottom:10px;
+    }
+    .feat-name {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.5rem,4vw,2rem);font-weight:700;
+      color:#fff;line-height:1.15;margin-bottom:6px;
+    }
+    .feat-tagline { font-size:.82rem;color:rgba(255,255,255,.8);line-height:1.45; }
+    .feat-cta {
+      position:absolute;top:18px;right:18px;
+      width:38px;height:38px;border-radius:50%;
+      background:rgba(255,255,255,.18);backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.28);
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-size:.9rem;
+      transition:background .2s;
+    }
+    .feat:hover .feat-cta { background:rgba(255,255,255,.3); }
+    .feat-shimmer {
+      background:linear-gradient(90deg,#ddd8ce 25%,#e8e3d8 50%,#ddd8ce 75%);
+      background-size:600px 100%;animation:shimmer 1.5s infinite;
+    }
 
-    /* DEST GRID */
-    .dest-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
-    .dest-card { border-radius:16px;overflow:hidden;text-decoration:none;display:block;box-shadow:var(--shadow-sm);transition:transform .2s,box-shadow .2s;position:relative;height:156px;background:#e0e7ef; }
+    /* ── DESTINATION GRID ── */
+    .dest-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+    @media(min-width:600px){ .dest-grid { grid-template-columns:1fr 1fr 1fr 1fr; } }
+    .dest-card {
+      border-radius:12px;overflow:hidden;text-decoration:none;
+      display:block;position:relative;height:160px;
+      background:#D4D0C8;transition:transform .2s,box-shadow .2s;
+      box-shadow:var(--shadow-sm);
+    }
     .dest-card:hover { transform:translateY(-2px);box-shadow:var(--shadow-md); }
-    .dest-card img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .35s; }
-    .dest-card:hover img { transform:scale(1.05); }
-    .dc-ov { position:absolute;inset:0;background:linear-gradient(to bottom,transparent 35%,rgba(0,0,0,.68) 100%); }
-    .dc-info { position:absolute;bottom:0;left:0;right:0;padding:10px 12px 12px; }
-    .dc-name { font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:#fff;line-height:1.2; }
-    .dc-reg  { font-size:.62rem;color:rgba(255,255,255,.75);margin-top:2px; }
+    .dest-card img {
+      position:absolute;inset:0;width:100%;height:100%;
+      object-fit:cover;transition:transform .3s;
+    }
+    .dest-card:hover img { transform:scale(1.04); }
+    .dc-ov {
+      position:absolute;inset:0;
+      background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.65) 100%);
+    }
+    .dc-info { position:absolute;bottom:0;left:0;right:0;padding:10px 12px; }
+    .dc-name {
+      font-size:.82rem;font-weight:700;color:#fff;
+      line-height:1.2;letter-spacing:-.01em;
+    }
+    .dc-sub { font-size:.62rem;color:rgba(255,255,255,.72);margin-top:2px; }
 
-    /* ACTION LIST — clean, no color stripes */
-    .act-list { display:flex;flex-direction:column;gap:1px;background:var(--border);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm); }
-    .act-row { display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--bg);text-decoration:none;color:var(--text);transition:background .15s; }
-    .act-row:hover { background:#F8FAFC; }
-    .act-icon { font-size:1.25rem;width:32px;text-align:center;flex-shrink:0; }
-    .act-text { flex:1; }
-    .act-label { font-size:.9rem;font-weight:600;color:var(--text); }
-    .act-desc-s { font-size:.75rem;color:var(--text-2);margin-top:1px; }
-    .act-arr { font-size:.85rem;color:var(--text-3);flex-shrink:0; }
-    .act-row:hover .act-arr { color:var(--accent); }
+    /* ── ACTION LIST ── */
+    .act-list {
+      border-radius:14px;overflow:hidden;
+      border:1px solid var(--border);background:var(--bg);
+      box-shadow:var(--shadow-sm);
+    }
+    .act-row {
+      display:flex;align-items:center;gap:16px;
+      padding:18px 20px;
+      text-decoration:none;color:var(--text);
+      transition:background .12s;
+      border-bottom:1px solid var(--border);
+    }
+    .act-row:last-child { border-bottom:none; }
+    .act-row:hover { background:var(--bg-warm); }
+    .act-icon { font-size:1.2rem;width:28px;text-align:center;flex-shrink:0; }
+    .act-text { flex:1;min-width:0; }
+    .act-label { font-size:.88rem;font-weight:600;color:var(--text);line-height:1.3; }
+    .act-desc { font-size:.74rem;color:var(--text-2);margin-top:2px; }
+    .act-arr { font-size:.8rem;color:var(--text-3);flex-shrink:0;transition:color .15s,transform .15s; }
+    .act-row:hover .act-arr { color:var(--accent);transform:translateX(2px); }
 
-    /* SKELETON */
-    .sk { background:linear-gradient(90deg,#f0f4f8 25%,#e8ecf0 50%,#f0f4f8 75%);background-size:400px 100%;animation:shimmer 1.4s infinite;border-radius:16px; }
+    /* ── SKELETON ── */
+    .sk {
+      background:linear-gradient(90deg,#eae6df 25%,#f2efe8 50%,#eae6df 75%);
+      background-size:600px 100%;animation:shimmer 1.5s infinite;
+      border-radius:12px;
+    }
 
-    .spacer { height:52px; }
+    .spacer { height:60px; }
 
-    /* BOTTOM NAV */
-    nav.botnav { display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid var(--border);z-index:200;padding:6px 0 max(6px,env(safe-area-inset-bottom)); }
-    @media(max-width:768px) { nav.botnav{display:flex;} body{padding-bottom:68px;} }
-    .tab { flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:var(--text-3);font-size:.6rem;font-weight:500;gap:2px;padding:4px 0;transition:color .15s; }
+    /* ── BOTTOM NAV ── */
+    nav.botnav {
+      display:none;position:fixed;bottom:0;left:0;right:0;
+      background:rgba(255,255,255,.98);backdrop-filter:blur(12px);
+      border-top:1px solid var(--border);z-index:200;
+      padding:6px 0 max(6px,env(safe-area-inset-bottom));
+    }
+    @media(max-width:768px){ nav.botnav{display:flex;} body{padding-bottom:72px;} }
+    .tab {
+      flex:1;display:flex;flex-direction:column;align-items:center;
+      justify-content:center;text-decoration:none;
+      color:var(--text-3);font-size:.58rem;font-weight:500;
+      gap:3px;padding:4px 0;transition:color .15s;
+    }
     .tab.active,.tab:hover { color:var(--accent); }
     .tab-ic { font-size:1.2rem;line-height:1; }
 
-    @media(max-width:520px) { .greeting{padding:24px 16px 20px;} .sec{padding:28px 16px 0;} .feat{height:220px;} .stats-strip{padding:10px 16px;} }
+    @media(max-width:520px){
+      .greeting { padding:30px 16px 26px; }
+      .stats-strip { padding:12px 16px; }
+      .feat { height:260px; }
+      .feat-body { padding:20px; }
+    }
   </style>
 </head>
 <body>
 
 <nav class="topnav">
-  <a href="main.html" class="nav-logo"><span class="nav-logo-dot"></span>ViajeraMente</a>
+  <a href="main.html" class="nav-logo">
+    <span class="nav-logo-mark">VM</span>
+    ViajeraMente
+  </a>
   <div class="nav-dlinks">
     <a href="guias.html"   class="nav-dlink">Guías</a>
     <a href="plan.html"    class="nav-dlink">Planifica</a>
     <a href="fechas.html"  class="nav-dlink">Por fechas</a>
     <a href="mapa.html"    class="nav-dlink">Mapa</a>
-    <a href="ranking.html" class="nav-dlink">🏆 Ranking</a>
+    <a href="ranking.html" class="nav-dlink">Ranking</a>
   </div>
   <div class="nav-right">
     <a href="profile.html" class="nav-avatar" id="navAvatar" title="Mi perfil"></a>
@@ -155,7 +344,7 @@
 <div class="mob-ov" id="mobOv">
   <div class="mob-menu">
     <div class="mob-head">
-      <a href="main.html" class="nav-logo"><span class="nav-logo-dot"></span>ViajeraMente</a>
+      <a href="main.html" class="nav-logo"><span class="nav-logo-mark">VM</span>ViajeraMente</a>
       <button class="mob-x" id="mobX">✕</button>
     </div>
     <div class="mob-links">
@@ -176,7 +365,7 @@
 
   <div class="greeting">
     <div class="g-inner">
-      <div class="g-label" id="gLabel">Cargando…</div>
+      <div class="g-eyebrow" id="gLabel">Cargando…</div>
       <h1>Tu próximo destino<br>te está <em>esperando</em></h1>
       <p class="g-sub">Descubre, planifica e inspírate para tu próxima aventura.</p>
     </div>
@@ -184,88 +373,92 @@
 
   <div class="stats-strip" id="statsStrip" style="display:none;"></div>
 
-  <div class="sec">
-    <div class="sec-head">
-      <span class="sec-title">✨ Destino del día</span>
-      <a href="guias.html" class="sec-link">Ver todos →</a>
-    </div>
-    <a href="#" class="feat feat-loading" id="featCard">
-      <img id="featImg" src="" alt="" loading="eager" style="display:none;">
-      <div class="feat-ov"></div>
-      <div class="feat-body">
-        <div class="feat-chip">🌍 <span id="featContinent"></span></div>
-        <div class="feat-name" id="featName">Cargando…</div>
-        <div class="feat-tag"  id="featTag"></div>
+  <div class="content">
+
+    <div class="sec">
+      <div class="sec-head">
+        <span class="sec-title">Destino del día</span>
+        <a href="guias.html" class="sec-link">Ver todos →</a>
       </div>
-      <div class="feat-arr">→</div>
-    </a>
-  </div>
+      <a href="#" class="feat feat-shimmer" id="featCard">
+        <img class="feat-img" id="featImg" src="" alt="" loading="eager">
+        <div class="feat-gradient"></div>
+        <div class="feat-body">
+          <div class="feat-region">🌍 <span id="featContinent">…</span></div>
+          <div class="feat-name" id="featName">Cargando…</div>
+          <div class="feat-tagline" id="featTag"></div>
+        </div>
+        <div class="feat-cta">→</div>
+      </a>
+    </div>
 
-  <div class="sec">
-    <div class="sec-head">
-      <span class="sec-title">🔭 Descubrir destinos</span>
-      <a href="guias.html" class="sec-link">Explorar →</a>
+    <div class="sec">
+      <div class="sec-head">
+        <span class="sec-title">Descubrir destinos</span>
+        <a href="guias.html" class="sec-link">Explorar →</a>
+      </div>
+      <div class="dest-grid" id="destGrid">
+        <div style="height:160px;" class="sk"></div>
+        <div style="height:160px;" class="sk"></div>
+        <div style="height:160px;" class="sk"></div>
+        <div style="height:160px;" class="sk"></div>
+      </div>
     </div>
-    <div class="dest-grid" id="destGrid">
-      <div style="height:156px;" class="sk"></div>
-      <div style="height:156px;" class="sk"></div>
-      <div style="height:156px;" class="sk"></div>
-      <div style="height:156px;" class="sk"></div>
-    </div>
-  </div>
 
-  <div class="sec">
-    <div class="sec-head"><span class="sec-title">⚡ Empieza por aquí</span></div>
-    <div class="act-list">
-      <a href="plan.html" class="act-row">
-        <span class="act-icon">✈️</span>
-        <div class="act-text">
-          <div class="act-label">Planifica tu aventura</div>
-          <div class="act-desc-s">7 preguntas, 25 destinos personalizados</div>
-        </div>
-        <span class="act-arr">→</span>
-      </a>
-      <a href="guias.html" class="act-row">
-        <span class="act-icon">🗺️</span>
-        <div class="act-text">
-          <div class="act-label">Guías de destinos</div>
-          <div class="act-desc-s">+40 destinos: visas, precios, lo mejor</div>
-        </div>
-        <span class="act-arr">→</span>
-      </a>
-      <a href="fechas.html" class="act-row">
-        <span class="act-icon">📅</span>
-        <div class="act-text">
-          <div class="act-label">Ya tengo fechas</div>
-          <div class="act-desc-s">Te digo dónde ir según tu mes</div>
-        </div>
-        <span class="act-arr">→</span>
-      </a>
-      <a href="mapa.html" class="act-row">
-        <span class="act-icon">🌍</span>
-        <div class="act-text">
-          <div class="act-label">Mi mapa mundial</div>
-          <div class="act-desc-s">Todos los países que has pisado</div>
-        </div>
-        <span class="act-arr">→</span>
-      </a>
-      <a href="ranking.html" class="act-row">
-        <span class="act-icon">🏆</span>
-        <div class="act-text">
-          <div class="act-label">Ranking viajeros</div>
-          <div class="act-desc-s">¿Quién ha viajado más? Súbete al podio</div>
-        </div>
-        <span class="act-arr">→</span>
-      </a>
-      <a href="profile.html" class="act-row">
-        <span class="act-icon">👤</span>
-        <div class="act-text">
-          <div class="act-label">Mi perfil viajero</div>
-          <div class="act-desc-s">Países visitados, viajes y estilo</div>
-        </div>
-        <span class="act-arr">→</span>
-      </a>
+    <div class="sec">
+      <div class="sec-head"><span class="sec-title">Empieza por aquí</span></div>
+      <div class="act-list">
+        <a href="plan.html" class="act-row">
+          <span class="act-icon">✈️</span>
+          <div class="act-text">
+            <div class="act-label">Planifica tu aventura</div>
+            <div class="act-desc">Responde 9 preguntas, descubre destinos a tu medida</div>
+          </div>
+          <span class="act-arr">→</span>
+        </a>
+        <a href="guias.html" class="act-row">
+          <span class="act-icon">🗺️</span>
+          <div class="act-text">
+            <div class="act-label">Guías de destinos</div>
+            <div class="act-desc">+40 destinos: visas, precios, lo mejor de cada lugar</div>
+          </div>
+          <span class="act-arr">→</span>
+        </a>
+        <a href="fechas.html" class="act-row">
+          <span class="act-icon">📅</span>
+          <div class="act-text">
+            <div class="act-label">Ya tengo fechas</div>
+            <div class="act-desc">Dime cuándo viajas y te digo adónde</div>
+          </div>
+          <span class="act-arr">→</span>
+        </a>
+        <a href="mapa.html" class="act-row">
+          <span class="act-icon">🌍</span>
+          <div class="act-text">
+            <div class="act-label">Mi mapa mundial</div>
+            <div class="act-desc">Todos los países que has pisado</div>
+          </div>
+          <span class="act-arr">→</span>
+        </a>
+        <a href="ranking.html" class="act-row">
+          <span class="act-icon">🏆</span>
+          <div class="act-text">
+            <div class="act-label">Ranking viajeros</div>
+            <div class="act-desc">Sistema de puntos y podio de la comunidad</div>
+          </div>
+          <span class="act-arr">→</span>
+        </a>
+        <a href="profile.html" class="act-row">
+          <span class="act-icon">👤</span>
+          <div class="act-text">
+            <div class="act-label">Mi perfil viajero</div>
+            <div class="act-desc">Países visitados, viajes y estilo</div>
+          </div>
+          <span class="act-arr">→</span>
+        </a>
+      </div>
     </div>
+
   </div>
 
   <div class="spacer"></div>
@@ -284,6 +477,7 @@
   var token = localStorage.getItem('token');
   if (!token) window.location.replace('login.html');
 
+  // Mobile menu
   var mobOv = document.getElementById('mobOv');
   document.getElementById('navBurger').onclick = function(){ mobOv.classList.add('open'); document.body.style.overflow='hidden'; };
   document.getElementById('mobX').onclick = closeMob;
@@ -291,11 +485,23 @@
   function closeMob() { mobOv.classList.remove('open'); document.body.style.overflow=''; }
   function logout() { localStorage.removeItem('token'); window.location.replace('login.html'); }
 
-  // Strip existing Pexels query params before adding ours
+  // Build clean Pexels URL
   function photoUrl(raw, h, w) {
     if (!raw) return '';
     var base = raw.split('?')[0];
     return base + '?auto=compress&cs=tinysrgb&h=' + (h||700) + '&w=' + (w||1200);
+  }
+
+  // Pexels fallback: build URL from known photo IDs indexed by destination name keywords
+  var PEXELS_FALLBACKS = {
+    'noruega':   'https://images.pexels.com/photos/1891550/pexels-photo-1891550.jpeg',
+    'noruega-fiordos': 'https://images.pexels.com/photos/1891550/pexels-photo-1891550.jpeg',
+    'japan':     'https://images.pexels.com/photos/590478/pexels-photo-590478.jpeg',
+    'default':   'https://images.pexels.com/photos/2356059/pexels-photo-2356059.jpeg'
+  };
+
+  function getFallbackPhoto(slug) {
+    return PEXELS_FALLBACKS[slug] || PEXELS_FALLBACKS['default'];
   }
 
   function buildGreeting(name) {
@@ -319,28 +525,37 @@
     var strip    = document.getElementById('statsStrip');
     var countries = user.stats_countries || (user.countries_visited && user.countries_visited.length) || 0;
     var km       = user.km_traveled || 0;
-    var lvl      = user.travel_level || 'huevo';
-    lvl = lvl.charAt(0).toUpperCase() + lvl.slice(1);
+    var rank     = user.rank_level || 'Curioso';
+    var pts      = user.points || 0;
     strip.innerHTML =
       '<span class="s-pill">🌍 <strong>' + countries + '</strong>&nbsp;países</span>' +
       (km > 0 ? '<span class="s-pill">✈️ <strong>' + km.toLocaleString('es-ES') + '</strong>&nbsp;km</span>' : '') +
-      '<span class="s-level">⭐ ' + lvl + '</span>';
+      '<span class="s-level">⭐ ' + rank + ' · ' + pts + ' pts</span>';
     strip.style.display = 'flex';
   }
 
   function setFeatured(d) {
     var card = document.getElementById('featCard');
     var img  = document.getElementById('featImg');
+
     card.href = 'destino.html?slug=' + d.slug;
-    card.classList.remove('feat-loading');
-    if (d.hero_photo_url) {
-      var src = photoUrl(d.hero_photo_url, 700, 1200);
-      img.style.display = '';
-      img.src = src;
-      // fallback: hide only if error
-      img.onerror = function(){ img.style.display='none'; };
-    }
-    document.getElementById('featContinent').textContent = d.continent || d.region || '';
+    card.classList.remove('feat-shimmer');
+
+    // Always show a photo: use hero_photo_url or fallback
+    var photoSrc = d.hero_photo_url
+      ? photoUrl(d.hero_photo_url, 700, 1400)
+      : photoUrl(getFallbackPhoto(d.slug), 700, 1400);
+
+    img.src = photoSrc;
+    img.alt = d.name || '';
+
+    // If the chosen URL fails, try the default fallback
+    img.onerror = function() {
+      var fb = photoUrl(PEXELS_FALLBACKS['default'], 700, 1400);
+      if (img.src !== fb) { img.src = fb; }
+    };
+
+    document.getElementById('featContinent').textContent = d.continent || d.region || 'Destino';
     document.getElementById('featName').textContent      = d.name;
     document.getElementById('featTag').textContent       = d.tagline || '';
   }
@@ -352,11 +567,15 @@
       var a = document.createElement('a');
       a.href      = 'destino.html?slug=' + d.slug;
       a.className = 'dest-card';
-      var imgUrl  = d.hero_photo_url ? photoUrl(d.hero_photo_url, 400, 600) : '';
-      a.innerHTML = (imgUrl ? '<img src="' + imgUrl + '" alt="' + d.name + '" loading="lazy">' : '') +
-        '<div class="dc-ov"></div><div class="dc-info">' +
-        '<div class="dc-name">' + d.name + '</div>' +
-        '<div class="dc-reg">' + (d.continent||d.region||'') + '</div></div>';
+      var rawUrl  = d.hero_photo_url || getFallbackPhoto(d.slug);
+      var imgUrl  = photoUrl(rawUrl, 400, 600);
+      a.innerHTML =
+        '<img src="' + imgUrl + '" alt="' + d.name + '" loading="lazy">' +
+        '<div class="dc-ov"></div>' +
+        '<div class="dc-info">' +
+          '<div class="dc-name">' + d.name + '</div>' +
+          '<div class="dc-sub">' + (d.continent||d.region||'') + '</div>' +
+        '</div>';
       el.appendChild(a);
     });
   }
@@ -374,7 +593,7 @@
     try {
       var results = await Promise.all([
         fetch(API + '/api/me', { headers:{ Authorization:'Bearer ' + token } }),
-        fetch(API + '/api/destinations?limit=80')
+        fetch(API + '/api/destinations?limit=100')
       ]);
       var meRes = results[0], destsRes = results[1];
       if (meRes.status === 401) { localStorage.removeItem('token'); window.location.replace('login.html'); return; }
@@ -386,12 +605,20 @@
       setStats(user);
 
       if (destsRes.ok) {
-        var data      = await destsRes.json();
-        var withPhoto = data.destinations.filter(function(d){ return d.hero_photo_url; });
-        var top       = withPhoto.slice().sort(function(a,b){ return (b.guide_quality||0)-(a.guide_quality||0); }).slice(0,15);
-        var today     = top[new Date().getDate() % top.length];
+        var data = await destsRes.json();
+        var dests = data.destinations || [];
+
+        // Prefer destinations with photos, but don't require them (we have fallbacks)
+        var withPhoto = dests.filter(function(d){ return d.hero_photo_url; });
+        var pool = withPhoto.length >= 10 ? withPhoto : dests;
+
+        // Featured: pick from top quality destinations, rotate by day of month
+        var top = pool.slice().sort(function(a,b){ return (b.guide_quality||0)-(a.guide_quality||0); }).slice(0,20);
+        var today = top[new Date().getDate() % top.length];
         setFeatured(today);
-        var grid = shuffle(withPhoto.filter(function(d){ return d.slug !== today.slug; })).slice(0,4);
+
+        // Grid: shuffle the rest
+        var grid = shuffle(pool.filter(function(d){ return d.slug !== today.slug; })).slice(0,4);
         buildDestGrid(grid);
       }
 
