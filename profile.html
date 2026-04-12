@@ -3113,6 +3113,23 @@ function saveLivedPlaces() {
   renderLivedList();
   closeLivedPicker();
   showToast('🏠 Lugares guardados', 'success');
+  // Sync to API: mark lived countries with is_lived = true
+  if (token) {
+    const nameToNumeric = {};
+    Object.entries(COUNTRY_NAMES || {}).forEach(([numId, cname]) => { nameToNumeric[normalizeStr(cname)] = numId; });
+    livedPlaces.forEach(p => {
+      const numId = nameToNumeric[normalizeStr(p.country)];
+      if (!numId) return;
+      const alpha2 = NUMERIC_TO_ALPHA2[String(numId)];
+      if (!alpha2) return;
+      const continent = NUMERIC_TO_CONTINENT[String(numId)] || null;
+      fetch(`${API_BASE}/api/visited-countries`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ country_code: alpha2, country_name: p.country, continent, is_lived: true })
+      }).catch(() => {});
+    });
+  }
 }
 
 // ── API ──

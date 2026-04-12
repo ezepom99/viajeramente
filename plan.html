@@ -1409,6 +1409,22 @@ function restart() {
 }
 
 // ── Destination normalization (DB → scoring format) ──
+// Strip auto-generated filler phrases from API taglines
+function sanitizeTagline(tagline) {
+  if (!tagline) return '';
+  // Remove common auto-generated location-description patterns
+  const fillerPatterns = [
+    /está en \w+[,.]?\s*(ideal para|perfecto para)[^.]*\./gi,
+    /ideal para viaje (cómodo|confortable|familiar)[^.]*\./gi,
+    /destino (de|en) [A-Z]\w+[,.]?\s*perfecto para[^.]*\./gi,
+    /ubicado en [A-Z]\w+[^.]*\./gi,
+  ];
+  let clean = tagline;
+  fillerPatterns.forEach(pat => { clean = clean.replace(pat, '').trim(); });
+  // If after cleaning it's very short or empty, return empty so the card shows without tagline
+  return clean.length > 10 ? clean : '';
+}
+
 function normalizeDest(d) {
   // continent → zone
   const zoneMap = {
@@ -1472,9 +1488,22 @@ function normalizeDest(d) {
     vibes: vibes.length ? vibes : ['adventure','nature'],
     styles: styles.length ? styles : ['comfort'],
     budget,
-    interests: vibes, // use vibes as proxy for interests
+    // Build interests: start from vibes proxy, then add food if travel_styles includes gastronomy-related
+    interests: (function() {
+      const base = [...vibes];
+      const stylesRaw = (d.travel_styles || []).map(s => s.toLowerCase());
+      if (stylesRaw.some(s => /gastro|food|culinari|cocina|cuisine/.test(s))) {
+        if (!base.includes('food')) base.push('food');
+      }
+      // Add water/city/wildlife from keywords in name or tagline
+      const txt = ((d.tagline || '') + ' ' + (d.name || '')).toLowerCase();
+      if (/playa|beach|mar |ocean|isla |snorkel|surf/.test(txt) && !base.includes('water')) base.push('water');
+      if (/ciudad|city|metro|urban|capital/.test(txt) && !base.includes('city')) base.push('city');
+      if (/safari|fauna|wildlife|leopard|elefant|gorila/.test(txt) && !base.includes('wildlife')) base.push('wildlife');
+      return base;
+    })(),
     duration,
-    tagline: d.tagline || '',
+    tagline: sanitizeTagline(d.tagline || ''),
     hero_photo_url: d.hero_photo_url || '',
     type: d.type || 'country',
     guide: { when: '', todo: [], sleep: {}, daily: {}, how: '', tip: '' }
@@ -2054,7 +2083,7 @@ let DESTINATIONS = [
   { id:'albania', name:'Albania', country:'Albania', emoji:'🦅', zone:'europe',
     climate:'warm', vibes:['adventure','nature'],
     styles:['backpacker','campervan'], budget:['budget'],
-    interests:['water','photos','silence'],
+    interests:['water','photos','silence','food'],
     duration:['week','twoweeks'],
     tagline:'La Riviera albanesa sin masas: calas azules y precios de 10 años atrás',
     guide:{ when:'', todo:[], sleep:{}, daily:{}, how:'', tip:'' } },
@@ -2062,7 +2091,7 @@ let DESTINATIONS = [
   { id:'montenegro', name:'Montenegro', country:'Montenegro', emoji:'🏔️', zone:'europe',
     climate:'warm', vibes:['nature','adventure','romantic'],
     styles:['backpacker','comfort'], budget:['budget','mid'],
-    interests:['water','photos','city'],
+    interests:['water','photos','city','food'],
     duration:['week'],
     tagline:'Bahía de Kotor, lagos de montaña y costa adriática sin masas',
     guide:{ when:'', todo:[], sleep:{}, daily:{}, how:'', tip:'' } },
@@ -2094,7 +2123,7 @@ let DESTINATIONS = [
   { id:'suiza', name:'Suiza', country:'Suiza', emoji:'🏔️', zone:'europe',
     climate:'cold', vibes:['nature','romantic','adventure'],
     styles:['comfort','sport'], budget:['luxury'],
-    interests:['photos','silence','wildlife'],
+    interests:['photos','silence','wildlife','food'],
     duration:['week'],
     tagline:'Alpes, trenes panorámicos y el Interlaken de las pelis de aventura',
     guide:{ when:'', todo:[], sleep:{}, daily:{}, how:'', tip:'' } },
@@ -2118,7 +2147,7 @@ let DESTINATIONS = [
   { id:'estonia', name:'Estonia', country:'Estonia', emoji:'🌲', zone:'europe',
     climate:'cold', vibes:['culture','nature'],
     styles:['backpacker','comfort'], budget:['budget','mid'],
-    interests:['city','photos','silence'],
+    interests:['city','photos','silence','food'],
     duration:['weekend','week'],
     tagline:'Tallin medieval, bosques vírgenes y la capital digital de Europa',
     guide:{ when:'', todo:[], sleep:{}, daily:{}, how:'', tip:'' } },
@@ -2126,7 +2155,7 @@ let DESTINATIONS = [
   { id:'lituania', name:'Lituania', country:'Lituania', emoji:'🌅', zone:'europe',
     climate:'cold', vibes:['culture','nature'],
     styles:['backpacker'], budget:['budget'],
-    interests:['city','photos'],
+    interests:['city','photos','food'],
     duration:['weekend','week'],
     tagline:'Vilna barroca, dunas de arena y naturaleza báltica sin explorar',
     guide:{ when:'', todo:[], sleep:{}, daily:{}, how:'', tip:'' } },
@@ -2134,7 +2163,7 @@ let DESTINATIONS = [
   { id:'malta', name:'Malta', country:'Malta', emoji:'⚓', zone:'europe',
     climate:'warm', vibes:['culture','romantic'],
     styles:['comfort'], budget:['mid'],
-    interests:['water','photos','city'],
+    interests:['water','photos','city','food'],
     duration:['weekend','week'],
     tagline:'Valeta joya barroca, Gozo de aguas turquesas y templos megalíticos',
     guide:{ when:'', todo:[], sleep:{}, daily:{}, how:'', tip:'' } },
@@ -2598,6 +2627,11 @@ function renderResults() {
   let filtered = DESTINATIONS
     .filter(d => activeTypeFilter === 'all' || (d.type || 'country') === activeTypeFilter);
 
+  // If the type filter yields no candidates at all, fall back to all destinations
+  if (filtered.length === 0 && activeTypeFilter !== 'all') {
+    filtered = DESTINATIONS;
+  }
+
   let scored = filtered.map(d => ({ dest: d, score: scoreDestination(d, answers) }));
   scored.sort((a,b) => b.score - a.score);
 
@@ -2605,8 +2639,7 @@ function renderResults() {
   let topResults = scored.filter(item => item.score >= 0).slice(0, 8);
   let relaxedNote = '';
 
-  // FIX 3: If fewer than 3 results pass the score threshold, relax and show best available
-  // (only relax scoring, not the type filter — respect what the user asked for)
+  // If fewer than 3 results pass the score threshold, relax and show best available
   if (topResults.length < 3 && scored.length >= 3) {
     topResults = scored.slice(0, 8);
     relaxedNote = '<p class="relaxed-note">No encontramos coincidencia exacta, pero te puede gustar... 👇</p>';
@@ -2618,7 +2651,7 @@ function renderResults() {
   const rankLabels  = ['🥇 Mejor opción', '🥈 Segunda opción', '🥉 Tercera opción', '4.ª opción', '5.ª opción', '6.ª opción', '7.ª opción', '8.ª opción'];
 
   if (!topResults.length) {
-    document.getElementById('resultsList').innerHTML = '<p style="text-align:center;color:var(--text-secondary);padding:32px">No hay destinos disponibles para esta selección. Prueba a cambiar el tipo de viaje.</p>';
+    document.getElementById('resultsList').innerHTML = '<p style="text-align:center;color:var(--text-secondary);padding:32px">Prueba con otros criterios de búsqueda para ver destinos.</p>';
     return;
   }
 
@@ -2804,14 +2837,16 @@ function showResults() {
     if (t in typeCounts) typeCounts[t]++;
   });
 
-  // Always render all 4 pills; grey out types with 0 results
+  // Only render pills that have destinations
   const allCount = DESTINATIONS.length;
-  const pills = [
+  const allPills = [
     { type: 'all',     label: '🌍 Todos',   count: allCount },
     { type: 'country', label: '🌍 Países',   count: typeCounts.country },
     { type: 'city',    label: '🏙️ Ciudades', count: typeCounts.city },
     { type: 'route',   label: '🗺️ Rutas',    count: typeCounts.route },
   ];
+  // Hide pills with 0 destinations entirely (except 'all')
+  const pills = allPills.filter(p => p.type === 'all' || p.count > 0);
 
   const pillsHtml = `
     <div class="type-pills-wrap">
@@ -2819,8 +2854,7 @@ function showResults() {
       <div class="type-pills">
         ${pills.map(p => {
           const isActive = p.type === 'all' ? ' active' : '';
-          const isDisabled = p.count === 0 ? ' disabled' : '';
-          return `<button class="type-pill${isActive}${isDisabled}" data-type="${p.type}" onclick="setTypeFilter('${p.type}')">${p.label}</button>`;
+          return `<button class="type-pill${isActive}" data-type="${p.type}" onclick="setTypeFilter('${p.type}')">${p.label}</button>`;
         }).join('')}
       </div>
     </div>`;
