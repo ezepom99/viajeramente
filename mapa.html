@@ -426,7 +426,7 @@
     <span class="layer-toggle"></span>
     🏛️ 7 Maravillas Modernas
   </div>
-  <div class="layer-item" id="layer-maravillas_natural" onclick="toggleLayer('maravillas_natural')">
+  <div class="layer-item" id="layer-maravillas_natural" onclick="toggleLayer('maravillas_natural')" style="display:none;">
     <span class="layer-toggle"></span>
     🌿 7 Maravillas Naturales
   </div>
@@ -670,7 +670,7 @@ function initMap() {
   });
 
   // CARTO Voyager — shows labels in local Latin script, no Arabic
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
     subdomains: 'abcd',
     maxZoom: 19,
