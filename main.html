@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ViajeraMente — Inicio</title>
+  <meta name="description" content="Tu punto de partida para descubrir el mundo.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,720 +12,362 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --bg: #FFFFFF;
-      --bg-soft: #F8FAFC;
-      --bg-card: #FFFFFF;
-      --text: #0F172A;
-      --text-secondary: #64748B;
-      --text-muted: #9CA3AF;
-      --border: #E2E8F0;
-      --accent: #0EA5E9;
-      --accent-light: #E0F2FE;
-      --accent-text: #0284C7;
-      --teal: #10B981;
-      --teal-light: #D1FAE5;
-      --gold: #F5A623;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,.07);
+      --bg: #FFFFFF; --bg-soft: #F8FAFC; --text: #0F172A;
+      --text-secondary: #64748B; --text-muted: #94A3B8; --border: #E2E8F0;
+      --accent: #0EA5E9; --accent-dark: #0284C7; --accent-light: #E0F2FE;
+      --teal: #10B981; --gold: #F59E0B; --purple: #8B5CF6; --rose: #F43F5E; --slate: #475569;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
       --shadow-md: 0 4px 16px rgba(0,0,0,.08);
-      --shadow-lg: 0 8px 32px rgba(0,0,0,.1);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.12);
     }
-
     html { scroll-behavior: smooth; }
+    body { font-family:'Inter',-apple-system,sans-serif; color:var(--text); background:var(--bg-soft); -webkit-font-smoothing:antialiased; overflow-x:hidden; min-height:100vh; font-size:15px; }
+    h1,h2,h3,h4 { font-family:'Space Grotesk',sans-serif; }
+    @keyframes fadeUp    { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes shimmer   { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
 
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      color: var(--text);
-      background: var(--bg-soft);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      min-height: 100vh;
-      font-size: 15px;
+    /* NAV */
+    nav.topnav {
+      position:fixed;top:0;left:0;right:0;z-index:200;height:56px;
+      background:rgba(255,255,255,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;
+      padding:0 20px;animation:slideDown .35s ease both;
     }
+    .nav-logo { font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:-.02em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:6px; }
+    .nav-logo-dot { width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0; }
+    .nav-dlinks { display:flex;align-items:center;gap:2px; }
+    .nav-dlink { font-size:.81rem;font-weight:500;color:var(--text-secondary);text-decoration:none;padding:6px 10px;border-radius:8px;transition:all .18s; }
+    .nav-dlink:hover { color:var(--text);background:var(--bg-soft); }
+    @media(max-width:768px){.nav-dlinks{display:none;}}
+    .nav-right { display:flex;align-items:center;gap:10px; }
+    .nav-avatar { width:32px;height:32px;border-radius:50%;background:var(--accent-light);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--accent);text-decoration:none;overflow:hidden;transition:border-color .2s;flex-shrink:0; }
+    .nav-avatar:hover { border-color:var(--accent); }
+    .nav-avatar img { width:100%;height:100%;object-fit:cover; }
+    .nav-burger { display:none;background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--text);padding:4px 6px;border-radius:8px;transition:background .18s;line-height:1; }
+    .nav-burger:hover { background:var(--bg-soft); }
+    @media(max-width:768px){.nav-burger{display:flex;align-items:center;}}
 
-    h1, h2, h3, h4, h5 { font-family: 'Space Grotesk', sans-serif; }
+    /* MOBILE MENU */
+    .mob-ov { display:none;position:fixed;inset:0;z-index:500;background:rgba(15,23,42,.4);backdrop-filter:blur(4px); }
+    .mob-ov.open { display:block; }
+    .mob-menu { position:absolute;top:0;left:0;right:0;background:#fff;border-bottom:1px solid var(--border);padding:14px 18px 22px;transform:translateY(-100%);transition:transform .24s cubic-bezier(.4,0,.2,1); }
+    .mob-ov.open .mob-menu { transform:translateY(0); }
+    .mob-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:18px; }
+    .mob-x { background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--text-muted);padding:4px;border-radius:6px; }
+    .mob-x:hover { color:var(--text); }
+    .mob-links { display:flex;flex-direction:column;gap:2px; }
+    .mob-link { display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;text-decoration:none;color:var(--text);font-size:.95rem;font-weight:500;transition:background .15s; }
+    .mob-link:hover { background:var(--bg-soft); }
+    .mob-link .mi { font-size:1.15rem;width:26px;text-align:center; }
+    .mob-div { height:1px;background:var(--border);margin:8px 0; }
+    .mob-out { display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;color:var(--text-muted);font-size:.95rem;font-weight:500;background:none;border:none;cursor:pointer;width:100%;font-family:inherit;transition:background .15s,color .15s; }
+    .mob-out:hover { background:var(--bg-soft);color:var(--text); }
 
-    @keyframes fadeInUp  { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes spin      { to { transform: rotate(360deg); } }
+    /* PAGE */
+    .page { margin-top:56px; }
 
-    /* ── TOP NAV ── */
-    nav.top-nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 20px; height: 56px;
-      display: flex; align-items: center; justify-content: space-between;
-      animation: slideDown .35s ease both;
-    }
-    .nav-logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.1rem; font-weight: 700; letter-spacing: -.02em;
-      color: var(--text); text-decoration: none;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .nav-logo-dot {
-      width: 8px; height: 8px;
-      background: var(--accent); border-radius: 50%; flex-shrink: 0;
-    }
-    .nav-links {
-      display: flex; align-items: center; gap: 2px;
-    }
-    .nav-link {
-      font-size: .82rem; font-weight: 500; color: var(--text-secondary);
-      text-decoration: none; padding: 6px 10px; border-radius: 8px;
-      transition: all .2s;
-    }
-    .nav-link:hover { color: var(--text); background: var(--bg-soft); }
-    @media (max-width: 640px) { .nav-links { display: none; } }
-    .nav-right { display: flex; align-items: center; gap: 10px; }
-    .nav-avatar {
-      width: 34px; height: 34px; border-radius: 50%;
-      background: var(--accent-light);
-      border: 2px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: .72rem; font-weight: 700; color: var(--accent);
-      text-decoration: none; overflow: hidden; transition: border-color .2s;
-      flex-shrink: 0; cursor: pointer;
-    }
-    .nav-avatar:hover { border-color: var(--accent); }
-    .nav-avatar img { width:100%; height:100%; object-fit:cover; }
-    .nav-hamburger {
-      display: none; background: none; border: none; cursor: pointer;
-      font-size: 1.3rem; color: var(--text); padding: 4px 6px;
-      line-height: 1; border-radius: 8px; transition: background .2s;
-    }
-    .nav-hamburger:hover { background: var(--bg-soft); }
-    @media (max-width: 640px) {
-      .nav-hamburger { display: flex; align-items: center; }
-    }
+    /* GREETING */
+    .greeting { background:var(--bg);border-bottom:1px solid var(--border);padding:26px 20px 22px; }
+    .g-inner { max-width:700px;margin:0 auto; }
+    .g-eyebrow { font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;display:flex;align-items:center;gap:8px; }
+    .g-eyebrow::before { content:'';width:16px;height:2px;background:var(--accent);border-radius:2px; }
+    .greeting h1 { font-size:clamp(1.4rem,4vw,2rem);font-weight:800;letter-spacing:-.035em;line-height:1.2;color:var(--text);margin-bottom:8px; }
+    .greeting h1 em { font-style:normal;color:var(--accent); }
+    .g-sub { font-size:.87rem;color:var(--text-secondary);line-height:1.55;max-width:460px; }
 
-    /* ── MOBILE OVERLAY MENU ── */
-    .mobile-overlay {
-      display: none; position: fixed; inset: 0; z-index: 2000;
-      background: rgba(0,0,0,.42); backdrop-filter: blur(4px);
-    }
-    .mobile-overlay.open { display: block; }
-    .mobile-drawer {
-      position: absolute; top: 0; left: 0; right: 0;
-      background: #fff; border-bottom: 1px solid var(--border);
-      padding: 16px 20px 24px;
-      transform: translateY(-100%); transition: transform .25s ease;
-    }
-    .mobile-overlay.open .mobile-drawer { transform: translateY(0); }
-    .mobile-drawer-head {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 18px;
-    }
-    .mobile-close {
-      background: none; border: none; cursor: pointer; font-size: 1.3rem;
-      color: var(--text-muted); padding: 4px; border-radius: 6px;
-    }
-    .mobile-links { display: flex; flex-direction: column; gap: 2px; }
-    .mobile-link {
-      display: flex; align-items: center; gap: 12px;
-      padding: 13px 14px; border-radius: 12px;
-      text-decoration: none; color: var(--text);
-      font-size: .95rem; font-weight: 500; transition: background .15s;
-    }
-    .mobile-link:hover { background: var(--bg-soft); }
-    .mobile-link .mi { font-size: 1.15rem; width: 26px; text-align: center; }
-    .mobile-divider { height: 1px; background: var(--border); margin: 8px 0; }
-    .mobile-logout {
-      display: flex; align-items: center; gap: 12px;
-      padding: 13px 14px; border-radius: 12px;
-      color: var(--text-muted); font-size: .95rem; font-weight: 500;
-      background: none; border: none; cursor: pointer; width: 100%;
-      font-family: inherit; transition: color .15s, background .15s;
-    }
-    .mobile-logout:hover { background: var(--bg-soft); color: var(--text); }
+    /* SECTION */
+    .sec { padding:22px 20px 4px;max-width:700px;margin:0 auto; }
+    .sec-head { display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px; }
+    .sec-title { font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--text); }
+    .sec-link { font-size:.78rem;font-weight:600;color:var(--accent);text-decoration:none;transition:color .18s; }
+    .sec-link:hover { color:var(--accent-dark); }
 
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      margin-top: 56px;
-      height: 54vh; min-height: 300px; max-height: 480px;
-      overflow: hidden;
-    }
-    .hero-img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; object-fit: cover; object-position: center 40%;
-    }
-    .hero-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom,
-        rgba(0,0,0,.06) 0%,
-        rgba(0,0,0,.28) 55%,
-        rgba(0,0,0,.72) 100%
-      );
-    }
-    .hero-content {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 0 20px 26px;
-      animation: fadeInUp .5s ease .1s both;
-    }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-      color: rgba(255,255,255,.78); margin-bottom: 8px;
-    }
-    .hero-eyebrow .dot {
-      width: 5px; height: 5px; border-radius: 50%;
-      background: var(--accent); display: inline-block;
-    }
-    .hero h1 {
-      font-size: clamp(1.6rem, 4.5vw, 2.4rem);
-      font-weight: 800; letter-spacing: -.04em; line-height: 1.15;
-      color: #fff; margin-bottom: 14px;
-    }
-    .hero h1 span { color: rgba(255,255,255,.82); }
-    .hero-actions { display: flex; gap: 9px; flex-wrap: wrap; align-items: center; }
-    .btn-hero {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 11px 20px; border-radius: 100px;
-      background: var(--accent); color: #fff;
-      font-size: .85rem; font-weight: 700; font-family: 'Inter', sans-serif;
-      text-decoration: none; transition: all .2s; white-space: nowrap;
-      border: none; cursor: pointer;
-    }
-    .btn-hero:hover { background: var(--accent-text); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(14,165,233,.3); }
-    .btn-hero-ghost {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 11px 18px; border-radius: 100px;
-      border: 1.5px solid rgba(255,255,255,.5); color: #fff;
-      font-size: .85rem; font-weight: 600; font-family: 'Inter', sans-serif;
-      text-decoration: none; transition: all .2s; white-space: nowrap;
-      background: rgba(255,255,255,.1);
-    }
-    .btn-hero-ghost:hover { border-color: rgba(255,255,255,.8); background: rgba(255,255,255,.18); }
+    /* FEATURED */
+    .feat { position:relative;border-radius:18px;overflow:hidden;height:220px;text-decoration:none;display:block;box-shadow:var(--shadow-md);transition:transform .22s,box-shadow .22s; }
+    .feat:hover { transform:translateY(-3px);box-shadow:var(--shadow-lg); }
+    .feat img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;transition:transform .4s; }
+    .feat:hover img { transform:scale(1.04); }
+    .feat-ov { position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.04) 0%,rgba(0,0,0,.62) 100%); }
+    .feat-body { position:absolute;bottom:0;left:0;right:0;padding:18px 20px; }
+    .feat-chip { display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:.63rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:7px; }
+    .feat-name { font-family:'Space Grotesk',sans-serif;font-size:1.45rem;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.15;margin-bottom:3px; }
+    .feat-tag { font-size:.77rem;color:rgba(255,255,255,.82);line-height:1.4; }
+    .feat-arr { position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;transition:background .2s; }
+    .feat:hover .feat-arr { background:rgba(255,255,255,.32); }
 
-    /* ── MAIN CONTENT ── */
-    .page {
-      background: var(--bg);
-      padding-bottom: 80px;
-    }
+    /* DEST ROW */
+    .dest-row { display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none; }
+    .dest-row::-webkit-scrollbar { display:none; }
+    .dest-card { flex:0 0 145px;border-radius:14px;overflow:hidden;text-decoration:none;display:block;box-shadow:var(--shadow-sm);transition:transform .2s,box-shadow .2s;position:relative;height:188px;background:#e0e7ef; }
+    .dest-card:hover { transform:translateY(-2px);box-shadow:var(--shadow-md); }
+    .dest-card img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .35s; }
+    .dest-card:hover img { transform:scale(1.05); }
+    .dc-ov { position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.02) 40%,rgba(0,0,0,.65) 100%); }
+    .dc-info { position:absolute;bottom:0;left:0;right:0;padding:10px 10px 11px; }
+    .dc-name { font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:700;color:#fff;line-height:1.2; }
+    .dc-reg  { font-size:.63rem;color:rgba(255,255,255,.75);margin-top:2px; }
 
-    /* ── TRAVELER STRIP ── */
-    .stats-strip {
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 20px;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 8px; flex-wrap: wrap;
-      animation: fadeInUp .5s ease .2s both;
-    }
-    .stats-pills {
-      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
-    }
-    .stat-pill {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 5px 12px; border-radius: 100px;
-      background: var(--bg-soft); border: 1px solid var(--border);
-      font-size: .78rem; font-weight: 600; color: var(--text);
-      white-space: nowrap;
-    }
-    .stat-pill .sp-icon { font-size: .9rem; }
-    .stat-pill .sp-val { color: var(--accent); }
-    .level-pill {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 5px 12px; border-radius: 100px;
-      background: var(--teal-light); border: 1px solid rgba(16,185,129,.25);
-      font-size: .78rem; font-weight: 700; color: #065F46;
-      white-space: nowrap;
-    }
-    .stats-strip-loading {
-      font-size: .78rem; color: var(--text-muted);
-    }
+    /* ACTIONS */
+    .act-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+    .act-card { background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:18px 16px 14px;text-decoration:none;display:flex;flex-direction:column;transition:border-color .18s,transform .18s,box-shadow .18s;box-shadow:var(--shadow-sm);position:relative;overflow:hidden; }
+    .act-card::before { content:'';position:absolute;top:0;left:0;right:0;height:2.5px;border-radius:16px 16px 0 0; }
+    .act-card.c-blue::before   { background:var(--accent); }
+    .act-card.c-teal::before   { background:var(--teal); }
+    .act-card.c-gold::before   { background:var(--gold); }
+    .act-card.c-purple::before { background:var(--purple); }
+    .act-card.c-slate::before  { background:var(--slate); }
+    .act-card.c-rose::before   { background:var(--rose); }
+    .act-card:hover { transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:#CBD5E1; }
+    .act-icon  { font-size:1.3rem;margin-bottom:9px;line-height:1; }
+    .act-title { font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.25; }
+    .act-desc  { font-size:.7rem;color:var(--text-secondary);line-height:1.5;flex:1; }
+    .act-foot  { display:flex;justify-content:flex-end;margin-top:10px; }
+    .act-arr   { font-size:.78rem;color:var(--text-muted);transition:color .18s; }
+    .act-card:hover .act-arr { color:var(--text-secondary); }
+    .act-badge { position:absolute;top:10px;right:10px;font-size:.53rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:100px;background:var(--accent-light);color:var(--accent-dark); }
 
-    /* ── SECTIONS ── */
-    .section {
-      padding: 28px 20px 0;
-      max-width: 680px; margin: 0 auto;
-    }
-    .section-head {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 14px;
-    }
-    .section-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.05rem; font-weight: 700; letter-spacing: -.02em; color: var(--text);
-    }
-    .section-link {
-      font-size: .78rem; font-weight: 600; color: var(--accent);
-      text-decoration: none; transition: color .2s;
-    }
-    .section-link:hover { color: var(--accent-text); }
+    /* SKELETON */
+    .sk { background:linear-gradient(90deg,#f0f4f8 25%,#e8ecf0 50%,#f0f4f8 75%);background-size:400px 100%;animation:shimmer 1.4s infinite;border-radius:14px; }
 
-    /* ── QUICK ACCESS GRID ── */
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    .quick-item {
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; gap: 7px;
-      padding: 16px 8px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 16px; text-decoration: none;
-      transition: border-color .2s, transform .2s, box-shadow .2s;
-      box-shadow: var(--shadow-sm);
-      min-height: 82px;
-    }
-    .quick-item:hover {
-      border-color: var(--accent); transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-    .quick-icon { font-size: 1.55rem; line-height: 1; }
-    .quick-label {
-      font-size: .72rem; font-weight: 600; color: var(--text);
-      text-align: center; letter-spacing: .01em; line-height: 1.3;
-    }
-    @media (max-width: 380px) {
-      .quick-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    .spacer { height:32px; }
 
-    /* ── DISCOVER DESTINATION CARDS ── */
-    .dest-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-    @media (max-width: 380px) {
-      .dest-grid { grid-template-columns: 1fr; }
-    }
-    .dest-card {
-      position: relative; border-radius: 18px; overflow: hidden;
-      aspect-ratio: 4/3;
-      text-decoration: none;
-      box-shadow: var(--shadow-md);
-      display: block;
-      transition: transform .2s, box-shadow .2s;
-    }
-    .dest-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
-    .dest-card img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform .4s;
-    }
-    .dest-card:hover img { transform: scale(1.04); }
-    .dest-card-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,.72) 100%);
-    }
-    .dest-card-body {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 14px 14px 12px;
-    }
-    .dest-continent {
-      font-size: .6rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
-      color: rgba(255,255,255,.75); margin-bottom: 3px;
-    }
-    .dest-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: .95rem; font-weight: 700; color: #fff; line-height: 1.2;
-      margin-bottom: 7px;
-    }
-    .dest-cta {
-      display: inline-flex; align-items: center; gap: 4px;
-      padding: 4px 10px; border-radius: 100px;
-      background: rgba(255,255,255,.18); backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,.35);
-      font-size: .68rem; font-weight: 700; color: #fff;
-    }
+    /* BOTTOM NAV */
+    nav.botnav { display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid var(--border);z-index:200;padding:6px 0 max(6px,env(safe-area-inset-bottom)); }
+    @media(max-width:768px) { nav.botnav{display:flex;} body{padding-bottom:68px;} }
+    .tab { flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:var(--text-muted);font-size:.6rem;font-weight:500;gap:2px;padding:4px 0;transition:color .15s; }
+    .tab.active,.tab:hover { color:var(--accent); }
+    .tab-ic { font-size:1.2rem;line-height:1; }
 
-    /* ── INSPIRE ROUTES ── */
-    .route-list {
-      display: flex; flex-direction: column; gap: 12px;
-    }
-    .route-card {
-      display: flex; align-items: stretch; gap: 0;
-      border-radius: 18px; overflow: hidden;
-      border: 1px solid var(--border);
-      text-decoration: none;
-      background: var(--bg-card);
-      box-shadow: var(--shadow-sm);
-      transition: transform .2s, box-shadow .2s, border-color .2s;
-    }
-    .route-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: #CBD5E1; }
-    .route-img-wrap {
-      width: 110px; flex-shrink: 0; position: relative; overflow: hidden;
-    }
-    .route-img-wrap img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform .4s;
-    }
-    .route-card:hover .route-img-wrap img { transform: scale(1.05); }
-    .route-body {
-      padding: 14px 16px; flex: 1; display: flex; flex-direction: column; justify-content: center;
-    }
-    .route-tag {
-      font-size: .6rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 5px;
-    }
-    .route-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: .95rem; font-weight: 700; color: var(--text);
-      margin-bottom: 5px; line-height: 1.3;
-    }
-    .route-desc {
-      font-size: .78rem; color: var(--text-secondary); line-height: 1.5; flex: 1;
-    }
-    .route-arrow {
-      align-self: center; padding-right: 14px;
-      font-size: .85rem; color: var(--text-muted);
-    }
-
-    /* ── BOTTOM PADDING ── */
-    .page-spacer { height: 28px; }
-
-    /* ── BOTTOM NAV ── */
-    .bottom-nav {
-      display: none;
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: #fff; border-top: 1px solid var(--border);
-      z-index: 200; padding: 6px 0 max(6px, env(safe-area-inset-bottom));
-    }
-    @media (max-width: 768px) {
-      .bottom-nav { display: flex; }
-      body { padding-bottom: 64px; }
-    }
-    .tab-item {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-decoration: none; color: #94A3B8;
-      font-size: .62rem; font-weight: 500; padding: 4px 0; gap: 2px;
-      transition: color .15s;
-    }
-    .tab-item.active { color: var(--accent); }
-    .tab-item:hover { color: var(--accent); }
-    .tab-icon { font-size: 1.25rem; line-height: 1; }
-
-    /* ── MOBILE TWEAKS ── */
-    @media (max-width: 520px) {
-      .hero-content { padding: 0 16px 22px; }
-      .hero h1 { font-size: 1.5rem; }
-      nav.top-nav { padding: 0 16px; }
-      .section { padding: 22px 16px 0; }
-      .stats-strip { padding: 12px 16px; }
-      .route-img-wrap { width: 90px; }
-    }
+    @media(max-width:520px) { .greeting{padding:20px 16px 18px;} .sec{padding:18px 16px 4px;} .feat{height:198px;} }
   </style>
 </head>
 <body>
 
-<!-- ── TOP NAV ── -->
-<nav class="top-nav">
-  <a href="main.html" class="nav-logo">
-    <span class="nav-logo-dot"></span>
-    ViajeraMente
-  </a>
-  <div class="nav-links">
-    <a href="guias.html" class="nav-link">Guías</a>
-    <a href="plan.html" class="nav-link">Planifica</a>
-    <a href="mapa.html" class="nav-link">Mapa</a>
-    <a href="fechas.html" class="nav-link">Por fechas</a>
+<nav class="topnav">
+  <a href="main.html" class="nav-logo"><span class="nav-logo-dot"></span>ViajeraMente</a>
+  <div class="nav-dlinks">
+    <a href="guias.html"   class="nav-dlink">Guías</a>
+    <a href="plan.html"    class="nav-dlink">Planifica</a>
+    <a href="fechas.html"  class="nav-dlink">Por fechas</a>
+    <a href="mapa.html"    class="nav-dlink">Mapa</a>
+    <a href="ranking.html" class="nav-dlink">🏆 Ranking</a>
   </div>
   <div class="nav-right">
     <a href="profile.html" class="nav-avatar" id="navAvatar" title="Mi perfil"></a>
-    <button class="nav-hamburger" onclick="openMenu()" aria-label="Menú">☰</button>
+    <button class="nav-burger" id="navBurger" aria-label="Menú">☰</button>
   </div>
 </nav>
 
-<!-- ── MOBILE DRAWER ── -->
-<div class="mobile-overlay" id="menuOverlay" onclick="closeBg(event)">
-  <div class="mobile-drawer">
-    <div class="mobile-drawer-head">
+<div class="mob-ov" id="mobOv">
+  <div class="mob-menu">
+    <div class="mob-head">
       <a href="main.html" class="nav-logo"><span class="nav-logo-dot"></span>ViajeraMente</a>
-      <button class="mobile-close" onclick="closeMenu()">✕</button>
+      <button class="mob-x" id="mobX">✕</button>
     </div>
-    <div class="mobile-links">
-      <a href="main.html" class="mobile-link"><span class="mi">🏠</span>Inicio</a>
-      <a href="guias.html" class="mobile-link"><span class="mi">🗺️</span>Guías</a>
-      <a href="plan.html" class="mobile-link"><span class="mi">✈️</span>Planifica</a>
-      <a href="mapa.html" class="mobile-link"><span class="mi">🌍</span>Mi Mapa</a>
-      <a href="fechas.html" class="mobile-link"><span class="mi">📅</span>Por fechas</a>
-      <a href="ranking.html" class="mobile-link"><span class="mi">🏆</span>Ranking</a>
-      <div class="mobile-divider"></div>
-      <a href="profile.html" class="mobile-link"><span class="mi">👤</span>Mi perfil</a>
-      <button class="mobile-logout" onclick="logout()"><span class="mi">🚪</span>Cerrar sesión</button>
+    <div class="mob-links">
+      <a href="main.html"    class="mob-link"><span class="mi">🏠</span>Inicio</a>
+      <a href="guias.html"   class="mob-link"><span class="mi">🗺️</span>Guías de destinos</a>
+      <a href="plan.html"    class="mob-link"><span class="mi">✈️</span>Planifica tu viaje</a>
+      <a href="mapa.html"    class="mob-link"><span class="mi">🌍</span>Mi mapa</a>
+      <a href="fechas.html"  class="mob-link"><span class="mi">📅</span>Por fechas</a>
+      <a href="ranking.html" class="mob-link"><span class="mi">🏆</span>Ranking viajeros</a>
+      <div class="mob-div"></div>
+      <a href="profile.html" class="mob-link"><span class="mi">👤</span>Mi perfil</a>
+      <button class="mob-out" onclick="logout()"><span class="mi">🚪</span>Cerrar sesión</button>
     </div>
   </div>
 </div>
 
-<!-- ── HERO ── -->
-<section class="hero">
-  <img class="hero-img" id="heroBg"
-    src="https://images.pexels.com/photos/7430483/pexels-photo-7430483.jpeg?auto=compress&cs=tinysrgb&h=900&w=1600"
-    alt="Viaje aéreo sobre los Alpes suizos" loading="eager">
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow"><span class="dot"></span><span id="heroEyebrow">Bienvenido/a</span></div>
-    <h1 id="heroTitle">¿A dónde vas,<br><span id="heroName">viajero/a</span>?</h1>
-    <div class="hero-actions">
-      <a href="plan.html" class="btn-hero">✈️ Planifica tu viaje</a>
-      <a href="guias.html" class="btn-hero-ghost">Ver guías →</a>
+<div class="page" id="mainPage" style="opacity:0;transition:opacity .28s">
+
+  <div class="greeting">
+    <div class="g-inner">
+      <div class="g-eyebrow" id="gEyebrow">…</div>
+      <h1>Tu próximo destino<br>te está <em>esperando</em></h1>
+      <p class="g-sub">Descubre, planifica e inspírate para tu próxima aventura.</p>
     </div>
   </div>
-</section>
 
-<!-- ── TRAVELER STATS STRIP ── -->
-<div class="stats-strip" id="statsStrip">
-  <div class="stats-pills" id="statsPills">
-    <span class="stats-strip-loading">Cargando tu perfil…</span>
+  <div class="sec">
+    <div class="sec-head">
+      <span class="sec-title">✨ Destino del día</span>
+      <a href="guias.html" class="sec-link">Ver todos →</a>
+    </div>
+    <a href="#" class="feat" id="featCard">
+      <img id="featImg" src="" alt="" loading="eager">
+      <div class="feat-ov"></div>
+      <div class="feat-body">
+        <div class="feat-chip">🌍 <span id="featContinent"></span></div>
+        <div class="feat-name" id="featName">—</div>
+        <div class="feat-tag"  id="featTag">—</div>
+      </div>
+      <div class="feat-arr">→</div>
+    </a>
   </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <span class="sec-title">🔭 Descubrir destinos</span>
+      <a href="guias.html" class="sec-link">Explorar →</a>
+    </div>
+    <div class="dest-row" id="destRow">
+      <div style="flex:0 0 145px;height:188px" class="sk"></div>
+      <div style="flex:0 0 145px;height:188px" class="sk"></div>
+      <div style="flex:0 0 145px;height:188px" class="sk"></div>
+      <div style="flex:0 0 145px;height:188px" class="sk"></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <span class="sec-title">⚡ Empieza por aquí</span>
+    </div>
+    <div class="act-grid">
+      <a href="plan.html" class="act-card c-blue">
+        <span class="act-badge">Popular</span>
+        <div class="act-icon">✈️</div>
+        <div class="act-title">Planifica tu aventura</div>
+        <div class="act-desc">7 preguntas, 25 destinos personalizados para ti.</div>
+        <div class="act-foot"><span class="act-arr">→</span></div>
+      </a>
+      <a href="profile.html" class="act-card c-teal">
+        <div class="act-icon">📌</div>
+        <div class="act-title">Mi perfil viajero</div>
+        <div class="act-desc">Países visitados, viajes y estilo de viaje.</div>
+        <div class="act-foot"><span class="act-arr">→</span></div>
+      </a>
+      <a href="mapa.html" class="act-card c-slate">
+        <div class="act-icon">🗺️</div>
+        <div class="act-title">Mi mapa mundial</div>
+        <div class="act-desc">Todos los países que has pisado, en el mapa.</div>
+        <div class="act-foot"><span class="act-arr">→</span></div>
+      </a>
+      <a href="fechas.html" class="act-card c-gold">
+        <div class="act-icon">📅</div>
+        <div class="act-title">Ya tengo fechas</div>
+        <div class="act-desc">¿Cuándo viajas? Te digo el mejor destino para ese mes.</div>
+        <div class="act-foot"><span class="act-arr">→</span></div>
+      </a>
+      <a href="guias.html" class="act-card c-rose">
+        <div class="act-icon">📖</div>
+        <div class="act-title">Guías de destinos</div>
+        <div class="act-desc">+40 destinos: visas, precios, rutas, lo mejor.</div>
+        <div class="act-foot"><span class="act-arr">→</span></div>
+      </a>
+      <a href="ranking.html" class="act-card c-purple">
+        <div class="act-icon">🏆</div>
+        <div class="act-title">Ranking viajeros</div>
+        <div class="act-desc">¿Quién ha viajado más? Compite y sube puestos.</div>
+        <div class="act-foot"><span class="act-arr">→</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
 </div>
 
-<!-- ── PAGE ── -->
-<div class="page">
-
-  <!-- QUICK ACCESS -->
-  <div class="section" style="animation: fadeInUp .5s ease .25s both;">
-    <div class="section-head">
-      <h2 class="section-title">Acceso rápido</h2>
-    </div>
-    <div class="quick-grid">
-      <a href="guias.html" class="quick-item">
-        <span class="quick-icon">🗺️</span>
-        <span class="quick-label">Guías</span>
-      </a>
-      <a href="plan.html" class="quick-item">
-        <span class="quick-icon">✈️</span>
-        <span class="quick-label">Planifica</span>
-      </a>
-      <a href="mapa.html" class="quick-item">
-        <span class="quick-icon">🌍</span>
-        <span class="quick-label">Mi Mapa</span>
-      </a>
-      <a href="fechas.html" class="quick-item">
-        <span class="quick-icon">📅</span>
-        <span class="quick-label">Por fechas</span>
-      </a>
-      <a href="ranking.html" class="quick-item">
-        <span class="quick-icon">🏆</span>
-        <span class="quick-label">Ranking</span>
-      </a>
-      <a href="profile.html" class="quick-item">
-        <span class="quick-icon">👤</span>
-        <span class="quick-label">Mi Perfil</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- DISCOVER -->
-  <div class="section" style="animation: fadeInUp .5s ease .3s both;">
-    <div class="section-head">
-      <h2 class="section-title">Descubre destinos</h2>
-      <a href="guias.html" class="section-link">Ver todos →</a>
-    </div>
-    <div class="dest-grid" id="destGrid">
-      <!-- cards inyectadas por JS o fallback hardcoded -->
-      <a href="guias.html?q=japon" class="dest-card">
-        <img src="https://images.pexels.com/photos/33198749/pexels-photo-33198749.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=700" alt="Japón" loading="lazy">
-        <div class="dest-card-overlay"></div>
-        <div class="dest-card-body">
-          <div class="dest-continent">Asia · Japón</div>
-          <div class="dest-name">Kyoto</div>
-          <div class="dest-cta">Ver guía →</div>
-        </div>
-      </a>
-      <a href="guias.html?q=bali" class="dest-card">
-        <img src="https://images.pexels.com/photos/5151206/pexels-photo-5151206.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=700" alt="Bali" loading="lazy">
-        <div class="dest-card-overlay"></div>
-        <div class="dest-card-body">
-          <div class="dest-continent">Asia · Indonesia</div>
-          <div class="dest-name">Bali</div>
-          <div class="dest-cta">Ver guía →</div>
-        </div>
-      </a>
-      <a href="guias.html?q=marruecos" class="dest-card">
-        <img src="https://images.pexels.com/photos/6621125/pexels-photo-6621125.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=700" alt="Marrakech" loading="lazy">
-        <div class="dest-card-overlay"></div>
-        <div class="dest-card-body">
-          <div class="dest-continent">África · Marruecos</div>
-          <div class="dest-name">Marrakech</div>
-          <div class="dest-cta">Ver guía →</div>
-        </div>
-      </a>
-      <a href="guias.html?q=patagonia" class="dest-card">
-        <img src="https://images.pexels.com/photos/36951892/pexels-photo-36951892.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=700" alt="Patagonia" loading="lazy">
-        <div class="dest-card-overlay"></div>
-        <div class="dest-card-body">
-          <div class="dest-continent">América · Argentina</div>
-          <div class="dest-name">Patagonia</div>
-          <div class="dest-cta">Ver guía →</div>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <!-- INSPIRE ME -->
-  <div class="section" style="animation: fadeInUp .5s ease .35s both;">
-    <div class="section-head">
-      <h2 class="section-title">Inspírate</h2>
-      <a href="guias.html" class="section-link">Ver más →</a>
-    </div>
-    <div class="route-list">
-
-      <a href="guias.html" class="route-card">
-        <div class="route-img-wrap">
-          <img src="https://images.pexels.com/photos/11845845/pexels-photo-11845845.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=300&w=200" alt="Interrail Europa" loading="lazy">
-        </div>
-        <div class="route-body">
-          <div class="route-tag">Europa · Tren</div>
-          <div class="route-name">Interrail por Europa</div>
-          <div class="route-desc">De Madrid a Praga pasando por París, Ámsterdam y Berlín. La ruta clásica que nunca defrauda.</div>
-        </div>
-        <div class="route-arrow">→</div>
-      </a>
-
-      <a href="guias.html" class="route-card">
-        <div class="route-img-wrap">
-          <img src="https://images.pexels.com/photos/4981193/pexels-photo-4981193.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=300&w=200" alt="Sudeste Asiático" loading="lazy">
-        </div>
-        <div class="route-body">
-          <div class="route-tag">Asia · Mochilero</div>
-          <div class="route-name">Southeast Asia Circuit</div>
-          <div class="route-desc">Tailandia, Vietnam, Cambodia y Bali en 30-45 días. El viaje que engancha a todos.</div>
-        </div>
-        <div class="route-arrow">→</div>
-      </a>
-
-      <a href="guias.html" class="route-card">
-        <div class="route-img-wrap">
-          <img src="https://images.pexels.com/photos/21822256/pexels-photo-21822256.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=300&w=200" alt="Patagonia circuito" loading="lazy">
-        </div>
-        <div class="route-body">
-          <div class="route-tag">América del Sur · Nature</div>
-          <div class="route-name">Ruta de los Lagos, Patagonia</div>
-          <div class="route-desc">Torres del Paine, El Chaltén y los glaciares más impresionantes del planeta.</div>
-        </div>
-        <div class="route-arrow">→</div>
-      </a>
-
-    </div>
-  </div>
-
-  <div class="page-spacer"></div>
-</div>
-
-<!-- ── BOTTOM NAV ── -->
-<nav class="bottom-nav">
-  <a href="main.html" class="tab-item active">
-    <span class="tab-icon">🏠</span><span>Inicio</span>
-  </a>
-  <a href="guias.html" class="tab-item">
-    <span class="tab-icon">🗺️</span><span>Guías</span>
-  </a>
-  <a href="plan.html" class="tab-item">
-    <span class="tab-icon">✈️</span><span>Planifica</span>
-  </a>
-  <a href="mapa.html" class="tab-item">
-    <span class="tab-icon">🌍</span><span>Mapa</span>
-  </a>
-  <a href="profile.html" class="tab-item">
-    <span class="tab-icon">👤</span><span>Perfil</span>
-  </a>
+<nav class="botnav">
+  <a href="main.html"    class="tab active"><span class="tab-ic">🏠</span><span>Inicio</span></a>
+  <a href="guias.html"   class="tab"><span class="tab-ic">🗺️</span><span>Guías</span></a>
+  <a href="plan.html"    class="tab"><span class="tab-ic">✈️</span><span>Planifica</span></a>
+  <a href="mapa.html"    class="tab"><span class="tab-ic">🌍</span><span>Mapa</span></a>
+  <a href="profile.html" class="tab"><span class="tab-ic">👤</span><span>Perfil</span></a>
 </nav>
 
 <script>
   const API = 'https://eze.saypeter.com';
   const token = localStorage.getItem('token');
+  if (!token) window.location.replace('login.html');
 
-  // ── Auth guard ──
-  if (!token) {
-    window.location.href = 'login.html?next=' + encodeURIComponent(window.location.href);
+  const mobOv = document.getElementById('mobOv');
+  document.getElementById('navBurger').onclick = () => { mobOv.classList.add('open'); document.body.style.overflow='hidden'; };
+  document.getElementById('mobX').onclick      = closeMob;
+  mobOv.addEventListener('click', e => { if(e.target===mobOv) closeMob(); });
+  function closeMob() { mobOv.classList.remove('open'); document.body.style.overflow=''; }
+  function logout() { localStorage.removeItem('token'); window.location.replace('login.html'); }
+
+  function buildGreeting(name) {
+    const h = new Date().getHours();
+    const emoji  = h < 6 ? '🌙' : h < 13 ? '☀️' : h < 20 ? '🌤️' : '🌙';
+    const saludo = h < 13 ? 'Buenos días' : h < 20 ? 'Buenas tardes' : 'Buenas noches';
+    const first  = name ? name.split(' ')[0] : null;
+    document.getElementById('gEyebrow').textContent = emoji + '  ' + saludo + (first ? ', ' + first : '');
   }
 
-  // ── Menu helpers ──
-  function openMenu()  { document.getElementById('menuOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
-  function closeMenu() { document.getElementById('menuOverlay').classList.remove('open'); document.body.style.overflow=''; }
-  function closeBg(e)  { if (e.target===document.getElementById('menuOverlay')) closeMenu(); }
-  function logout()    { localStorage.removeItem('token'); window.location.href = 'login.html'; }
-
-  // ── Load user + stats ──
-  async function init() {
-    try {
-      const res = await fetch(`${API}/api/me`, { headers: { Authorization: `Bearer ${token}` } });
-      if (res.status === 401) { localStorage.removeItem('token'); window.location.href = 'login.html'; return; }
-      const { ok, user } = await res.json();
-      if (!ok || !user) return;
-
-      // Greeting
-      const first = (user.name || 'viajero').split(' ')[0];
-      const h = new Date().getHours();
-      const saludo = h < 13 ? 'Buenos días' : h < 20 ? 'Buenas tardes' : 'Buenas noches';
-      document.getElementById('heroEyebrow').textContent = `${saludo}, ${first} 👋`;
-      document.getElementById('heroName').textContent = first;
-
-      // Avatar
-      const av = document.getElementById('navAvatar');
-      if (user.avatar_url) {
-        av.innerHTML = `<img src="${user.avatar_url}" alt="">`;
-      } else {
-        av.textContent = (user.name||'V').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
-      }
-
-      // Stats strip
-      const pills = document.getElementById('statsPills');
-      const countries = user.stats_countries || user.countries_visited?.length || 0;
-      const km = user.km_traveled || 0;
-      const level = (user.travel_level || 'huevo').charAt(0).toUpperCase() + (user.travel_level || 'huevo').slice(1);
-
-      pills.innerHTML = `
-        <span class="stat-pill"><span class="sp-icon">🌍</span><span class="sp-val">${countries}</span>&nbsp;países</span>
-        <span class="stat-pill"><span class="sp-icon">✈️</span><span class="sp-val">${km > 0 ? km.toLocaleString('es-ES') : '–'}</span>&nbsp;km</span>
-        <span class="level-pill">⭐ ${level}</span>
-      `;
-
-      // Load destinations from API for discover section
-      loadDestinations();
-
-    } catch(e) {
-      console.error(e);
-      // Keep fallback hardcoded cards
+  function setAvatar(user) {
+    const av = document.getElementById('navAvatar');
+    if (user.avatar_url) {
+      av.innerHTML = '<img src="' + user.avatar_url + '" alt="">';
+    } else {
+      av.textContent = (user.name||'V').split(' ').map(function(n){return n[0];}).join('').slice(0,2).toUpperCase();
     }
   }
 
-  async function loadDestinations() {
+  function setFeatured(d) {
+    document.getElementById('featCard').href = 'destino.html?slug=' + d.slug;
+    document.getElementById('featImg').src   = d.hero_photo_url + '?auto=compress&cs=tinysrgb&h=800&w=1400';
+    document.getElementById('featImg').alt   = d.name;
+    document.getElementById('featContinent').textContent = d.continent || d.region || '';
+    document.getElementById('featName').textContent      = d.name;
+    document.getElementById('featTag').textContent       = d.tagline || '';
+  }
+
+  function buildDestRow(dests) {
+    var el = document.getElementById('destRow');
+    el.innerHTML = '';
+    dests.forEach(function(d) {
+      var a = document.createElement('a');
+      a.href      = 'destino.html?slug=' + d.slug;
+      a.className = 'dest-card';
+      a.innerHTML = '<img src="' + d.hero_photo_url + '?auto=compress&cs=tinysrgb&h=380&w=300" alt="' + d.name + '" loading="lazy"><div class="dc-ov"></div><div class="dc-info"><div class="dc-name">' + d.name + '</div><div class="dc-reg">' + (d.continent||d.region||'') + '</div></div>';
+      el.appendChild(a);
+    });
+  }
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length-1; i > 0; i--) {
+      var j = Math.floor(Math.random()*(i+1));
+      var tmp = a[i]; a[i]=a[j]; a[j]=tmp;
+    }
+    return a;
+  }
+
+  async function init() {
     try {
-      const res = await fetch(`${API}/api/destinations?limit=4`, { headers: { Authorization: `Bearer ${token}` } });
-      if (!res.ok) return;
-      const { ok, destinations } = await res.json();
-      if (!ok || !destinations || destinations.length < 2) return;
+      var results = await Promise.all([
+        fetch(API + '/api/me', { headers:{ Authorization:'Bearer ' + token } }),
+        fetch(API + '/api/destinations?limit=80')
+      ]);
+      var meRes = results[0], destsRes = results[1];
 
-      const grid = document.getElementById('destGrid');
-      const continentLabel = { 'Asia': 'Asia', 'Europa': 'Europa', 'America': 'América', 'Africa': 'África', 'Oceania': 'Oceanía', 'America del Norte': 'Norteamérica', 'America del Sur': 'Sudamérica' };
+      if (meRes.status === 401) { localStorage.removeItem('token'); window.location.replace('login.html'); return; }
 
-      // Pick up to 4 destinations that have a photo
-      const withPhoto = destinations.filter(d => d.hero_photo_url || d.hero_photo_id);
-      const picks = withPhoto.slice(0, 4);
-      if (picks.length < 2) return;
+      var meData = await meRes.json();
+      var user   = meData.user || meData;
+      buildGreeting(user.name);
+      setAvatar(user);
 
-      grid.innerHTML = picks.map(d => {
-        const imgUrl = d.hero_photo_url || `https://images.pexels.com/photos/${d.hero_photo_id}/pexels-photo-${d.hero_photo_id}.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=700`;
-        const cont = continentLabel[d.continent] || d.continent || '';
-        const country = d.country || '';
-        const label = [cont, country].filter(Boolean).join(' · ');
-        return `<a href="destino.html?slug=${encodeURIComponent(d.slug)}" class="dest-card">
-          <img src="${imgUrl}" alt="${d.name}" loading="lazy">
-          <div class="dest-card-overlay"></div>
-          <div class="dest-card-body">
-            <div class="dest-continent">${label}</div>
-            <div class="dest-name">${d.name}</div>
-            <div class="dest-cta">Ver guía →</div>
-          </div>
-        </a>`;
-      }).join('');
+      if (destsRes.ok) {
+        var data       = await destsRes.json();
+        var withPhoto  = data.destinations.filter(function(d){ return d.hero_photo_url; });
+        var top        = withPhoto.slice().sort(function(a,b){ return (b.guide_quality||0)-(a.guide_quality||0); }).slice(0,15);
+        var today      = top[new Date().getDate() % top.length];
+        setFeatured(today);
+        var row = shuffle(withPhoto.filter(function(d){ return d.slug !== today.slug; })).slice(0,10);
+        buildDestRow(row);
+      }
+
+      document.getElementById('mainPage').style.opacity = '1';
     } catch(e) {
-      // Fallback cards already in HTML
+      console.error(e);
+      document.getElementById('mainPage').style.opacity = '1';
     }
   }
 
   init();
 </script>
-
 </body>
 </html>
