@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ya sé a dónde voy — ¿cuándo ir y cuánto cuesta? | ViajeraMente</title>
+  <meta name="description" content="Elige tu destino y descubre cuándo ir, qué mes es mejor, cuánto cuesta y qué ruta hacer. Toda la información para planificar tu viaje.">
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T1HJ3PJWYN');
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --accent:      #0EA5E9;
+      --accent-dark: #0284C7;
+      --accent-glow: rgba(14,165,233,.15);
+      --accent-light:#E0F2FE;
+      --green:       #10B981;
+      --green-light: #D1FAE5;
+      --green-dark:  #059669;
+      --gold:        #F59E0B;
+      --gold-light:  #FEF3C7;
+      --red-light:   #FEE2E2;
+      --red:         #EF4444;
+      --bg:          #FFFFFF;
+      --bg-soft:     #F8FAFC;
+      --bg-card:     #FFFFFF;
+      --text:        #0F172A;
+      --text-2:      #475569;
+      --text-3:      #94A3B8;
+      --border:      #E2E8F0;
+      --border-2:    #CBD5E1;
+      --shadow-sm:   0 1px 3px rgba(0,0,0,.06);
+      --shadow-md:   0 4px 16px rgba(0,0,0,.08);
+      --shadow-card: 0 2px 12px rgba(0,0,0,.07);
+      --shadow-lg:   0 8px 30px rgba(0,0,0,.12);
+      --r-sm: 10px;
+      --r-md: 14px;
+      --r-lg: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--bg-soft);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    h1,h2,h3,h4,h5 { font-family: 'Space Grotesk', sans-serif; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(.95); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      animation: slideDown .4s ease;
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--text); text-decoration: none;
+      letter-spacing: -.025em;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .nav-logo-dot {
+      width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+    }
+    .nav-logo:hover { opacity: .8; }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-link {
+      font-size: .84rem; font-weight: 500;
+      color: var(--text-2); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--accent); }
+    .nav-btn {
+      font-size: .82rem; font-weight: 600;
+      color: var(--text); background: var(--bg-soft);
+      border: 1.5px solid var(--border); border-radius: 20px;
+      padding: 7px 16px; text-decoration: none;
+      transition: all .2s; cursor: pointer;
+    }
+    .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-btn.primary {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+    }
+    .nav-btn.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+    #navAuthArea { display: flex; align-items: center; gap: 8px; }
+
+    /* ── Page wrap ── */
+    .page-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 80px 20px 100px;
+    }
+
+    /* ── Hero header ── */
+    .hero-header {
+      text-align: center;
+      padding: 38px 0 30px;
+      animation: fadeInUp .45s ease;
+    }
+    .hero-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent-light); color: var(--accent-dark);
+      border-radius: 20px; padding: 5px 14px;
+      font-size: .78rem; font-weight: 600;
+      letter-spacing: .01em;
+      margin-bottom: 16px;
+    }
+    .hero-header h1 {
+      font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+      font-weight: 700; letter-spacing: -.04em;
+      line-height: 1.15; color: var(--text);
+      margin-bottom: 10px;
+    }
+    .hero-header p {
+      font-size: 1rem; color: var(--text-2);
+      max-width: 420px; margin: 0 auto; line-height: 1.65;
+    }
+
+    /* ── Search bar ── */
+    .search-wrap {
+      position: relative;
+      max-width: 520px; margin: 28px auto 0;
+      animation: fadeInUp .5s .1s ease both;
+    }
+    .search-icon {
+      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      color: var(--text-3); pointer-events: none;
+      font-size: 1.1rem;
+    }
+    #searchInput {
+      width: 100%; padding: 14px 16px 14px 46px;
+      border: 2px solid var(--border);
+      border-radius: var(--r-lg);
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; color: var(--text);
+      outline: none;
+      box-shadow: var(--shadow-card);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    #searchInput:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow), var(--shadow-card);
+    }
+    #searchInput::placeholder { color: var(--text-3); }
+
+    /* ── Autocomplete dropdown ── */
+    .autocomplete-dropdown {
+      position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      box-shadow: var(--shadow-lg);
+      max-height: 320px; overflow-y: auto;
+      z-index: 100;
+      display: none;
+      animation: slideDown .2s ease;
+    }
+    .autocomplete-dropdown.open { display: block; }
+    .autocomplete-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 16px; cursor: pointer;
+      transition: background .15s;
+      border-bottom: 1px solid var(--border);
+    }
+    .autocomplete-item:last-child { border-bottom: none; }
+    .autocomplete-item:hover, .autocomplete-item.focused { background: var(--bg-soft); }
+    .ac-flag { font-size: 1.3rem; flex-shrink: 0; }
+    .ac-info { flex: 1; min-width: 0; }
+    .ac-name { font-weight: 600; font-size: .9rem; color: var(--text); }
+    .ac-country { font-size: .78rem; color: var(--text-3); }
+    .ac-badge {
+      font-size: .7rem; font-weight: 600;
+      padding: 2px 8px; border-radius: 10px;
+      background: var(--green-light); color: var(--green-dark);
+      flex-shrink: 0;
+    }
+
+    /* ── Loading state ── */
+    .loading-pulse {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; padding: 40px 0; color: var(--text-3);
+      font-size: .9rem;
+    }
+    .loading-dots span {
+      display: inline-block; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--accent);
+      animation: bounce .9s ease infinite;
+    }
+    .loading-dots span:nth-child(2) { animation-delay: .15s; }
+    .loading-dots span:nth-child(3) { animation-delay: .3s; }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: .4; }
+      40% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    /* ── Destination card ── */
+    #destCard {
+      display: none;
+      animation: fadeInUp .4s ease;
+      margin-top: 32px;
+    }
+    #destCard.visible { display: block; }
+
+    .dest-hero {
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      position: relative;
+      height: 280px;
+      background: #1e293b center/cover no-repeat;
+      box-shadow: var(--shadow-lg);
+    }
+    @media (max-width: 520px) { .dest-hero { height: 210px; } }
+    .dest-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,.70) 100%);
+    }
+    .dest-hero-content {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 24px 24px 22px;
+    }
+    .dest-country-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,.18);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 20px; padding: 4px 12px;
+      color: rgba(255,255,255,.9); font-size: .78rem; font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .dest-hero-content h2 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700; color: #fff;
+      letter-spacing: -.03em; line-height: 1.1;
+    }
+    .dest-tagline {
+      margin-top: 6px;
+      font-size: .88rem; color: rgba(255,255,255,.8);
+      max-width: 480px; line-height: 1.5;
+    }
+
+    /* ── Section blocks ── */
+    .section-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-card);
+      margin-top: 20px;
+      overflow: hidden;
+    }
+    .section-head {
+      padding: 18px 22px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-icon { font-size: 1.1rem; }
+    .section-head h3 {
+      font-size: .95rem; font-weight: 700; color: var(--text);
+    }
+    .section-body { padding: 20px 22px; }
+
+    /* ── Month calendar strip ── */
+    .months-scroll {
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .months-strip {
+      display: flex; gap: 7px;
+      min-width: max-content;
+      padding: 2px 0 6px;
+    }
+    .month-cell {
+      width: 66px; flex-shrink: 0;
+      border-radius: var(--r-sm);
+      border: 2px solid var(--border);
+      background: var(--bg-soft);
+      padding: 10px 6px 8px;
+      cursor: pointer; transition: all .2s;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      user-select: none; position: relative;
+    }
+    .month-cell:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .month-cell.active { outline: 3px solid var(--accent); outline-offset: 1px; }
+    .month-cell.great { border-color: var(--green); background: #F0FDF4; }
+    .month-cell.ok    { border-color: var(--gold);  background: var(--gold-light); }
+    .month-cell.avoid { border-color: var(--border); background: #F9FAFB; opacity: .6; }
+    .mc-abbr {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .72rem; font-weight: 700;
+      color: var(--text); letter-spacing: .03em;
+    }
+    .mc-bar {
+      width: 18px; height: 36px;
+      background: var(--border); border-radius: 9px;
+      overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .mc-bar-fill { width: 100%; border-radius: 9px; background: var(--green); transition: height .4s ease; }
+    .month-cell.ok   .mc-bar-fill { background: var(--gold); }
+    .month-cell.avoid .mc-bar-fill { background: var(--text-3); }
+    .mc-temp { font-size: .72rem; font-weight: 600; color: var(--text-2); }
+    .mc-event-dot {
+      position: absolute; top: 4px; right: 4px;
+      font-size: .55rem; color: var(--gold);
+    }
+
+    /* ── Month detail panel ── */
+    .month-detail {
+      margin-top: 14px;
+      border-radius: var(--r-md);
+      border: 1.5px solid var(--accent-light);
+      background: var(--bg);
+      padding: 18px 20px;
+      display: none;
+      animation: scaleIn .25s ease;
+    }
+    .month-detail.visible { display: block; }
+    .md-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
+    }
+    .md-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem; font-weight: 700; color: var(--text);
+    }
+    .md-score-pill {
+      padding: 4px 12px; border-radius: 20px;
+      font-size: .78rem; font-weight: 700;
+    }
+    .md-score-pill.great { background: var(--green-light); color: var(--green-dark); }
+    .md-score-pill.ok    { background: var(--gold-light);  color: #D97706; }
+    .md-score-pill.avoid { background: #F3F4F6; color: var(--text-3); }
+    .md-rows { display: flex; flex-direction: column; gap: 9px; margin-bottom: 12px; }
+    .md-row {
+      display: flex; align-items: center; gap: 10px;
+      font-size: .88rem; color: var(--text-2);
+    }
+    .md-row-icon { font-size: 1rem; flex-shrink: 0; width: 22px; text-align: center; }
+    .md-row strong { color: var(--text); margin-right: 2px; }
+    .dot-meter { display: flex; gap: 4px; }
+    .dot-meter span {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border);
+    }
+    .dot-meter span.filled { background: var(--accent); }
+    .dot-meter.crowded span.filled { background: var(--gold); }
+    .dot-meter.price span.filled   { background: var(--green); }
+    .md-advice {
+      padding: 10px 14px; border-radius: var(--r-sm);
+      background: var(--accent-light);
+      font-size: .84rem; color: var(--accent-dark); font-weight: 500;
+      line-height: 1.55;
+    }
+    .md-events { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 7px; }
+    .md-event-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 11px; border-radius: 20px;
+      background: var(--gold-light); border: 1px solid #FDE68A;
+      color: #92400E; font-size: .78rem; font-weight: 500;
+    }
+
+    /* ── Budget calculator ── */
+    .budget-controls {
+      display: flex; flex-direction: column; gap: 18px;
+    }
+    .bc-label {
+      font-size: .82rem; font-weight: 600; color: var(--text-2);
+      margin-bottom: 8px; display: block;
+    }
+    .days-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .day-btn {
+      padding: 9px 18px;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      background: var(--bg-soft);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .88rem; font-weight: 600;
+      color: var(--text-2);
+      cursor: pointer; transition: all .18s;
+    }
+    .day-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .day-btn.active {
+      background: var(--accent); border-color: var(--accent);
+      color: #fff; box-shadow: 0 3px 10px rgba(14,165,233,.3);
+    }
+    .level-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .level-btn {
+      padding: 9px 18px;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      background: var(--bg-soft);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .88rem; font-weight: 600;
+      color: var(--text-2);
+      cursor: pointer; transition: all .18s;
+    }
+    .level-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .level-btn.active {
+      background: var(--accent); border-color: var(--accent);
+      color: #fff; box-shadow: 0 3px 10px rgba(14,165,233,.3);
+    }
+    .budget-table {
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      overflow: hidden;
+    }
+    .bt-row {
+      display: flex; align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+    .bt-row:last-child { border-bottom: none; background: var(--bg-soft); }
+    .bt-icon { font-size: 1.05rem; flex-shrink: 0; width: 24px; text-align: center; }
+    .bt-label { flex: 1; font-size: .88rem; color: var(--text-2); }
+    .bt-amount {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem; font-weight: 700; color: var(--text);
+    }
+    .bt-row.total .bt-label {
+      font-size: .9rem; font-weight: 700; color: var(--text);
+    }
+    .bt-row.total .bt-amount {
+      font-size: 1.1rem; color: var(--accent);
+    }
+
+    /* ── Rutas populares ── */
+    .rutas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 640px) { .rutas-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 900px) and (min-width: 640px) { .rutas-grid { grid-template-columns: repeat(2, 1fr); } }
+    .ruta-card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      background: var(--bg);
+      padding: 18px;
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .ruta-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+    .ruta-duration {
+      display: inline-flex; align-items: center;
+      background: var(--accent-light); color: var(--accent-dark);
+      border-radius: 8px; padding: 3px 10px;
+      font-size: .74rem; font-weight: 700;
+      letter-spacing: .02em; margin-bottom: 10px;
+    }
+    .ruta-title {
+      font-size: .95rem; font-weight: 700;
+      color: var(--text); margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .ruta-highlights {
+      list-style: none; display: flex; flex-direction: column; gap: 5px;
+    }
+    .ruta-highlights li {
+      font-size: .82rem; color: var(--text-2);
+      display: flex; align-items: flex-start; gap: 6px;
+    }
+    .ruta-highlights li::before {
+      content: '→'; color: var(--accent); font-weight: 700;
+      flex-shrink: 0; margin-top: 1px;
+    }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center; padding: 60px 24px;
+      animation: fadeIn .5s ease;
+    }
+    .empty-icon { font-size: 3rem; margin-bottom: 16px; }
+    .empty-state h3 {
+      font-size: 1.15rem; font-weight: 700; color: var(--text);
+      margin-bottom: 8px;
+    }
+    .empty-state p { color: var(--text-2); font-size: .9rem; line-height: 1.6; }
+
+    /* ── CTA footer ── */
+    .cta-footer {
+      margin-top: 48px;
+      text-align: center;
+      padding: 36px 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-card);
+    }
+    .cta-footer p {
+      color: var(--text-2); font-size: .95rem; margin-bottom: 16px;
+    }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #fff;
+      padding: 12px 28px; border-radius: 24px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .9rem; font-weight: 700;
+      text-decoration: none;
+      transition: background .2s, box-shadow .2s;
+      box-shadow: 0 4px 14px rgba(14,165,233,.3);
+    }
+    .cta-btn:hover {
+      background: var(--accent-dark);
+      box-shadow: 0 6px 20px rgba(14,165,233,.4);
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    ViajeraMente
+  </a>
+  <div class="nav-right">
+    <a href="fechas.html" class="nav-link">Por fechas</a>
+    <a href="destino-elegido.html" class="nav-link active">Mi destino</a>
+    <div id="navAuthArea">
+      <a href="login.html" class="nav-btn">Entrar</a>
+      <a href="plan.html" class="nav-btn primary">Mi plan</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Page ── -->
+<div class="page-wrap">
+
+  <!-- Hero header -->
+  <div class="hero-header">
+    <div class="hero-chip">✈️ Ya sé a dónde voy</div>
+    <h1>¿Cuándo ir, qué ruta hacer<br>y cuánto va a costar?</h1>
+    <p>Elige tu destino y te mostramos los mejores meses, el presupuesto estimado y las rutas más populares.</p>
+  </div>
+
+  <!-- Search bar -->
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="¿A qué destino vas? Ej: Japón, Portugal…" autocomplete="off">
+    <div class="autocomplete-dropdown" id="acDropdown"></div>
+  </div>
+
+  <!-- Destination card (hidden until selected) -->
+  <div id="destCard">
+    <div id="loadingArea" class="loading-pulse" style="display:none">
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+      Cargando destino…
+    </div>
+
+    <!-- Hero photo -->
+    <div class="dest-hero" id="heroPhoto">
+      <div class="dest-hero-overlay"></div>
+      <div class="dest-hero-content">
+        <div class="dest-country-chip">
+          <span id="destFlag">🌍</span>
+          <span id="destCountry">País</span>
+        </div>
+        <h2 id="destName">Destino</h2>
+        <p class="dest-tagline" id="destTagline"></p>
+      </div>
+    </div>
+
+    <!-- Best months calendar -->
+    <div class="section-block" id="calendarSection">
+      <div class="section-head">
+        <span class="section-icon">📅</span>
+        <h3>¿Cuándo ir? Mejores meses</h3>
+      </div>
+      <div class="section-body">
+        <div class="months-scroll">
+          <div class="months-strip" id="monthsStrip"></div>
+        </div>
+        <!-- Month detail panel -->
+        <div class="month-detail" id="monthDetail">
+          <div class="md-header">
+            <div class="md-name" id="mdName">Enero</div>
+            <div class="md-score-pill great" id="mdPill">Ideal</div>
+          </div>
+          <div class="md-rows" id="mdRows"></div>
+          <div class="md-advice" id="mdAdvice"></div>
+          <div class="md-events" id="mdEvents"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Budget calculator -->
+    <div class="section-block" id="budgetSection">
+      <div class="section-head">
+        <span class="section-icon">💰</span>
+        <h3>¿Cuánto me cuesta?</h3>
+      </div>
+      <div class="section-body">
+        <div class="budget-controls">
+          <div>
+            <span class="bc-label">¿Cuántos días vas a estar?</span>
+            <div class="days-btns" id="daysBtns">
+              <button class="day-btn active" data-days="7">7 días</button>
+              <button class="day-btn" data-days="10">10 días</button>
+              <button class="day-btn" data-days="14">14 días</button>
+              <button class="day-btn" data-days="21">21 días</button>
+              <button class="day-btn" data-days="30">30 días</button>
+            </div>
+          </div>
+          <div>
+            <span class="bc-label">¿Cuál es tu estilo de viaje?</span>
+            <div class="level-btns" id="levelBtns">
+              <button class="level-btn active" data-level="low">🎒 Mochilero</button>
+              <button class="level-btn" data-level="mid">🏨 Medio</button>
+              <button class="level-btn" data-level="high">✨ Premium</button>
+            </div>
+          </div>
+        </div>
+        <div class="budget-table" id="budgetTable" style="margin-top: 22px;"></div>
+      </div>
+    </div>
+
+    <!-- Popular routes -->
+    <div class="section-block" id="rutasSection">
+      <div class="section-head">
+        <span class="section-icon">🗺️</span>
+        <h3>Rutas populares</h3>
+      </div>
+      <div class="section-body">
+        <div class="rutas-grid" id="rutasGrid"></div>
+      </div>
+    </div>
+
+  </div><!-- /destCard -->
+
+  <!-- Empty state (shown when no destination selected) -->
+  <div id="emptyState" class="empty-state">
+    <div class="empty-icon">🗺️</div>
+    <h3>Escribe tu destino arriba</h3>
+    <p>Busca entre más de 45 destinos y te damos toda la información para planificar tu viaje perfecto.</p>
+  </div>
+
+  <!-- CTA footer -->
+  <div class="cta-footer">
+    <p>¿No sabes aún a dónde ir?</p>
+    <a href="fechas.html" class="cta-btn">
+      📅 Ver destinos por mes →
+    </a>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+  const API_BASE = 'https://eze.saypeter.com';
+  const MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const MONTHS_ABR = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+  // Country → flag emoji
+  function countryFlag(country) {
+    const map = {
+      'Japón':'🇯🇵','Japan':'🇯🇵','Portugal':'🇵🇹','Croacia':'🇭🇷','Grecia':'🇬🇷',
+      'Escocia':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Escocia - Highlands':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Italia':'🇮🇹','España':'🇪🇸','Francia':'🇫🇷',
+      'Marruecos':'🇲🇦','Turquía':'🇹🇷','Islandia':'🇮🇸','Noruega':'🇳🇴','Suecia':'🇸🇪',
+      'Tailandia':'🇹🇭','Indonesia':'🇮🇩','Vietnam':'🇻🇳','India':'🇮🇳','Nepal':'🇳🇵',
+      'México':'🇲🇽','Colombia':'🇨🇴','Perú':'🇵🇪','Argentina':'🇦🇷','Chile':'🇨🇱',
+      'Brasil':'🇧🇷','Costa Rica':'🇨🇷','Cuba':'🇨🇺','Kenia':'🇰🇪','Tanzania':'🇹🇿',
+      'Sudáfrica':'🇿🇦','Egipto':'🇪🇬','Australia':'🇦🇺','Nueva Zelanda':'🇳🇿',
+      'Canadá':'🇨🇦','Estados Unidos':'🇺🇸','Jordania':'🇯🇴','Georgia':'🇬🇪',
+      'Albania':'🇦🇱','Montenegro':'🇲🇪','Serbia':'🇷🇸','Eslovenia':'🇸🇮','Austria':'🇦🇹',
+      'Suiza':'🇨🇭','Hungría':'🇭🇺','República Checa':'🇨🇿','Polonia':'🇵🇱',
+    };
+    return map[country] || '🌍';
+  }
+
+  // Itineraries per destination (slug-keyed, fallback to generic)
+  const ITINERARIES = {
+    japon: [
+      { days:'7 días', title:'Japón clásico: Tokio y Kioto', highlights:['Barrios de Shibuya y Shinjuku en Tokio','Bullet train Tokio–Kioto','Templos Kinkaku-ji y Fushimi Inari','Barrio Gion al atardecer','Nara y los ciervos sagrados'] },
+      { days:'10 días', title:'Tokio, Kioto, Hiroshima y Osaka', highlights:['3 noches Tokio + ruta Harajuku','Hiroshima y Miyajima en 1 día','Experiencia ryokan en Kioto','Tapeo nocturno en Dotonbori (Osaka)','Mercado de Nishiki en Kioto'] },
+      { days:'14 días', title:'Japón en profundidad', highlights:['Tokio y sus 5 barrios esenciales','Hakone con vistas al Fuji','Kioto, Nara y Osaka','Excursión a Hiroshima y Miyajima','Kiso Valley (aldeas históricas)','Takayama y los Alpes japoneses'] },
+    ],
+    portugal: [
+      { days:'7 días', title:'Lisboa y Oporto esencial', highlights:['Alfama y el fado en Lisboa','Sintra y sus palacios de cuento','Tuk-tuk por Bairro Alto','Oporto: Ribeira y las bodegas','Cata de vino del Duero'] },
+      { days:'10 días', title:'Lisboa, Alentejo y Oporto', highlights:['Lisboa 3 noches, ruta tranvía 28','Évora y las viñas del Alentejo','Comporta: la playa salvaje','Oporto y el puente Dom Luís','Guimarães, cuna de Portugal'] },
+      { days:'14 días', title:'Portugal de norte a sur', highlights:['Oporto y el valle del Duero','Parque Natural de Gerês','Coímbra universitaria','Costa de Prata desconocida','Lisboa profunda y los mercados','Algarve: Ponta da Piedade'] },
+    ],
+    grecia: [
+      { days:'7 días', title:'Atenas y Santorini', highlights:['Acrópolis y barrio de Plaka','Ferri nocturno a Santorini','Oia al atardecer','Baños en playas volcánicas','Cena con vistas a la caldera'] },
+      { days:'10 días', title:'Santorini, Mikonos y Creta', highlights:['3 islas en 10 días en ferri','Playas de Elafonisi en Creta','Vida nocturna en Mikonos','Senderismo en el volcán','Mercado de Heraklion'] },
+      { days:'14 días', title:'Ruta completa por las islas', highlights:['Atenas 2 noches','Santorini, Mikonos, Paros, Naxos','Rutas en quad por cada isla','Buceo en Zante','Kassos y Karpathos (islas secretas)'] },
+    ],
+  };
+
+  const GENERIC_ITINERARIES = [
+    { days:'7 días', title:'Semana clásica', highlights:['Principales atracciones de la capital','Excursión de un día al entorno natural','Gastronomía y mercados locales','Barrio histórico y cultura local','Tarde libre para explorar'] },
+    { days:'10 días', title:'10 días completo', highlights:['Ciudad principal (3 noches)','Segunda ciudad o región','Excursión a la naturaleza','Día de descanso en playa o montaña','Mercados y artesanía local'] },
+    { days:'14 días', title:'14 días en profundidad', highlights:['Circuito completo por el país','Parques nacionales y naturaleza','Pueblos auténticos sin turistas','Experiencia cultural inmersiva','Gastronomía en cada región'] },
+  ];
+
+  // Flight estimates from Spain (€)
+  const FLIGHT_RANGES = {
+    europe:  { low: [60,150],   mid: [120,250],  high: [300,600] },
+    nearint: { low: [150,300],  mid: [280,500],  high: [500,1200] },
+    asia:    { low: [350,700],  mid: [600,1200], high: [1200,3000] },
+    americas:{ low: [450,800],  mid: [700,1400], high: [1500,3500] },
+    africa:  { low: [200,450],  mid: [350,700],  high: [700,1800] },
+    oceania: { low: [700,1200], mid: [1000,2000],high: [2000,5000] },
+  };
+  const CONTINENT_MAP = {
+    'Europa':'europe', 'África':'africa', 'Asia':'asia',
+    'América del Norte':'americas','América del Sur':'americas',
+    'América Central':'americas','Oceanía':'oceania',
+    'Oriente Medio':'nearint','Medio Oriente':'nearint',
+  };
+
+  // App state
+  let allDestinations = [];
+  let currentDest = null;
+  let selectedDays = 7;
+  let selectedLevel = 'low';
+
+  // Auth-aware nav
+  async function initAuth() {
+    try {
+      const token = localStorage.getItem('vm_token');
+      const area = document.getElementById('navAuthArea');
+      if (token) {
+        const r = await fetch(`${API_BASE}/api/auth/me`, { headers:{ Authorization:`Bearer ${token}` } });
+        if (r.ok) {
+          const d = await r.json();
+          const name = (d.user?.name || d.user?.email || 'Mi cuenta').split(' ')[0];
+          area.innerHTML = `<a href="profile.html" class="nav-btn">${name}</a><a href="plan.html" class="nav-btn primary">Mi plan</a>`;
+          return;
+        }
+      }
+    } catch {}
+  }
+
+  // Load all destinations for autocomplete
+  async function loadAllDestinations() {
+    try {
+      const res = await fetch(`${API_BASE}/api/destinations?limit=100`);
+      const data = await res.json();
+      allDestinations = data.destinations || [];
+    } catch(e) { console.warn('Could not load destinations', e); }
+  }
+
+  // Load full destination info
+  async function loadDestination(slug) {
+    const res = await fetch(`${API_BASE}/api/destinations/${slug}`);
+    const data = await res.json();
+    return data.destination;
+  }
+
+  // Autocomplete logic
+  const searchInput = document.getElementById('searchInput');
+  const acDropdown = document.getElementById('acDropdown');
+  let acFocusIdx = -1;
+
+  function renderAutocomplete(query) {
+    if (!query || query.length < 1) { acDropdown.classList.remove('open'); return; }
+    const q = query.toLowerCase();
+    const matches = allDestinations.filter(d =>
+      d.name?.toLowerCase().includes(q) ||
+      d.country?.toLowerCase().includes(q) ||
+      d.slug?.toLowerCase().includes(q)
+    ).slice(0, 8);
+
+    if (!matches.length) { acDropdown.classList.remove('open'); return; }
+
+    acDropdown.innerHTML = matches.map((d, i) => `
+      <div class="autocomplete-item" data-slug="${d.slug}" data-idx="${i}">
+        <span class="ac-flag">${countryFlag(d.country)}</span>
+        <div class="ac-info">
+          <div class="ac-name">${d.name}</div>
+          <div class="ac-country">${d.country || ''}</div>
+        </div>
+        ${d.best_months ? `<span class="ac-badge">✓ Datos</span>` : ''}
+      </div>
+    `).join('');
+    acFocusIdx = -1;
+    acDropdown.classList.add('open');
+  }
+
+  searchInput.addEventListener('input', () => renderAutocomplete(searchInput.value));
+  searchInput.addEventListener('keydown', e => {
+    const items = acDropdown.querySelectorAll('.autocomplete-item');
+    if (e.key === 'ArrowDown') { acFocusIdx = Math.min(acFocusIdx+1, items.length-1); items.forEach((el,i) => el.classList.toggle('focused', i===acFocusIdx)); e.preventDefault(); }
+    else if (e.key === 'ArrowUp') { acFocusIdx = Math.max(acFocusIdx-1, 0); items.forEach((el,i) => el.classList.toggle('focused', i===acFocusIdx)); e.preventDefault(); }
+    else if (e.key === 'Enter' && acFocusIdx >= 0) { const slug = items[acFocusIdx]?.dataset.slug; if(slug) selectDestination(slug); }
+    else if (e.key === 'Escape') acDropdown.classList.remove('open');
+  });
+  acDropdown.addEventListener('click', e => {
+    const item = e.target.closest('.autocomplete-item');
+    if (item) selectDestination(item.dataset.slug);
+  });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.search-wrap')) acDropdown.classList.remove('open');
+  });
+
+  // Select a destination
+  async function selectDestination(slug) {
+    acDropdown.classList.remove('open');
+    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('destCard').classList.add('visible');
+    document.getElementById('loadingArea').style.display = 'flex';
+    document.getElementById('heroPhoto').style.visibility = 'hidden';
+    document.getElementById('calendarSection').style.display = 'none';
+    document.getElementById('budgetSection').style.display = 'none';
+    document.getElementById('rutasSection').style.display = 'none';
+
+    // Update URL
+    const url = new URL(window.location);
+    url.searchParams.set('slug', slug);
+    history.pushState({}, '', url);
+
+    try {
+      const dest = await loadDestination(slug);
+      currentDest = dest;
+      searchInput.value = dest.name;
+      renderDestination(dest);
+    } catch(e) {
+      console.error(e);
+      document.getElementById('loadingArea').style.display = 'none';
+    }
+  }
+
+  function renderDestination(dest) {
+    document.getElementById('loadingArea').style.display = 'none';
+    document.getElementById('heroPhoto').style.visibility = 'visible';
+    document.getElementById('calendarSection').style.display = 'block';
+    document.getElementById('budgetSection').style.display = 'block';
+    document.getElementById('rutasSection').style.display = 'block';
+
+    // Hero
+    if (dest.hero_photo_url) {
+      document.getElementById('heroPhoto').style.backgroundImage = `url(${dest.hero_photo_url})`;
+    }
+    document.getElementById('destFlag').textContent = countryFlag(dest.country);
+    document.getElementById('destCountry').textContent = dest.country || '';
+    document.getElementById('destName').textContent = dest.name;
+    document.getElementById('destTagline').textContent = dest.tagline || dest.description || '';
+
+    // Seasons calendar
+    renderCalendar(dest);
+
+    // Budget
+    renderBudget(dest);
+
+    // Routes
+    renderRoutes(dest);
+  }
+
+  function renderCalendar(dest) {
+    const strip = document.getElementById('monthsStrip');
+    const seasons = dest.destination_seasons || dest.seasons || [];
+    strip.innerHTML = '';
+
+    seasons.forEach((s, i) => {
+      const score = s.overall_score || 5;
+      const cls = score >= 7.5 ? 'great' : score >= 5 ? 'ok' : 'avoid';
+      const heightPct = Math.round((score / 10) * 100);
+      const hasEvent = s.events && s.events.length > 0;
+      const cell = document.createElement('div');
+      cell.className = `month-cell ${cls}`;
+      cell.dataset.month = i;
+      cell.innerHTML = `
+        ${hasEvent ? '<span class="mc-event-dot">★</span>' : ''}
+        <div class="mc-abbr">${MONTHS_ABR[i]}</div>
+        <div class="mc-bar"><div class="mc-bar-fill" style="height:${heightPct}%"></div></div>
+        <div class="mc-temp">${s.avg_temp_c != null ? s.avg_temp_c+'°' : ''}</div>
+      `;
+      cell.addEventListener('click', () => showMonthDetail(i, s, cls));
+      strip.appendChild(cell);
+    });
+
+    // Close detail when clicking active month again
+    document.getElementById('monthDetail').classList.remove('visible');
+  }
+
+  let activeMonthIdx = -1;
+  function showMonthDetail(idx, s, cls) {
+    const detail = document.getElementById('monthDetail');
+    const cells = document.querySelectorAll('.month-cell');
+
+    if (activeMonthIdx === idx && detail.classList.contains('visible')) {
+      detail.classList.remove('visible');
+      cells[idx]?.classList.remove('active');
+      activeMonthIdx = -1;
+      return;
+    }
+    cells.forEach(c => c.classList.remove('active'));
+    cells[idx]?.classList.add('active');
+    activeMonthIdx = idx;
+
+    document.getElementById('mdName').textContent = MONTHS_ES[idx];
+
+    const pill = document.getElementById('mdPill');
+    pill.className = 'md-score-pill ' + cls;
+    pill.textContent = cls === 'great' ? '✓ Ideal' : cls === 'ok' ? '~ Aceptable' : '✗ Evitar';
+
+    // Dot meters
+    function dots(n, total, extraClass) {
+      let h = '<div class="dot-meter ' + (extraClass||'') + '">';
+      for(let i=1; i<=total; i++) h += `<span class="${i<=n?'filled':''}"></span>`;
+      h += '</div>';
+      return h;
+    }
+
+    const rows = [
+      s.avg_temp_c != null ? `<div class="md-row"><span class="md-row-icon">🌡️</span><div><strong>Temperatura media:</strong> ${s.avg_temp_c}°C${s.min_temp_c!=null&&s.max_temp_c!=null ? ` (${s.min_temp_c}°–${s.max_temp_c}°)` : ''}</div></div>` : '',
+      s.weather_description ? `<div class="md-row"><span class="md-row-icon">☀️</span><div><strong>Clima:</strong> ${s.weather_description}</div></div>` : '',
+      s.crowd_level != null ? `<div class="md-row"><span class="md-row-icon">👥</span><div><strong>Afluencia:</strong> ${dots(s.crowd_level, 5, 'crowded')}</div></div>` : '',
+      s.price_level != null ? `<div class="md-row"><span class="md-row-icon">💰</span><div><strong>Precios:</strong> ${dots(s.price_level, 5, 'price')}</div></div>` : '',
+    ].filter(Boolean);
+
+    document.getElementById('mdRows').innerHTML = rows.join('');
+    document.getElementById('mdAdvice').innerHTML = s.travel_advice ? `✈️ <strong>Consejo:</strong> ${s.travel_advice}` : '';
+
+    const events = s.events || [];
+    document.getElementById('mdEvents').innerHTML = events.map(ev =>
+      `<span class="md-event-tag">★ ${ev.name || ev}</span>`
+    ).join('');
+
+    detail.classList.add('visible');
+    detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function renderBudget(dest) {
+    selectedDays = parseInt(document.querySelector('.day-btn.active')?.dataset.days || 7);
+    selectedLevel = document.querySelector('.level-btn.active')?.dataset.level || 'low';
+    calcBudget(dest);
+  }
+
+  function calcBudget(dest) {
+    const d = dest || currentDest;
+    if (!d) return;
+    const days = selectedDays;
+    const lvl = selectedLevel;
+
+    // Daily costs from API or fallback
+    const dailyCosts = {
+      low:  d.budget_daily_low  || 60,
+      mid:  d.budget_daily_mid  || 120,
+      high: d.budget_daily_high || 300,
+    };
+
+    // Accommodation from API or derive
+    const accom = {
+      low:  d.accommodation_budget || Math.round(dailyCosts.low  * 0.45),
+      mid:  d.accommodation_mid    || Math.round(dailyCosts.mid  * 0.50),
+      high: d.accommodation_high   || Math.round(dailyCosts.high * 0.55),
+    };
+
+    // Food + activities derived
+    const food = {
+      low:  Math.round(dailyCosts.low  * 0.35),
+      mid:  Math.round(dailyCosts.mid  * 0.30),
+      high: Math.round(dailyCosts.high * 0.25),
+    };
+    const acts = {
+      low:  Math.round(dailyCosts.low  * 0.20),
+      mid:  Math.round(dailyCosts.mid  * 0.20),
+      high: Math.round(dailyCosts.high * 0.20),
+    };
+
+    // Flights
+    const cont = CONTINENT_MAP[d.continent] || 'europe';
+    const fr = FLIGHT_RANGES[cont][lvl];
+    const flightMin = fr[0], flightMax = fr[1];
+    const flightAvg = Math.round((flightMin + flightMax) / 2);
+
+    const accomTotal = accom[lvl] * days;
+    const foodTotal  = food[lvl]  * days;
+    const actsTotal  = acts[lvl]  * days;
+    const total      = flightAvg + accomTotal + foodTotal + actsTotal;
+
+    const fmt = n => n.toLocaleString('es-ES') + ' €';
+
+    document.getElementById('budgetTable').innerHTML = `
+      <div class="bt-row">
+        <span class="bt-icon">✈️</span>
+        <span class="bt-label">Vuelos ida y vuelta desde España</span>
+        <span class="bt-amount">${fmt(flightMin)}–${fmt(flightMax)}</span>
+      </div>
+      <div class="bt-row">
+        <span class="bt-icon">🏨</span>
+        <span class="bt-label">Alojamiento (${days} noches)</span>
+        <span class="bt-amount">${fmt(accomTotal)}</span>
+      </div>
+      <div class="bt-row">
+        <span class="bt-icon">🍜</span>
+        <span class="bt-label">Comida y transporte local</span>
+        <span class="bt-amount">${fmt(foodTotal)}</span>
+      </div>
+      <div class="bt-row">
+        <span class="bt-icon">🎟️</span>
+        <span class="bt-label">Actividades y entradas</span>
+        <span class="bt-amount">${fmt(actsTotal)}</span>
+      </div>
+      <div class="bt-row total">
+        <span class="bt-icon">💡</span>
+        <span class="bt-label">Total estimado (${days} días · ${lvl==='low'?'mochilero':lvl==='mid'?'medio':'premium'})</span>
+        <span class="bt-amount">${fmt(flightMin + accomTotal + foodTotal + actsTotal)}–${fmt(flightMax + accomTotal + foodTotal + actsTotal)}</span>
+      </div>
+    `;
+  }
+
+  // Budget button listeners
+  document.getElementById('daysBtns').addEventListener('click', e => {
+    const btn = e.target.closest('.day-btn');
+    if (!btn) return;
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedDays = parseInt(btn.dataset.days);
+    calcBudget();
+  });
+  document.getElementById('levelBtns').addEventListener('click', e => {
+    const btn = e.target.closest('.level-btn');
+    if (!btn) return;
+    document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedLevel = btn.dataset.level;
+    calcBudget();
+  });
+
+  function renderRoutes(dest) {
+    const slug = dest.slug;
+    const itins = ITINERARIES[slug] || GENERIC_ITINERARIES;
+    document.getElementById('rutasGrid').innerHTML = itins.map(it => `
+      <div class="ruta-card">
+        <div class="ruta-duration">${it.days}</div>
+        <div class="ruta-title">${it.title}</div>
+        <ul class="ruta-highlights">
+          ${it.highlights.map(h => `<li>${h}</li>`).join('')}
+        </ul>
+      </div>
+    `).join('');
+  }
+
+  // Init
+  async function init() {
+    initAuth();
+    await loadAllDestinations();
+
+    // Check URL param
+    const params = new URLSearchParams(window.location.search);
+    const slugParam = params.get('slug') || params.get('destino');
+    if (slugParam) {
+      selectDestination(slugParam);
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>
