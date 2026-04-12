@@ -426,7 +426,7 @@
     <span class="layer-toggle"></span>
     🏛️ 7 Maravillas Modernas
   </div>
-  <div class="layer-item" id="layer-maravillas_natural" onclick="toggleLayer('maravillas_natural')">
+  <div class="layer-item" id="layer-maravillas_natural" onclick="toggleLayer('maravillas_natural')" style="display:none;">
     <span class="layer-toggle"></span>
     🌿 7 Maravillas Naturales
   </div>
@@ -630,6 +630,8 @@ let visitedWonders = new Set(
 
 // visitedCities is an array of city name strings in profile.html
 let visitedCities = JSON.parse(localStorage.getItem('visitedCities') || '[]');
+// visitedCitiesGeo: array of {name, lat, lng, country_code} from API
+let visitedCitiesGeo = JSON.parse(localStorage.getItem('visitedCitiesGeo') || '[]');
 
 // visitedNaturalWonders: array of DB IDs (8,9,10,26,27,28,29)
 const _naturalWonderRaw = JSON.parse(localStorage.getItem('visitedNaturalWonders') || '[]');
@@ -650,6 +652,11 @@ let geoFeaturesMap = {}; // iso2 → layer
 
 document.addEventListener('DOMContentLoaded', () => {
   initMap();
+  // Show natural wonders layer toggle if user already has natural wonders in localStorage
+  if (visitedNaturalWonders.size > 0) {
+    const el = document.getElementById('layer-maravillas_natural');
+    if (el) el.style.display = '';
+  }
   // Close layers panel when clicking outside
   document.addEventListener('click', (e) => {
     if (layersPanelOpen &&
@@ -752,26 +759,75 @@ async function syncFromAPI() {
         if (changed) { saveCountries(); refreshGeoLayer(); updateStats(); }
       }
     }
-    // Sync cities
+    // Sync cities — API returns plain array of city objects
     const vr = await fetch(`${API}/api/visited-cities`, { headers: { Authorization: `Bearer ${token}` } });
     if (vr.ok) {
       const vd = await vr.json();
-      if (vd.ok && vd.cities) {
+      // API returns either a plain array or {ok, cities}
+      const cityList = Array.isArray(vd) ? vd : (vd.cities || []);
+      if (cityList.length > 0) {
         let citiesChanged = false;
-        for (const c of vd.cities) {
+        for (const c of cityList) {
           const name = c.city_name;
           if (name && !visitedCities.some(v => v.toLowerCase() === name.toLowerCase())) {
             visitedCities.push(name); citiesChanged = true;
           }
+          // Store geo data if available
+          if (name && c.lat && c.lng) {
+            if (!visitedCitiesGeo.some(g => g.name.toLowerCase() === name.toLowerCase())) {
+              visitedCitiesGeo.push({ name, lat: parseFloat(c.lat), lng: parseFloat(c.lng), country_code: c.country_code || '' });
+              citiesChanged = true;
+            }
+          }
         }
         if (citiesChanged) {
           localStorage.setItem('visitedCities', JSON.stringify(visitedCities));
+          localStorage.setItem('visitedCitiesGeo', JSON.stringify(visitedCitiesGeo));
           if (layers.ciudades) refreshCities();
+        }
+      }
+    }
+    // Sync wonders from API (categories: modern, natural, ancient)
+    const wr = await fetch(`${API}/api/profile`, { headers: { Authorization: `Bearer ${token}` } });
+    if (wr.ok) {
+      const wd = await wr.json();
+      if (wd.ok && wd.wonders) {
+        let wondersChanged = false;
+        for (const w of wd.wonders) {
+          if (!w.visited) continue;
+          if (w.category === 'modern') {
+            // Map DB ID → w1..w7
+            const MODERN_DB_TO_ID = {1:'w1',2:'w2',3:'w7',4:'w3',5:'w5',6:'w6',7:'w7'};
+            const wid = `w${w.id}`;
+            if (!visitedWonders.has(wid)) { visitedWonders.add(wid); wondersChanged = true; }
+          } else if (w.category === 'natural') {
+            const nid = NATURAL_WONDER_DB_TO_ID[w.id];
+            if (nid && !visitedNaturalWonders.has(nid)) { visitedNaturalWonders.add(nid); wondersChanged = true; }
+          }
+        }
+        if (wondersChanged) {
+          localStorage.setItem('visitedWonders', JSON.stringify([...visitedWonders]));
+          localStorage.setItem('visitedNaturalWonders', JSON.stringify(
+            Object.entries(NATURAL_WONDER_DB_TO_ID).filter(([dbId, nid]) => visitedNaturalWonders.has(nid)).map(([dbId]) => Number(dbId))
+          ));
+        }
+        // Show/hide natural wonders layer toggle based on whether user has any
+        const hasNatural = wd.wonders.some(w => w.category === 'natural' && w.visited);
+        const naturalLayerItem = document.getElementById('layer-maravillas_natural');
+        if (naturalLayerItem) {
+          naturalLayerItem.style.display = hasNatural ? '' : 'none';
+          if (!hasNatural && layers.maravillas_natural) {
+            layers.maravillas_natural = false;
+            naturalLayerItem.classList.remove('active');
+            refreshNaturalWonders();
+          }
         }
       }
     }
     // Refresh active layers after sync
     if (layers.heatmap) refreshHeatmap();
+    if (layers.maravillas_new) refreshWonders();
+    if (layers.maravillas_natural) refreshNaturalWonders();
   } catch(e) { console.warn('API sync failed:', e); }
 }
 
@@ -878,38 +934,36 @@ function refreshHeatmap() {
   if (heatLayer) { map.removeLayer(heatLayer); heatLayer = null; }
   if (!layers.heatmap) return;
 
-  // Build city count per country from visitedCities (array of city name strings)
-  // visitedCities in profile.html are stored as plain city names, not country-tagged
-  // We weight by visited-cities that partially match country name as fallback
-  // Main intensity = 1.0 per visited country, boosted by city count if available
-  const cityCountByCountry = {};
-  // visitedCities is a flat array of city name strings — we can't map them to countries
-  // without additional data, so we use uniform weight 1.0 base + bonus for multi-city
+  // Use GeoJSON polygon overlay for vibrant country-level heatmap
+  // Instead of blob-based leaflet.heat, re-style visited countries with a vivid gradient
+  if (!geoLayer) return;
 
-  const points = [];
-  for (const iso of visitedCountries) {
-    const c = COUNTRY_CENTROIDS[iso];
-    if (!c) continue;
-    // Intensity: base 0.6, boosted if user has cities in that country
-    const intensity = 0.6 + Math.min((cityCountByCountry[iso] || 0) * 0.2, 0.4);
-    points.push([c[0], c[1], intensity]);
-  }
-
-  if (points.length === 0) return;
-
-  heatLayer = L.heatLayer(points, {
-    radius: 90,
-    blur: 50,
-    maxZoom: 8,
-    max: 1.0,
-    minOpacity: 0.65,
-    gradient: {
-      0.0: '#38BDF8',
-      0.3: '#818CF8',
-      0.6: '#A855F7',
-      1.0: '#EC4899',
+  // Create a separate overlay layer group for heatmap polygons
+  heatLayer = L.geoJSON(null, {
+    style: function(feature) {
+      const iso = (feature.properties.ISO_A2 || feature.properties.iso_a2 || '').toUpperCase();
+      if (!visitedCountries.has(iso)) return { fillOpacity: 0, color: 'transparent', weight: 0, interactive: false };
+      return {
+        fillColor: '#0EA5E9',
+        fillOpacity: 0.82,
+        color: '#0284C7',
+        weight: 1.5,
+        interactive: false,
+      };
     },
-  }).addTo(map);
+  });
+
+  // Reuse the same GeoJSON data already loaded
+  geoLayer.eachLayer(layer => {
+    if (layer.feature) {
+      const iso = (layer.feature.properties.ISO_A2 || layer.feature.properties.iso_a2 || '').toUpperCase();
+      if (visitedCountries.has(iso)) {
+        heatLayer.addData(layer.feature);
+      }
+    }
+  });
+
+  heatLayer.addTo(map);
 }
 
 // ── WONDERS ───────────────────────────────────────────────────────────────────
@@ -1058,28 +1112,45 @@ function refreshCities() {
   cityMarkers = [];
   if (!layers.ciudades) return;
 
+  const cityIcon = () => L.divIcon({
+    html: `<div style="
+      width:12px; height:12px;
+      background:#0EA5E9;
+      border:2px solid #fff;
+      border-radius:50%;
+      box-shadow:0 1px 4px rgba(0,0,0,0.4);
+    "></div>`,
+    className: '',
+    iconSize: [12, 12],
+    iconAnchor: [6, 6],
+  });
+
+  const shownCities = new Set();
+
+  // First: show cities from MAJOR_CITIES that the user has visited
   MAJOR_CITIES.forEach(city => {
     const isVisited = visitedCities.some(
       vc => normCity(vc) === normCity(city.name)
     );
-    if (!isVisited) return; // Only show visited cities
-
-    const icon = L.divIcon({
-      html: `<div style="
-        width:12px; height:12px;
-        background:#0EA5E9;
-        border:2px solid #fff;
-        border-radius:50%;
-        box-shadow:0 1px 4px rgba(0,0,0,0.4);
-      "></div>`,
-      className: '',
-      iconSize: [12, 12],
-      iconAnchor: [6, 6],
-    });
-
-    const m = L.marker([city.lat, city.lng], { icon })
+    if (!isVisited) return;
+    shownCities.add(normCity(city.name));
+    const m = L.marker([city.lat, city.lng], { icon: cityIcon() })
       .bindTooltip(
         `<strong>${city.name}</strong><br><span style="font-size:.72rem;opacity:.75">${city.country} · ✓ visitada</span>`,
+        { direction: 'top', offset: [0, -6], className: 'city-tooltip' }
+      )
+      .addTo(map);
+    cityMarkers.push(m);
+  });
+
+  // Second: show cities from API geo data not already shown
+  visitedCitiesGeo.forEach(city => {
+    if (!city.lat || !city.lng) return;
+    if (shownCities.has(normCity(city.name))) return;
+    shownCities.add(normCity(city.name));
+    const m = L.marker([city.lat, city.lng], { icon: cityIcon() })
+      .bindTooltip(
+        `<strong>${city.name}</strong><br><span style="font-size:.72rem;opacity:.75">${city.country_code || ''} · ✓ visitada</span>`,
         { direction: 'top', offset: [0, -6], className: 'city-tooltip' }
       )
       .addTo(map);
