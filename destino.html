@@ -2324,10 +2324,25 @@
     'Oriente Medio':      { low: 55,  mid: 110, high: 280 },
   };
   const BREAKDOWN_RATIOS = {
-    low:  { accommodation: 0.30, food: 0.20, activities: 0.10, transport: 0.07, flights_pp: 150 },
-    mid:  { accommodation: 0.35, food: 0.22, activities: 0.12, transport: 0.06, flights_pp: 300 },
-    high: { accommodation: 0.40, food: 0.20, activities: 0.15, transport: 0.05, flights_pp: 600 },
+    low:  { accommodation: 0.30, food: 0.20, activities: 0.10, transport: 0.07 },
+    mid:  { accommodation: 0.35, food: 0.22, activities: 0.12, transport: 0.06 },
+    high: { accommodation: 0.40, food: 0.20, activities: 0.15, transport: 0.05 },
   };
+  // Vuelos I/V desde España, por región y categoría
+  const REGIONAL_FLIGHTS = {
+    'Europa':             { low: 80,   mid: 160,  high: 400  },
+    'Asia':               { low: 450,  mid: 700,  high: 1400 },
+    'América del Sur':    { low: 550,  mid: 800,  high: 1500 },
+    'América del Norte':  { low: 450,  mid: 700,  high: 1400 },
+    'África':             { low: 200,  mid: 400,  high: 900  },
+    'Oceanía':            { low: 800,  mid: 1100, high: 2000 },
+    'Oriente Medio':      { low: 150,  mid: 300,  high: 700  },
+  };
+  function getFlightPrice(dest, tier) {
+    const region = getRegion(dest);
+    const table = region ? REGIONAL_FLIGHTS[region] : { low: 200, mid: 500, high: 1200 };
+    return table[tier] || table.mid;
+  }
 
   function getRegion(dest) {
     if (!dest) return null;
@@ -2364,7 +2379,8 @@
     const dayRate = getDayRate(currentDest, tier);
     const ratios = BREAKDOWN_RATIOS[tier];
 
-    const flightsTotal = ratios.flights_pp * persons;
+    const flightPricePP = getFlightPrice(currentDest, tier);
+    const flightsTotal = flightPricePP * persons;
     const accomPerNightPP = dayRate * ratios.accommodation;
     const accomTotal = accomPerNightPP * days * persons;
     const foodTotal = dayRate * ratios.food * days * persons;
@@ -2386,7 +2402,7 @@
         💰 Total: ~${fmt(grandTotal)}€ ${persons > 1 ? `<span style="font-size:.82rem;font-weight:500;color:var(--text-2);">(${fmt(perPerson)}€ por persona)</span>` : ''}
       </div>
       <div style="display:flex;flex-direction:column;gap:5px;color:var(--text-2);">
-        <span>✈️ Vuelos estimados: ~${fmt(ratios.flights_pp)}€ pp (ida y vuelta)</span>
+        <span>✈️ Vuelos estimados: ~${fmt(flightPricePP)}€ pp (ida y vuelta desde España)</span>
         <span>🏨 Alojamiento: ~${fmt(accomTotal)}€ (${fmt(accomPerNightPP)}€/noche pp)</span>
         <span>🍜 Comida: ~${fmt(foodTotal)}€ (${fmt(dayRate * ratios.food)}€/día pp)</span>
         <span>🎭 Actividades: ~${fmt(activTotal)}€ (${fmt(dayRate * ratios.activities)}€/día pp)</span>
