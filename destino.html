@@ -1988,7 +1988,26 @@
   let currentSleepData = null;
   function renderSleep(sleep) {
     currentSleepData = sleep;
-    document.getElementById('sleepSection').style.display = '';
+    const section = document.getElementById('sleepSection');
+    const content = document.getElementById('sleepContent');
+    const tabsEl  = document.getElementById('sleepTabs');
+
+    // New format: array of neighborhood objects [{name, description}, ...]
+    if (Array.isArray(sleep)) {
+      if (tabsEl) tabsEl.style.display = 'none';
+      content.innerHTML = sleep.map(n => `
+        <div class="sleep-card" style="margin-bottom:10px;">
+          <div class="sleep-name">${escHtml(n.name || n.title || '')}</div>
+          <div class="sleep-notes">${escHtml(n.description || n.notes || '')}</div>
+        </div>
+      `).join('');
+      section.style.display = '';
+      return;
+    }
+
+    // Legacy format: object with budget/mid/luxury tiers
+    if (tabsEl) tabsEl.style.display = '';
+    section.style.display = '';
     showSleepTab('mid', document.querySelector('.sleep-tab:nth-child(2)'));
   }
 
@@ -1997,7 +2016,7 @@
     if (btn) btn.classList.add('active');
 
     const sleep = currentSleepData;
-    if (!sleep) return;
+    if (!sleep || Array.isArray(sleep)) return;
     const map = { budget: sleep.budget, mid: sleep.mid, luxury: sleep.luxury };
     const d = map[tab];
     const content = document.getElementById('sleepContent');
