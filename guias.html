@@ -69,8 +69,16 @@
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 24px; height: 56px;
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex; align-items: center;
       animation: slideDown .4s ease both;
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     .nav-logo {
       font-family: 'Space Grotesk', sans-serif;
@@ -747,26 +755,28 @@
 
 <!-- Nav -->
 <nav>
-  <a href="main.html" id="navLogo" class="nav-logo">
-    <span class="nav-logo-icon">✈️</span>
-    ViajeraMente
-  </a>
-  <div class="nav-links">
-    <a href="plan.html">Planificador</a>
-    <a href="guias.html" class="active">Guías</a>
-    <a href="ranking.html">🏆 Ranking</a>
-  </div>
-  <div class="nav-right">
-    <div id="nav-guest">
-      <a href="login.html" class="btn-nav-login">Entrar</a>
-      <a href="signup.html" class="btn-nav-signup">Registrarse</a>
+  <div class="nav-inner">
+    <a href="main.html" id="navLogo" class="nav-logo">
+      <span class="nav-logo-icon">✈️</span>
+      ViajeraMente
+    </a>
+    <div class="nav-links">
+      <a href="plan.html">Planificador</a>
+      <a href="guias.html" class="active">Guías</a>
+      <a href="ranking.html">🏆 Ranking</a>
     </div>
-    <div id="nav-user" style="display:none">
-      <a href="profile.html" class="nav-avatar" id="nav-avatar-link" title="Mi perfil">
-        <span id="nav-initials">?</span>
-      </a>
+    <div class="nav-right">
+      <div id="nav-guest">
+        <a href="login.html" class="btn-nav-login">Entrar</a>
+        <a href="signup.html" class="btn-nav-signup">Registrarse</a>
+      </div>
+      <div id="nav-user" style="display:none">
+        <a href="profile.html" class="nav-avatar" id="nav-avatar-link" title="Mi perfil">
+          <span id="nav-initials">?</span>
+        </a>
+      </div>
+      <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
     </div>
-    <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
   </div>
 </nav>
 

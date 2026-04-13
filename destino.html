@@ -65,9 +65,17 @@
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 24px; height: 56px;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 12px;
+      display: flex; align-items: center;
       animation: slideDown .4s ease both;
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
     .nav-back {
       font-size: .85rem; font-weight: 500; color: var(--text-2);
@@ -161,7 +169,7 @@
     /* ── Hero ── */
     .dest-hero {
       height: 52vh; min-height: 360px; max-height: 600px;
-      background: #111 center/cover no-repeat;
+      background: #111 top center/cover no-repeat;
       position: relative;
       display: flex; align-items: flex-end;
       margin-top: 56px;
@@ -730,22 +738,24 @@
 
 <!-- ── Nav ── -->
 <nav>
-  <a href="guias.html" class="nav-back">← Guías</a>
-  <a href="main.html" id="navLogo" class="nav-logo">
-    <span>✈️</span>
-    <span>ViajeraMente</span>
-  </a>
-  <div class="nav-actions">
-    <div id="navGuest" style="display:none; align-items:center; gap:6px;">
-      <a href="login.html" class="nav-btn-login">Entrar</a>
-      <a href="signup.html" class="nav-btn-signup">Registrarse</a>
+  <div class="nav-inner">
+    <a href="guias.html" class="nav-back">← Guías</a>
+    <a href="main.html" id="navLogo" class="nav-logo">
+      <span>✈️</span>
+      <span>ViajeraMente</span>
+    </a>
+    <div class="nav-actions">
+      <div id="navGuest" style="display:none; align-items:center; gap:6px;">
+        <a href="login.html" class="nav-btn-login">Entrar</a>
+        <a href="signup.html" class="nav-btn-signup">Registrarse</a>
+      </div>
+      <div id="navUser" style="display:none; align-items:center; gap:8px;">
+        <a href="profile.html" class="nav-btn-login">👤 Mi perfil</a>
+      </div>
+      <button id="btnShare" onclick="openGuideShareMenu()" style="display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-2);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)';this.style.background='var(--accent-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-2)';this.style.background='var(--bg)'">📤 Compartir</button>
+      <button id="btnWishlist" class="nav-dest-btn" onclick="toggleWishlist()">♡ Quiero ir</button>
+      <button id="btnVisited" onclick="toggleVisitedDest()">✓ Visitado</button>
     </div>
-    <div id="navUser" style="display:none; align-items:center; gap:8px;">
-      <a href="profile.html" class="nav-btn-login">👤 Mi perfil</a>
-    </div>
-    <button id="btnShare" onclick="openGuideShareMenu()" style="display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-2);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)';this.style.background='var(--accent-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-2)';this.style.background='var(--bg)'">📤 Compartir</button>
-    <button id="btnWishlist" class="nav-dest-btn" onclick="toggleWishlist()">♡ Quiero ir</button>
-    <button id="btnVisited" onclick="toggleVisitedDest()">✓ Visitado</button>
   </div>
 </nav>
 
@@ -921,7 +931,7 @@
   </div>
 
   <!-- GATED CONTENT (only for logged-in users) -->
-  <div id="gatedContent">
+  <div id="gatedContent" style="display:none">
 
   <!-- Local transport -->
   <section class="section" id="transportSection">
@@ -1396,7 +1406,7 @@
   /* ─── LOAD ─── */
   async function loadDestination() {
     // hero placeholder
-    document.getElementById('destHero').style.background = '#C8D6DF';
+    document.getElementById('destHero').style.cssText += '; background-color: #C8D6DF; background-size: cover; background-position: center; background-repeat: no-repeat;';
 
     // No slug param — show selection prompt instead of crashing
     if (!slug) {
