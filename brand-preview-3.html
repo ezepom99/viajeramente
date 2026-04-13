@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logos V3 — ViajeraMente (wordmark #18, EEG #13, icons)</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:   #10B981;
+      --teal2:  #059669;
+      --gold:   #B8975A;
+      --gold2:  #9B7A3D;
+      --dark:   #1a1a2e;
+      --white:  #FFFFFF;
+      --bg:     #F3F4F6;
+      --card:   #FFFFFF;
+      --border: #E5E7EB;
+      --text:   #111827;
+      --sub:    #6B7280;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--dark);
+      color: white;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+    header h1 span {
+      color: var(--teal);
+    }
+    header p {
+      font-size: 0.75rem;
+      opacity: 0.45;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .note {
+      background: linear-gradient(90deg, #ECFDF5, #FEF9EE);
+      border-left: 3px solid var(--teal);
+      padding: 14px 24px;
+      font-size: 0.82rem;
+      color: var(--teal2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label {
+      padding: 28px 32px 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sub);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 12px 32px 32px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .grid { grid-template-columns: 1fr; padding: 16px; } }
+
+    .grid-2col {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-4col {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    @media (max-width: 900px) { .grid-4col { grid-template-columns: repeat(2, 1fr); } }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(16,185,129,0.1);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      min-height: 200px;
+    }
+
+    .logo-area.dark {
+      background: var(--dark);
+    }
+
+    .logo-area.black {
+      background: #000;
+    }
+
+    .logo-area.teal-bg {
+      background: var(--teal);
+    }
+
+    .logo-area.small {
+      min-height: 140px;
+      padding: 24px;
+    }
+
+    .logo-area.xsmall {
+      min-height: 100px;
+      padding: 20px;
+    }
+
+    .card-info {
+      padding: 14px 18px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .card-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .card-desc {
+      font-size: 0.75rem;
+      color: var(--sub);
+      line-height: 1.45;
+    }
+    .card-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 100px;
+      margin-bottom: 6px;
+    }
+    .tag-wordmark { background: #ECFDF5; color: #065F46; }
+    .tag-eeg      { background: #EFF6FF; color: #1D4ED8; }
+    .tag-icon     { background: #F5F3FF; color: #6D28D9; }
+    .tag-social   { background: #FEF9EE; color: #92400E; }
+
+    /* ─── LOGO #18: Wordmark ─── */
+    .wordmark-logo {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      letter-spacing: -0.01em;
+    }
+    .wm-viajera {
+      font-family: 'DM Serif Display', 'Playfair Display', Georgia, serif;
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: var(--dark);
+      letter-spacing: -0.02em;
+    }
+    .wm-mente {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .wordmark-logo.light .wm-viajera { color: rgba(255,255,255,0.92); }
+    .wordmark-logo.light .wm-mente   { color: var(--teal); }
+
+    .wordmark-logo.gold-version .wm-mente { color: var(--gold); }
+    .wordmark-logo.gold-version.light .wm-mente { color: #D4A96A; }
+
+    /* Compact variant with a dot separator */
+    .wordmark-logo .dot-sep {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--teal);
+      margin: 0 1px 0 2px;
+      line-height: 1;
+    }
+
+    /* Stacked variant */
+    .wordmark-stacked {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1;
+    }
+    .wm-top {
+      font-family: 'DM Serif Display', 'Playfair Display', Georgia, serif;
+      font-size: 1.9rem;
+      font-weight: 400;
+      color: var(--dark);
+      letter-spacing: -0.01em;
+    }
+    .wm-bottom {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .wordmark-stacked.light .wm-top    { color: rgba(255,255,255,0.92); }
+    .wordmark-stacked.light .wm-bottom { color: var(--teal); }
+
+    /* Small header size */
+    .wordmark-logo.sm .wm-viajera,
+    .wordmark-logo.sm .wm-mente { font-size: 1.4rem; }
+    .wordmark-logo.sm .dot-sep  { font-size: 1.2rem; }
+
+    /* ─── LOGO #13 EEG: Brainwave ─── */
+    .eeg-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+    .eeg-canvas-wrap {
+      position: relative;
+      width: 220px;
+      height: 80px;
+    }
+    .eeg-brain-ghost {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.08;
+    }
+    .eeg-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--dark);
+    }
+    .eeg-label span {
+      color: var(--teal);
+    }
+    .eeg-label.light { color: rgba(255,255,255,0.9); }
+    .eeg-label.light span { color: var(--teal); }
+    .eeg-tagline {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-top: -8px;
+    }
+    .eeg-tagline.light { color: rgba(255,255,255,0.35); }
+
+    /* ─── Icon / Avatar logos ─── */
+    .icon-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .icon-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--sub);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Favicon grid */
+    .favicon-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 28px;
+    }
+    .favicon-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .favicon-lbl {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--sub);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Logos V3 — <span>ViajeraMente</span></h1>
+  <p>Brand preview · #18 Wordmark · #13 EEG · Icons</p>
+</header>
+
+<div class="note">
+  Paleta: teal primario <strong>#10B981</strong> · oro cálido <strong>#B8975A</strong> · oscuro <strong>#1a1a2e</strong> · blanco <strong>#FFFFFF</strong>
+</div>
+
+<!-- ══════════════════════════════════════
+     LOGO #18 — WORDMARK
+══════════════════════════════════════ -->
+<div class="section-label">Logo #18 — Wordmark horizontal (web headers, navbar)</div>
+
+<div class="grid grid-2col" style="max-width:900px;">
+
+  <!-- Light bg -->
+  <div class="card">
+    <div class="logo-area">
+      <div class="wordmark-logo">
+        <span class="wm-viajera">Viajera</span><span class="wm-mente">MENTE</span>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-wordmark">Wordmark</div>
+      <div class="card-name">#18a — Horizontal, fondo claro</div>
+      <div class="card-desc">Serif + sans-serif bold. "Viajera" en DM Serif, "MENTE" en Space Grotesk teal.</div>
+    </div>
+  </div>
+
+  <!-- Dark bg -->
+  <div class="card">
+    <div class="logo-area dark">
+      <div class="wordmark-logo light">
+        <span class="wm-viajera">Viajera</span><span class="wm-mente">MENTE</span>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-wordmark">Wordmark</div>
+      <div class="card-name">#18b — Horizontal, fondo oscuro</div>
+      <div class="card-desc">Blanco hueso para la parte serif, teal sin cambios. Para headers con fondo hero.</div>
+    </div>
+  </div>
+
+  <!-- With dot separator -->
+  <div class="card">
+    <div class="logo-area">
+      <div class="wordmark-logo">
+        <span class="wm-viajera">Viajera</span><span class="dot-sep">·</span><span class="wm-mente">MENTE</span>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-wordmark">Wordmark</div>
+      <div class="card-name">#18c — Con separador</div>
+      <div class="card-desc">Variante con punto medio teal separando ambas palabras. Más legible en tamaño pequeño.</div>
+    </div>
+  </div>
+
+  <!-- Gold version -->
+  <div class="card">
+    <div class="logo-area dark">
+      <div class="wordmark-logo gold-version light">
+        <span class="wm-viajera">Viajera</span><span class="wm-mente">MENTE</span>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-wordmark">Wordmark</div>
+      <div class="card-name">#18d — Versión oro (premium)</div>
+      <div class="card-desc">"MENTE" en oro cálido #D4A96A. Solo para fondos oscuros. Evitar en blanco.</div>
+    </div>
+  </div>
+
+  <!-- Stacked light -->
+  <div class="card">
+    <div class="logo-area">
+      <div class="wordmark-stacked">
+        <span class="wm-top">Viajera</span>
+        <span class="wm-bottom">Mente</span>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-wordmark">Wordmark</div>
+      <div class="card-name">#18e — Stacked, fondo claro</div>
+      <div class="card-desc">Versión vertical para contextos cuadrados (bio de Instagram, firma de email).</div>
+    </div>
+  </div>
+
+  <!-- Stacked dark -->
+  <div class="card">
+    <div class="logo-area dark">
+      <div class="wordmark-stacked light">
+        <span class="wm-top">Viajera</span>
+        <span class="wm-bottom">Mente</span>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-wordmark">Wordmark</div>
+      <div class="card-name">#18f — Stacked, fondo oscuro</div>
+      <div class="card-desc">Mismo stacked sobre dark. "MENTE" en spacing extra para peso visual.</div>
+    </div>
+  </div>
+
+</div><!-- /grid wordmark -->
+
+
+<!-- ══════════════════════════════════════
+     LOGO #13 — EEG BRAINWAVES
+══════════════════════════════════════ -->
+<div class="section-label" style="margin-top:16px;">Logo #13 — EEG Brainwaves (ondas cerebrales reales + contorno cerebro fantasma)</div>
+
+<div class="grid grid-2col" style="max-width:900px;">
+
+  <!-- EEG Light -->
+  <div class="card">
+    <div class="logo-area">
+      <div class="eeg-wrap">
+        <div class="eeg-canvas-wrap">
+          <!-- Ghost brain outline -->
+          <div class="eeg-brain-ghost">
+            <svg width="180" height="70" viewBox="0 0 180 70" fill="none">
+              <path d="M90 8 C60 8, 32 20, 28 38 C24 52, 34 62, 46 63 C52 64, 56 60, 60 62 C65 65, 72 68, 90 68 C108 68, 115 65, 120 62 C124 60, 128 64, 134 63 C146 62, 156 52, 152 38 C148 20, 120 8, 90 8Z" fill="#1a1a2e"/>
+            </svg>
+          </div>
+          <!-- EEG wave SVG -->
+          <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Flat line left -->
+            <polyline points="0,40 18,40 22,40" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- Sharp EEG spike 1 (alpha wave) -->
+            <polyline points="22,40 26,40 28,28 30,52 32,36 34,40" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Flat segment -->
+            <polyline points="34,40 44,40" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- Main EEG complex (QRS-style sharp peak) -->
+            <polyline points="44,40 48,42 50,20 52,58 54,14 56,62 58,40 62,40" stroke="#10B981" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Flat segment -->
+            <polyline points="62,40 72,40" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- Secondary complex -->
+            <polyline points="72,40 75,38 77,30 79,46 81,36 83,42 85,40" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Short flat -->
+            <polyline points="85,40 96,40" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- Theta wave cluster (smaller ripples) -->
+            <polyline points="96,40 99,34 102,46 105,32 108,48 111,38 114,40" stroke="#B8975A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Flat segment -->
+            <polyline points="114,40 124,40" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- Delta slow wave -->
+            <polyline points="124,40 128,44 132,24 136,56 140,40" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Flat segment -->
+            <polyline points="140,40 150,40" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- Small tail spikes -->
+            <polyline points="150,40 153,36 156,44 159,38 162,40" stroke="#10B981" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Final flat -->
+            <polyline points="162,40 180,40 184,40" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="eeg-label">Viajera<span>Mente</span></div>
+        <div class="eeg-tagline">viaja · piensa · recuerda</div>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-eeg">EEG</div>
+      <div class="card-name">#13a — Brainwaves, fondo claro</div>
+      <div class="card-desc">Ondas EEG reales con cerebro fantasma. Picos teal = actividad viajera, oro = creatividad. Onda plana base en gris.</div>
+    </div>
+  </div>
+
+  <!-- EEG Dark -->
+  <div class="card">
+    <div class="logo-area dark">
+      <div class="eeg-wrap">
+        <div class="eeg-canvas-wrap">
+          <div class="eeg-brain-ghost" style="opacity:0.12;">
+            <svg width="180" height="70" viewBox="0 0 180 70" fill="none">
+              <path d="M90 8 C60 8, 32 20, 28 38 C24 52, 34 62, 46 63 C52 64, 56 60, 60 62 C65 65, 72 68, 90 68 C108 68, 115 65, 120 62 C124 60, 128 64, 134 63 C146 62, 156 52, 152 38 C148 20, 120 8, 90 8Z" fill="white"/>
+            </svg>
+          </div>
+          <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="0,40 18,40 22,40" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="22,40 26,40 28,28 30,52 32,36 34,40" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="34,40 44,40" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="44,40 48,42 50,20 52,58 54,14 56,62 58,40 62,40" stroke="#34D399" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="62,40 72,40" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="72,40 75,38 77,30 79,46 81,36 83,42 85,40" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="85,40 96,40" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="96,40 99,34 102,46 105,32 108,48 111,38 114,40" stroke="#D4A96A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="114,40 124,40" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="124,40 128,44 132,24 136,56 140,40" stroke="#34D399" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="140,40 150,40" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="150,40 153,36 156,44 159,38 162,40" stroke="#10B981" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="162,40 184,40" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="eeg-label light">Viajera<span>Mente</span></div>
+        <div class="eeg-tagline light">viaja · piensa · recuerda</div>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-eeg">EEG</div>
+      <div class="card-name">#13b — Brainwaves, fondo oscuro</div>
+      <div class="card-desc">Versión oscura con cerebro blanco semitransparente. Ondas en teal brillante + oro para contraste.</div>
+    </div>
+  </div>
+
+  <!-- EEG compact (icon-only version) -->
+  <div class="card">
+    <div class="logo-area">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+        <!-- Just the wave, no label -->
+        <div class="eeg-canvas-wrap" style="width:180px; height:64px;">
+          <div class="eeg-brain-ghost" style="opacity:0.06;">
+            <svg width="160" height="60" viewBox="0 0 180 70" fill="none">
+              <path d="M90 8 C60 8, 32 20, 28 38 C24 52, 34 62, 46 63 C52 64, 56 60, 60 62 C65 65, 72 68, 90 68 C108 68, 115 65, 120 62 C124 60, 128 64, 134 63 C146 62, 156 52, 152 38 C148 20, 120 8, 90 8Z" fill="#1a1a2e"/>
+            </svg>
+          </div>
+          <svg width="180" height="64" viewBox="0 0 180 64" fill="none">
+            <polyline points="0,32 14,32" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="14,32 17,23 19,41 21,27 23,32" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="23,32 34,32" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="34,32 37,34 39,15 41,47 43,11 45,50 47,32 52,32" stroke="#10B981" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="52,32 60,32" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="60,32 63,27 66,37 69,25 72,39 75,32" stroke="#B8975A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="75,32 84,32" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="84,32 87,35 90,20 93,44 96,32" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="96,32 104,32" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="104,32 107,29 110,35 113,30 116,32" stroke="#10B981" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="116,32 134,32" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="134,32 137,28 139,36 141,32" stroke="#B8975A" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="141,32 160,32 164,32" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:0.8rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--dark);">
+          ViajeraMente
+        </div>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-eeg">EEG</div>
+      <div class="card-name">#13c — Compacto (solo onda + texto caps)</div>
+      <div class="card-desc">Sin tagline, nombre en all-caps condensado. Para banners y firmas de email.</div>
+    </div>
+  </div>
+
+  <!-- EEG on teal -->
+  <div class="card">
+    <div class="logo-area teal-bg">
+      <div class="eeg-wrap">
+        <div class="eeg-canvas-wrap">
+          <div class="eeg-brain-ghost" style="opacity:0.18;">
+            <svg width="180" height="70" viewBox="0 0 180 70" fill="none">
+              <path d="M90 8 C60 8, 32 20, 28 38 C24 52, 34 62, 46 63 C52 64, 56 60, 60 62 C65 65, 72 68, 90 68 C108 68, 115 65, 120 62 C124 60, 128 64, 134 63 C146 62, 156 52, 152 38 C148 20, 120 8, 90 8Z" fill="white"/>
+            </svg>
+          </div>
+          <svg width="220" height="80" viewBox="0 0 220 80" fill="none">
+            <polyline points="0,40 18,40 22,40" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="22,40 26,40 28,28 30,52 32,36 34,40" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="34,40 44,40" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="44,40 48,42 50,20 52,58 54,14 56,62 58,40 62,40" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="62,40 72,40" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="72,40 75,38 77,30 79,46 81,36 83,42 85,40" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="85,40 96,40" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="96,40 99,34 102,46 105,32 108,48 111,38 114,40" stroke="#FDE68A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="114,40 124,40" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <polyline points="124,40 128,44 132,24 136,56 140,40" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="140,40 184,40" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:1.3rem; font-weight:700; color:white; letter-spacing:-0.01em;">ViajeraMente</div>
+        <div style="font-size:0.6rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-top:-4px;">viaja · piensa · recuerda</div>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-eeg">EEG</div>
+      <div class="card-name">#13d — Brainwaves sobre teal</div>
+      <div class="card-desc">Variante de color de marca. Ondas en blanco + amarillo pálido para notas áureas. Para fondos de color.</div>
+    </div>
+  </div>
+
+</div><!-- /grid eeg -->
+
+
+<!-- ══════════════════════════════════════
+     ICONS — CÍRCULO, CUADRADO, FAVICON
+══════════════════════════════════════ -->
+<div class="section-label" style="margin-top:16px;">Versiones icono para redes sociales</div>
+
+<div class="grid" style="grid-template-columns: repeat(4, 1fr); max-width:1100px;">
+
+  <!-- Circular (WhatsApp / Instagram) -->
+  <div class="card">
+    <div class="logo-area" style="background:#f9fafb; flex-direction:column; gap:20px;">
+      <!-- Light bg -->
+      <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="40" fill="#10B981"/>
+        <!-- Brain ghost in circle -->
+        <ellipse cx="40" cy="37" rx="22" ry="16" fill="rgba(255,255,255,0.12)" />
+        <ellipse cx="30" cy="32" rx="10" ry="8" fill="rgba(255,255,255,0.07)" />
+        <ellipse cx="50" cy="32" rx="10" ry="8" fill="rgba(255,255,255,0.07)" />
+        <!-- EEG wave centered in circle -->
+        <polyline points="10,40 15,40 17,34 19,46 21,38 23,40" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="23,40 27,40 29,42 31,28 33,50 35,24 37,52 39,40 43,40" stroke="white" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="43,40 47,40 49,36 51,44 53,38 55,40" stroke="#FDE68A" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="55,40 58,40 60,34 62,46 64,40" stroke="white" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="64,40 70,40" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- V lettermark at bottom -->
+        <text x="40" y="66" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="rgba(255,255,255,0.85)" text-anchor="middle" letter-spacing="2">VM</text>
+      </svg>
+      <div style="font-size:0.65rem; font-weight:600; color:var(--sub); letter-spacing:0.05em; text-transform:uppercase;">fondo teal</div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-icon">Circular</div>
+      <div class="card-name">WhatsApp / Instagram</div>
+      <div class="card-desc">80×80 círculo teal. EEG en blanco + onda áurea. "VM" como marca de agua. Ideal como foto de perfil.</div>
+    </div>
+  </div>
+
+  <!-- Circular dark version -->
+  <div class="card">
+    <div class="logo-area dark" style="flex-direction:column; gap:20px;">
+      <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="40" fill="#1a1a2e"/>
+        <circle cx="40" cy="40" r="39" fill="none" stroke="#10B981" stroke-width="1.5"/>
+        <ellipse cx="40" cy="37" rx="22" ry="16" fill="rgba(255,255,255,0.04)" />
+        <polyline points="10,40 15,40 17,34 19,46 21,38 23,40" stroke="#10B981" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="23,40 27,40 29,42 31,28 33,50 35,24 37,52 39,40 43,40" stroke="#34D399" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="43,40 47,40 49,36 51,44 53,38 55,40" stroke="#D4A96A" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="55,40 64,40" stroke="#10B981" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="64,40 70,40" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <text x="40" y="66" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="rgba(255,255,255,0.6)" text-anchor="middle" letter-spacing="2">VM</text>
+      </svg>
+      <div style="font-size:0.65rem; font-weight:600; color:rgba(255,255,255,0.3); letter-spacing:0.05em; text-transform:uppercase;">fondo oscuro</div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-icon">Circular</div>
+      <div class="card-name">WhatsApp oscuro / Story</div>
+      <div class="card-desc">Fondo dark con borde teal. Ondas en teal brillante + oro. Versión premium.</div>
+    </div>
+  </div>
+
+  <!-- Square (YouTube) -->
+  <div class="card">
+    <div class="logo-area" style="background:#f9fafb; flex-direction:column; gap:20px;">
+      <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <rect width="80" height="80" rx="14" fill="#10B981"/>
+        <!-- Brain ghost faint -->
+        <ellipse cx="40" cy="36" rx="26" ry="18" fill="rgba(255,255,255,0.09)"/>
+        <!-- EEG wave -->
+        <polyline points="8,40 14,40 16,33 18,47 20,38 22,40" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="22,40 27,40 29,42 31,26 33,52 35,22 37,54 39,40 44,40" stroke="white" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="44,40 48,40 50,35 53,45 56,37 58,40" stroke="#FDE68A" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="58,40 61,37 64,43 66,40" stroke="white" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="66,40 72,40" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- VM text -->
+        <text x="40" y="66" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="rgba(255,255,255,0.8)" text-anchor="middle" letter-spacing="2">VM</text>
+      </svg>
+      <div style="font-size:0.65rem; font-weight:600; color:var(--sub); letter-spacing:0.05em; text-transform:uppercase;">cuadrado redondeado</div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-social">YouTube / App</div>
+      <div class="card-name">YouTube / App Store</div>
+      <div class="card-desc">80×80 cuadrado radius 14. Mismo lenguaje EEG. Formato requerido por YouTube y stores.</div>
+    </div>
+  </div>
+
+  <!-- Favicon sizes -->
+  <div class="card">
+    <div class="logo-area" style="flex-direction:column; gap:0;">
+      <div class="favicon-row">
+
+        <!-- 32px favicon -->
+        <div class="favicon-wrap">
+          <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="6" fill="#10B981"/>
+            <polyline points="3,16 6,16 7,11 8,21 9,15 10,16" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="10,16 12,16 13,17 14,9 15,23 16,7 17,24 18,16 21,16" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="21,16 22.5,16 23.5,13 25,19 26,14 27,16" stroke="#FDE68A" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="27,16 29,16" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          </svg>
+          <div class="favicon-lbl">32px</div>
+        </div>
+
+        <!-- 16px favicon -->
+        <div class="favicon-wrap">
+          <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <rect width="16" height="16" rx="3" fill="#10B981"/>
+            <polyline points="1,8 2.5,8 3,5 3.5,11 4,7 4.5,8" stroke="white" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="4.5,8 5.5,8 6,9 6.5,3.5 7,12 7.5,3 8,12.5 8.5,8 10,8" stroke="white" stroke-width="1.1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="10,8 11,8 11.5,6 12.5,10 13,7 13.5,8" stroke="#FDE68A" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="13.5,8 15,8" stroke="rgba(255,255,255,0.35)" stroke-width="0.7" fill="none" stroke-linecap="round"/>
+          </svg>
+          <div class="favicon-lbl">16px</div>
+        </div>
+
+        <!-- 64px icon -->
+        <div class="favicon-wrap">
+          <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="12" fill="#1a1a2e"/>
+            <rect width="64" height="64" rx="12" fill="none" stroke="#10B981" stroke-width="1.2"/>
+            <polyline points="5,32 10,32 12,25 14,39 16,30 18,32" stroke="#10B981" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="18,32 23,32 25,34 27,18 29,46 31,14 33,48 35,32 40,32" stroke="#34D399" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="40,32 44,32 46,27 49,37 52,29 54,32" stroke="#D4A96A" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="54,32 59,32" stroke="rgba(255,255,255,0.2)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+          <div class="favicon-lbl">64px</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-tag tag-social">Favicon</div>
+      <div class="card-name">Favicon — 16 / 32 / 64px</div>
+      <div class="card-desc">El EEG se simplifica al reducir tamaño: pico central se mantiene, detalles se eliminan. Legible a 16px.</div>
+    </div>
+  </div>
+
+</div><!-- /grid icons -->
+
+
+<!-- ══════════════════════════════════════
+     COMPARISON: DARK BACKGROUNDS
+══════════════════════════════════════ -->
+<div class="section-label" style="margin-top:16px;">Vista rápida — todos sobre fondo oscuro</div>
+
+<div style="background: var(--dark); padding: 40px 32px; margin: 0 0 40px; display:flex; flex-wrap:wrap; gap:48px; align-items:center; justify-content:center;">
+
+  <!-- Wordmark horizontal -->
+  <div style="text-align:center;">
+    <div class="wordmark-logo light" style="margin-bottom:8px;">
+      <span class="wm-viajera">Viajera</span><span class="wm-mente">MENTE</span>
+    </div>
+    <div style="font-size:0.6rem; color:rgba(255,255,255,0.25); letter-spacing:0.08em; text-transform:uppercase;">#18 Wordmark</div>
+  </div>
+
+  <div style="width:1px; height:60px; background:rgba(255,255,255,0.08);"></div>
+
+  <!-- EEG + name -->
+  <div style="text-align:center;">
+    <svg width="160" height="48" viewBox="0 0 160 48" fill="none" style="display:block; margin:0 auto 6px;">
+      <polyline points="0,24 10,24 12,17 14,31 16,22 18,24" stroke="#10B981" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="18,24 22,24 24,26 26,12 28,36 30,8 32,38 34,24 38,24" stroke="#34D399" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="38,24 42,24 44,20 47,28 50,21 52,24" stroke="#D4A96A" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="52,24 56,24 58,18 61,30 63,24" stroke="#10B981" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="63,24 80,24" stroke="rgba(255,255,255,0.15)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:1rem; font-weight:700; color:white; letter-spacing:-0.01em; margin-bottom:4px;">ViajeraMente</div>
+    <div style="font-size:0.6rem; color:rgba(255,255,255,0.25); letter-spacing:0.08em; text-transform:uppercase;">#13 EEG</div>
+  </div>
+
+  <div style="width:1px; height:60px; background:rgba(255,255,255,0.08);"></div>
+
+  <!-- Circle icon -->
+  <div style="text-align:center;">
+    <svg width="56" height="56" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" style="display:block; margin:0 auto 8px;">
+      <circle cx="40" cy="40" r="40" fill="#10B981"/>
+      <polyline points="10,40 15,40 17,34 19,46 21,38 23,40" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="23,40 27,40 29,42 31,28 33,50 35,24 37,52 39,40 43,40" stroke="white" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="43,40 47,40 49,36 51,44 53,38 55,40" stroke="#FDE68A" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="55,40 70,40" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <text x="40" y="66" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="rgba(255,255,255,0.85)" text-anchor="middle" letter-spacing="2">VM</text>
+    </svg>
+    <div style="font-size:0.6rem; color:rgba(255,255,255,0.25); letter-spacing:0.08em; text-transform:uppercase;">Círculo</div>
+  </div>
+
+  <div style="width:1px; height:60px; background:rgba(255,255,255,0.08);"></div>
+
+  <!-- Square icon -->
+  <div style="text-align:center;">
+    <svg width="56" height="56" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" style="display:block; margin:0 auto 8px;">
+      <rect width="80" height="80" rx="14" fill="#10B981"/>
+      <polyline points="8,40 14,40 16,33 18,47 20,38 22,40" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="22,40 27,40 29,42 31,26 33,52 35,22 37,54 39,40 44,40" stroke="white" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="44,40 48,40 50,35 53,45 56,37 58,40" stroke="#FDE68A" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="58,40 72,40" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <text x="40" y="66" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="rgba(255,255,255,0.8)" text-anchor="middle" letter-spacing="2">VM</text>
+    </svg>
+    <div style="font-size:0.6rem; color:rgba(255,255,255,0.25); letter-spacing:0.08em; text-transform:uppercase;">Cuadrado</div>
+  </div>
+
+</div>
+
+</body>
+</html>
