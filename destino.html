@@ -918,13 +918,12 @@
     </div>
   </section>
 
-  <!-- LOGIN GATE (shown to guests) -->
+  <!-- LOGIN CTA BANNER (shown to guests as a soft prompt, not a blocker) -->
   <div id="loginGate" style="display:none;">
-    <div class="gate-fade"></div>
     <div class="gate-card">
       <div class="gate-icon">🗺️</div>
-      <h3>Accede a la guía completa</h3>
-      <p>Crea tu cuenta gratuita y desbloquea todo: transporte local, gastronomía, dónde dormir, presupuesto, consejos de viajero y mucho más.</p>
+      <h3>¿Te gusta lo que ves?</h3>
+      <p>Crea tu cuenta gratuita para guardar destinos, llevar tu historial de viajes y personalizar las guías según tu país de origen.</p>
       <a href="signup.html" class="gate-btn-primary" id="gateSignupBtn">Crear cuenta gratis →</a>
       <a href="login.html" class="gate-btn-secondary" id="gateLoginBtn">Ya tengo cuenta — Entrar</a>
     </div>
@@ -1011,16 +1010,17 @@
   (function() {
     const token = localStorage.getItem('token');
     const currentUrl = encodeURIComponent(window.location.href);
+    // Always show full guide content — gate is now a soft CTA, not a blocker
+    document.getElementById('gatedContent').style.display = '';
     if (token) {
       document.getElementById('navUser').style.display = 'flex';
-      document.getElementById('gatedContent').style.display = '';
       document.getElementById('loginGate').style.display = 'none';
       // Show bottom nav for logged-in users (mobile)
       const bn = document.getElementById('bottomNav');
       if (bn) bn.style.display = '';
     } else {
       document.getElementById('navGuest').style.display = 'flex';
-      document.getElementById('gatedContent').style.display = 'none';
+      // Show loginGate as a soft CTA banner (not a blocker — content visible above and below)
       document.getElementById('loginGate').style.display = 'block';
       // Wishlist and visited buttons redirect to login for guests
       const goLogin = () => { window.location.href = 'login.html?next=' + currentUrl; };
