@@ -1501,7 +1501,23 @@
     // Sections
     if (d.seasons?.length) { renderMonths(d.seasons, d.events || []); document.getElementById('calendarSection').style.display = ''; }
     if (d.events?.length) renderEvents(d.events);
-    if (d.what_to_do?.length) renderActivities(d.what_to_do);
+    if (d.what_to_do?.length) {
+      renderActivities(d.what_to_do);
+    } else {
+      const actSection = document.getElementById('activitiesSection');
+      if (actSection) {
+        actSection.style.display = '';
+        document.getElementById('activitiesGrid').innerHTML = `
+          <div class="info-card" style="text-align:center;padding:32px 24px;">
+            <div style="font-size:2.2rem;margin-bottom:12px;">🗺️</div>
+            <div style="font-weight:700;font-size:1rem;color:#0F172A;margin-bottom:8px;">¿Qué hacer en ${escHtml(d.name || slug)}?</div>
+            <p style="font-size:.9rem;color:#64748B;line-height:1.6;margin-bottom:18px;">Estamos preparando esta guía. Pídenos que la hagamos primero:</p>
+            <button onclick="submitGuideRequest()" style="display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:100px;border:none;background:linear-gradient(135deg,#10B981,#059669);color:#fff;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(16,185,129,.28);">
+              🙋 Pedir guía
+            </button>
+          </div>`;
+      }
+    }
     if (d.where_to_sleep) renderSleep(d.where_to_sleep);
     if (d.budget_daily_low) renderBudget(d);
     // Initialize cost estimator with destination data
@@ -1540,12 +1556,18 @@
       document.getElementById('foodText').textContent = d.food_and_drink;
     } else {
       const fd = document.getElementById('foodSection');
-      if (fd) fd.style.display = 'none';
+      if (fd) {
+        fd.style.display = '';
+        document.getElementById('foodText').innerHTML = `<span style="font-size:1.4rem;">🍽️</span><br><strong style="display:block;margin:8px 0 6px;color:#0F172A;">Gastronomía local</strong>Aún no tenemos información gastronómica para este destino. ¡Pronto la añadiremos!`;
+      }
     }
     if (d.local_tips?.length) renderTips(d.local_tips);
     if (!d.visa_info) {
       const vs = document.getElementById('visaSection');
-      if (vs) vs.style.display = 'none';
+      if (vs) {
+        vs.style.display = '';
+        document.getElementById('visaInfo').innerHTML = `<span style="font-size:1.3rem;">💳</span><br><strong style="display:block;margin:8px 0 6px;color:#0F172A;">Información de visado</strong>Preparando los requisitos de visado para tu pasaporte. Mientras tanto, consulta la embajada oficial.`;
+      }
     }
     if (d.visa_info) {
       document.getElementById('visaInfo').textContent = d.visa_info;
