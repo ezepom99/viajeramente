@@ -10,6 +10,8 @@
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; max-width: 100%; }
+    /* Leaflet tiles must not be constrained by global max-width reset */
+    .leaflet-container img { max-width: none !important; }
 
     :root {
       --accent: #0EA5E9;
