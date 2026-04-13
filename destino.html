@@ -1963,7 +1963,7 @@
     const grid    = document.getElementById('activitiesGrid');
     grid.innerHTML = activities.map(a => `
       <div class="activity-card">
-        <div class="activity-title">${a.title}</div>
+        <div class="activity-title">${a.title || a.name}</div>
         <div class="activity-desc">${a.description}</div>
         <div class="activity-footer">
           ${a.price ? `<span class="price-badge">${a.price}</span>` : ''}

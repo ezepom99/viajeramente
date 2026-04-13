@@ -1254,6 +1254,13 @@ function renderGrid() {
   const cityNote = cityCount > 0 ? ` + ${cityCount} ciudad${cityCount !== 1 ? 'es' : ''}` : '';
   countEl.textContent = `${countryCount} destino${countryCount !== 1 ? 's' : ''}${cityNote}`;
 
+  // Hide/show featured hero when filters are active
+  const featuredHeroWrap = document.getElementById('featuredHero');
+  if (featuredHeroWrap) {
+    const filtersActive = activeContinent || activeStyle || searchQuery.trim();
+    featuredHeroWrap.style.display = filtersActive ? 'none' : '';
+  }
+
   // Hide/show rutas and experiencias sections
   const rutasSection = document.getElementById('rutas-section');
   const experienciasSection = document.getElementById('experiencias-section');
