@@ -60,7 +60,7 @@
       background: rgba(255,255,255,0.96);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 0 24px; height: 56px;
+      padding: 0 max(24px, calc((100% - 1200px) / 2 + 24px)); height: 56px;
       display: flex; align-items: center; justify-content: space-between;
       animation: slideDown .4s ease both;
     }

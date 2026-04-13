@@ -668,7 +668,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-function initMap() {
+async function initMap() {
   map = L.map('map', {
     zoomControl: false,
     attributionControl: true,
@@ -693,7 +693,8 @@ function initMap() {
   // Close sheet on map click
   map.on('click', () => closeSheet());
 
-  loadGeoJSON();
+  // IMPORTANT: await GeoJSON first so geoLayer exists before syncFromAPI calls refreshGeoLayer()
+  await loadGeoJSON();
   syncFromAPI();
 }
 
@@ -733,11 +734,46 @@ async function loadGeoJSON() {
     }).addTo(map);
 
     updateStats();
+    renderBaseDestinations();
     hideLoading();
   } catch (err) {
     console.error('Error loading GeoJSON:', err);
     setLoadingText('Error cargando mapa. Recarga la página.');
   }
+}
+
+// ── BASE DESTINATIONS (shown to all users, faint dots) ────────────────────────
+
+let baseDestMarkers = [];
+
+function renderBaseDestinations() {
+  // Remove existing base markers
+  baseDestMarkers.forEach(m => map.removeLayer(m));
+  baseDestMarkers = [];
+
+  // Show faint dots for all major cities so the map isn't blank for new users
+  const baseIcon = L.divIcon({
+    html: `<div style="
+      width:7px; height:7px;
+      background: rgba(148,163,184,0.55);
+      border: 1.5px solid rgba(100,116,139,0.35);
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    "></div>`,
+    className: '',
+    iconSize: [7, 7],
+    iconAnchor: [3.5, 3.5],
+  });
+
+  MAJOR_CITIES.forEach(city => {
+    const m = L.marker([city.lat, city.lng], { icon: baseIcon, interactive: true })
+      .bindTooltip(
+        `<strong>${city.name}</strong><br><span style="font-size:.72rem;opacity:.75">${city.country}</span>`,
+        { direction: 'top', offset: [0, -4], className: 'city-tooltip' }
+      )
+      .addTo(map);
+    baseDestMarkers.push(m);
+  });
 }
 
 // ── API SYNC ──────────────────────────────────────────────────────────────────

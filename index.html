@@ -173,7 +173,7 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 1000;
-      padding: 20px 24px;
+      padding: 20px max(24px, calc((100% - 1200px) / 2 + 24px));
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -185,7 +185,7 @@
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      padding: 12px 24px;
+      padding: 12px max(24px, calc((100% - 1200px) / 2 + 24px));
     }
     .nav-logo {
       font-family: 'Space Grotesk', sans-serif;
@@ -1275,21 +1275,21 @@
     }
 
     @media (min-width: 769px) and (max-width: 1023px) {
-      nav { padding: 14px 24px; }
-      nav.scrolled { padding: 10px 24px; }
+      nav { padding: 14px max(24px, calc((100% - 1200px) / 2 + 24px)); }
+      nav.scrolled { padding: 10px max(24px, calc((100% - 1200px) / 2 + 24px)); }
       .nav-links { gap: 14px; }
       .nav-link { font-size: .78rem; }
       /* Hide secondary links on medium screens — hamburger covers them */
       #nav-link-funciones, #nav-link-tengo-destino { display: none !important; }
     }
     @media (min-width: 1024px) {
-      nav { padding: 22px 48px; }
-      nav.scrolled { padding: 14px 48px; }
+      nav { padding: 22px max(48px, calc((100% - 1200px) / 2 + 48px)); }
+      nav.scrolled { padding: 14px max(48px, calc((100% - 1200px) / 2 + 48px)); }
       .section-padding { padding: 110px 48px; }
     }
 
     @media (min-width: 1200px) {
-      nav { padding: 24px 72px; }
+      nav { padding: 24px max(72px, calc((100% - 1200px) / 2 + 72px)); }
       .section-padding { padding: 130px 72px; }
     }
 
