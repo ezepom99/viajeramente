@@ -950,7 +950,7 @@ function refreshHeatmap() {
       if (!visitedCountries.has(iso)) return { fillOpacity: 0, color: 'transparent', weight: 0, interactive: false };
       return {
         fillColor: '#10B981',
-        fillOpacity: 0.82,
+        fillOpacity: 0.35,
         color: '#059669',
         weight: 1.5,
         interactive: false,
@@ -979,13 +979,12 @@ function refreshWonders() {
 
   wonderLayer = L.layerGroup().addTo(map);
 
-  const toShow = [];
-  if (layers.maravillas_new) toShow.push(...WONDERS_NEW);
+  // Only render wonders the user has already visited
+  const toShow = WONDERS_NEW.filter(w => visitedWonders.has(w.id));
 
   toShow.forEach(w => {
-    const isVisited = visitedWonders.has(w.id);
     const icon = L.divIcon({
-      html: `<div class="wonder-marker${isVisited ? ' visited-wonder' : ''}">${w.emoji}</div>`,
+      html: `<div class="wonder-marker visited-wonder">${w.emoji}</div>`,
       className: '',
       iconSize: [30, 30],
       iconAnchor: [15, 15],
@@ -994,7 +993,7 @@ function refreshWonders() {
     marker.bindPopup(`<div class="wonder-popup-inner">
       <strong>${w.emoji} ${w.name}</strong>
       <span>${w.type}</span>
-      ${isVisited ? '<div class="wonder-visited-badge">✓ Visitada</div>' : ''}
+      <div class="wonder-visited-badge">✓ Visitada</div>
     </div>`, { maxWidth: 220, offset: [0, -6] });
     marker.addTo(wonderLayer);
   });
