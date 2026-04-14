@@ -668,7 +668,7 @@ let mapMarkers = [];
 let mapPolyline = null;
 
 // ─── Auth ───────────────────────────────────────
-function getToken() { return localStorage.getItem('vm_token'); }
+function getToken() { return localStorage.getItem('token'); }
 
 async function loadUser() {
   const token = getToken();
@@ -697,7 +697,7 @@ function initNav(user) {
 }
 
 function logout() {
-  localStorage.removeItem('vm_token');
+  localStorage.removeItem('token');
   location.href = '/login.html';
 }
 
