@@ -1193,7 +1193,7 @@ nav { padding: 0 18px; }
 <script>
 const API_BASE = 'https://eze.saypeter.com';
 const token = localStorage.getItem('token');
-if (!token) window.location.href = 'login.html';
+if (!token) window.location.href = 'login.html?next=' + encodeURIComponent(window.location.pathname + window.location.search);
 
 // Auth-aware nav links
 (function() {

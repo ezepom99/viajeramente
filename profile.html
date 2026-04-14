@@ -2794,7 +2794,7 @@
 <script>
 const API_BASE = 'https://eze.saypeter.com';
 let token = localStorage.getItem('token');
-if (!token) { window.location.href = 'login.html'; }
+if (!token) { window.location.href = 'login.html?next=' + encodeURIComponent(window.location.pathname + window.location.search); }
 
 // Validate token on load - if invalid, redirect to login
 async function validateSession() {
