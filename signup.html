@@ -526,8 +526,8 @@
         localStorage.setItem('token_stored_at', Date.now().toString());
 
         const nextUrl = new URLSearchParams(window.location.search).get('next');
-        // New users go to profile.html to set up their travel profile (home country, style, etc.)
-        window.location.href = nextUrl ? decodeURIComponent(nextUrl) : 'profile.html?welcome=1';
+        // New users go to main.html after registration
+        window.location.href = nextUrl ? decodeURIComponent(nextUrl) : 'main.html';
       } catch (err) {
         generalError.textContent = err.message;
         generalError.classList.add('visible');
