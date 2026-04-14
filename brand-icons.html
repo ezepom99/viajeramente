@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ViajeraMente — Iconos & Wordmarks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@200;300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#F8F9FF;--card:#fff;--border:#E5E7EB;--text:#111827;--text2:#6B7280;--accent:#7C3AED}
+    [data-theme=dark]{--bg:#0C0C18;--card:#14142A;--border:#2A2A44;--text:#F1F5F9;--text2:#94A3B8;--accent:#A78BFA}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);padding:24px 16px 80px;transition:background .2s,color .2s}
+    header{max-width:980px;margin:0 auto 28px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+    h1{font-size:1.25rem;font-weight:700}
+    header p{font-size:.8rem;color:var(--text2);margin-top:4px;max-width:560px;line-height:1.5}
+    .btn{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:6px 14px;font-size:.78rem;cursor:pointer;color:var(--text2)}
+    .sec{max-width:980px;margin:0 auto 14px;display:flex;align-items:center;gap:10px;font-size:.95rem;font-weight:700}
+    .sec::after{content:'';flex:1;height:1px;background:var(--border)}
+    .subdesc{max-width:980px;margin:-6px auto 18px;font-size:.78rem;color:var(--text2)}
+    .grid{display:grid;gap:18px;max-width:980px;margin:0 auto 40px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+    .grid-sm{grid-template-columns:repeat(auto-fill,minmax(175px,1fr))}
+    .card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.12)}
+    .preview{display:flex;align-items:center;justify-content:center;padding:22px 16px;min-height:148px}
+    .info{padding:10px 14px 13px;border-top:1px solid var(--border)}
+    .tag{display:inline-block;padding:2px 7px;border-radius:20px;font-size:.66rem;font-weight:700;letter-spacing:.3px;margin-bottom:4px}
+    .tw{background:#F0FDF4;color:#166534}
+    .ti{background:#EEF2FF;color:#3730A3}
+    .tc{background:#FDF4FF;color:#7C3AED}
+    .ts{background:#FFF7ED;color:#C2410C}
+    .name{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:2px}
+    .desc{font-size:.73rem;color:var(--text2);line-height:1.4}
+    /* modal */
+    #ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;backdrop-filter:blur(4px);cursor:pointer}
+    #mo{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:101;background:var(--card);border-radius:18px;padding:28px;max-width:460px;width:90vw;max-height:90vh;overflow-y:auto}
+    #mo-prev{display:flex;align-items:center;justify-content:center;padding:20px;border-radius:10px;margin-bottom:14px}
+    #mo-name{font-size:.95rem;font-weight:700;margin-bottom:6px}
+    #mo-desc{font-size:.8rem;color:var(--text2);line-height:1.5}
+    .close{position:absolute;top:14px;right:14px;font-size:1.1rem;cursor:pointer;color:var(--text2);background:none;border:none}
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>ViajeraMente — Iconos & Wordmarks</h1>
+    <p>Variantes del #18 (wordmark web) · Variantes del #13 con EEG real y cerebro · Nuevos conceptos MENTE protagonista</p>
+  </div>
+  <button class="btn" onclick="toggleTheme()">🌙 Dark</button>
+</header>
+
+<div class="sec">⭐ Wordmark web — variantes del #18</div>
+<div class="subdesc">El elegido como logo principal. Estas son variantes del mismo estilo.</div>
+<div class="grid" id="g-word"></div>
+
+<div class="sec">🧠 Iconos reducidos — EEG real + cerebro</div>
+<div class="subdesc">Ondas EEG auténticas (picos agudos QRS). Cerebro semitransparente de fondo. Para WhatsApp, Instagram, YouTube, Google.</div>
+<div class="grid grid-sm" id="g-icons"></div>
+
+<div class="sec">💡 Nuevos conceptos — MENTE protagonista</div>
+<div class="subdesc">Donde el juego de palabras "mente viajera" queda visualmente claro a primera vista.</div>
+<div class="grid" id="g-concept"></div>
+
+<div id="ov" onclick="closeMo()"></div>
+<div id="mo"><button class="close" onclick="closeMo()">✕</button><div id="mo-prev"></div><div id="mo-name"></div><div id="mo-desc"></div></div>
+
+<script>
+// ─── SHARED SVG DEFS ─────────────────────────────────────────────────────────
+// Real EEG wave: flat baseline → alpha oscillation (small) → QRS spike → alpha → flat
+// Uses absolute SVG path coordinates on a 200-unit-wide, 40-unit-tall strip (baseline y=20)
+const EEG = "M5,20 L18,20 L20,17 L22,11 L24,29 L26,14 L28,20 L38,20 L40,16 L42,9 L44,31 L46,13 L48,20 L60,20 L63,14 L66,2 L69,38 L72,10 L74,20 L86,20 L88,16 L90,9 L92,31 L94,13 L96,20 L108,20 L110,16 L112,9 L114,31 L116,13 L118,20 L132,20 L134,16 L136,10 L138,30 L140,14 L142,20 L155,20";
+
+// Brain side-profile (left hemisphere, simplified but recognisable)
+// ViewBox origin matters — designed for 200×200 canvas
+const BRAIN = "M100,148 C88,146 76,138 68,126 C60,114 58,100 61,88 C55,80 52,68 57,56 C62,44 74,38 86,36 C92,34 98,32 104,32 C116,30 130,33 140,42 C150,51 155,64 153,77 C151,90 144,100 140,108 C148,118 150,130 145,140 C140,150 128,154 116,155 C108,156 104,152 100,148 Z";
+const CEREBELLUM = "M80,148 C76,154 80,162 88,162 C96,162 102,155 100,148";
+const FOLDS = [
+  "M70,68 C76,60 88,62 90,72",
+  "M70,90 C76,82 88,84 90,94",
+  "M112,50 C120,44 130,48 128,58",
+  "M110,72 C118,66 128,70 126,80",
+  "M110,96 C118,90 126,94 122,104",
+  "M70,112 C78,106 88,110 88,120"
+];
+
+function brain(op=0.08, fill='#7C3AED', tx=0, ty=0, sc=1) {
+  const g = (sc!==1||tx||ty) ? `transform="translate(${tx},${ty}) scale(${sc})"` : '';
+  return `<g ${g} opacity="${op}" fill="${fill}">
+    <path d="${BRAIN}"/>
+    <path d="${CEREBELLUM}" opacity=".7"/>
+    ${FOLDS.map(f=>`<path d="${f}" fill="none" stroke="${fill}" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>`).join('')}
+  </g>`;
+}
+
+// EEG strip helper — places the wave centred in the given bounding box
+// cx,cy = centre, w = desired display width, h = desired display height
+function eeg(gid, cx, cy, w, h, stroke, sw=2.8, op=1) {
+  // EEG strip is 155×40 units. Scale to fit (w × h), then translate to cx,cy
+  const sx = w/155, sy = h/40;
+  const tx = cx - w/2, ty = cy - h/2;
+  return `<path d="${EEG}" fill="none" stroke="${stroke}" stroke-width="${sw/Math.max(sx,sy)}" stroke-linecap="round" stroke-linejoin="round" opacity="${op}" transform="translate(${tx},${ty}) scale(${sx},${sy})"/>`;
+}
+
+// ─── GRADIENT DEFS (shared IDs) ───────────────────────────────────────────────
+function defs(id, c0, c1, c2) {
+  const mid = c2 ? `<stop offset="50%" stop-color="${c2}"/>` : '';
+  return `<defs>
+    <linearGradient id="gV${id}" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="${c0}"/><stop offset="100%" stop-color="${c2||c1}"/></linearGradient>
+    <linearGradient id="gM${id}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="#A78BFA"/></linearGradient>
+    <linearGradient id="gE${id}" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="${c0}"/>${mid}<stop offset="100%" stop-color="${c1}"/></linearGradient>
+    <linearGradient id="gF${id}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${c0}"/>${mid}<stop offset="100%" stop-color="${c1}"/></linearGradient>
+  </defs>`;
+}
+
+// ─── WORDMARKS ────────────────────────────────────────────────────────────────
+const WORDS = [
+  {id:'W1',tag:'tw',tl:'WORDMARK',name:'#18 — Original elegido',desc:'La referencia. "Viajera" teal, "·" esmeralda, "Mente" violeta italic. Playfair Display. Línea sutil + tagline. El logo principal para web.',bg:'#fff',
+   svg:`<svg viewBox="0 0 310 88" xmlns="http://www.w3.org/2000/svg" width="290" height="82">
+    ${defs('W1','#0EA5E9','#7C3AED','#0D9488')}
+    <text x="8" y="52" font-family="'Playfair Display',serif" font-size="38" fill="url(#gVW1)" font-weight="600" letter-spacing="-.5">Viajera</text>
+    <circle cx="172" cy="36" r="4.5" fill="#34D399"/>
+    <text x="180" y="52" font-family="'Playfair Display',serif" font-size="42" fill="url(#gMW1)" font-weight="700" font-style="italic" letter-spacing="-1">Mente</text>
+    <line x1="8" y1="60" x2="300" y2="60" stroke="#E0F2FE" stroke-width="1.5"/>
+    <text x="154" y="76" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#94A3B8" font-weight="500" letter-spacing="3.5">TRAVEL · DISCOVER · EXPLORE</text>
+   </svg>`},
+
+  {id:'W2',tag:'tw',tl:'WORDMARK',name:'Con onda EEG — como subrayado',desc:'El wordmark #18 con una onda EEG real corriendo bajo las palabras. El cerebro se "activa" al pensar en viajar. Muy coherente con el concepto.',bg:'#fff',
+   svg:`<svg viewBox="0 0 316 105" xmlns="http://www.w3.org/2000/svg" width="296" height="98">
+    ${defs('W2','#0EA5E9','#7C3AED','#0D9488')}
+    <text x="8" y="48" font-family="'Playfair Display',serif" font-size="36" fill="url(#gVW2)" font-weight="600" letter-spacing="-.5">Viajera</text>
+    <circle cx="166" cy="32" r="4" fill="#34D399"/>
+    <text x="174" y="48" font-family="'Playfair Display',serif" font-size="40" fill="url(#gMW2)" font-weight="700" font-style="italic" letter-spacing="-1">Mente</text>
+    ${eeg('url(#gEW2)',155,64,290,18,'url(#gEW2)',2.4)}
+    <text x="148" y="94" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#94A3B8" font-weight="500" letter-spacing="3">TRAVEL · DISCOVER · EXPLORE</text>
+   </svg>`},
+
+  {id:'W3',tag:'tw',tl:'WORDMARK',name:'Con cerebro sutil de fondo',desc:'El wordmark #18 con un cerebro de perfil muy transparente detrás. El origen del juego de palabras queda implícito sin ser explícito.',bg:'#FAF8F5',
+   svg:`<svg viewBox="0 0 316 100" xmlns="http://www.w3.org/2000/svg" width="296" height="93">
+    ${defs('W3','#0EA5E9','#7C3AED','#0D9488')}
+    <g transform="translate(50,-15) scale(.95)" opacity=".07">
+      <path d="${BRAIN}" fill="#0D9488"/>
+      ${FOLDS.map(f=>`<path d="${f}" fill="none" stroke="#0D9488" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>`).join('')}
+    </g>
+    <text x="8" y="55" font-family="'Playfair Display',serif" font-size="38" fill="url(#gVW3)" font-weight="600" letter-spacing="-.5">Viajera</text>
+    <circle cx="172" cy="39" r="4.5" fill="#34D399"/>
+    <text x="180" y="55" font-family="'Playfair Display',serif" font-size="42" fill="url(#gMW3)" font-weight="700" font-style="italic" letter-spacing="-1">Mente</text>
+    <line x1="8" y1="63" x2="300" y2="63" stroke="#D1FAE5" stroke-width="1.5"/>
+    <text x="154" y="79" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9CA3AF" font-weight="500" letter-spacing="3.5">TRAVEL · DISCOVER · EXPLORE</text>
+   </svg>`},
+
+  {id:'W4',tag:'tw',tl:'WORDMARK',name:'"MENTE" en badge — wordmark + highlight',desc:'"Viajera" fluido en teal, "MENTE" dentro de una caja violeta como si fuera un badge o etiqueta. La palabra MENTE destacada como concepto propio.',bg:'#fff',
+   svg:`<svg viewBox="0 0 316 90" xmlns="http://www.w3.org/2000/svg" width="296" height="84">
+    ${defs('W4','#0EA5E9','#7C3AED','#0D9488')}
+    <text x="8" y="52" font-family="'Playfair Display',serif" font-size="38" fill="url(#gVW4)" font-weight="600" letter-spacing="-.5">Viajera</text>
+    <circle cx="172" cy="36" r="4.5" fill="#34D399"/>
+    <rect x="178" y="14" width="122" height="47" rx="10" fill="url(#gFW4)"/>
+    <text x="239" y="46" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="30" fill="white" font-weight="800" letter-spacing="-1">MENTE</text>
+    <line x1="8" y1="68" x2="296" y2="68" stroke="#E0F2FE" stroke-width="1.5"/>
+    <text x="152" y="81" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#94A3B8" font-weight="500" letter-spacing="3.5">TRAVEL · DISCOVER · EXPLORE</text>
+   </svg>`},
+
+  {id:'W5',tag:'tw',tl:'WORDMARK',name:'Versión oscura — dark mode',desc:'El mismo concepto #18 en dark. Teal→verde claro para Viajera, violeta claro para Mente. Para redes sociales y fondos oscuros.',bg:'#0A0A14',
+   svg:`<svg viewBox="0 0 316 90" xmlns="http://www.w3.org/2000/svg" width="296" height="84">
+    <defs>
+      <linearGradient id="gVW5" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#38BDF8"/><stop offset="100%" stop-color="#34D399"/></linearGradient>
+      <linearGradient id="gMW5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C4B5FD"/><stop offset="100%" stop-color="#A78BFA"/></linearGradient>
+      <linearGradient id="gEW5" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#38BDF8"/><stop offset="50%" stop-color="#34D399"/><stop offset="100%" stop-color="#C4B5FD"/></linearGradient>
+    </defs>
+    <g transform="translate(40,-20) scale(.98)" opacity=".1">
+      <path d="${BRAIN}" fill="#A78BFA"/>
+      ${FOLDS.map(f=>`<path d="${f}" fill="none" stroke="#A78BFA" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>`).join('')}
+    </g>
+    <text x="8" y="52" font-family="'Playfair Display',serif" font-size="38" fill="url(#gVW5)" font-weight="600" letter-spacing="-.5">Viajera</text>
+    <circle cx="172" cy="36" r="4.5" fill="#34D399"/>
+    <text x="180" y="52" font-family="'Playfair Display',serif" font-size="42" fill="url(#gMW5)" font-weight="700" font-style="italic" letter-spacing="-1">Mente</text>
+    <line x1="8" y1="60" x2="300" y2="60" stroke="#1E293B" stroke-width="1.5"/>
+    <text x="154" y="76" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#475569" font-weight="500" letter-spacing="3.5">TRAVEL · DISCOVER · EXPLORE</text>
+   </svg>`},
+
+  {id:'W6',tag:'tw',tl:'WORDMARK',name:'"Viajera" pequeño, "MENTE" enorme',desc:'Jerarquía invertida. "MENTE" es el protagonista visual, "Viajera" lo cualifica. Para portadas y thumbnails grandes.',bg:'#fff',
+   svg:`<svg viewBox="0 0 316 115" xmlns="http://www.w3.org/2000/svg" width="296" height="107">
+    ${defs('W6','#0EA5E9','#7C3AED','#0D9488')}
+    <g transform="translate(30,-5) scale(.9)" opacity=".07">
+      <path d="${BRAIN}" fill="#7C3AED"/>
+      ${FOLDS.map(f=>`<path d="${f}" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>`).join('')}
+    </g>
+    <text x="12" y="38" font-family="'Playfair Display',serif" font-size="20" fill="url(#gVW6)" font-weight="400" letter-spacing="2" font-style="italic">viajera</text>
+    <text x="10" y="95" font-family="'Space Grotesk',sans-serif" font-size="66" fill="url(#gFW6)" font-weight="800" letter-spacing="-3">MENTE</text>
+    <line x1="10" y1="100" x2="290" y2="100" stroke="#E0E7FF" stroke-width="1.5"/>
+    <text x="150" y="113" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#94A3B8" font-weight="500" letter-spacing="3">VIAJERAMENTE.COM</text>
+   </svg>`},
+];
+
+// ─── ICONS ────────────────────────────────────────────────────────────────────
+const ICONS = [
+  // CIRCLE
+  {id:'I1',tag:'ti',tl:'CÍRCULO',name:'EEG + Cerebro — Blanco',desc:'Fondo blanco, borde gradiente, cerebro tenue lila, 2 ondas EEG reales, VM abajo. Para Instagram / WhatsApp / Google.',bg:'#F5F3FF',
+   svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="174" height="174">
+    ${defs('I1','#0EA5E9','#7C3AED','#0D9488')}
+    <defs><clipPath id="cI1"><circle cx="100" cy="100" r="84"/></clipPath></defs>
+    <circle cx="100" cy="100" r="90" fill="none" stroke="url(#gFI1)" stroke-width="6"/>
+    <circle cx="100" cy="100" r="84" fill="white"/>
+    ${brain(0.09,'#7C3AED')}
+    <g clip-path="url(#cI1)">
+      ${eeg('url(#gEI1)',100,80,152,22,'url(#gEI1)',3.2)}
+      ${eeg('url(#gEI1)',100,104,152,18,'url(#gEI1)',2.4,0.4)}
+    </g>
+    <text x="100" y="160" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="28" font-weight="800" letter-spacing="-1"><tspan fill="#0EA5E9">V</tspan><tspan fill="#7C3AED">M</tspan></text>
+   </svg>`},
+
+  {id:'I2',tag:'ti',tl:'CÍRCULO',name:'EEG + Cerebro — Oscuro',desc:'Fondo navy oscuro. Ondas EEG brillantes. Más impacto. Ideal como foto de perfil de canal.',bg:'#0F0F1A',
+   svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="174" height="174">
+    <defs>
+      <linearGradient id="gRI2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#38BDF8"/><stop offset="100%" stop-color="#C4B5FD"/></linearGradient>
+      <linearGradient id="gEI2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#38BDF8"/><stop offset="50%" stop-color="#34D399"/><stop offset="100%" stop-color="#C4B5FD"/></linearGradient>
+      <clipPath id="cI2"><circle cx="100" cy="100" r="84"/></clipPath>
+    </defs>
+    <circle cx="100" cy="100" r="90" fill="none" stroke="url(#gRI2)" stroke-width="6"/>
+    <circle cx="100" cy="100" r="84" fill="#0F0F1A"/>
+    ${brain(0.14,'#7C3AED')}
+    <g clip-path="url(#cI2)">
+      ${eeg('url(#gEI2)',100,80,152,22,'url(#gEI2)',3.4)}
+      ${eeg('url(#gEI2)',100,106,152,18,'url(#gEI2)',2.2,0.35)}
+    </g>
+    <text x="100" y="160" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="28" font-weight="800" letter-spacing="-1"><tspan fill="#38BDF8">V</tspan><tspan fill="#C4B5FD">M</tspan></text>
+   </svg>`},
+
+  {id:'I3',tag:'ti',tl:'CÍRCULO',name:'Gradiente sólido + EEG blanco',desc:'Fondo relleno teal→lila. Cerebro y ondas en blanco. El más llamativo y limpio a tamaños pequeños.',bg:'#FAFAFA',
+   svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="174" height="174">
+    <defs>
+      <linearGradient id="gFI3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="45%" stop-color="#0D9488"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient>
+      <clipPath id="cI3"><circle cx="100" cy="100" r="90"/></clipPath>
+    </defs>
+    <circle cx="100" cy="100" r="90" fill="url(#gFI3)"/>
+    ${brain(0.15,'white')}
+    <g clip-path="url(#cI3)">
+      ${eeg('white',100,78,152,22,'white',3.2,0.9)}
+      ${eeg('white',100,104,152,18,'white',2,0.35)}
+    </g>
+    <text x="100" y="162" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="28" font-weight="800" letter-spacing="-1" fill="white">VM</text>
+   </svg>`},
+
+  {id:'I4',tag:'ti',tl:'CÍRCULO',name:'EEG + "MENTE" (sin VM)',desc:'Muestra la palabra MENTE en lugar de las iniciales. Más explícito sobre el concepto. Para grupo de WhatsApp del canal.',bg:'#F5F3FF',
+   svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="174" height="174">
+    ${defs('I4','#0EA5E9','#7C3AED','#0D9488')}
+    <defs><clipPath id="cI4"><circle cx="100" cy="100" r="84"/></clipPath></defs>
+    <circle cx="100" cy="100" r="90" fill="none" stroke="url(#gFI4)" stroke-width="6"/>
+    <circle cx="100" cy="100" r="84" fill="white"/>
+    ${brain(0.09,'#7C3AED')}
+    <g clip-path="url(#cI4)">
+      ${eeg('url(#gEI4)',100,82,152,22,'url(#gEI4)',3.2)}
+    </g>
+    <text x="100" y="154" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="20" font-weight="800" letter-spacing="2" fill="#7C3AED">MENTE</text>
+    <text x="100" y="170" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="500" letter-spacing="2.5" fill="#94A3B8">VIAJERA</text>
+   </svg>`},
+
+  {id:'I5',tag:'ti',tl:'CÍRCULO',name:'Solo cerebro + EEG (sin texto)',desc:'Para tamaños muy pequeños: favicon, burbuja de notificación. Solo la silueta + onda. Sin texto, máxima legibilidad tiny.',bg:'#F0FFFE',
+   svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="174" height="174">
+    <defs>
+      <linearGradient id="gRI5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0D9488"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient>
+      <linearGradient id="gEI5" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient>
+      <clipPath id="cI5"><circle cx="100" cy="100" r="84"/></clipPath>
+    </defs>
+    <circle cx="100" cy="100" r="90" fill="none" stroke="url(#gRI5)" stroke-width="6"/>
+    <circle cx="100" cy="100" r="84" fill="white"/>
+    ${brain(0.14,'#0D9488')}
+    <g clip-path="url(#cI5)">
+      ${eeg('url(#gEI5)',100,96,152,26,'url(#gEI5)',4)}
+    </g>
+   </svg>`},
+
+  // SQUARE (YouTube / Google)
+  {id:'I6',tag:'ts',tl:'CUADRADO',name:'Square — EEG + Cerebro (blanco)',desc:'Formato cuadrado esquinas redondeadas. Fondo blanco, borde gradiente, cerebro y EEG. Para YouTube / Google Business.',bg:'#F5F3FF',
+   svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="174" height="174">
+    ${defs('I6','#0EA5E9','#7C3AED','#0D9488')}
+    <defs><clipPath id="cI6"><rect x="6" y="6" width="188" height="188" rx="28"/></clipPath></defs>
+    <rect x="3" y="3" width="194" height="194" rx="30" fill="none" stroke="url(#gFI6)" stroke-width="5"/>
+    <rect x="6" y="6" width="188" height="188" rx="28" fill="white"/>
+    ${brain(0.09,'#7C3AED')}
+    <g clip-path="url(#cI6)">
+      ${eeg('url(#gEI6)',100,80,160,22,'url(#gEI6)',3)}
+      ${eeg('url(#gEI6)',100,104,160,18,'url(#gEI6)',2.2,0.38)}
+    </g>
+    <text x="100" y="160" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="28" font-weight="800" letter-spacing="-1"><tspan fill="#0EA5E9">V</tspan><tspan fill="#7C3AED">M</tspan></text>
+   </svg>`},
+
+  {id:'I7',tag:'ts',tl:'CUADRADO',name:'Square — Gradiente sólido',desc:'Gradiente relleno, EEG y cerebro blancos. La opción más llamativa para YouTube / Google.',bg:'#FAFAFA',
+   svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="174" height="174">
+    <defs>
+      <linearGradient id="gFI7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="45%" stop-color="#0D9488"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient>
+      <clipPath id="cI7"><rect x="6" y="6" width="188" height="188" rx="28"/></clipPath>
+    </defs>
+    <rect x="6" y="6" width="188" height="188" rx="28" fill="url(#gFI7)"/>
+    ${brain(0.16,'white')}
+    <g clip-path="url(#cI7)">
+      ${eeg('white',100,78,160,22,'white',3.2,0.88)}
+      ${eeg('white',100,104,160,18,'white',2,0.32)}
+    </g>
+    <text x="100" y="162" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="28" font-weight="800" letter-spacing="-1" fill="white">VM</text>
+   </svg>`},
+
+  {id:'I8',tag:'ts',tl:'CUADRADO',name:'Square oscuro — EEG vibrante',desc:'Fondo muy oscuro, EEG en gradiente brillante teal→verde→lila. Cerebro tenue. Para cabeceras y thumbnails.',bg:'#0F172A',
+   svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="174" height="174">
+    <defs>
+      <linearGradient id="gEI8" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#38BDF8"/><stop offset="50%" stop-color="#34D399"/><stop offset="100%" stop-color="#C4B5FD"/></linearGradient>
+      <clipPath id="cI8"><rect x="6" y="6" width="188" height="188" rx="28"/></clipPath>
+    </defs>
+    <rect x="6" y="6" width="188" height="188" rx="28" fill="#0F172A"/>
+    ${brain(0.16,'#7C3AED')}
+    <g clip-path="url(#cI8)">
+      ${eeg('url(#gEI8)',100,78,162,26,'url(#gEI8)',3.4,0.9)}
+      ${eeg('url(#gEI8)',100,108,162,20,'url(#gEI8)',2.2,0.38)}
+    </g>
+    <text x="100" y="163" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="28" font-weight="800" letter-spacing="-1"><tspan fill="#38BDF8">V</tspan><tspan fill="#C4B5FD">M</tspan></text>
+   </svg>`},
+];
+
+// ─── CONCEPTOS ────────────────────────────────────────────────────────────────
+const CONCEPTS = [
+  {id:'C1',tag:'tc',tl:'CONCEPTO',name:'"MENTE" protagonista + "viajera" qualifier',desc:'"MENTE" enorme en violeta, "viajera" italic pequeño sobre ella. Cerebro de fondo. Impacto visual máximo — queda claro que va de la mente.',bg:'#fff',
+   svg:`<svg viewBox="0 0 316 130" xmlns="http://www.w3.org/2000/svg" width="296" height="121">
+    ${defs('C1','#0EA5E9','#7C3AED','#0D9488')}
+    <g transform="translate(55,-5) scale(.92)" opacity=".07"><path d="${BRAIN}" fill="#7C3AED"/>${FOLDS.map(f=>`<path d="${f}" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>`).join('')}</g>
+    <text x="158" y="42" text-anchor="middle" font-family="'Playfair Display',serif" font-size="20" fill="#0D9488" font-weight="400" letter-spacing="3" font-style="italic">viajera</text>
+    <text x="10" y="96" font-family="'Space Grotesk',sans-serif" font-size="66" fill="url(#gFC1)" font-weight="800" letter-spacing="-2">MENTE</text>
+    <line x1="10" y1="104" x2="290" y2="104" stroke="#E0E7FF" stroke-width="1.5"/>
+    <text x="150" y="118" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#94A3B8" font-weight="500" letter-spacing="3">TRAVEL · DISCOVER · THINK</text>
+   </svg>`},
+
+  {id:'C2',tag:'tc',tl:'CONCEPTO',name:'Onda EEG + tagline conceptual',desc:'Logo compacto con EEG prominente + tagline "La app para la mente que necesita viajar". Deja muy claro el juego de palabras.',bg:'#fff',
+   svg:`<svg viewBox="0 0 316 110" xmlns="http://www.w3.org/2000/svg" width="296" height="103">
+    ${defs('C2','#0EA5E9','#7C3AED','#0D9488')}
+    <text x="8" y="46" font-family="'Playfair Display',serif" font-size="36" fill="url(#gVC2)" font-weight="600" letter-spacing="-.5">Viajera</text>
+    <circle cx="165" cy="30" r="4" fill="#34D399"/>
+    <text x="173" y="46" font-family="'Playfair Display',serif" font-size="40" fill="url(#gMC2)" font-weight="700" font-style="italic" letter-spacing="-1">Mente</text>
+    ${eeg('url(#gEC2)',155,62,296,18,'url(#gEC2)',2.6,0.8)}
+    <line x1="8" y1="72" x2="295" y2="72" stroke="#F3F4F6" stroke-width="1"/>
+    <text x="152" y="87" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#6B7280" font-weight="400" font-style="italic">La app para la mente que necesita viajar</text>
+   </svg>`},
+
+  {id:'C3',tag:'tc',tl:'CONCEPTO',name:'ViajeraMente — MENTE en arco',desc:'"Viajera" en arco curvo arriba + "MENTE" grande abajo. Forma circular. Estilo sello/stamp retro-moderno. Versátil para muchos formatos.',bg:'#F5F3FF',
+   svg:`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+    ${defs('C3','#0EA5E9','#7C3AED','#0D9488')}
+    <defs>
+      <path id="arcC3" d="M30,110 A70,70 0 0,1 170,110"/>
+    </defs>
+    <circle cx="100" cy="100" r="90" fill="none" stroke="url(#gFC3)" stroke-width="2.5" opacity="0.3"/>
+    <circle cx="100" cy="100" r="82" fill="none" stroke="url(#gFC3)" stroke-width="1" opacity="0.15"/>
+    ${brain(0.1,'#7C3AED')}
+    <text font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0D9488" letter-spacing="5">
+      <textPath href="#arcC3" startOffset="12%">VIAJERA · VIAJERA ·</textPath>
+    </text>
+    <text x="100" y="128" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="52" font-weight="800" fill="url(#gFC3)" letter-spacing="-2">MENTE</text>
+   </svg>`},
+
+  {id:'C4',tag:'tc',tl:'CONCEPTO',name:'Wordmark doble línea — Viajera/MENTE separadas',desc:'"Viajera" en teal arriba, "MENTE" enorme en violeta abajo. Alineadas a la izquierda. Estilo editorial moderno. Muy legible a cualquier tamaño.',bg:'#fff',
+   svg:`<svg viewBox="0 0 316 110" xmlns="http://www.w3.org/2000/svg" width="296" height="103">
+    ${defs('C4','#0EA5E9','#7C3AED','#0D9488')}
+    <text x="10" y="42" font-family="'Playfair Display',serif" font-size="28" fill="url(#gVC4)" font-weight="600" letter-spacing="-.5" font-style="italic">Viajera</text>
+    <text x="8" y="94" font-family="'Space Grotesk',sans-serif" font-size="60" fill="url(#gFC4)" font-weight="800" letter-spacing="-2">MENTE</text>
+    <line x1="8" y1="99" x2="290" y2="99" stroke="#E0F2FE" stroke-width="2"/>
+    <text x="149" y="109" text-anchor="middle" font-family="Inter,sans-serif" font-size="6.5" fill="#94A3B8" font-weight="500" letter-spacing="3">VIAJERAMENTE.COM</text>
+   </svg>`},
+
+  {id:'C5',tag:'tc',tl:'CONCEPTO',name:'"Tu mente viajera" — full concept',desc:'El nombre como oración: "Tu mente viajera." Muy conversacional. Para landing page hero, bio de Instagram, etc.',bg:'#FAF8F5',
+   svg:`<svg viewBox="0 0 316 115" xmlns="http://www.w3.org/2000/svg" width="296" height="107">
+    ${defs('C5','#0EA5E9','#7C3AED','#0D9488')}
+    <g transform="translate(40,-10) scale(.95)" opacity=".07"><path d="${BRAIN}" fill="#0D9488"/>${FOLDS.map(f=>`<path d="${f}" fill="none" stroke="#0D9488" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>`).join('')}</g>
+    <text x="16" y="40" font-family="'Playfair Display',serif" font-size="16" fill="#94A3B8" font-weight="400" letter-spacing="1" font-style="italic">Tu</text>
+    <text x="40" y="40" font-family="'Playfair Display',serif" font-size="16" fill="url(#gVC5)" font-weight="600" letter-spacing="-.3">mente</text>
+    <text x="10" y="88" font-family="'Playfair Display',serif" font-size="52" fill="url(#gFC5)" font-weight="700" letter-spacing="-1" font-style="italic">viajera.</text>
+    <line x1="10" y1="96" x2="290" y2="96" stroke="#D1FAE5" stroke-width="1.5"/>
+    <text x="150" y="110" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9CA3AF" font-weight="500" letter-spacing="3.5">TRAVEL · DISCOVER · EXPLORE</text>
+   </svg>`},
+
+  {id:'C6',tag:'tc',tl:'CONCEPTO',name:'Mente∞Viajera — el infinito',desc:'Símbolo infinito ∞ como nexo entre Mente y Viajera: la curiosidad mental no tiene límites. Alternativa al punto · del #18. Directo.',bg:'#FAFFFE',
+   svg:`<svg viewBox="0 0 316 90" xmlns="http://www.w3.org/2000/svg" width="296" height="84">
+    ${defs('C6','#7C3AED','#0D9488','#0EA5E9')}
+    <text x="8" y="52" font-family="'Playfair Display',serif" font-size="36" fill="url(#gVC6)" font-weight="700" font-style="italic" letter-spacing="-1">Mente</text>
+    <text x="148" y="52" font-family="Inter,sans-serif" font-size="36" fill="#34D399" font-weight="200">∞</text>
+    <text x="176" y="52" font-family="'Playfair Display',serif" font-size="36" fill="url(#gFC6)" font-weight="600" letter-spacing="-.5">Viajera</text>
+    <line x1="8" y1="62" x2="296" y2="62" stroke="#CCFBF1" stroke-width="1.5"/>
+    <text x="152" y="77" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#94A3B8" font-weight="500" letter-spacing="3.5">TRAVEL · DISCOVER · EXPLORE</text>
+   </svg>`},
+];
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function render(data, gid) {
+  const g = document.getElementById(gid);
+  data.forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'card';
+    d.innerHTML = `<div class="preview" style="background:${c.bg}">${c.svg}</div>
+      <div class="info"><span class="tag ${c.tag}">${c.tl}</span><div class="name">${c.name}</div><div class="desc">${c.desc}</div></div>`;
+    d.onclick = () => openMo(c);
+    g.appendChild(d);
+  });
+}
+function openMo(c) {
+  document.getElementById('mo-prev').innerHTML = c.svg;
+  document.getElementById('mo-prev').style.background = c.bg;
+  document.getElementById('mo-name').innerHTML = `<span class="tag ${c.tag}" style="margin-right:8px">${c.tl}</span>${c.name}`;
+  document.getElementById('mo-desc').textContent = c.desc;
+  document.getElementById('mo').style.display = 'block';
+  document.getElementById('ov').style.display = 'block';
+}
+function closeMo() {
+  document.getElementById('mo').style.display = 'none';
+  document.getElementById('ov').style.display = 'none';
+}
+function toggleTheme() {
+  const d = document.documentElement;
+  const dark = d.getAttribute('data-theme') === 'dark';
+  d.setAttribute('data-theme', dark ? 'light' : 'dark');
+  document.querySelector('.btn').textContent = dark ? '🌙 Dark' : '☀️ Light';
+}
+render(WORDS, 'g-word');
+render(ICONS, 'g-icons');
+render(CONCEPTS, 'g-concept');
+</script>
+</body>
+</html>

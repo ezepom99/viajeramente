@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viajes con Amigos — ViajeraMente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T1HJ3PJWYN');
+  </script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
+
+    :root {
+      --bg: #FFFFFF;
+      --bg-soft: #F8FAFC;
+      --bg-card: #FFFFFF;
+      --bg-input: #F3F4F6;
+      --text: #0F172A;
+      --text-secondary: #64748B;
+      --text-muted: #9CA3AF;
+      --border: #E2E8F0;
+      --accent: #0EA5E9;
+      --accent-light: #E0F2FE;
+      --accent-text: #0284C7;
+      --teal: #10B981;
+      --teal-light: #F0FDFA;
+      --teal-text: #0F766E;
+      --gold: #F5A623;
+      --red: #EF4444;
+      --red-light: #FEF2F2;
+      --purple: #8B5CF6;
+      --purple-light: #F5F3FF;
+      --orange: #F97316;
+      --orange-light: #FFF7ED;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.08);
+      --shadow-card: 0 4px 24px rgba(0,0,0,.06);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--bg-soft);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+      font-size: 15px;
+    }
+    h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; }
+
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 max(24px, calc((100% - 1200px) / 2 + 24px)); height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family:'Space Grotesk',sans-serif; font-size:1.15rem; font-weight:700; color:var(--text); text-decoration:none; letter-spacing:-.02em; display:flex; align-items:center; gap:6px; }
+    .nav-logo-dot { width:8px; height:8px; background:var(--accent); border-radius:50%; }
+    .nav-right { display:flex; align-items:center; gap:14px; }
+    .nav-link { font-size:.84rem; font-weight:500; color:var(--text-secondary); text-decoration:none; transition:color .2s; }
+    .nav-link:hover { color:var(--accent); }
+    @media(max-width:768px){ .nav-link{display:none;} }
+    .nav-cta { font-size:.82rem; font-weight:600; background:var(--accent); color:#fff; padding:7px 16px; border-radius:100px; text-decoration:none; transition:background .2s; }
+    .nav-cta:hover { background:var(--accent-text); }
+    .nav-avatar { width:32px; height:32px; border-radius:50%; background:var(--accent-light); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700; color:var(--accent); text-decoration:none; overflow:hidden; cursor:pointer; }
+    .nav-avatar img { width:100%; height:100%; object-fit:cover; }
+    .nav-hamburger { display:none; background:none; border:none; cursor:pointer; font-size:1.4rem; color:var(--text); padding:4px 6px; }
+    @media(max-width:768px){ .nav-hamburger{display:flex;align-items:center;justify-content:center;} .nav-user-name{display:none;} .nav-logout{display:none;} }
+    .nav-user-name { font-size:.82rem; font-weight:500; color:var(--text-secondary); }
+    .nav-logout { font-size:.8rem; color:var(--text-muted); background:none; border:none; cursor:pointer; font-family:inherit; }
+
+    /* Mobile menu */
+    .mobile-menu-overlay { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,.4); backdrop-filter:blur(4px); }
+    .mobile-menu-overlay.open { display:block; }
+    .mobile-menu { position:absolute; top:0; left:0; right:0; background:#fff; border-bottom:1px solid var(--border); padding:16px 20px 24px; transform:translateY(-100%); transition:transform .25s ease; }
+    .mobile-menu-overlay.open .mobile-menu { transform:translateY(0); }
+    .mobile-menu-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+    .mobile-menu-close { background:none; border:none; cursor:pointer; font-size:1.4rem; color:var(--text-muted); padding:4px; }
+    .mobile-menu-links { display:flex; flex-direction:column; gap:4px; }
+    .mobile-menu-link { display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:12px; text-decoration:none; color:var(--text); font-size:1rem; font-weight:500; }
+    .mobile-menu-link:hover { background:var(--bg-soft); }
+    .mm-icon { font-size:1.2rem; width:28px; text-align:center; }
+    .mobile-menu-divider { height:1px; background:var(--border); margin:10px 0; }
+    .mobile-menu-logout { display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:12px; color:var(--text-muted); font-size:1rem; font-weight:500; background:none; border:none; cursor:pointer; width:100%; font-family:inherit; }
+
+    /* ── Layout ── */
+    main { padding-top: 56px; min-height: 100vh; }
+
+    /* ── View: Trip List ── */
+    #view-list { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; animation: fadeInUp .4s ease; }
+    .page-header { margin-bottom: 28px; }
+    .page-header h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: -.02em; }
+    .page-header p { color: var(--text-secondary); margin-top: 6px; font-size: .95rem; }
+
+    .trips-grid { display: grid; gap: 14px; }
+    .trip-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px; cursor: pointer;
+      transition: box-shadow .2s, border-color .2s;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .trip-card:hover { box-shadow: var(--shadow-md); border-color: var(--accent); }
+    .trip-card-emoji { font-size: 2rem; flex-shrink: 0; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--accent-light); border-radius: 12px; }
+    .trip-card-body { flex: 1; min-width: 0; }
+    .trip-card-title { font-weight: 700; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .trip-card-meta { font-size: .82rem; color: var(--text-secondary); margin-top: 4px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .trip-card-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 100px; font-size: .75rem; font-weight: 600; }
+    .badge-planning { background: var(--accent-light); color: var(--accent-text); }
+    .badge-confirmed { background: var(--teal-light); color: var(--teal-text); }
+    .badge-completed { background: var(--bg-input); color: var(--text-secondary); }
+    .trip-card-arrow { color: var(--text-muted); font-size: 1.2rem; flex-shrink: 0; }
+
+    .btn-new-trip {
+      display: flex; align-items: center; gap: 10px; justify-content: center;
+      background: var(--accent); color: #fff; font-weight: 600; font-size: .95rem;
+      border: none; border-radius: var(--radius); padding: 14px 24px;
+      cursor: pointer; transition: background .2s; width: 100%; font-family: inherit;
+    }
+    .btn-new-trip:hover { background: var(--accent-text); }
+
+    .empty-state { text-align: center; padding: 48px 20px; color: var(--text-secondary); }
+    .empty-state-icon { font-size: 3rem; margin-bottom: 12px; }
+    .empty-state h3 { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+
+    /* ── View: Trip Detail ── */
+    #view-detail { display: none; animation: fadeIn .3s ease; }
+    .trip-detail-layout {
+      display: grid; grid-template-columns: 1fr 340px; gap: 0;
+      height: calc(100vh - 56px);
+    }
+    @media(max-width:900px){ .trip-detail-layout { grid-template-columns: 1fr; height: auto; } }
+
+    .trip-planner-panel {
+      overflow-y: auto; padding: 24px 20px 80px;
+      border-right: 1px solid var(--border);
+    }
+    .trip-map-panel { position: sticky; top: 56px; height: calc(100vh - 56px); }
+    @media(max-width:900px){ .trip-map-panel { height: 280px; position: relative; top: 0; } }
+
+    #trip-map { width: 100%; height: 100%; }
+
+    /* Trip header */
+    .trip-header { margin-bottom: 24px; }
+    .trip-back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: .85rem; color: var(--text-secondary); cursor: pointer; border: none; background: none; font-family: inherit; padding: 0; margin-bottom: 12px; transition: color .2s; }
+    .trip-back-btn:hover { color: var(--accent); }
+    .trip-header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .trip-title-group h2 { font-size: 1.5rem; font-weight: 700; letter-spacing: -.02em; }
+    .trip-title-group .trip-dates { font-size: .85rem; color: var(--text-secondary); margin-top: 4px; }
+    .trip-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    .btn-icon { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card); cursor: pointer; font-size: 1rem; transition: all .2s; color: var(--text-secondary); }
+    .btn-icon:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+    .btn-icon.danger:hover { background: var(--red-light); border-color: var(--red); color: var(--red); }
+
+    /* Members */
+    .members-row { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .member-avatar { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; overflow: hidden; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700; color: var(--accent); margin-left: -6px; box-shadow: 0 0 0 2px var(--border); }
+    .member-avatar:first-child { margin-left: 0; }
+    .member-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .btn-invite { font-size: .8rem; font-weight: 600; color: var(--accent); background: var(--accent-light); border: none; border-radius: 100px; padding: 4px 12px; cursor: pointer; font-family: inherit; transition: background .2s; }
+    .btn-invite:hover { background: #c7e9fb; }
+
+    /* Days */
+    .days-section { }
+    .day-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; }
+    .day-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; gap: 8px; }
+    .day-header-left { display: flex; align-items: center; gap: 10px; }
+    .day-number-badge { width: 32px; height: 32px; border-radius: 10px; background: var(--accent); color: #fff; font-weight: 700; font-size: .85rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: 'Space Grotesk', sans-serif; }
+    .day-title-text { font-weight: 600; font-size: .95rem; }
+    .day-location { font-size: .8rem; color: var(--text-secondary); }
+    .day-toggle { font-size: .9rem; color: var(--text-muted); transition: transform .2s; }
+    .day-card.collapsed .day-toggle { transform: rotate(-90deg); }
+    .day-body { padding: 0 16px 14px; border-top: 1px solid var(--border); }
+
+    /* Items */
+    .item-list { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+    .trip-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: 10px; background: var(--bg-soft); border: 1px solid transparent; transition: all .2s; }
+    .trip-item:hover { border-color: var(--border); background: var(--bg-card); }
+    .trip-item.done { opacity: .55; }
+    .item-check { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border); flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: .7rem; transition: all .15s; margin-top: 1px; }
+    .item-check.checked { background: var(--teal); border-color: var(--teal); color: #fff; }
+    .item-type-icon { width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: .85rem; margin-top: -1px; }
+    .type-transport .item-type-icon { background: var(--accent-light); }
+    .type-hotel .item-type-icon { background: var(--purple-light); }
+    .type-activity .item-type-icon { background: var(--teal-light); }
+    .type-restaurant .item-type-icon { background: var(--orange-light); }
+    .type-other .item-type-icon { background: var(--bg-input); }
+    .item-body { flex: 1; min-width: 0; }
+    .item-title { font-weight: 600; font-size: .88rem; line-height: 1.3; }
+    .item-title.done-text { text-decoration: line-through; color: var(--text-muted); }
+    .item-meta { font-size: .78rem; color: var(--text-secondary); margin-top: 2px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .item-meta span { display: flex; align-items: center; gap: 3px; }
+    .item-actions { display: flex; gap: 4px; opacity: 0; transition: opacity .2s; }
+    .trip-item:hover .item-actions { opacity: 1; }
+    .item-action-btn { background: none; border: none; cursor: pointer; font-size: .85rem; color: var(--text-muted); padding: 2px 4px; border-radius: 6px; transition: all .15s; }
+    .item-action-btn:hover { color: var(--red); background: var(--red-light); }
+
+    /* Add item */
+    .add-item-row { margin-top: 8px; }
+    .btn-add-item { display: flex; align-items: center; gap: 6px; font-size: .83rem; font-weight: 600; color: var(--text-secondary); background: none; border: 1.5px dashed var(--border); border-radius: 10px; padding: 8px 14px; cursor: pointer; width: 100%; font-family: inherit; transition: all .2s; }
+    .btn-add-item:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+    /* Add day */
+    .btn-add-day { display: flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 600; color: var(--text-secondary); background: var(--bg-card); border: 1.5px dashed var(--border); border-radius: var(--radius); padding: 14px 20px; cursor: pointer; width: 100%; font-family: inherit; transition: all .2s; margin-top: 4px; }
+    .btn-add-day:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+    /* Day notes */
+    .day-notes { font-size: .83rem; color: var(--text-secondary); padding: 6px 0 0; font-style: italic; }
+
+    /* Cost summary */
+    .cost-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 0 0; border-top: 1px solid var(--border); margin-top: 10px; }
+    .cost-total { font-size: .82rem; font-weight: 700; color: var(--text); }
+    .cost-label { font-size: .78rem; color: var(--text-secondary); }
+
+    /* ── Modals ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,.45); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #fff; border-radius: 20px; padding: 28px 24px 24px;
+      width: 100%; max-width: 480px; box-shadow: 0 24px 64px rgba(0,0,0,.15);
+      animation: fadeInUp .25s ease; max-height: 90vh; overflow-y: auto;
+    }
+    .modal h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 18px; }
+    .form-field { margin-bottom: 14px; }
+    .form-field label { display: block; font-size: .82rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .04em; }
+    .form-field input, .form-field textarea, .form-field select {
+      width: 100%; padding: 10px 14px; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: .92rem; font-family: inherit;
+      background: var(--bg-soft); color: var(--text); transition: border-color .2s;
+    }
+    .form-field input:focus, .form-field textarea:focus, .form-field select:focus { outline: none; border-color: var(--accent); }
+    .form-field textarea { resize: vertical; min-height: 72px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .btn-primary { flex: 1; padding: 12px; background: var(--accent); color: #fff; font-weight: 700; font-size: .93rem; border: none; border-radius: 12px; cursor: pointer; font-family: inherit; transition: background .2s; }
+    .btn-primary:hover { background: var(--accent-text); }
+    .btn-secondary { padding: 12px 20px; background: var(--bg-soft); color: var(--text-secondary); font-weight: 600; font-size: .93rem; border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; font-family: inherit; }
+
+    /* Type selector */
+    .type-selector { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .type-option { border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 6px; text-align: center; cursor: pointer; transition: all .15s; }
+    .type-option.selected { border-color: var(--accent); background: var(--accent-light); }
+    .type-option .t-icon { font-size: 1.3rem; display: block; margin-bottom: 4px; }
+    .type-option .t-label { font-size: .72rem; font-weight: 600; color: var(--text-secondary); }
+    .type-option.selected .t-label { color: var(--accent-text); }
+
+    /* Invite modal */
+    .invite-code-box { background: var(--bg-soft); border: 1.5px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; margin: 12px 0; }
+    .invite-code { font-size: 1.6rem; font-weight: 800; letter-spacing: .2em; font-family: 'Space Grotesk', monospace; color: var(--accent); }
+    .invite-url { font-size: .78rem; color: var(--text-muted); margin-top: 6px; word-break: break-all; }
+    .btn-copy { background: var(--accent-light); color: var(--accent-text); border: none; border-radius: 10px; padding: 8px 16px; font-weight: 600; font-size: .85rem; cursor: pointer; font-family: inherit; margin-top: 8px; transition: background .2s; }
+    .btn-copy:hover { background: #c7e9fb; }
+
+    /* Spinner */
+    .spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 40px auto; }
+    .loading-center { display: flex; justify-content: center; padding: 40px; }
+
+    /* Toast */
+    #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #0F172A; color: #fff; padding: 10px 20px; border-radius: 100px; font-size: .88rem; font-weight: 600; z-index: 9999; transition: transform .3s ease; white-space: nowrap; pointer-events: none; }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* Progress bar */
+    .progress-bar { height: 5px; background: var(--bg-input); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+    .progress-fill { height: 100%; background: var(--teal); border-radius: 3px; transition: width .4s ease; }
+    .progress-label { font-size: .78rem; color: var(--text-secondary); text-align: right; }
+
+    /* Tab bar */
+    .tab-bar {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      padding: 8px 0 env(safe-area-inset-bottom, 0);
+      display: grid; grid-template-columns: repeat(5, 1fr);
+    }
+    .tab-item {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px; padding: 6px 4px 4px;
+      font-size: .65rem; font-weight: 600; color: var(--text-muted);
+      text-decoration: none; transition: color .15s;
+    }
+    .tab-item .tab-icon { font-size: 1.3rem; line-height: 1; }
+    .tab-item.active { color: var(--accent); }
+    @media(min-width:769px){ .tab-bar { display: none !important; } }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="/" class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    ViajeraMente
+  </a>
+  <div class="nav-right">
+    <a href="/guias.html" class="nav-link">Guías</a>
+    <a href="/plan.html" class="nav-link">Planificador</a>
+    <a href="/mapa.html" class="nav-link">Mapa</a>
+    <span class="nav-user-name" id="nav-username" style="display:none"></span>
+    <a href="/profile.html" class="nav-avatar" id="nav-avatar" style="display:none"></a>
+    <button class="nav-logout" id="nav-logout" onclick="logout()" style="display:none">Salir</button>
+    <a href="/login.html" class="nav-cta" id="nav-login">Entrar</a>
+    <button class="nav-hamburger" onclick="openMobileMenu()">☰</button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu-overlay" id="mobile-menu-overlay" onclick="closeMobileMenu()">
+  <div class="mobile-menu" onclick="event.stopPropagation()">
+    <div class="mobile-menu-header">
+      <a href="/" class="nav-logo"><span class="nav-logo-dot"></span>ViajeraMente</a>
+      <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
+    </div>
+    <div class="mobile-menu-links">
+      <a href="/guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
+      <a href="/plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planificador</a>
+      <a href="/viaje-grupo.html" class="mobile-menu-link"><span class="mm-icon">👥</span>Viajes con Amigos</a>
+      <a href="/mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
+      <a href="/ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
+      <div class="mobile-menu-divider"></div>
+      <a href="/profile.html" class="mobile-menu-link" id="mobile-profile-link" style="display:none"><span class="mm-icon">👤</span>Mi perfil</a>
+      <button class="mobile-menu-logout" id="mobile-logout-btn" onclick="logout(); closeMobileMenu()" style="display:none"><span class="mm-icon">🚪</span>Cerrar sesión</button>
+      <a href="/login.html" class="mobile-menu-link" id="mobile-login-link"><span class="mm-icon">🔑</span>Iniciar sesión</a>
+    </div>
+  </div>
+</div>
+
+<main>
+  <!-- View: List -->
+  <div id="view-list">
+    <div class="page-header">
+      <h1>✈️ Viajes con Amigos</h1>
+      <p>Planifica cada detalle con tu grupo. Hoteles, transporte, actividades — todo en un lugar.</p>
+    </div>
+
+    <div id="trips-loading" class="loading-center"><div class="spinner"></div></div>
+
+    <div id="trips-container" style="display:none">
+      <div class="trips-grid" id="trips-grid"></div>
+      <div id="trips-empty" class="empty-state" style="display:none">
+        <div class="empty-state-icon">🗺️</div>
+        <h3>Aún no tienes viajes en grupo</h3>
+        <p style="margin-bottom:20px">Crea tu primer viaje y empieza a planificar con amigos</p>
+      </div>
+      <div style="margin-top:16px">
+        <button class="btn-new-trip" onclick="openCreateModal()">
+          ＋ Nuevo viaje en grupo
+        </button>
+      </div>
+    </div>
+
+    <div id="trips-auth" style="display:none; text-align:center; padding:48px 20px;">
+      <div style="font-size:3rem; margin-bottom:12px">🔐</div>
+      <h3 style="font-weight:700; margin-bottom:8px">Inicia sesión para planificar</h3>
+      <p style="color:var(--text-secondary); margin-bottom:20px">Crea viajes en grupo y planifica con tus amigos</p>
+      <a href="/login.html?redirect=/viaje-grupo.html" class="btn-primary" style="display:inline-block; padding:12px 28px; text-decoration:none; border-radius:12px;">Iniciar sesión</a>
+    </div>
+  </div>
+
+  <!-- View: Detail -->
+  <div id="view-detail">
+    <div class="trip-detail-layout">
+      <!-- Left: Planner -->
+      <div class="trip-planner-panel" id="planner-panel">
+        <div class="loading-center" id="detail-loading"><div class="spinner"></div></div>
+        <div id="detail-content" style="display:none">
+          <button class="trip-back-btn" onclick="showList()">← Todos los viajes</button>
+
+          <div class="trip-header">
+            <div class="trip-header-row">
+              <div class="trip-title-group">
+                <h2 id="detail-title"></h2>
+                <div class="trip-dates" id="detail-dates"></div>
+              </div>
+              <div class="trip-actions">
+                <button class="btn-icon" onclick="openInviteModal()" title="Invitar amigos">👥</button>
+                <button class="btn-icon" onclick="openEditTripModal()" title="Editar viaje">✏️</button>
+                <button class="btn-icon danger" onclick="confirmDeleteTrip()" title="Eliminar viaje">🗑️</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Members -->
+          <div class="members-row" id="members-row"></div>
+
+          <!-- Progress -->
+          <div id="progress-section" style="margin-bottom:20px"></div>
+
+          <!-- Days -->
+          <div class="days-section" id="days-container"></div>
+
+          <button class="btn-add-day" id="btn-add-day" onclick="openAddDayModal()">
+            ＋ Añadir día
+          </button>
+        </div>
+      </div>
+      <!-- Right: Map -->
+      <div class="trip-map-panel">
+        <div id="trip-map"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Tab bar (mobile) -->
+<div class="tab-bar">
+  <a href="/" class="tab-item"><span class="tab-icon">🏠</span>Inicio</a>
+  <a href="/guias.html" class="tab-item"><span class="tab-icon">🗺️</span>Guías</a>
+  <a href="/plan.html" class="tab-item"><span class="tab-icon">✈️</span>Planear</a>
+  <a href="/viaje-grupo.html" class="tab-item active"><span class="tab-icon">👥</span>Grupo</a>
+  <a href="/profile.html" class="tab-item"><span class="tab-icon">👤</span>Perfil</a>
+</div>
+
+<!-- ── Modals ── -->
+
+<!-- Create Trip Modal -->
+<div class="modal-overlay" id="modal-create">
+  <div class="modal">
+    <h3>✈️ Nuevo viaje en grupo</h3>
+    <div class="form-field">
+      <label>Nombre del viaje *</label>
+      <input type="text" id="new-trip-title" placeholder="Ej: Japón 2026 con los colegas" maxlength="80">
+    </div>
+    <div class="form-field">
+      <label>Descripción</label>
+      <textarea id="new-trip-desc" placeholder="¿De qué va el viaje? ¿Cuánta gente sois?" rows="2"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Fecha de salida</label>
+        <input type="date" id="new-trip-start">
+      </div>
+      <div class="form-field">
+        <label>Fecha de vuelta</label>
+        <input type="date" id="new-trip-end">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-create')">Cancelar</button>
+      <button class="btn-primary" onclick="createTrip()">Crear viaje</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Trip Modal -->
+<div class="modal-overlay" id="modal-edit-trip">
+  <div class="modal">
+    <h3>✏️ Editar viaje</h3>
+    <div class="form-field">
+      <label>Nombre del viaje *</label>
+      <input type="text" id="edit-trip-title" maxlength="80">
+    </div>
+    <div class="form-field">
+      <label>Descripción</label>
+      <textarea id="edit-trip-desc" rows="2"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Fecha de salida</label>
+        <input type="date" id="edit-trip-start">
+      </div>
+      <div class="form-field">
+        <label>Fecha de vuelta</label>
+        <input type="date" id="edit-trip-end">
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Estado</label>
+      <select id="edit-trip-status">
+        <option value="planning">🗓️ Planificando</option>
+        <option value="confirmed">✅ Confirmado</option>
+        <option value="completed">🏁 Completado</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-edit-trip')">Cancelar</button>
+      <button class="btn-primary" onclick="saveEditTrip()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Day Modal -->
+<div class="modal-overlay" id="modal-add-day">
+  <div class="modal">
+    <h3>📅 Añadir día</h3>
+    <div class="form-field">
+      <label>Título del día</label>
+      <input type="text" id="new-day-title" placeholder="Ej: Llegada a Tokio">
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Fecha</label>
+        <input type="date" id="new-day-date">
+      </div>
+      <div class="form-field">
+        <label>Lugar</label>
+        <input type="text" id="new-day-location" placeholder="Ciudad o lugar">
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Notas</label>
+      <textarea id="new-day-notes" placeholder="Ideas, recordatorios..." rows="2"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-add-day')">Cancelar</button>
+      <button class="btn-primary" onclick="addDay()">Añadir día</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Day Modal -->
+<div class="modal-overlay" id="modal-edit-day">
+  <div class="modal">
+    <h3>✏️ Editar día</h3>
+    <input type="hidden" id="edit-day-id">
+    <div class="form-field">
+      <label>Título</label>
+      <input type="text" id="edit-day-title" placeholder="Ej: Día en Kioto">
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Fecha</label>
+        <input type="date" id="edit-day-date">
+      </div>
+      <div class="form-field">
+        <label>Lugar</label>
+        <input type="text" id="edit-day-location" placeholder="Ciudad o lugar">
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Notas</label>
+      <textarea id="edit-day-notes" rows="2"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-edit-day')">Cancelar</button>
+      <button class="btn-primary" onclick="saveEditDay()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Item Modal -->
+<div class="modal-overlay" id="modal-add-item">
+  <div class="modal">
+    <h3 id="add-item-modal-title">Añadir al día</h3>
+    <input type="hidden" id="add-item-day-id">
+    <div class="form-field">
+      <label>Tipo</label>
+      <div class="type-selector">
+        <div class="type-option selected" data-type="transport" onclick="selectType(this)">
+          <span class="t-icon">🚂</span><span class="t-label">Transporte</span>
+        </div>
+        <div class="type-option" data-type="hotel" onclick="selectType(this)">
+          <span class="t-icon">🏨</span><span class="t-label">Hotel</span>
+        </div>
+        <div class="type-option" data-type="activity" onclick="selectType(this)">
+          <span class="t-icon">🎯</span><span class="t-label">Actividad</span>
+        </div>
+        <div class="type-option" data-type="restaurant" onclick="selectType(this)">
+          <span class="t-icon">🍜</span><span class="t-label">Restaurante</span>
+        </div>
+        <div class="type-option" data-type="other" onclick="selectType(this)">
+          <span class="t-icon">📌</span><span class="t-label">Otro</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Título *</label>
+      <input type="text" id="new-item-title" placeholder="Ej: Vuelo Madrid → Tokio" maxlength="120">
+    </div>
+    <div class="form-field">
+      <label>Descripción</label>
+      <textarea id="new-item-desc" placeholder="Detalles, instrucciones..." rows="2"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Hora inicio</label>
+        <input type="time" id="new-item-time-start">
+      </div>
+      <div class="form-field">
+        <label>Hora fin</label>
+        <input type="time" id="new-item-time-end">
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Lugar / dirección</label>
+      <input type="text" id="new-item-location" placeholder="Dirección o nombre del lugar">
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Coste (€)</label>
+        <input type="number" id="new-item-cost" placeholder="0" min="0" step="0.01">
+      </div>
+      <div class="form-field">
+        <label>Ref. reserva</label>
+        <input type="text" id="new-item-booking-ref" placeholder="Código">
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Link de reserva</label>
+      <input type="url" id="new-item-booking-url" placeholder="https://...">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-add-item')">Cancelar</button>
+      <button class="btn-primary" onclick="addItem()">Añadir</button>
+    </div>
+  </div>
+</div>
+
+<!-- Invite Modal -->
+<div class="modal-overlay" id="modal-invite">
+  <div class="modal">
+    <h3>👥 Invitar amigos</h3>
+    <p style="font-size:.88rem; color:var(--text-secondary); margin-bottom:12px">Comparte el enlace o el código para que se unan al viaje</p>
+    <div class="invite-code-box">
+      <div class="invite-code" id="invite-code-display"></div>
+      <div class="invite-url" id="invite-url-display"></div>
+      <button class="btn-copy" onclick="copyInviteLink()">📋 Copiar enlace</button>
+    </div>
+    <div class="form-field" style="margin-top:16px">
+      <label>O añadir por username/email</label>
+      <div style="display:flex; gap:8px">
+        <input type="text" id="invite-username" placeholder="@username o email" style="flex:1">
+        <button class="btn-primary" style="flex:0; padding:10px 16px; border-radius:10px" onclick="addMemberByUsername()">Añadir</button>
+      </div>
+    </div>
+    <div id="members-list" style="margin-top:12px"></div>
+    <div class="modal-actions" style="margin-top:12px">
+      <button class="btn-primary" onclick="closeModal('modal-invite')">Listo</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const API = 'https://viajeramente.com/api';
+
+let currentUser = null;
+let currentTrip = null;
+let tripMap = null;
+let mapMarkers = [];
+let mapPolyline = null;
+
+// ─── Auth ───────────────────────────────────────
+function getToken() { return localStorage.getItem('vm_token'); }
+
+async function loadUser() {
+  const token = getToken();
+  if (!token) return null;
+  try {
+    const r = await fetch(`${API}/me`, { headers: { Authorization: `Bearer ${token}` } });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch { return null; }
+}
+
+function initNav(user) {
+  if (user) {
+    document.getElementById('nav-login').style.display = 'none';
+    document.getElementById('nav-username').style.display = '';
+    document.getElementById('nav-username').textContent = user.name?.split(' ')[0] || user.username;
+    const av = document.getElementById('nav-avatar');
+    av.style.display = '';
+    if (user.avatar) av.innerHTML = `<img src="${user.avatar}" alt="">`;
+    else av.textContent = (user.name || user.username || '?')[0].toUpperCase();
+    document.getElementById('nav-logout').style.display = '';
+    document.getElementById('mobile-profile-link').style.display = '';
+    document.getElementById('mobile-logout-btn').style.display = '';
+    document.getElementById('mobile-login-link').style.display = 'none';
+  }
+}
+
+function logout() {
+  localStorage.removeItem('vm_token');
+  location.href = '/login.html';
+}
+
+// ─── Views ───────────────────────────────────────
+function showList() {
+  document.getElementById('view-list').style.display = '';
+  document.getElementById('view-detail').style.display = 'none';
+  currentTrip = null;
+  history.replaceState(null, '', '/viaje-grupo.html');
+}
+
+function showDetail() {
+  document.getElementById('view-list').style.display = 'none';
+  document.getElementById('view-detail').style.display = 'block';
+  // Init map after display
+  setTimeout(initMap, 100);
+}
+
+// ─── Trip List ───────────────────────────────────
+async function loadTrips() {
+  const token = getToken();
+  if (!token) {
+    document.getElementById('trips-loading').style.display = 'none';
+    document.getElementById('trips-auth').style.display = 'block';
+    return;
+  }
+  try {
+    const r = await fetch(`${API}/group-trips`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await r.json();
+    document.getElementById('trips-loading').style.display = 'none';
+    document.getElementById('trips-container').style.display = 'block';
+    if (data.trips && data.trips.length > 0) {
+      renderTripList(data.trips);
+    } else {
+      document.getElementById('trips-empty').style.display = 'block';
+    }
+  } catch (e) {
+    document.getElementById('trips-loading').style.display = 'none';
+    document.getElementById('trips-container').style.display = 'block';
+    document.getElementById('trips-empty').style.display = 'block';
+  }
+}
+
+function renderTripList(trips) {
+  const grid = document.getElementById('trips-grid');
+  grid.innerHTML = '';
+  trips.forEach(t => {
+    const badgeClass = `badge-${t.status || 'planning'}`;
+    const badgeLabel = { planning: '🗓️ Planificando', confirmed: '✅ Confirmado', completed: '🏁 Completado' }[t.status] || '🗓️ Planificando';
+    const dates = t.date_start ? `${fmtDate(t.date_start)}${t.date_end ? ' → ' + fmtDate(t.date_end) : ''}` : 'Fechas por definir';
+    const memberCount = (t.member_count || 0) + 1;
+    const el = document.createElement('div');
+    el.className = 'trip-card';
+    el.innerHTML = `
+      <div class="trip-card-emoji">✈️</div>
+      <div class="trip-card-body">
+        <div class="trip-card-title">${esc(t.title)}</div>
+        <div class="trip-card-meta">
+          <span>${dates}</span>
+          <span>👥 ${memberCount} viajero${memberCount !== 1 ? 's' : ''}</span>
+          <span class="trip-card-badge ${badgeClass}">${badgeLabel}</span>
+        </div>
+      </div>
+      <div class="trip-card-arrow">›</div>
+    `;
+    el.onclick = () => openTrip(t.id);
+    grid.appendChild(el);
+  });
+}
+
+// ─── Trip Detail ─────────────────────────────────
+async function openTrip(tripId) {
+  history.replaceState(null, '', `/viaje-grupo.html?id=${tripId}`);
+  showDetail();
+  document.getElementById('detail-loading').style.display = 'flex';
+  document.getElementById('detail-content').style.display = 'none';
+
+  const token = getToken();
+  const url = new URL(`${API}/group-trips/${tripId}`);
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('code')) url.searchParams.set('code', params.get('code'));
+
+  try {
+    const r = await fetch(url, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+    const data = await r.json();
+    if (!data.ok) { showToast('Error al cargar el viaje'); showList(); return; }
+    currentTrip = data.trip;
+    renderTripDetail(currentTrip);
+  } catch (e) {
+    showToast('Error de conexión');
+    showList();
+  }
+}
+
+function renderTripDetail(trip) {
+  document.getElementById('detail-loading').style.display = 'none';
+  document.getElementById('detail-content').style.display = 'block';
+
+  document.getElementById('detail-title').textContent = trip.title;
+
+  // Dates
+  let datesText = '';
+  if (trip.date_start) {
+    datesText = fmtDate(trip.date_start);
+    if (trip.date_end) datesText += ' → ' + fmtDate(trip.date_end);
+    const days = trip.days?.length || 0;
+    if (days) datesText += ` · ${days} día${days !== 1 ? 's' : ''}`;
+  }
+  document.getElementById('detail-dates').textContent = datesText || 'Fechas por definir';
+
+  // Members
+  renderMembers(trip);
+
+  // Progress
+  renderProgress(trip);
+
+  // Days
+  renderDays(trip.days || []);
+
+  // Map
+  updateMap(trip);
+}
+
+function renderMembers(trip) {
+  const row = document.getElementById('members-row');
+  const allMembers = [trip.creator, ...(trip.members || []).map(m => m)].filter(Boolean);
+  let html = '';
+  allMembers.slice(0, 6).forEach(m => {
+    const name = m.name || m.username || '?';
+    const initial = name[0].toUpperCase();
+    const av = m.avatar ? `<img src="${m.avatar}" alt="">` : initial;
+    html += `<div class="member-avatar" title="${esc(name)}">${av}</div>`;
+  });
+  if (allMembers.length > 6) html += `<div class="member-avatar" style="font-size:.7rem">+${allMembers.length - 6}</div>`;
+  html += `<button class="btn-invite" onclick="openInviteModal()">＋ Invitar</button>`;
+  row.innerHTML = html;
+}
+
+function renderProgress(trip) {
+  const days = trip.days || [];
+  let total = 0, done = 0;
+  days.forEach(d => {
+    (d.items || []).forEach(item => {
+      total++;
+      if (item.is_done) done++;
+    });
+  });
+  const pct = total ? Math.round(done / total * 100) : 0;
+  if (total === 0) { document.getElementById('progress-section').innerHTML = ''; return; }
+  document.getElementById('progress-section').innerHTML = `
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="progress-label">${done} de ${total} ítems listos (${pct}%)</div>
+  `;
+}
+
+function renderDays(days) {
+  const container = document.getElementById('days-container');
+  container.innerHTML = '';
+  if (days.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-secondary);font-size:.9rem">Aún no hay días añadidos. ¡Empieza a planificar!</div>`;
+    return;
+  }
+  days.forEach(day => {
+    container.appendChild(buildDayCard(day));
+  });
+}
+
+function buildDayCard(day) {
+  const card = document.createElement('div');
+  card.className = 'day-card';
+  card.dataset.dayId = day.id;
+
+  const items = day.items || [];
+  const doneCount = items.filter(i => i.is_done).length;
+  const totalCost = items.reduce((s, i) => s + (parseFloat(i.cost) || 0), 0);
+
+  const dateStr = day.date ? ` · ${fmtDate(day.date)}` : '';
+  const locationStr = day.location ? `<div class="day-location">📍 ${esc(day.location)}</div>` : '';
+
+  card.innerHTML = `
+    <div class="day-header" onclick="toggleDay(this.parentElement)">
+      <div class="day-header-left">
+        <div class="day-number-badge">${day.day_number}</div>
+        <div>
+          <div class="day-title-text">${esc(day.title || `Día ${day.day_number}`)}${dateStr}</div>
+          ${locationStr}
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="btn-icon" style="width:28px;height:28px;font-size:.8rem" onclick="event.stopPropagation();openEditDayModal(${day.id})" title="Editar día">✏️</button>
+        <button class="btn-icon danger" style="width:28px;height:28px;font-size:.8rem" onclick="event.stopPropagation();deleteDay(${day.id})" title="Eliminar día">🗑️</button>
+        <span class="day-toggle">▾</span>
+      </div>
+    </div>
+    <div class="day-body">
+      ${day.notes ? `<div class="day-notes">${esc(day.notes)}</div>` : ''}
+      <div class="item-list" id="items-${day.id}">
+        ${items.map(item => buildItemHTML(item)).join('')}
+      </div>
+      <div class="add-item-row">
+        <button class="btn-add-item" onclick="openAddItemModal(${day.id}, '${esc(day.title || `Día ${day.day_number}`)}')">
+          ＋ Añadir ítem
+        </button>
+      </div>
+      ${totalCost > 0 ? `
+        <div class="cost-bar">
+          <span class="cost-label">Coste estimado del día</span>
+          <span class="cost-total">${totalCost.toFixed(2)} €</span>
+        </div>
+      ` : ''}
+    </div>
+  `;
+  return card;
+}
+
+function buildItemHTML(item) {
+  const typeEmoji = { transport: '🚂', hotel: '🏨', activity: '🎯', restaurant: '🍜', other: '📌' };
+  const emoji = typeEmoji[item.item_type] || '📌';
+  const doneClass = item.is_done ? 'done' : '';
+  const textClass = item.is_done ? 'done-text' : '';
+  const checkClass = item.is_done ? 'checked' : '';
+
+  let meta = [];
+  if (item.time_start) meta.push(`⏰ ${item.time_start}${item.time_end ? '–' + item.time_end : ''}`);
+  if (item.location) meta.push(`📍 ${esc(item.location)}`);
+  if (item.cost) meta.push(`💶 ${parseFloat(item.cost).toFixed(0)}€`);
+  if (item.booking_ref) meta.push(`🎫 ${esc(item.booking_ref)}`);
+
+  const bookingLink = item.booking_url ? `<a href="${esc(item.booking_url)}" target="_blank" rel="noopener" style="color:var(--accent);font-size:.78rem;text-decoration:none">Ver reserva ↗</a>` : '';
+
+  return `
+    <div class="trip-item type-${item.item_type} ${doneClass}" id="item-${item.id}">
+      <div class="item-check ${checkClass}" onclick="toggleItemDone(${item.id}, ${item.is_done ? 'false' : 'true'})">
+        ${item.is_done ? '✓' : ''}
+      </div>
+      <div class="item-type-icon">${emoji}</div>
+      <div class="item-body">
+        <div class="item-title ${textClass}">${esc(item.title)}</div>
+        ${item.description ? `<div style="font-size:.8rem;color:var(--text-secondary);margin-top:2px">${esc(item.description)}</div>` : ''}
+        ${meta.length ? `<div class="item-meta">${meta.map(m => `<span>${m}</span>`).join('')}</div>` : ''}
+        ${bookingLink}
+      </div>
+      <div class="item-actions">
+        <button class="item-action-btn" onclick="deleteItem(${item.id})" title="Eliminar">🗑️</button>
+      </div>
+    </div>
+  `;
+}
+
+function toggleDay(card) {
+  card.classList.toggle('collapsed');
+}
+
+// ─── Map ─────────────────────────────────────────
+function initMap() {
+  if (tripMap) return;
+  const mapEl = document.getElementById('trip-map');
+  if (!mapEl) return;
+  tripMap = L.map('trip-map', { zoomControl: true }).setView([20, 0], 2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap',
+    maxZoom: 18
+  }).addTo(tripMap);
+}
+
+function updateMap(trip) {
+  if (!tripMap) return;
+  // Clear existing
+  mapMarkers.forEach(m => m.remove());
+  mapMarkers = [];
+  if (mapPolyline) { mapPolyline.remove(); mapPolyline = null; }
+
+  const points = [];
+  (trip.days || []).forEach(day => {
+    if (day.lat && day.lng) {
+      const marker = L.marker([day.lat, day.lng])
+        .bindPopup(`<b>Día ${day.day_number}: ${day.title || ''}</b>${day.location ? '<br>📍 ' + day.location : ''}`)
+        .addTo(tripMap);
+      mapMarkers.push(marker);
+      points.push([day.lat, day.lng]);
+    }
+    (day.items || []).forEach(item => {
+      if (item.lat && item.lng) {
+        const emoji = { transport: '🚂', hotel: '🏨', activity: '🎯', restaurant: '🍜', other: '📌' }[item.item_type] || '📌';
+        const marker = L.marker([item.lat, item.lng])
+          .bindPopup(`${emoji} <b>${item.title}</b>${item.location ? '<br>📍 ' + item.location : ''}`)
+          .addTo(tripMap);
+        mapMarkers.push(marker);
+        points.push([item.lat, item.lng]);
+      }
+    });
+  });
+
+  if (points.length >= 2) {
+    mapPolyline = L.polyline(points, { color: '#0EA5E9', weight: 3, opacity: 0.7, dashArray: '8 6' }).addTo(tripMap);
+    tripMap.fitBounds(mapPolyline.getBounds(), { padding: [40, 40] });
+  } else if (points.length === 1) {
+    tripMap.setView(points[0], 8);
+  }
+}
+
+// ─── Modals ──────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function openCreateModal() {
+  document.getElementById('new-trip-title').value = '';
+  document.getElementById('new-trip-desc').value = '';
+  document.getElementById('new-trip-start').value = '';
+  document.getElementById('new-trip-end').value = '';
+  openModal('modal-create');
+  setTimeout(() => document.getElementById('new-trip-title').focus(), 200);
+}
+
+async function createTrip() {
+  const title = document.getElementById('new-trip-title').value.trim();
+  if (!title) { showToast('Ponle un nombre al viaje'); return; }
+  const token = getToken();
+  try {
+    const r = await fetch(`${API}/group-trips`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+        title,
+        description: document.getElementById('new-trip-desc').value.trim() || null,
+        date_start: document.getElementById('new-trip-start').value || null,
+        date_end: document.getElementById('new-trip-end').value || null
+      })
+    });
+    const data = await r.json();
+    closeModal('modal-create');
+    if (data.ok) {
+      currentTrip = data.trip;
+      showDetail();
+      renderTripDetail(currentTrip);
+      history.replaceState(null, '', `/viaje-grupo.html?id=${currentTrip.id}`);
+      showToast('✈️ Viaje creado');
+    } else {
+      showToast('Error al crear el viaje');
+    }
+  } catch { showToast('Error de conexión'); }
+}
+
+function openEditTripModal() {
+  if (!currentTrip) return;
+  document.getElementById('edit-trip-title').value = currentTrip.title || '';
+  document.getElementById('edit-trip-desc').value = currentTrip.description || '';
+  document.getElementById('edit-trip-start').value = currentTrip.date_start || '';
+  document.getElementById('edit-trip-end').value = currentTrip.date_end || '';
+  document.getElementById('edit-trip-status').value = currentTrip.status || 'planning';
+  openModal('modal-edit-trip');
+}
+
+async function saveEditTrip() {
+  if (!currentTrip) return;
+  const token = getToken();
+  const r = await fetch(`${API}/group-trips/${currentTrip.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({
+      title: document.getElementById('edit-trip-title').value.trim(),
+      description: document.getElementById('edit-trip-desc').value.trim() || null,
+      date_start: document.getElementById('edit-trip-start').value || null,
+      date_end: document.getElementById('edit-trip-end').value || null,
+      status: document.getElementById('edit-trip-status').value
+    })
+  });
+  const data = await r.json();
+  closeModal('modal-edit-trip');
+  if (data.ok) { currentTrip = data.trip; renderTripDetail(currentTrip); showToast('✅ Guardado'); }
+  else showToast('Error al guardar');
+}
+
+async function confirmDeleteTrip() {
+  if (!currentTrip) return;
+  if (!confirm(`¿Eliminar el viaje "${currentTrip.title}"? Esta acción no se puede deshacer.`)) return;
+  const token = getToken();
+  const r = await fetch(`${API}/group-trips/${currentTrip.id}`, {
+    method: 'DELETE', headers: { Authorization: `Bearer ${token}` }
+  });
+  const data = await r.json();
+  if (data.ok) { showList(); loadTrips(); showToast('Viaje eliminado'); }
+  else showToast('Error al eliminar');
+}
+
+// ─── Days ─────────────────────────────────────────
+function openAddDayModal() {
+  document.getElementById('new-day-title').value = '';
+  document.getElementById('new-day-date').value = '';
+  document.getElementById('new-day-location').value = '';
+  document.getElementById('new-day-notes').value = '';
+  openModal('modal-add-day');
+  setTimeout(() => document.getElementById('new-day-title').focus(), 200);
+}
+
+async function addDay() {
+  if (!currentTrip) return;
+  const token = getToken();
+  const r = await fetch(`${API}/group-trips/${currentTrip.id}/days`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({
+      title: document.getElementById('new-day-title').value.trim() || null,
+      date: document.getElementById('new-day-date').value || null,
+      location: document.getElementById('new-day-location').value.trim() || null,
+      notes: document.getElementById('new-day-notes').value.trim() || null
+    })
+  });
+  const data = await r.json();
+  closeModal('modal-add-day');
+  if (data.ok) {
+    currentTrip.days = currentTrip.days || [];
+    currentTrip.days.push(data.day);
+    renderDays(currentTrip.days);
+    showToast('📅 Día añadido');
+  } else showToast('Error al añadir día');
+}
+
+function openEditDayModal(dayId) {
+  const day = (currentTrip.days || []).find(d => d.id === dayId);
+  if (!day) return;
+  document.getElementById('edit-day-id').value = dayId;
+  document.getElementById('edit-day-title').value = day.title || '';
+  document.getElementById('edit-day-date').value = day.date || '';
+  document.getElementById('edit-day-location').value = day.location || '';
+  document.getElementById('edit-day-notes').value = day.notes || '';
+  openModal('modal-edit-day');
+}
+
+async function saveEditDay() {
+  const dayId = parseInt(document.getElementById('edit-day-id').value);
+  if (!currentTrip) return;
+  const token = getToken();
+  const r = await fetch(`${API}/group-trips/${currentTrip.id}/days/${dayId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({
+      title: document.getElementById('edit-day-title').value.trim() || null,
+      date: document.getElementById('edit-day-date').value || null,
+      location: document.getElementById('edit-day-location').value.trim() || null,
+      notes: document.getElementById('edit-day-notes').value.trim() || null
+    })
+  });
+  const data = await r.json();
+  closeModal('modal-edit-day');
+  if (data.ok) {
+    const idx = currentTrip.days.findIndex(d => d.id === dayId);
+    if (idx >= 0) {
+      currentTrip.days[idx] = { ...currentTrip.days[idx], ...data.day };
+    }
+    renderDays(currentTrip.days);
+    showToast('✅ Día actualizado');
+  } else showToast('Error al actualizar');
+}
+
+async function deleteDay(dayId) {
+  if (!confirm('¿Eliminar este día y todos sus ítems?')) return;
+  const token = getToken();
+  const r = await fetch(`${API}/group-trips/${currentTrip.id}/days/${dayId}`, {
+    method: 'DELETE', headers: { Authorization: `Bearer ${token}` }
+  });
+  const data = await r.json();
+  if (data.ok) {
+    currentTrip.days = currentTrip.days.filter(d => d.id !== dayId);
+    // Renumber client-side
+    currentTrip.days.forEach((d, i) => d.day_number = i + 1);
+    renderDays(currentTrip.days);
+    showToast('Día eliminado');
+  } else showToast('Error al eliminar');
+}
+
+// ─── Items ─────────────────────────────────────────
+let _selectedType = 'transport';
+
+function selectType(el) {
+  document.querySelectorAll('.type-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  _selectedType = el.dataset.type;
+}
+
+function openAddItemModal(dayId, dayTitle) {
+  document.getElementById('add-item-day-id').value = dayId;
+  document.getElementById('add-item-modal-title').textContent = `Añadir a: ${dayTitle}`;
+  ['new-item-title','new-item-desc','new-item-location','new-item-booking-ref','new-item-booking-url'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('new-item-cost').value = '';
+  document.getElementById('new-item-time-start').value = '';
+  document.getElementById('new-item-time-end').value = '';
+  _selectedType = 'transport';
+  document.querySelectorAll('.type-option').forEach(e => e.classList.remove('selected'));
+  document.querySelector('.type-option[data-type="transport"]').classList.add('selected');
+  openModal('modal-add-item');
+  setTimeout(() => document.getElementById('new-item-title').focus(), 200);
+}
+
+async function addItem() {
+  const dayId = parseInt(document.getElementById('add-item-day-id').value);
+  const title = document.getElementById('new-item-title').value.trim();
+  if (!title) { showToast('Añade un título'); return; }
+  const token = getToken();
+  const r = await fetch(`${API}/group-trips/${currentTrip.id}/days/${dayId}/items`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({
+      item_type: _selectedType,
+      title,
+      description: document.getElementById('new-item-desc').value.trim() || null,
+      time_start: document.getElementById('new-item-time-start').value || null,
+      time_end: document.getElementById('new-item-time-end').value || null,
+      location: document.getElementById('new-item-location').value.trim() || null,
+      cost: parseFloat(document.getElementById('new-item-cost').value) || null,
+      booking_ref: document.getElementById('new-item-booking-ref').value.trim() || null,
+      booking_url: document.getElementById('new-item-booking-url').value.trim() || null
+    })
+  });
+  const data = await r.json();
+  closeModal('modal-add-item');
+  if (data.ok) {
+    const day = currentTrip.days.find(d => d.id === dayId);
+    if (day) {
+      day.items = day.items || [];
+      day.items.push(data.item);
+      const itemList = document.getElementById(`items-${dayId}`);
+      if (itemList) {
+        itemList.insertAdjacentHTML('beforeend', buildItemHTML(data.item));
+      }
+      renderProgress(currentTrip);
+    }
+    showToast('✅ Ítem añadido');
+  } else showToast('Error al añadir ítem');
+}
+
+async function toggleItemDone(itemId, newDone) {
+  const token = getToken();
+  // Optimistic UI
+  const el = document.getElementById(`item-${itemId}`);
+  if (el) {
+    const check = el.querySelector('.item-check');
+    const title = el.querySelector('.item-title');
+    if (newDone) {
+      el.classList.add('done');
+      check.classList.add('checked');
+      check.textContent = '✓';
+      if (title) title.classList.add('done-text');
+    } else {
+      el.classList.remove('done');
+      check.classList.remove('checked');
+      check.textContent = '';
+      if (title) title.classList.remove('done-text');
+    }
+    check.onclick = () => toggleItemDone(itemId, !newDone);
+  }
+  // Update in state
+  if (currentTrip) {
+    (currentTrip.days || []).forEach(d => {
+      (d.items || []).forEach(item => {
+        if (item.id === itemId) item.is_done = newDone;
+      });
+    });
+    renderProgress(currentTrip);
+  }
+  // API
+  try {
+    await fetch(`${API}/group-trips/${currentTrip.id}/items/${itemId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ is_done: newDone })
+    });
+  } catch {}
+}
+
+async function deleteItem(itemId) {
+  if (!confirm('¿Eliminar este ítem?')) return;
+  const token = getToken();
+  const r = await fetch(`${API}/group-trips/${currentTrip.id}/items/${itemId}`, {
+    method: 'DELETE', headers: { Authorization: `Bearer ${token}` }
+  });
+  const data = await r.json();
+  if (data.ok) {
+    // Remove from DOM
+    const el = document.getElementById(`item-${itemId}`);
+    if (el) el.remove();
+    // Remove from state
+    (currentTrip.days || []).forEach(d => {
+      d.items = (d.items || []).filter(i => i.id !== itemId);
+    });
+    renderProgress(currentTrip);
+    showToast('Eliminado');
+  } else showToast('Error al eliminar');
+}
+
+// ─── Invite ───────────────────────────────────────
+function openInviteModal() {
+  if (!currentTrip) return;
+  document.getElementById('invite-code-display').textContent = currentTrip.invite_code?.toUpperCase() || '—';
+  const inviteUrl = `${location.origin}/viaje-grupo.html?id=${currentTrip.id}&code=${currentTrip.invite_code}`;
+  document.getElementById('invite-url-display').textContent = inviteUrl;
+  document.getElementById('invite-username').value = '';
+  renderMembersList();
+  openModal('modal-invite');
+}
+
+function renderMembersList() {
+  if (!currentTrip) return;
+  const allMembers = [
+    { ...currentTrip.creator, role: 'owner' },
+    ...(currentTrip.members || [])
+  ].filter(Boolean);
+  const html = allMembers.map(m => {
+    const name = m.name || m.username || '?';
+    const roleLabel = { owner: '👑 Creador', editor: '✏️ Editor', viewer: '👁️ Lector' }[m.role] || m.role;
+    const canRemove = m.role !== 'owner' && currentTrip._my_role === 'owner';
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="member-avatar" style="margin-left:0;flex-shrink:0">${m.avatar ? `<img src="${m.avatar}" alt="">` : name[0].toUpperCase()}</div>
+        <div>
+          <div style="font-weight:600;font-size:.88rem">${esc(name)}</div>
+          <div style="font-size:.78rem;color:var(--text-secondary)">${roleLabel}</div>
+        </div>
+      </div>
+      ${canRemove ? `<button onclick="removeMember(${m.id || m.user_id})" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:.85rem">✕</button>` : ''}
+    </div>`;
+  }).join('');
+  document.getElementById('members-list').innerHTML = html;
+}
+
+function copyInviteLink() {
+  const url = `${location.origin}/viaje-grupo.html?id=${currentTrip.id}&code=${currentTrip.invite_code}`;
+  navigator.clipboard.writeText(url).then(() => showToast('✅ Enlace copiado'));
+}
+
+async function addMemberByUsername() {
+  const val = document.getElementById('invite-username').value.trim();
+  if (!val) return;
+  const token = getToken();
+  const r = await fetch(`${API}/group-trips/${currentTrip.id}/members`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ username: val })
+  });
+  const data = await r.json();
+  if (data.ok) {
+    document.getElementById('invite-username').value = '';
+    currentTrip.members = currentTrip.members || [];
+    currentTrip.members.push({ ...data.user, role: 'editor' });
+    renderMembers(currentTrip);
+    renderMembersList();
+    showToast(`✅ ${data.user.name || val} añadido`);
+  } else showToast(data.detail || 'Usuario no encontrado');
+}
+
+async function removeMember(userId) {
+  const token = getToken();
+  const r = await fetch(`${API}/group-trips/${currentTrip.id}/members/${userId}`, {
+    method: 'DELETE', headers: { Authorization: `Bearer ${token}` }
+  });
+  const data = await r.json();
+  if (data.ok) {
+    currentTrip.members = (currentTrip.members || []).filter(m => (m.id || m.user_id) !== userId);
+    renderMembers(currentTrip);
+    renderMembersList();
+    showToast('Miembro eliminado');
+  }
+}
+
+// ─── Utils ────────────────────────────────────────
+function fmtDate(d) {
+  if (!d) return '';
+  const [y,m,day] = d.split('-');
+  const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
+}
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let _toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function openMobileMenu() { document.getElementById('mobile-menu-overlay').classList.add('open'); }
+function closeMobileMenu() { document.getElementById('mobile-menu-overlay').classList.remove('open'); }
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+// ─── Init ─────────────────────────────────────────
+(async () => {
+  currentUser = await loadUser();
+  initNav(currentUser);
+
+  // Check for direct trip URL
+  const params = new URLSearchParams(window.location.search);
+  const tripId = params.get('id');
+  const code = params.get('code');
+
+  if (tripId) {
+    showDetail();
+    await openTrip(parseInt(tripId));
+  } else {
+    await loadTrips();
+  }
+})();
+</script>
+</body>
+</html>
