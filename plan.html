@@ -2629,7 +2629,12 @@ function renderResults() {
     filtered = DESTINATIONS;
   }
 
-  let scored = filtered.map(d => ({ dest: d, score: scoreDestination(d, answers) }));
+  let scored = filtered.map(d => {
+    let s = scoreDestination(d, answers);
+    // When zone is "any" (Sorpréndeme), add small random jitter so results vary each time
+    if (!answers.zone || answers.zone === 'any') s += Math.random() * 2;
+    return { dest: d, score: s };
+  });
   scored.sort((a,b) => b.score - a.score);
 
   // Show top 8 by score (positive scores preferred)

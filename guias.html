@@ -1128,6 +1128,7 @@ const FALLBACK_DESTINATIONS = [
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let allDestinations = [];
+let masterDestinations = []; // full unfiltered list, used by Sorpréndeme
 let activeContinent = '';
 let activeStyle = '';
 let searchQuery = '';
@@ -1144,8 +1145,11 @@ async function loadGuides(continent = '', style = '', query = '') {
     let results = data.destinations || [];
     if (!results.length) throw new Error('empty');
     allDestinations = results.map(normalizeDestination);
+    // Keep master list (full unfiltered) for Sorpréndeme
+    if (!continent && !style) masterDestinations = allDestinations;
   } catch(e) {
     allDestinations = FALLBACK_DESTINATIONS;
+    if (!continent && !style) masterDestinations = FALLBACK_DESTINATIONS;
   }
   loading = false;
   renderGrid();
@@ -1458,11 +1462,12 @@ document.getElementById('search-input').addEventListener('input', (e) => {
   }, 220);
 });
 
-// Sorpréndeme
+// Sorpréndeme — picks from the full unfiltered list so active filters don't bias the result
 function goSurprise(e) {
   e.preventDefault();
-  if (!allDestinations.length) return;
-  const d = allDestinations[Math.floor(Math.random() * allDestinations.length)];
+  const pool = masterDestinations.length ? masterDestinations : allDestinations;
+  if (!pool.length) return;
+  const d = pool[Math.floor(Math.random() * pool.length)];
   window.location.href = `destino.html?slug=${d.slug}`;
 }
 
