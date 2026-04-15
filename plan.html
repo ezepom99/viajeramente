@@ -753,6 +753,87 @@ nav { padding: 0 18px; }
     .tab-item.active { color: #0EA5E9; }
     .tab-item:hover { color: #0EA5E9; }
     .tab-icon { font-size: 1.3rem; line-height: 1; }
+
+    /* ── Rutas Express ── */
+    .rutas-express-section {
+      max-width: 680px;
+      margin: 32px auto 0;
+      padding: 0 20px;
+      animation: fadeInUp .5s ease both;
+    }
+    .rutas-express-section h2 {
+      font-size: 1.35rem; font-weight: 800; color: var(--text);
+      margin-bottom: 6px;
+    }
+    .rutas-section-subtitle {
+      font-size: .88rem; color: var(--text-secondary); margin-bottom: 20px;
+    }
+    .rutas-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 520px) { .rutas-grid { grid-template-columns: 1fr; } }
+    .ruta-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .ruta-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.1); border-color: var(--accent); }
+    .ruta-card-top {
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .ruta-emoji { font-size: 2rem; line-height: 1; flex-shrink: 0; }
+    .ruta-card-info { flex: 1; min-width: 0; }
+    .ruta-destino { font-size: .72rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 2px; }
+    .ruta-titulo { font-family: 'Space Grotesk', sans-serif; font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .ruta-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+    .ruta-chip {
+      font-size: .7rem; font-weight: 600; padding: 2px 8px; border-radius: 20px;
+      background: var(--accent-light); color: var(--accent-text);
+    }
+    .ruta-chip.budget { background: #FEF3C7; color: #92400E; }
+    .ruta-chip.style { background: var(--teal-light); color: var(--teal-text); }
+    .ruta-itinerary {
+      display: none;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+      margin-top: 2px;
+    }
+    .ruta-itinerary.open { display: block; }
+    .ruta-day-row {
+      display: grid; grid-template-columns: 60px 1fr;
+      gap: 8px; margin-bottom: 8px; align-items: start;
+    }
+    .ruta-day-label {
+      font-size: .72rem; font-weight: 700; color: var(--accent);
+      background: var(--accent-light); border-radius: 6px;
+      padding: 2px 6px; text-align: center; white-space: nowrap;
+    }
+    .ruta-day-content { font-size: .78rem; color: var(--text-secondary); line-height: 1.5; }
+    .ruta-day-place { font-weight: 700; color: var(--text); }
+    .ruta-card-actions {
+      display: flex; gap: 8px; margin-top: 4px;
+    }
+    .btn-toggle-itin {
+      flex: 1; background: none; border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 7px 10px; font-size: .78rem;
+      font-weight: 600; color: var(--text-secondary); cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .btn-toggle-itin:hover { background: var(--bg-soft); color: var(--text); }
+    .btn-use-ruta {
+      flex: 1; background: var(--accent); color: #fff;
+      border: none; border-radius: 10px; padding: 7px 10px;
+      font-size: .78rem; font-weight: 700; cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .btn-use-ruta:hover { background: var(--accent-text); transform: translateY(-1px); }
   </style>
 </head>
 <body>
@@ -801,6 +882,13 @@ nav { padding: 0 18px; }
 </div>
 
 <main>
+  <!-- ══ RUTAS EXPRESS ══ -->
+  <section class="rutas-express-section" id="rutasExpressSection">
+    <h2>⚡ Rutas Express</h2>
+    <p class="rutas-section-subtitle">Itinerarios listos para usar — cópialos o úsalos como inspiración</p>
+    <div class="rutas-grid" id="rutasGrid"></div>
+  </section>
+
   <!-- ══ WIZARD ══ -->
   <div id="wizardWrap">
 
@@ -3128,6 +3216,207 @@ function resetPacking() {
   try { localStorage.removeItem(PACKING_LS_KEY()); } catch {}
   renderPackingList();
 }
+
+/* ─── RUTAS EXPRESS ─── */
+const RUTAS_EXPRESS = [
+  {
+    id: 'japon-clasico-14d',
+    emoji: '🗾',
+    destino: 'Japón',
+    titulo: 'Lo esencial de Japón',
+    duracion: '14 días',
+    presupuesto: '€€€',
+    estilo: ['cultura', 'gastronomía', 'ciudades'],
+    slug: 'japon',
+    itinerario: [
+      { dia: '1-3', lugar: 'Tokio', actividades: 'Shinjuku, Shibuya, Akihabara, Meiji. Ramen en Ichiran.' },
+      { dia: '4-5', lugar: 'Nikko / Hakone', actividades: 'Santuario Tosho-gu. Onsen con vistas al Fuji.' },
+      { dia: '6-8', lugar: 'Kioto', actividades: 'Fushimi Inari, Arashiyama, Gion. Amanecer en el bambú.' },
+      { dia: '9', lugar: 'Nara', actividades: 'Ciervos sagrados y Daibutsu. Media jornada.' },
+      { dia: '10-11', lugar: 'Osaka', actividades: 'Dotonbori, takoyaki, Kuromon. Vida nocturna.' },
+      { dia: '12', lugar: 'Hiroshima / Miyajima', actividades: 'Memorial de la Paz + torii flotante al atardecer.' },
+      { dia: '13-14', lugar: 'Tokio', actividades: 'Compras en Harajuku, TeamLab, vuelo de vuelta.' },
+    ]
+  },
+  {
+    id: 'bali-10d',
+    emoji: '🌺',
+    destino: 'Bali',
+    titulo: 'Bali esencial',
+    duracion: '10 días',
+    presupuesto: '€€',
+    estilo: ['naturaleza', 'relax', 'aventura'],
+    slug: 'bali',
+    itinerario: [
+      { dia: '1-2', lugar: 'Seminyak / Canggu', actividades: 'Playa, surf, cafés de especialidad, vida nocturna.' },
+      { dia: '3-5', lugar: 'Ubud', actividades: 'Arrozales, Pura Tirta Empul, clase de cocina, Monkey Forest.' },
+      { dia: '6', lugar: 'Monte Batur', actividades: 'Trek nocturno al volcán. Amanecer en la cima.' },
+      { dia: '7-8', lugar: 'Amed / Tulamben', actividades: 'Snorkel en el Liberty Wreck. Aguas cristalinas.' },
+      { dia: '9-10', lugar: 'Uluwatu', actividades: 'Templo al atardecer con danza Kecak, surf en Bingin.' },
+    ]
+  },
+  {
+    id: 'europa-interrail-21d',
+    emoji: '🚂',
+    destino: 'Europa en tren',
+    titulo: 'Grand Tour Europeo',
+    duracion: '21 días',
+    presupuesto: '€€',
+    estilo: ['cultura', 'ciudades', 'historia'],
+    slug: 'interrail',
+    itinerario: [
+      { dia: '1-3', lugar: 'París', actividades: "Louvre, Montmartre, Musée d'Orsay, bistrós locales." },
+      { dia: '4-5', lugar: 'Ámsterdam', actividades: 'Canales, Van Gogh, Rijksmuseum, mercado Albert Cuyp.' },
+      { dia: '6-7', lugar: 'Berlín', actividades: 'Muro, East Side Gallery, Checkpoint Charlie, vida nocturna.' },
+      { dia: '8-9', lugar: 'Praga', actividades: 'Barrio Antiguo, Castillo, cenas por 8€.' },
+      { dia: '10-12', lugar: 'Viena', actividades: 'Palacio Schönbrunn, Kunsthistorisches, cafés vieneses.' },
+      { dia: '13-14', lugar: 'Budapest', actividades: 'Baños termales Széchenyi, Parlamento, ruinas bares.' },
+      { dia: '15-17', lugar: 'Roma', actividades: 'Coliseo, Vaticano, Trastevere, aperitivo a 5€.' },
+      { dia: '18-19', lugar: 'Florencia', actividades: 'Uffizi, David de Miguel Ángel, chianti en las colinas.' },
+      { dia: '20-21', lugar: 'Barcelona', actividades: 'Sagrada Família, Gaudí, La Barceloneta, vermut.' },
+    ]
+  },
+  {
+    id: 'marruecos-8d',
+    emoji: '🕌',
+    destino: 'Marruecos',
+    titulo: 'Norte de Marruecos',
+    duracion: '8 días',
+    presupuesto: '€',
+    estilo: ['cultura', 'gastronomía', 'aventura'],
+    slug: 'marruecos',
+    itinerario: [
+      { dia: '1-2', lugar: 'Marrakech', actividades: 'Medina, souks, Djemaa el-Fna de noche, Jardin Majorelle.' },
+      { dia: '3', lugar: 'Desierto de Agafay', actividades: 'Excursión al desierto rocoso a 45 min de Marrakech.' },
+      { dia: '4-5', lugar: 'Essaouira', actividades: 'Ciudad azul y blanca en el Atlántico. Surf y marisco.' },
+      { dia: '6-7', lugar: 'Fez', actividades: 'La medina más laberíntica del mundo. Curtidurías de cuero.' },
+      { dia: '8', lugar: 'Chefchaouen', actividades: 'La ciudad azul. Regreso a Casablanca o vuelo directo.' },
+    ]
+  },
+  {
+    id: 'tailandia-15d',
+    emoji: '🐘',
+    destino: 'Tailandia',
+    titulo: 'Tailandia clásica',
+    duracion: '15 días',
+    presupuesto: '€€',
+    estilo: ['playas', 'cultura', 'gastronomía'],
+    slug: 'tailandia',
+    itinerario: [
+      { dia: '1-3', lugar: 'Bangkok', actividades: 'Templos, mercados flotantes, khao san road, masaje tailandés.' },
+      { dia: '4-5', lugar: 'Chiang Mai', actividades: 'Santuario de elefantes ético, templo Doi Suthep, mercado nocturno.' },
+      { dia: '6-8', lugar: 'Islas Similan', actividades: 'Buceo en uno de los mejores sitios del mundo. Arrecifes vírgenes.' },
+      { dia: '9-11', lugar: 'Koh Phi Phi / Railay', actividades: 'Playa Maya, escalada en acantilados de caliza, kayak.' },
+      { dia: '12-14', lugar: 'Koh Samui / Koh Phangan', actividades: 'Full Moon Party, playas tranquilas, spa.' },
+      { dia: '15', lugar: 'Bangkok', actividades: 'Compras de último momento, vuelo de vuelta.' },
+    ]
+  },
+  {
+    id: 'argentina-chile-21d',
+    emoji: '🏔️',
+    destino: 'Argentina & Chile',
+    titulo: 'Cono Sur Épico',
+    duracion: '21 días',
+    presupuesto: '€€',
+    estilo: ['naturaleza', 'aventura', 'ciudades'],
+    slug: 'argentina',
+    itinerario: [
+      { dia: '1-3', lugar: 'Buenos Aires', actividades: 'Palermo, Recoleta, tango en San Telmo, asado porteño.' },
+      { dia: '4-5', lugar: 'Iguazú', actividades: 'Las cataratas más grandes del mundo. Lados argentino y brasileño.' },
+      { dia: '6-8', lugar: 'Mendoza', actividades: 'Ruta del Vino en Malbec country, rafting en el Mendoza.' },
+      { dia: '9-11', lugar: 'Patagonia argentina', actividades: 'El Calafate (Perito Moreno), El Chaltén (Fitz Roy trek).' },
+      { dia: '12-14', lugar: 'Torres del Paine', actividades: 'El parque más espectacular de América del Sur. Trek W.' },
+      { dia: '15-16', lugar: 'Puerto Natales / Punta Arenas', actividades: 'Pingüinos de Magallanes, fin del mundo.' },
+      { dia: '17-19', lugar: 'Atacama', actividades: 'Desierto más seco del mundo: géiseres, lagunas, stargazing.' },
+      { dia: '20-21', lugar: 'Santiago de Chile', actividades: 'Cerro San Cristóbal, Lastarria, mercado central.' },
+    ]
+  }
+];
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderRutasExpress() {
+  const grid = document.getElementById('rutasGrid');
+  if (!grid) return;
+  grid.innerHTML = RUTAS_EXPRESS.map(r => {
+    const itinRows = r.itinerario.map(d =>
+      `<div class="ruta-day-row">
+        <div class="ruta-day-label">Día ${escapeHtml(d.dia)}</div>
+        <div class="ruta-day-content"><span class="ruta-day-place">${escapeHtml(d.lugar)}</span> — ${escapeHtml(d.actividades)}</div>
+      </div>`
+    ).join('');
+    const styleChips = r.estilo.map(e => `<span class="ruta-chip style">${escapeHtml(e)}</span>`).join('');
+    return `<div class="ruta-card" id="ruta-${r.id}">
+      <div class="ruta-card-top">
+        <div class="ruta-emoji">${r.emoji}</div>
+        <div class="ruta-card-info">
+          <div class="ruta-destino">${escapeHtml(r.destino)}</div>
+          <div class="ruta-titulo">${escapeHtml(r.titulo)}</div>
+          <div class="ruta-chips">
+            <span class="ruta-chip">${escapeHtml(r.duracion)}</span>
+            <span class="ruta-chip budget">${escapeHtml(r.presupuesto)}</span>
+            ${styleChips}
+          </div>
+        </div>
+      </div>
+      <div class="ruta-itinerary" id="itin-${r.id}">
+        ${itinRows}
+      </div>
+      <div class="ruta-card-actions">
+        <button class="btn-toggle-itin" onclick="toggleItinerary('${r.id}', this)">Ver días ↓</button>
+        <button class="btn-use-ruta" onclick="useRuta('${r.id}')">Usar esta ruta →</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleItinerary(id, btn) {
+  const itin = document.getElementById('itin-' + id);
+  if (!itin) return;
+  const isOpen = itin.classList.toggle('open');
+  btn.textContent = isOpen ? 'Ocultar días ↑' : 'Ver días ↓';
+}
+
+function useRuta(id) {
+  const ruta = RUTAS_EXPRESS.find(r => r.id === id);
+  if (!ruta) return;
+  // Scroll to wizard and pre-select duration based on days
+  const wizardWrap = document.getElementById('wizardWrap');
+  if (wizardWrap) {
+    wizardWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  // Store ruta info for reference
+  try {
+    localStorage.setItem('vm_ruta_express', JSON.stringify({
+      id: ruta.id,
+      titulo: ruta.titulo,
+      destino: ruta.destino,
+      slug: ruta.slug,
+      duracion: ruta.duracion
+    }));
+  } catch(e) {}
+  // Show a toast
+  showRutaToast(ruta);
+}
+
+function showRutaToast(ruta) {
+  let toast = document.getElementById('rutaToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'rutaToast';
+    toast.style.cssText = `position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#0F172A;color:#fff;padding:10px 18px;border-radius:12px;font-size:.85rem;font-weight:600;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:opacity .3s;white-space:nowrap;max-width:90vw;text-align:center;`;
+    document.body.appendChild(toast);
+  }
+  toast.textContent = `${ruta.emoji} Ruta "${ruta.titulo}" seleccionada — completa el wizard para personalizar`;
+  toast.style.opacity = '1';
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 3500);
+}
+
+// Render on load
+renderRutasExpress();
 
 </script>
 

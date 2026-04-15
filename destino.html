@@ -567,6 +567,104 @@
       margin-top: 8px; display: flex; align-items: center; gap: 3px;
     }
 
+    /* ── Joyas Ocultas cards ── */
+    .joyas-section-header {
+      display: flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #0d9488 0%, #b45309 100%);
+      border-radius: 14px 14px 0 0;
+      padding: 14px 18px;
+      margin-bottom: 0;
+    }
+    .joyas-section-header h2 {
+      margin: 0; font-size: 1.15rem; font-weight: 700; color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .joyas-section-wrapper {
+      border: 1.5px solid #0d9488;
+      border-radius: 14px;
+      overflow: hidden;
+      margin: 32px 0;
+    }
+    .joyas-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      background: var(--bg);
+    }
+    .hidden-gem-card {
+      padding: 18px 16px;
+      border-right: 1px solid rgba(13,148,136,.15);
+      border-bottom: 1px solid rgba(13,148,136,.15);
+      background: var(--bg);
+      transition: background .2s;
+    }
+    .hidden-gem-card:hover { background: #f0fdfa; }
+    .hidden-gem-card:nth-child(2n) { border-right: none; }
+    .hidden-gem-card:nth-last-child(-n+2) { border-bottom: none; }
+    .hidden-gem-card:last-child:nth-child(odd) { grid-column: span 2; border-right: none; border-bottom: none; }
+    .hidden-gem-emoji { font-size: 1.5rem; margin-bottom: 6px; }
+    .hidden-gem-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .92rem; font-weight: 700; color: #0d9488;
+      margin-bottom: 5px;
+    }
+    .hidden-gem-desc { font-size: .85rem; line-height: 1.6; color: var(--text-2); }
+
+    /* ── Mesa y Mercado cards ── */
+    .mesa-section-header {
+      display: flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #ea580c 0%, #b91c1c 100%);
+      border-radius: 14px 14px 0 0;
+      padding: 14px 18px;
+      margin-bottom: 0;
+    }
+    .mesa-section-header h2 {
+      margin: 0; font-size: 1.15rem; font-weight: 700; color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .mesa-section-wrapper {
+      border: 1.5px solid #ea580c;
+      border-radius: 14px;
+      overflow: hidden;
+      margin: 32px 0;
+    }
+    .mesa-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      background: var(--bg);
+    }
+    .food-card {
+      padding: 18px 16px;
+      border-right: 1px solid rgba(234,88,12,.15);
+      border-bottom: 1px solid rgba(234,88,12,.15);
+      background: var(--bg);
+      transition: background .2s;
+    }
+    .food-card:hover { background: #fff7ed; }
+    .food-card:nth-child(2n) { border-right: none; }
+    .food-card:nth-last-child(-n+2) { border-bottom: none; }
+    .food-card:last-child:nth-child(odd) { grid-column: span 2; border-right: none; border-bottom: none; }
+    .food-card-emoji { font-size: 1.5rem; margin-bottom: 6px; }
+    .food-card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .92rem; font-weight: 700; color: #ea580c;
+      margin-bottom: 5px;
+    }
+    .food-card-desc { font-size: .85rem; line-height: 1.6; color: var(--text-2); }
+
+    @media (max-width: 599px) {
+      .joyas-grid, .mesa-grid { grid-template-columns: 1fr; }
+      .hidden-gem-card:nth-child(2n) { border-right: none; }
+      .hidden-gem-card:nth-last-child(-n+2) { border-bottom: 1px solid rgba(13,148,136,.15); }
+      .hidden-gem-card:last-child { border-bottom: none !important; }
+      .hidden-gem-card:last-child:nth-child(odd) { grid-column: span 1; }
+      .food-card:nth-child(2n) { border-right: none; }
+      .food-card:nth-last-child(-n+2) { border-bottom: 1px solid rgba(234,88,12,.15); }
+      .food-card:last-child { border-bottom: none !important; }
+      .food-card:last-child:nth-child(odd) { grid-column: span 1; }
+    }
+
     /* ── Parent country breadcrumb ── */
     .parent-country-badge {
       display: inline-flex; align-items: center; gap: 6px;
@@ -1669,6 +1767,20 @@
         nonVaccineSections.splice(1, 0, itinSection);
       }
     }
+    // Position "Joyas Ocultas" and "Mesa y Mercado" after "Qué hacer" / "Gastronomía" but before "Dónde dormir"
+    const SECTION_ORDER = ['Qué hacer', 'Itinerario día a día', 'Joyas Ocultas', 'Gastronomía', 'Mesa y Mercado', 'Dónde dormir'];
+    const dormirIdx = nonVaccineSections.findIndex(s => s.section === 'Dónde dormir' || s.section === 'Alojamiento');
+    const insertBefore = dormirIdx >= 0 ? dormirIdx : nonVaccineSections.length;
+    ['Mesa y Mercado', 'Joyas Ocultas'].forEach(sectionName => {
+      const idx = nonVaccineSections.findIndex(s => s.section === sectionName);
+      if (idx >= 0 && idx > insertBefore - 1) {
+        // Already before dormir, leave it
+      } else if (idx >= 0) {
+        const [sec] = nonVaccineSections.splice(idx, 1);
+        const newDormirIdx = nonVaccineSections.findIndex(s => s.section === 'Dónde dormir' || s.section === 'Alojamiento');
+        nonVaccineSections.splice(newDormirIdx >= 0 ? newDormirIdx : nonVaccineSections.length, 0, sec);
+      }
+    });
     if (nonVaccineSections.length > 0) {
       document.getElementById('guideSections').style.display = 'block';
 
@@ -1768,6 +1880,50 @@
             return `<div style="color:#475569;line-height:1.7;font-size:.92rem;">${escHtml(line.trim())}</div>`;
           }).join('');
           bodyHtml = `<div style="border-left:3px solid #E0F2FE;padding-left:16px;margin-top:8px;">${bodyHtml}</div>`;
+        } else if (s.section === 'Joyas Ocultas') {
+          // Parse blocks separated by double newline: emoji **Title** — Description
+          const blocks = (s.content || '').split(/\n\n+/).filter(b => b.trim());
+          const cards = blocks.map(block => {
+            const trimmed = block.trim();
+            // Extract leading emoji (1-2 emoji chars)
+            const emojiMatch = trimmed.match(/^([\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}][\uFE0F\u20E3]?|[\u{1F300}-\u{1F9FF}])/u);
+            const emoji = emojiMatch ? emojiMatch[0] : '💎';
+            const rest = trimmed.slice(emoji.length).trim();
+            // Extract **Title** — rest
+            const titleMatch = rest.match(/^\*\*([^*]+)\*\*\s*[—–-]\s*([\s\S]*)/);
+            const title = titleMatch ? titleMatch[1] : rest.split(' ').slice(0,4).join(' ');
+            const desc = titleMatch ? titleMatch[2].trim() : '';
+            return `<div class="hidden-gem-card">
+              <div class="hidden-gem-emoji">${emoji}</div>
+              <div class="hidden-gem-title">${escHtml(title)}</div>
+              <div class="hidden-gem-desc">${escHtml(desc)}</div>
+            </div>`;
+          }).join('');
+          return `<div class="joyas-section-wrapper">
+            <div class="joyas-section-header"><h2>💎 Joyas Ocultas</h2></div>
+            <div class="joyas-grid">${cards}</div>
+          </div>`;
+        } else if (s.section === 'Mesa y Mercado') {
+          // Parse blocks separated by double newline: emoji **Title** — Description
+          const blocks = (s.content || '').split(/\n\n+/).filter(b => b.trim());
+          const cards = blocks.map(block => {
+            const trimmed = block.trim();
+            const emojiMatch = trimmed.match(/^([\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}][\uFE0F\u20E3]?|[\u{1F300}-\u{1F9FF}])/u);
+            const emoji = emojiMatch ? emojiMatch[0] : '🍽️';
+            const rest = trimmed.slice(emoji.length).trim();
+            const titleMatch = rest.match(/^\*\*([^*]+)\*\*\s*[—–-]\s*([\s\S]*)/);
+            const title = titleMatch ? titleMatch[1] : rest.split(' ').slice(0,4).join(' ');
+            const desc = titleMatch ? titleMatch[2].trim() : '';
+            return `<div class="food-card">
+              <div class="food-card-emoji">${emoji}</div>
+              <div class="food-card-title">${escHtml(title)}</div>
+              <div class="food-card-desc">${escHtml(desc)}</div>
+            </div>`;
+          }).join('');
+          return `<div class="mesa-section-wrapper">
+            <div class="mesa-section-header"><h2>🍽️ Mesa y Mercado</h2></div>
+            <div class="mesa-grid">${cards}</div>
+          </div>`;
         } else {
           bodyHtml = `<div class="guide-section-body">${escHtml(s.content || '').replace(/\n/g,'<br>')}</div>`;
         }
