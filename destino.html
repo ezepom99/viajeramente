@@ -515,10 +515,48 @@
     }
     .info-card p { color: var(--text-2); line-height: 1.75; font-size: .92rem; }
 
-    /* ── Guide sections ── */
-    .guide-section { margin: 32px 0; padding: 0; }
-    .guide-section-title { font-size: 1.3rem; font-weight: 700; color: #0F172A; margin-bottom: 12px; border-left: 3px solid #0EA5E9; padding-left: 12px; }
-    .guide-section-body { font-size: 0.95rem; line-height: 1.75; color: #475569; }
+    /* ── Guide sections (blog style) ── */
+    .guide-section {
+      margin-bottom: 36px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    .guide-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    .guide-section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-left: 14px;
+      border-left: 3px solid var(--accent);
+      line-height: 1.3;
+    }
+    .guide-section-body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      font-size: .97rem;
+      line-height: 1.85;
+      color: #374151;
+      white-space: pre-line;
+    }
+    .guide-section-body p { margin-bottom: 14px; }
+    /* Tip/highlight callout inside guide sections */
+    .guide-tip {
+      background: #F0F9FF;
+      border-left: 3px solid #38BDF8;
+      border-radius: 0 10px 10px 0;
+      padding: 12px 16px;
+      margin: 16px 0;
+      font-size: .92rem;
+      color: #0369A1;
+      line-height: 1.7;
+    }
 
     /* ── City cards (Ciudades destacadas) ── */
     .city-cards-grid {
@@ -1000,6 +1038,23 @@
     <div id="originBanner" style="margin-bottom:12px;"></div>
     <div class="info-card">
       <p id="howToGet">Cargando información de vuelos…</p>
+    </div>
+    <div id="flightAffiliateCTA" style="display:none;margin-top:14px;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a id="skyscannerLink" href="#" target="_blank" rel="noopener sponsored"
+           style="display:inline-flex;align-items:center;gap:8px;padding:11px 18px;background:#0770E3;color:#fff;border-radius:12px;font-size:.88rem;font-weight:600;text-decoration:none;transition:opacity .2s;box-shadow:0 2px 8px rgba(7,112,227,.25);"
+           onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+          Buscar vuelos — Skyscanner
+        </a>
+        <a id="bookingLink" href="#" target="_blank" rel="noopener sponsored"
+           style="display:inline-flex;align-items:center;gap:8px;padding:11px 18px;background:#003580;color:#fff;border-radius:12px;font-size:.88rem;font-weight:600;text-decoration:none;transition:opacity .2s;box-shadow:0 2px 8px rgba(0,53,128,.25);"
+           onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>
+          Buscar alojamiento — Booking
+        </a>
+      </div>
+      <p style="font-size:.72rem;color:var(--text-3);margin-top:8px;">Los precios pueden variar. Comparar siempre antes de reservar.</p>
     </div>
   </section>
 
@@ -1641,6 +1696,15 @@
     if (tierEl) { tierEl.value = mappedTier; calcCost(); }
     if (d.how_to_get_there) {
       document.getElementById('howToGet').textContent = d.how_to_get_there;
+      // Affiliate CTAs
+      const destName = encodeURIComponent(d.name || '');
+      const utmParams = 'utm_source=viajeramente&utm_medium=guide&utm_campaign=affiliate';
+      const skLink = document.getElementById('skyscannerLink');
+      const bkLink = document.getElementById('bookingLink');
+      if (skLink) skLink.href = `https://www.skyscanner.es/transporte/vuelos-a/${destName.toLowerCase().replace(/%20/g,'-')}/?${utmParams}`;
+      if (bkLink) bkLink.href = `https://www.booking.com/searchresults.es.html?ss=${destName}&${utmParams}`;
+      const cta = document.getElementById('flightAffiliateCTA');
+      if (cta) cta.style.display = '';
     } else {
       const fs = document.getElementById('flightSection');
       if (fs) fs.style.display = 'none';
@@ -1784,6 +1848,30 @@
     if (nonVaccineSections.length > 0) {
       document.getElementById('guideSections').style.display = 'block';
 
+      // Section key → display title mapping
+      const SECTION_NAMES = {
+        cuando_ir:     '📅 Cuándo ir',
+        visado:        '🛂 Visado e Entrada',
+        como_llegar:   '✈️ Cómo Llegar',
+        transporte:    '🚌 Transporte Local',
+        alojamiento:   '🏨 Dónde Dormir',
+        presupuesto:   '💰 Presupuesto',
+        que_ver:       '🗺️ Qué Ver',
+        gastronomia:   '🍜 Gastronomía',
+        salud:         '💊 Salud y Vacunas',
+        cultura:       '🎭 Cultura Local',
+        seguridad:     '🔒 Seguridad',
+        itinerario:    '📋 Itinerario Sugerido',
+        naturaleza:    '🌿 Naturaleza',
+        playas:        '🏖️ Playas',
+        aventura:      '🧗 Aventura',
+        joyas_ocultas: '💎 Joyas Ocultas',
+        mesa_mercado:  '🍽️ Mesa y Mercado',
+      };
+      function getSectionTitle(key) {
+        return SECTION_NAMES[key] || key;
+      }
+
       // Build inline photo HTML — use per-section photo from DB if available, else hero crop
       const photoId = d.hero_photo_id || '';
       function inlinePhotoForSection(section) {
@@ -1862,7 +1950,7 @@
             }).join('');
             bodyHtml = `${introHtml}<div class="city-cards-grid">${cardsHtml}</div>`;
           } else {
-            bodyHtml = `<div class="guide-section-body">${escHtml(s.content || '').replace(/\n/g,'<br>')}</div>`;
+            bodyHtml = `<div class="guide-section-body">${escHtml(s.content || '')}</div>`;
           }
         } else if (s.section === 'Itinerario día a día') {
           // Render day-by-day itinerary with special styling
@@ -1925,11 +2013,11 @@
             <div class="mesa-grid">${cards}</div>
           </div>`;
         } else {
-          bodyHtml = `<div class="guide-section-body">${escHtml(s.content || '').replace(/\n/g,'<br>')}</div>`;
+          bodyHtml = `<div class="guide-section-body">${escHtml(s.content || '')}</div>`;
         }
         const sectionHtml = `
           <div class="guide-section">
-            <h2 class="guide-section-title">${escHtml(s.section || '')}</h2>
+            <h2 class="guide-section-title">${escHtml(getSectionTitle(s.section || ''))}</h2>
             ${bodyHtml}
           </div>`;
         // Prefer per-section photo from DB, fall back to hero crops at positions 1 and 4
