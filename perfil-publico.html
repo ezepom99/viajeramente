@@ -418,6 +418,36 @@
       border: 1px solid var(--border);
     }
 
+    /* ── BADGES ── */
+    .badges-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 4px 0;
+    }
+    .pub-badge-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      min-width: 82px;
+      cursor: default;
+      text-align: center;
+      transition: all .2s;
+    }
+    .pub-badge-chip.rarity-legendary { background: rgba(245,158,11,.1); border-color: #F59E0B; }
+    .pub-badge-chip.rarity-epic      { background: rgba(124,58,237,.08); border-color: #7C3AED; }
+    .pub-badge-chip.rarity-rare      { background: rgba(59,130,246,.08); border-color: #3B82F6; }
+    .pub-badge-chip.rarity-common    { background: rgba(100,116,139,.06); border-color: #94A3B8; }
+    .pub-badge-emoji { font-size: 1.4rem; }
+    .pub-badge-name  { font-size: .72rem; font-weight: 600; color: var(--text-2); }
+    .pub-badge-name.rarity-legendary { color: #D97706; }
+    .pub-badge-name.rarity-epic      { color: #7C3AED; }
+    .pub-badge-name.rarity-rare      { color: #2563EB; }
+
     /* ── WORLD MAP ── */
     .map-container {
       width: 100%;
@@ -822,6 +852,18 @@
         </div>
       </div>
 
+      <!-- BADGES / HUELLAS DEL VIAJERO -->
+      <div class="section-card" id="badgesCard" style="display:none;">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-title-icon">🏅</div>
+            Huellas del viajero
+          </div>
+          <span class="section-badge" id="badgesCountBadge">0 logros</span>
+        </div>
+        <div class="badges-grid" id="publicBadgesGrid"></div>
+      </div>
+
       <!-- RANKING CTA -->
       <div class="ranking-cta">
         <a href="ranking.html" class="btn-ranking">🏆 Ver ranking de viajeros</a>
@@ -976,6 +1018,38 @@ function renderPublicProfile(user) {
 
   // Init map
   initPublicMap();
+
+  // Load badges if user id is available
+  if (user.id) {
+    loadUserBadges(user.id);
+  }
+}
+
+async function loadUserBadges(userId) {
+  try {
+    const res = await fetch(`${API_BASE}/api/badges/user/${userId}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data.ok || !data.badges || data.badges.length === 0) return;
+    const grid = document.getElementById('publicBadgesGrid');
+    const card = document.getElementById('badgesCard');
+    const countBadge = document.getElementById('badgesCountBadge');
+    if (!grid || !card) return;
+    const rarityOrder = { legendary: 1, epic: 2, rare: 3, common: 4 };
+    const sorted = [...data.badges].sort((a, b) =>
+      (rarityOrder[a.rarity] || 9) - (rarityOrder[b.rarity] || 9)
+    );
+    countBadge.textContent = `${sorted.length} logro${sorted.length !== 1 ? 's' : ''}`;
+    grid.innerHTML = sorted.map(b => `
+      <div class="pub-badge-chip rarity-${b.rarity || 'common'}" title="${b.name_es || ''}">
+        <span class="pub-badge-emoji">${b.emoji || '🏅'}</span>
+        <span class="pub-badge-name rarity-${b.rarity || 'common'}">${b.name_es || ''}</span>
+      </div>
+    `).join('');
+    card.style.display = '';
+  } catch(e) {
+    console.warn('Could not load user badges:', e);
+  }
 }
 
 // ── TRIPS ──

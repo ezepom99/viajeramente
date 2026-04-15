@@ -933,6 +933,25 @@
       border-color: var(--accent);
       box-shadow: 0 2px 8px rgba(14,165,233,.12);
     }
+    .badge-chip.earned.rarity-legendary {
+      background: rgba(245,158,11,.12);
+      border-color: #F59E0B;
+      box-shadow: 0 2px 10px rgba(245,158,11,.2);
+    }
+    .badge-chip.earned.rarity-epic {
+      background: rgba(124,58,237,.1);
+      border-color: #7C3AED;
+      box-shadow: 0 2px 10px rgba(124,58,237,.15);
+    }
+    .badge-chip.earned.rarity-rare {
+      background: rgba(59,130,246,.1);
+      border-color: #3B82F6;
+      box-shadow: 0 2px 10px rgba(59,130,246,.12);
+    }
+    .badge-chip.earned.rarity-common {
+      background: rgba(100,116,139,.08);
+      border-color: #94A3B8;
+    }
     .badge-chip.locked {
       background: var(--bg-soft);
       opacity: .6;
@@ -944,6 +963,16 @@
       color: var(--text-2);
     }
     .badge-chip.earned span:nth-child(2) { color: var(--accent-dark); }
+    .badge-chip.earned.rarity-legendary span:nth-child(2) { color: #D97706; }
+    .badge-chip.earned.rarity-epic span:nth-child(2) { color: #7C3AED; }
+    .badge-chip.earned.rarity-rare span:nth-child(2) { color: #2563EB; }
+    .badge-rarity-dot {
+      width: 6px; height: 6px; border-radius: 50%; margin: 0 auto;
+    }
+    .badge-earned-at {
+      font-size: .65rem;
+      color: var(--text-3);
+    }
     .badge-progress {
       font-size: .7rem;
       color: var(--text-3);
@@ -1569,6 +1598,26 @@
     .badge-chip.earned {
       background: var(--accent-light);
       border-color: var(--accent);
+      box-shadow: 0 2px 8px rgba(14,165,233,.12);
+    }
+    .badge-chip.earned.rarity-legendary {
+      background: rgba(245,158,11,.12);
+      border-color: #F59E0B;
+      box-shadow: 0 2px 10px rgba(245,158,11,.2);
+    }
+    .badge-chip.earned.rarity-epic {
+      background: rgba(124,58,237,.1);
+      border-color: #7C3AED;
+      box-shadow: 0 2px 10px rgba(124,58,237,.15);
+    }
+    .badge-chip.earned.rarity-rare {
+      background: rgba(59,130,246,.1);
+      border-color: #3B82F6;
+      box-shadow: 0 2px 10px rgba(59,130,246,.12);
+    }
+    .badge-chip.earned.rarity-common {
+      background: rgba(100,116,139,.08);
+      border-color: #94A3B8;
     }
     .badge-chip.locked {
       background: var(--bg-soft);
@@ -1581,6 +1630,16 @@
       color: var(--text-2);
     }
     .badge-chip.earned span:nth-child(2) { color: var(--accent-dark); }
+    .badge-chip.earned.rarity-legendary span:nth-child(2) { color: #D97706; }
+    .badge-chip.earned.rarity-epic span:nth-child(2) { color: #7C3AED; }
+    .badge-chip.earned.rarity-rare span:nth-child(2) { color: #2563EB; }
+    .badge-rarity-dot {
+      width: 6px; height: 6px; border-radius: 50%; margin: 0 auto;
+    }
+    .badge-earned-at {
+      font-size: .65rem;
+      color: var(--text-3);
+    }
     .badge-progress {
       font-size: .7rem;
       color: var(--text-3);
@@ -4160,8 +4219,100 @@ function toggleNaturalWonder(id, el) {
 }
 
 // ── BADGES ──
+// Server-side badge data (from /api/badges/me)
+let serverBadges = null;
+
+const RARITY_COLORS = {
+  legendary: '#F59E0B',
+  epic: '#7C3AED',
+  rare: '#3B82F6',
+  common: '#94A3B8'
+};
+
+function _timeAgo(isoStr) {
+  if (!isoStr) return '';
+  const diff = Date.now() - new Date(isoStr).getTime();
+  const days = Math.floor(diff / 86400000);
+  if (days === 0) return 'hoy';
+  if (days === 1) return 'hace 1 día';
+  if (days < 30) return `hace ${days} días`;
+  const months = Math.floor(days / 30);
+  if (months === 1) return 'hace 1 mes';
+  if (months < 12) return `hace ${months} meses`;
+  const years = Math.floor(months / 12);
+  return years === 1 ? 'hace 1 año' : `hace ${years} años`;
+}
+
+async function loadBadgesFromAPI() {
+  if (!token) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/badges/me`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.ok && data.badges) {
+        serverBadges = data.badges;
+        renderBadges();
+      }
+    }
+  } catch(e) {
+    console.warn('Could not load badges from API:', e);
+  }
+}
+
+async function triggerBadgeCheck() {
+  if (!token) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/badges/check`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.ok && data.newly_earned && data.newly_earned.length > 0) {
+        // Reload badges to show newly earned
+        await loadBadgesFromAPI();
+      }
+    }
+  } catch(e) {
+    console.warn('Badge check failed:', e);
+  }
+}
+
 function renderBadges() {
   const row = document.getElementById('badgesRow');
+
+  if (serverBadges) {
+    // Sort: earned first, then by rarity order
+    const rarityOrder = { legendary: 1, epic: 2, rare: 3, common: 4 };
+    const sorted = [...serverBadges].sort((a, b) => {
+      if (a.earned !== b.earned) return a.earned ? -1 : 1;
+      return (rarityOrder[a.rarity] || 9) - (rarityOrder[b.rarity] || 9);
+    });
+    row.innerHTML = sorted.map(b => {
+      const rColor = RARITY_COLORS[b.rarity] || '#94A3B8';
+      const earnedAt = b.earned && b.earned_at ? _timeAgo(b.earned_at) : null;
+      // Progress for unearned local badges
+      let progress = null;
+      if (!b.earned) {
+        const local = BADGES.find(lb => lb.id === b.slug);
+        if (local && local.progress) progress = local.progress();
+      }
+      return `
+        <div class="badge-chip ${b.earned ? 'earned' : 'locked'} rarity-${b.rarity || 'common'}" title="${b.description_es || b.name_es || ''}">
+          <div class="badge-rarity-dot" style="background:${b.earned ? rColor : '#CBD5E1'};"></div>
+          <span class="badge-emoji">${b.emoji || '🏅'}</span>
+          <span>${b.name_es || b.name || ''}</span>
+          ${earnedAt ? `<span class="badge-earned-at">${earnedAt}</span>` : ''}
+          ${progress ? `<span class="badge-progress">${progress}</span>` : ''}
+        </div>
+      `;
+    }).join('');
+    return;
+  }
+
+  // Fallback: local BADGES array
   row.innerHTML = BADGES.map(b => {
     const earned = b.req();
     const progress = !earned && b.progress ? b.progress() : null;
@@ -4615,6 +4766,9 @@ async function init() {
   }
 
   updateStats();
+
+  // Load badges from API and check for newly earned
+  loadBadgesFromAPI().then(() => triggerBadgeCheck());
 
   // Welcome message for new users (redirected from signup)
   if (new URLSearchParams(window.location.search).get('welcome') === '1') {
