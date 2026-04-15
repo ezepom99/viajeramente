@@ -556,7 +556,7 @@
       background: #fff;
       border-top: 1px solid rgba(255,255,255,.2);
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       position: relative;
       z-index: 2;
       border-radius: 0 0 24px 24px;
@@ -2158,6 +2158,11 @@
         <div class="hero-stat-label">Ciudades</div>
       </div>
       <div class="hero-stat">
+        <div class="hero-stat-icon">✈️</div>
+        <div class="hero-stat-num" id="statKm">0</div>
+        <div class="hero-stat-label">Km</div>
+      </div>
+      <div class="hero-stat">
         <div class="hero-stat-icon">🗺️</div>
         <div class="hero-stat-num" id="statContinents">0</div>
         <div class="hero-stat-label">Continentes</div>
@@ -2364,6 +2369,17 @@
       </div>
     </div>
 
+    <!-- ── MIS LOGROS ── -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-title-icon">🏅</div>
+          Mis logros
+        </div>
+      </div>
+      <div class="badges-scroll" id="badgesRow"></div>
+    </div>
+
     <!-- ── VIAJES ── -->
     <div class="section-card">
       <div class="section-header">
@@ -2503,6 +2519,31 @@
           <p>Gira tu móvil para la mejor experiencia</p>
         </div>
         <div id="mapModalLeaflet" style="width:100%;height:100%;"></div>
+      </div>
+    </div>
+
+    <!-- ── PAÍSES VISITADOS ── -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-title-icon">🌍</div>
+          Países visitados
+        </div>
+        <span class="section-badge" id="visitedCountriesLabel">0 países</span>
+      </div>
+      <!-- Progress bar -->
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:.78rem;color:var(--text-2);">Progreso hacia <strong>195 países</strong></span>
+          <span id="countriesPercent" style="font-size:.78rem;font-weight:700;color:var(--accent);">0%</span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:6px;overflow:hidden;">
+          <div id="countriesProgressBar" style="height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:6px;width:0%;transition:width .8s ease;"></div>
+        </div>
+      </div>
+      <!-- Countries chips -->
+      <div id="visitedCountriesChips" style="display:flex;flex-wrap:wrap;gap:8px;min-height:36px;">
+        <p style="color:var(--text-3);font-size:.85rem;">Márcalos en el mapa para verlos aquí.</p>
       </div>
     </div>
 
@@ -2686,15 +2727,6 @@
       </div>
     </div>
 
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title">
-          <div class="section-title-icon">🏅</div>
-          Mis logros
-        </div>
-      </div>
-      <div class="badges-scroll" id="badgesRow"></div>
-    </div>
 
   </div><!-- end .page-content -->
 
@@ -3441,6 +3473,9 @@ async function syncVisitedCountriesFromAPI() {
     if (!res.ok) return;
     const data = await res.json();
     if (!data.ok || !data.countries || !data.countries.length) return;
+    // Store full country objects for the countries card
+    window._visitedCountries = data.countries;
+    updateCountriesCard();
     // data.countries[i].country_code is ISO alpha-2 (e.g. "ES")
     let changed = false;
     for (const c of data.countries) {
@@ -3627,6 +3662,34 @@ function getTravelLevel(km) {
   return LEVEL_THRESHOLDS[LEVEL_THRESHOLDS.length - 1];
 }
 
+// ── COUNTRIES CARD ──
+function countryCodeToFlag(code) {
+  if (!code || code.length !== 2) return '🌍';
+  return String.fromCodePoint(...[...code.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+}
+
+function updateCountriesCard() {
+  const countries = window._visitedCountries || [];
+  const el = document.getElementById('visitedCountriesLabel');
+  const chips = document.getElementById('visitedCountriesChips');
+  const bar = document.getElementById('countriesProgressBar');
+  const pct = document.getElementById('countriesPercent');
+  if (!chips) return;
+  const n = countries.length;
+  if (el) el.textContent = n + ' ' + (n === 1 ? 'país' : 'países');
+  const p = Math.round(n / 195 * 100);
+  if (pct) pct.textContent = p + '%';
+  if (bar) bar.style.width = p + '%';
+  if (n === 0) {
+    chips.innerHTML = '<p style="color:var(--text-3);font-size:.85rem;">Márcalos en el mapa para verlos aquí.</p>';
+    return;
+  }
+  chips.innerHTML = countries.slice().sort((a, b) => (a.country_name || '').localeCompare(b.country_name || '')).map(c => {
+    const flag = countryCodeToFlag(c.country_code || '');
+    return `<span style="display:inline-flex;align-items:center;gap:5px;padding:5px 11px;background:var(--accent-light);border:1px solid rgba(14,165,233,.2);border-radius:20px;font-size:.8rem;font-weight:500;color:var(--accent-dark);">${flag} ${c.country_name || c.country_code || ''}</span>`;
+  }).join('');
+}
+
 // ── STATS ──
 function updateStats() {
   const countries = visitedCodes.size;
@@ -3655,6 +3718,7 @@ function updateStats() {
   updateMapColors();
   renderBadges();
   renderTrips();
+  updateCountriesCard();
 }
 
 // ── WORLD MAP (Leaflet) ──
@@ -4559,6 +4623,10 @@ async function loadTripsFromAPI() {
       renderTrips();
       document.getElementById('tripsCount').textContent = trips.length;
       document.getElementById('tripsCountLabel').textContent = `${trips.length} viaje${trips.length !== 1 ? 's' : ''}`;
+      // Update km stat from trips
+      const totalKm = trips.reduce((sum, t) => sum + (t.km_distance || t.km || 0), 0);
+      const kmEl = document.getElementById('statKm');
+      if (kmEl) kmEl.textContent = totalKm >= 1000 ? Math.round(totalKm / 1000) + 'k' : totalKm;
     }
   } catch(e) {
     console.warn('loadTripsFromAPI error:', e);
