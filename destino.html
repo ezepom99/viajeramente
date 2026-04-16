@@ -2443,17 +2443,81 @@
   }
 
   /* ─── RELATED ─── */
-  function renderRelated(d) {
+  async function renderRelated(d) {
     const section = document.getElementById('relatedSection');
     const grid    = document.getElementById('relatedGrid');
 
-    // pick 3 fallbacks that aren't the current slug
-    const related = Object.values(FALLBACKS).filter(x => x.slug !== d.slug).slice(0, 3);
-    if (!related.length) return;
+    // Fetch all destinations and score by similarity
+    let pool = [];
+    try {
+      const res = await fetch(`${API_BASE}/api/destinations?limit=500`);
+      const json = await res.json();
+      pool = (json.destinations || []).filter(x => x.slug !== d.slug && x.type !== 'route');
+    } catch(e) {
+      pool = Object.values(FALLBACKS).filter(x => x.slug !== d.slug);
+    }
 
-    grid.innerHTML = related.map(r => {
+    // Similarity scoring
+    const dVibes = new Set((d.vibes || []).map(v => v.toLowerCase()));
+    const dStyles = new Set((d.travel_styles || d.styles || []).map(s => s.toLowerCase()));
+    const dClimate = (d.climate || [])[0] || '';
+    const dBudget = d.budget_level || d.budget || '';
+
+    function score(r) {
+      let s = 0;
+      // Same continent = small bonus (similar, not identical)
+      if (r.continent === d.continent) s += 1;
+      // Shared vibes (most important)
+      (r.vibes || []).forEach(v => { if (dVibes.has(v.toLowerCase())) s += 3; });
+      // Shared travel styles
+      (r.travel_styles || r.styles || []).forEach(st => { if (dStyles.has(st.toLowerCase())) s += 2; });
+      // Same climate
+      if ((r.climate || [])[0] === dClimate && dClimate) s += 2;
+      // Similar budget
+      if ((r.budget_level || r.budget) === dBudget && dBudget) s += 1;
+      // Prefer different continent for variety (avoid 3 destinations from same zone)
+      if (r.continent !== d.continent) s += 0.5;
+      return s;
+    }
+
+    const scored = pool.map(r => ({ r, s: score(r) })).sort((a, b) => b.s - a.s);
+
+    // Pick top 3, ensuring variety (max 1 per continent)
+    const picked = [];
+    const usedContinents = new Set();
+    for (const { r } of scored) {
+      if (picked.length >= 3) break;
+      if (!usedContinents.has(r.continent)) {
+        picked.push(r);
+        usedContinents.add(r.continent);
+      }
+    }
+    // If not enough variety, fill remaining from top scores
+    if (picked.length < 3) {
+      for (const { r } of scored) {
+        if (picked.length >= 3) break;
+        if (!picked.find(p => p.slug === r.slug)) picked.push(r);
+      }
+    }
+
+    if (!picked.length) return;
+
+    // Build similarity reason label
+    function whyLabel(r) {
+      const shared = (r.vibes || []).filter(v => dVibes.has(v.toLowerCase()));
+      const sharedStyles = (r.travel_styles || r.styles || []).filter(s => dStyles.has(s.toLowerCase()));
+      if (shared.length) return shared.slice(0,2).join(' · ');
+      if (sharedStyles.length) return sharedStyles.slice(0,2).join(' · ');
+      if ((r.climate || [])[0] === dClimate && dClimate) return CLIMATE_MAP[dClimate] || dClimate;
+      return r.continent;
+    }
+
+    grid.innerHTML = picked.map(r => {
       const photoId = r.hero_photo_id;
-      const url = `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&h=400&w=600`;
+      const url = photoId
+        ? `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&h=400&w=600`
+        : 'https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&h=400&w=600';
+      const why = whyLabel(r);
       return `
         <a href="destino.html?slug=${r.slug}" class="related-card">
           <div class="related-photo" style="background-image:url('${url}')">
@@ -2461,7 +2525,7 @@
           </div>
           <div class="related-info">
             <div class="related-name">${r.name}</div>
-            <div class="related-tag">${r.continent} · ${CLIMATE_MAP[r.climate?.[0]] || ''}</div>
+            <div class="related-tag">${r.continent} · <span style="color:var(--accent);font-style:italic;">${why}</span></div>
           </div>
         </a>
       `;

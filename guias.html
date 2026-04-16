@@ -1270,12 +1270,17 @@ function filteredDestinations() {
       }
       return true;
     });
+    // Re-apply type filter after relaxing
+    if (activeType) results = results.filter(d => d.type === activeType);
+    else results = results.filter(d => d.type !== 'route');
     if (results.length) results._relaxed = 'style';
   }
   if (!results.length && !q) {
-    // Last resort: return everything
-    results = [...allDestinations];
-    results._relaxed = 'all';
+    // Last resort: return everything (but respect type filter)
+    results = activeType
+      ? allDestinations.filter(d => d.type === activeType)
+      : allDestinations.filter(d => d.type !== 'route');
+    if (results.length > 0 && (activeStyle || activeContinent)) results._relaxed = 'all';
   }
 
   return results;
@@ -1313,7 +1318,7 @@ function renderGrid() {
   // Hide/show featured hero when filters are active
   const featuredHeroWrap = document.getElementById('featuredHero');
   if (featuredHeroWrap) {
-    const filtersActive = activeContinent || activeStyle || searchQuery.trim();
+    const filtersActive = activeType || activeContinent || activeStyle || searchQuery.trim();
     featuredHeroWrap.style.display = filtersActive ? 'none' : '';
   }
 
