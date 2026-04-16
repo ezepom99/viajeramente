@@ -6,24 +6,9 @@
   <title>Contacto — ViajeraMente</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="styles.css">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --primary: #2563eb;
-      --bg: #0f172a;
-      --surface: #1e293b;
-      --border: #334155;
-      --text: #e2e8f0;
-      --muted: #94a3b8;
-    }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; line-height: 1.7; }
-    .header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 24px;
-    }
-    .logo { font-size: 20px; font-weight: 700; color: #fff; text-decoration: none; }
-    .logo span { color: var(--primary); }
+    body { padding-top: 72px; }
     .container { max-width: 640px; margin: 0 auto; padding: 48px 24px 80px; }
     h1 { font-size: 32px; font-weight: 700; margin-bottom: 16px; }
     .subtitle { color: var(--muted); font-size: 16px; margin-bottom: 48px; }
@@ -53,28 +38,53 @@
     .back { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 14px; margin-bottom: 32px; text-decoration: none; }
     .back:hover { color: var(--text); }
     .social { margin-top: 40px; }
-    .social h3 { font-size: 15px; font-weight: 600; margin-bottom: 16px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-size: 12px; }
+    .social h3 { font-size: 12px; font-weight: 600; margin-bottom: 16px; color: var(--muted, #94a3b8); text-transform: uppercase; letter-spacing: 0.05em; }
     .social-links { display: flex; gap: 12px; flex-wrap: wrap; }
     .social-link {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
+      background: var(--surface, #1e293b);
+      border: 1px solid var(--border, #334155);
+      color: var(--text, #e2e8f0);
       padding: 10px 16px;
       border-radius: 8px;
       font-size: 14px;
       text-decoration: none;
       transition: border-color 0.15s;
     }
-    .social-link:hover { border-color: var(--primary); color: var(--primary); }
+    .social-link:hover { border-color: var(--primary, #2563eb); color: var(--primary, #2563eb); }
+    .contact-card {
+      background: var(--surface, #1e293b);
+      border: 1px solid var(--border, #334155);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+    .contact-card h2 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .contact-card p { color: var(--muted, #94a3b8); font-size: 14px; margin-bottom: 12px; }
+    .contact-card a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary, #2563eb);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .contact-card a:hover { opacity: 0.85; }
+    h1 { font-size: 32px; font-weight: 700; margin-bottom: 16px; }
+    .subtitle { color: var(--muted, #94a3b8); font-size: 16px; margin-bottom: 48px; }
+    .back { display: inline-flex; align-items: center; gap: 6px; color: var(--muted, #94a3b8); font-size: 14px; margin-bottom: 32px; text-decoration: none; }
+    .back:hover { color: var(--text, #e2e8f0); }
+    .social { margin-top: 40px; }
   </style>
 </head>
 <body>
-  <header class="header">
-    <a href="/" class="logo">Viajera<span>Mente</span></a>
-  </header>
   <div class="container">
     <a href="/" class="back">← Volver al inicio</a>
     <h1>Contacto</h1>
@@ -107,5 +117,6 @@
       </div>
     </div>
   </div>
+  <script src="nav.js" data-page="" data-bottom-nav="false" data-footer="true"></script>
 </body>
 </html>

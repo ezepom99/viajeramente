@@ -16,160 +16,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
-
-    :root {
-      --bg: #FFFFFF;
-      --bg-soft: #F8FAFC;
-      --text: #0F172A;
-      --text-2: #64748B;
-      --text-3: #9CA3AF;
-      --border: #E2E8F0;
-      --accent: #0EA5E9;
-      --accent-light: #E0F2FE;
-      --accent-text: #0284C7;
-      --green: #10B981;
-      --green-light: #D1FAE5;
-      --teal: #10B981;
-      --teal-light: #F0FDFA;
-      --shadow: 0 2px 12px rgba(0,0,0,.07);
-      --radius: 16px;
-    }
-
-    html { scroll-behavior: smooth; overflow-x: hidden !important; }
-
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      color: var(--text);
-      background: var(--bg-soft);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden !important;
-      min-height: 100vh;
-      font-size: 15px;
-    }
-
-    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
-
-    @keyframes fadeInUp  { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes shimmer   { from { background-position: -400px 0; } to { background-position: 400px 0; } }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: .6; transform: scale(.8); }
-    }
-
-    /* ── Nav ── */
-    nav:not(.bottom-nav) {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px; height: 56px;
-      display: flex; align-items: center;
-      animation: slideDown .4s ease both;
-    }
-    .nav-inner {
-      max-width: 1080px;
-      margin: 0 auto;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.1rem; font-weight: 700; letter-spacing: -.02em;
-      color: var(--text); text-decoration: none;
-      display: flex; align-items: center; gap: 7px;
-      transition: opacity .2s;
-    }
-    .nav-logo:hover { opacity: .75; }
-    .nav-logo-icon { font-size: 1.15rem; }
-    .nav-links {
-      display: flex; align-items: center; gap: 4px;
-    }
-    .nav-links a {
-      font-size: .82rem; font-weight: 500; color: var(--text-2);
-      text-decoration: none; padding: 6px 12px; border-radius: 8px;
-      transition: all .2s;
-    }
-    .nav-links a:hover { color: var(--text); background: var(--bg-soft); }
-    .nav-links a.active { color: var(--accent); font-weight: 600; }
-    .nav-right { display: flex; align-items: center; gap: 10px; }
-    .nav-avatar {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: var(--accent-light);
-      border: 2px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: .72rem; font-weight: 700; color: var(--accent);
-      text-decoration: none; overflow: hidden; transition: border-color .2s;
-      flex-shrink: 0;
-    }
-    .nav-avatar:hover { border-color: var(--accent); }
-    .nav-avatar img { width:100%; height:100%; object-fit:cover; }
-    #nav-user { display: none; }
-    #nav-guest { display: flex; align-items: center; gap: 8px; }
-    .btn-nav-login {
-      font-size: .82rem; font-weight: 500; color: var(--text-2);
-      text-decoration: none; padding: 6px 12px; border-radius: 8px;
-      transition: all .2s;
-    }
-    .btn-nav-login:hover { color: var(--text); background: var(--bg-soft); }
-    .btn-nav-signup {
-      font-size: .82rem; font-weight: 600; color: #fff;
-      background: var(--accent); text-decoration: none;
-      padding: 7px 14px; border-radius: 100px; transition: all .2s;
-    }
-    .btn-nav-signup:hover { background: var(--accent-text); }
-    /* ── Hamburger ── */
-    .nav-hamburger {
-      display: none; background: none; border: none; cursor: pointer;
-      font-size: 1.4rem; color: var(--text); padding: 4px 6px;
-      line-height: 1; border-radius: 8px; transition: background .2s;
-    }
-    .nav-hamburger:hover { background: var(--bg-soft); }
-    @media (max-width: 768px) {
-      .nav-hamburger { display: flex; align-items: center; justify-content: center; }
-      .nav-links { display: none; }
-      #nav-guest { display: none !important; }
-      #nav-user { display: none !important; }
-    }
-    /* ── Mobile overlay menu ── */
-    .mobile-menu-overlay {
-      display: none; position: fixed; inset: 0; z-index: 2000;
-      background: rgba(0,0,0,.4); backdrop-filter: blur(4px);
-    }
-    .mobile-menu-overlay.open { display: block; }
-    .mobile-menu {
-      position: absolute; top: 0; left: 0; right: 0;
-      background: #fff; border-bottom: 1px solid var(--border);
-      padding: 16px 20px 24px;
-      transform: translateY(-100%); transition: transform .25s ease;
-    }
-    .mobile-menu-overlay.open .mobile-menu { transform: translateY(0); }
-    .mobile-menu-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .mobile-menu-close {
-      background: none; border: none; cursor: pointer; font-size: 1.4rem;
-      color: var(--text-2); padding: 4px; border-radius: 6px; transition: color .2s;
-    }
-    .mobile-menu-close:hover { color: var(--text); }
-    .mobile-menu-links { display: flex; flex-direction: column; gap: 4px; }
-    .mobile-menu-link {
-      display: flex; align-items: center; gap: 12px;
-      padding: 14px 16px; border-radius: 12px;
-      text-decoration: none; color: var(--text);
-      font-size: 1rem; font-weight: 500; transition: background .15s;
-    }
-    .mobile-menu-link:hover { background: var(--bg-soft); }
-    .mobile-menu-link .mm-icon { font-size: 1.2rem; width: 28px; text-align: center; }
-    .mobile-menu-divider { height: 1px; background: var(--border); margin: 10px 0; }
+    body { background: var(--bg-soft); }
 
     /* ── Hero ── */
     .hero {
@@ -624,12 +475,6 @@
     .card-vibes {
       display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px;
     }
-    .vibe-pill {
-      display: inline-flex; align-items: center;
-      padding: 3px 9px; border-radius: 100px;
-      background: var(--bg-soft); border: 1px solid var(--border);
-      font-size: .68rem; color: var(--text-2); font-weight: 500;
-    }
     .card-footer {
       display: flex; align-items: center; justify-content: space-between;
       margin-top: auto; padding-top: 10px;
@@ -659,35 +504,6 @@
     }
     .card-wishlist-btn:hover { border-color: #F43F5E; color: #F43F5E; background: #FFF1F2; }
     .card-wishlist-btn.wishlisted { border-color: #F43F5E; color: #F43F5E; background: #FFF1F2; }
-
-    /* Skeleton */
-    .skeleton-card {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: var(--radius); overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-    .skeleton-photo {
-      height: 210px;
-      background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
-      background-size: 400px 100%;
-      animation: shimmer 1.4s infinite linear;
-    }
-    .skeleton-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
-    .skeleton-line {
-      border-radius: 6px;
-      background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
-      background-size: 400px 100%;
-      animation: shimmer 1.4s infinite linear;
-    }
-
-    /* Empty state */
-    .empty-state {
-      grid-column: 1/-1; text-align: center;
-      padding: 72px 24px;
-    }
-    .empty-icon { font-size: 2.8rem; margin-bottom: 14px; }
-    .empty-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-    .empty-desc { font-size: .88rem; color: var(--text-2); line-height: 1.6; }
 
     /* ── Zero-results: fuzzy matches ── */
     .fuzzy-section {
@@ -800,106 +616,21 @@
     }
     .exp-card:hover .exp-card-cta { background: rgba(255,255,255,.28); }
 
-    /* Footer */
-    footer {
-      background: var(--bg); border-top: 1px solid var(--border);
-      padding: 32px 24px; text-align: center;
-    }
-    .footer-logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem; font-weight: 700; color: var(--text-2);
-      margin-bottom: 8px;
-    }
-    footer p { font-size: .78rem; color: var(--text-3); }
+    /* DEPRECATED - now in nav.js */
+    /*
+    footer { ... }
+    .footer-logo { ... }
+    */
 
-    /* ── Bottom Tab Bar (mobile) ── */
-    .bottom-nav {
-      display: none;
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      top: auto;
-      background: #fff;
-      border-top: 1px solid #E2E8F0;
-      z-index: 1000;
-      padding: 6px 0 max(6px, env(safe-area-inset-bottom));
-    }
-    @media (max-width: 768px) {
-      .bottom-nav { display: flex; }
-      body { padding-bottom: 64px; }
-    }
-    .tab-item {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      color: #94A3B8;
-      font-size: 0.65rem;
-      font-weight: 500;
-      padding: 4px 0;
-      gap: 2px;
-      transition: color .15s;
-    }
-    .tab-item.active { color: #0EA5E9; }
-    .tab-item:hover { color: #0EA5E9; }
-    .tab-icon { font-size: 1.3rem; line-height: 1; }
+    /* DEPRECATED - now in nav.js */
+    /*
+    .bottom-nav { ... }
+    .tab-item { ... }
+    .tab-icon { ... }
+    */
   </style>
 </head>
 <body>
-
-<!-- Nav -->
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" id="navLogo" class="nav-logo">
-      <span class="nav-logo-icon">✈️</span>
-      ViajeraMente
-    </a>
-    <div class="nav-links">
-      <a href="guias.html" class="active">Guías</a>
-      <a href="fechas.html">¿Adónde ir?</a>
-      <a href="plan.html">Planificador</a>
-      <a href="mapa.html">🌍 Mi mapa</a>
-      <a href="ranking.html">🏆 Ranking</a>
-    </div>
-    <div class="nav-right">
-      <div id="nav-guest">
-        <a href="login.html" class="btn-nav-login">Entrar</a>
-        <a href="signup.html" class="btn-nav-signup">Registrarse</a>
-      </div>
-      <div id="nav-user" style="display:none">
-        <a href="profile.html" class="nav-avatar" id="nav-avatar-link" title="Mi perfil">
-          <span id="nav-initials">?</span>
-        </a>
-      </div>
-      <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
-    </div>
-  </div>
-</nav>
-
-<!-- Mobile menu overlay -->
-<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
-  <div class="mobile-menu">
-    <div class="mobile-menu-header">
-      <a href="index.html" class="nav-logo" style="text-decoration:none;">
-        <span class="nav-logo-icon">✈️</span> ViajeraMente
-      </a>
-      <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
-    </div>
-    <div class="mobile-menu-links">
-      <a href="index.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
-      <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
-      <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planificador</a>
-      <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
-      <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>Por fechas</a>
-      <a href="ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
-      <div class="mobile-menu-divider"></div>
-      <a href="profile.html" class="mobile-menu-link" id="mm-profile" style="display:none;"><span class="mm-icon">👤</span>Mi perfil</a>
-      <a href="login.html" class="mobile-menu-link" id="mm-login"><span class="mm-icon">🔑</span>Iniciar sesión</a>
-      <a href="signup.html" class="mobile-menu-link" id="mm-signup"><span class="mm-icon">✨</span>Registrarse</a>
-    </div>
-  </div>
-</div>
 
 <!-- Hero -->
 <section class="hero">
@@ -1053,16 +784,7 @@
 
 </main>
 
-<footer>
-  <div class="footer-logo">✈️ ViajeraMente</div>
-  <p>Guías escritas desde dentro · actualizadas con datos reales</p>
-</footer>
-
 <script>
-function openMobileMenu() { document.getElementById('mobileMenuOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
-function closeMobileMenu() { document.getElementById('mobileMenuOverlay').classList.remove('open'); document.body.style.overflow = ''; }
-function closeMobileMenuOnBg(e) { if (e.target === document.getElementById('mobileMenuOverlay')) closeMobileMenu(); }
-
 // ── Featured destination of the month ────────────────────────────────────────
 const FEATURED = {
   slug: 'japon',
@@ -1858,36 +1580,6 @@ function goSurprise(e) {
   window.location.href = `destino.html?slug=${d.slug}`;
 }
 
-// ── Auth nav ──────────────────────────────────────────────────────────────────
-(function initNav() {
-  try {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // Get user info from localStorage (stored by login/signup)
-      const userRaw = localStorage.getItem('viajeramente_user') || localStorage.getItem('user');
-      let name = localStorage.getItem('user_name') || localStorage.getItem('user_email') || '?';
-      if (userRaw) {
-        try { const u = JSON.parse(userRaw); name = u.name || u.email || name; } catch(e) {}
-      }
-      const initials = name.trim().split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase() || '?';
-      document.getElementById('nav-initials').textContent = initials;
-      document.getElementById('nav-user').style.display = 'flex';
-      document.getElementById('nav-guest').style.display = 'none';
-      // Mobile menu auth state
-      const mmp = document.getElementById('mm-profile');
-      const mml = document.getElementById('mm-login');
-      const mms = document.getElementById('mm-signup');
-      if (mmp) mmp.style.display = '';
-      if (mml) mml.style.display = 'none';
-      if (mms) mms.style.display = 'none';
-      // Logo → main.html (authenticated home) when logged in
-      const logo = document.getElementById('navLogo');
-      if (logo) logo.href = 'main.html';
-
-    }
-  } catch(e) {}
-})();
-
 // ── Init ──────────────────────────────────────────────────────────────────────
 renderFeatured();
 renderRutas();
@@ -1895,28 +1587,6 @@ renderRutas();
 loadWishlistSlugsGuias().then(() => loadGuides()).catch(() => loadGuides());
 </script>
 
-<!-- Bottom Nav -->
-<nav class="bottom-nav">
-  <a href="main.html" class="tab-item">
-    <span class="tab-icon">🏠</span>
-    <span>Inicio</span>
-  </a>
-  <a href="guias.html" class="tab-item active">
-    <span class="tab-icon">🗺️</span>
-    <span>Guías</span>
-  </a>
-  <a href="plan.html" class="tab-item">
-    <span class="tab-icon">✈️</span>
-    <span>Planifica</span>
-  </a>
-  <a href="mapa.html" class="tab-item">
-    <span class="tab-icon">🌍</span>
-    <span>Mapa</span>
-  </a>
-  <a href="profile.html" class="tab-item">
-    <span class="tab-icon">👤</span>
-    <span>Perfil</span>
-  </a>
-</nav>
+<script src="nav.js" data-page="guias" data-bottom-nav="true" data-footer="true"></script>
 </body>
 </html>

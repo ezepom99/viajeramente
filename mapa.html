@@ -7,15 +7,16 @@
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="styles.css">
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; max-width: 100%; }
+    /* mapa.html — fullscreen map page, mostly page-specific */
     /* Leaflet tiles must not be constrained by global max-width reset */
     .leaflet-container img { max-width: none !important; }
 
     :root {
-      --accent: #0EA5E9;
-      --accent-dark: #0284C7;
       --visited-fill: #0EA5E9;
       --visited-stroke: #0284C7;
     }
@@ -23,9 +24,10 @@
     html, body {
       height: 100%;
       width: 100%;
-      overflow: hidden;
+      overflow: hidden !important; /* fullscreen map — no scrolling */
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #1e293b;
+      min-height: unset; /* override shared min-height: 100vh */
     }
 
     /* ── FULLSCREEN MAP ── */
@@ -447,6 +449,10 @@
     🌿 7 Maravillas Naturales
   </div> -->
   <div class="layer-divider"></div>
+  <div class="layer-item" id="layer-geotips" onclick="toggleLayer('geotips')">
+    <span class="layer-toggle"></span>
+    <span>📌 Geo-Tips</span>
+  </div>
   <div class="layer-item" id="layer-comunidad" onclick="toggleLayer('comunidad')">
     <span class="layer-toggle"></span>
     <span>🌍 Comunidad</span>
@@ -468,6 +474,37 @@
   </div>
 </div>
 
+<!-- Geo-tips filter bar -->
+<div class="geo-tip-filter-bar" id="geotip-filter-bar"></div>
+
+<!-- Geo-tips FAB -->
+<button class="geo-tip-fab" id="geotip-fab" style="display:none;" onclick="toggleGeoTipAddMode()">
+  <span id="geotip-fab-icon">📌</span> <span id="geotip-fab-label">Añadir tip</span>
+</button>
+
+<!-- Geo-tips form overlay -->
+<div class="geo-tip-form-overlay" id="geotip-form-overlay">
+  <div class="geo-tip-form" id="geotip-form">
+    <div class="geo-tip-form-header">
+      <h3>📌 Nuevo Geo-Tip</h3>
+      <button class="geo-tip-form-close" onclick="closeGeoTipForm()">&times;</button>
+    </div>
+    <label style="font-size:0.78rem;font-weight:600;color:#374151;margin-bottom:8px;display:block;">Categoría</label>
+    <div class="geo-tip-category-grid" id="geotip-cat-grid"></div>
+    <div class="geo-tip-form-field">
+      <label>Título <span style="color:#94A3B8;font-weight:400;">(obligatorio)</span></label>
+      <input type="text" id="geotip-title" maxlength="100" placeholder="Ej: Wifi gratis en la plaza">
+      <div class="char-count"><span id="geotip-title-count">0</span>/100</div>
+    </div>
+    <div class="geo-tip-form-field">
+      <label>Descripción <span style="color:#94A3B8;font-weight:400;">(opcional)</span></label>
+      <textarea id="geotip-desc" maxlength="500" rows="3" placeholder="Detalles, horarios, consejos..."></textarea>
+      <div class="char-count"><span id="geotip-desc-count">0</span>/500</div>
+    </div>
+    <button class="geo-tip-form-submit" id="geotip-submit" onclick="submitGeoTip()">Publicar tip</button>
+  </div>
+</div>
+
 <!-- Bottom sheet -->
 <div id="bottom-sheet" role="dialog" aria-modal="true" aria-label="Información del país">
   <div id="sheet-handle-area" onclick="closeSheet()">
@@ -486,6 +523,7 @@
 <!-- Scripts -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
 <script>
 'use strict';
@@ -670,10 +708,10 @@ const _naturalWonderRaw = JSON.parse(localStorage.getItem('visitedNaturalWonders
 const NATURAL_WONDER_DB_TO_ID = { 8:'n1', 9:'n2', 10:'n3', 26:'n4', 27:'n5', 28:'n6', 29:'n7' };
 let visitedNaturalWonders = new Set(_naturalWonderRaw.map(id => NATURAL_WONDER_DB_TO_ID[id]).filter(Boolean));
 
-let layers = { heatmap: false, maravillas_new: false, maravillas_natural: false, ciudades: false, comunidad: false };
+let layers = { heatmap: false, maravillas_new: false, maravillas_natural: false, ciudades: false, comunidad: false, geotips: false };
 let layersPanelOpen = false;
 
-let map, geoLayer, heatLayer, wonderLayer, naturalWonderLayer, comunidadLayer;
+let map, geoLayer, heatLayer, wonderLayer, naturalWonderLayer, comunidadLayer, geoTipCluster;
 let communityData = null; // cached {iso: visitorCount}
 let cityMarkers = [];
 let currentIso = null;
@@ -721,8 +759,8 @@ async function initMap() {
   // Fit world
   map.setView([20, 0], 2);
 
-  // Close sheet on map click
-  map.on('click', () => closeSheet());
+  // Close sheet on map click (unless in geo-tip add mode)
+  map.on('click', () => { if (!geoTipAddMode) closeSheet(); });
 
   // IMPORTANT: await GeoJSON first so geoLayer exists before syncFromAPI calls refreshGeoLayer()
   await loadGeoJSON();
@@ -1000,6 +1038,7 @@ function toggleLayer(name) {
   if (name === 'maravillas_natural')  refreshNaturalWonders();
   if (name === 'ciudades')            refreshCities();
   if (name === 'comunidad')           refreshComunidad();
+  if (name === 'geotips')            toggleGeoTips();
 }
 
 // ── HEATMAP ───────────────────────────────────────────────────────────────────
@@ -1374,6 +1413,405 @@ document.addEventListener('fullscreenchange', () => {
   }
 });
 
+// ── GEO-TIPS MODULE ──────────────────────────────────────────────────────────
+
+const GEO_TIP_CATEGORIES = [
+  { id: 'camping',    emoji: '🏕️', label: 'Camping' },
+  { id: 'food',       emoji: '🍽️', label: 'Comida' },
+  { id: 'danger',     emoji: '⚠️', label: 'Peligro' },
+  { id: 'photo',      emoji: '📸', label: 'Foto' },
+  { id: 'transport',  emoji: '🚌', label: 'Transporte' },
+  { id: 'shower',     emoji: '🚿', label: 'Ducha' },
+  { id: 'wifi',       emoji: '📶', label: 'Wifi' },
+  { id: 'sunset',     emoji: '🌅', label: 'Atardecer' },
+  { id: 'hidden_gem', emoji: '💎', label: 'Joya' },
+  { id: 'tip',        emoji: '💡', label: 'Tip' },
+];
+
+const GEO_TIP_EMOJI = {};
+GEO_TIP_CATEGORIES.forEach(c => GEO_TIP_EMOJI[c.id] = c.emoji);
+
+const API = 'https://eze.saypeter.com';
+
+let geoTipAddMode = false;
+let geoTipPendingLatLng = null;
+let geoTipSelectedCategory = null;
+let geoTipActiveFilters = new Set(); // empty = all
+let geoTipLoadedBounds = null;
+let geoTipData = []; // cached tips
+
+// ── Init geo-tips UI ──
+
+function initGeoTipsUI() {
+  // Build filter chips
+  const bar = document.getElementById('geotip-filter-bar');
+  const allChip = document.createElement('div');
+  allChip.className = 'geo-tip-filter-chip active';
+  allChip.dataset.cat = 'all';
+  allChip.textContent = 'Todos';
+  allChip.onclick = () => toggleGeoTipFilter('all');
+  bar.appendChild(allChip);
+  GEO_TIP_CATEGORIES.forEach(cat => {
+    const chip = document.createElement('div');
+    chip.className = 'geo-tip-filter-chip';
+    chip.dataset.cat = cat.id;
+    chip.innerHTML = `${cat.emoji} ${cat.label}`;
+    chip.onclick = () => toggleGeoTipFilter(cat.id);
+    bar.appendChild(chip);
+  });
+
+  // Build category grid in form
+  const grid = document.getElementById('geotip-cat-grid');
+  GEO_TIP_CATEGORIES.forEach(cat => {
+    const opt = document.createElement('div');
+    opt.className = 'geo-tip-cat-option';
+    opt.dataset.cat = cat.id;
+    opt.innerHTML = `<span class="cat-emoji">${cat.emoji}</span><span class="cat-label">${cat.label}</span>`;
+    opt.onclick = () => selectGeoTipCategory(cat.id);
+    grid.appendChild(opt);
+  });
+
+  // Char counters
+  document.getElementById('geotip-title').addEventListener('input', function() {
+    document.getElementById('geotip-title-count').textContent = this.value.length;
+  });
+  document.getElementById('geotip-desc').addEventListener('input', function() {
+    document.getElementById('geotip-desc-count').textContent = this.value.length;
+  });
+
+  // Close form on overlay click
+  document.getElementById('geotip-form-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeGeoTipForm();
+  });
+}
+
+// ── Toggle geo-tips layer ──
+
+function toggleGeoTips() {
+  const fab = document.getElementById('geotip-fab');
+  const filterBar = document.getElementById('geotip-filter-bar');
+
+  if (layers.geotips) {
+    fab.style.display = 'flex';
+    filterBar.classList.add('visible');
+    loadGeoTips();
+    // Listen for map move
+    map.on('moveend', onMapMoveGeoTips);
+  } else {
+    fab.style.display = 'none';
+    filterBar.classList.remove('visible');
+    if (geoTipCluster) { map.removeLayer(geoTipCluster); geoTipCluster = null; }
+    geoTipLoadedBounds = null;
+    map.off('moveend', onMapMoveGeoTips);
+    // Exit add mode
+    if (geoTipAddMode) toggleGeoTipAddMode();
+  }
+}
+
+// ── Map move handler ──
+
+function onMapMoveGeoTips() {
+  if (!layers.geotips) return;
+  const b = map.getBounds();
+  // Check if current viewport is within loaded bounds
+  if (geoTipLoadedBounds && geoTipLoadedBounds.contains(b)) return;
+  loadGeoTips();
+}
+
+// ── Load tips from API ──
+
+async function loadGeoTips() {
+  const b = map.getBounds();
+  // Expand bounds by 20% to preload nearby tips
+  const latPad = (b.getNorth() - b.getSouth()) * 0.2;
+  const lngPad = (b.getEast() - b.getWest()) * 0.2;
+  const sw_lat = b.getSouth() - latPad;
+  const sw_lng = b.getWest() - lngPad;
+  const ne_lat = b.getNorth() + latPad;
+  const ne_lng = b.getEast() + lngPad;
+
+  const token = localStorage.getItem('token');
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+  try {
+    const url = `${API}/api/geo-tips?sw_lat=${sw_lat}&sw_lng=${sw_lng}&ne_lat=${ne_lat}&ne_lng=${ne_lng}&limit=200`;
+    const res = await fetch(url, { headers });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data.ok) return;
+    geoTipData = data.tips || [];
+    geoTipLoadedBounds = L.latLngBounds([sw_lat, sw_lng], [ne_lat, ne_lng]);
+    renderGeoTips();
+  } catch(e) { console.warn('Error loading geo-tips:', e); }
+}
+
+// ── Render tips on map ──
+
+function renderGeoTips() {
+  if (geoTipCluster) { map.removeLayer(geoTipCluster); }
+  geoTipCluster = L.markerClusterGroup({
+    maxClusterRadius: 50,
+    iconCreateFunction: function(cluster) {
+      const count = cluster.getChildCount();
+      return L.divIcon({
+        html: `<div class="geo-tip-cluster"><div>${count}</div></div>`,
+        className: '',
+        iconSize: [40, 40],
+        iconAnchor: [20, 20],
+      });
+    },
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: true,
+  });
+
+  const filtered = geoTipActiveFilters.size === 0
+    ? geoTipData
+    : geoTipData.filter(t => geoTipActiveFilters.has(t.category));
+
+  filtered.forEach(tip => {
+    const emoji = GEO_TIP_EMOJI[tip.category] || '💡';
+    const icon = L.divIcon({
+      html: `<div style="font-size:1.5rem;line-height:1;text-align:center;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.35));cursor:pointer;">${emoji}</div>`,
+      className: '',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+    });
+    const marker = L.marker([tip.lat, tip.lng], { icon });
+    marker.bindPopup(() => buildGeoTipPopup(tip), { maxWidth: 280, offset: [0, -6], className: '' });
+    geoTipCluster.addLayer(marker);
+  });
+
+  geoTipCluster.addTo(map);
+}
+
+// ── Build popup HTML ──
+
+function buildGeoTipPopup(tip) {
+  const emoji = GEO_TIP_EMOJI[tip.category] || '💡';
+  const catLabel = GEO_TIP_CATEGORIES.find(c => c.id === tip.category)?.label || tip.category;
+  const authorName = tip.author?.name || tip.author?.username || 'Anónimo';
+  const score = tip.score || (tip.upvotes - tip.downvotes) || 0;
+  const userVote = tip.user_vote || 0;
+  const token = localStorage.getItem('token');
+  const currentUserId = token ? parseTokenUserId(token) : null;
+  const isOwner = currentUserId && tip.user_id === currentUserId;
+
+  let html = `<div class="geo-tip-popup">
+    <div class="geo-tip-popup-category">${emoji} ${catLabel}</div>
+    <div class="geo-tip-popup-title">${escHtml(tip.title)}</div>`;
+  if (tip.description) {
+    html += `<div class="geo-tip-popup-desc">${escHtml(tip.description)}</div>`;
+  }
+  html += `<div class="geo-tip-popup-author">por <strong>${escHtml(authorName)}</strong></div>`;
+  html += `<div class="geo-tip-vote">
+    <button class="geo-tip-vote-btn${userVote === 1 ? ' voted-up' : ''}" onclick="voteGeoTip(${tip.id}, 1, this)">▲</button>
+    <span class="geo-tip-vote-score" id="geo-score-${tip.id}">${score}</span>
+    <button class="geo-tip-vote-btn${userVote === -1 ? ' voted-down' : ''}" onclick="voteGeoTip(${tip.id}, -1, this)">▼</button>
+  </div>`;
+  if (isOwner) {
+    html += `<button class="geo-tip-popup-delete" onclick="deleteGeoTip(${tip.id})">Eliminar tip</button>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+
+function parseTokenUserId(token) {
+  try {
+    const parts = token.split('.', 1);
+    const payload = JSON.parse(atob(parts[0].replace(/-/g,'+').replace(/_/g,'/')));
+    return payload.user_id;
+  } catch(e) { return null; }
+}
+
+// ── Vote ──
+
+async function voteGeoTip(tipId, vote, btnEl) {
+  const token = localStorage.getItem('token');
+  if (!token) { alert('Inicia sesión para votar'); return; }
+  try {
+    const res = await fetch(`${API}/api/geo-tips/${tipId}/vote`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ vote }),
+    });
+    if (!res.ok) { const d = await res.json().catch(()=>({})); alert(d.detail || 'Error al votar'); return; }
+    const data = await res.json();
+    // Update score display
+    const scoreEl = document.getElementById(`geo-score-${tipId}`);
+    if (scoreEl) scoreEl.textContent = data.score;
+    // Update cached data
+    const tip = geoTipData.find(t => t.id === tipId);
+    if (tip) {
+      tip.upvotes = data.upvotes;
+      tip.downvotes = data.downvotes;
+      tip.score = data.score;
+      tip.user_vote = vote;
+    }
+    // Update button states
+    const parent = btnEl.closest('.geo-tip-vote');
+    if (parent) {
+      parent.querySelectorAll('.geo-tip-vote-btn').forEach(b => b.classList.remove('voted-up', 'voted-down'));
+      btnEl.classList.add(vote === 1 ? 'voted-up' : 'voted-down');
+    }
+  } catch(e) { console.warn('Vote error:', e); }
+}
+
+// ── Delete ──
+
+async function deleteGeoTip(tipId) {
+  if (!confirm('¿Eliminar este tip?')) return;
+  const token = localStorage.getItem('token');
+  if (!token) return;
+  try {
+    const res = await fetch(`${API}/api/geo-tips/${tipId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (res.ok) {
+      geoTipData = geoTipData.filter(t => t.id !== tipId);
+      renderGeoTips();
+      map.closePopup();
+    }
+  } catch(e) { console.warn('Delete error:', e); }
+}
+
+// ── Filter ──
+
+function toggleGeoTipFilter(cat) {
+  const bar = document.getElementById('geotip-filter-bar');
+  if (cat === 'all') {
+    geoTipActiveFilters.clear();
+    bar.querySelectorAll('.geo-tip-filter-chip').forEach(c => {
+      c.classList.toggle('active', c.dataset.cat === 'all');
+    });
+  } else {
+    const allChip = bar.querySelector('[data-cat="all"]');
+    const chip = bar.querySelector(`[data-cat="${cat}"]`);
+    if (geoTipActiveFilters.has(cat)) {
+      geoTipActiveFilters.delete(cat);
+    } else {
+      geoTipActiveFilters.add(cat);
+    }
+    // Update chip states
+    allChip.classList.toggle('active', geoTipActiveFilters.size === 0);
+    bar.querySelectorAll('.geo-tip-filter-chip').forEach(c => {
+      if (c.dataset.cat !== 'all') {
+        c.classList.toggle('active', geoTipActiveFilters.has(c.dataset.cat));
+      }
+    });
+  }
+  renderGeoTips();
+}
+
+// ── Add tip mode ──
+
+function toggleGeoTipAddMode() {
+  geoTipAddMode = !geoTipAddMode;
+  const fab = document.getElementById('geotip-fab');
+  const fabLabel = document.getElementById('geotip-fab-label');
+  const fabIcon = document.getElementById('geotip-fab-icon');
+  if (geoTipAddMode) {
+    fab.classList.add('active');
+    fabIcon.textContent = '✕';
+    fabLabel.textContent = 'Cancelar';
+    map.getContainer().style.cursor = 'crosshair';
+    map.on('click', onMapClickAddTip);
+  } else {
+    fab.classList.remove('active');
+    fabIcon.textContent = '📌';
+    fabLabel.textContent = 'Añadir tip';
+    map.getContainer().style.cursor = '';
+    map.off('click', onMapClickAddTip);
+  }
+}
+
+function onMapClickAddTip(e) {
+  geoTipPendingLatLng = e.latlng;
+  openGeoTipForm();
+}
+
+function openGeoTipForm() {
+  // Reset form
+  geoTipSelectedCategory = null;
+  document.getElementById('geotip-title').value = '';
+  document.getElementById('geotip-desc').value = '';
+  document.getElementById('geotip-title-count').textContent = '0';
+  document.getElementById('geotip-desc-count').textContent = '0';
+  document.querySelectorAll('.geo-tip-cat-option').forEach(o => o.classList.remove('selected'));
+  document.getElementById('geotip-submit').disabled = false;
+  document.getElementById('geotip-form-overlay').classList.add('open');
+}
+
+function closeGeoTipForm() {
+  document.getElementById('geotip-form-overlay').classList.remove('open');
+}
+
+function selectGeoTipCategory(catId) {
+  geoTipSelectedCategory = catId;
+  document.querySelectorAll('.geo-tip-cat-option').forEach(o => {
+    o.classList.toggle('selected', o.dataset.cat === catId);
+  });
+}
+
+async function submitGeoTip() {
+  const token = localStorage.getItem('token');
+  if (!token) { alert('Inicia sesión para publicar tips'); return; }
+  if (!geoTipSelectedCategory) { alert('Selecciona una categoría'); return; }
+  const title = document.getElementById('geotip-title').value.trim();
+  if (!title) { alert('Escribe un título'); return; }
+  const description = document.getElementById('geotip-desc').value.trim();
+  if (!geoTipPendingLatLng) { alert('Error: ubicación no seleccionada'); return; }
+
+  const btn = document.getElementById('geotip-submit');
+  btn.disabled = true;
+  btn.textContent = 'Publicando...';
+
+  try {
+    const res = await fetch(`${API}/api/geo-tips`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+        lat: geoTipPendingLatLng.lat,
+        lng: geoTipPendingLatLng.lng,
+        category: geoTipSelectedCategory,
+        title,
+        description: description || null,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) {
+      alert(data.detail || data.error || 'Error al publicar');
+      btn.disabled = false;
+      btn.textContent = 'Publicar tip';
+      return;
+    }
+    // Add to local data and re-render
+    geoTipData.push(data.tip);
+    renderGeoTips();
+    closeGeoTipForm();
+    // Exit add mode
+    if (geoTipAddMode) toggleGeoTipAddMode();
+  } catch(e) {
+    alert('Error de conexión');
+    btn.disabled = false;
+    btn.textContent = 'Publicar tip';
+  }
+}
+
+// ── Init on DOMContentLoaded ──
+
+document.addEventListener('DOMContentLoaded', () => {
+  initGeoTipsUI();
+});
+
 </script>
+<script src="nav.js" data-page="mapa" data-bottom-nav="false" data-footer="false"></script>
 </body>
 </html>

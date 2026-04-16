@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
   <style>
@@ -44,85 +45,12 @@
     @keyframes shimmer   { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
     @keyframes fadeIn    { from{opacity:0} to{opacity:1} }
 
-    /* ── NAV ── */
-    nav.topnav {
-      position:fixed;top:0;left:0;right:0;z-index:200;height:60px;
-      background:rgba(255,255,255,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-      border-bottom:1px solid var(--border);
-      display:flex;align-items:center;justify-content:space-between;
-      padding:0 max(32px, calc((100% - 1200px) / 2 + 32px));
-      animation:slideDown .35s ease both;
-    }
-    .nav-logo {
-      font-family:'Playfair Display',serif;
-      font-size:1.1rem;font-weight:700;letter-spacing:-.01em;
-      color:var(--text);text-decoration:none;
-      display:flex;align-items:center;gap:10px;
-    }
-    .nav-logo-mark {
-      width:30px;height:30px;border-radius:8px;
-      background:var(--text);
-      display:flex;align-items:center;justify-content:center;
-      color:#fff;font-size:.62rem;font-weight:700;
-      letter-spacing:.05em;flex-shrink:0;
-    }
-    .nav-dlinks { display:flex;align-items:center;gap:2px; }
-    .nav-dlink {
-      font-size:.8rem;font-weight:500;color:var(--text-2);
-      text-decoration:none;padding:6px 12px;border-radius:8px;
-      transition:color .15s,background .15s;
-    }
-    .nav-dlink:hover { color:var(--text);background:var(--bg-soft); }
-    @media(max-width:768px){.nav-dlinks{display:none;}}
-    .nav-right { display:flex;align-items:center;gap:10px; }
-    .nav-avatar {
-      width:34px;height:34px;border-radius:50%;
-      background:var(--gold-light);border:2px solid var(--border);
-      display:flex;align-items:center;justify-content:center;
-      font-size:.68rem;font-weight:700;color:var(--gold);
-      text-decoration:none;overflow:hidden;transition:border-color .2s;flex-shrink:0;
-    }
-    .nav-avatar:hover { border-color:var(--gold); }
-    .nav-avatar img { width:100%;height:100%;object-fit:cover; }
-    .nav-burger {
-      display:none;background:none;border:none;cursor:pointer;
-      font-size:1.2rem;color:var(--text);padding:6px;
-      border-radius:6px;transition:background .15s;line-height:1;
-    }
-    .nav-burger:hover { background:var(--bg-soft); }
-    @media(max-width:768px){.nav-burger{display:flex;align-items:center;}}
-
-    /* ── MOBILE MENU ── */
-    .mob-ov { display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.4);backdrop-filter:blur(4px); }
-    .mob-ov.open { display:block; }
-    .mob-menu {
-      position:absolute;top:0;left:0;right:0;
-      background:#fff;border-bottom:1px solid var(--border);
-      padding:16px 20px 28px;
-      transform:translateY(-100%);transition:transform .22s cubic-bezier(.4,0,.2,1);
-    }
-    .mob-ov.open .mob-menu { transform:translateY(0); }
-    .mob-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:18px; }
-    .mob-x { background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--text-3);padding:4px;border-radius:6px; }
-    .mob-x:hover { color:var(--text); }
-    .mob-links { display:flex;flex-direction:column;gap:2px; }
-    .mob-link {
-      display:flex;align-items:center;gap:14px;
-      padding:12px 14px;border-radius:10px;
-      text-decoration:none;color:var(--text);
-      font-size:.9rem;font-weight:500;transition:background .12s;
-    }
-    .mob-link:hover { background:var(--bg-soft); }
-    .mob-link .mi { font-size:1.1rem;width:24px;text-align:center; }
-    .mob-div { height:1px;background:var(--border);margin:10px 0; }
-    .mob-out {
-      display:flex;align-items:center;gap:14px;
-      padding:12px 14px;border-radius:10px;
-      color:var(--text-3);font-size:.9rem;font-weight:500;
-      background:none;border:none;cursor:pointer;width:100%;
-      font-family:inherit;transition:background .12s,color .12s;
-    }
-    .mob-out:hover { background:var(--bg-soft);color:var(--text); }
+    /* DEPRECATED - now in nav.js */
+    /*
+    nav.topnav { ... }
+    .nav-logo { ... }
+    .mob-ov { ... }
+    */
 
     /* ── PAGE ── */
     .page { margin-top:60px;opacity:0;transition:opacity .4s; }
@@ -386,65 +314,15 @@
     /* ── SPACER ── */
     .spacer { height:64px; }
 
-    /* ── BOTTOM NAV ── */
-    nav.botnav {
-      display:none;position:fixed;bottom:0;left:0;right:0;
-      background:rgba(255,255,255,.98);backdrop-filter:blur(14px);
-      border-top:1px solid var(--border);z-index:200;
-      padding:6px 0 max(6px,env(safe-area-inset-bottom));
-    }
-    @media(max-width:768px){ nav.botnav{display:flex;} body{padding-bottom:72px;} }
-    .tab {
-      flex:1;display:flex;flex-direction:column;align-items:center;
-      justify-content:center;text-decoration:none;
-      color:var(--text-3);font-size:.58rem;font-weight:500;
-      gap:3px;padding:4px 0;transition:color .15s;
-    }
-    .tab.active,.tab:hover { color:var(--text); }
-    .tab-ic { font-size:1.2rem;line-height:1; }
+    /* DEPRECATED - now in nav.js */
+    /*
+    nav.botnav { ... }
+    .tab { ... }
+    .tab-ic { ... }
+    */
   </style>
 </head>
 <body>
-
-<nav class="topnav">
-  <a href="main.html" class="nav-logo">
-    <span class="nav-logo-mark">VM</span>
-    ViajeraMente
-  </a>
-  <div class="nav-dlinks">
-    <a href="guias.html"   class="nav-dlink">Guías</a>
-    <a href="plan.html"    class="nav-dlink">Planifica</a>
-    <a href="fechas.html"  class="nav-dlink">Por fechas</a>
-    <a href="mapa.html"    class="nav-dlink">Mapa</a>
-    <a href="ranking.html" class="nav-dlink">Ranking</a>
-  </div>
-  <div class="nav-right">
-    <a href="profile.html" class="nav-avatar" id="navAvatar" title="Mi perfil"></a>
-    <button class="nav-burger" id="navBurger" aria-label="Menú">☰</button>
-  </div>
-</nav>
-
-<div class="mob-ov" id="mobOv">
-  <div class="mob-menu">
-    <div class="mob-head">
-      <a href="main.html" class="nav-logo"><span class="nav-logo-mark">VM</span>ViajeraMente</a>
-      <button class="mob-x" id="mobX">✕</button>
-    </div>
-    <div class="mob-links">
-      <a href="main.html"    class="mob-link"><span class="mi">🏠</span>Inicio</a>
-      <a href="guias.html"   class="mob-link"><span class="mi">🗺️</span>Guías de destinos</a>
-      <a href="plan.html"    class="mob-link"><span class="mi">✈️</span>Planifica tu viaje</a>
-      <a href="mapa.html"    class="mob-link"><span class="mi">🌍</span>Mi mapa</a>
-      <a href="fechas.html"  class="mob-link"><span class="mi">📅</span>Por fechas</a>
-      <a href="ranking.html" class="mob-link"><span class="mi">🏆</span>Ranking viajeros</a>
-      <a href="interrail.html" class="mob-link"><span class="mi">🚂</span>Interrail & Eurail</a>
-      <a href="round-the-world.html" class="mob-link"><span class="mi">🌍</span>Vuelta al mundo</a>
-      <div class="mob-div"></div>
-      <a href="profile.html" class="mob-link"><span class="mi">👤</span>Mi perfil</a>
-      <button class="mob-out" onclick="logout()"><span class="mi">🚪</span>Cerrar sesión</button>
-    </div>
-  </div>
-</div>
 
 <div class="page" id="mainPage">
 
@@ -597,25 +475,11 @@
   <div class="spacer"></div>
 </div>
 
-<nav class="botnav">
-  <a href="main.html"    class="tab active"><span class="tab-ic">🏠</span><span>Inicio</span></a>
-  <a href="guias.html"   class="tab"><span class="tab-ic">🗺️</span><span>Guías</span></a>
-  <a href="plan.html"    class="tab"><span class="tab-ic">✈️</span><span>Planifica</span></a>
-  <a href="mapa.html"    class="tab"><span class="tab-ic">🌍</span><span>Mapa</span></a>
-  <a href="profile.html" class="tab"><span class="tab-ic">👤</span><span>Perfil</span></a>
-</nav>
-
 <script>
   var API   = 'https://eze.saypeter.com';
   var token = localStorage.getItem('token');
   if (!token) window.location.replace('login.html?next=' + encodeURIComponent(window.location.pathname + window.location.search));
 
-  // Mobile menu
-  var mobOv = document.getElementById('mobOv');
-  document.getElementById('navBurger').onclick = function(){ mobOv.classList.add('open'); document.body.style.overflow='hidden'; };
-  document.getElementById('mobX').onclick = closeMob;
-  mobOv.addEventListener('click', function(e){ if(e.target===mobOv) closeMob(); });
-  function closeMob() { mobOv.classList.remove('open'); document.body.style.overflow=''; }
   function logout() { localStorage.removeItem('token'); window.location.replace('login.html'); }
 
   // Build clean Pexels URL
@@ -772,5 +636,7 @@
 
   init();
 </script>
+
+<script src="nav.js" data-page="home" data-bottom-nav="true" data-footer="false"></script>
 </body>
 </html>

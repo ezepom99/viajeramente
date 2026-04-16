@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
   <script>
@@ -16,65 +17,15 @@
     gtag('config', 'G-T1HJ3PJWYN');
   </script>
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
+    /* viaje-grupo.html — page-specific styles only */
 
-    :root {
-      --bg: #FFFFFF;
-      --bg-soft: #F8FAFC;
-      --bg-card: #FFFFFF;
-      --bg-input: #F3F4F6;
-      --text: #0F172A;
-      --text-secondary: #64748B;
-      --text-muted: #9CA3AF;
-      --border: #E2E8F0;
-      --accent: #0EA5E9;
-      --accent-light: #E0F2FE;
-      --accent-text: #0284C7;
-      --teal: #10B981;
-      --teal-light: #F0FDFA;
-      --teal-text: #0F766E;
-      --gold: #F5A623;
-      --red: #EF4444;
-      --red-light: #FEF2F2;
-      --purple: #8B5CF6;
-      --purple-light: #F5F3FF;
-      --orange: #F97316;
-      --orange-light: #FFF7ED;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
-      --shadow-md: 0 4px 16px rgba(0,0,0,.08);
-      --shadow-card: 0 4px 24px rgba(0,0,0,.06);
-      --radius: 16px;
-      --radius-sm: 10px;
-    }
+    body { background: var(--bg-soft); font-size: 15px; }
 
-    html { scroll-behavior: smooth; overflow-x: hidden; }
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      color: var(--text);
-      background: var(--bg-soft);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      min-height: 100vh;
-      font-size: 15px;
-    }
-    h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; }
-
-    @keyframes fadeInUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-    @keyframes spin { to { transform:rotate(360deg); } }
-    @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
-
-    /* ── Nav ── */
+    /* Nav override: 56px height */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 0 max(24px, calc((100% - 1200px) / 2 + 24px)); height: 56px;
-      display: flex; align-items: center; justify-content: space-between;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
+      height: 56px;
+      padding: 0 max(24px, calc((100% - 1200px) / 2 + 24px));
     }
-    .nav-logo { font-family:'Space Grotesk',sans-serif; font-size:1.15rem; font-weight:700; color:var(--text); text-decoration:none; letter-spacing:-.02em; display:flex; align-items:center; gap:6px; }
-    .nav-logo-dot { width:8px; height:8px; background:var(--accent); border-radius:50%; }
     .nav-right { display:flex; align-items:center; gap:14px; }
     .nav-link { font-size:.84rem; font-weight:500; color:var(--text-secondary); text-decoration:none; transition:color .2s; }
     .nav-link:hover { color:var(--accent); }
@@ -83,23 +34,9 @@
     .nav-cta:hover { background:var(--accent-text); }
     .nav-avatar { width:32px; height:32px; border-radius:50%; background:var(--accent-light); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700; color:var(--accent); text-decoration:none; overflow:hidden; cursor:pointer; }
     .nav-avatar img { width:100%; height:100%; object-fit:cover; }
-    .nav-hamburger { display:none; background:none; border:none; cursor:pointer; font-size:1.4rem; color:var(--text); padding:4px 6px; }
     @media(max-width:768px){ .nav-hamburger{display:flex;align-items:center;justify-content:center;} .nav-user-name{display:none;} .nav-logout{display:none;} }
     .nav-user-name { font-size:.82rem; font-weight:500; color:var(--text-secondary); }
     .nav-logout { font-size:.8rem; color:var(--text-muted); background:none; border:none; cursor:pointer; font-family:inherit; }
-
-    /* Mobile menu */
-    .mobile-menu-overlay { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,.4); backdrop-filter:blur(4px); }
-    .mobile-menu-overlay.open { display:block; }
-    .mobile-menu { position:absolute; top:0; left:0; right:0; background:#fff; border-bottom:1px solid var(--border); padding:16px 20px 24px; transform:translateY(-100%); transition:transform .25s ease; }
-    .mobile-menu-overlay.open .mobile-menu { transform:translateY(0); }
-    .mobile-menu-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
-    .mobile-menu-close { background:none; border:none; cursor:pointer; font-size:1.4rem; color:var(--text-muted); padding:4px; }
-    .mobile-menu-links { display:flex; flex-direction:column; gap:4px; }
-    .mobile-menu-link { display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:12px; text-decoration:none; color:var(--text); font-size:1rem; font-weight:500; }
-    .mobile-menu-link:hover { background:var(--bg-soft); }
-    .mm-icon { font-size:1.2rem; width:28px; text-align:center; }
-    .mobile-menu-divider { height:1px; background:var(--border); margin:10px 0; }
     .mobile-menu-logout { display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:12px; color:var(--text-muted); font-size:1rem; font-weight:500; background:none; border:none; cursor:pointer; width:100%; font-family:inherit; }
 
     /* ── Layout ── */
@@ -310,44 +247,6 @@
 </head>
 <body>
 
-<!-- Nav -->
-<nav>
-  <a href="/" class="nav-logo">
-    <span class="nav-logo-dot"></span>
-    ViajeraMente
-  </a>
-  <div class="nav-right">
-    <a href="/guias.html" class="nav-link">Guías</a>
-    <a href="/plan.html" class="nav-link">Planificador</a>
-    <a href="/mapa.html" class="nav-link">Mapa</a>
-    <span class="nav-user-name" id="nav-username" style="display:none"></span>
-    <a href="/profile.html" class="nav-avatar" id="nav-avatar" style="display:none"></a>
-    <button class="nav-logout" id="nav-logout" onclick="logout()" style="display:none">Salir</button>
-    <a href="/login.html" class="nav-cta" id="nav-login">Entrar</a>
-    <button class="nav-hamburger" onclick="openMobileMenu()">☰</button>
-  </div>
-</nav>
-
-<!-- Mobile menu -->
-<div class="mobile-menu-overlay" id="mobile-menu-overlay" onclick="closeMobileMenu()">
-  <div class="mobile-menu" onclick="event.stopPropagation()">
-    <div class="mobile-menu-header">
-      <a href="/" class="nav-logo"><span class="nav-logo-dot"></span>ViajeraMente</a>
-      <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
-    </div>
-    <div class="mobile-menu-links">
-      <a href="/guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
-      <a href="/plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planificador</a>
-      <a href="/viaje-grupo.html" class="mobile-menu-link"><span class="mm-icon">👥</span>Viajes con Amigos</a>
-      <a href="/mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
-      <a href="/ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
-      <div class="mobile-menu-divider"></div>
-      <a href="/profile.html" class="mobile-menu-link" id="mobile-profile-link" style="display:none"><span class="mm-icon">👤</span>Mi perfil</a>
-      <button class="mobile-menu-logout" id="mobile-logout-btn" onclick="logout(); closeMobileMenu()" style="display:none"><span class="mm-icon">🚪</span>Cerrar sesión</button>
-      <a href="/login.html" class="mobile-menu-link" id="mobile-login-link"><span class="mm-icon">🔑</span>Iniciar sesión</a>
-    </div>
-  </div>
-</div>
 
 <main>
   <!-- View: List -->
@@ -426,14 +325,6 @@
   </div>
 </main>
 
-<!-- Tab bar (mobile) -->
-<div class="tab-bar">
-  <a href="/" class="tab-item"><span class="tab-icon">🏠</span>Inicio</a>
-  <a href="/guias.html" class="tab-item"><span class="tab-icon">🗺️</span>Guías</a>
-  <a href="/plan.html" class="tab-item"><span class="tab-icon">✈️</span>Planear</a>
-  <a href="/viaje-grupo.html" class="tab-item active"><span class="tab-icon">👥</span>Grupo</a>
-  <a href="/profile.html" class="tab-item"><span class="tab-icon">👤</span>Perfil</a>
-</div>
 
 <!-- ── Modals ── -->
 
@@ -681,19 +572,7 @@ async function loadUser() {
 }
 
 function initNav(user) {
-  if (user) {
-    document.getElementById('nav-login').style.display = 'none';
-    document.getElementById('nav-username').style.display = '';
-    document.getElementById('nav-username').textContent = user.name?.split(' ')[0] || user.username;
-    const av = document.getElementById('nav-avatar');
-    av.style.display = '';
-    if (user.avatar) av.innerHTML = `<img src="${user.avatar}" alt="">`;
-    else av.textContent = (user.name || user.username || '?')[0].toUpperCase();
-    document.getElementById('nav-logout').style.display = '';
-    document.getElementById('mobile-profile-link').style.display = '';
-    document.getElementById('mobile-logout-btn').style.display = '';
-    document.getElementById('mobile-login-link').style.display = 'none';
-  }
+  // nav.js handles navigation rendering
 }
 
 function logout() {
@@ -1388,8 +1267,6 @@ function showToast(msg) {
   _toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-function openMobileMenu() { document.getElementById('mobile-menu-overlay').classList.add('open'); }
-function closeMobileMenu() { document.getElementById('mobile-menu-overlay').classList.remove('open'); }
 
 // Close modals on overlay click
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
@@ -1416,5 +1293,6 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
   }
 })();
 </script>
+<script src="nav.js" data-page="" data-bottom-nav="true" data-footer="false"></script>
 </body>
 </html>

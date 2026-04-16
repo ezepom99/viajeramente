@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -15,85 +16,14 @@
     gtag('config', 'G-T1HJ3PJWYN');
   </script>
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
+    /* plan.html — page-specific styles */
+    body { background: var(--bg-soft); }
 
-    :root {
-      --bg: #FFFFFF;
-      --bg-soft: #F8FAFC;
-      --bg-card: #FFFFFF;
-      --bg-input: #F3F4F6;
-      --text: #0F172A;
-      --text-secondary: #64748B;
-      --text-muted: #9CA3AF;
-      --border: #E2E8F0;
-      --border-focus: #374151;
-      --accent: #0EA5E9;
-      --accent-light: #E0F2FE;
-      --accent-text: #0284C7;
-      --teal: #10B981;
-      --teal-light: #F0FDFA;
-      --teal-text: #0F766E;
-      --gold: #F5A623;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
-      --shadow-md: 0 4px 16px rgba(0,0,0,.08);
-      --shadow-card: 0 4px 24px rgba(0,0,0,.06);
-    }
-
-    html { scroll-behavior: smooth; overflow-x: hidden !important; }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: var(--text);
-      background: var(--bg-soft);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden !important;
-      min-height: 100vh;
-      font-size: 15px;
-    }
-
-    h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; } to { opacity: 1; }
-    }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    @keyframes pulse {
-      0%,100% { opacity: 1; } 50% { opacity: .5; }
-    }
-
-    /* ── Nav ── */
+    /* plan.html nav uses wider padding */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 0 max(24px, calc((100% - 1200px) / 2 + 24px)); height: 56px;
-      display: flex; align-items: center; justify-content: space-between;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      animation: slideDown .4s ease;
+      padding: 0 max(24px, calc((100% - 1200px) / 2 + 24px));
     }
-    .nav-logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.15rem; font-weight: 700;
-      color: var(--text); text-decoration: none; letter-spacing: -.02em;
-      display: flex; align-items: center; gap: 6px;
-      transition: opacity 0.2s;
-    }
-    .nav-logo:hover { opacity: 0.75; }
-    .nav-logo-dot {
-      width: 8px; height: 8px;
-      background: var(--accent); border-radius: 50%;
-      flex-shrink: 0;
-    }
+
     .nav-right { display: flex; align-items: center; gap: 14px; }
     .nav-link {
       font-size: .84rem; font-weight: 500;
@@ -110,75 +40,16 @@
     }
     .nav-cta:hover { background: var(--accent-text); }
     .nav-user-name { font-size: .82rem; font-weight: 500; color: var(--text-secondary); }
-    .nav-avatar {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: var(--accent-light);
-      border: 2px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: .72rem; font-weight: 700; color: var(--accent);
-      text-decoration: none; overflow: hidden; flex-shrink: 0;
-      transition: border-color .2s; cursor: pointer;
-    }
-    .nav-avatar:hover { border-color: var(--accent); }
-    .nav-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .nav-logout {
       font-size: .8rem; color: var(--text-muted);
       background: none; border: none; cursor: pointer;
       font-family: inherit; transition: color .2s;
     }
     .nav-logout:hover { color: var(--text); }
-    /* ── Hamburger ── */
-    .nav-hamburger {
-      display: none; background: none; border: none; cursor: pointer;
-      font-size: 1.4rem; color: var(--text); padding: 4px 6px;
-      line-height: 1; border-radius: 8px; transition: background .2s;
-    }
-    .nav-hamburger:hover { background: var(--bg-soft); }
     @media (max-width: 768px) {
-      .nav-hamburger { display: flex; align-items: center; justify-content: center; }
       .nav-logout { display: none; }
       .nav-user-name { display: none; }
     }
-    /* ── Mobile overlay menu ── */
-    .mobile-menu-overlay {
-      display: none; position: fixed; inset: 0; z-index: 2000;
-      background: rgba(0,0,0,.4); backdrop-filter: blur(4px);
-    }
-    .mobile-menu-overlay.open { display: block; }
-    .mobile-menu {
-      position: absolute; top: 0; left: 0; right: 0;
-      background: #fff; border-bottom: 1px solid var(--border);
-      padding: 16px 20px 24px;
-      transform: translateY(-100%); transition: transform .25s ease;
-    }
-    .mobile-menu-overlay.open .mobile-menu { transform: translateY(0); }
-    .mobile-menu-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .mobile-menu-close {
-      background: none; border: none; cursor: pointer; font-size: 1.4rem;
-      color: var(--text-muted); padding: 4px; border-radius: 6px; transition: color .2s;
-    }
-    .mobile-menu-close:hover { color: var(--text); }
-    .mobile-menu-links { display: flex; flex-direction: column; gap: 4px; }
-    .mobile-menu-link {
-      display: flex; align-items: center; gap: 12px;
-      padding: 14px 16px; border-radius: 12px;
-      text-decoration: none; color: var(--text);
-      font-size: 1rem; font-weight: 500; transition: background .15s;
-    }
-    .mobile-menu-link:hover { background: var(--bg-soft); }
-    .mobile-menu-link .mm-icon { font-size: 1.2rem; width: 28px; text-align: center; }
-    .mobile-menu-divider { height: 1px; background: var(--border); margin: 10px 0; }
-    .mobile-menu-logout {
-      display: flex; align-items: center; gap: 12px;
-      padding: 14px 16px; border-radius: 12px;
-      color: var(--text-muted); font-size: 1rem; font-weight: 500;
-      background: none; border: none; cursor: pointer; width: 100%;
-      font-family: inherit; transition: background .15s, color .15s;
-    }
-    .mobile-menu-logout:hover { background: var(--bg-soft); color: var(--text); }
 
     /* ── Main ── */
     main {
@@ -838,44 +709,6 @@ nav { padding: 0 18px; }
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="nav-logo">
-    <span class="nav-logo-dot"></span>
-    ViajeraMente
-  </a>
-  <div class="nav-right">
-    <a href="guias.html" class="nav-link">Guías</a>
-    <a href="fechas.html" class="nav-link">Por fechas</a>
-    <a href="ranking.html" class="nav-link">🏆 Ranking</a>
-    <span class="nav-user-name" id="navName"></span>
-    <div class="nav-avatar" id="navAvatar" onclick="window.location='profile.html'"></div>
-    <button class="nav-logout" onclick="logout()">Salir</button>
-    <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
-  </div>
-</nav>
-
-<!-- Mobile menu overlay -->
-<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
-  <div class="mobile-menu">
-    <div class="mobile-menu-header">
-      <a href="index.html" class="nav-logo" style="text-decoration:none;">
-        <span class="nav-logo-dot"></span> ViajeraMente
-      </a>
-      <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
-    </div>
-    <div class="mobile-menu-links">
-      <a href="index.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
-      <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
-      <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planifica</a>
-      <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
-      <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>Por fechas</a>
-      <a href="ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
-      <div class="mobile-menu-divider"></div>
-      <a href="profile.html" class="mobile-menu-link"><span class="mm-icon">👤</span>Mi perfil</a>
-      <button class="mobile-menu-logout" onclick="logout()"><span class="mm-icon">🚪</span>Cerrar sesión</button>
-    </div>
-  </div>
-</div>
 
 <div class="wizard-progress">
   <div class="wizard-progress-fill" id="progressFill" style="width:0%"></div>
@@ -1300,10 +1133,6 @@ function logout() {
   localStorage.removeItem('token');
   window.location.href = 'login.html';
 }
-function openMobileMenu() { document.getElementById('mobileMenuOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
-function closeMobileMenu() { document.getElementById('mobileMenuOverlay').classList.remove('open'); document.body.style.overflow = ''; }
-function closeMobileMenuOnBg(e) { if (e.target === document.getElementById('mobileMenuOverlay')) closeMobileMenu(); }
-
 async function init() {
   try {
     const res = await fetch(`${API_BASE}/api/me`, {
@@ -1313,14 +1142,17 @@ async function init() {
     const { ok, user } = await res.json();
     if (!ok || !user) return;
     const first = user.name?.split(' ')[0] || 'Viajero';
-    document.getElementById('navName').textContent = first;
+    const navNameEl = document.getElementById('navName');
+    if (navNameEl) navNameEl.textContent = first;
     const av = document.getElementById('navAvatar');
-    if (user.avatar_url) {
-      av.innerHTML = `<img src="${user.avatar_url}" alt="${user.name}">`;
-    } else {
-      const ini = (user.name || 'V').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
-      av.textContent = ini;
-      av.style.background = 'linear-gradient(135deg,#0EA5E9,#0284C7)';
+    if (av) {
+      if (user.avatar_url) {
+        av.innerHTML = `<img src="${user.avatar_url}" alt="${user.name}">`;
+      } else {
+        const ini = (user.name || 'V').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+        av.textContent = ini;
+        av.style.background = 'linear-gradient(135deg,#0EA5E9,#0284C7)';
+      }
     }
   } catch(e) { console.error(e); }
 }
@@ -3420,28 +3252,7 @@ renderRutasExpress();
 
 </script>
 
-<!-- Bottom Nav -->
-<nav class="bottom-nav">
-  <a href="index.html" class="tab-item">
-    <span class="tab-icon">🏠</span>
-    <span>Inicio</span>
-  </a>
-  <a href="guias.html" class="tab-item">
-    <span class="tab-icon">🗺️</span>
-    <span>Guías</span>
-  </a>
-  <a href="plan.html" class="tab-item active">
-    <span class="tab-icon">✈️</span>
-    <span>Planifica</span>
-  </a>
-  <a href="mapa.html" class="tab-item">
-    <span class="tab-icon">🌍</span>
-    <span>Mapa</span>
-  </a>
-  <a href="profile.html" class="tab-item">
-    <span class="tab-icon">👤</span>
-    <span>Perfil</span>
-  </a>
-</nav>
+
+<script src="nav.js" data-page="plan" data-bottom-nav="true" data-footer="false"></script>
 </body>
 </html>

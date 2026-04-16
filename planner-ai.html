@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planificador AI — ViajeraMente</title>
+  <meta name="description" content="Describe tu viaje ideal y obtiene un itinerario personalizado con vuelos, hoteles y actividades.">
+  <meta property="og:title" content="Planificador AI — ViajeraMente">
+  <meta property="og:description" content="Tu planificador de viajes personal con inteligencia artificial.">
+  <meta property="og:image" content="https://viajeramente.com/og-default.jpg">
+  <meta property="og:url" content="https://viajeramente.com/planner-ai.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
+  <style>
+    body { background: var(--bg-soft); }
+
+    /* ── Chat container ── */
+    .planner-wrap {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 64px 0 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Hero section ── */
+    .planner-hero {
+      text-align: center;
+      padding: 32px 20px 24px;
+      animation: fadeInUp 0.5s ease both;
+    }
+    .planner-hero-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .planner-hero h1 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.15;
+    }
+    .planner-hero h1 span { color: var(--accent); }
+    .planner-hero p {
+      font-size: 0.92rem;
+      color: var(--text-2);
+      line-height: 1.6;
+      max-width: 460px;
+      margin: 0 auto 24px;
+    }
+
+    /* ── Prompt suggestions ── */
+    .prompt-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      padding: 0 16px 20px;
+    }
+    .prompt-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 100px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+    }
+    .prompt-chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-light);
+      transform: translateY(-1px);
+    }
+    .prompt-chip .chip-icon { font-size: 1rem; }
+
+    /* ── Chat messages area ── */
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── Message bubbles ── */
+    .msg-row {
+      display: flex;
+      animation: fadeInUp 0.3s ease both;
+    }
+    .msg-row.user { justify-content: flex-end; }
+    .msg-row.assistant { justify-content: flex-start; }
+
+    .msg-bubble {
+      max-width: 88%;
+      border-radius: 18px;
+      padding: 12px 16px;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      position: relative;
+      word-break: break-word;
+    }
+    .msg-row.user .msg-bubble {
+      background: var(--accent);
+      color: #fff;
+      border-bottom-right-radius: 6px;
+    }
+    .msg-row.assistant .msg-bubble {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 6px;
+      max-width: 95%;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    /* ── Typing indicator ── */
+    .typing-indicator {
+      display: flex;
+      gap: 5px;
+      padding: 16px 20px;
+      align-items: center;
+    }
+    .typing-indicator span {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--text-3);
+      animation: pulse 1.2s infinite;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+    /* ── Itinerary card styles ── */
+    .itin-header {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .itin-dest-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .itin-dest-country {
+      font-size: 0.82rem;
+      color: var(--text-2);
+      margin-top: 2px;
+    }
+    .itin-tagline {
+      font-size: 0.82rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-top: 6px;
+      font-style: italic;
+    }
+    .itin-meta {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .itin-meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-2);
+      background: var(--bg-soft);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    /* ── Map ── */
+    .itin-map {
+      width: 100%;
+      height: 180px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Day cards ── */
+    .itin-days { padding: 0; }
+    .itin-day {
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+    }
+    .itin-day:last-child { border-bottom: none; }
+    .itin-day-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .itin-day-label::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .itin-activity {
+      padding: 8px 0 8px 16px;
+      border-left: 2px solid var(--border);
+      margin-left: 3px;
+      margin-bottom: 6px;
+    }
+    .itin-activity:last-child { margin-bottom: 0; }
+    .itin-act-time {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-3);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .itin-act-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 2px 0;
+    }
+    .itin-act-desc {
+      font-size: 0.8rem;
+      color: var(--text-2);
+      line-height: 1.5;
+    }
+    .itin-act-price {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 100px;
+      background: var(--green-light);
+      color: var(--green-dark);
+    }
+
+    /* ── Booking / Affiliate CTAs ── */
+    .itin-bookings {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .itin-bookings-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .booking-cta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .booking-cta:hover {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    .booking-cta-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      width: 32px;
+      text-align: center;
+    }
+    .booking-cta-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .booking-cta-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .booking-cta-sub {
+      font-size: 0.72rem;
+      color: var(--text-2);
+      margin-top: 1px;
+    }
+    .booking-cta-arrow {
+      font-size: 0.9rem;
+      color: var(--text-3);
+      flex-shrink: 0;
+    }
+
+    /* ── Budget card ── */
+    .itin-budget {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-soft);
+    }
+    .itin-budget-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .budget-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+    .budget-total-label {
+      font-size: 0.78rem;
+      color: var(--text-2);
+      font-weight: 500;
+    }
+    .budget-total-amount {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+    .budget-daily {
+      font-size: 0.75rem;
+      color: var(--text-2);
+      text-align: right;
+      margin-bottom: 12px;
+    }
+    .budget-bars { display: flex; flex-direction: column; gap: 6px; }
+    .budget-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .budget-bar-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-2);
+      width: 90px;
+      flex-shrink: 0;
+      text-transform: capitalize;
+    }
+    .budget-bar-track {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--border);
+      overflow: hidden;
+    }
+    .budget-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+    .budget-bar-amount {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-2);
+      width: 45px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ── Visa / tips section ── */
+    .itin-info {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .itin-info-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .itin-info-text {
+      font-size: 0.8rem;
+      color: var(--text-2);
+      line-height: 1.55;
+    }
+    .itin-tips-list {
+      list-style: none;
+      padding: 0;
+    }
+    .itin-tips-list li {
+      font-size: 0.8rem;
+      color: var(--text-2);
+      line-height: 1.55;
+      padding: 4px 0;
+      padding-left: 16px;
+      position: relative;
+    }
+    .itin-tips-list li::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* ── Best months ── */
+    .itin-months {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .itin-month-pill {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: var(--teal-light);
+      color: var(--teal);
+      text-transform: capitalize;
+    }
+
+    /* ── No destination response ── */
+    .no-dest-msg {
+      padding: 20px;
+    }
+    .no-dest-msg p {
+      font-size: 0.88rem;
+      color: var(--text);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .no-dest-suggestions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .no-dest-suggestion {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      font-size: 0.82rem;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .no-dest-suggestion:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    /* ── Chat input ── */
+    .chat-input-wrap {
+      position: sticky;
+      bottom: 0;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+      z-index: 50;
+    }
+    .chat-input-inner {
+      display: flex;
+      gap: 8px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    #chatInput {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      background: var(--bg-input);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      min-width: 0;
+    }
+    #chatInput:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+    }
+    #chatInput::placeholder { color: var(--text-3); }
+
+    .chat-send-btn {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.15s;
+      flex-shrink: 0;
+    }
+    .chat-send-btn:hover { background: var(--accent-dark); transform: scale(1.05); }
+    .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .chat-send-btn svg { width: 20px; height: 20px; }
+
+    /* ── Bottom nav (mobile) ── */
+    @media (max-width: 768px) {
+      .planner-wrap { padding-bottom: 72px; }
+      .chat-input-wrap { bottom: 56px; }
+    }
+
+    /* ── Responsive ── */
+    @media (min-width: 769px) {
+      .planner-wrap { padding: 64px 20px 0; }
+      .chat-messages { padding: 8px 0 16px; }
+      .chat-input-wrap { padding: 12px 0; }
+    }
+
+    /* Budget bar colors */
+    .bar-alojamiento { background: var(--accent); }
+    .bar-comida { background: var(--teal); }
+    .bar-transporte { background: var(--gold); }
+    .bar-actividades { background: var(--purple); }
+    .bar-otros { background: var(--text-3); }
+  </style>
+</head>
+<body>
+
+<!-- ── Main content ── -->
+<div class="planner-wrap">
+
+  <!-- Hero -->
+  <div class="planner-hero" id="plannerHero">
+    <span class="planner-hero-icon">&#10024;&#9992;&#65039;</span>
+    <h1>Tu planificador de viajes <span>personal</span></h1>
+    <p>Describe tu viaje ideal y recibe un itinerario personalizado con vuelos, hoteles, actividades y todo lo que necesitas.</p>
+  </div>
+
+  <!-- Prompt suggestions -->
+  <div class="prompt-suggestions" id="promptSuggestions">
+    <button class="prompt-chip" onclick="sendSuggestion(this)">
+      <span class="chip-icon">&#127471;&#127477;</span> Japon 2 semanas en octubre
+    </button>
+    <button class="prompt-chip" onclick="sendSuggestion(this)">
+      <span class="chip-icon">&#127796;</span> Playa en Tailandia, presupuesto bajo
+    </button>
+    <button class="prompt-chip" onclick="sendSuggestion(this)">
+      <span class="chip-icon">&#127470;&#127481;</span> Italia 10 dias, cultura y gastronomia
+    </button>
+    <button class="prompt-chip" onclick="sendSuggestion(this)">
+      <span class="chip-icon">&#127477;&#127481;</span> Fin de semana en Lisboa
+    </button>
+    <button class="prompt-chip" onclick="sendSuggestion(this)">
+      <span class="chip-icon">&#127468;&#127479;</span> Islas griegas 1 semana, romantico
+    </button>
+    <button class="prompt-chip" onclick="sendSuggestion(this)">
+      <span class="chip-icon">&#127474;&#127485;</span> Mexico 3 semanas mochilero
+    </button>
+  </div>
+
+  <!-- Chat messages -->
+  <div class="chat-messages" id="chatMessages"></div>
+
+  <!-- Chat input -->
+  <div class="chat-input-wrap">
+    <div class="chat-input-inner">
+      <input type="text" id="chatInput" placeholder="Describe tu viaje ideal..." autocomplete="off" />
+      <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="nav.js" data-page="plan" data-bottom-nav="true" data-footer="false"></script>
+
+<script>
+// ── Config ──
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? '' : 'https://eze.saypeter.com';
+
+let conversationId = null;
+let isLoading = false;
+let leafletMap = null;
+
+// ── Auth check ──
+const token = localStorage.getItem('token');
+// We allow unauthenticated users to see the page and use mock responses
+
+// ── Send suggestion chip ──
+function sendSuggestion(el) {
+  const text = el.textContent.trim();
+  document.getElementById('chatInput').value = text;
+  sendMessage();
+}
+
+// ── Send message ──
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg || isLoading) return;
+
+  isLoading = true;
+  input.value = '';
+  document.getElementById('chatSendBtn').disabled = true;
+
+  // Hide hero and suggestions on first message
+  const hero = document.getElementById('plannerHero');
+  const suggestions = document.getElementById('promptSuggestions');
+  if (hero) hero.style.display = 'none';
+  if (suggestions) suggestions.style.display = 'none';
+
+  // Add user message
+  addUserMessage(msg);
+
+  // Show typing indicator
+  const typingId = showTyping();
+
+  try {
+    let response;
+    if (token) {
+      // Call real API
+      const res = await fetch(`${API_BASE}/api/planner/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          message: msg,
+          conversation_id: conversationId
+        })
+      });
+      if (res.status === 401) {
+        removeTyping(typingId);
+        addAssistantError('Inicia sesion para usar el planificador AI.');
+        isLoading = false;
+        document.getElementById('chatSendBtn').disabled = false;
+        return;
+      }
+      response = await res.json();
+    } else {
+      // Mock response for unauthenticated users
+      await new Promise(r => setTimeout(r, 1200));
+      response = buildMockResponse(msg);
+    }
+
+    removeTyping(typingId);
+
+    if (response.ok !== false && response.conversation_id) {
+      conversationId = response.conversation_id;
+    }
+
+    if (response.type === 'itinerary') {
+      renderItinerary(response.data);
+    } else if (response.type === 'no_destination' || (response.data && response.data.type === 'no_destination')) {
+      const d = response.data || response;
+      renderNoDestination(d);
+    } else if (response.error) {
+      addAssistantError(response.error);
+    } else {
+      renderItinerary(response.data);
+    }
+  } catch (err) {
+    removeTyping(typingId);
+    addAssistantError('Error de conexion. Intenta de nuevo.');
+    console.error(err);
+  }
+
+  isLoading = false;
+  document.getElementById('chatSendBtn').disabled = false;
+  scrollToBottom();
+}
+
+// ── Add user message bubble ──
+function addUserMessage(text) {
+  const container = document.getElementById('chatMessages');
+  const row = document.createElement('div');
+  row.className = 'msg-row user';
+  row.innerHTML = `<div class="msg-bubble">${escapeHtml(text)}</div>`;
+  container.appendChild(row);
+  scrollToBottom();
+}
+
+// ── Add assistant error ──
+function addAssistantError(text) {
+  const container = document.getElementById('chatMessages');
+  const row = document.createElement('div');
+  row.className = 'msg-row assistant';
+  row.innerHTML = `<div class="msg-bubble"><div style="padding:16px 20px;color:var(--red);font-size:0.88rem">${escapeHtml(text)}</div></div>`;
+  container.appendChild(row);
+  scrollToBottom();
+}
+
+// ── Typing indicator ──
+function showTyping() {
+  const container = document.getElementById('chatMessages');
+  const row = document.createElement('div');
+  const id = 'typing-' + Date.now();
+  row.id = id;
+  row.className = 'msg-row assistant';
+  row.innerHTML = `<div class="msg-bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
+  container.appendChild(row);
+  scrollToBottom();
+  return id;
+}
+
+function removeTyping(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+// ── Render itinerary ──
+function renderItinerary(data) {
+  const container = document.getElementById('chatMessages');
+  const row = document.createElement('div');
+  row.className = 'msg-row assistant';
+
+  const d = data.destination || {};
+  const itin = data.itinerary || {};
+  const budget = data.budget || {};
+  const days = itin.days || [];
+
+  // Build the full card HTML
+  let html = '<div class="msg-bubble">';
+
+  // Header
+  html += `<div class="itin-header">
+    <div class="itin-dest-name">${escapeHtml(d.name || 'Tu viaje')}</div>
+    <div class="itin-dest-country">${escapeHtml(d.country || '')}${d.continent ? ' &middot; ' + escapeHtml(d.continent) : ''}</div>
+    ${d.tagline ? '<div class="itin-tagline">' + escapeHtml(d.tagline) + '</div>' : ''}
+    <div class="itin-meta">
+      <span class="itin-meta-tag">&#128197; ${itin.duration_days || 7} dias</span>
+      <span class="itin-meta-tag">&#128176; ${budget.level === 'low' ? 'Economico' : budget.level === 'high' ? 'Premium' : 'Medio'}</span>
+      ${data.best_months && data.best_months.length ? '<span class="itin-meta-tag">&#9728;&#65039; Mejor: ' + data.best_months.slice(0,3).join(', ') + '</span>' : ''}
+    </div>
+  </div>`;
+
+  // Map placeholder
+  const mapId = 'map-' + Date.now();
+  if (d.coordinates) {
+    html += `<div class="itin-map" id="${mapId}"></div>`;
+  }
+
+  // Days
+  html += '<div class="itin-days">';
+  days.forEach(day => {
+    html += `<div class="itin-day">
+      <div class="itin-day-label">${escapeHtml(day.label)}</div>`;
+    (day.activities || []).forEach(act => {
+      html += `<div class="itin-activity">
+        <div class="itin-act-time">${escapeHtml(act.time || '')}</div>
+        <div class="itin-act-title">${escapeHtml(act.title || '')}</div>
+        ${act.description ? '<div class="itin-act-desc">' + escapeHtml(act.description) + '</div>' : ''}
+        ${act.price_range ? '<span class="itin-act-price">' + escapeHtml(act.price_range) + '</span>' : ''}
+      </div>`;
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+
+  // Booking CTAs
+  html += '<div class="itin-bookings">';
+  html += '<div class="itin-bookings-title">Reserva tu viaje</div>';
+
+  if (data.flights) {
+    html += `<a href="${escapeHtml(data.flights.url)}" target="_blank" rel="noopener" class="booking-cta">
+      <span class="booking-cta-icon">&#9992;&#65039;</span>
+      <div class="booking-cta-text">
+        <div class="booking-cta-label">${escapeHtml(data.flights.title)}</div>
+        <div class="booking-cta-sub">${escapeHtml(data.flights.provider)}</div>
+      </div>
+      <span class="booking-cta-arrow">&rarr;</span>
+    </a>`;
+  }
+  if (data.hotels) {
+    html += `<a href="${escapeHtml(data.hotels.url)}" target="_blank" rel="noopener" class="booking-cta">
+      <span class="booking-cta-icon">&#127976;</span>
+      <div class="booking-cta-text">
+        <div class="booking-cta-label">${escapeHtml(data.hotels.title)}</div>
+        <div class="booking-cta-sub">${escapeHtml(data.hotels.provider)}</div>
+      </div>
+      <span class="booking-cta-arrow">&rarr;</span>
+    </a>`;
+  }
+  if (data.activities && data.activities.links) {
+    data.activities.links.forEach(link => {
+      html += `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener" class="booking-cta">
+        <span class="booking-cta-icon">&#127915;</span>
+        <div class="booking-cta-text">
+          <div class="booking-cta-label">Actividades</div>
+          <div class="booking-cta-sub">${escapeHtml(link.provider)}</div>
+        </div>
+        <span class="booking-cta-arrow">&rarr;</span>
+      </a>`;
+    });
+  }
+  if (data.insurance) {
+    html += `<a href="${escapeHtml(data.insurance.url)}" target="_blank" rel="noopener" class="booking-cta">
+      <span class="booking-cta-icon">&#128737;&#65039;</span>
+      <div class="booking-cta-text">
+        <div class="booking-cta-label">${escapeHtml(data.insurance.title)}</div>
+        <div class="booking-cta-sub">${escapeHtml(data.insurance.provider)}</div>
+      </div>
+      <span class="booking-cta-arrow">&rarr;</span>
+    </a>`;
+  }
+  if (data.esim) {
+    html += `<a href="${escapeHtml(data.esim.url)}" target="_blank" rel="noopener" class="booking-cta">
+      <span class="booking-cta-icon">&#128241;</span>
+      <div class="booking-cta-text">
+        <div class="booking-cta-label">${escapeHtml(data.esim.title)}</div>
+        <div class="booking-cta-sub">${escapeHtml(data.esim.provider)}</div>
+      </div>
+      <span class="booking-cta-arrow">&rarr;</span>
+    </a>`;
+  }
+  html += '</div>';
+
+  // Budget
+  if (budget.total) {
+    const maxDaily = budget.daily || 80;
+    html += `<div class="itin-budget">
+      <div class="itin-budget-title">&#128176; Presupuesto estimado</div>
+      <div class="budget-total">
+        <span class="budget-total-label">Total estimado (${itin.duration_days || 7} dias)</span>
+        <span class="budget-total-amount">${budget.total.toLocaleString()}&euro;</span>
+      </div>
+      <div class="budget-daily">${budget.daily}&euro; / dia</div>
+      <div class="budget-bars">`;
+
+    if (budget.breakdown) {
+      const colors = { alojamiento: 'bar-alojamiento', comida: 'bar-comida', transporte: 'bar-transporte', actividades: 'bar-actividades', otros: 'bar-otros' };
+      for (const [cat, amount] of Object.entries(budget.breakdown)) {
+        const pct = Math.round((amount / maxDaily) * 100);
+        html += `<div class="budget-bar-row">
+          <span class="budget-bar-label">${escapeHtml(cat)}</span>
+          <div class="budget-bar-track"><div class="budget-bar-fill ${colors[cat] || 'bar-otros'}" style="width:${pct}%"></div></div>
+          <span class="budget-bar-amount">${amount}&euro;</span>
+        </div>`;
+      }
+    }
+    html += '</div></div>';
+  }
+
+  // Visa
+  if (data.visa) {
+    html += `<div class="itin-info">
+      <div class="itin-info-title">&#128274; Visa</div>
+      <div class="itin-info-text">${escapeHtml(data.visa)}</div>
+    </div>`;
+  }
+
+  // Tips
+  if (data.tips && data.tips.length) {
+    html += `<div class="itin-info">
+      <div class="itin-info-title">&#128161; Tips locales</div>
+      <ul class="itin-tips-list">`;
+    data.tips.forEach(tip => {
+      html += `<li>${escapeHtml(tip)}</li>`;
+    });
+    html += '</ul></div>';
+  }
+
+  // Best months
+  if (data.best_months && data.best_months.length) {
+    html += `<div class="itin-info">
+      <div class="itin-info-title">&#128197; Mejores meses para viajar</div>
+      <div class="itin-months">`;
+    data.best_months.forEach(m => {
+      html += `<span class="itin-month-pill">${escapeHtml(m)}</span>`;
+    });
+    html += '</div></div>';
+  }
+
+  html += '</div>';
+  row.innerHTML = html;
+  container.appendChild(row);
+
+  // Initialize map if coordinates exist
+  if (d.coordinates) {
+    setTimeout(() => {
+      try {
+        let lat, lng;
+        const coords = d.coordinates;
+        if (coords.lat !== undefined) { lat = coords.lat; lng = coords.lng || coords.lon; }
+        else if (Array.isArray(coords)) { lat = coords[0]; lng = coords[1]; }
+        if (lat && lng) {
+          const map = L.map(mapId, { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false }).setView([lat, lng], 6);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
+          L.marker([lat, lng]).addTo(map).bindPopup(d.name || '').openPopup();
+          leafletMap = map;
+          setTimeout(() => map.invalidateSize(), 100);
+        }
+      } catch (e) { console.warn('Map error:', e); }
+    }, 100);
+  }
+
+  scrollToBottom();
+}
+
+// ── Render no-destination response ──
+function renderNoDestination(data) {
+  const container = document.getElementById('chatMessages');
+  const row = document.createElement('div');
+  row.className = 'msg-row assistant';
+
+  let html = '<div class="msg-bubble"><div class="no-dest-msg">';
+  html += `<p>${escapeHtml(data.message || data.content?.message || 'No encontre un destino. Intenta con algo mas especifico.')}</p>`;
+  html += '<div class="no-dest-suggestions">';
+  const suggestions = data.suggestions || data.content?.suggestions || [];
+  suggestions.forEach(s => {
+    html += `<div class="no-dest-suggestion" onclick="sendSuggestionText(this.textContent.trim())">&#128073; ${escapeHtml(s)}</div>`;
+  });
+  html += '</div></div></div>';
+
+  row.innerHTML = html;
+  container.appendChild(row);
+  scrollToBottom();
+}
+
+function sendSuggestionText(text) {
+  document.getElementById('chatInput').value = text;
+  sendMessage();
+}
+
+// ── Mock response for unauthenticated users ──
+function buildMockResponse(msg) {
+  const msgLower = msg.toLowerCase();
+
+  // Try to detect a destination for a better mock
+  const destinations = {
+    'japon': { name: 'Japon', country: 'Japon', continent: 'Asia', tagline: 'Tradicion milenaria y tecnologia futurista', coordinates: { lat: 36.2048, lng: 138.2529 } },
+    'tailandia': { name: 'Tailandia', country: 'Tailandia', continent: 'Asia', tagline: 'Templos, playas paradisiacas y la mejor comida callejera', coordinates: { lat: 15.87, lng: 100.99 } },
+    'italia': { name: 'Italia', country: 'Italia', continent: 'Europa', tagline: 'Arte, historia y la dolce vita', coordinates: { lat: 41.87, lng: 12.56 } },
+    'lisboa': { name: 'Lisboa', country: 'Portugal', continent: 'Europa', tagline: 'Calles empedradas, pasteles de nata y fado', coordinates: { lat: 38.72, lng: -9.14 } },
+    'grecia': { name: 'Islas Griegas', country: 'Grecia', continent: 'Europa', tagline: 'Aguas cristalinas y atardeceres magicos', coordinates: { lat: 37.42, lng: 24.94 } },
+    'mexico': { name: 'Mexico', country: 'Mexico', continent: 'America', tagline: 'Cultura vibrante, playas y gastronomia unica', coordinates: { lat: 23.63, lng: -102.55 } },
+  };
+
+  let dest = null;
+  for (const [key, val] of Object.entries(destinations)) {
+    if (msgLower.includes(key)) { dest = val; break; }
+  }
+
+  if (!dest) {
+    return {
+      ok: true,
+      conversation_id: 'mock-' + Date.now(),
+      type: 'no_destination',
+      data: {
+        type: 'no_destination',
+        message: 'No encontre un destino especifico en tu mensaje. Prueba con algo como:',
+        suggestions: [
+          'Quiero ir a Japon 2 semanas en octubre',
+          'Viaje a Tailandia con presupuesto bajo',
+          'Playa en el Caribe 1 semana en diciembre',
+          'Recorrer Italia 10 dias, cultura y gastronomia',
+          'Fin de semana en Lisboa'
+        ]
+      }
+    };
+  }
+
+  // Parse duration
+  let duration = 7;
+  const durMatch = msgLower.match(/(\d+)\s*(?:dias|semanas|weeks|days)/);
+  if (durMatch) {
+    duration = parseInt(durMatch[1]);
+    if (msgLower.includes('semana')) duration *= 7;
+  }
+
+  let budgetLevel = 'mid';
+  if (msgLower.includes('barato') || msgLower.includes('mochilero') || msgLower.includes('bajo')) budgetLevel = 'low';
+  if (msgLower.includes('lujo') || msgLower.includes('premium')) budgetLevel = 'high';
+
+  const dailyBudget = budgetLevel === 'low' ? 40 : budgetLevel === 'high' ? 180 : 90;
+
+  const days = [];
+  for (let i = 1; i <= Math.min(duration, 14); i++) {
+    let label = `Dia ${i}`;
+    if (i === 1) label = `Dia 1 — Llegada a ${dest.name}`;
+    else if (i === duration) label = `Dia ${i} — Ultimo dia`;
+    days.push({
+      day: i,
+      label: label,
+      activities: [
+        { time: '09:00 - 13:00', title: `Explorar ${dest.name} - zona ${i}`, description: 'Descubre los lugares mas iconicos de la zona.', price_range: '' },
+        { time: '15:00 - 19:00', title: 'Actividad local', description: 'Sugerencia basada en los puntos de interes cercanos.', price_range: '' }
+      ]
+    });
+  }
+
+  const destSlug = dest.name.toLowerCase().replace(/\s+/g, '-');
+
+  return {
+    ok: true,
+    conversation_id: 'mock-' + Date.now(),
+    type: 'itinerary',
+    data: {
+      destination: { ...dest, slug: destSlug, intro: '', hero_photo_url: null },
+      itinerary: { duration_days: duration, days: days },
+      flights: {
+        title: `Vuelos a ${dest.name}`,
+        description: `Busca vuelos desde tu ciudad a ${dest.name}`,
+        url: `https://www.skyscanner.es/transporte/vuelos/madrid/${destSlug}/?adultos=1&ref=viajeramente`,
+        provider: 'Skyscanner'
+      },
+      hotels: {
+        title: `Alojamiento en ${dest.name}`,
+        description: `Encuentra el mejor alojamiento en ${dest.name}`,
+        url: `https://www.booking.com/searchresults.html?ss=${encodeURIComponent(dest.name)}&aid=viajeramente`,
+        provider: 'Booking.com'
+      },
+      activities: {
+        title: `Actividades en ${dest.name}`,
+        description: `Tours y experiencias en ${dest.name}`,
+        links: [
+          { provider: 'GetYourGuide', url: `https://www.getyourguide.es/s/?q=${encodeURIComponent(dest.name)}&partner_id=viajeramente` },
+          { provider: 'Civitatis', url: `https://www.civitatis.com/es/${destSlug}/?aid=viajeramente` }
+        ]
+      },
+      insurance: {
+        title: 'Seguro de viaje',
+        description: 'Viaja tranquilo con un seguro completo.',
+        url: 'https://www.iatiseguros.com/?r=viajeramente',
+        provider: 'IATI Seguros'
+      },
+      esim: {
+        title: `eSIM para ${dest.country}`,
+        description: `Internet movil en ${dest.country} sin cambiar de SIM.`,
+        url: `https://www.airalo.com/es/${destSlug}?ref=viajeramente`,
+        provider: 'Airalo'
+      },
+      visa: `Consulta los requisitos de visa para ${dest.country} segun tu nacionalidad. Inicia sesion para obtener informacion personalizada.`,
+      best_months: ['abril', 'mayo', 'octubre', 'noviembre'],
+      budget: {
+        daily: dailyBudget,
+        total: dailyBudget * duration,
+        currency: 'EUR',
+        level: budgetLevel,
+        breakdown: {
+          alojamiento: Math.round(dailyBudget * 0.40),
+          comida: Math.round(dailyBudget * 0.25),
+          transporte: Math.round(dailyBudget * 0.15),
+          actividades: Math.round(dailyBudget * 0.15),
+          otros: Math.round(dailyBudget * 0.05)
+        }
+      },
+      tips: [
+        `Registrate en ViajeraMente para obtener un itinerario personalizado con datos reales.`,
+        `Con tu perfil, personalizamos la informacion de visa, vuelos desde tu ciudad y presupuesto.`
+      ],
+      food: '',
+      safety: '',
+      transport: '',
+      how_to_get_there: ''
+    }
+  };
+}
+
+// ── Utilities ──
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function scrollToBottom() {
+  const container = document.getElementById('chatMessages');
+  requestAnimationFrame(() => {
+    container.scrollTop = container.scrollHeight;
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  });
+}
+
+// ── Enter key to send ──
+document.getElementById('chatInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+// ── Focus input on load ──
+setTimeout(() => document.getElementById('chatInput').focus(), 300);
+</script>
+</body>
+</html>

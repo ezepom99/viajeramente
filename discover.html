@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Descubrir viajeros en el mapa · ViajeraMente</title>
+  <meta name="description" content="Descubre historias de viajeros, destinos trending y encuentra personas con rutas similares a las tuyas.">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
+
+  <style>
+    /* Leaflet tiles must not be constrained by global max-width reset */
+    .leaflet-container img { max-width: none !important; }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden !important;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0F172A;
+      min-height: unset;
+    }
+
+    /* ── FULLSCREEN MAP ── */
+    #map {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+    }
+
+    /* ── TOP BAR ── */
+    .discover-topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      height: 56px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+    }
+    .topbar-logo {
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .topbar-logo:hover { color: var(--accent); }
+
+    /* ── SEARCH BAR ── */
+    .discover-search {
+      flex: 1;
+      max-width: 400px;
+      position: relative;
+    }
+    .discover-search input {
+      width: 100%;
+      padding: 8px 14px 8px 36px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      font-size: 0.85rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .discover-search input:focus {
+      background: rgba(255,255,255,0.14);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.15);
+    }
+    .discover-search input::placeholder { color: rgba(255,255,255,0.4); }
+    .discover-search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.85rem;
+      pointer-events: none;
+    }
+
+    /* ── VIEW TOGGLES ── */
+    .discover-toggle {
+      display: flex;
+      gap: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 24px;
+      padding: 3px;
+      flex-shrink: 0;
+    }
+    .discover-toggle button {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+    .discover-toggle button.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(14,165,233,0.3);
+    }
+    .discover-toggle button:hover:not(.active) {
+      color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* ── NAV LINKS (desktop) ── */
+    .topbar-links {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .topbar-links a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .topbar-links a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    @media (max-width: 768px) {
+      .topbar-links { display: none; }
+      .discover-toggle button { padding: 6px 10px; font-size: 0.72rem; }
+    }
+
+    /* ── FAB BUTTON ── */
+    .fab-story {
+      position: fixed;
+      bottom: 28px;
+      right: 20px;
+      z-index: 600;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #0369A1);
+      color: #fff;
+      border: none;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(14,165,233,0.4), 0 2px 8px rgba(0,0,0,0.3);
+      transition: all 0.2s;
+    }
+    .fab-story:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 28px rgba(14,165,233,0.5);
+    }
+    .fab-story:active { transform: scale(0.96); }
+
+    /* ── SIDE PANEL ── */
+    .discover-panel {
+      position: fixed;
+      top: 56px;
+      right: 0;
+      bottom: 0;
+      width: 380px;
+      max-width: 100vw;
+      z-index: 400;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-left: 1px solid rgba(255,255,255,0.08);
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.32, 0, 0.67, 0);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 20px 16px 100px;
+    }
+    .discover-panel.open {
+      transform: translateX(0);
+      transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    .discover-panel-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .discover-panel-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+    .panel-section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .panel-section-title .icon {
+      font-size: 1.1rem;
+    }
+
+    /* ── STORY CARD ── */
+    .story-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .story-card:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-1px);
+    }
+    .story-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .story-card-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #10B981);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: #fff;
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .story-card-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .story-card-author {
+      flex: 1;
+      min-width: 0;
+    }
+    .story-card-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .story-card-meta {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.45);
+    }
+    .story-card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .story-card-snippet {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .story-card-photo {
+      width: 100%;
+      height: 140px;
+      border-radius: 10px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    .story-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .story-card-location {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.4);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .story-like-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: all 0.15s;
+    }
+    .story-like-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .story-like-btn.liked { color: #EF4444; }
+
+    /* ── TRAVELER CARD ── */
+    .traveler-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .traveler-card:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-1px);
+    }
+    .traveler-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #10B981);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .traveler-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .traveler-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .traveler-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .traveler-stats {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.45);
+      margin-top: 2px;
+    }
+    .traveler-countries {
+      display: flex;
+      gap: 3px;
+      margin-top: 4px;
+    }
+    .traveler-countries span {
+      font-size: 0.95rem;
+    }
+
+    /* ── MATCH BADGE ── */
+    .match-badge {
+      background: rgba(16,185,129,0.15);
+      color: #10B981;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(16,185,129,0.25);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ── LEAFLET OVERRIDES ── */
+    .leaflet-control-zoom {
+      border: none !important;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3) !important;
+      border-radius: 12px !important;
+      overflow: hidden;
+    }
+    .leaflet-control-zoom-in,
+    .leaflet-control-zoom-out {
+      background: rgba(15, 23, 42, 0.85) !important;
+      backdrop-filter: blur(8px);
+      color: #fff !important;
+      border: none !important;
+      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+      font-size: 1rem !important;
+      width: 34px !important;
+      height: 34px !important;
+      line-height: 34px !important;
+    }
+    .leaflet-control-zoom-in:hover,
+    .leaflet-control-zoom-out:hover {
+      background: rgba(15, 23, 42, 0.95) !important;
+      color: var(--accent) !important;
+    }
+    .leaflet-bar a:last-child { border-bottom: none !important; }
+    .leaflet-control-attribution {
+      background: rgba(15,23,42,0.6) !important;
+      color: rgba(255,255,255,0.5) !important;
+      font-size: 0.65rem !important;
+      border-radius: 6px 0 0 0 !important;
+      padding: 2px 6px !important;
+    }
+    .leaflet-control-attribution a { color: rgba(255,255,255,0.5) !important; }
+
+    /* Story popup */
+    .leaflet-popup-content-wrapper {
+      border-radius: 16px !important;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35) !important;
+      border: none !important;
+      padding: 0 !important;
+      background: rgba(15,23,42,0.96) !important;
+      backdrop-filter: blur(16px) !important;
+    }
+    .leaflet-popup-content { margin: 0 !important; color: #fff; }
+    .leaflet-popup-tip { background: rgba(15,23,42,0.96) !important; }
+    .leaflet-popup-close-button {
+      color: rgba(255,255,255,0.5) !important;
+      font-size: 20px !important;
+      top: 8px !important;
+      right: 10px !important;
+    }
+    .leaflet-popup-close-button:hover { color: #fff !important; }
+
+    .story-popup {
+      padding: 16px;
+      min-width: 240px;
+      max-width: 300px;
+    }
+    .story-popup-photo {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+    .story-popup-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .story-popup-content {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .story-popup-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .story-popup-author-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #10B981);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: #fff;
+      font-weight: 700;
+      overflow: hidden;
+    }
+    .story-popup-author-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .story-popup-author-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .story-popup-author-name a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .story-popup-author-name a:hover { text-decoration: underline; }
+    .story-popup-period {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .story-popup-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .popup-like-btn {
+      background: rgba(255,255,255,0.08);
+      border: none;
+      color: rgba(255,255,255,0.6);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .popup-like-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
+    .popup-like-btn.liked { color: #EF4444; background: rgba(239,68,68,0.12); }
+    .popup-profile-link {
+      font-size: 0.78rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .popup-profile-link:hover { text-decoration: underline; }
+
+    /* ── STORY MARKERS ── */
+    .story-marker-wrapper {
+      position: relative;
+      cursor: pointer;
+    }
+    .story-marker {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--accent), #10B981);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s;
+    }
+    .story-marker:hover { transform: scale(1.15); }
+    .story-marker img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .story-marker-icon {
+      font-size: 1.1rem;
+      color: #fff;
+    }
+    .story-marker-pulse {
+      position: absolute;
+      top: -4px; left: -4px;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      opacity: 0;
+      animation: markerPulse 2s ease-out infinite;
+    }
+    @keyframes markerPulse {
+      0% { transform: scale(0.8); opacity: 0.6; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    /* ── STORY FORM MODAL ── */
+    .story-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 800;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .story-modal-overlay.open { display: flex; }
+    .story-modal {
+      background: #1E293B;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .story-modal h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .story-modal-sub {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 20px;
+    }
+    .story-form-group {
+      margin-bottom: 14px;
+    }
+    .story-form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 5px;
+    }
+    .story-form-group input,
+    .story-form-group textarea,
+    .story-form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-size: 0.88rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .story-form-group input:focus,
+    .story-form-group textarea:focus,
+    .story-form-group select:focus {
+      border-color: var(--accent);
+    }
+    .story-form-group textarea {
+      height: 80px;
+      resize: vertical;
+    }
+    .story-form-group select option { background: #1E293B; }
+    .story-form-hint {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+      margin-top: 3px;
+    }
+    .story-form-coords {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.04);
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .story-form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .btn-story-submit {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent), #0369A1);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-story-submit:hover { box-shadow: 0 4px 16px rgba(14,165,233,0.3); }
+    .btn-story-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-story-cancel {
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: transparent;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-story-cancel:hover { background: rgba(255,255,255,0.06); color: #fff; }
+
+    /* ── LOADING OVERLAY ── */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #0F172A;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s;
+    }
+    #loading.hidden { opacity: 0; pointer-events: none; }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── MATCH PANEL BUTTON ── */
+    .btn-match {
+      position: fixed;
+      bottom: 28px;
+      left: 20px;
+      z-index: 600;
+      padding: 10px 18px;
+      border-radius: 24px;
+      background: rgba(15,23,42,0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      transition: all 0.2s;
+    }
+    .btn-match:hover { background: rgba(15,23,42,0.95); border-color: var(--accent); }
+    .btn-match:not(.visible) { display: none; }
+
+    /* ── PANEL TAB HEADERS ── */
+    .panel-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 18px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 12px;
+      padding: 3px;
+    }
+    .panel-tab {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+    }
+    .panel-tab.active {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+    .panel-tab:hover:not(.active) { color: rgba(255,255,255,0.7); }
+    .panel-tab-content { display: none; }
+    .panel-tab-content.active { display: block; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: rgba(255,255,255,0.4);
+    }
+    .empty-state-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .empty-state p { font-size: 0.85rem; line-height: 1.5; }
+
+    /* ── HEATMAP LEGEND ── */
+    .heatmap-legend {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 300;
+      background: rgba(15,23,42,0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 8px 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: none;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.6);
+    }
+    .heatmap-legend.visible { display: flex; }
+    .heatmap-gradient {
+      width: 80px;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(to right, rgba(14,165,233,0.2), #0EA5E9, #10B981, #F59E0B, #EF4444);
+    }
+
+    /* ── MOBILE BOTTOM PANEL ── */
+    @media (max-width: 600px) {
+      .discover-panel {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-height: 65vh;
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        border-radius: 20px 20px 0 0;
+        transform: translateY(100%);
+      }
+      .discover-panel.open {
+        transform: translateY(0);
+      }
+      .fab-story { bottom: 20px; right: 16px; width: 52px; height: 52px; }
+      .btn-match { bottom: 20px; left: 16px; }
+      .heatmap-legend { bottom: 80px; }
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(40px);
+      background: #1E293B;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.3s;
+      pointer-events: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div id="loading">
+  <div style="font-size:2.5rem;margin-bottom:12px;">🌍</div>
+  <div class="spinner"></div>
+  <div style="color:rgba(255,255,255,0.6);font-size:0.9rem;margin-top:16px;">Cargando mapa social...</div>
+</div>
+
+<!-- Fullscreen map -->
+<div id="map"></div>
+
+<!-- Top bar -->
+<div class="discover-topbar">
+  <a class="topbar-logo" href="index.html">✈️ ViajeraMente</a>
+
+  <div class="discover-search">
+    <span class="discover-search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Buscar destino..." autocomplete="off">
+  </div>
+
+  <div class="discover-toggle">
+    <button class="active" data-view="heatmap" onclick="switchView('heatmap')">Heatmap</button>
+    <button data-view="stories" onclick="switchView('stories')">Historias</button>
+    <button data-view="travelers" onclick="switchView('travelers')">Viajeros</button>
+  </div>
+
+  <div class="topbar-links">
+    <a href="mapa.html">Mi mapa</a>
+    <a href="ranking.html">Ranking</a>
+    <a href="profile.html" id="topbarProfile">Perfil</a>
+  </div>
+</div>
+
+<!-- Side/Bottom panel -->
+<div class="discover-panel" id="discoverPanel">
+  <button class="discover-panel-close" onclick="closePanel()">✕</button>
+
+  <div class="panel-tabs">
+    <button class="panel-tab active" data-tab="nearby" onclick="switchPanelTab('nearby')">Cerca</button>
+    <button class="panel-tab" data-tab="travelers" onclick="switchPanelTab('travelers')">Viajeros</button>
+    <button class="panel-tab" data-tab="trending" onclick="switchPanelTab('trending')">Trending</button>
+  </div>
+
+  <!-- Nearby stories -->
+  <div class="panel-tab-content active" id="tab-nearby">
+    <div class="panel-section-title"><span class="icon">📍</span> Historias cerca</div>
+    <div id="nearbyStories">
+      <div class="empty-state">
+        <div class="empty-state-icon">🗺️</div>
+        <p>Mueve el mapa para descubrir historias de viajeros.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Travelers -->
+  <div class="panel-tab-content" id="tab-travelers">
+    <div class="panel-section-title"><span class="icon">👥</span> Viajeros activos</div>
+    <div id="travelersList">
+      <div class="empty-state">
+        <div class="empty-state-icon">✈️</div>
+        <p>Cargando viajeros...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trending -->
+  <div class="panel-tab-content" id="tab-trending">
+    <div class="panel-section-title"><span class="icon">🔥</span> Destinos trending</div>
+    <div id="trendingList">
+      <div class="empty-state">
+        <div class="empty-state-icon">📊</div>
+        <p>Cargando destinos populares...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAB: add story -->
+<button class="fab-story" id="fabStory" onclick="startAddStory()" title="Compartir historia">📝</button>
+
+<!-- Match button (visible when logged in) -->
+<button class="btn-match" id="btnMatch" onclick="showMatches()">🤝 Mi match</button>
+
+<!-- Heatmap legend -->
+<div class="heatmap-legend" id="heatmapLegend">
+  <span>Menos visitado</span>
+  <div class="heatmap-gradient"></div>
+  <span>Muy visitado</span>
+</div>
+
+<!-- Story form modal -->
+<div class="story-modal-overlay" id="storyModal">
+  <div class="story-modal">
+    <h2>📝 Compartir historia</h2>
+    <p class="story-modal-sub">Haz clic en el mapa para elegir la ubicacion, luego rellena los datos.</p>
+
+    <div class="story-form-coords" id="storyCoords">
+      📍 Haz clic en el mapa para seleccionar ubicacion
+    </div>
+
+    <div class="story-form-group">
+      <label>Titulo *</label>
+      <input type="text" id="storyTitle" placeholder="Ej: Atardecer en Bali" maxlength="120">
+    </div>
+
+    <div class="story-form-group">
+      <label>Descripcion (max 280 caracteres)</label>
+      <textarea id="storyContent" placeholder="Cuenta brevemente tu experiencia..." maxlength="280"></textarea>
+      <div class="story-form-hint"><span id="charCount">0</span>/280</div>
+    </div>
+
+    <div class="story-form-group">
+      <label>Periodo del viaje</label>
+      <select id="storyPeriod">
+        <option value="">Seleccionar...</option>
+        <option value="Verano 2026">Verano 2026</option>
+        <option value="Primavera 2026">Primavera 2026</option>
+        <option value="Invierno 2025-26">Invierno 2025-26</option>
+        <option value="Otono 2025">Otono 2025</option>
+        <option value="Verano 2025">Verano 2025</option>
+        <option value="Primavera 2025">Primavera 2025</option>
+        <option value="Invierno 2024-25">Invierno 2024-25</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+        <option value="2022 o anterior">2022 o anterior</option>
+      </select>
+    </div>
+
+    <div class="story-form-group">
+      <label>URL de foto (opcional)</label>
+      <input type="url" id="storyPhoto" placeholder="https://...">
+    </div>
+
+    <div class="story-form-actions">
+      <button class="btn-story-cancel" onclick="cancelStory()">Cancelar</button>
+      <button class="btn-story-submit" id="btnSubmitStory" onclick="submitStory()" disabled>Publicar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+<script>
+'use strict';
+
+const API = 'https://eze.saypeter.com';
+const token = localStorage.getItem('token');
+let map, heatLayer, storyMarkersLayer, travelerClusterLayer;
+let currentView = 'heatmap';
+let allStories = [];
+let likedIds = new Set();
+let storyPickMode = false;
+let pickedLat = null, pickedLng = null;
+let pickMarker = null;
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  initMap();
+  setupSearch();
+  setupCharCount();
+  if (token) {
+    document.getElementById('btnMatch').classList.add('visible');
+    fetchLikedIds();
+  }
+});
+
+function initMap() {
+  map = L.map('map', {
+    zoomControl: false,
+    attributionControl: true,
+    minZoom: 2,
+    maxZoom: 18,
+    worldCopyJump: false,
+  });
+
+  // Dark CARTO tiles for dramatic feel
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19,
+  }).addTo(map);
+
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+  map.setView([20, 0], 3);
+
+  storyMarkersLayer = L.layerGroup().addTo(map);
+  travelerClusterLayer = L.layerGroup();
+
+  map.on('moveend', onMapMove);
+  map.on('click', onMapClick);
+
+  // Initial load
+  loadHeatmap();
+  loadStories();
+  loadTravelers();
+  loadTrending();
+
+  // Hide loading
+  setTimeout(() => {
+    const el = document.getElementById('loading');
+    el.classList.add('hidden');
+    setTimeout(() => el.style.display = 'none', 500);
+  }, 800);
+}
+
+// ── MAP EVENTS ──
+function onMapMove() {
+  if (currentView === 'stories') {
+    loadStories();
+  }
+}
+
+function onMapClick(e) {
+  if (storyPickMode) {
+    pickedLat = Math.round(e.latlng.lat * 10000) / 10000;
+    pickedLng = Math.round(e.latlng.lng * 10000) / 10000;
+    document.getElementById('storyCoords').innerHTML = `📍 ${pickedLat}, ${pickedLng}`;
+    document.getElementById('btnSubmitStory').disabled = !document.getElementById('storyTitle').value.trim();
+    if (pickMarker) map.removeLayer(pickMarker);
+    pickMarker = L.marker([pickedLat, pickedLng], {
+      icon: L.divIcon({
+        html: '<div style="width:20px;height:20px;background:var(--accent);border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>',
+        className: '',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10],
+      })
+    }).addTo(map);
+  }
+}
+
+// ── VIEW SWITCHING ──
+function switchView(view) {
+  currentView = view;
+  document.querySelectorAll('.discover-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === view);
+  });
+
+  // Toggle layers
+  if (heatLayer) {
+    if (view === 'heatmap') { if (!map.hasLayer(heatLayer)) map.addLayer(heatLayer); }
+    else { if (map.hasLayer(heatLayer)) map.removeLayer(heatLayer); }
+  }
+  document.getElementById('heatmapLegend').classList.toggle('visible', view === 'heatmap');
+
+  if (view === 'stories') {
+    if (!map.hasLayer(storyMarkersLayer)) map.addLayer(storyMarkersLayer);
+    loadStories();
+  } else {
+    // Keep markers for context but don't reload
+  }
+
+  if (view === 'travelers') {
+    openPanel();
+    switchPanelTab('travelers');
+  }
+}
+
+// ── HEATMAP ──
+async function loadHeatmap() {
+  try {
+    const res = await fetch(`${API}/api/discover/heatmap`);
+    const data = await res.json();
+    if (!data.ok) return;
+
+    const points = data.points.map(p => [
+      parseFloat(p.lat), parseFloat(p.lng), Math.min(p.weight * 0.3, 1)
+    ]);
+
+    if (points.length === 0) return;
+
+    heatLayer = L.heatLayer(points, {
+      radius: 28,
+      blur: 22,
+      maxZoom: 10,
+      max: 1.0,
+      gradient: {
+        0.1: '#0EA5E9',
+        0.3: '#10B981',
+        0.55: '#F59E0B',
+        0.8: '#EF4444',
+        1.0: '#DC2626',
+      }
+    }).addTo(map);
+
+    document.getElementById('heatmapLegend').classList.add('visible');
+  } catch (e) {
+    console.warn('Heatmap load failed:', e);
+  }
+}
+
+// ── STORIES ──
+async function loadStories() {
+  const bounds = map.getBounds();
+  const sw = bounds.getSouthWest();
+  const ne = bounds.getNorthEast();
+
+  try {
+    const res = await fetch(`${API}/api/stories?sw_lat=${sw.lat}&sw_lng=${sw.lng}&ne_lat=${ne.lat}&ne_lng=${ne.lng}&limit=100`);
+    const data = await res.json();
+    if (!data.ok) return;
+
+    allStories = data.stories;
+    renderStoryMarkers(data.stories);
+    renderNearbyPanel(data.stories);
+  } catch (e) {
+    console.warn('Stories load failed:', e);
+  }
+}
+
+function renderStoryMarkers(stories) {
+  storyMarkersLayer.clearLayers();
+
+  stories.forEach(s => {
+    const hasPhoto = s.photo_url && s.photo_url.trim();
+    const markerHtml = hasPhoto
+      ? `<div class="story-marker-wrapper"><div class="story-marker"><img src="${s.photo_url}" onerror="this.parentElement.innerHTML='<span class=story-marker-icon>📍</span>'"></div><div class="story-marker-pulse"></div></div>`
+      : `<div class="story-marker-wrapper"><div class="story-marker"><span class="story-marker-icon">📍</span></div><div class="story-marker-pulse"></div></div>`;
+
+    const icon = L.divIcon({
+      html: markerHtml,
+      className: '',
+      iconSize: [40, 40],
+      iconAnchor: [20, 20],
+    });
+
+    const marker = L.marker([s.lat, s.lng], { icon })
+      .bindPopup(() => buildStoryPopup(s), { maxWidth: 320, offset: [0, -10] })
+      .addTo(storyMarkersLayer);
+  });
+}
+
+function buildStoryPopup(s) {
+  const initials = (s.author_name || s.username || '?').charAt(0).toUpperCase();
+  const avatarContent = s.avatar_url
+    ? `<img src="${s.avatar_url}" onerror="this.parentElement.textContent='${initials}'">`
+    : initials;
+  const isLiked = likedIds.has(s.id);
+  const photoHtml = s.photo_url ? `<img class="story-popup-photo" src="${s.photo_url}" onerror="this.style.display='none'">` : '';
+  const contentHtml = s.content ? `<div class="story-popup-content">${escHtml(s.content)}</div>` : '';
+  const periodHtml = s.trip_period ? `<div class="story-popup-period">${escHtml(s.trip_period)}</div>` : '';
+
+  return `<div class="story-popup">
+    ${photoHtml}
+    <div class="story-popup-author">
+      <div class="story-popup-author-avatar">${avatarContent}</div>
+      <div class="story-popup-author-name">
+        <a href="perfil-publico.html?user=${encodeURIComponent(s.username)}">${escHtml(s.author_name || s.username)}</a>
+        ${periodHtml}
+      </div>
+    </div>
+    <div class="story-popup-title">${escHtml(s.title)}</div>
+    ${contentHtml}
+    <div class="story-popup-actions">
+      <button class="popup-like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(${s.id}, this)">
+        ${isLiked ? '❤️' : '🤍'} <span>${s.likes || 0}</span>
+      </button>
+      <a class="popup-profile-link" href="perfil-publico.html?user=${encodeURIComponent(s.username)}">Ver perfil →</a>
+    </div>
+  </div>`;
+}
+
+function renderNearbyPanel(stories) {
+  const container = document.getElementById('nearbyStories');
+  if (stories.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🗺️</div><p>No hay historias en esta zona. Se el primero en compartir una.</p></div>`;
+    return;
+  }
+
+  container.innerHTML = stories.slice(0, 20).map(s => {
+    const initials = (s.author_name || s.username || '?').charAt(0).toUpperCase();
+    const avatarContent = s.avatar_url
+      ? `<img src="${s.avatar_url}" onerror="this.parentElement.textContent='${initials}'">`
+      : initials;
+    const isLiked = likedIds.has(s.id);
+
+    return `<div class="story-card" onclick="flyToStory(${s.lat}, ${s.lng}, ${s.id})">
+      ${s.photo_url ? `<img class="story-card-photo" src="${s.photo_url}" onerror="this.style.display='none'">` : ''}
+      <div class="story-card-header">
+        <div class="story-card-avatar">${avatarContent}</div>
+        <div class="story-card-author">
+          <div class="story-card-name">${escHtml(s.author_name || s.username)}</div>
+          <div class="story-card-meta">${s.trip_period || ''} ${s.city ? '· ' + escHtml(s.city) : ''}</div>
+        </div>
+      </div>
+      <div class="story-card-title">${escHtml(s.title)}</div>
+      ${s.content ? `<div class="story-card-snippet">${escHtml(s.content)}</div>` : ''}
+      <div class="story-card-footer">
+        <div class="story-card-location">📍 ${escHtml(s.city || s.country_code || '')}</div>
+        <button class="story-like-btn ${isLiked ? 'liked' : ''}" onclick="event.stopPropagation();toggleLike(${s.id}, this)">
+          ${isLiked ? '❤️' : '🤍'} ${s.likes || 0}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function flyToStory(lat, lng, storyId) {
+  map.flyTo([lat, lng], 10, { duration: 0.8 });
+  // Find marker and open popup
+  storyMarkersLayer.eachLayer(layer => {
+    const ll = layer.getLatLng();
+    if (Math.abs(ll.lat - lat) < 0.001 && Math.abs(ll.lng - lng) < 0.001) {
+      setTimeout(() => layer.openPopup(), 900);
+    }
+  });
+}
+
+// ── TRAVELERS ──
+async function loadTravelers() {
+  try {
+    const res = await fetch(`${API}/api/discover/travelers?limit=30`);
+    const data = await res.json();
+    if (!data.ok) return;
+    renderTravelersList(data.travelers);
+  } catch (e) {
+    console.warn('Travelers load failed:', e);
+  }
+}
+
+function renderTravelersList(travelers) {
+  const container = document.getElementById('travelersList');
+  if (travelers.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">✈️</div><p>No hay viajeros aun. Se el primero.</p></div>`;
+    return;
+  }
+
+  container.innerHTML = travelers.map(t => {
+    const initials = (t.name || t.username || '?').charAt(0).toUpperCase();
+    const avatarContent = t.avatar_url
+      ? `<img src="${t.avatar_url}" onerror="this.parentElement.textContent='${initials}'">`
+      : initials;
+    const flags = (t.top_countries || []).map(c => isoToFlag(c.country_code)).join('');
+
+    return `<a class="traveler-card" href="perfil-publico.html?user=${encodeURIComponent(t.username)}">
+      <div class="traveler-avatar">${avatarContent}</div>
+      <div class="traveler-info">
+        <div class="traveler-name">${escHtml(t.name || t.username)}</div>
+        <div class="traveler-stats">${t.countries_count || 0} paises · ${t.cities_count || 0} ciudades · ${t.travel_level || 'bronce'}</div>
+        ${flags ? `<div class="traveler-countries">${flags.split('').reduce((acc, ch, i, arr) => {
+          if (i % 2 === 0) acc.push('<span>' + ch + (arr[i+1]||'') + '</span>');
+          return acc;
+        }, []).join('')}</div>` : ''}
+      </div>
+    </a>`;
+  }).join('');
+}
+
+// ── TRENDING ──
+async function loadTrending() {
+  try {
+    const res = await fetch(`${API}/api/community/visited-countries`);
+    const data = await res.json();
+    if (!data.ok || !data.countries) return;
+
+    const top = data.countries.slice(0, 15);
+    const container = document.getElementById('trendingList');
+    container.innerHTML = top.map((c, i) => {
+      const flag = isoToFlag(c.country_code.trim());
+      return `<div class="traveler-card" style="cursor:default;">
+        <div style="width:32px;text-align:center;font-size:1.4rem;flex-shrink:0;">${flag}</div>
+        <div class="traveler-info">
+          <div class="traveler-name">${flag} ${c.country_code.trim().toUpperCase()}</div>
+          <div class="traveler-stats">${c.visitors} viajero${c.visitors !== 1 ? 's' : ''} han visitado</div>
+        </div>
+        <div style="color:rgba(255,255,255,0.3);font-size:0.75rem;font-weight:700;">#${i + 1}</div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    console.warn('Trending load failed:', e);
+  }
+}
+
+// ── MATCHES ──
+async function showMatches() {
+  if (!token) {
+    showToast('Inicia sesion para ver tus matches');
+    return;
+  }
+  openPanel();
+  switchPanelTab('travelers');
+
+  const container = document.getElementById('travelersList');
+  container.innerHTML = `<div class="panel-section-title"><span class="icon">🤝</span> Viajeros similares</div><div class="empty-state"><p>Buscando matches...</p></div>`;
+
+  try {
+    const res = await fetch(`${API}/api/discover/matches`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (!data.ok) {
+      container.innerHTML = `<div class="panel-section-title"><span class="icon">🤝</span> Viajeros similares</div><div class="empty-state"><p>No se pudieron cargar los matches.</p></div>`;
+      return;
+    }
+
+    if (data.matches.length === 0) {
+      container.innerHTML = `<div class="panel-section-title"><span class="icon">🤝</span> Viajeros similares</div><div class="empty-state"><div class="empty-state-icon">🔍</div><p>Aun no hay matches. Agrega mas paises a tu perfil para encontrar viajeros similares.</p></div>`;
+      return;
+    }
+
+    container.innerHTML = `<div class="panel-section-title"><span class="icon">🤝</span> ${data.matches.length} viajeros similares</div>` +
+      data.matches.map(m => {
+        const initials = (m.name || m.username || '?').charAt(0).toUpperCase();
+        const avatarContent = m.avatar_url
+          ? `<img src="${m.avatar_url}" onerror="this.parentElement.textContent='${initials}'">`
+          : initials;
+        return `<a class="traveler-card" href="perfil-publico.html?user=${encodeURIComponent(m.username)}">
+          <div class="traveler-avatar">${avatarContent}</div>
+          <div class="traveler-info">
+            <div class="traveler-name">${escHtml(m.name || m.username)}</div>
+            <div class="traveler-stats">${m.overlap_count} paises en comun · ${m.countries_count || 0} paises total</div>
+          </div>
+          <div class="match-badge">${m.overlap_pct}% similar</div>
+        </a>`;
+      }).join('');
+  } catch (e) {
+    console.warn('Matches load failed:', e);
+    container.innerHTML = `<div class="panel-section-title"><span class="icon">🤝</span> Viajeros similares</div><div class="empty-state"><p>Error cargando matches.</p></div>`;
+  }
+}
+
+// ── LIKES ──
+async function fetchLikedIds() {
+  try {
+    const res = await fetch(`${API}/api/stories/me/liked`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.ok) likedIds = new Set(data.liked_ids);
+  } catch (e) {}
+}
+
+async function toggleLike(storyId, btn) {
+  if (!token) {
+    showToast('Inicia sesion para dar like');
+    return;
+  }
+  try {
+    const res = await fetch(`${API}/api/stories/${storyId}/like`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (!data.ok) return;
+
+    if (data.liked) likedIds.add(storyId);
+    else likedIds.delete(storyId);
+
+    // Update button
+    const icon = data.liked ? '❤️' : '🤍';
+    btn.innerHTML = `${icon} <span>${data.likes}</span>`;
+    btn.classList.toggle('liked', data.liked);
+
+    // Update story in allStories
+    const story = allStories.find(s => s.id === storyId);
+    if (story) story.likes = data.likes;
+  } catch (e) {
+    showToast('Error al procesar like');
+  }
+}
+
+// ── ADD STORY ──
+function startAddStory() {
+  if (!token) {
+    showToast('Inicia sesion para compartir historias');
+    return;
+  }
+  storyPickMode = true;
+  pickedLat = null;
+  pickedLng = null;
+  document.getElementById('storyModal').classList.add('open');
+  document.getElementById('storyCoords').innerHTML = '📍 Haz clic en el mapa para seleccionar ubicacion';
+  document.getElementById('storyTitle').value = '';
+  document.getElementById('storyContent').value = '';
+  document.getElementById('storyPeriod').value = '';
+  document.getElementById('storyPhoto').value = '';
+  document.getElementById('charCount').textContent = '0';
+  document.getElementById('btnSubmitStory').disabled = true;
+  showToast('Haz clic en el mapa para elegir ubicacion');
+}
+
+function cancelStory() {
+  storyPickMode = false;
+  document.getElementById('storyModal').classList.remove('open');
+  if (pickMarker) { map.removeLayer(pickMarker); pickMarker = null; }
+}
+
+async function submitStory() {
+  if (!pickedLat || !pickedLng) {
+    showToast('Selecciona una ubicacion en el mapa');
+    return;
+  }
+  const title = document.getElementById('storyTitle').value.trim();
+  if (!title) {
+    showToast('Escribe un titulo');
+    return;
+  }
+
+  const btn = document.getElementById('btnSubmitStory');
+  btn.disabled = true;
+  btn.textContent = 'Publicando...';
+
+  try {
+    const body = {
+      lat: pickedLat,
+      lng: pickedLng,
+      title,
+      content: document.getElementById('storyContent').value.trim() || null,
+      trip_period: document.getElementById('storyPeriod').value || null,
+      photo_url: document.getElementById('storyPhoto').value.trim() || null,
+    };
+
+    const res = await fetch(`${API}/api/stories`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await res.json();
+    if (data.ok) {
+      showToast('Historia publicada');
+      cancelStory();
+      loadStories();
+    } else {
+      showToast('Error: ' + (data.error || 'Intenta de nuevo'));
+    }
+  } catch (e) {
+    showToast('Error de conexion');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Publicar';
+}
+
+// ── SEARCH ──
+function setupSearch() {
+  const input = document.getElementById('searchInput');
+  let debounce;
+  input.addEventListener('input', () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      const q = input.value.trim();
+      if (q.length < 2) return;
+      searchLocation(q);
+    }, 500);
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const q = input.value.trim();
+      if (q.length >= 2) searchLocation(q);
+    }
+  });
+}
+
+async function searchLocation(query) {
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`);
+    const data = await res.json();
+    if (data.length > 0) {
+      const { lat, lon } = data[0];
+      map.flyTo([parseFloat(lat), parseFloat(lon)], 8, { duration: 1.2 });
+    }
+  } catch (e) {}
+}
+
+// ── PANEL ──
+function openPanel() {
+  document.getElementById('discoverPanel').classList.add('open');
+}
+
+function closePanel() {
+  document.getElementById('discoverPanel').classList.remove('open');
+}
+
+function switchPanelTab(tab) {
+  document.querySelectorAll('.panel-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.panel-tab-content').forEach(c => c.classList.toggle('active', c.id === 'tab-' + tab));
+}
+
+// ── CHAR COUNT ──
+function setupCharCount() {
+  const ta = document.getElementById('storyContent');
+  ta.addEventListener('input', () => {
+    document.getElementById('charCount').textContent = ta.value.length;
+  });
+  document.getElementById('storyTitle').addEventListener('input', () => {
+    document.getElementById('btnSubmitStory').disabled = !document.getElementById('storyTitle').value.trim() || (!pickedLat && !pickedLng);
+  });
+}
+
+// ── UTILS ──
+function escHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
+
+function isoToFlag(iso2) {
+  if (!iso2 || iso2.length < 2) return '🌍';
+  iso2 = iso2.trim().toUpperCase();
+  const codePoints = [...iso2.substring(0,2)].map(c => 0x1F1E0 + c.charCodeAt(0) - 65);
+  return String.fromCodePoint(...codePoints);
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>

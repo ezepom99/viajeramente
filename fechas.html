@@ -15,161 +15,45 @@
     gtag('config', 'G-T1HJ3PJWYN');
   </script>
 
-  <!-- Fonts -->
+  <!-- Fonts (fechas uses DM Sans as body font, still needs Space Grotesk for headings) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
-
-    :root {
-      --accent:      #0EA5E9;
-      --accent-dark: #0284C7;
-      --accent-glow: rgba(14,165,233,.15);
-      --accent-light:#E0F2FE;
-      --green:       #10B981;
-      --green-light: #D1FAE5;
-      --green-dark:  #059669;
-      --gold:        #F59E0B;
-      --gold-light:  #FEF3C7;
-      --red-light:   #FEE2E2;
-      --red:         #EF4444;
-      --bg:          #FFFFFF;
-      --bg-soft:     #F8FAFC;
-      --bg-card:     #FFFFFF;
-      --text:        #0F172A;
-      --text-2:      #475569;
-      --text-3:      #94A3B8;
-      --border:      #E2E8F0;
-      --border-2:    #CBD5E1;
-      --shadow-sm:   0 1px 3px rgba(0,0,0,.06);
-      --shadow-md:   0 4px 16px rgba(0,0,0,.08);
-      --shadow-card: 0 2px 12px rgba(0,0,0,.07);
-      --shadow-lg:   0 8px 30px rgba(0,0,0,.12);
-      --r-sm: 10px;
-      --r-md: 14px;
-      --r-lg: 20px;
-    }
-
-    html { scroll-behavior: smooth; }
-
+    /* fechas.html — page-specific styles */
+    /* Uses DM Sans as body font (different from shared Inter) */
     body {
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: var(--text);
       background: var(--bg-soft);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      min-height: 100vh;
     }
-
     h1,h2,h3,h4,h5 { font-family: 'Space Grotesk', sans-serif; }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes shimmer {
-      0%   { background-position: -200% 0; }
-      100% { background-position:  200% 0; }
-    }
-    @keyframes scaleIn {
-      from { opacity: 0; transform: scale(.95); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-
-    /* ── Nav ── */
+    /* Nav: taller (60px) and wider padding */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      height: 60px;
-      display: flex; align-items: center; justify-content: space-between;
+      height: 60px; z-index: 200;
       padding: 0 max(28px, calc((100% - 1200px) / 2 + 28px));
-      background: rgba(255,255,255,.96);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      animation: slideDown .4s ease;
     }
-    .nav-logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.1rem; font-weight: 700;
-      color: var(--text); text-decoration: none;
-      letter-spacing: -.025em;
-      display: flex; align-items: center; gap: 7px;
-    }
-    .nav-logo-dot {
-      width: 8px; height: 8px;
-      background: var(--accent); border-radius: 50%;
-    }
-    .nav-logo:hover { opacity: .8; }
     .nav-right { display: flex; align-items: center; gap: 18px; }
     .nav-link {
       font-size: .84rem; font-weight: 500;
-      color: var(--text-2); text-decoration: none;
-      transition: color .2s;
+      color: var(--text-2); text-decoration: none; transition: color .2s;
     }
     .nav-link:hover, .nav-link.active { color: var(--accent); }
     .nav-btn {
       font-size: .82rem; font-weight: 600;
       color: var(--text); background: var(--bg-soft);
       border: 1.5px solid var(--border); border-radius: 20px;
-      padding: 7px 16px; text-decoration: none;
-      transition: all .2s;
+      padding: 7px 16px; text-decoration: none; transition: all .2s;
     }
     .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .nav-btn.primary {
-      background: var(--accent); color: #fff; border-color: var(--accent);
-    }
+    .nav-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
     .nav-btn.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
-    /* ── Hamburger ── */
-    .nav-hamburger {
-      display: none; background: none; border: none; cursor: pointer;
-      font-size: 1.4rem; color: var(--text); padding: 4px 6px;
-      line-height: 1; border-radius: 8px; transition: background .2s;
-    }
-    .nav-hamburger:hover { background: var(--bg-soft); }
     @media (max-width: 768px) {
-      .nav-hamburger { display: flex; align-items: center; justify-content: center; }
       .nav-link { display: none; }
-      .nav-btn { display: none; }
+      .nav-btn  { display: none; }
     }
-    /* ── Mobile overlay menu ── */
-    .mobile-menu-overlay {
-      display: none; position: fixed; inset: 0; z-index: 2000;
-      background: rgba(0,0,0,.4); backdrop-filter: blur(4px);
-    }
-    .mobile-menu-overlay.open { display: block; }
-    .mobile-menu {
-      position: absolute; top: 0; left: 0; right: 0;
-      background: #fff; border-bottom: 1px solid var(--border);
-      padding: 16px 20px 24px;
-      transform: translateY(-100%); transition: transform .25s ease;
-    }
-    .mobile-menu-overlay.open .mobile-menu { transform: translateY(0); }
-    .mobile-menu-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .mobile-menu-close {
-      background: none; border: none; cursor: pointer; font-size: 1.4rem;
-      color: var(--text-2); padding: 4px; border-radius: 6px; transition: color .2s;
-    }
-    .mobile-menu-close:hover { color: var(--text); }
-    .mobile-menu-links { display: flex; flex-direction: column; gap: 4px; }
-    .mobile-menu-link {
-      display: flex; align-items: center; gap: 12px;
-      padding: 14px 16px; border-radius: 12px;
-      text-decoration: none; color: var(--text);
-      font-size: 1rem; font-weight: 500; transition: background .15s;
-    }
-    .mobile-menu-link:hover { background: var(--bg-soft); }
-    .mobile-menu-link .mm-icon { font-size: 1.2rem; width: 28px; text-align: center; }
-    .mobile-menu-divider { height: 1px; background: var(--border); margin: 10px 0; }
 
     /* ── Page shell ── */
     .page-wrap {
@@ -651,47 +535,6 @@
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav>
-    <a href="index.html" class="nav-logo">
-      <span class="nav-logo-dot"></span>
-      ViajeraMente
-    </a>
-    <div class="nav-right">
-      <a href="plan.html" class="nav-link">Planificador</a>
-      <a href="fechas.html" class="nav-link active">¿Adónde ir?</a>
-      <a href="destino-elegido.html" class="nav-link">Tengo destino</a>
-      <a href="guias.html" class="nav-link">Guías</a>
-      <a href="profile.html" class="nav-link" id="nav-profile" style="display:none;">Mi perfil</a>
-      <a href="login.html" class="nav-btn" id="nav-login">Iniciar sesión</a>
-      <a href="signup.html" class="nav-btn primary" id="nav-signup">Crear cuenta</a>
-      <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
-    </div>
-  </nav>
-
-  <!-- Mobile menu overlay -->
-  <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
-    <div class="mobile-menu">
-      <div class="mobile-menu-header">
-        <a href="index.html" class="nav-logo" style="text-decoration:none;">
-          <span class="nav-logo-dot"></span> ViajeraMente
-        </a>
-        <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
-      </div>
-      <div class="mobile-menu-links">
-        <a href="index.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
-        <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planificador</a>
-        <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>¿Adónde ir?</a>
-        <a href="destino-elegido.html" class="mobile-menu-link"><span class="mm-icon">📍</span>Tengo destino</a>
-        <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
-        <a href="ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
-        <div class="mobile-menu-divider"></div>
-        <a href="profile.html" class="mobile-menu-link" id="mm-profile" style="display:none;"><span class="mm-icon">👤</span>Mi perfil</a>
-        <a href="login.html" class="mobile-menu-link" id="mm-login"><span class="mm-icon">🔑</span>Iniciar sesión</a>
-        <a href="signup.html" class="mobile-menu-link" id="mm-signup"><span class="mm-icon">✨</span>Crear cuenta</a>
-      </div>
-    </div>
-  </div>
 
   <div class="page-wrap">
 
@@ -806,14 +649,8 @@
 
   </div><!-- /page-wrap -->
 
-  <footer>
-    <p>© 2025 ViajeraMente &nbsp;·&nbsp; <a href="/">Inicio</a> &nbsp;·&nbsp; <a href="/guias.html">Guías</a> &nbsp;·&nbsp; <a href="/plan.html">Planifica tu viaje</a></p>
-  </footer>
-
   <script>
-  function openMobileMenu() { document.getElementById('mobileMenuOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
-  function closeMobileMenu() { document.getElementById('mobileMenuOverlay').classList.remove('open'); document.body.style.overflow = ''; }
-  function closeMobileMenuOnBg(e) { if (e.target === document.getElementById('mobileMenuOverlay')) closeMobileMenu(); }
+
 
   // ──────────────────────────────────────────────────────────────
   // CONSTANTS
@@ -1271,5 +1108,6 @@
   }
   </script>
 
+<script src="nav.js" data-page="fechas" data-bottom-nav="false" data-footer="true"></script>
 </body>
 </html>
