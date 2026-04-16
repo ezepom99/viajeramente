@@ -173,15 +173,34 @@
 
     /* ── Hero ── */
     .hero {
-      background: var(--bg-soft);
-      padding: 80px 24px 48px;
+      background: linear-gradient(160deg, #EFF6FF 0%, var(--bg-soft) 50%, #F0FDFA 100%);
+      padding: 72px 24px 52px;
       text-align: center;
       border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -80px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: -60px;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 70%);
+      pointer-events: none;
     }
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 7px;
       font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
       color: var(--accent); margin-bottom: 14px;
+      position: relative; z-index: 1;
     }
     .hero-eyebrow-dot {
       width: 5px; height: 5px; border-radius: 50%;
@@ -191,10 +210,12 @@
       font-size: clamp(2rem, 5vw, 3.2rem);
       font-weight: 800; letter-spacing: -.04em; line-height: 1.1;
       color: var(--text); margin-bottom: 14px;
+      position: relative; z-index: 1;
     }
     .hero-subtitle {
       font-size: 1rem; color: var(--text-2); line-height: 1.6;
       max-width: 440px; margin: 0 auto 32px;
+      position: relative; z-index: 1;
     }
 
     /* ── Search ── */
@@ -307,6 +328,15 @@
     .filter-pill.tipo-pill.active {
       border-color: #7C3AED; color: #7C3AED;
       background: #EDE9FE; font-weight: 600;
+    }
+    /* Duration sub-filter — teal accent */
+    .filter-pill.duration-pill.active {
+      border-color: #0D9488; color: #0D9488;
+      background: #F0FDFA; font-weight: 600;
+    }
+    /* Duration filter group hidden by default */
+    #duration-filter-group {
+      display: none;
     }
 
     /* Clear */
@@ -659,6 +689,66 @@
     .empty-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
     .empty-desc { font-size: .88rem; color: var(--text-2); line-height: 1.6; }
 
+    /* ── Zero-results: fuzzy matches ── */
+    .fuzzy-section {
+      grid-column: 1/-1;
+      padding: 8px 0 32px;
+    }
+    .fuzzy-label {
+      font-size: .78rem; font-weight: 700; color: var(--text-2);
+      letter-spacing: .04em; text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .fuzzy-label span { color: var(--accent); }
+    .fuzzy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 900px) { .fuzzy-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px)  { .fuzzy-grid { grid-template-columns: 1fr; gap: 14px; } }
+
+    /* ── Zero-results: no fuzzy match — guide request ── */
+    .no-guide-section {
+      grid-column: 1/-1;
+      padding: 48px 24px 64px;
+      text-align: center;
+    }
+    .no-guide-icon { font-size: 3rem; margin-bottom: 16px; }
+    .no-guide-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem; font-weight: 700; color: var(--text);
+      margin-bottom: 8px; letter-spacing: -.02em;
+    }
+    .no-guide-subtitle {
+      font-size: .92rem; color: var(--text-2); line-height: 1.6;
+      max-width: 380px; margin: 0 auto 28px;
+    }
+    .btn-request-guide {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px; border-radius: 100px;
+      border: none; background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      font-family: 'Inter', sans-serif; font-size: .95rem; font-weight: 700;
+      color: #fff; cursor: pointer; transition: all .2s;
+      box-shadow: 0 4px 18px rgba(16,185,129,.3);
+    }
+    .btn-request-guide:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(16,185,129,.4);
+    }
+    .btn-request-guide:disabled {
+      background: var(--green-light); color: var(--green);
+      box-shadow: none; transform: none; cursor: default;
+    }
+    .guide-request-success {
+      display: none; margin-top: 16px;
+      font-size: .9rem; color: var(--green); font-weight: 600;
+    }
+    .guide-request-error {
+      display: none; margin-top: 12px;
+      font-size: .85rem; color: #EF4444;
+    }
+
     /* ── Experiencias Especiales ── */
     .experiencias-section { margin-bottom: 56px; }
     .experiencias-grid {
@@ -761,13 +851,15 @@
 <!-- Nav -->
 <nav>
   <div class="nav-inner">
-    <a href="main.html" id="navLogo" class="nav-logo">
+    <a href="index.html" id="navLogo" class="nav-logo">
       <span class="nav-logo-icon">✈️</span>
       ViajeraMente
     </a>
     <div class="nav-links">
-      <a href="plan.html">Planificador</a>
       <a href="guias.html" class="active">Guías</a>
+      <a href="fechas.html">¿Adónde ir?</a>
+      <a href="plan.html">Planificador</a>
+      <a href="mapa.html">🌍 Mi mapa</a>
       <a href="ranking.html">🏆 Ranking</a>
     </div>
     <div class="nav-right">
@@ -789,13 +881,13 @@
 <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
   <div class="mobile-menu">
     <div class="mobile-menu-header">
-      <a href="main.html" class="nav-logo" style="text-decoration:none;">
+      <a href="index.html" class="nav-logo" style="text-decoration:none;">
         <span class="nav-logo-icon">✈️</span> ViajeraMente
       </a>
       <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
     </div>
     <div class="mobile-menu-links">
-      <a href="main.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
+      <a href="index.html" class="mobile-menu-link"><span class="mm-icon">🏠</span>Inicio</a>
       <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías</a>
       <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planificador</a>
       <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mapa</a>
@@ -847,6 +939,16 @@
         <button class="filter-pill tipo-pill" data-filter="tipo" data-value="country">🌍 Países</button>
         <button class="filter-pill tipo-pill" data-filter="tipo" data-value="city">🏙️ Ciudades</button>
         <button class="filter-pill tipo-pill" data-filter="tipo" data-value="route">🗺️ Rutas</button>
+      </div>
+    </div>
+    <div class="filter-group" id="duration-filter-group">
+      <span class="filter-group-label">⏱️ Duración</span>
+      <div class="filters-row" id="duration-pills">
+        <button class="filter-pill duration-pill active" data-filter="duration" data-value="">Todas</button>
+        <button class="filter-pill duration-pill" data-filter="duration" data-value="7 días">7 días</button>
+        <button class="filter-pill duration-pill" data-filter="duration" data-value="15 días">15 días</button>
+        <button class="filter-pill duration-pill" data-filter="duration" data-value="21 días">21 días</button>
+        <button class="filter-pill duration-pill" data-filter="duration" data-value="especial">Especiales</button>
       </div>
     </div>
     <div class="filter-group">
@@ -1146,6 +1248,7 @@ let masterDestinations = []; // full unfiltered list, used by Sorpréndeme
 let activeContinent = '';
 let activeStyle = '';
 let activeType = '';
+let activeDuration = '';
 let searchQuery = '';
 let loading = true;
 
@@ -1185,8 +1288,67 @@ function normalizeDestination(d) {
     hero_photo_url: d.hero_photo_url || null,
     tagline: d.tagline || '',
     type: d.type || 'country',
-    parent_country_slug: d.parent_country_slug || null
+    parent_country_slug: d.parent_country_slug || null,
+    ideal_duration: d.ideal_duration || []
   };
+}
+
+// ── String helpers ────────────────────────────────────────────────────────────
+function normalizeStr(s) {
+  return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function slugify(str) {
+  return (str || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
+function levenshtein(a, b) {
+  const m = a.length, n = b.length;
+  const dp = Array.from({length: m+1}, (_, i) => Array.from({length: n+1}, (_, j) => i === 0 ? j : j === 0 ? i : 0));
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      dp[i][j] = a[i-1] === b[j-1]
+        ? dp[i-1][j-1]
+        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+    }
+  }
+  return dp[m][n];
+}
+
+function charOverlap(a, b) {
+  const setA = new Set(a.split(''));
+  const setB = new Set(b.split(''));
+  let common = 0;
+  for (const c of setA) if (setB.has(c)) common++;
+  return common / Math.max(setA.size, setB.size);
+}
+
+// Returns scored fuzzy matches. Score: 3=exact, 2=query-in-name, 1=name-in-query, 0=levenshtein/overlap
+function fuzzyMatchDestinations(query, destinations) {
+  const q = normalizeStr(query.trim());
+  if (!q) return [];
+  const results = [];
+  for (const d of destinations) {
+    const normName = normalizeStr(d.name);
+    const normCountry = normalizeStr(d.country || '');
+    let score = -1;
+    if (normName === q || normCountry === q) {
+      score = 3;
+    } else if (normName.includes(q) || normCountry.includes(q)) {
+      score = 2;
+    } else if (q.includes(normName)) {
+      score = 1;
+    } else {
+      const lev = levenshtein(q, normName);
+      const overlap = charOverlap(q, normName);
+      if ((q.length <= 6 && lev <= 2) || (q.length > 6 && lev <= 3) || overlap >= 0.6) {
+        score = 0;
+      }
+    }
+    if (score >= 0) results.push({dest: d, score});
+  }
+  results.sort((a, b) => b.score - a.score);
+  return results.slice(0, 4);
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -1258,6 +1420,23 @@ function filteredDestinations() {
     results = results.filter(d => d.type !== 'route');
   }
 
+  // Apply duration sub-filter (only relevant when tipo=route)
+  if (activeType === 'route' && activeDuration) {
+    if (activeDuration === 'especial') {
+      // "Especiales" = routes whose name doesn't match a known X-días pattern
+      results = results.filter(d => {
+        const dur = (d.ideal_duration || [])[0] || '';
+        const m = d.name.match(/(\d+)\s*d[ií]as/i);
+        return !m && !['7 días','15 días','21 días'].includes(dur);
+      });
+    } else {
+      results = results.filter(d => {
+        const dur = (d.ideal_duration || [])[0] || '';
+        return dur === activeDuration;
+      });
+    }
+  }
+
   // If no results with all filters, progressively relax (style first, then continent)
   if (!results.length && activeStyle && activeContinent) {
     results = allDestinations.filter(d => {
@@ -1284,6 +1463,122 @@ function filteredDestinations() {
   }
 
   return results;
+}
+
+// ── Card renderers (top-level so fuzzy section can call them) ─────────────────
+function renderCountryCard(d, cityByParent) {
+  const parentMap = cityByParent || {};
+  const childCities = parentMap[d.slug] || [];
+  const citySubHtml = childCities.length > 0 ? `
+    <div class="nested-cities">
+      <div class="nested-cities-label">🏙️ Ciudades con guía</div>
+      <div class="nested-cities-row">
+        ${childCities.map(c => `
+          <a href="destino.html?slug=${c.slug}" class="nested-city-chip">
+            ${c.hero_photo_id ? `<div class="nested-city-dot" style="background-image:url('${photoUrl(c)}')"></div>` : '<div class="nested-city-dot-placeholder">🏙️</div>'}
+            <span>${c.name}</span>
+          </a>
+        `).join('')}
+      </div>
+    </div>` : '';
+  return `
+  <div class="dest-card-wrapper">
+    <a href="destino.html?slug=${d.slug}" class="dest-card">
+      <div class="card-photo" style="background-image:url('${photoUrl(d)}')">
+        <div class="card-photo-overlay"></div>
+        <span class="card-continent-badge">${d.continent}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${d.name}</div>
+        <div class="card-country">${d.country}</div>
+        <p class="card-tagline">${d.tagline}</p>
+        <div class="card-vibes">
+          ${(d.vibes||[]).slice(0,3).map(v => `<span class="vibe-pill">${v}</span>`).join('')}
+        </div>
+        <div class="card-footer">
+          <span class="card-budget">${budgetLabel(d)}</span>
+          <button class="card-wishlist-btn${wishlistSlugsGuias.has(d.slug) ? ' wishlisted' : ''}" data-wishlist-slug="${d.slug}" title="${wishlistSlugsGuias.has(d.slug) ? 'Quitar de mi lista' : 'Quiero ir'}" onclick="toggleWishlistGuias(event,'${d.slug}',${JSON.stringify(d.name)})">${wishlistSlugsGuias.has(d.slug) ? '♥' : '♡'}</button>
+          <span class="card-cta">Leer guía →</span>
+        </div>
+      </div>
+    </a>
+    ${citySubHtml}
+  </div>`;
+}
+
+function renderRouteCard(d) {
+  const m = d.name.match(/(\d+)\s*d[ií]as/i);
+  const duration = m ? m[1] + ' días' : 'Ruta';
+  return `
+  <div class="dest-card-wrapper">
+    <a href="destino.html?slug=${d.slug}" class="dest-card">
+      <div class="card-photo" style="background-image:url('${photoUrl(d)}')">
+        <div class="card-photo-overlay"></div>
+        <span class="card-continent-badge" style="background:rgba(124,58,237,.15);color:#7C3AED;border:1px solid rgba(124,58,237,.2);">🗺️ ${duration}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${d.name}</div>
+        <div class="card-country">${d.country}</div>
+        <p class="card-tagline">${d.tagline || 'Descubre esta ruta única'}</p>
+        <div class="card-vibes">
+          ${(d.vibes||[]).slice(0,3).map(v => `<span class="vibe-pill">${v}</span>`).join('')}
+        </div>
+        <div class="card-footer">
+          <span class="card-budget">${budgetLabel(d)}</span>
+          <button class="card-wishlist-btn${wishlistSlugsGuias.has(d.slug) ? ' wishlisted' : ''}" data-wishlist-slug="${d.slug}" title="Guardar ruta" onclick="toggleWishlistGuias(event,'${d.slug}',${JSON.stringify(d.name)})">${wishlistSlugsGuias.has(d.slug) ? '♥' : '♡'}</button>
+          <span class="card-cta">Ver ruta →</span>
+        </div>
+      </div>
+    </a>
+  </div>`;
+}
+
+function renderCityCard(c) {
+  return `
+  <div class="dest-card-wrapper">
+    <a href="destino.html?slug=${c.slug}" class="dest-card">
+      <div class="card-photo" style="background-image:url('${photoUrl(c)}')">
+        <div class="card-photo-overlay"></div>
+        <span class="card-continent-badge" style="background:rgba(14,165,233,.15);color:#0284C7;">🏙️ Ciudad</span>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${c.name}</div>
+        <div class="card-country">${c.country}</div>
+        <p class="card-tagline">${c.tagline}</p>
+        <div class="card-footer">
+          <span class="card-budget">${budgetLabel(c)}</span>
+          <button class="card-wishlist-btn${wishlistSlugsGuias.has(c.slug) ? ' wishlisted' : ''}" data-wishlist-slug="${c.slug}" title="${wishlistSlugsGuias.has(c.slug) ? 'Quitar de mi lista' : 'Quiero ir'}" onclick="toggleWishlistGuias(event,'${c.slug}',${JSON.stringify(c.name)})">${wishlistSlugsGuias.has(c.slug) ? '♥' : '♡'}</button>
+          <span class="card-cta">Ver guía →</span>
+        </div>
+      </div>
+    </a>
+  </div>`;
+}
+
+// ── Guide request from search ─────────────────────────────────────────────────
+async function submitGuideRequestGuias(destinationName) {
+  const btn = document.getElementById('btnRequestGuia');
+  const successEl = document.getElementById('guideRequestSuccessGuias');
+  const errorEl = document.getElementById('guideRequestErrorGuias');
+  if (!btn || btn.disabled) return;
+  btn.disabled = true;
+  btn.textContent = '⏳ Enviando…';
+  if (successEl) successEl.style.display = 'none';
+  if (errorEl) errorEl.style.display = 'none';
+  try {
+    const res = await fetch(`${API_BASE}/api/guide-requests`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ destination_slug: slugify(destinationName), destination_name: destinationName })
+    });
+    if (!res.ok) throw new Error('error');
+    btn.textContent = '✓ Pedido enviado';
+    if (successEl) successEl.style.display = 'block';
+  } catch(e) {
+    btn.disabled = false;
+    btn.innerHTML = '📚 Pedir esta guía';
+    if (errorEl) errorEl.style.display = 'block';
+  }
 }
 
 function renderGrid() {
@@ -1336,14 +1631,46 @@ function renderGrid() {
 
   // Only show empty state if text search returns nothing (can't relax a text query)
   if (!results.length) {
-    const safeQ = searchQuery.replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    grid.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">🔍</div>
-        <div class="empty-title">No encontramos "${safeQ}"</div>
-        <p class="empty-desc">Aún no tenemos guía para ese destino.<br>Prueba con otro nombre o usa el planificador para explorar opciones.</p>
-        <a href="plan.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:11px 22px;border-radius:100px;background:var(--accent);color:#fff;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .2s;">✈️ Ir al planificador</a>
-      </div>`;
+    const rawQ = searchQuery.trim();
+    const safeQ = rawQ.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+    // Try fuzzy matching across all loaded destinations
+    const allPool = (masterDestinations.length ? masterDestinations : allDestinations);
+    const fuzzyMatches = fuzzyMatchDestinations(rawQ, allPool);
+
+    if (fuzzyMatches.length > 0) {
+      // Show "¿Quisiste decir...?" with matching cards
+      grid.innerHTML = `
+        <div class="fuzzy-section">
+          <div class="fuzzy-label">¿Quisiste decir… <span>"${safeQ}"</span>?</div>
+          <div class="fuzzy-grid" id="fuzzy-cards-grid"></div>
+        </div>`;
+      const fuzzyGrid = document.getElementById('fuzzy-cards-grid');
+      if (fuzzyGrid) {
+        fuzzyGrid.innerHTML = fuzzyMatches.map(({dest: d}) => {
+          if (d.type === 'route') return renderRouteCard(d);
+          if (d.type === 'city') return renderCityCard(d);
+          return renderCountryCard(d, {});
+        }).join('');
+      }
+    } else {
+      // No fuzzy matches — show guide request CTA
+      grid.innerHTML = `
+        <div class="no-guide-section">
+          <div class="no-guide-icon">📚</div>
+          <div class="no-guide-title">No tenemos guía de "${safeQ}" todavía</div>
+          <p class="no-guide-subtitle">¿Quieres que la hagamos? Si muchos lo piden, ¡la creamos antes!</p>
+          <button class="btn-request-guide" id="btnRequestGuia" onclick="submitGuideRequestGuias(${JSON.stringify(rawQ)})">
+            📚 Pedir esta guía
+          </button>
+          <div class="guide-request-success" id="guideRequestSuccessGuias">
+            ✓ ¡Pedido recibido! Te avisaremos cuando esté lista.
+          </div>
+          <div class="guide-request-error" id="guideRequestErrorGuias">
+            Algo salió mal. Inténtalo de nuevo.
+          </div>
+        </div>`;
+    }
     return;
   }
 
@@ -1371,94 +1698,6 @@ function renderGrid() {
     }
   }
 
-  function renderCountryCard(d) {
-    const childCities = cityByParent[d.slug] || [];
-    const citySubHtml = childCities.length > 0 ? `
-      <div class="nested-cities">
-        <div class="nested-cities-label">🏙️ Ciudades con guía</div>
-        <div class="nested-cities-row">
-          ${childCities.map(c => `
-            <a href="destino.html?slug=${c.slug}" class="nested-city-chip">
-              ${c.hero_photo_id ? `<div class="nested-city-dot" style="background-image:url('${photoUrl(c)}')"></div>` : '<div class="nested-city-dot-placeholder">🏙️</div>'}
-              <span>${c.name}</span>
-            </a>
-          `).join('')}
-        </div>
-      </div>` : '';
-    return `
-    <div class="dest-card-wrapper">
-      <a href="destino.html?slug=${d.slug}" class="dest-card">
-        <div class="card-photo" style="background-image:url('${photoUrl(d)}')">
-          <div class="card-photo-overlay"></div>
-          <span class="card-continent-badge">${d.continent}</span>
-        </div>
-        <div class="card-body">
-          <div class="card-name">${d.name}</div>
-          <div class="card-country">${d.country}</div>
-          <p class="card-tagline">${d.tagline}</p>
-          <div class="card-vibes">
-            ${(d.vibes||[]).slice(0,3).map(v => `<span class="vibe-pill">${v}</span>`).join('')}
-          </div>
-          <div class="card-footer">
-            <span class="card-budget">${budgetLabel(d)}</span>
-            <button class="card-wishlist-btn${wishlistSlugsGuias.has(d.slug) ? ' wishlisted' : ''}" data-wishlist-slug="${d.slug}" title="${wishlistSlugsGuias.has(d.slug) ? 'Quitar de mi lista' : 'Quiero ir'}" onclick="toggleWishlistGuias(event,'${d.slug}',${JSON.stringify(d.name)})">${wishlistSlugsGuias.has(d.slug) ? '♥' : '♡'}</button>
-            <span class="card-cta">Leer guía →</span>
-          </div>
-        </div>
-      </a>
-      ${citySubHtml}
-    </div>`;
-  }
-
-  function renderRouteCard(d) {
-    const m = d.name.match(/(\d+)\s*d[ií]as/i);
-    const duration = m ? m[1] + ' días' : 'Ruta';
-    return `
-    <div class="dest-card-wrapper">
-      <a href="destino.html?slug=${d.slug}" class="dest-card">
-        <div class="card-photo" style="background-image:url('${photoUrl(d)}')">
-          <div class="card-photo-overlay"></div>
-          <span class="card-continent-badge" style="background:rgba(124,58,237,.15);color:#7C3AED;border:1px solid rgba(124,58,237,.2);">🗺️ ${duration}</span>
-        </div>
-        <div class="card-body">
-          <div class="card-name">${d.name}</div>
-          <div class="card-country">${d.country}</div>
-          <p class="card-tagline">${d.tagline || 'Descubre esta ruta única'}</p>
-          <div class="card-vibes">
-            ${(d.vibes||[]).slice(0,3).map(v => `<span class="vibe-pill">${v}</span>`).join('')}
-          </div>
-          <div class="card-footer">
-            <span class="card-budget">${budgetLabel(d)}</span>
-            <button class="card-wishlist-btn${wishlistSlugsGuias.has(d.slug) ? ' wishlisted' : ''}" data-wishlist-slug="${d.slug}" title="Guardar ruta" onclick="toggleWishlistGuias(event,'${d.slug}',${JSON.stringify(d.name)})">${wishlistSlugsGuias.has(d.slug) ? '♥' : '♡'}</button>
-            <span class="card-cta">Ver ruta →</span>
-          </div>
-        </div>
-      </a>
-    </div>`;
-  }
-
-  function renderCityCard(c) {
-    return `
-    <div class="dest-card-wrapper">
-      <a href="destino.html?slug=${c.slug}" class="dest-card">
-        <div class="card-photo" style="background-image:url('${photoUrl(c)}')">
-          <div class="card-photo-overlay"></div>
-          <span class="card-continent-badge" style="background:rgba(14,165,233,.15);color:#0284C7;">🏙️ Ciudad</span>
-        </div>
-        <div class="card-body">
-          <div class="card-name">${c.name}</div>
-          <div class="card-country">${c.country}</div>
-          <p class="card-tagline">${c.tagline}</p>
-          <div class="card-footer">
-            <span class="card-budget">${budgetLabel(c)}</span>
-            <button class="card-wishlist-btn${wishlistSlugsGuias.has(c.slug) ? ' wishlisted' : ''}" data-wishlist-slug="${c.slug}" title="${wishlistSlugsGuias.has(c.slug) ? 'Quitar de mi lista' : 'Quiero ir'}" onclick="toggleWishlistGuias(event,'${c.slug}',${JSON.stringify(c.name)})">${wishlistSlugsGuias.has(c.slug) ? '♥' : '♡'}</button>
-            <span class="card-cta">Ver guía →</span>
-          </div>
-        </div>
-      </a>
-    </div>`;
-  }
-
   // Route view: render route cards
   if (activeType === 'route') {
     grid.innerHTML = relaxedNote + results.map(d => renderRouteCard(d)).join('');
@@ -1472,13 +1711,13 @@ function renderGrid() {
   }
 
   grid.innerHTML = relaxedNote
-    + countries.map(d => renderCountryCard(d)).join('')
+    + countries.map(d => renderCountryCard(d, cityByParent)).join('')
     + orphanCities.map(c => renderCityCard(c)).join('');
 }
 
 // ── Filter logic ──────────────────────────────────────────────────────────────
 function anyFilterActive() {
-  return activeContinent !== '' || activeStyle !== '' || activeType !== '' || searchQuery.trim() !== '';
+  return activeContinent !== '' || activeStyle !== '' || activeType !== '' || activeDuration !== '' || searchQuery.trim() !== '';
 }
 
 function updateClearBtn() {
@@ -1489,6 +1728,7 @@ function clearFilters() {
   activeContinent = '';
   activeStyle = '';
   activeType = '';
+  activeDuration = '';
   searchQuery = '';
   document.getElementById('search-input').value = '';
 
@@ -1502,6 +1742,10 @@ function clearFilters() {
   document.querySelectorAll('[data-filter="tipo"]').forEach(p => {
     p.classList.toggle('active', p.dataset.value === '');
   });
+  document.querySelectorAll('[data-filter="duration"]').forEach(p => {
+    p.classList.toggle('active', p.dataset.value === '');
+  });
+  document.getElementById('duration-filter-group').style.display = 'none';
 
   updateClearBtn();
   renderGrid();
@@ -1510,6 +1754,15 @@ function clearFilters() {
 // Tipo filter helper (called from rutas section button)
 function activateTipoFilter(type) {
   activeType = type;
+  // Reset duration when switching tipo
+  activeDuration = '';
+  document.querySelectorAll('[data-filter="duration"]').forEach(p => {
+    p.classList.toggle('active', p.dataset.value === '');
+  });
+  // Show/hide duration sub-filter
+  const durationGroup = document.getElementById('duration-filter-group');
+  if (durationGroup) durationGroup.style.display = type === 'route' ? '' : 'none';
+
   document.querySelectorAll('[data-filter="tipo"]').forEach(p => {
     p.classList.toggle('active', p.dataset.value === type);
   });
@@ -1523,7 +1776,27 @@ function activateTipoFilter(type) {
 document.querySelectorAll('[data-filter="tipo"]').forEach(pill => {
   pill.addEventListener('click', () => {
     activeType = pill.dataset.value;
+    // Reset duration sub-filter when tipo changes
+    activeDuration = '';
+    document.querySelectorAll('[data-filter="duration"]').forEach(p => {
+      p.classList.toggle('active', p.dataset.value === '');
+    });
+    // Show/hide duration sub-filter row
+    const durationGroup = document.getElementById('duration-filter-group');
+    if (durationGroup) durationGroup.style.display = activeType === 'route' ? '' : 'none';
+
     document.querySelectorAll('[data-filter="tipo"]').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    updateClearBtn();
+    renderGrid();
+  });
+});
+
+// Duration pill click handlers
+document.querySelectorAll('[data-filter="duration"]').forEach(pill => {
+  pill.addEventListener('click', () => {
+    activeDuration = pill.dataset.value;
+    document.querySelectorAll('[data-filter="duration"]').forEach(p => p.classList.remove('active'));
     pill.classList.add('active');
     updateClearBtn();
     renderGrid();

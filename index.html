@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ViajeraMente — Tu comunidad de viajeros</title>
-  <meta name="description" content="ViajeraMente es la red social para viajeros. Encuentra compa&ntilde;eros de viaje, crea itinerarios colaborativos, comparte reviews reales y descubre destinos con una comunidad global de viajeros.">
-  <meta name="keywords" content="planificar viaje, comunidad viajeros, compa&ntilde;eros de viaje, itinerarios, gu&iacute;as de viaje, reviews viajes, red social viajeros, bucket list viajes">
+  <title>ViajeraMente — Tu próximo viaje empieza aquí</title>
+  <meta name="description" content="ViajeraMente es la plataforma para viajeros. Guías reales, planificador de rutas y tu mapa personal. Todo en un sitio.">
+  <meta name="keywords" content="planificar viaje, guías de viaje, itinerarios, mapa viajero, destinos, visado, presupuesto viaje">
   <meta name="robots" content="index, follow">
   <meta name="author" content="ViajeraMente">
   <link rel="canonical" href="https://viajeramente.com">
@@ -23,8 +23,8 @@
   </script>
 
   <!-- Open Graph -->
-  <meta property="og:title" content="ViajeraMente — Tu comunidad de viajeros">
-  <meta property="og:description" content="La red social donde los viajeros se encuentran. Perfiles con mapa mundial, itinerarios colaborativos, reviews reales y matching de viajeros.">
+  <meta property="og:title" content="ViajeraMente — Tu próximo viaje empieza aquí">
+  <meta property="og:description" content="Guías reales, planificador de rutas y tu mapa personal. Todo en un sitio.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://viajeramente.com">
   <meta property="og:image" content="https://images.pexels.com/photos/8761439/pexels-photo-8761439.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200">
@@ -33,8 +33,8 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ViajeraMente — Tu comunidad de viajeros">
-  <meta name="twitter:description" content="La red social donde los viajeros se encuentran. Perfiles con mapa mundial, itinerarios colaborativos y matching de viajeros.">
+  <meta name="twitter:title" content="ViajeraMente — Tu próximo viaje empieza aquí">
+  <meta name="twitter:description" content="Guías reales, planificador de rutas y tu mapa personal. Todo en un sitio.">
   <meta name="twitter:image" content="https://images.pexels.com/photos/8761439/pexels-photo-8761439.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200">
 
   <!-- Schema.org -->
@@ -44,7 +44,7 @@
     "@type": "WebSite",
     "name": "ViajeraMente",
     "url": "https://viajeramente.com",
-    "description": "Red social para viajeros. Encuentra compa&ntilde;eros de viaje, crea itinerarios colaborativos y comparte experiencias reales.",
+    "description": "Guías reales, planificador de rutas y tu mapa personal. Todo en un sitio.",
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://viajeramente.com/search?q={search_term_string}",
@@ -58,7 +58,7 @@
     "@type": "Organization",
     "name": "ViajeraMente",
     "url": "https://viajeramente.com",
-    "description": "La red social para viajeros que conecta personas, comparte experiencias reales y facilita la planificaci\u00f3n colaborativa de viajes.",
+    "description": "Plataforma para viajeros con guías reales, planificador de rutas y mapa personal.",
     "sameAs": [
       "https://instagram.com/viajeramente",
       "https://tiktok.com/@viajeramente",
@@ -69,1737 +69,875 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
 
     :root {
+      --bg: #FFFFFF;
+      --bg-soft: #F8FAFC;
+      --text: #0F172A;
+      --text-2: #64748B;
+      --text-3: #9CA3AF;
+      --border: #E2E8F0;
       --accent: #0EA5E9;
-      --accent-light: #7DD3FC;
-      --accent-dark: #0284C7;
-      --accent-glow: rgba(14, 165, 233, 0.15);
+      --accent-light: #E0F2FE;
+      --accent-text: #0284C7;
+      --accent-glow: rgba(14,165,233,0.12);
       --teal: #10B981;
-      --teal-light: #34D399;
-      --teal-dark: #059669;
-      --teal-glow: rgba(16, 185, 129, 0.15);
+      --teal-light: #F0FDFA;
+      --teal-glow: rgba(16,185,129,0.12);
       --gold: #F5A623;
       --purple: #8B5CF6;
-      --dark: #0B0D0F;
-      --gray-900: #151820;
-      --gray-800: #1E2330;
-      --gray-700: #2A3040;
-      --gray-600: #64748B;
-      --gray-500: #9CA3AF;
-      --gray-400: #B0B8C4;
-      --gray-300: #D1D5DB;
-      --gray-200: #E2E8F0;
-      --gray-100: #F3F4F6;
-      --gray-50: #F9FAFB;
-      --white: #FFFFFF;
-      --sand: #FAF8F5;
+      --shadow: 0 2px 12px rgba(0,0,0,.07);
+      --shadow-md: 0 8px 24px rgba(0,0,0,.1);
+      --radius: 16px;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden !important; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: var(--dark);
-      background: var(--white);
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--bg);
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden;
+      overflow-x: hidden !important;
+      min-height: 100vh;
+      font-size: 15px;
     }
 
-    /* ── Animations ── */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-    @keyframes float-delayed {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-    @keyframes pulse-dot {
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+    @keyframes fadeInUp  { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.8); }
-    }
-    @keyframes map-ping {
-      0% { transform: scale(1); opacity: 0.8; }
-      100% { transform: scale(3); opacity: 0; }
-    }
-    @keyframes gradient-shift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    @keyframes counter-up {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes badge-bounce {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
+      50%       { opacity: .6; transform: scale(.8); }
     }
 
+    /* ── Reveal ── */
     .reveal {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(28px);
       transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+    .reveal-delay-4 { transition-delay: 0.32s; }
 
     /* ── Nav ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      padding: 20px max(24px, calc((100% - 1200px) / 2 + 24px));
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      animation: slideDown 0.6s ease-out;
-      transition: all 0.35s ease;
+    nav:not(.bottom-nav) {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 56px;
+      display: flex; align-items: center;
+      animation: slideDown .4s ease both;
     }
-    nav.scrolled {
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      padding: 12px max(24px, calc((100% - 1200px) / 2 + 24px));
+    .nav-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     .nav-logo {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--white);
-      text-decoration: none;
-      letter-spacing: -0.03em;
-      transition: color 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 1.1rem; font-weight: 700; letter-spacing: -.02em;
+      color: var(--text); text-decoration: none;
+      display: flex; align-items: center; gap: 7px;
+      transition: opacity .2s;
     }
-    .nav-logo-icon {
-      width: 28px; height: 28px;
-      background: var(--accent);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
-    }
-    nav.scrolled .nav-logo { color: var(--dark); }
-
+    .nav-logo:hover { opacity: .75; }
+    .nav-logo-icon { font-size: 1.15rem; }
     .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
+      display: flex; align-items: center; gap: 4px;
     }
-    .nav-link {
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: rgba(255,255,255,0.8);
-      text-decoration: none;
-      letter-spacing: 0.01em;
-      transition: color 0.3s;
+    .nav-links a {
+      font-size: .82rem; font-weight: 500; color: var(--text-2);
+      text-decoration: none; padding: 6px 12px; border-radius: 8px;
+      transition: all .2s;
     }
-    .nav-link:hover { color: var(--white); }
-    nav.scrolled .nav-link { color: var(--gray-600); }
-    nav.scrolled .nav-link:hover { color: var(--dark); }
+    .nav-links a:hover { color: var(--text); background: var(--bg-soft); }
+    .nav-links a.active { color: var(--accent); font-weight: 600; }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .nav-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--accent-light);
+      border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 700; color: var(--accent);
+      text-decoration: none; overflow: hidden; transition: border-color .2s;
+      flex-shrink: 0;
+    }
+    .nav-avatar:hover { border-color: var(--accent); }
+    .nav-avatar img { width:100%; height:100%; object-fit:cover; }
+    #nav-user { display: none; }
+    #nav-guest { display: flex; align-items: center; gap: 8px; }
+    .btn-nav-login {
+      font-size: .82rem; font-weight: 500; color: var(--text-2);
+      text-decoration: none; padding: 6px 12px; border-radius: 8px;
+      transition: all .2s;
+    }
+    .btn-nav-login:hover { color: var(--text); background: var(--bg-soft); }
+    .btn-nav-signup {
+      font-size: .82rem; font-weight: 600; color: #fff;
+      background: var(--accent); text-decoration: none;
+      padding: 7px 14px; border-radius: 100px; transition: all .2s;
+    }
+    .btn-nav-signup:hover { background: var(--accent-text); }
 
-    .nav-cta {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--white);
-      text-decoration: none;
-      background: var(--accent);
-      padding: 10px 22px;
-      border-radius: 100px;
-      transition: all 0.3s;
+    /* ── Hamburger ── */
+    .nav-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      font-size: 1.4rem; color: var(--text); padding: 4px 6px;
+      line-height: 1; border-radius: 8px; transition: background .2s;
     }
-    .nav-cta:hover {
-      background: var(--accent-dark);
-      transform: translateY(-1px);
+    .nav-hamburger:hover { background: var(--bg-soft); }
+    @media (max-width: 768px) {
+      .nav-hamburger { display: flex; align-items: center; justify-content: center; }
+      .nav-links { display: none; }
+      #nav-guest { display: none !important; }
+      #nav-user { display: none !important; }
     }
 
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-      z-index: 1001;
+    /* ── Mobile overlay menu ── */
+    .mobile-menu-overlay {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.4); backdrop-filter: blur(4px);
     }
-    .mobile-menu-btn span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: var(--white);
-      margin: 5px 0;
-      transition: all 0.3s;
-      border-radius: 2px;
+    .mobile-menu-overlay.open { display: block; }
+    .mobile-menu {
+      position: absolute; top: 0; left: 0; right: 0;
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 16px 20px 24px;
+      transform: translateY(-100%); transition: transform .25s ease;
     }
-    nav.scrolled .mobile-menu-btn span { background: var(--dark); }
+    .mobile-menu-overlay.open .mobile-menu { transform: translateY(0); }
+    .mobile-menu-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .mobile-menu-close {
+      background: none; border: none; cursor: pointer; font-size: 1.4rem;
+      color: var(--text-2); padding: 4px; border-radius: 6px; transition: color .2s;
+    }
+    .mobile-menu-close:hover { color: var(--text); }
+    .mobile-menu-links { display: flex; flex-direction: column; gap: 4px; }
+    .mobile-menu-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      font-size: 1rem; font-weight: 500; transition: background .15s;
+    }
+    .mobile-menu-link:hover { background: var(--bg-soft); }
+    .mobile-menu-link .mm-icon { font-size: 1.2rem; width: 28px; text-align: center; }
+    .mobile-menu-divider { height: 1px; background: var(--border); margin: 10px 0; }
 
     /* ── Hero ── */
     .hero {
       position: relative;
-      min-height: 100vh;
-      min-height: 100dvh;
+      height: 100dvh;
+      min-height: 600px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 120px 24px 60px;
+      padding: 56px 24px 60px;
       overflow: hidden;
     }
     .hero-bg {
       position: absolute;
-      inset: 0; z-index: -2;
+      inset: 0; z-index: 0;
     }
     .hero-bg img {
       width: 100%; height: 100%;
       object-fit: cover;
-      object-position: center 35%;
+      object-position: center 40%;
     }
     .hero-overlay {
       position: absolute;
-      inset: 0; z-index: -1;
-      background: linear-gradient(
-        180deg,
-        rgba(11,13,15,0.55) 0%,
-        rgba(11,13,15,0.25) 35%,
-        rgba(11,13,15,0.2) 55%,
-        rgba(11,13,15,0.65) 100%
-      );
+      inset: 0; z-index: 1;
+      background: rgba(0,0,0,0.45);
     }
     .hero-content {
-      max-width: 860px;
-      animation: fadeInUp 0.9s ease-out 0.2s both;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--white);
-      background: rgba(16, 185, 129, 0.7);
-      backdrop-filter: blur(12px);
-      padding: 8px 18px;
-      border-radius: 100px;
-      margin-bottom: 28px;
-      border: 1px solid rgba(16, 185, 129, 0.4);
-    }
-    .hero-badge .dot {
-      width: 6px; height: 6px;
-      background: #4ADE80;
-      border-radius: 50%;
-      animation: pulse-dot 2s infinite;
+      position: relative; z-index: 2;
+      max-width: 760px;
+      animation: fadeInUp 0.8s ease-out 0.1s both;
     }
     .hero h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.8rem, 8vw, 5.2rem);
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      margin-bottom: 22px;
-    }
-    .hero h1 .text-accent {
-      background: linear-gradient(135deg, var(--accent-light), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero h1 .text-teal {
-      background: linear-gradient(135deg, var(--teal-light), var(--teal));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 800; letter-spacing: -.04em; line-height: 1.1;
+      color: #fff; margin-bottom: 18px;
     }
     .hero-subtitle {
-      font-size: clamp(1rem, 2.2vw, 1.2rem);
-      font-weight: 300;
-      color: rgba(255,255,255,0.85);
-      line-height: 1.7;
-      max-width: 600px;
-      margin: 0 auto 36px;
+      font-size: 1.1rem; color: rgba(255,255,255,0.88); line-height: 1.6;
+      max-width: 520px; margin: 0 auto 36px;
     }
-    .hero-actions {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap;
+    .hero-btns {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      justify-content: center; margin-bottom: 20px;
     }
-    .hero-login-hint {
-      margin-top: 16px;
-      font-size: .85rem;
-      color: rgba(255,255,255,.65);
-      text-align: center;
-    }
-    .hero-login-link {
-      color: rgba(255,255,255,.9);
-      text-decoration: underline;
-      font-weight: 600;
-    }
-    .hero-login-link:hover { color: white; }
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.92rem;
-      font-weight: 600;
-      color: var(--white);
-      background: var(--accent);
-      padding: 15px 32px;
-      border-radius: 100px;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .btn-primary:hover {
-      background: var(--accent-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(14, 165, 233,0.35);
-    }
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.92rem;
-      font-weight: 500;
-      color: var(--white);
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      border: 1.5px solid rgba(255,255,255,0.25);
-      padding: 15px 32px;
-      border-radius: 100px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.18);
-      border-color: rgba(255,255,255,0.45);
-    }
-    .btn-secondary-white {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 28px; border-radius: 50px;
-      background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
-      border: 1.5px solid rgba(255,255,255,0.4);
-      color: white; font-weight: 600; font-size: 1rem;
+    .btn-hero-primary {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem; font-weight: 700;
+      background: var(--accent); color: #fff;
+      padding: 14px 28px; border-radius: 100px;
       text-decoration: none; transition: all .2s;
+      border: 2px solid var(--accent);
     }
-    .btn-secondary-white:hover { background: rgba(255,255,255,0.25); }
-    .btn-teal {
-      background: var(--teal);
+    .btn-hero-primary:hover { background: var(--accent-text); border-color: var(--accent-text); transform: translateY(-2px); }
+    .btn-hero-ghost {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem; font-weight: 600;
+      background: transparent; color: #fff;
+      padding: 14px 28px; border-radius: 100px;
+      text-decoration: none; transition: all .2s;
+      border: 2px solid rgba(255,255,255,0.55);
     }
-    .btn-teal:hover {
-      background: var(--teal-dark);
-      box-shadow: 0 10px 28px rgba(16, 185, 129,0.35);
+    .btn-hero-ghost:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.8); transform: translateY(-2px); }
+    .hero-login-hint {
+      font-size: .82rem; color: rgba(255,255,255,0.65);
+    }
+    .hero-login-hint a { color: rgba(255,255,255,0.9); text-decoration: underline; text-underline-offset: 2px; }
+    .hero-login-hint a:hover { color: #fff; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2rem; }
+      .hero-subtitle { font-size: .95rem; }
+      .btn-hero-primary, .btn-hero-ghost { padding: 12px 20px; font-size: .88rem; }
     }
 
-    /* ── Common ── */
-    .section-padding { padding: 100px 24px; }
-    .container { max-width: 1120px; margin: 0 auto; }
-    .section-header { text-align: center; margin-bottom: 60px; }
+    /* ── Section wrapper ── */
+    .section {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 72px 24px;
+    }
     .section-label {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 14px;
+      font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px; display: block;
     }
     .section-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2rem, 4.5vw, 2.8rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.12;
-      color: var(--dark);
-      margin-bottom: 14px;
-    }
-    .section-subtitle {
-      font-size: 1.02rem;
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--gray-600);
-      max-width: 540px;
-      margin: 0 auto;
-    }
-
-    /* ── Features Pillars ── */
-    .features { background: var(--white); }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .feature-card {
-      position: relative;
-      padding: 40px 28px 36px;
-      border-radius: 20px;
-      background: var(--gray-50);
-      border: 1px solid var(--gray-200);
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      overflow: hidden;
-    }
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--accent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.06);
-      border-color: transparent;
-    }
-    .feature-card:hover::before { opacity: 1; }
-    .feature-card.teal-card::before { background: var(--teal); }
-    .feature-card-icon {
-      width: 52px; height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 14px;
-      font-size: 1.5rem;
-      margin-bottom: 22px;
-    }
-    .icon-accent { background: var(--accent-glow); }
-    .icon-teal { background: var(--teal-glow); }
-    .icon-purple { background: rgba(139,92,246,0.12); }
-    .icon-gold { background: rgba(245,166,35,0.12); }
-    .feature-card h3 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--dark);
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      font-weight: 800; letter-spacing: -.03em; color: var(--text);
       margin-bottom: 10px;
-      letter-spacing: -0.01em;
     }
-    .feature-card p {
-      font-size: 0.88rem;
-      font-weight: 400;
-      color: var(--gray-600);
-      line-height: 1.65;
-    }
-    .feature-card-tag {
-      display: inline-block;
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--teal);
-      background: var(--teal-glow);
-      padding: 4px 10px;
-      border-radius: 100px;
-      margin-top: 16px;
-    }
-    .feature-card-tag.accent-tag {
-      color: var(--accent);
-      background: var(--accent-glow);
+    .section-desc {
+      font-size: .95rem; color: var(--text-2); line-height: 1.6;
+      max-width: 520px; margin-bottom: 44px;
     }
 
-    /* ── World Map / Profile Section ── */
-    .map-section {
-      background: var(--gray-900);
-      color: var(--white);
-      position: relative;
-      overflow: hidden;
+    /* ── Hub section ── */
+    .hub-section {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
     }
-    .map-section .section-label { color: var(--teal-light); }
-    .map-section .section-title { color: var(--white); }
-    .map-section .section-subtitle { color: rgba(255,255,255,0.5); }
-
-    .map-layout {
+    .hub-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 56px;
-      align-items: center;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
     }
-    .map-visual {
-      position: relative;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 20px;
-      padding: 32px;
-      min-height: 360px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    @media (max-width: 900px) {
+      .hub-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    .world-map-svg {
-      width: 100%;
-      max-width: 480px;
-      opacity: 0.15;
+    @media (max-width: 480px) {
+      .hub-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     }
-    .map-pins {
-      position: absolute;
-      inset: 0;
+    .hub-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px 24px;
+      text-decoration: none;
+      display: flex; flex-direction: column; gap: 10px;
+      position: relative; overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
     }
-    .map-pin {
-      position: absolute;
-      width: 10px; height: 10px;
-      background: var(--accent);
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.8);
-      z-index: 2;
-    }
-    .map-pin::after {
+    .hub-card::before {
       content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: map-ping 2s infinite;
-      z-index: 1;
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--hub-color, var(--accent));
     }
-    .map-pin.teal { background: var(--teal); }
-    .map-pin.teal::after { background: var(--teal); }
-    .map-pin.gold { background: var(--gold); }
-    .map-pin.gold::after { background: var(--gold); }
-
-    /* Map visual placeholder label */
-    .map-visual-label {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.3);
-      text-align: center;
-      white-space: nowrap;
-      letter-spacing: 0.04em;
+    .hub-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
     }
-
-    .map-text-content h3 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      color: var(--white);
-      margin-bottom: 18px;
-    }
-    .map-text-content > p {
-      font-size: 1rem;
-      font-weight: 300;
-      line-height: 1.75;
-      color: rgba(255,255,255,0.55);
-      margin-bottom: 32px;
-    }
-    .map-feature-list {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-    .map-feature-item {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-    }
-    .map-feature-icon {
-      width: 36px; height: 36px;
-      min-width: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      font-size: 1rem;
-    }
-    .map-feature-item h4 {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--white);
+    .hub-icon {
+      font-size: 2rem; line-height: 1;
       margin-bottom: 2px;
     }
-    .map-feature-item p {
-      font-size: 0.82rem;
-      color: rgba(255,255,255,0.45);
-      line-height: 1.55;
+    .hub-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem; font-weight: 700; letter-spacing: -.02em;
+      color: var(--text);
+    }
+    .hub-desc {
+      font-size: .82rem; color: var(--text-2); line-height: 1.5;
+      flex: 1;
+    }
+    .hub-cta {
+      font-size: .8rem; font-weight: 600;
+      color: var(--hub-color, var(--accent));
+      margin-top: 4px;
     }
 
-    /* ── Matching / Social Section ── */
-    .matching { background: var(--sand); }
-    .matching-layout {
+    /* ── Destinos section ── */
+    .dest-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    .dest-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      display: flex; flex-direction: column;
+    }
+    .dest-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .dest-img {
+      width: 100%; height: 140px;
+      object-fit: cover;
+      display: block;
+    }
+    .dest-info {
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 6px;
+      flex: 1;
+    }
+    .dest-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem; font-weight: 700; letter-spacing: -.02em;
+      color: var(--text);
+    }
+    .dest-desc {
+      font-size: .78rem; color: var(--text-2); line-height: 1.5;
+      flex: 1;
+    }
+    .dest-cta {
+      font-size: .75rem; font-weight: 600; color: var(--accent);
+      margin-top: 4px;
+    }
+    .dest-more-wrap {
+      text-align: center;
+    }
+    .btn-dest-more {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .88rem; font-weight: 600; color: var(--accent);
+      text-decoration: none; padding: 10px 24px; border-radius: 100px;
+      border: 1.5px solid var(--accent); transition: all .2s;
+    }
+    .btn-dest-more:hover { background: var(--accent-light); }
+
+    /* ── Profile feature section ── */
+    .profile-section {
+      background: #151820;
+      padding: 80px 24px;
+    }
+    .profile-inner {
+      max-width: 1080px;
+      margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 56px;
+      gap: 60px;
       align-items: center;
     }
-
-    /* Matching visual mockup (no fake user data) */
-    .matching-visual {
-      position: relative;
-      min-height: 340px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    @media (max-width: 768px) {
+      .profile-inner { grid-template-columns: 1fr; gap: 40px; }
     }
-    .matching-mockup {
-      background: var(--white);
-      border-radius: 20px;
-      padding: 32px 28px;
-      box-shadow: 0 16px 48px rgba(0,0,0,0.08);
-      border: 1px solid var(--gray-200);
-      width: 100%;
-      max-width: 360px;
+    .profile-label {
+      font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 10px; display: block;
     }
-    .matching-mockup-header {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gray-500);
-      margin-bottom: 20px;
+    .profile-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 800; letter-spacing: -.04em; line-height: 1.1;
+      color: #fff; margin-bottom: 14px;
     }
-    .filter-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 24px;
-    }
-    .filter-pill {
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 6px 14px;
-      border-radius: 100px;
-      background: var(--gray-100);
-      color: var(--gray-600);
-      border: 1.5px solid transparent;
-    }
-    .filter-pill.active {
-      background: var(--teal-glow);
-      color: var(--teal);
-      border-color: var(--teal-light);
-    }
-    .filter-pill.accent-active {
-      background: var(--accent-glow);
-      color: var(--accent);
-      border-color: var(--accent-light);
-    }
-    .mockup-cta {
-      background: var(--teal);
-      color: var(--white);
-      border: none;
-      border-radius: 12px;
-      padding: 14px 20px;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      width: 100%;
-      cursor: default;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .mockup-hint {
-      font-size: 0.7rem;
-      color: var(--gray-500);
-      text-align: center;
-      margin-top: 12px;
-    }
-
-    .matching-text h3 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      color: var(--dark);
-      margin-bottom: 18px;
-    }
-    .matching-text > p {
-      font-size: 1rem;
-      font-weight: 300;
-      line-height: 1.75;
-      color: var(--gray-600);
+    .profile-subtitle {
+      font-size: .95rem; color: rgba(255,255,255,0.6); line-height: 1.6;
       margin-bottom: 32px;
     }
-    .matching-checklist {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    .profile-features {
+      display: flex; flex-direction: column; gap: 20px;
+      margin-bottom: 36px;
     }
-    .matching-check-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.9rem;
-      color: var(--gray-600);
+    .profile-feature {
+      display: flex; align-items: flex-start; gap: 14px;
     }
-    .check-icon {
-      width: 24px; height: 24px;
-      min-width: 24px;
-      background: var(--teal-glow);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--teal);
-      font-size: 0.7rem;
-      font-weight: 800;
+    .pf-icon {
+      font-size: 1.3rem; flex-shrink: 0;
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
     }
-
-    /* ── How It Works ── */
-    .how-it-works {
-      background: var(--white);
-    }
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      position: relative;
-    }
-    .steps-grid::before {
-      content: '';
-      position: absolute;
-      top: 52px;
-      left: calc(16.6% + 10px);
-      right: calc(16.6% + 10px);
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--teal), var(--accent));
-      opacity: 0.2;
-    }
-    .step-card {
-      text-align: center;
-      padding: 0 12px;
-    }
-    .step-number-circle {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: var(--accent-glow);
-      border: 2px solid rgba(14,165,233,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-      font-size: 1.4rem;
-      position: relative;
-      z-index: 2;
-      transition: all 0.3s;
-    }
-    .step-card:hover .step-number-circle {
-      background: var(--accent);
-      border-color: var(--accent);
-      transform: scale(1.05);
-    }
-    .step-card h3 {
+    .pf-body { flex: 1; }
+    .pf-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 8px;
-      letter-spacing: -0.01em;
+      font-size: .88rem; font-weight: 700; color: #fff; margin-bottom: 3px;
     }
-    .step-card p {
-      font-size: 0.84rem;
-      font-weight: 400;
-      color: var(--gray-600);
-      line-height: 1.6;
+    .pf-desc {
+      font-size: .78rem; color: rgba(255,255,255,0.5); line-height: 1.5;
     }
+    .btn-profile-cta {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .92rem; font-weight: 700;
+      background: var(--teal); color: #fff;
+      padding: 14px 28px; border-radius: 100px;
+      text-decoration: none; transition: all .2s; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-profile-cta:hover { background: #0D9488; transform: translateY(-2px); }
 
-    /* ── Gamification / Badges ── */
-    .gamification {
-      background: linear-gradient(135deg, var(--gray-900) 0%, #1a1f2e 100%);
-      color: var(--white);
+    /* Profile visual */
+    .profile-visual {
       position: relative;
+    }
+    .profile-map-card {
+      background: #1E2330;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 28px;
       overflow: hidden;
     }
-    .gamification::before {
-      content: '';
-      position: absolute;
-      top: -100px; right: -100px;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-      pointer-events: none;
+    .pmc-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
     }
-    .gamification::after {
-      content: '';
-      position: absolute;
-      bottom: -100px; left: -100px;
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
-      pointer-events: none;
+    .pmc-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .9rem; font-weight: 700; color: #fff;
     }
-    .gamification .section-label { color: var(--gold); }
-    .gamification .section-title { color: var(--white); }
-    .gamification .section-subtitle { color: rgba(255,255,255,0.5); }
-
-    .badges-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 20px;
-      position: relative;
-      z-index: 1;
+    .pmc-badge {
+      font-size: .68rem; font-weight: 700;
+      background: rgba(16,185,129,0.15);
+      color: var(--teal);
+      border: 1px solid rgba(16,185,129,0.3);
+      padding: 4px 10px; border-radius: 100px;
     }
-    .badge-card {
+    .pmc-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      margin-bottom: 20px;
+    }
+    .pmc-stat {
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 18px;
-      padding: 28px 16px;
-      text-align: center;
-      transition: all 0.35s;
-    }
-    .badge-card:hover {
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.15);
-      transform: translateY(-4px);
-    }
-    .badge-icon {
-      font-size: 2.2rem;
-      margin-bottom: 14px;
-      display: block;
-      animation: badge-bounce 3s ease-in-out infinite;
-    }
-    .badge-card:nth-child(2) .badge-icon { animation-delay: 0.3s; }
-    .badge-card:nth-child(3) .badge-icon { animation-delay: 0.6s; }
-    .badge-card:nth-child(4) .badge-icon { animation-delay: 0.9s; }
-    .badge-card:nth-child(5) .badge-icon { animation-delay: 1.2s; }
-    .badge-card h4 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 4px;
-    }
-    .badge-card p {
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.4);
-      line-height: 1.5;
-    }
-
-    .gamification-extras {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-top: 48px;
-      position: relative;
-      z-index: 1;
-    }
-    .gamification-extra-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px;
-      padding: 28px 24px;
-      transition: all 0.3s;
-    }
-    .gamification-extra-card:hover {
-      background: rgba(255,255,255,0.07);
-      border-color: rgba(255,255,255,0.1);
-    }
-    .gamification-extra-card h4 {
-      font-size: 0.92rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .gamification-extra-card p {
-      font-size: 0.82rem;
-      color: rgba(255,255,255,0.45);
-      line-height: 1.6;
-    }
-
-    /* ── Waitlist Section ── */
-    .waitlist-section {
-      background: var(--sand);
-      position: relative;
-      overflow: hidden;
-    }
-    .waitlist-section::before {
-      content: '';
-      position: absolute;
-      top: -80px; right: -80px;
-      width: 350px; height: 350px;
-      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .waitlist-box {
-      max-width: 680px;
-      margin: 0 auto;
+      border-radius: 12px;
+      padding: 14px 12px;
       text-align: center;
     }
-    .waitlist-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-    .waitlist-eyebrow .dot {
-      width: 6px; height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: pulse-dot 2s infinite;
-    }
-    .waitlist-box h2 {
+    .pmc-stat-num {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2rem, 4.5vw, 3rem);
-      font-weight: 700;
-      color: var(--dark);
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 16px;
+      font-size: 1.4rem; font-weight: 800; color: #fff; display: block;
     }
-    .waitlist-box h2 .text-accent {
-      background: linear-gradient(135deg, var(--accent-light), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .pmc-stat-label {
+      font-size: .68rem; color: rgba(255,255,255,0.4); margin-top: 2px; display: block;
     }
-    .waitlist-box > p {
-      font-size: 1.05rem;
-      font-weight: 300;
-      color: var(--gray-600);
-      line-height: 1.7;
-      margin-bottom: 40px;
-      max-width: 520px;
-      margin-left: auto;
-      margin-right: auto;
+    .pmc-pins {
+      display: flex; flex-wrap: wrap; gap: 8px;
     }
-    .waitlist-form-wrap {
-      background: var(--dark);
-      border-radius: 24px;
-      padding: 40px 36px;
-      position: relative;
-      overflow: hidden;
-    }
-    .waitlist-form-wrap::before {
-      content: '';
-      position: absolute;
-      top: -60%; right: -20%;
-      width: 350px; height: 350px;
-      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .waitlist-form-wrap::after {
-      content: '';
-      position: absolute;
-      bottom: -40%; left: -15%;
-      width: 280px; height: 280px;
-      background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .waitlist-form-wrap h3 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: -0.02em;
-      margin-bottom: 6px;
-      position: relative;
-      z-index: 1;
-    }
-    .waitlist-form-wrap > p {
-      font-size: 0.88rem;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 24px;
-      position: relative;
-      z-index: 1;
-    }
-    .email-form {
-      display: flex;
-      gap: 0;
-      max-width: 480px;
-      margin: 0 auto;
-      background: rgba(255,255,255,0.07);
+    .pmc-pin {
+      font-size: .75rem; font-weight: 500; color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      overflow: hidden;
-      transition: all 0.3s;
-      position: relative;
-      z-index: 1;
+      padding: 5px 11px; border-radius: 100px;
     }
-    .email-form:focus-within {
-      border-color: var(--accent);
-      background: rgba(255,255,255,0.1);
-    }
-    .email-form input[type="email"] {
-      flex: 1;
-      padding: 16px 20px;
-      border: none;
-      outline: none;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
-      color: var(--white);
-      background: transparent;
-      min-width: 0;
-    }
-    .email-form input::placeholder { color: rgba(255,255,255,0.3); }
-    .email-form button {
-      padding: 16px 26px;
-      background: var(--accent);
-      color: var(--white);
-      border: none;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.84rem;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.3s;
-    }
-    .email-form button:hover { background: var(--accent-dark); }
-    .form-hint {
-      margin-top: 14px;
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.3);
-      position: relative;
-      z-index: 1;
-    }
-    .form-success {
-      color: #4ADE80 !important;
-      font-size: 1rem !important;
-      font-weight: 500 !important;
-    }
-    .waitlist-perks {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-      margin-top: 32px;
-      position: relative;
-      z-index: 1;
-    }
-    .waitlist-perk {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.5);
-    }
-    .waitlist-perk .perk-icon {
-      font-size: 1rem;
-    }
+    .pmc-pin.highlight { color: var(--teal); border-color: rgba(16,185,129,0.3); }
 
-    /* ── CTA / Signup ── */
-    .cta-section { background: var(--white); }
-    .cta-box {
-      max-width: 720px;
-      margin: 0 auto;
-      background: linear-gradient(135deg, var(--dark) 0%, var(--gray-800) 50%, var(--gray-900) 100%);
-      border-radius: 28px;
-      padding: 64px 48px;
+    /* ── CTA section ── */
+    .cta-section {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+      padding: 80px 24px;
       text-align: center;
-      position: relative;
-      overflow: hidden;
     }
-    .cta-box::before {
-      content: '';
-      position: absolute;
-      top: -60%; right: -20%;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-      pointer-events: none;
+    .cta-inner {
+      max-width: 560px;
+      margin: 0 auto;
     }
-    .cta-box::after {
-      content: '';
-      position: absolute;
-      bottom: -40%; left: -15%;
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
-      pointer-events: none;
+    .cta-title {
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-weight: 800; letter-spacing: -.04em; color: var(--text);
+      margin-bottom: 14px;
     }
-    .cta-box h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: -0.03em;
-      margin-bottom: 10px;
-      position: relative;
-    }
-    .cta-box > p {
-      font-size: 0.95rem;
-      font-weight: 300;
-      color: rgba(255,255,255,0.55);
+    .cta-desc {
+      font-size: .95rem; color: var(--text-2); line-height: 1.6;
       margin-bottom: 32px;
-      position: relative;
     }
+    .btn-cta-main {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      background: var(--accent); color: #fff;
+      padding: 16px 36px; border-radius: 100px;
+      text-decoration: none; transition: all .2s;
+      display: inline-block; margin-bottom: 16px;
+    }
+    .btn-cta-main:hover { background: var(--accent-text); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(14,165,233,0.3); }
+    .cta-login-hint {
+      font-size: .82rem; color: var(--text-3); display: block; margin-bottom: 44px;
+    }
+    .cta-login-hint a { color: var(--accent); text-decoration: none; }
+    .cta-login-hint a:hover { text-decoration: underline; }
+    .cta-perks {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 24px;
+    }
+    .cta-perk {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .82rem; color: var(--text-2);
+    }
+    .cta-perk-icon { font-size: 1rem; }
 
     /* ── Footer ── */
     footer {
-      padding: 64px 24px 28px;
-      background: var(--dark);
-      color: var(--white);
+      background: #0F172A;
+      color: rgba(255,255,255,0.7);
+      padding: 60px 24px 32px;
     }
     .footer-inner {
-      max-width: 1120px;
+      max-width: 1080px;
       margin: 0 auto;
+    }
+    .footer-grid {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 48px;
-      margin-bottom: 48px;
+      gap: 40px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 28px;
     }
-    .footer-brand {
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .footer-brand-logo {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
+      font-size: 1.2rem; font-weight: 700; color: #fff;
+      text-decoration: none; display: flex; align-items: center; gap: 7px;
       margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
-    .footer-desc {
-      font-size: 0.82rem;
-      font-weight: 300;
-      color: rgba(255,255,255,0.35);
-      line-height: 1.7;
-      max-width: 280px;
+    .footer-brand-desc {
+      font-size: .82rem; line-height: 1.6; color: rgba(255,255,255,0.5);
+      max-width: 240px;
     }
     .footer-col h4 {
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-      margin-bottom: 18px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .78rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.4);
+      margin-bottom: 14px;
     }
     .footer-col a {
-      display: block;
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.55);
-      text-decoration: none;
-      margin-bottom: 10px;
-      transition: color 0.3s;
+      display: block; font-size: .82rem; color: rgba(255,255,255,0.6);
+      text-decoration: none; margin-bottom: 10px; transition: color .2s;
     }
-    .footer-col a:hover { color: var(--white); }
+    .footer-col a:hover { color: #fff; }
     .footer-bottom {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding-top: 28px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
     }
     .footer-copy {
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.2);
+      font-size: .78rem; color: rgba(255,255,255,0.3);
     }
     .social-links {
-      display: flex;
-      gap: 10px;
+      display: flex; gap: 14px;
     }
     .social-link {
-      width: 34px; height: 34px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.05);
-      text-decoration: none;
-      transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px; border-radius: 8px;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5); transition: all .2s;
     }
-    .social-link:hover { background: rgba(255,255,255,0.1); }
-    .social-link svg {
-      width: 15px; height: 15px;
-      fill: rgba(255,255,255,0.45);
-      transition: fill 0.3s;
-    }
-    .social-link:hover svg { fill: var(--white); }
-
-    /* ── Mobile ── */
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .mobile-menu-btn { display: block; }
-      .hero { padding: 100px 20px 50px; }
-      .hero-actions { flex-direction: column; align-items: center; }
-      .btn-primary, .btn-secondary, .btn-secondary-white { width: 100%; max-width: 300px; justify-content: center; }
-      .section-padding { padding: 72px 20px; }
-      .features-grid { grid-template-columns: 1fr; gap: 16px; }
-      .map-layout { grid-template-columns: 1fr; gap: 36px; }
-      .map-visual { min-height: 280px; }
-      .matching-layout { grid-template-columns: 1fr; gap: 36px; }
-      .steps-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
-      .steps-grid::before { display: none; }
-      .badges-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .badges-grid .badge-card:last-child { grid-column: 1 / -1; max-width: 200px; margin: 0 auto; }
-      .gamification-extras { grid-template-columns: 1fr; gap: 12px; }
-      .cta-box { padding: 44px 22px; border-radius: 22px; }
-      .waitlist-form-wrap { padding: 28px 18px; border-radius: 18px; }
-      .email-form { flex-direction: column; border-radius: 12px; }
-      .email-form input[type="email"] { text-align: center; }
-      .email-form button { border-radius: 0; padding: 14px; }
-      .footer-inner { grid-template-columns: 1fr 1fr; gap: 28px; }
-      .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
-      .waitlist-perks { gap: 16px; }
-    }
-
-    @media (max-width: 480px) {
-      .steps-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (min-width: 769px) and (max-width: 1023px) {
-      nav { padding: 14px max(24px, calc((100% - 1200px) / 2 + 24px)); }
-      nav.scrolled { padding: 10px max(24px, calc((100% - 1200px) / 2 + 24px)); }
-      .nav-links { gap: 14px; }
-      .nav-link { font-size: .78rem; }
-      /* Hide secondary links on medium screens — hamburger covers them */
-      #nav-link-funciones, #nav-link-tengo-destino { display: none !important; }
-    }
-    @media (min-width: 1024px) {
-      nav { padding: 22px max(48px, calc((100% - 1200px) / 2 + 48px)); }
-      nav.scrolled { padding: 14px max(48px, calc((100% - 1200px) / 2 + 48px)); }
-      .section-padding { padding: 110px 48px; }
-    }
-
-    @media (min-width: 1200px) {
-      nav { padding: 24px max(72px, calc((100% - 1200px) / 2 + 72px)); }
-      .section-padding { padding: 130px 72px; }
-    }
-
-    /* Mobile menu open state */
-    .nav-links.open {
-      display: flex !important;
-      flex-direction: column;
-      position: fixed;
-      top: 56px;
-      left: 0; right: 0;
-      background: rgba(255,255,255,0.98);
-      backdrop-filter: blur(20px);
-      padding: 20px 24px;
-      gap: 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-      animation: slideDown 0.3s ease-out;
-    }
-    .nav-links.open .nav-link { color: var(--dark) !important; }
-    .nav-links.open .nav-cta { text-align: center; display: block; }
-    /* Auth-hidden items stay hidden even in open mobile menu */
-    .nav-links.open a[style*="display: none"],
-    .nav-links.open a[style*="display:none"] { display: none !important; }
+    .social-link:hover { background: rgba(255,255,255,0.13); color: #fff; }
+    .social-link svg { width: 16px; height: 16px; fill: currentColor; }
   </style>
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav id="nav" aria-label="Navegaci&oacute;n principal">
-    <a href="index.html" class="nav-logo" aria-label="ViajeraMente - Inicio">
-      <span class="nav-logo-icon" aria-hidden="true">V</span>
+<!-- ── Nav ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" id="navLogo">
+      <span class="nav-logo-icon">✈️</span>
       ViajeraMente
     </a>
-    <div class="nav-links" id="nav-links">
-      <a href="#features" class="nav-link" id="nav-link-funciones">Funciones</a>
-      <a href="plan.html" class="nav-link">Planificador</a>
-      <a href="fechas.html" class="nav-link">¿Adónde ir?</a>
-      <a href="destino-elegido.html" class="nav-link" id="nav-link-tengo-destino">Tengo destino</a>
-      <a href="guias.html" class="nav-link">Guías</a>
-      <a href="ranking.html" class="nav-link">🏆 Ranking</a>
-      <a href="profile.html" class="nav-link" id="nav-profile" style="display:none;">Mi perfil</a>
-      <a href="login.html" class="nav-link" id="nav-login">Iniciar sesión</a>
-      <a href="signup.html" class="nav-cta" id="nav-signup">Crear cuenta</a>
+    <div class="nav-links">
+      <a href="guias.html">Guías</a>
+      <a href="fechas.html">¿Adónde ir?</a>
+      <a href="plan.html">Planificador</a>
+      <a href="mapa.html">🌍 Mi mapa</a>
+      <a href="ranking.html">🏆 Ranking</a>
     </div>
-    <button class="mobile-menu-btn" id="mobile-menu" aria-label="Abrir men&uacute; de navegaci&oacute;n" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <!-- Hero -->
-  <header class="hero" role="banner">
-    <div class="hero-bg">
-      <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1800&q=80" alt="Grupo de viajeros explorando un paisaje al atardecer" loading="eager" width="1800" height="1200">
-    </div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <div class="hero-badge"><span class="dot" aria-hidden="true"></span> Ya disponible &mdash; Crea tu perfil de viajero</div>
-      <h1>Tu pr&oacute;ximo viaje<br><span class="text-accent">empieza aqu&iacute;.</span></h1>
-      <p class="hero-subtitle">
-        Elige destino, planifica tu ruta, registra los pa&iacute;ses que ya has pisado.
-        Sin publicidad, sin fluff. Solo info &uacute;til y una comunidad que viaja de verdad.
-      </p>
-      <div class="hero-actions">
-        <a href="signup.html" class="btn-primary">Empieza gratis</a>
-        <a href="fechas.html" class="btn-secondary-white">¿Cuándo viajar?</a>
-        <a href="destino-elegido.html" class="btn-secondary-white">Ya sé adónde voy</a>
+    <div class="nav-right">
+      <div id="nav-guest">
+        <a href="login.html" class="btn-nav-login">Entrar</a>
+        <a href="signup.html" class="btn-nav-signup">Registrarse</a>
       </div>
-      <p class="hero-login-hint">¿Ya tienes cuenta? <a href="login.html" class="hero-login-link">Iniciar sesión</a></p>
-    </div>
-  </header>
-
-  <!-- How It Works -->
-  <section class="how-it-works section-padding" id="como-funciona" aria-labelledby="how-title">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-label reveal">C&oacute;mo funciona</span>
-        <h2 class="section-title reveal" id="how-title">De la idea<br>al viaje en 3 pasos</h2>
-        <p class="section-subtitle reveal">Sin buscar en diez webs distintas ni abrir 40 pesta&ntilde;as. Todo en un sitio.</p>
-      </div>
-      <div class="steps-grid" style="grid-template-columns: repeat(3, 1fr);">
-        <div class="step-card reveal">
-          <div class="step-number-circle">&#x1F50D;</div>
-          <h3>Descubre destinos</h3>
-          <p>Elige el mes o el pa&iacute;s que te llama. Te mostramos cu&aacute;ndo ir, qu&eacute; esperar y cu&aacute;nto cuesta de verdad.</p>
-        </div>
-        <div class="step-card reveal reveal-delay-1">
-          <div class="step-number-circle">&#x1F5FA;&#xFE0F;</div>
-          <h3>Planifica tu viaje</h3>
-          <p>Gu&iacute;as r&aacute;pidas con los imprescindibles: mejor &eacute;poca, presupuesto por d&iacute;a, visados, rutas recomendadas.</p>
-        </div>
-        <div class="step-card reveal reveal-delay-2">
-          <div class="step-number-circle">&#x1F4CD;</div>
-          <h3>Registra tus aventuras</h3>
-          <p>Marca los pa&iacute;ses que has visitado, los kil&oacute;metros recorridos y las maravillas del mundo que ya has tachado.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Las 3 cosas que puedes hacer -->
-  <section class="features section-padding" id="features" aria-labelledby="features-title">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-label reveal">Por d&oacute;nde empezar</span>
-        <h2 class="section-title reveal" id="features-title">Tres cosas concretas<br>que puedes hacer hoy</h2>
-      </div>
-      <div class="features-grid" style="grid-template-columns: repeat(3, 1fr);">
-        <article class="feature-card reveal" aria-label="&iquest;A d&oacute;nde ir?">
-          <div class="feature-card-icon icon-accent" aria-hidden="true">&#x1F4C5;</div>
-          <h3>&iquest;A d&oacute;nde ir?</h3>
-          <p>Dime el mes y te digo qu&eacute; destinos tienen buen clima, precios razonables y menos gente. Sin buscar en diez webs diferentes.</p>
-          <a href="fechas.html" class="feature-card-tag accent-tag" style="text-decoration:none; display:inline-block; margin-top:20px;">Ver por mes &rarr;</a>
-        </article>
-        <article class="feature-card teal-card reveal reveal-delay-1" aria-label="Ya tengo destino">
-          <div class="feature-card-icon icon-teal" aria-hidden="true">&#x2708;&#xFE0F;</div>
-          <h3>Ya s&eacute; ad&oacute;nde voy</h3>
-          <p>Gu&iacute;a real: visado seg&uacute;n tu pasaporte, mejor &eacute;poca, cuesti&oacute;n de presupuesto diario y qu&eacute; no te puedes perder. Todo en una p&aacute;gina.</p>
-          <a href="guias.html" class="feature-card-tag" style="text-decoration:none; display:inline-block; margin-top:20px;">Ver gu&iacute;as &rarr;</a>
-        </article>
-        <article class="feature-card reveal reveal-delay-2" aria-label="Mi perfil viajero">
-          <div class="feature-card-icon icon-purple" aria-hidden="true">&#x1F5FA;&#xFE0F;</div>
-          <h3>Mi mapa de viajes</h3>
-          <p>Marca los pa&iacute;ses que has pisado, las maravillas que has visto y los viajes que tienes pendientes. Tu historial en un mapa interactivo.</p>
-          <a href="profile.html" class="feature-card-tag accent-tag" style="text-decoration:none; display:inline-block; margin-top:20px;">Abrir mi mapa &rarr;</a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Destinos Populares -->
-  <section class="section-padding" id="destinos" aria-labelledby="destinos-title" style="background: var(--sand);">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-label reveal">Destinos populares</span>
-        <h2 class="section-title reveal" id="destinos-title">Los destinos que m&aacute;s<br>se est&aacute;n planificando</h2>
-        <p class="section-subtitle reveal">Pulsa en cualquiera para ver la gu&iacute;a completa: cu&aacute;ndo ir, qu&eacute; ver y cu&aacute;nto cuesta.</p>
-      </div>
-      <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto;">
-        <a href="destino.html?slug=japon" style="text-decoration:none; display:block; background:var(--white); border:1px solid var(--gray-200); border-radius:20px; overflow:hidden; transition:all 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 48px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
-          <div style="height:140px; overflow:hidden;"><img src="https://images.pexels.com/photos/34720599/pexels-photo-34720599.jpeg?auto=compress&cs=tinysrgb&w=400&h=220&fit=crop" alt="Japón" style="width:100%;height:100%;object-fit:cover;transition:transform .4s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"></div>
-          <div style="padding: 18px 18px 20px;">
-            <h4 style="font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:4px;">Jap&oacute;n</h4>
-            <p style="font-size:0.8rem; color:var(--gray-600); line-height:1.5;">Flores de cerezo en marzo, hojas rojas en noviembre. Vuelos desde ~600&euro;.</p>
-            <span style="display:inline-block; margin-top:10px; font-size:0.72rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em;">Ver gu&iacute;a &rarr;</span>
-          </div>
-        </a>
-        <a href="destino.html?slug=tailandia" style="text-decoration:none; display:block; background:var(--white); border:1px solid var(--gray-200); border-radius:20px; overflow:hidden; transition:all 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 48px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
-          <div style="height:140px; overflow:hidden;"><img src="https://images.pexels.com/photos/130159/pexels-photo-130159.jpeg?auto=compress&cs=tinysrgb&w=400&h=220&fit=crop" alt="Tailandia" style="width:100%;height:100%;object-fit:cover;transition:transform .4s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"></div>
-          <div style="padding: 18px 18px 20px;">
-            <h4 style="font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:4px;">Tailandia</h4>
-            <p style="font-size:0.8rem; color:var(--gray-600); line-height:1.5;">Noviembre a febrero: la &eacute;poca ideal. Playas, templos y comida callejera.</p>
-            <span style="display:inline-block; margin-top:10px; font-size:0.72rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em;">Ver gu&iacute;a &rarr;</span>
-          </div>
-        </a>
-        <a href="destino.html?slug=grecia" style="text-decoration:none; display:block; background:var(--white); border:1px solid var(--gray-200); border-radius:20px; overflow:hidden; transition:all 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 48px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
-          <div style="height:140px; overflow:hidden;"><img src="https://images.pexels.com/photos/3485939/pexels-photo-3485939.jpeg?auto=compress&cs=tinysrgb&w=400&h=220&fit=crop" alt="Grecia" style="width:100%;height:100%;object-fit:cover;transition:transform .4s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"></div>
-          <div style="padding: 18px 18px 20px;">
-            <h4 style="font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:4px;">Grecia</h4>
-            <p style="font-size:0.8rem; color:var(--gray-600); line-height:1.5;">Mayo-junio o septiembre: menos gente, mejor precio. Islas + Atenas en 10-14 días.</p>
-            <span style="display:inline-block; margin-top:10px; font-size:0.72rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em;">Ver guía &rarr;</span>
-          </div>
-        </a>
-        <a href="destino.html?slug=colombia" style="text-decoration:none; display:block; background:var(--white); border:1px solid var(--gray-200); border-radius:20px; overflow:hidden; transition:all 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 48px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
-          <div style="height:140px; overflow:hidden;"><img src="https://images.pexels.com/photos/3155666/pexels-photo-3155666.jpeg?auto=compress&cs=tinysrgb&w=400&h=220&fit=crop" alt="Colombia" style="width:100%;height:100%;object-fit:cover;transition:transform .4s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"></div>
-          <div style="padding: 18px 18px 20px;">
-            <h4 style="font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:4px;">Colombia</h4>
-            <p style="font-size:0.8rem; color:var(--gray-600); line-height:1.5;">Cartagena, Medellín y la región cafetera. Buen clima todo el año.</p>
-            <span style="display:inline-block; margin-top:10px; font-size:0.72rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em;">Ver guía &rarr;</span>
-          </div>
+      <div id="nav-user" style="display:none">
+        <a href="profile.html" class="nav-avatar" id="nav-avatar-link" title="Mi perfil">
+          <span id="nav-initials">?</span>
         </a>
       </div>
-      <div class="reveal" style="text-align:center; margin-top:36px;">
-        <a href="guias.html" style="display:inline-flex; align-items:center; gap:8px; padding:12px 28px; border:1.5px solid var(--gray-300); border-radius:100px; font-size:0.9rem; font-weight:600; color:var(--dark); text-decoration:none; transition:all .2s; font-family:'Inter',sans-serif;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--gray-300)';this.style.color='var(--dark)'">
-          Ver todos los destinos &rarr;
-        </a>
-      </div>
+      <button class="nav-hamburger" onclick="openMobileMenu()" aria-label="Menú">☰</button>
     </div>
-  </section>
+  </div>
+</nav>
 
-  <!-- Social Proof / Numbers -->
-  <section class="section-padding" id="numeros" aria-label="N&uacute;meros de ViajeraMente" style="background: var(--white); border-top: 1px solid var(--gray-100);">
-    <div class="container">
-      <div class="reveal" style="display:flex; justify-content:center; align-items:center; gap:60px; flex-wrap:wrap; text-align:center;">
-        <div>
-          <div style="font-family:'Space Grotesk',sans-serif; font-size:2.8rem; font-weight:800; color:var(--dark); letter-spacing:-0.04em; line-height:1;">47</div>
-          <div style="font-size:0.82rem; font-weight:500; color:var(--gray-600); margin-top:6px; letter-spacing:0.02em;">destinos con gu&iacute;a completa</div>
-        </div>
-        <div style="width:1px; height:48px; background:var(--gray-200);"></div>
-        <div>
-          <div style="font-family:'Space Grotesk',sans-serif; font-size:2.8rem; font-weight:800; color:var(--dark); letter-spacing:-0.04em; line-height:1;">5</div>
-          <div style="font-size:0.82rem; font-weight:500; color:var(--gray-600); margin-top:6px; letter-spacing:0.02em;">rutas &eacute;picas documentadas</div>
-        </div>
-        <div style="width:1px; height:48px; background:var(--gray-200);"></div>
-        <div>
-          <div style="font-family:'Space Grotesk',sans-serif; font-size:2.8rem; font-weight:800; color:var(--dark); letter-spacing:-0.04em; line-height:1;">&#x1F30D;</div>
-          <div style="font-size:0.82rem; font-weight:500; color:var(--gray-600); margin-top:6px; letter-spacing:0.02em;">comunidad de viajeros activa</div>
-        </div>
-      </div>
+<!-- ── Mobile overlay menu ── -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenuOnBg(event)">
+  <div class="mobile-menu">
+    <div class="mobile-menu-header">
+      <a href="index.html" class="nav-logo" style="font-size:1rem;">
+        <span class="nav-logo-icon">✈️</span> ViajeraMente
+      </a>
+      <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Cerrar">✕</button>
     </div>
-  </section>
-
-  <!-- World Map / Profile Section -->
-  <section class="map-section section-padding" id="tu-mapa" aria-labelledby="map-title">
-    <div class="container">
-      <div class="map-layout">
-        <div class="map-visual reveal" aria-label="Ilustraci&oacute;n del mapa mundial interactivo de perfil">
-          <!-- Simplified world map SVG -->
-          <svg class="world-map-svg" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M140 120 L180 100 L220 110 L240 90 L260 95 L280 80 L300 85 L290 110 L270 130 L250 140 L230 150 L210 160 L190 170 L160 165 L140 150 Z" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
-            <path d="M100 180 L130 150 L160 160 L180 170 L200 180 L210 200 L200 230 L180 260 L160 280 L140 300 L120 310 L100 290 L90 260 L85 230 L90 200 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
-            <path d="M350 80 L400 60 L450 70 L500 65 L530 75 L550 90 L540 110 L520 130 L490 140 L460 135 L430 140 L400 130 L380 120 L360 110 Z" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
-            <path d="M400 140 L440 145 L460 160 L480 180 L470 210 L450 230 L430 250 L410 260 L390 250 L380 230 L375 200 L380 170 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
-            <path d="M560 90 L600 70 L650 80 L700 75 L720 90 L710 120 L690 150 L660 160 L630 155 L600 140 L580 120 Z" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
-            <path d="M600 200 L650 190 L700 200 L720 220 L710 250 L690 270 L660 280 L630 275 L610 260 L600 240 L595 220 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
-          </svg>
-          <!-- Map pins (illustrative) -->
-          <div class="map-pins" aria-hidden="true">
-            <div class="map-pin" style="top:28%;left:38%" title="Madrid, Espa&ntilde;a"></div>
-            <div class="map-pin teal" style="top:55%;left:22%" title="Bogot&aacute;, Colombia"></div>
-            <div class="map-pin" style="top:22%;left:68%" title="Tokio, Jap&oacute;n"></div>
-            <div class="map-pin gold" style="top:35%;left:52%" title="Katmand&uacute;, Nepal"></div>
-            <div class="map-pin teal" style="top:68%;left:75%" title="Bali, Indonesia"></div>
-          </div>
-          <span class="map-visual-label">Tu mapa personal &mdash; cada pa&iacute;s que pises se iluminar&aacute;</span>
-        </div>
-        <div class="map-text-content">
-          <span class="section-label reveal" style="color:var(--teal-light)">Mi perfil viajero</span>
-          <h3 class="reveal" id="map-title">Tu mapa.<br>Tu historia.</h3>
-          <p class="reveal">Cada pa&iacute;s que pisas se ilumina en tu mapa. Registra kil&oacute;metros, maravillas del mundo y viajes pasados. Tu perfil habla por ti sin que tengas que explicar nada.</p>
-          <div class="map-feature-list">
-            <div class="map-feature-item reveal">
-              <div class="map-feature-icon" aria-hidden="true">&#x1F5FA;</div>
-              <div>
-                <h4>Mapa interactivo de pa&iacute;ses</h4>
-                <p>Colorea los pa&iacute;ses que has visitado y ve cu&aacute;nto mundo te queda por descubrir</p>
-              </div>
-            </div>
-            <div class="map-feature-item reveal reveal-delay-1">
-              <div class="map-feature-icon" aria-hidden="true">&#x1F4CA;</div>
-              <div>
-                <h4>Kil&oacute;metros y estad&iacute;sticas</h4>
-                <p>Pa&iacute;ses, continentes, km recorridos y maravillas del mundo visitadas</p>
-              </div>
-            </div>
-            <div class="map-feature-item reveal reveal-delay-2">
-              <div class="map-feature-icon" aria-hidden="true">&#x1F4C5;</div>
-              <div>
-                <h4>Historial de aventuras</h4>
-                <p>Todos tus viajes organizados: pasados, en curso y los que vienen</p>
-              </div>
-            </div>
-            <div class="map-feature-item reveal reveal-delay-3">
-              <div class="map-feature-icon" aria-hidden="true">&#x1F3C6;</div>
-              <div>
-                <h4>Logros desbloqueables</h4>
-                <p>Badges por pa&iacute;ses, continentes, tipos de viaje y maravillas del mundo</p>
-              </div>
-            </div>
-          </div>
-          <a href="profile.html" class="feature-card-tag accent-tag reveal" style="text-decoration:none; display:inline-block; margin-top:28px; color:var(--teal-light); background:rgba(16,185,129,0.12); font-size:0.75rem;">Ver mi perfil de viajero &rarr;</a>
-        </div>
-      </div>
+    <div class="mobile-menu-links">
+      <a href="guias.html" class="mobile-menu-link"><span class="mm-icon">🗺️</span>Guías de viaje</a>
+      <a href="fechas.html" class="mobile-menu-link"><span class="mm-icon">📅</span>¿Adónde ir?</a>
+      <a href="plan.html" class="mobile-menu-link"><span class="mm-icon">✈️</span>Planificador</a>
+      <a href="mapa.html" class="mobile-menu-link"><span class="mm-icon">🌍</span>Mi mapa</a>
+      <a href="ranking.html" class="mobile-menu-link"><span class="mm-icon">🏆</span>Ranking</a>
+      <div class="mobile-menu-divider"></div>
+      <a href="profile.html" class="mobile-menu-link" id="mm-profile" style="display:none"><span class="mm-icon">👤</span>Mi perfil</a>
+      <a href="login.html" class="mobile-menu-link" id="mm-login"><span class="mm-icon">🔑</span>Iniciar sesión</a>
+      <a href="signup.html" class="mobile-menu-link" id="mm-signup"><span class="mm-icon">⭐</span>Crear cuenta gratis</a>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- Rutas épicas -->
-  <section class="matching section-padding" id="rutas" aria-labelledby="rutas-title">
-    <div class="container">
-      <div class="matching-layout">
-        <div class="matching-text">
-          <span class="section-label reveal">Rutas &eacute;picas</span>
-          <h3 class="reveal" id="rutas-title">Viajes que merecen<br>la pena documentar</h3>
-          <p class="reveal">No son itinerarios gen&eacute;ricos de Google. Son rutas reales, con precios actuales, opciones de transporte y todo lo que necesitas saber antes de ir. Hechas para que puedas replicarlas.</p>
-          <div class="matching-checklist reveal">
-            <div class="matching-check-item">
-              <span class="check-icon" aria-hidden="true">&#x2713;</span>
-              Ruta por Jap&oacute;n: Tokio &rarr; Kioto &rarr; Osaka en 14 d&iacute;as
-            </div>
-            <div class="matching-check-item">
-              <span class="check-icon" aria-hidden="true">&#x2713;</span>
-              Sudeste Asi&aacute;tico: Tailandia + Vietnam en 3 semanas
-            </div>
-            <div class="matching-check-item">
-              <span class="check-icon" aria-hidden="true">&#x2713;</span>
-              Balcanes en furgoneta: 7 pa&iacute;ses en 4 semanas
-            </div>
-            <div class="matching-check-item">
-              <span class="check-icon" aria-hidden="true">&#x2713;</span>
-              Am&eacute;rica del Sur: Colombia &rarr; Per&uacute; &rarr; Bolivia
-            </div>
-            <div class="matching-check-item">
-              <span class="check-icon" aria-hidden="true">&#x2713;</span>
-              Marruecos en 10 d&iacute;as: ciudades, desierto y costa
-            </div>
-          </div>
-          <a href="guias.html#rutas" class="feature-card-tag accent-tag reveal" style="text-decoration:none; display:inline-block; margin-top:24px; font-size:0.75rem;">Ver todas las rutas &rarr;</a>
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1800&q=80" alt="Viajero mirando el mundo" loading="eager">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Tu próximo viaje empieza aquí.</h1>
+    <p class="hero-subtitle">Guías reales, planificador de rutas y tu mapa personal. Todo en un sitio.</p>
+    <div class="hero-btns">
+      <a href="guias.html" class="btn-hero-primary">Explorar guías</a>
+      <a href="fechas.html" class="btn-hero-ghost">¿Cuándo ir?</a>
+      <a href="destino-elegido.html" class="btn-hero-ghost">Ya sé adónde voy</a>
+    </div>
+    <p class="hero-login-hint">¿Ya tienes cuenta? <a href="login.html">Iniciar sesión</a></p>
+  </div>
+</section>
+
+<!-- ── Hub section ── -->
+<section class="hub-section">
+  <div class="section reveal">
+    <span class="section-label">¿Por dónde empiezas?</span>
+    <h2 class="section-title">Todo lo que necesitas para viajar</h2>
+    <p class="section-desc">Elige tu punto de partida y ViajeraMente te acompaña en cada paso del viaje.</p>
+    <div class="hub-grid">
+      <a href="guias.html" class="hub-card reveal reveal-delay-1" style="--hub-color: var(--accent)">
+        <div class="hub-icon">🗺️</div>
+        <div class="hub-title">Guías por destino</div>
+        <p class="hub-desc">Información real: visado, presupuesto, qué hacer y cuándo ir.</p>
+        <span class="hub-cta">Ver guías →</span>
+      </a>
+      <a href="fechas.html" class="hub-card reveal reveal-delay-2" style="--hub-color: var(--teal)">
+        <div class="hub-icon">📅</div>
+        <div class="hub-title">¿Adónde ir?</div>
+        <p class="hub-desc">Encuentra destinos según tu mes, presupuesto y tipo de viaje.</p>
+        <span class="hub-cta">Explorar →</span>
+      </a>
+      <a href="profile.html" class="hub-card reveal reveal-delay-3" style="--hub-color: var(--purple)">
+        <div class="hub-icon">🌍</div>
+        <div class="hub-title">Mi mapa viajero</div>
+        <p class="hub-desc">Marca países visitados, logros desbloqueables y estadísticas.</p>
+        <span class="hub-cta">Ver mi mapa →</span>
+      </a>
+      <a href="plan.html" class="hub-card reveal reveal-delay-4" style="--hub-color: var(--gold)">
+        <div class="hub-icon">✈️</div>
+        <div class="hub-title">Planificador</div>
+        <p class="hub-desc">Construye tu itinerario día a día con toda la info que necesitas.</p>
+        <span class="hub-cta">Planificar →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Destinos populares ── -->
+<section>
+  <div class="section reveal">
+    <span class="section-label">Destinos</span>
+    <h2 class="section-title">Los destinos más buscados</h2>
+    <p class="section-desc">Guías detalladas con todo lo que necesitas saber antes de comprar el vuelo.</p>
+    <div class="dest-grid">
+      <a href="destino.html?slug=japon" class="dest-card reveal reveal-delay-1">
+        <img class="dest-img" src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=400&q=80" alt="Japón">
+        <div class="dest-info">
+          <span class="dest-title">Japón</span>
+          <p class="dest-desc">Templos, tecnología y gastronomía única. El destino favorito de los viajeros.</p>
+          <span class="dest-cta">Ver guía →</span>
         </div>
-        <div class="matching-visual reveal" aria-label="Ilustraci&oacute;n de rutas documentadas">
-          <div class="matching-mockup">
-            <div class="matching-mockup-header">&#x1F5FA;&#xFE0F; Rutas documentadas</div>
-            <div class="filter-row">
-              <span class="filter-pill active">Asia</span>
-              <span class="filter-pill">Europa</span>
-              <span class="filter-pill">Am&eacute;rica</span>
-              <span class="filter-pill">&Aacute;frica</span>
-            </div>
-            <div class="filter-row">
-              <span class="filter-pill accent-active">7-14 d&iacute;as</span>
-              <span class="filter-pill">3 semanas</span>
-              <span class="filter-pill">+1 mes</span>
-            </div>
-            <div class="filter-row">
-              <span class="filter-pill active">Mochilero</span>
-              <span class="filter-pill accent-active">Confort</span>
-              <span class="filter-pill">Lujo</span>
-              <span class="filter-pill">Furgoneta</span>
-            </div>
-            <a href="guias.html#rutas" class="mockup-cta" style="display:block; text-align:center; text-decoration:none;">
-              <span>&#x1F9ED;</span> Explorar rutas
-            </a>
-            <p class="mockup-hint">5 rutas disponibles &mdash; m&aacute;s en camino</p>
+      </a>
+      <a href="destino.html?slug=tailandia" class="dest-card reveal reveal-delay-2">
+        <img class="dest-img" src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=80" alt="Tailandia">
+        <div class="dest-info">
+          <span class="dest-title">Tailandia</span>
+          <p class="dest-desc">Playas paradisíacas, templos dorados y comida callejera impresionante.</p>
+          <span class="dest-cta">Ver guía →</span>
+        </div>
+      </a>
+      <a href="destino.html?slug=grecia" class="dest-card reveal reveal-delay-3">
+        <img class="dest-img" src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=400&q=80" alt="Grecia">
+        <div class="dest-info">
+          <span class="dest-title">Grecia</span>
+          <p class="dest-desc">Historia milenaria, islas de ensueño y el mejor atardecer del Mediterráneo.</p>
+          <span class="dest-cta">Ver guía →</span>
+        </div>
+      </a>
+      <a href="destino.html?slug=colombia" class="dest-card reveal reveal-delay-4">
+        <img class="dest-img" src="https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?w=400&q=80" alt="Colombia">
+        <div class="dest-info">
+          <span class="dest-title">Colombia</span>
+          <p class="dest-desc">Biodiversidad, ciudad y café. El país que enamora a quien lo visita.</p>
+          <span class="dest-cta">Ver guía →</span>
+        </div>
+      </a>
+    </div>
+    <div class="dest-more-wrap reveal">
+      <a href="guias.html" class="btn-dest-more">Ver todos los destinos →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Profile feature section ── -->
+<section class="profile-section">
+  <div class="profile-inner">
+    <div class="profile-text reveal">
+      <span class="profile-label">Tu mapa de viajes</span>
+      <h2 class="profile-title">Registra cada destino que pisas</h2>
+      <p class="profile-subtitle">Tu perfil viajero te acompaña con estadísticas reales, mapa visual y logros desbloqueables a medida que recorres el mundo.</p>
+      <div class="profile-features">
+        <div class="profile-feature">
+          <div class="pf-icon">🌍</div>
+          <div class="pf-body">
+            <div class="pf-title">Mapa mundial interactivo</div>
+            <p class="pf-desc">Visualiza en tiempo real todos los países y ciudades que has visitado.</p>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- Gamification -->
-  <section class="gamification section-padding" aria-labelledby="gamification-title">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-label reveal">Logros y gamificaci&oacute;n</span>
-        <h2 class="section-title reveal" id="gamification-title">Cada viaje desbloquea algo</h2>
-        <p class="section-subtitle reveal">Cuantos m&aacute;s pa&iacute;ses, m&aacute;s logros. Hay quien lleva un diario, nosotros preferimos un mapa con medallas.</p>
-      </div>
-      <div class="badges-grid">
-        <div class="badge-card reveal">
-          <span class="badge-icon" aria-hidden="true">&#x1F3D4;</span>
-          <h4>Explorador</h4>
-          <p>10+ pa&iacute;ses visitados</p>
-        </div>
-        <div class="badge-card reveal reveal-delay-1">
-          <span class="badge-icon" aria-hidden="true">&#x1F30D;</span>
-          <h4>7 Continentes</h4>
-          <p>Todos los continentes pisados</p>
-        </div>
-        <div class="badge-card reveal reveal-delay-2">
-          <span class="badge-icon" aria-hidden="true">&#x1F392;</span>
-          <h4>Elite Backpacker</h4>
-          <p>50+ d&iacute;as con menos de 30&euro;/d&iacute;a</p>
-        </div>
-        <div class="badge-card reveal reveal-delay-3">
-          <span class="badge-icon" aria-hidden="true">&#x2B50;</span>
-          <h4>Gu&iacute;a top</h4>
-          <p>Gu&iacute;a con 500+ descargas</p>
-        </div>
-        <div class="badge-card reveal reveal-delay-4">
-          <span class="badge-icon" aria-hidden="true">&#x1F91D;</span>
-          <h4>Conector</h4>
-          <p>10+ viajes con matches</p>
-        </div>
-      </div>
-      <div class="gamification-extras">
-        <div class="gamification-extra-card reveal">
-          <h4><span aria-hidden="true">⭐</span> Tu reputaci&oacute;n viajera</h4>
-          <p>Gana puntos por reviews &uacute;tiles, gu&iacute;as valoradas y ayudar a otros viajeros. Tu reputaci&oacute;n te precede.</p>
-        </div>
-        <div class="gamification-extra-card reveal reveal-delay-1">
-          <h4><span aria-hidden="true">&#x1F3C6;</span> Rankings mensuales</h4>
-          <p>Los viajeros m&aacute;s activos y &uacute;tiles destacan en rankings por ciudad, pa&iacute;s y global.</p>
-        </div>
-        <div class="gamification-extra-card reveal reveal-delay-2">
-          <h4><span aria-hidden="true">&#x1F513;</span> Desbloquea beneficios</h4>
-          <p>Acceso anticipado a nuevas funciones, descuentos de partners y m&aacute;s visibilidad en la comunidad.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Conexiones Section -->
-  <section class="section-padding" id="conexiones" style="background: var(--gray-900);" aria-labelledby="conexiones-title">
-    <div class="container">
-      <div style="text-align:center; margin-bottom: 48px;">
-        <div class="waitlist-eyebrow reveal" style="display:inline-flex;">
-          <span class="dot" aria-hidden="true"></span>
-          Próximamente
-        </div>
-        <h2 class="section-title reveal" id="conexiones-title" style="color:var(--white)">Conecta tus apps<br>de <span class="text-accent">viajes y rutas</span></h2>
-        <p class="section-subtitle reveal" style="max-width:560px; margin: 0 auto; color: rgba(255,255,255,0.5);">Estamos integrando las plataformas que ya usas. Pronto podrás importar tus rutas y aventuras directamente a tu perfil.</p>
-      </div>
-      <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; max-width: 1060px; margin: 0 auto;">
-        <!-- Wikiloc -->
-        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s; cursor: default;" onmouseover="this.style.borderColor='var(--teal)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x1F6B6;</div>
-          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">Wikiloc</h4>
-          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Rutas de senderismo, MTB y outdoor de todo el mundo.</p>
-        </div>
-        <!-- Park4Night -->
-        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--teal)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x1F690;</div>
-          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">Park4Night</h4>
-          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Spots para pernoctar en furgo, camper o autocaravana.</p>
-        </div>
-        <!-- iOverlander -->
-        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--teal)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x1F30D;</div>
-          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">iOverlander</h4>
-          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Spots, recursos y datos para overlanders y viajeros.</p>
-        </div>
-        <!-- Strava -->
-        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x1F3C3;</div>
-          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">Strava</h4>
-          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Tracking de running, ciclismo, senderismo y m&aacute;s.</p>
-        </div>
-        <!-- Garmin Connect -->
-        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x231A;</div>
-          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">Garmin Connect</h4>
-          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Datos de tu Garmin: rutas GPS, salud y actividades.</p>
-        </div>
-        <!-- Polarsteps -->
-        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--teal)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x1F4CD;</div>
-          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">Polarsteps</h4>
-          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Tracking autom&aacute;tico de viajes con diario visual.</p>
-        </div>
-        <!-- Komoot -->
-        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--teal)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x1F9ED;</div>
-          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">Komoot</h4>
-          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Planificaci&oacute;n de rutas y navegaci&oacute;n outdoor.</p>
-        </div>
-        <!-- AllTrails -->
-        <div style="background: var(--gray-800); border-radius: 16px; padding: 28px 24px; border: 1px solid var(--gray-700); transition: all 0.3s;" onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--gray-700)';this.style.transform='none'">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">&#x26F0;&#xFE0F;</div>
-          <h4 style="color: var(--white); font-size: 1rem; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif;">AllTrails</h4>
-          <p style="color: var(--gray-500); font-size: 0.8rem; line-height: 1.5;">Rutas de senderismo verificadas por la comunidad.</p>
-        </div>
-      </div>
-      <p class="reveal" style="text-align:center; margin-top: 36px; color: rgba(255,255,255,0.4); font-size: 0.82rem;">
-        Conecta estas y m&aacute;s plataformas desde tu <a href="signup.html" style="color: var(--teal-light); text-decoration: underline;">perfil de viajero</a>.
-      </p>
-    </div>
-  </section>
-
-  <!-- Waitlist Section -->
-  <section class="waitlist-section section-padding" id="waitlist" aria-labelledby="waitlist-title">
-    <div class="container">
-      <div class="waitlist-box">
-        <div class="waitlist-eyebrow reveal">
-          <span class="dot" aria-hidden="true"></span>
-          Gratis &mdash; sin tarjeta
-        </div>
-        <h2 class="reveal" id="waitlist-title">
-          Crea tu perfil.<br>Empieza a <span class="text-accent">planificar.</span>
-        </h2>
-        <p class="reveal">
-          Gu&iacute;as de pa&iacute;ses, planificador de fechas y tu mapa personal.
-          Gratis, sin tarjeta, sin spam. En 30 segundos.
-        </p>
-        <div class="waitlist-form-wrap reveal" style="text-align:center;">
-          <h3>Empieza ahora</h3>
-          <p>Gratis. Sin tarjeta. En 30 segundos.</p>
-          <div style="display:flex; flex-direction:column; gap:12px; align-items:center; margin-top:20px;">
-            <a href="signup.html" style="display:inline-flex; align-items:center; gap:8px; padding:14px 32px; background:var(--accent); color:#fff; font-weight:700; font-size:1rem; border-radius:100px; text-decoration:none; transition:all .2s; font-family:'Inter',sans-serif;" onmouseover="this.style.background='var(--accent-dark)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--accent)';this.style.transform='none'">
-              Crear mi perfil de viajero →
-            </a>
-            <a href="login.html" style="font-size:.9rem; color:rgba(255,255,255,.5); text-decoration:none; transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">
-              Ya tengo cuenta &mdash; Iniciar sesi&oacute;n
-            </a>
+        <div class="profile-feature">
+          <div class="pf-icon">📊</div>
+          <div class="pf-body">
+            <div class="pf-title">Estadísticas personales</div>
+            <p class="pf-desc">Continentes, días viajados, distancia recorrida y más métricas de tu aventura.</p>
           </div>
-          <div class="waitlist-perks" aria-label="Lo que incluye" style="margin-top:28px;">
-            <span class="waitlist-perk"><span class="perk-icon" aria-hidden="true">🗺️</span> Mapa de viajes</span>
-            <span class="waitlist-perk"><span class="perk-icon" aria-hidden="true">🌍</span> Guías de países</span>
-            <span class="waitlist-perk"><span class="perk-icon" aria-hidden="true">🧭</span> Planificador</span>
+        </div>
+        <div class="profile-feature">
+          <div class="pf-icon">🏆</div>
+          <div class="pf-body">
+            <div class="pf-title">Logros desbloqueables</div>
+            <p class="pf-desc">Desbloquea insignias exclusivas conforme alcanzas hitos en tu vida viajera.</p>
+          </div>
+        </div>
+        <div class="profile-feature">
+          <div class="pf-icon">🎯</div>
+          <div class="pf-body">
+            <div class="pf-title">Lista de deseos</div>
+            <p class="pf-desc">Guarda los destinos que quieres visitar y organiza tu bucket list.</p>
           </div>
         </div>
       </div>
+      <a href="signup.html" class="btn-profile-cta">Crear mi perfil →</a>
     </div>
-  </section>
+    <div class="profile-visual reveal reveal-delay-2">
+      <div class="profile-map-card">
+        <div class="pmc-header">
+          <span class="pmc-title">Mi mapa viajero</span>
+          <span class="pmc-badge">32 países</span>
+        </div>
+        <div class="pmc-stats">
+          <div class="pmc-stat">
+            <span class="pmc-stat-num">32</span>
+            <span class="pmc-stat-label">Países</span>
+          </div>
+          <div class="pmc-stat">
+            <span class="pmc-stat-num">6</span>
+            <span class="pmc-stat-label">Continentes</span>
+          </div>
+          <div class="pmc-stat">
+            <span class="pmc-stat-num">247</span>
+            <span class="pmc-stat-label">Días</span>
+          </div>
+        </div>
+        <div class="pmc-pins">
+          <span class="pmc-pin highlight">🇯🇵 Japón</span>
+          <span class="pmc-pin highlight">🇹🇭 Tailandia</span>
+          <span class="pmc-pin">🇬🇷 Grecia</span>
+          <span class="pmc-pin">🇨🇴 Colombia</span>
+          <span class="pmc-pin">🇵🇹 Portugal</span>
+          <span class="pmc-pin">🇲🇦 Marruecos</span>
+          <span class="pmc-pin">🇮🇩 Indonesia</span>
+          <span class="pmc-pin">🇵🇪 Perú</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer aria-label="Pie de p&aacute;gina">
-    <div class="footer-inner">
+<!-- ── CTA section ── -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <h2 class="cta-title">Empieza ahora. Es gratis.</h2>
+    <p class="cta-desc">Únete a miles de viajeros que ya planifican mejor con ViajeraMente.</p>
+    <a href="signup.html" class="btn-cta-main">Crear mi perfil gratis</a>
+    <span class="cta-login-hint">¿Ya tienes cuenta? <a href="login.html">Iniciar sesión</a></span>
+    <div class="cta-perks">
+      <div class="cta-perk"><span class="cta-perk-icon">✅</span> Sin tarjeta de crédito</div>
+      <div class="cta-perk"><span class="cta-perk-icon">🌍</span> Acceso completo a todas las guías</div>
+      <div class="cta-perk"><span class="cta-perk-icon">🔒</span> Tus datos, seguros</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
       <div>
-        <div class="footer-brand">
-          <span class="nav-logo-icon" aria-hidden="true" style="width:24px;height:24px;font-size:0.75rem;border-radius:6px">V</span>
-          ViajeraMente
-        </div>
-        <p class="footer-desc">Para viajeros que viajan de verdad. Gu&iacute;as sin relleno, mapa de tus pa&iacute;ses, y una comunidad que sabe de lo que habla.</p>
+        <a href="index.html" class="footer-brand-logo">✈️ ViajeraMente</a>
+        <p class="footer-brand-desc">Guías reales, planificador de rutas y tu mapa personal. Viaja más inteligente.</p>
       </div>
       <div class="footer-col">
         <h4>Producto</h4>
-        <a href="#features">Funciones</a>
-        <a href="#tu-mapa">Tu mapa</a>
-        <a href="#conexiones">Conexiones</a>
-        <a href="signup.html">Crear cuenta</a>
-        <a href="login.html">Iniciar sesi&oacute;n</a>
+        <a href="guias.html">Guías de viaje</a>
+        <a href="fechas.html">¿Adónde ir?</a>
+        <a href="plan.html">Planificador</a>
+        <a href="mapa.html">Mi mapa</a>
+        <a href="ranking.html">Ranking</a>
       </div>
       <div class="footer-col">
         <h4>Comunidad</h4>
-        <a href="https://instagram.com/viajeramente" rel="noopener">Instagram</a>
-        <a href="https://tiktok.com/@viajeramente" rel="noopener">TikTok</a>
-        <a href="https://youtube.com/@viajeramente" rel="noopener">YouTube</a>
+        <a href="https://instagram.com/viajeramente" rel="noopener noreferrer" target="_blank">Instagram</a>
+        <a href="https://tiktok.com/@viajeramente" rel="noopener noreferrer" target="_blank">TikTok</a>
+        <a href="https://youtube.com/@viajeramente" rel="noopener noreferrer" target="_blank">YouTube</a>
+        <a href="blog.html">Blog</a>
       </div>
       <div class="footer-col">
         <h4>Legal</h4>
         <a href="/privacidad.html">Privacidad</a>
-        <a href="/terminos.html">T&eacute;rminos</a>
+        <a href="/terminos.html">Términos</a>
         <a href="/cookies.html">Cookies</a>
         <a href="/contacto.html">Contacto</a>
       </div>
@@ -1807,151 +945,134 @@
     <div class="footer-bottom">
       <span class="footer-copy">&copy; 2026 ViajeraMente. Todos los derechos reservados.</span>
       <div class="social-links">
-        <a href="https://instagram.com/viajeramente" class="social-link" aria-label="Instagram" rel="noopener">
+        <a href="https://instagram.com/viajeramente" class="social-link" aria-label="Instagram" rel="noopener" target="_blank">
           <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
         </a>
-        <a href="https://tiktok.com/@viajeramente" class="social-link" aria-label="TikTok" rel="noopener">
+        <a href="https://tiktok.com/@viajeramente" class="social-link" aria-label="TikTok" rel="noopener" target="_blank">
           <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.48V13a8.28 8.28 0 005.58 2.17v-3.44a4.85 4.85 0 01-3.58-1.46V6.69h3.58z"/></svg>
         </a>
-        <a href="https://youtube.com/@viajeramente" class="social-link" aria-label="YouTube" rel="noopener">
+        <a href="https://youtube.com/@viajeramente" class="social-link" aria-label="YouTube" rel="noopener" target="_blank">
           <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
         </a>
       </div>
     </div>
-  </footer>
+  </div>
+</footer>
 
-  <script>
-    const API_BASE = 'https://eze.saypeter.com';
+<script>
+  const API_BASE = 'https://eze.saypeter.com';
 
-    // --- Page tracking ---
-    (function() {
+  // --- Page tracking ---
+  (function() {
+    try {
+      fetch(API_BASE + '/api/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          page: window.location.pathname || '/',
+          referrer: document.referrer || null,
+          user_agent: navigator.userAgent,
+          screen_width: window.screen.width
+        })
+      }).catch(function(){});
+    } catch(e) {}
+  })();
+
+  // --- Waitlist form submission ---
+  const form = document.getElementById('waitlist-form');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button');
+      const emailInput = form.querySelector('input[type="email"]');
+      const hint = document.getElementById('form-hint');
+      btn.textContent = 'Enviando...';
+      btn.disabled = true;
+
       try {
-        fetch(API_BASE + '/api/pageview', {
+        const response = await fetch(API_BASE + '/api/lead', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            page: window.location.pathname || '/',
+            email: emailInput.value,
+            source: 'waitlist',
             referrer: document.referrer || null,
             user_agent: navigator.userAgent,
-            screen_width: window.screen.width
+            utm_source: new URLSearchParams(window.location.search).get('utm_source'),
+            utm_medium: new URLSearchParams(window.location.search).get('utm_medium'),
+            utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign')
           })
-        }).catch(function(){});
-      } catch(e) {}
-    })();
-
-    // --- Waitlist form submission ---
-    const form = document.getElementById('waitlist-form');
-    if (form) {
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const btn = form.querySelector('button');
-        const emailInput = form.querySelector('input[type="email"]');
-        const hint = document.getElementById('form-hint');
-        btn.textContent = 'Enviando...';
-        btn.disabled = true;
-
-        try {
-          const response = await fetch(API_BASE + '/api/lead', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: emailInput.value,
-              source: 'waitlist',
-              referrer: document.referrer || null,
-              user_agent: navigator.userAgent,
-              utm_source: new URLSearchParams(window.location.search).get('utm_source'),
-              utm_medium: new URLSearchParams(window.location.search).get('utm_medium'),
-              utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign')
-            })
-          });
-
-          const data = await response.json();
-
-          if (response.ok && data.ok) {
-            form.style.display = 'none';
-            hint.textContent = '\u2713 \u00a1Est\u00e1s dentro! Te avisaremos cuando abramos puertas.';
-            hint.classList.add('form-success');
-          } else {
-            throw new Error(data.error || 'Error al enviar');
-          }
-        } catch (err) {
-          btn.textContent = 'Reintentar';
-          btn.disabled = false;
-          hint.textContent = '\u26a0\ufe0f Algo fall\u00f3. Int\u00e9ntalo de nuevo.';
-          hint.style.color = '#7DD3FC';
-        }
-      });
-    }
-
-    // Scroll reveal with IntersectionObserver
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // Nav scroll behavior
-    const nav = document.getElementById('nav');
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          nav.classList.toggle('scrolled', window.scrollY > 50);
-          ticking = false;
         });
-        ticking = true;
+
+        const data = await response.json();
+
+        if (response.ok && data.ok) {
+          form.style.display = 'none';
+          hint.textContent = '\u2713 \u00a1Est\u00e1s dentro! Te avisaremos cuando abramos puertas.';
+          hint.classList.add('form-success');
+        } else {
+          throw new Error(data.error || 'Error al enviar');
+        }
+      } catch (err) {
+        btn.textContent = 'Reintentar';
+        btn.disabled = false;
+        hint.textContent = '\u26a0\ufe0f Algo fall\u00f3. Int\u00e9ntalo de nuevo.';
+        hint.style.color = '#7DD3FC';
       }
-    }, { passive: true });
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', (e) => {
-        const href = a.getAttribute('href');
-        if (href === '#') return;
-        const target = document.querySelector(href);
-        if (target) {
-          e.preventDefault();
-          const navLinks = document.getElementById('nav-links');
-          if (navLinks.classList.contains('open')) {
-            navLinks.classList.remove('open');
-            document.getElementById('mobile-menu').setAttribute('aria-expanded', 'false');
-          }
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
     });
+  }
 
-    // Mobile menu toggle
-    const mobileBtn = document.getElementById('mobile-menu');
-    const navLinks = document.getElementById('nav-links');
-    if (mobileBtn && navLinks) {
-      mobileBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = navLinks.classList.toggle('open');
-        mobileBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      });
-      // Close mobile menu when clicking outside
-      document.addEventListener('click', (e) => {
-        if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && e.target !== mobileBtn) {
-          navLinks.classList.remove('open');
-          mobileBtn.setAttribute('aria-expanded', 'false');
-        }
-      });
-    }
+  // Scroll reveal with IntersectionObserver
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
 
-    // Update nav based on auth — redirect logged-in users to home dashboard
-    (function() {
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Auth nav ──────────────────────────────────────────────────────────────
+  (function initNav() {
+    try {
       const token = localStorage.getItem('token');
       if (token) {
-        window.location.replace('main.html');
+        const userRaw = localStorage.getItem('viajeramente_user') || localStorage.getItem('user');
+        let name = localStorage.getItem('user_name') || localStorage.getItem('user_email') || '?';
+        if (userRaw) {
+          try { const u = JSON.parse(userRaw); name = u.name || u.email || name; } catch(e) {}
+        }
+        const initials = name.trim().split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase() || '?';
+        document.getElementById('nav-initials').textContent = initials;
+        document.getElementById('nav-user').style.display = 'flex';
+        document.getElementById('nav-guest').style.display = 'none';
+        const mmp = document.getElementById('mm-profile');
+        const mml = document.getElementById('mm-login');
+        const mms = document.getElementById('mm-signup');
+        if (mmp) mmp.style.display = '';
+        if (mml) mml.style.display = 'none';
+        if (mms) mms.style.display = 'none';
+        const logo = document.getElementById('navLogo');
+        if (logo) logo.href = 'index.html';
       }
-    })();
-  </script>
+    } catch(e) {}
+  })();
+
+  // ── Mobile menu ──────────────────────────────────────────────────────────
+  function openMobileMenu() {
+    document.getElementById('mobileMenuOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobileMenuOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeMobileMenuOnBg(e) {
+    if (e.target === document.getElementById('mobileMenuOverlay')) closeMobileMenu();
+  }
+</script>
 
 </body>
 </html>
