@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Plan de Viaje — ViajeraMente</title>
+  <meta name="description" content="Tu itinerario de viaje personalizado con hoteles, vuelos y actividades.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T1HJ3PJWYN"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T1HJ3PJWYN');</script>
+  <style>
+    body { background: var(--bg-soft); }
+
+    .plan-wrap {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 72px 16px 100px;
+    }
+
+    /* ── Hero ── */
+    .plan-hero {
+      text-align: center;
+      padding: 32px 20px 24px;
+      animation: fadeInUp 0.4s ease both;
+    }
+    .plan-hero-emoji { font-size: 3rem; margin-bottom: 8px; display: block; }
+    .plan-hero h1 {
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.15;
+    }
+    .plan-hero-meta {
+      font-size: 0.85rem;
+      color: var(--text-2);
+      line-height: 1.6;
+      margin-bottom: 4px;
+    }
+    .plan-summary {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 520px;
+      margin: 12px auto 0;
+    }
+
+    /* ── Action bar ── */
+    .plan-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      padding: 16px 0 24px;
+      flex-wrap: wrap;
+    }
+    .plan-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: 100px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+    }
+    .plan-action-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-light);
+    }
+    .plan-action-btn.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .plan-action-btn.primary:hover {
+      background: var(--accent-dark);
+    }
+
+    /* ── Map ── */
+    .plan-map-wrap {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    #planMap { height: 220px; width: 100%; }
+
+    /* ── Budget bar ── */
+    .budget-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .budget-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .budget-bars { display: flex; flex-direction: column; gap: 10px; }
+    .budget-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .budget-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-2);
+      width: 80px;
+      flex-shrink: 0;
+    }
+    .budget-bar-track {
+      flex: 1;
+      height: 8px;
+      background: var(--bg-input);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .budget-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      transition: width 0.6s ease;
+    }
+    .budget-bar-fill.low { background: var(--teal); }
+    .budget-bar-fill.mid { background: var(--accent); }
+    .budget-bar-fill.high { background: var(--gold); }
+    .budget-amount {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text);
+      width: 70px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ── Day accordion ── */
+    .day-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      animation: fadeInUp 0.4s ease both;
+    }
+    .day-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .day-header:hover { background: var(--bg-soft); }
+    .day-badge {
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .day-title-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .day-arrow {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+    .day-card.open .day-arrow { transform: rotate(180deg); }
+    .day-body {
+      display: none;
+      padding: 0 20px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .day-card.open .day-body { display: block; }
+
+    /* ── Activity items ── */
+    .activity-item {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-time {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      font-family: 'Space Grotesk', sans-serif;
+      width: 46px;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .activity-content { flex: 1; min-width: 0; }
+    .activity-type-icon {
+      display: inline-block;
+      font-size: 0.92rem;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+    .activity-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+      margin-bottom: 4px;
+    }
+    .activity-desc {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 8px;
+    }
+    .affiliate-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .affiliate-cta.booking {
+      background: #003580;
+      color: #fff;
+    }
+    .affiliate-cta.booking:hover { background: #00224f; }
+    .affiliate-cta.skyscanner {
+      background: #0770E3;
+      color: #fff;
+    }
+    .affiliate-cta.skyscanner:hover { background: #055cb5; }
+    .affiliate-cta.civitatis {
+      background: #FF6B35;
+      color: #fff;
+    }
+    .affiliate-cta.civitatis:hover { background: #e55a28; }
+    .affiliate-cta.getyourguide {
+      background: #FF5533;
+      color: #fff;
+    }
+    .affiliate-cta.getyourguide:hover { background: #e04425; }
+    .affiliate-cta.iati {
+      background: #00A651;
+      color: #fff;
+    }
+    .affiliate-cta.iati:hover { background: #008a44; }
+    .affiliate-cta.airalo {
+      background: #1A1A2E;
+      color: #fff;
+    }
+    .affiliate-cta.airalo:hover { background: #0d0d1a; }
+    .affiliate-cta .cta-icon { font-size: 0.9rem; }
+
+    /* ── Essentials ── */
+    .essentials-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .essentials-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .essential-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .essential-row:last-child { border-bottom: none; }
+    .essential-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .essential-content { flex: 1; }
+    .essential-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .essential-text {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+
+    /* ── Loading ── */
+    .plan-loading {
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .plan-loading .loading-spinner {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      animation: spin 1s linear infinite;
+      margin: 0 auto 24px;
+    }
+    .plan-loading-text {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    /* ── Error ── */
+    .plan-error {
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .plan-error-icon { font-size: 3rem; margin-bottom: 16px; }
+    .plan-error h2 {
+      font-size: 1.2rem;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .plan-error p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    /* ── Print mode ── */
+    @media print {
+      nav, .bottom-nav, .plan-actions, .affiliate-cta, footer { display: none !important; }
+      .plan-wrap { padding-top: 0; }
+      .day-card { break-inside: avoid; }
+      .day-body { display: block !important; }
+      .day-card.open .day-body { display: block; }
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 480px) {
+      .plan-wrap { padding: 66px 12px 100px; }
+      .day-header { padding: 14px 16px; }
+      .day-body { padding: 0 16px 14px; }
+      .activity-item { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="plan-wrap">
+  <!-- Loading state -->
+  <div id="planLoading" class="plan-loading">
+    <div class="loading-spinner"></div>
+    <div class="plan-loading-text">Cargando tu plan de viaje...</div>
+  </div>
+
+  <!-- Error state -->
+  <div id="planError" class="plan-error" style="display:none;">
+    <div class="plan-error-icon">😕</div>
+    <h2>No pudimos cargar el plan</h2>
+    <p id="planErrorMsg">Comprueba la URL o inicia sesion.</p>
+    <a href="plan.html" class="plan-action-btn primary">Crear un plan nuevo</a>
+  </div>
+
+  <!-- Plan content -->
+  <div id="planContent" style="display:none;">
+    <!-- Hero -->
+    <div class="plan-hero">
+      <span class="plan-hero-emoji" id="heroEmoji">🗺️</span>
+      <h1 id="planTitle">...</h1>
+      <div class="plan-hero-meta" id="planMeta"></div>
+      <div class="plan-summary" id="planSummary"></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="plan-actions">
+      <button class="plan-action-btn" id="btnShare" onclick="sharePlan()">
+        <span>📤</span> Compartir
+      </button>
+      <button class="plan-action-btn" id="btnPrint" onclick="window.print()">
+        <span>🖨️</span> Imprimir
+      </button>
+      <button class="plan-action-btn" id="btnPublic" onclick="togglePublic()" style="display:none;">
+        <span>🌍</span> <span id="publicLabel">Hacer publico</span>
+      </button>
+    </div>
+
+    <!-- Map -->
+    <div class="plan-map-wrap">
+      <div id="planMap"></div>
+    </div>
+
+    <!-- Budget -->
+    <div class="budget-section" id="budgetSection">
+      <div class="budget-title">💰 Presupuesto diario estimado</div>
+      <div class="budget-bars" id="budgetBars"></div>
+    </div>
+
+    <!-- Days -->
+    <div id="daysList"></div>
+
+    <!-- Essentials -->
+    <div class="essentials-section" id="essentialsSection">
+      <div class="essentials-title">📋 Imprescindibles</div>
+      <div id="essentialsList"></div>
+    </div>
+  </div>
+</div>
+
+<script src="nav.js" data-page="plan" data-bottom-nav="true" data-footer="false"></script>
+<script>
+(function() {
+  'use strict';
+
+  const API_BASE = 'https://eze.saypeter.com';
+  const token = localStorage.getItem('token');
+
+  // Get plan ID from URL
+  const params = new URLSearchParams(window.location.search);
+  const planId = params.get('id');
+  const shareSlug = params.get('share');
+
+  if (!planId && !shareSlug) {
+    showError('No se encontro el ID del plan en la URL.');
+    return;
+  }
+
+  let PLAN = null;
+  let IS_OWNER = false;
+
+  // Fetch the plan
+  async function loadPlan() {
+    try {
+      let url, headers = {};
+      if (shareSlug) {
+        url = `${API_BASE}/api/plans/shared/${shareSlug}`;
+      } else {
+        url = `${API_BASE}/api/plans/${planId}`;
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      const res = await fetch(url, { headers });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || 'Error cargando el plan');
+      }
+      const data = await res.json();
+      PLAN = data.plan;
+      IS_OWNER = PLAN.is_owner || false;
+      renderPlan();
+    } catch (e) {
+      showError(e.message);
+    }
+  }
+
+  function showError(msg) {
+    document.getElementById('planLoading').style.display = 'none';
+    document.getElementById('planError').style.display = 'block';
+    document.getElementById('planErrorMsg').textContent = msg;
+  }
+
+  function renderPlan() {
+    document.getElementById('planLoading').style.display = 'none';
+    document.getElementById('planContent').style.display = 'block';
+
+    const pd = PLAN.plan_data;
+    const dest = pd.destination || {};
+
+    // Hero
+    document.getElementById('planTitle').textContent = PLAN.title;
+    document.getElementById('planSummary').textContent = pd.summary || '';
+
+    const metaParts = [];
+    if (PLAN.duration_days) metaParts.push(`${PLAN.duration_days} dias`);
+    if (PLAN.budget_level) {
+      const bl = {low:'Mochilero',mid:'Medio',high:'Premium'}[PLAN.budget_level] || PLAN.budget_level;
+      metaParts.push(bl);
+    }
+    if (PLAN.companions) {
+      const cl = {solo:'Solo/a',pareja:'Pareja',amigos:'Amigos',familia:'Familia'}[PLAN.companions] || PLAN.companions;
+      metaParts.push(cl);
+    }
+    document.getElementById('planMeta').textContent = metaParts.join(' · ');
+
+    // Owner-only actions
+    if (IS_OWNER) {
+      document.getElementById('btnPublic').style.display = '';
+      document.getElementById('publicLabel').textContent = PLAN.is_public ? 'Hacer privado' : 'Hacer publico';
+    }
+
+    // Map
+    if (dest.coordinates && dest.coordinates.lat) {
+      const map = L.map('planMap', { scrollWheelZoom: false, dragging: !L.Browser.mobile }).setView(
+        [dest.coordinates.lat, dest.coordinates.lng], 5
+      );
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OSM'
+      }).addTo(map);
+      L.marker([dest.coordinates.lat, dest.coordinates.lng]).addTo(map)
+        .bindPopup(`<b>${dest.name}</b>`);
+    } else {
+      document.querySelector('.plan-map-wrap').style.display = 'none';
+    }
+
+    // Budget
+    const budget = pd.essentials?.budget_daily;
+    if (budget) {
+      const maxVal = budget.high || 300;
+      const rows = [
+        { label: 'Mochilero', val: budget.low, cls: 'low' },
+        { label: 'Medio', val: budget.mid, cls: 'mid' },
+        { label: 'Premium', val: budget.high, cls: 'high' }
+      ];
+      document.getElementById('budgetBars').innerHTML = rows.map(r => `
+        <div class="budget-row">
+          <span class="budget-label">${r.label}</span>
+          <div class="budget-bar-track">
+            <div class="budget-bar-fill ${r.cls}" style="width:${Math.round((r.val/maxVal)*100)}%"></div>
+          </div>
+          <span class="budget-amount">${r.val}${budget.currency === 'EUR' ? '€' : budget.currency}/dia</span>
+        </div>
+      `).join('');
+    } else {
+      document.getElementById('budgetSection').style.display = 'none';
+    }
+
+    // Days
+    const days = pd.days || [];
+    document.getElementById('daysList').innerHTML = days.map((day, i) => `
+      <div class="day-card${i === 0 ? ' open' : ''}" style="animation-delay:${i * 0.05}s">
+        <div class="day-header" onclick="this.parentElement.classList.toggle('open')">
+          <span class="day-badge">Dia ${day.day}</span>
+          <span class="day-title-text">${escHtml(day.title)}</span>
+          <span class="day-arrow">▼</span>
+        </div>
+        <div class="day-body">
+          ${(day.items || []).map(item => renderItem(item, PLAN.id)).join('')}
+        </div>
+      </div>
+    `).join('');
+
+    // Essentials
+    renderEssentials(pd.essentials);
+
+    // Update page title
+    document.title = `${PLAN.title} — ViajeraMente`;
+  }
+
+  const TYPE_ICONS = {
+    transport: '🚀',
+    hotel: '🏨',
+    activity: '✨',
+    culture: '🏛️',
+    tour: '🗺️',
+    food: '🍽️',
+    tip: '💡'
+  };
+
+  function renderItem(item, planId) {
+    const icon = TYPE_ICONS[item.type] || '📌';
+    let affHtml = '';
+    if (item.affiliate) {
+      const a = item.affiliate;
+      affHtml = `<a class="affiliate-cta ${a.provider}" href="${escAttr(a.url)}"
+        target="_blank" rel="noopener"
+        onclick="trackClick('${planId}','${a.provider}','${escAttr(a.url)}')">
+        <span class="cta-icon">${a.icon || ''}</span> ${escHtml(a.label)}
+      </a>`;
+    }
+    return `
+      <div class="activity-item">
+        <div class="activity-time">${item.time || ''}</div>
+        <div class="activity-content">
+          <div class="activity-title">
+            <span class="activity-type-icon">${icon}</span>
+            ${escHtml(item.title)}
+          </div>
+          ${item.description ? `<div class="activity-desc">${escHtml(item.description)}</div>` : ''}
+          ${affHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderEssentials(ess) {
+    if (!ess) { document.getElementById('essentialsSection').style.display = 'none'; return; }
+    let html = '';
+
+    // Visa
+    if (ess.visa) {
+      html += `
+        <div class="essential-row">
+          <span class="essential-icon">🛂</span>
+          <div class="essential-content">
+            <div class="essential-label">Visado</div>
+            <div class="essential-text">${escHtml(ess.visa)}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Insurance
+    if (ess.insurance) {
+      html += `
+        <div class="essential-row">
+          <span class="essential-icon">${ess.insurance.icon || '🛡️'}</span>
+          <div class="essential-content">
+            <div class="essential-label">Seguro de viaje</div>
+            <div class="essential-text">Imprescindible. No viajes sin seguro.</div>
+            <a class="affiliate-cta iati" href="${escAttr(ess.insurance.url)}" target="_blank" rel="noopener"
+              onclick="trackClick('${PLAN?.id}','iati','${escAttr(ess.insurance.url)}')">
+              <span class="cta-icon">${ess.insurance.icon || '🛡️'}</span> ${escHtml(ess.insurance.label)}
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    // eSIM
+    if (ess.esim) {
+      html += `
+        <div class="essential-row">
+          <span class="essential-icon">${ess.esim.icon || '📱'}</span>
+          <div class="essential-content">
+            <div class="essential-label">Internet movil</div>
+            <div class="essential-text">Conectividad desde que aterrizas. Sin cambiar de SIM.</div>
+            <a class="affiliate-cta airalo" href="${escAttr(ess.esim.url)}" target="_blank" rel="noopener"
+              onclick="trackClick('${PLAN?.id}','airalo','${escAttr(ess.esim.url)}')">
+              <span class="cta-icon">${ess.esim.icon || '📱'}</span> ${escHtml(ess.esim.label)}
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    document.getElementById('essentialsList').innerHTML = html;
+  }
+
+  // Share
+  window.sharePlan = async function() {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: PLAN.title, text: PLAN.plan_data?.summary || '', url });
+      } catch {}
+    } else {
+      await navigator.clipboard.writeText(url);
+      const btn = document.getElementById('btnShare');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<span>✅</span> Copiado';
+      setTimeout(() => btn.innerHTML = orig, 2000);
+    }
+  };
+
+  // Toggle public
+  window.togglePublic = async function() {
+    if (!token || !PLAN) return;
+    const newVal = !PLAN.is_public;
+    try {
+      const res = await fetch(`${API_BASE}/api/plans/${PLAN.id}`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_public: newVal })
+      });
+      if (res.ok) {
+        PLAN.is_public = newVal;
+        document.getElementById('publicLabel').textContent = newVal ? 'Hacer privado' : 'Hacer publico';
+        if (newVal && PLAN.share_slug) {
+          const shareUrl = `${window.location.origin}/mi-plan.html?share=${PLAN.share_slug}`;
+          await navigator.clipboard.writeText(shareUrl).catch(() => {});
+          const btn = document.getElementById('btnPublic');
+          const orig = btn.innerHTML;
+          btn.innerHTML = '<span>✅</span> Publico — link copiado';
+          setTimeout(() => btn.innerHTML = `<span>🌍</span> <span id="publicLabel">Hacer privado</span>`, 2500);
+        }
+      }
+    } catch {}
+  };
+
+  // Track affiliate clicks
+  window.trackClick = function(planId, provider, url) {
+    if (!planId) return;
+    fetch(`${API_BASE}/api/plans/${planId}/click`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ provider, url })
+    }).catch(() => {});
+    // Track in GA too
+    if (typeof gtag === 'function') {
+      gtag('event', 'affiliate_click', { provider, plan_id: planId });
+    }
+  };
+
+  // Utils
+  function escHtml(s) {
+    if (!s) return '';
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function escAttr(s) {
+    if (!s) return '';
+    return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  // Init
+  loadPlan();
+})();
+</script>
+</body>
+</html>

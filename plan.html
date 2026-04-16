@@ -325,6 +325,46 @@
     }
     .btn-guide:hover { background: var(--accent-text); }
 
+    .btn-create-plan {
+      width: 100%; padding: 10px 16px; margin-top: 8px;
+      background: #10B981; border: none;
+      border-radius: 11px; color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .84rem; font-weight: 600;
+      cursor: pointer; transition: all .2s; text-align: left;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .btn-create-plan:hover { background: #059669; }
+
+    /* Plan generation overlay */
+    .plan-generating-overlay {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.95);
+      z-index: 9999;
+      justify-content: center; align-items: center;
+      flex-direction: column; text-align: center;
+      padding: 40px;
+    }
+    .plan-generating-overlay.active { display: flex; }
+    .plan-generating-overlay .loading-spinner {
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 3px solid var(--border);
+      border-top-color: #10B981;
+      animation: spin 1s linear infinite;
+      margin-bottom: 24px;
+    }
+    .plan-gen-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--text); margin-bottom: 8px;
+    }
+    .plan-gen-sub {
+      font-size: .88rem; color: var(--text-muted);
+      animation: pulse 1.5s ease infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
+
     /* ── Type filter pills ── */
     .type-pills-wrap {
       margin-bottom: 20px;
@@ -1110,6 +1150,13 @@ nav { padding: 0 18px; }
   </div>
 
 </main>
+
+<!-- Plan generation overlay -->
+<div class="plan-generating-overlay" id="planGenOverlay">
+  <div class="loading-spinner"></div>
+  <div class="plan-gen-title">Creando tu plan de viaje...</div>
+  <div class="plan-gen-sub" id="planGenSub">Buscando las mejores actividades y ofertas</div>
+</div>
 
 <script>
 const API_BASE = 'https://eze.saypeter.com';
@@ -2615,6 +2662,10 @@ function renderResults() {
           <span>Ver guía completa</span>
           <span>→</span>
         </a>
+        <button class="btn-create-plan" onclick="createPlan('${d.id}','${(d.name||'').replace(/'/g,'\\&#39;')}')">
+          <span>🗺️ Crear mi plan de viaje</span>
+          <span>→</span>
+        </button>
         <button class="packing-inline-toggle" onclick="toggleInlinePacking(this,'${d.id}','${d.climate || 'mild'}','${(d.vibes||[]).join(',')}')">
           <span>🎒 Ver packing list</span>
           <span class="toggle-arrow">▼</span>
@@ -2957,6 +3008,74 @@ function getPackingState() {
 
 function savePackingState(state) {
   try { localStorage.setItem(PACKING_LS_KEY(), JSON.stringify(state)); } catch {}
+}
+
+// ── Create Plan (generate itinerary via API) ──
+async function createPlan(destSlug, destName) {
+  const overlay = document.getElementById('planGenOverlay');
+  const sub = document.getElementById('planGenSub');
+  overlay.classList.add('active');
+
+  const messages = [
+    'Buscando las mejores actividades y ofertas',
+    'Organizando el itinerario dia a dia',
+    'Anadiendo hoteles y transporte',
+    'Inyectando las mejores ofertas para ti',
+    'Casi listo...'
+  ];
+  let msgIdx = 0;
+  const msgTimer = setInterval(() => {
+    msgIdx++;
+    if (msgIdx < messages.length) sub.textContent = messages[msgIdx];
+  }, 1800);
+
+  try {
+    // Map wizard duration answer to days
+    const durMap = {'3-5':4, '5-7':6, '7-10':8, '10-14':12, '14-21':17, '21+':25};
+    const durDays = durMap[answers.duration] || 7;
+
+    // Map wizard budget answer
+    const budgetMap = {'mochilero':'low', 'medio':'mid', 'comfort':'high', 'premium':'high'};
+    const budgetLevel = budgetMap[answers.budget] || 'mid';
+
+    const body = {
+      destination_slug: destSlug,
+      duration_days: durDays,
+      budget_level: budgetLevel,
+      travel_style: answers.style || 'cultural',
+      companions: answers.personas || null,
+      month: answers.dateSalida ? new Date(answers.dateSalida).getMonth() + 1 : null,
+      dates_start: answers.dateSalida || null,
+      dates_end: answers.dateVuelta || null
+    };
+
+    const res = await fetch(`${API_BASE}/api/plans/generate`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    clearInterval(msgTimer);
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || 'Error generando el plan');
+    }
+
+    const data = await res.json();
+    if (data.ok && data.plan_id) {
+      window.location.href = `mi-plan.html?id=${data.plan_id}`;
+    } else {
+      throw new Error('No se pudo generar el plan');
+    }
+  } catch (e) {
+    clearInterval(msgTimer);
+    overlay.classList.remove('active');
+    alert('Error: ' + e.message);
+  }
 }
 
 function renderPackingList() {
