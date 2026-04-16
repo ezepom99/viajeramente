@@ -303,6 +303,11 @@
       border-color: var(--green); color: var(--green);
       background: var(--green-light); font-weight: 600;
     }
+    /* Tipo de guía filter — purple accent */
+    .filter-pill.tipo-pill.active {
+      border-color: #7C3AED; color: #7C3AED;
+      background: #EDE9FE; font-weight: 600;
+    }
 
     /* Clear */
     .btn-clear {
@@ -836,6 +841,15 @@
   </div>
   <div class="filters-section">
     <div class="filter-group">
+      <span class="filter-group-label">📖 Tipo de guía</span>
+      <div class="filters-row" id="tipo-pills">
+        <button class="filter-pill tipo-pill active" data-filter="tipo" data-value="">Todos</button>
+        <button class="filter-pill tipo-pill" data-filter="tipo" data-value="country">🌍 Países</button>
+        <button class="filter-pill tipo-pill" data-filter="tipo" data-value="city">🏙️ Ciudades</button>
+        <button class="filter-pill tipo-pill" data-filter="tipo" data-value="route">🗺️ Rutas</button>
+      </div>
+    </div>
+    <div class="filter-group">
       <span class="filter-group-label">🌍 Zona</span>
       <div class="filters-row" id="continent-pills">
         <button class="filter-pill zone-pill active" data-filter="continent" data-value="">Todo el mundo</button>
@@ -844,7 +858,6 @@
         <button class="filter-pill zone-pill" data-filter="continent" data-value="América">América</button>
         <button class="filter-pill zone-pill" data-filter="continent" data-value="África">África</button>
         <button class="filter-pill zone-pill" data-filter="continent" data-value="Oceanía">Oceanía</button>
-        <button class="filter-pill zone-pill" data-filter="continent" data-value="Rutas">🚗 Rutas</button>
       </div>
     </div>
     <div class="filter-group">
@@ -878,6 +891,7 @@
     </div>
     <div class="rutas-title-row">
       <h2 class="rutas-title">Las rutas que hay que hacer</h2>
+      <button class="filter-pill tipo-pill" onclick="activateTipoFilter('route')" style="margin-left:auto;flex-shrink:0;">Ver todas las rutas →</button>
     </div>
     <div class="rutas-scroll-wrap">
       <div class="rutas-scroll" id="rutas-scroll">
@@ -921,7 +935,7 @@
 
   <!-- All guides -->
   <div class="section-header" style="margin-top: 48px;">
-    <span class="section-title">Todos los destinos</span>
+    <span class="section-title" id="section-main-title">Todos los destinos</span>
     <span class="section-count" id="count-label"></span>
   </div>
 
@@ -1131,6 +1145,7 @@ let allDestinations = [];
 let masterDestinations = []; // full unfiltered list, used by Sorpréndeme
 let activeContinent = '';
 let activeStyle = '';
+let activeType = '';
 let searchQuery = '';
 let loading = true;
 
@@ -1226,7 +1241,7 @@ function filteredDestinations() {
       const haystack = [d.name, d.country, d.continent, d.tagline, ...(d.vibes||[]), ...(d.travel_styles||[])].join(' ').toLowerCase();
       if (!haystack.includes(q)) return false;
     }
-    if (activeContinent && activeContinent !== 'Rutas') {
+    if (activeContinent) {
       if (d.continent !== activeContinent) return false;
     }
     if (activeStyle) {
@@ -1236,14 +1251,21 @@ function filteredDestinations() {
     return true;
   });
 
+  // Apply type filter (or default: exclude routes from main grid)
+  if (activeType) {
+    results = results.filter(d => d.type === activeType);
+  } else {
+    results = results.filter(d => d.type !== 'route');
+  }
+
   // If no results with all filters, progressively relax (style first, then continent)
-  if (!results.length && activeStyle && (activeContinent && activeContinent !== 'Rutas')) {
+  if (!results.length && activeStyle && activeContinent) {
     results = allDestinations.filter(d => {
       if (q) {
         const haystack = [d.name, d.country, d.continent, d.tagline, ...(d.vibes||[]), ...(d.travel_styles||[])].join(' ').toLowerCase();
         if (!haystack.includes(q)) return false;
       }
-      if (activeContinent && activeContinent !== 'Rutas') {
+      if (activeContinent) {
         if (d.continent !== activeContinent) return false;
       }
       return true;
@@ -1263,10 +1285,30 @@ function renderGrid() {
   const grid = document.getElementById('cards-grid');
   const results = filteredDestinations();
   const countEl = document.getElementById('count-label');
-  const countryCount = results.filter(d => d.type !== 'city').length;
-  const cityCount = results.filter(d => d.type === 'city').length;
-  const cityNote = cityCount > 0 ? ` + ${cityCount} ciudad${cityCount !== 1 ? 'es' : ''}` : '';
-  countEl.textContent = `${countryCount} destino${countryCount !== 1 ? 's' : ''}${cityNote}`;
+  // Update section title dynamically
+  const titleEl = document.getElementById('section-main-title');
+  if (titleEl) {
+    if (activeType === 'route') titleEl.textContent = 'Rutas de viaje';
+    else if (activeType === 'city') titleEl.textContent = 'Guías de ciudades';
+    else if (activeType === 'country') titleEl.textContent = 'Guías de países';
+    else titleEl.textContent = 'Todos los destinos';
+  }
+
+  // Update count label
+  let countText;
+  if (activeType === 'route') {
+    countText = `${results.length} ruta${results.length !== 1 ? 's' : ''}`;
+  } else if (activeType === 'city') {
+    countText = `${results.length} ciudad${results.length !== 1 ? 'es' : ''}`;
+  } else if (activeType === 'country') {
+    countText = `${results.length} país${results.length !== 1 ? 'es' : ''}`;
+  } else {
+    const countryCount = results.filter(d => d.type !== 'city').length;
+    const cityCount = results.filter(d => d.type === 'city').length;
+    const cityNote = cityCount > 0 ? ` + ${cityCount} ciudad${cityCount !== 1 ? 'es' : ''}` : '';
+    countText = `${countryCount} destino${countryCount !== 1 ? 's' : ''}${cityNote}`;
+  }
+  countEl.textContent = countText;
 
   // Hide/show featured hero when filters are active
   const featuredHeroWrap = document.getElementById('featuredHero');
@@ -1278,11 +1320,12 @@ function renderGrid() {
   // Hide/show rutas and experiencias sections
   const rutasSection = document.getElementById('rutas-section');
   const experienciasSection = document.getElementById('experiencias-section');
-  if (activeContinent === 'Rutas' || activeStyle || searchQuery.trim()) {
-    rutasSection.style.display = 'none';
+  const hideTopSections = activeType || activeContinent || activeStyle || searchQuery.trim();
+  if (hideTopSections) {
+    if (rutasSection) rutasSection.style.display = 'none';
     if (experienciasSection) experienciasSection.style.display = 'none';
   } else {
-    rutasSection.style.display = '';
+    if (rutasSection) rutasSection.style.display = '';
     if (experienciasSection) experienciasSection.style.display = '';
   }
 
@@ -1362,6 +1405,33 @@ function renderGrid() {
     </div>`;
   }
 
+  function renderRouteCard(d) {
+    const m = d.name.match(/(\d+)\s*d[ií]as/i);
+    const duration = m ? m[1] + ' días' : 'Ruta';
+    return `
+    <div class="dest-card-wrapper">
+      <a href="destino.html?slug=${d.slug}" class="dest-card">
+        <div class="card-photo" style="background-image:url('${photoUrl(d)}')">
+          <div class="card-photo-overlay"></div>
+          <span class="card-continent-badge" style="background:rgba(124,58,237,.15);color:#7C3AED;border:1px solid rgba(124,58,237,.2);">🗺️ ${duration}</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">${d.name}</div>
+          <div class="card-country">${d.country}</div>
+          <p class="card-tagline">${d.tagline || 'Descubre esta ruta única'}</p>
+          <div class="card-vibes">
+            ${(d.vibes||[]).slice(0,3).map(v => `<span class="vibe-pill">${v}</span>`).join('')}
+          </div>
+          <div class="card-footer">
+            <span class="card-budget">${budgetLabel(d)}</span>
+            <button class="card-wishlist-btn${wishlistSlugsGuias.has(d.slug) ? ' wishlisted' : ''}" data-wishlist-slug="${d.slug}" title="Guardar ruta" onclick="toggleWishlistGuias(event,'${d.slug}',${JSON.stringify(d.name)})">${wishlistSlugsGuias.has(d.slug) ? '♥' : '♡'}</button>
+            <span class="card-cta">Ver ruta →</span>
+          </div>
+        </div>
+      </a>
+    </div>`;
+  }
+
   function renderCityCard(c) {
     return `
     <div class="dest-card-wrapper">
@@ -1384,6 +1454,18 @@ function renderGrid() {
     </div>`;
   }
 
+  // Route view: render route cards
+  if (activeType === 'route') {
+    grid.innerHTML = relaxedNote + results.map(d => renderRouteCard(d)).join('');
+    return;
+  }
+
+  // City-only view: flat city cards
+  if (activeType === 'city') {
+    grid.innerHTML = relaxedNote + results.map(c => renderCityCard(c)).join('');
+    return;
+  }
+
   grid.innerHTML = relaxedNote
     + countries.map(d => renderCountryCard(d)).join('')
     + orphanCities.map(c => renderCityCard(c)).join('');
@@ -1391,7 +1473,7 @@ function renderGrid() {
 
 // ── Filter logic ──────────────────────────────────────────────────────────────
 function anyFilterActive() {
-  return activeContinent !== '' || activeStyle !== '' || searchQuery.trim() !== '';
+  return activeContinent !== '' || activeStyle !== '' || activeType !== '' || searchQuery.trim() !== '';
 }
 
 function updateClearBtn() {
@@ -1401,6 +1483,7 @@ function updateClearBtn() {
 function clearFilters() {
   activeContinent = '';
   activeStyle = '';
+  activeType = '';
   searchQuery = '';
   document.getElementById('search-input').value = '';
 
@@ -1411,10 +1494,36 @@ function clearFilters() {
     p.classList.toggle('active', p.dataset.value === '');
     p.classList.remove('style-active');
   });
+  document.querySelectorAll('[data-filter="tipo"]').forEach(p => {
+    p.classList.toggle('active', p.dataset.value === '');
+  });
 
   updateClearBtn();
   renderGrid();
 }
+
+// Tipo filter helper (called from rutas section button)
+function activateTipoFilter(type) {
+  activeType = type;
+  document.querySelectorAll('[data-filter="tipo"]').forEach(p => {
+    p.classList.toggle('active', p.dataset.value === type);
+  });
+  updateClearBtn();
+  renderGrid();
+  // Scroll to the grid
+  document.getElementById('cards-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Tipo pill click handlers
+document.querySelectorAll('[data-filter="tipo"]').forEach(pill => {
+  pill.addEventListener('click', () => {
+    activeType = pill.dataset.value;
+    document.querySelectorAll('[data-filter="tipo"]').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    updateClearBtn();
+    renderGrid();
+  });
+});
 
 // Pill click handlers
 document.querySelectorAll('[data-filter="continent"]').forEach(pill => {
@@ -1465,7 +1574,7 @@ document.getElementById('search-input').addEventListener('input', (e) => {
 // Sorpréndeme — picks from the full unfiltered list so active filters don't bias the result
 function goSurprise(e) {
   e.preventDefault();
-  const pool = masterDestinations.length ? masterDestinations : allDestinations;
+  const pool = (masterDestinations.length ? masterDestinations : allDestinations).filter(d => d.type !== 'route');
   if (!pool.length) return;
   const d = pool[Math.floor(Math.random() * pool.length)];
   window.location.href = `destino.html?slug=${d.slug}`;
