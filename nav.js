@@ -483,6 +483,7 @@
       <div class="vm-topnav-links">
         <a href="guias.html"    class="vm-topnav-link${activeClass('guias')}">Guías</a>
         <a href="plan.html"     class="vm-topnav-link${activeClass('plan')}">Planifica</a>
+        <a href="planner-ai.html" class="vm-topnav-link${activeClass('planner-ai')}" style="color:var(--accent);font-weight:600;">🤖 IA</a>
         <a href="mapa.html"     class="vm-topnav-link${activeClass('mapa')}">Mapa</a>
         <a href="discover.html" class="vm-topnav-link${activeClass('discover')}">Descubrir</a>
         <a href="ranking.html"  class="vm-topnav-link${activeClass('ranking')}">Ranking</a>
@@ -511,6 +512,7 @@
       { icon: '🏠', label: 'Inicio',             href: isAuth ? 'main.html' : 'index.html', page: 'home' },
       { icon: '🗺️', label: 'Guías',              href: 'guias.html',          page: 'guias' },
       { icon: '✈️', label: 'Planifica',           href: 'plan.html',           page: 'plan' },
+      { icon: '🤖', label: 'Planificador IA',     href: 'planner-ai.html',     page: 'planner-ai' },
       { icon: '🌍', label: 'Mapa',                href: 'mapa.html',           page: 'mapa' },
       { icon: '📅', label: 'Fechas',              href: 'fechas.html',         page: 'fechas' },
       { icon: '🔍', label: 'Descubrir',             href: 'discover.html',       page: 'discover' },
