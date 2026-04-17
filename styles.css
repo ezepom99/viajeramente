@@ -881,7 +881,22 @@ footer {
 .hub-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
 }
-@media (max-width: 900px) { .hub-grid { grid-template-columns: repeat(2, 1fr); } }
+/* AI card spans full width on its own row */
+.hub-card-ai {
+  grid-column: 1 / -1;
+  flex-direction: row; align-items: center; gap: 20px;
+  background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
+  border-color: #C4B5FD;
+}
+.hub-card-ai .hub-icon { font-size: 2.5rem; flex-shrink: 0; }
+.hub-card-ai .hub-desc { font-size: 0.88rem; }
+.hub-card-ai .hub-cta  { margin-top: 0; white-space: nowrap; flex-shrink: 0; }
+.hub-badge-new {
+  display: inline-block; background: #7C3AED; color: #fff;
+  font-size: 0.55rem; font-weight: 700; letter-spacing: 0.08em;
+  padding: 2px 6px; border-radius: 99px; vertical-align: middle; margin-left: 6px;
+}
+@media (max-width: 900px) { .hub-grid { grid-template-columns: repeat(2, 1fr); } .hub-card-ai { flex-direction: column; } }
 @media (max-width: 480px)  { .hub-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
 
 .hub-card {

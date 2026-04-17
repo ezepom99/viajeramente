@@ -114,6 +114,23 @@
       color: var(--accent, #0EA5E9);
       font-weight: 600;
     }
+    /* More dropdown */
+    .vm-topnav-more { position: relative; }
+    .vm-more-btn { background: none; border: none; cursor: pointer; font-family: inherit; }
+    .vm-more-dropdown {
+      display: none; position: absolute; top: calc(100% + 8px); right: 0;
+      background: #fff; border: 1px solid var(--border, #E2E8F0);
+      border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.12);
+      min-width: 200px; padding: 8px; z-index: 300;
+    }
+    .vm-topnav-more.open .vm-more-dropdown { display: flex; flex-direction: column; gap: 2px; }
+    .vm-more-item {
+      font-size: .82rem; font-weight: 500; color: var(--text-2, #64748B);
+      text-decoration: none; padding: 8px 12px; border-radius: 8px;
+      transition: background .12s, color .12s;
+    }
+    .vm-more-item:hover { background: var(--bg-soft, #F8FAFC); color: var(--text, #0F172A); }
+    .vm-more-item.active { color: var(--accent, #0EA5E9); font-weight: 600; }
     @media (max-width: 768px) {
       .vm-topnav-links { display: none; }
     }
@@ -487,6 +504,15 @@
         <a href="mapa.html"     class="vm-topnav-link${activeClass('mapa')}">Mapa</a>
         <a href="discover.html" class="vm-topnav-link${activeClass('discover')}">Descubrir</a>
         <a href="ranking.html"  class="vm-topnav-link${activeClass('ranking')}">Ranking</a>
+        <div class="vm-topnav-more" id="vmMoreMenu">
+          <button class="vm-topnav-link vm-more-btn" aria-label="Más secciones">Más ▾</button>
+          <div class="vm-more-dropdown" id="vmMoreDropdown">
+            <a href="fechas.html"         class="vm-more-item${activeClass('fechas')}">📅 ¿Cuándo ir?</a>
+            <a href="interrail.html"      class="vm-more-item${activeClass('interrail')}">🚂 Interrail & Eurail</a>
+            <a href="round-the-world.html" class="vm-more-item${activeClass('rtw')}">🌎 Vuelta al mundo</a>
+            <a href="viaje-grupo.html"    class="vm-more-item">👥 Viajes en grupo</a>
+          </div>
+        </div>
       </div>
       <div class="vm-topnav-right">
         ${isAuth
@@ -708,6 +734,19 @@
         overlay.classList.remove('open');
       }
     });
+
+    // "Más ▾" dropdown (desktop)
+    const moreMenu = document.getElementById('vmMoreMenu');
+    const moreBtn  = moreMenu && moreMenu.querySelector('.vm-more-btn');
+    if (moreBtn) {
+      moreBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        moreMenu.classList.toggle('open');
+      });
+      document.addEventListener('click', function () {
+        moreMenu.classList.remove('open');
+      });
+    }
   }
 
 })();
