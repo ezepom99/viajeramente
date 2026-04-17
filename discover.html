@@ -1089,12 +1089,15 @@ function initMap() {
   loadTravelers();
   loadTrending();
 
-  // Hide loading
+  // Hide loading and auto-open trending panel so page doesn't look empty
   setTimeout(() => {
     const el = document.getElementById('loading');
     el.classList.add('hidden');
     setTimeout(() => el.style.display = 'none', 500);
-  }, 800);
+    // Auto-open panel showing trending destinations
+    openPanel();
+    switchPanelTab('trending');
+  }, 1000);
 }
 
 // ── MAP EVENTS ──
@@ -1157,21 +1160,22 @@ async function loadHeatmap() {
     if (!data.ok) return;
 
     const points = data.points.map(p => [
-      parseFloat(p.lat), parseFloat(p.lng), Math.min(p.weight * 1.5, 1)
+      parseFloat(p.lat), parseFloat(p.lng), Math.min(p.weight * 2.5, 1)
     ]);
 
     if (points.length === 0) return;
 
     heatLayer = L.heatLayer(points, {
-      radius: 45,
-      blur: 22,
-      maxZoom: 10,
-      max: 1.0,
+      radius: 60,
+      blur: 30,
+      maxZoom: 12,
+      max: 0.6,
+      minOpacity: 0.35,
       gradient: {
-        0.1: '#0EA5E9',
+        0.0: '#0EA5E9',
         0.3: '#10B981',
-        0.55: '#F59E0B',
-        0.8: '#EF4444',
+        0.6: '#F59E0B',
+        0.85: '#EF4444',
         1.0: '#DC2626',
       }
     }).addTo(map);
@@ -1256,7 +1260,7 @@ function buildStoryPopup(s) {
 function renderNearbyPanel(stories) {
   const container = document.getElementById('nearbyStories');
   if (stories.length === 0) {
-    container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🗺️</div><p>No hay historias en esta zona. Se el primero en compartir una.</p></div>`;
+    container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">✍️</div><p style="font-weight:600;margin-bottom:6px;">Sé el primero aquí</p><p style="opacity:.7;font-size:.82rem;">Toca el botón 📝 en el mapa para dejar tu historia en este lugar.</p></div>`;
     return;
   }
 
@@ -1349,12 +1353,14 @@ async function loadTrending() {
     const top = data.countries.slice(0, 15);
     const container = document.getElementById('trendingList');
     container.innerHTML = top.map((c, i) => {
-      const flag = isoToFlag(c.country_code.trim());
+      const code = c.country_code.trim();
+      const flag = isoToFlag(code);
+      const name = isoToName(code);
       return `<div class="traveler-card" style="cursor:default;">
         <div style="width:32px;text-align:center;font-size:1.4rem;flex-shrink:0;">${flag}</div>
         <div class="traveler-info">
-          <div class="traveler-name">${flag} ${c.country_code.trim().toUpperCase()}</div>
-          <div class="traveler-stats">${c.visitors} viajero${c.visitors !== 1 ? 's' : ''} han visitado</div>
+          <div class="traveler-name">${name}</div>
+          <div class="traveler-stats">${c.visitors} viajero${c.visitors !== 1 ? 's' : ''} lo han visitado</div>
         </div>
         <div style="color:rgba(255,255,255,0.3);font-size:0.75rem;font-weight:700;">#${i + 1}</div>
       </div>`;
@@ -1597,6 +1603,32 @@ function isoToFlag(iso2) {
   iso2 = iso2.trim().toUpperCase();
   const codePoints = [...iso2.substring(0,2)].map(c => 0x1F1E0 + c.charCodeAt(0) - 65);
   return String.fromCodePoint(...codePoints);
+}
+
+const ISO2_NAMES = {
+  ES:'España',FR:'Francia',DE:'Alemania',IT:'Italia',PT:'Portugal',GB:'Reino Unido',
+  US:'Estados Unidos',MX:'México',AR:'Argentina',BR:'Brasil',CL:'Chile',CO:'Colombia',
+  PE:'Perú',UY:'Uruguay',BO:'Bolivia',VE:'Venezuela',EC:'Ecuador',PY:'Paraguay',
+  JP:'Japón',CN:'China',KR:'Corea del Sur',TH:'Tailandia',VN:'Vietnam',ID:'Indonesia',
+  IN:'India',PH:'Filipinas',MY:'Malasia',SG:'Singapur',TW:'Taiwán',
+  AU:'Australia',NZ:'Nueva Zelanda',
+  MA:'Marruecos',EG:'Egipto',ZA:'Sudáfrica',TZ:'Tanzania',KE:'Kenya',MU:'Mauricio',
+  TR:'Turquía',GR:'Grecia',HR:'Croacia',CZ:'República Checa',HU:'Hungría',
+  PL:'Polonia',RO:'Rumanía',AT:'Austria',CH:'Suiza',NL:'Países Bajos',BE:'Bélgica',
+  SE:'Suecia',NO:'Noruega',DK:'Dinamarca',FI:'Finlandia',IS:'Islandia',IE:'Irlanda',
+  CU:'Cuba',CR:'Costa Rica',PA:'Panamá',GT:'Guatemala',DO:'República Dominicana',
+  IL:'Israel',JO:'Jordania',AE:'Emiratos Árabes',SA:'Arabia Saudí',
+  RU:'Rusia',UA:'Ucrania',NP:'Nepal',LK:'Sri Lanka',MM:'Myanmar',KH:'Camboya',
+  MN:'Mongolia',KZ:'Kazajistán',UZ:'Uzbekistán',GE:'Georgia',AM:'Armenia',AZ:'Azerbaiyán',
+  LU:'Luxemburgo',SK:'Eslovaquia',SI:'Eslovenia',RS:'Serbia',MK:'Macedonia del Norte',
+  BA:'Bosnia',AL:'Albania',ME:'Montenegro',MT:'Malta',CY:'Chipre',
+  MZ:'Mozambique',MG:'Madagascar',RW:'Ruanda',ET:'Etiopía',GH:'Ghana',SN:'Senegal',
+  PT:'Portugal',TN:'Túnez',DZ:'Argelia',LY:'Libia',
+  CA:'Canadá',
+};
+function isoToName(iso2) {
+  if (!iso2) return iso2;
+  return ISO2_NAMES[iso2.trim().toUpperCase()] || iso2.trim().toUpperCase();
 }
 
 let toastTimer;

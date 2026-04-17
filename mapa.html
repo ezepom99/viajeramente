@@ -770,6 +770,20 @@ async function initMap() {
 
 // ── GEOJSON ───────────────────────────────────────────────────────────────────
 
+// Fix GeoJSON features where ISO_A2 = '-99' (France, Norway, etc.) by using ISO_A2_EH fallback
+function fixGeoJSONIsoCodes(geojson) {
+  (geojson.features || []).forEach(f => {
+    const p = f.properties;
+    if (!p) return;
+    const a2 = p.ISO_A2;
+    if (!a2 || a2 === '-99') {
+      const eh = p.ISO_A2_EH;
+      if (eh && eh !== '-99') p.ISO_A2 = eh;
+    }
+  });
+  return geojson;
+}
+
 async function loadGeoJSON() {
   try {
     setLoadingText('Cargando países...');
@@ -777,12 +791,12 @@ async function loadGeoJSON() {
     try {
       const res = await fetch(GEOJSON_URL);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      geojson = await res.json();
+      geojson = fixGeoJSONIsoCodes(await res.json());
     } catch (localErr) {
       console.warn('Local GeoJSON failed, using fallback:', localErr);
       const res2 = await fetch(GEOJSON_FALLBACK_URL);
       if (!res2.ok) throw new Error(`Fallback HTTP ${res2.status}`);
-      geojson = await res2.json();
+      geojson = fixGeoJSONIsoCodes(await res2.json());
     }
 
     geoLayer = L.geoJSON(geojson, {
