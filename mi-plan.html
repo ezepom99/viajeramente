@@ -94,10 +94,122 @@
       border-radius: 16px;
       overflow: hidden;
       border: 1px solid var(--border);
+      margin-bottom: 8px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+    #planMap { height: 360px; width: 100%; }
+
+    /* ── Route stages strip ── */
+    .route-stages {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 20px;
       margin-bottom: 24px;
       box-shadow: var(--shadow-sm);
+      overflow: hidden;
     }
-    #planMap { height: 220px; width: 100%; }
+    .route-stages-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+    }
+    .route-stage-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .route-stage-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .route-stage-item:last-child { border-bottom: none; }
+    .route-stage-item:hover { background: var(--bg-soft); margin: 0 -20px; padding: 10px 20px; border-radius: 8px; }
+    .route-stage-num {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .route-stage-connector {
+      position: relative;
+    }
+    .route-stage-connector::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      top: 26px;
+      bottom: -10px;
+      width: 2px;
+      background: var(--border);
+    }
+    .route-stage-body { flex: 1; min-width: 0; }
+    .route-stage-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .route-stage-notes {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+    .route-stage-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .route-stage-km {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--teal);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .route-stage-time {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .route-stage-transport {
+      font-size: 0.72rem;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+    .route-day-badge {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      background: var(--bg-soft);
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-weight: 600;
+    }
 
     /* ── Budget bar ── */
     .budget-section {
@@ -435,6 +547,12 @@
       <div id="planMap"></div>
     </div>
 
+    <!-- Route stages -->
+    <div class="route-stages" id="routeStages" style="display:none;">
+      <div class="route-stages-title">🗺️ Ruta etapa por etapa</div>
+      <div class="route-stage-list" id="routeStageList"></div>
+    </div>
+
     <!-- Budget -->
     <div class="budget-section" id="budgetSection">
       <div class="budget-title">💰 Presupuesto diario estimado</div>
@@ -533,16 +651,92 @@
       document.getElementById('publicLabel').textContent = PLAN.is_public ? 'Hacer privado' : 'Hacer publico';
     }
 
-    // Map
-    if (dest.coordinates && dest.coordinates.lat) {
-      const map = L.map('planMap', { scrollWheelZoom: false, dragging: !L.Browser.mobile }).setView(
-        [dest.coordinates.lat, dest.coordinates.lng], 5
-      );
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OSM'
+    // Map + Route waypoints
+    const waypoints = pd.route_waypoints || [];
+    const hasRoute = waypoints.length > 1;
+
+    if (hasRoute || (dest.coordinates && dest.coordinates.lat)) {
+      const mapCenter = hasRoute
+        ? [waypoints[0].lat, waypoints[0].lng]
+        : [dest.coordinates.lat, dest.coordinates.lng];
+
+      const mapZoom = hasRoute ? 6 : 7;
+
+      const map = L.map('planMap', {
+        scrollWheelZoom: true,
+        dragging: true,
+        zoomControl: true
+      }).setView(mapCenter, mapZoom);
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+        maxZoom: 19
       }).addTo(map);
-      L.marker([dest.coordinates.lat, dest.coordinates.lng]).addTo(map)
-        .bindPopup(`<b>${dest.name}</b>`);
+
+      // Store markers for highlight
+      const markerRefs = {};
+
+      if (hasRoute) {
+        // Draw polyline route
+        const latlngs = waypoints.map(wp => [wp.lat, wp.lng]);
+        L.polyline(latlngs, {
+          color: 'var(--accent, #0EA5E9)',
+          weight: 3.5,
+          opacity: 0.85,
+          dashArray: null,
+          lineJoin: 'round'
+        }).addTo(map);
+
+        // Add numbered markers per stage
+        waypoints.forEach((wp, i) => {
+          const isLast = i === waypoints.length - 1;
+          const color = isLast ? '#10B981' : '#0EA5E9';
+          const icon = L.divIcon({
+            className: '',
+            html: `<div style="
+              width:28px;height:28px;border-radius:50%;
+              background:${color};border:2.5px solid #fff;
+              box-shadow:0 2px 8px rgba(0,0,0,.35);
+              display:flex;align-items:center;justify-content:center;
+              font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:800;color:#fff;
+              cursor:pointer;
+            ">${wp.stage}</div>`,
+            iconSize: [28, 28],
+            iconAnchor: [14, 14]
+          });
+
+          let popupHtml = `<div style="font-family:Inter,sans-serif;min-width:160px;">
+            <div style="font-weight:700;font-size:0.9rem;margin-bottom:4px;">📍 ${wp.name}</div>`;
+          if (wp.km_from_prev > 0) {
+            popupHtml += `<div style="font-size:0.78rem;color:#666;margin-bottom:2px;">
+              🚗 ${wp.km_from_prev} km · ${_formatTime(wp.drive_time_h)}</div>`;
+            popupHtml += `<div style="font-size:0.78rem;color:#0EA5E9;margin-bottom:4px;">
+              ${wp.transport_mode}</div>`;
+          }
+          if (wp.notes) {
+            popupHtml += `<div style="font-size:0.77rem;color:#444;line-height:1.4;">${wp.notes}</div>`;
+          }
+          popupHtml += `<div style="font-size:0.72rem;color:#999;margin-top:4px;">Día ${wp.day}</div>`;
+          popupHtml += `</div>`;
+
+          const marker = L.marker([wp.lat, wp.lng], { icon }).addTo(map)
+            .bindPopup(popupHtml, { maxWidth: 240 });
+
+          markerRefs[wp.stage] = marker;
+        });
+
+        // Fit bounds with padding
+        const bounds = L.latLngBounds(latlngs);
+        map.fitBounds(bounds, { padding: [32, 32] });
+
+        // Render route stages panel
+        renderRouteStages(waypoints, markerRefs, map);
+
+      } else {
+        // Single destination marker
+        L.marker([dest.coordinates.lat, dest.coordinates.lng]).addTo(map)
+          .bindPopup(`<b>${dest.name}</b>`);
+      }
     } else {
       document.querySelector('.plan-map-wrap').style.display = 'none';
     }
@@ -571,18 +765,30 @@
 
     // Days
     const days = pd.days || [];
-    document.getElementById('daysList').innerHTML = days.map((day, i) => `
+    document.getElementById('daysList').innerHTML = days.map((day, i) => {
+      const hasTransit = day.km_from_prev > 0;
+      const transitHtml = hasTransit ? `
+        <div style="font-size:0.72rem;color:var(--teal);font-weight:600;margin:-4px 0 6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:0 20px 8px;">
+          <span>📍 ${day.location || ''}</span>
+          <span>🚗 ${day.km_from_prev} km</span>
+          <span>⏱ ${_formatTime(day.drive_time_h)}</span>
+          <span style="color:var(--accent);">${escHtml(day.transport_mode || '')}</span>
+        </div>
+      ` : (day.location ? `<div style="font-size:0.72rem;color:var(--text-muted);padding:0 20px 8px;">📍 ${escHtml(day.location)}</div>` : '');
+
+      return `
       <div class="day-card${i === 0 ? ' open' : ''}" style="animation-delay:${i * 0.05}s">
         <div class="day-header" onclick="this.parentElement.classList.toggle('open')">
-          <span class="day-badge">Dia ${day.day}</span>
+          <span class="day-badge">Día ${day.day}</span>
           <span class="day-title-text">${escHtml(day.title)}</span>
           <span class="day-arrow">▼</span>
         </div>
+        ${transitHtml}
         <div class="day-body">
           ${(day.items || []).map(item => renderItem(item, PLAN.id)).join('')}
         </div>
       </div>
-    `).join('');
+    `}).join('');
 
     // Essentials
     renderEssentials(pd.essentials);
@@ -590,6 +796,62 @@
     // Update page title
     document.title = `${PLAN.title} — ViajeraMente`;
   }
+
+  function _formatTime(h) {
+    if (!h) return '';
+    const hrs = Math.floor(h);
+    const mins = Math.round((h - hrs) * 60);
+    if (hrs === 0) return `${mins}min`;
+    if (mins === 0) return `${hrs}h`;
+    return `${hrs}h ${mins}min`;
+  }
+
+  function renderRouteStages(waypoints, markerRefs, map) {
+    if (!waypoints || waypoints.length < 2) return;
+    document.getElementById('routeStages').style.display = '';
+    const list = document.getElementById('routeStageList');
+
+    list.innerHTML = waypoints.map((wp, i) => {
+      const isLast = i === waypoints.length - 1;
+      const hasTransit = wp.km_from_prev > 0;
+      const connectorClass = isLast ? '' : 'route-stage-connector';
+
+      return `
+        <div class="route-stage-item ${connectorClass}" onclick="highlightStage(${wp.stage})">
+          <div class="route-stage-num" style="${isLast ? 'background:var(--teal)' : ''}">${wp.stage}</div>
+          <div class="route-stage-body">
+            <div class="route-stage-name">${escHtml(wp.name)}</div>
+            ${wp.notes ? `<div class="route-stage-notes">${escHtml(wp.notes)}</div>` : ''}
+            <div class="route-stage-meta">
+              ${hasTransit ? `
+                <span class="route-stage-km">📍 ${wp.km_from_prev} km</span>
+                <span class="route-stage-time">⏱ ${_formatTime(wp.drive_time_h)}</span>
+                <span class="route-stage-transport">${escHtml(wp.transport_mode)}</span>
+              ` : '<span class="route-stage-transport" style="background:var(--accent-light);color:var(--accent);">Inicio</span>'}
+              <span class="route-day-badge">Día ${wp.day}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Store refs for highlight function
+    window._planMarkers = markerRefs;
+    window._planMap = map;
+  }
+
+  window.highlightStage = function(stage) {
+    const marker = window._planMarkers && window._planMarkers[stage];
+    if (marker && window._planMap) {
+      window._planMap.setView(marker.getLatLng(), 9, { animate: true });
+      marker.openPopup();
+    }
+    // Scroll to the nearest day card
+    const dayCards = document.querySelectorAll('.day-card');
+    if (dayCards.length >= stage) {
+      dayCards[Math.min(stage - 1, dayCards.length - 1)].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const TYPE_ICONS = {
     transport: '🚀',

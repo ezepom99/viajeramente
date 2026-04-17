@@ -575,6 +575,215 @@
       opacity: 1;
     }
 
+    /* ── CONTINENT BREAKDOWN ── */
+    .continent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .continent-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-soft);
+      transition: all .2s;
+    }
+    .continent-chip.visited {
+      background: rgba(14,165,233,.06);
+      border-color: rgba(14,165,233,.25);
+    }
+    .continent-chip-emoji { font-size: 1.3rem; }
+    .continent-chip-info { display: flex; flex-direction: column; }
+    .continent-chip-name { font-size: .82rem; font-weight: 600; color: var(--text); }
+    .continent-chip-count { font-size: .72rem; color: var(--text-3); }
+    .continent-chip.visited .continent-chip-name { color: var(--accent); }
+
+    /* ── SHARE MODAL ── */
+    .share-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      backdrop-filter: blur(6px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .share-modal-overlay.active { display: flex; }
+    .share-modal {
+      background: #fff;
+      border-radius: 20px;
+      max-width: 480px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    }
+    .share-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px 0;
+    }
+    .share-modal-header h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .share-modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: var(--bg-soft);
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-2);
+      transition: all .2s;
+    }
+    .share-modal-close:hover { background: #E2E8F0; }
+    .share-modal-body { padding: 20px 24px 24px; }
+    .share-preview {
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0A1628;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .share-preview img {
+      width: 100%;
+      display: block;
+      border-radius: 14px;
+    }
+    .share-preview-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,.5);
+      font-size: .85rem;
+    }
+    .share-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .share-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      border: none;
+      width: 100%;
+    }
+    .share-btn-primary {
+      background: linear-gradient(135deg, #0EA5E9, #0284C7);
+      color: #fff;
+    }
+    .share-btn-primary:hover { background: linear-gradient(135deg, #0284C7, #0369A1); transform: translateY(-1px); }
+    .share-btn-secondary {
+      background: var(--bg-soft);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .share-btn-secondary:hover { background: #E2E8F0; }
+    .share-btn-native {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #fff;
+    }
+    .share-btn-native:hover { background: linear-gradient(135deg, #059669, #047857); }
+    .share-stats-text {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: var(--bg-soft);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .share-stats-text p {
+      font-size: .82rem;
+      color: var(--text-2);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .share-stats-copy {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: .9rem;
+      color: var(--text-3);
+      padding: 4px;
+    }
+    .share-stats-copy:hover { color: var(--accent); }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, #0EA5E9 0%, #0369A1 50%, #10B981 100%);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      text-align: center;
+      margin: 16px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,.1), transparent 60%);
+    }
+    .cta-banner h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-banner p {
+      font-size: .9rem;
+      color: rgba(255,255,255,.8);
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-banner-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: #fff;
+      color: #0369A1;
+      border-radius: 100px;
+      font-size: .95rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all .2s;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 4px 16px rgba(0,0,0,.15);
+    }
+    .cta-banner-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+
     /* ── RANKING LINK ── */
     .ranking-cta {
       display: flex;
@@ -638,8 +847,8 @@
           <button class="btn-hero btn-follow" id="btnFollow">
             ➕ Seguir
           </button>
-          <button class="btn-hero btn-share" onclick="shareProfile()">
-            🔗 Compartir perfil
+          <button class="btn-hero btn-share" onclick="openShareModal()">
+            📤 Compartir mi mapa
           </button>
         </div>
       </div>
@@ -704,6 +913,18 @@
         </div>
       </div>
 
+      <!-- CONTINENT BREAKDOWN -->
+      <div class="section-card" id="continentCard" style="display:none;">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-title-icon">🌎</div>
+            Continentes explorados
+          </div>
+          <span class="section-badge" id="continentBadge">0/6</span>
+        </div>
+        <div class="continent-grid" id="continentGrid"></div>
+      </div>
+
       <!-- SOCIAL NETWORKS -->
       <div class="section-card" id="socialCard" style="display:none;">
         <div class="section-header">
@@ -758,6 +979,13 @@
         <div class="badges-grid" id="publicBadgesGrid"></div>
       </div>
 
+      <!-- CTA BANNER (for non-logged-in visitors) -->
+      <div class="cta-banner" id="ctaBanner" style="display:none;">
+        <h3>Crea tu mapa de viajes</h3>
+        <p>Registra tus viajes, comparte tu mapa y descubre a otros viajeros.</p>
+        <a href="signup.html" class="cta-banner-btn">🌍 Crear mi perfil gratis</a>
+      </div>
+
       <!-- RANKING CTA -->
       <div class="ranking-cta">
         <a href="ranking.html" class="btn-ranking">🏆 Ver ranking de viajeros</a>
@@ -767,6 +995,40 @@
   </div><!-- /profileContent -->
 
 </div><!-- /page-wrap -->
+
+<!-- SHARE MODAL -->
+<div class="share-modal-overlay" id="shareModalOverlay" onclick="if(event.target===this)closeShareModal()">
+  <div class="share-modal">
+    <div class="share-modal-header">
+      <h3>Compartir mi mapa</h3>
+      <button class="share-modal-close" onclick="closeShareModal()">x</button>
+    </div>
+    <div class="share-modal-body">
+      <div class="share-preview" id="sharePreview">
+        <div class="share-preview-loading" id="sharePreviewLoading">Generando imagen...</div>
+        <img id="sharePreviewImg" style="display:none;" alt="Preview del mapa de viajes" />
+      </div>
+      <div class="share-actions">
+        <button class="share-btn share-btn-primary" id="btnDownloadStory" onclick="downloadShareImage('story')">
+          Descargar para Instagram Story
+        </button>
+        <button class="share-btn share-btn-secondary" id="btnDownloadOG" onclick="downloadShareImage('og')">
+          Descargar imagen cuadrada (OG)
+        </button>
+        <button class="share-btn share-btn-secondary" onclick="copyShareLink()">
+          Copiar enlace del perfil
+        </button>
+        <button class="share-btn share-btn-native" id="btnNativeShare" style="display:none;" onclick="nativeShare()">
+          Compartir...
+        </button>
+      </div>
+      <div class="share-stats-text" id="shareStatsText" style="display:none;">
+        <button class="share-stats-copy" onclick="copyStatsText()" title="Copiar texto">Copiar</button>
+        <p id="shareStatsP"></p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="map-tooltip" id="mapTooltip"></div>
 <div class="toast" id="toast"></div>
@@ -778,7 +1040,7 @@
 <script>
 
 const API_BASE = 'https://eze.saypeter.com';
-const username = new URLSearchParams(window.location.search).get('user');
+const username = window.__INJECTED_USERNAME__ || new URLSearchParams(window.location.search).get('user');
 if (!username) window.location.href = 'index.html';
 
 // Visited countries set loaded from API
@@ -805,6 +1067,8 @@ function getLevelFromCountries(n) {
 
 // ── RENDER PUBLIC PROFILE ──
 function renderPublicProfile(user) {
+  _profileData = user;
+
   // Update page title
   document.title = `${user.name || user.username} — ViajeraMente`;
 
@@ -851,17 +1115,20 @@ function renderPublicProfile(user) {
   badge.textContent = `${level.emoji} ${level.name}`;
   badge.className = `level-badge ${level.cls}`;
 
-  // Stats
-  document.getElementById('statCountries').textContent = countries;
-  document.getElementById('statCities').textContent = user.cities_visited || 0;
+  // Stats (support both old and new field names)
+  const countriesCount = user.countries_visited_count || countries;
+  const citiesCount = user.cities_visited || 0;
+  const wondersCount = user.wonders_visited || 0;
+  document.getElementById('statCountries').textContent = countriesCount;
+  document.getElementById('statCities').textContent = citiesCount;
   document.getElementById('statKm').textContent = km >= 1000 ? Math.round(km/1000) + 'k' : km;
-  document.getElementById('statWonders').textContent = user.wonders_visited || 0;
-  document.getElementById('mapBadge').textContent = `${countries} ${countries === 1 ? 'país' : 'países'}`;
-  document.getElementById('visitedCountBig').textContent = countries;
+  document.getElementById('statWonders').textContent = wondersCount;
+  document.getElementById('mapBadge').textContent = `${countriesCount} ${countriesCount === 1 ? 'pais' : 'paises'}`;
+  document.getElementById('visitedCountBig').textContent = countriesCount;
 
-  // Visited country codes
+  // Visited country codes (numeric IDs for d3 map)
   if (Array.isArray(user.visited_country_ids)) {
-    visitedCodesPublic = new Set(user.visited_country_ids.map(String));
+    visitedCodesPublic = new Set(user.visited_country_ids.map(String).filter(s => s));
   } else if (Array.isArray(user.countries_list)) {
     visitedCodesPublic = new Set(user.countries_list.map(String));
   }
@@ -900,6 +1167,18 @@ function renderPublicProfile(user) {
   if (user.id) {
     loadUserBadges(user.id);
   }
+
+  // Render continent breakdown
+  renderContinents(user);
+
+  // Show CTA banner for non-logged-in visitors
+  try {
+    const token = localStorage.getItem('vm_token');
+    if (!token) {
+      const ctaBanner = document.getElementById('ctaBanner');
+      if (ctaBanner) ctaBanner.style.display = '';
+    }
+  } catch(e) {}
 }
 
 async function loadUserBadges(userId) {
@@ -1001,22 +1280,175 @@ async function initPublicMap() {
   }
 }
 
-// ── SHARE ──
-function shareProfile() {
-  const url = window.location.href;
+// ── CONTINENT BREAKDOWN ──
+let _profileData = null;
+
+function renderContinents(user) {
+  const ALL_CONTINENTS = [
+    { key: 'Europa', emoji: '🇪🇺', aliases: ['europa', 'europe'] },
+    { key: 'America', emoji: '🌎', aliases: ['america', 'américa', 'north america', 'south america'] },
+    { key: 'Asia', emoji: '🌏', aliases: ['asia'] },
+    { key: 'Africa', emoji: '🌍', aliases: ['africa', 'áfrica'] },
+    { key: 'Oceania', emoji: '🏝️', aliases: ['oceania', 'oceanía'] },
+    { key: 'Antartica', emoji: '🧊', aliases: ['antartica', 'antártida', 'antarctica'] },
+  ];
+
+  const visitedList = user.visited_countries || [];
+  const continentCounts = {};
+  visitedList.forEach(v => {
+    if (v.continent) {
+      const norm = v.continent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      for (const c of ALL_CONTINENTS) {
+        if (c.aliases.some(a => norm.includes(a)) || norm.includes(c.key.toLowerCase())) {
+          continentCounts[c.key] = (continentCounts[c.key] || 0) + 1;
+          break;
+        }
+      }
+    }
+  });
+
+  const visitedContinentCount = Object.keys(continentCounts).length;
+  if (visitedContinentCount === 0) return;
+
+  document.getElementById('continentCard').style.display = '';
+  document.getElementById('continentBadge').textContent = `${visitedContinentCount}/6`;
+
+  const grid = document.getElementById('continentGrid');
+  grid.innerHTML = ALL_CONTINENTS.map(c => {
+    const count = continentCounts[c.key] || 0;
+    const visited = count > 0;
+    return `<div class="continent-chip ${visited ? 'visited' : ''}">
+      <span class="continent-chip-emoji">${c.emoji}</span>
+      <div class="continent-chip-info">
+        <span class="continent-chip-name">${c.key}</span>
+        <span class="continent-chip-count">${visited ? count + ' ' + (count === 1 ? 'pais' : 'paises') : 'Sin visitar'}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── SHARE MODAL ──
+let _shareImageLoaded = false;
+
+function openShareModal() {
+  const overlay = document.getElementById('shareModalOverlay');
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Show native share button on mobile
+  if (navigator.share) {
+    document.getElementById('btnNativeShare').style.display = '';
+  }
+
+  // Load preview image
+  if (!_shareImageLoaded) {
+    const img = document.getElementById('sharePreviewImg');
+    const loading = document.getElementById('sharePreviewLoading');
+    img.src = `${API_BASE}/api/user/${username}/share-image?format=story&t=${Date.now()}`;
+    img.onload = () => {
+      loading.style.display = 'none';
+      img.style.display = 'block';
+      _shareImageLoaded = true;
+    };
+    img.onerror = () => {
+      loading.textContent = 'No se pudo generar la imagen.';
+    };
+  }
+
+  // Stats text
+  if (_profileData) {
+    const d = _profileData;
+    const countries = d.countries_visited_count || d.countries_visited || 0;
+    const cities = d.cities_visited || 0;
+    const km = d.km_traveled || 0;
+    const kmFmt = km >= 1000 ? Math.round(km/1000) + 'k' : km;
+    const rank = d.rank_level || 'Explorador';
+    const name = d.name || d.username || 'Viajero';
+    const text = `${name} ha visitado ${countries} paises y ${cities} ciudades. Nivel: ${rank}. ${km > 0 ? kmFmt + ' km recorridos. ' : ''}Crea tu mapa en viajeramente.com/p/${username}`;
+    document.getElementById('shareStatsP').textContent = text;
+    document.getElementById('shareStatsText').style.display = '';
+  }
+}
+
+function closeShareModal() {
+  document.getElementById('shareModalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+async function downloadShareImage(format) {
+  const btn = format === 'story' ? document.getElementById('btnDownloadStory') : document.getElementById('btnDownloadOG');
+  const origText = btn.textContent;
+  btn.textContent = 'Generando...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/user/${username}/share-image?format=${format}&t=${Date.now()}`);
+    if (!res.ok) throw new Error('Error generating image');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${username}-travel-${format}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Imagen descargada');
+  } catch(e) {
+    showToast('Error al generar la imagen');
+  } finally {
+    btn.textContent = origText;
+    btn.disabled = false;
+  }
+}
+
+function copyShareLink() {
+  const url = `https://eze.saypeter.com/p/${username}`;
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(url).then(() => showToast('🔗 Enlace copiado al portapapeles'));
+    navigator.clipboard.writeText(url).then(() => showToast('Enlace copiado al portapapeles'));
   } else {
-    // Fallback
     const ta = document.createElement('textarea');
     ta.value = url;
     ta.style.position = 'fixed';
     ta.style.left = '-9999px';
     document.body.appendChild(ta);
     ta.select();
-    try { document.execCommand('copy'); showToast('🔗 Enlace copiado'); } catch(e) {}
+    try { document.execCommand('copy'); showToast('Enlace copiado'); } catch(e) {}
     document.body.removeChild(ta);
   }
+}
+
+function copyStatsText() {
+  const text = document.getElementById('shareStatsP').textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => showToast('Texto copiado'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showToast('Texto copiado'); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+}
+
+async function nativeShare() {
+  try {
+    await navigator.share({
+      title: `Mi mapa de viajes - ViajeraMente`,
+      text: document.getElementById('shareStatsP').textContent,
+      url: `https://eze.saypeter.com/p/${username}`,
+    });
+  } catch(e) {
+    // User cancelled or share not supported
+  }
+}
+
+// ── LEGACY SHARE (kept for backwards compat) ──
+function shareProfile() {
+  openShareModal();
 }
 
 // ── TOAST ──
