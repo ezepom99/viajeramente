@@ -147,8 +147,74 @@
       transition: all 0.2s;
     }
     .topbar-links a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    /* ── HAMBURGER (mobile) ── */
+    .topbar-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      cursor: pointer;
+      flex-shrink: 0;
+      padding: 0;
+    }
+    .topbar-hamburger span {
+      display: block;
+      width: 18px; height: 2px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    /* ── MOBILE NAV OVERLAY ── */
+    .mobile-nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+    }
+    .mobile-nav-overlay.open { display: block; }
+    .mobile-nav-menu {
+      position: absolute;
+      top: 0; right: 0;
+      width: 260px; height: 100%;
+      background: rgba(15,23,42,0.97);
+      border-left: 1px solid rgba(255,255,255,0.08);
+      padding: 72px 0 32px;
+      display: flex;
+      flex-direction: column;
+    }
+    .mobile-nav-close {
+      position: absolute;
+      top: 14px; right: 16px;
+      background: none; border: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .mobile-nav-link {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 14px 24px;
+      display: block;
+      transition: background 0.15s, color 0.15s;
+    }
+    .mobile-nav-link:hover {
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+    }
+
     @media (max-width: 768px) {
       .topbar-links { display: none; }
+      .topbar-hamburger { display: flex; }
       .discover-toggle button { padding: 6px 10px; font-size: 0.72rem; }
     }
 
@@ -914,9 +980,28 @@
   </div>
 
   <div class="topbar-links">
-    <a href="mapa.html">Mi mapa</a>
+    <a href="guias.html">Guías</a>
+    <a href="plan.html">Planifica</a>
+    <a href="planner-ai.html">🤖 IA</a>
     <a href="ranking.html">Ranking</a>
     <a href="profile.html" id="topbarProfile">Perfil</a>
+  </div>
+
+  <!-- Mobile hamburger -->
+  <button class="topbar-hamburger" id="topbarHamburger" onclick="toggleMobileMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+
+<!-- Mobile overlay menu -->
+<div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileMenu()">
+  <div class="mobile-nav-menu" onclick="event.stopPropagation()">
+    <button class="mobile-nav-close" onclick="closeMobileMenu()">✕</button>
+    <a href="guias.html" class="mobile-nav-link">📖 Guías</a>
+    <a href="plan.html" class="mobile-nav-link">🗺️ Planifica</a>
+    <a href="planner-ai.html" class="mobile-nav-link">🤖 IA Planner</a>
+    <a href="ranking.html" class="mobile-nav-link">🏆 Ranking</a>
+    <a href="profile.html" class="mobile-nav-link" id="mobileNavProfile">👤 Perfil</a>
   </div>
 </div>
 
@@ -1638,6 +1723,14 @@ function showToast(msg) {
   t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── Mobile nav menu ──
+function toggleMobileMenu() {
+  document.getElementById('mobileNavOverlay').classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileNavOverlay').classList.remove('open');
 }
 </script>
 </body>
