@@ -478,7 +478,7 @@
 <script>
   var API   = 'https://eze.saypeter.com';
   var token = localStorage.getItem('token');
-  if (!token) window.location.replace('login.html?next=' + encodeURIComponent(window.location.pathname + window.location.search));
+  // No redirect — main.html is public. Auth enriches the page, not gates it.
 
   function logout() { localStorage.removeItem('token'); window.location.replace('login.html'); }
 
@@ -619,20 +619,21 @@
     document.getElementById('mainPage').style.opacity = '1';
 
     // 2. Load user data in background — enriches greeting + stats when ready
-    try {
-      var meRes = await fetch(API + '/api/me', { headers:{ Authorization:'Bearer ' + token } });
-      if (meRes.status === 401) {
-        localStorage.removeItem('token');
-        window.location.replace('login.html');
-        return;
-      }
-      if (meRes.ok) {
-        var meData = await meRes.json();
-        var user   = meData.user || meData;
-        setAvatar(user);
-        setHero(user);
-      }
-    } catch(e) { console.warn('User data failed:', e); }
+    if (token) {
+      try {
+        var meRes = await fetch(API + '/api/me', { headers:{ Authorization:'Bearer ' + token } });
+        if (meRes.status === 401) {
+          localStorage.removeItem('token');
+          token = null;
+          // Don't redirect — just show as guest
+        } else if (meRes.ok) {
+          var meData = await meRes.json();
+          var user   = meData.user || meData;
+          setAvatar(user);
+          setHero(user);
+        }
+      } catch(e) { console.warn('User data failed:', e); }
+    }
   }
 
   init();
