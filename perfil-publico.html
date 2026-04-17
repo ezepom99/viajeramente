@@ -734,6 +734,32 @@
     }
     .share-stats-copy:hover { color: var(--accent); }
 
+    /* ── FLOATING SHARE FAB ── */
+    .share-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 20px;
+      z-index: 999;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0EA5E9, #0284C7);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(14,165,233,.4), 0 2px 8px rgba(0,0,0,.15);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      transition: all .3s;
+    }
+    .share-fab:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 6px 24px rgba(14,165,233,.5);
+    }
+    .share-fab.visible { display: flex; }
+
     /* ── CTA BANNER ── */
     .cta-banner {
       background: linear-gradient(135deg, #0EA5E9 0%, #0369A1 50%, #10B981 100%);
@@ -783,6 +809,118 @@
       box-shadow: 0 4px 16px rgba(0,0,0,.15);
     }
     .cta-banner-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+
+    /* ── WORLD PROGRESS ── */
+    .world-progress-section {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .world-progress-ring {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      flex-shrink: 0;
+    }
+    .world-progress-ring svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    .wpr-bg {
+      fill: none;
+      stroke: var(--border);
+      stroke-width: 8;
+    }
+    .wpr-fill {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 8;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s ease;
+    }
+    .wpr-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .wpr-pct {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .wpr-label {
+      font-size: .65rem;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-top: 3px;
+      font-weight: 600;
+    }
+    .world-progress-details {
+      flex: 1;
+      min-width: 160px;
+    }
+    .wpd-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+    }
+    .wpd-item + .wpd-item {
+      border-top: 1px solid var(--border);
+    }
+    .wpd-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .wpd-icon.accent { background: var(--accent-light); }
+    .wpd-icon.gold { background: rgba(245,158,11,.1); }
+    .wpd-info { display: flex; flex-direction: column; }
+    .wpd-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .wpd-desc {
+      font-size: .72rem;
+      color: var(--text-3);
+    }
+
+    /* ── WONDERS ── */
+    .wonders-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .wonder-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(245,158,11,.06);
+      border: 1.5px solid rgba(245,158,11,.2);
+      font-size: .82rem;
+      font-weight: 600;
+      color: #D97706;
+      transition: all .2s;
+    }
+    .wonder-chip:hover { background: rgba(245,158,11,.12); }
+    .wonder-chip-emoji { font-size: 1.2rem; }
 
     /* ── RANKING LINK ── */
     .ranking-cta {
@@ -913,6 +1051,46 @@
         </div>
       </div>
 
+      <!-- WORLD PROGRESS -->
+      <div class="section-card" id="worldProgressCard" style="display:none;">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-title-icon">🌐</div>
+            Progreso mundial
+          </div>
+          <span class="section-badge" id="worldProgressBadge">0%</span>
+        </div>
+        <div class="world-progress-section">
+          <div class="world-progress-ring">
+            <svg viewBox="0 0 120 120">
+              <circle class="wpr-bg" cx="60" cy="60" r="52"/>
+              <circle class="wpr-fill" id="wprCircle" cx="60" cy="60" r="52"
+                      stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+            </svg>
+            <div class="wpr-text">
+              <div class="wpr-pct" id="wprPct">0%</div>
+              <div class="wpr-label">del mundo</div>
+            </div>
+          </div>
+          <div class="world-progress-details">
+            <div class="wpd-item">
+              <div class="wpd-icon accent">🏆</div>
+              <div class="wpd-info">
+                <span class="wpd-value" id="wpdTopContinent">-</span>
+                <span class="wpd-desc">Top continente</span>
+              </div>
+            </div>
+            <div class="wpd-item" id="wpdWondersRow" style="display:none;">
+              <div class="wpd-icon gold">🏛️</div>
+              <div class="wpd-info">
+                <span class="wpd-value" id="wpdWonders">0</span>
+                <span class="wpd-desc">Maravillas del mundo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- CONTINENT BREAKDOWN -->
       <div class="section-card" id="continentCard" style="display:none;">
         <div class="section-header">
@@ -967,6 +1145,18 @@
         </div>
       </div>
 
+      <!-- WONDERS VISITED -->
+      <div class="section-card" id="wondersCard" style="display:none;">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-title-icon">🏛️</div>
+            Maravillas del mundo
+          </div>
+          <span class="section-badge" id="wondersBadge">0/14</span>
+        </div>
+        <div class="wonders-grid" id="wondersGrid"></div>
+      </div>
+
       <!-- BADGES / HUELLAS DEL VIAJERO -->
       <div class="section-card" id="badgesCard" style="display:none;">
         <div class="section-header">
@@ -995,6 +1185,11 @@
   </div><!-- /profileContent -->
 
 </div><!-- /page-wrap -->
+
+<!-- FLOATING SHARE BUTTON -->
+<button class="share-fab" id="shareFab" onclick="openShareModal()" title="Compartir mi mapa">
+  📤
+</button>
 
 <!-- SHARE MODAL -->
 <div class="share-modal-overlay" id="shareModalOverlay" onclick="if(event.target===this)closeShareModal()">
@@ -1171,6 +1366,14 @@ function renderPublicProfile(user) {
   // Render continent breakdown
   renderContinents(user);
 
+  // Render world progress
+  renderWorldProgress(user);
+
+  // Load wonders if user id is available
+  if (user.id) {
+    loadUserWonders(user.id);
+  }
+
   // Show CTA banner for non-logged-in visitors
   try {
     const token = localStorage.getItem('vm_token');
@@ -1327,6 +1530,78 @@ function renderContinents(user) {
   }).join('');
 }
 
+// ── WORLD PROGRESS ──
+function renderWorldProgress(user) {
+  const TOTAL_COUNTRIES = 195;
+  const countries = user.countries_visited_count || user.countries_visited || 0;
+  if (countries === 0) return;
+
+  const pct = Math.min(100, Math.round((countries / TOTAL_COUNTRIES) * 1000) / 10);
+  const pctDisplay = pct < 1 && countries > 0 ? '<1' : Math.round(pct);
+
+  document.getElementById('worldProgressCard').style.display = '';
+  document.getElementById('worldProgressBadge').textContent = pctDisplay + '%';
+  document.getElementById('wprPct').textContent = pctDisplay + '%';
+
+  const circumference = 2 * Math.PI * 52;
+  const offset = circumference - (pct / 100) * circumference;
+  document.getElementById('wprCircle').setAttribute('stroke-dashoffset', offset);
+
+  // Top continent
+  const visitedList = user.visited_countries || [];
+  const continentCounts = {};
+  visitedList.forEach(v => {
+    if (v.continent) {
+      const norm = v.continent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      let key = v.continent;
+      if (norm.includes('europ')) key = 'Europa';
+      else if (norm.includes('americ')) key = 'America';
+      else if (norm.includes('asia')) key = 'Asia';
+      else if (norm.includes('afric')) key = 'Africa';
+      else if (norm.includes('ocean')) key = 'Oceania';
+      continentCounts[key] = (continentCounts[key] || 0) + 1;
+    }
+  });
+  const sorted = Object.entries(continentCounts).sort((a, b) => b[1] - a[1]);
+  if (sorted.length > 0) {
+    document.getElementById('wpdTopContinent').textContent = `${sorted[0][0]} (${sorted[0][1]} paises)`;
+  }
+
+  // Wonders
+  const wonders = user.wonders_visited || 0;
+  if (wonders > 0) {
+    document.getElementById('wpdWondersRow').style.display = '';
+    document.getElementById('wpdWonders').textContent = `${wonders} visitadas`;
+  }
+}
+
+// ── WONDERS ──
+async function loadUserWonders(userId) {
+  try {
+    const res = await fetch(`${API_BASE}/api/wonders/user/${userId}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data.ok || !data.wonders || data.wonders.length === 0) return;
+
+    const card = document.getElementById('wondersCard');
+    const grid = document.getElementById('wondersGrid');
+    const badge = document.getElementById('wondersBadge');
+    if (!card || !grid) return;
+
+    const wonderEmojis = { modern: '🏛️', natural: '🌋', ancient: '🏺' };
+    badge.textContent = `${data.wonders.length}/14`;
+    grid.innerHTML = data.wonders.map(w =>
+      `<div class="wonder-chip">
+        <span class="wonder-chip-emoji">${wonderEmojis[w.category] || '🏛️'}</span>
+        ${w.name_es || w.name || ''}
+      </div>`
+    ).join('');
+    card.style.display = '';
+  } catch(e) {
+    console.warn('Could not load wonders:', e);
+  }
+}
+
 // ── SHARE MODAL ──
 let _shareImageLoaded = false;
 
@@ -1480,6 +1755,18 @@ async function loadPublicProfile() {
 }
 
 loadPublicProfile();
+
+// ── FLOATING SHARE FAB ──
+window.addEventListener('scroll', () => {
+  const fab = document.getElementById('shareFab');
+  if (!fab) return;
+  // Only show when logged-in user is viewing their own profile
+  try {
+    const token = localStorage.getItem('vm_token');
+    if (!token) { fab.classList.remove('visible'); return; }
+  } catch(e) { return; }
+  fab.classList.toggle('visible', window.scrollY > 400);
+}, { passive: true });
 </script>
 <script src="nav.js" data-page="" data-bottom-nav="false" data-footer="true"></script>
 </body>

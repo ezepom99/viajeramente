@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ViajeraMente Share Card</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800&display=swap');
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
@@ -19,22 +19,35 @@
   .share-card {
     width: 1080px;
     height: 1920px;
-    background: linear-gradient(170deg, #0A1628 0%, #0F1D35 30%, #0A1628 60%, #111827 100%);
+    background: #0A1628;
     position: relative;
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
 
-  /* Subtle background pattern */
+  /* Gradient mesh background */
   .share-card::before {
     content: '';
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse at 30% 20%, rgba(14,165,233,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 70% 70%, rgba(16,185,129,0.06) 0%, transparent 50%);
+      radial-gradient(ellipse 600px 400px at 20% 15%, rgba(14,165,233,0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 500px 500px at 80% 75%, rgba(16,185,129,0.10) 0%, transparent 70%),
+      radial-gradient(ellipse 400px 300px at 50% 45%, rgba(124,58,237,0.06) 0%, transparent 70%);
     pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Noise texture overlay */
+  .share-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
   }
 
   /* ── OG FORMAT (1200x630) ── */
@@ -42,13 +55,14 @@
     width: 1200px;
     height: 630px;
     flex-direction: row;
+    flex-wrap: wrap;
   }
 
   /* ── HEADER ── */
   .card-header {
     position: relative;
     z-index: 2;
-    padding: 60px 60px 0;
+    padding: 56px 56px 0;
     display: flex;
     align-items: center;
     gap: 24px;
@@ -57,29 +71,42 @@
   .og-format .card-header {
     flex-direction: column;
     align-items: flex-start;
-    padding: 40px 40px 0;
-    width: 45%;
+    padding: 36px 36px 0;
+    width: 42%;
     justify-content: center;
   }
 
-  .avatar-circle {
-    width: 96px;
-    height: 96px;
+  .avatar-ring {
+    width: 108px;
+    height: 108px;
     border-radius: 50%;
-    border: 3px solid rgba(14,165,233,0.6);
-    background: linear-gradient(135deg, #0EA5E9 0%, #10B981 100%);
+    padding: 4px;
+    background: linear-gradient(135deg, #0EA5E9 0%, #10B981 50%, #A78BFA 100%);
+    flex-shrink: 0;
+    box-shadow: 0 0 40px rgba(14,165,233,0.35), 0 0 80px rgba(14,165,233,0.15);
+  }
+
+  .og-format .avatar-ring {
+    width: 80px;
+    height: 80px;
+  }
+
+  .avatar-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #0F1D35;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     font-weight: 800;
     color: #fff;
-    flex-shrink: 0;
-    box-shadow: 0 0 30px rgba(14,165,233,0.3);
+    overflow: hidden;
   }
 
-  .avatar-circle img {
+  .avatar-inner img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -92,44 +119,153 @@
 
   .user-name {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 2.4rem;
+    font-size: 2.6rem;
     font-weight: 800;
     color: #fff;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
   }
 
-  .og-format .user-name {
-    font-size: 1.8rem;
+  .og-format .user-name { font-size: 1.7rem; }
+
+  .user-handle {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+    font-weight: 500;
   }
 
   .level-pill {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 0.95rem;
+    gap: 8px;
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 1rem;
     font-weight: 700;
-    margin-top: 10px;
-    background: rgba(14,165,233,0.15);
-    border: 1px solid rgba(14,165,233,0.3);
-    color: #0EA5E9;
+    margin-top: 14px;
+    background: rgba(14,165,233,0.12);
+    border: 1.5px solid rgba(14,165,233,0.25);
+    color: #38BDF8;
+    letter-spacing: 0.02em;
   }
   .level-pill.gold {
-    background: rgba(245,158,11,0.15);
-    border-color: rgba(245,158,11,0.3);
-    color: #F59E0B;
+    background: rgba(245,158,11,0.12);
+    border-color: rgba(245,158,11,0.25);
+    color: #FBBF24;
   }
   .level-pill.diamond {
-    background: rgba(14,165,233,0.2);
-    border-color: rgba(14,165,233,0.4);
-    color: #38BDF8;
+    background: rgba(14,165,233,0.15);
+    border-color: rgba(14,165,233,0.35);
+    color: #7DD3FC;
   }
   .level-pill.sapphire {
-    background: rgba(124,58,237,0.2);
-    border-color: rgba(124,58,237,0.4);
-    color: #A78BFA;
+    background: rgba(124,58,237,0.15);
+    border-color: rgba(124,58,237,0.35);
+    color: #C4B5FD;
+  }
+
+  /* ── PROGRESS RING ── */
+  .progress-section {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 56px 0;
+    gap: 32px;
+  }
+
+  .og-format .progress-section { display: none; }
+
+  .world-progress {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+  }
+
+  .world-progress svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .progress-bg {
+    fill: none;
+    stroke: rgba(255,255,255,0.06);
+    stroke-width: 8;
+  }
+
+  .progress-fill {
+    fill: none;
+    stroke: url(#progressGrad);
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s ease;
+  }
+
+  .progress-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .progress-pct {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .progress-label {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  .progress-info {
+    flex: 1;
+  }
+
+  .progress-info-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 8px;
+  }
+
+  .top-continent {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .top-continent-emoji { font-size: 1.6rem; }
+
+  .top-continent-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .top-continent-label {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.4);
+    font-weight: 500;
   }
 
   /* ── MAP SECTION ── */
@@ -140,12 +276,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 30px 40px;
+    padding: 10px 30px;
+    min-height: 0;
   }
 
   .og-format .map-section {
-    width: 55%;
-    padding: 20px 30px;
+    width: 58%;
+    padding: 15px 20px;
   }
 
   #shareMap {
@@ -155,79 +292,116 @@
 
   #shareMap .country-visited {
     fill: #0EA5E9;
-    filter: drop-shadow(0 0 6px rgba(14,165,233,0.5));
-    transition: fill 0.3s;
+    filter: url(#countryGlow);
   }
 
   #shareMap .country-unvisited {
-    fill: #1E293B;
-    stroke: #334155;
+    fill: #162033;
+    stroke: #1E3050;
     stroke-width: 0.3;
-  }
-
-  /* Glow effect on visited countries */
-  .map-glow {
-    filter: url(#glow);
   }
 
   /* ── STATS SECTION ── */
   .stats-section {
     position: relative;
     z-index: 2;
-    padding: 0 60px 30px;
+    padding: 10px 56px 16px;
   }
 
   .og-format .stats-section {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 45%;
-    padding: 0 40px 30px;
+    width: 42%;
+    padding: 0 36px 28px;
   }
 
-  .stats-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-    padding: 20px 0;
   }
 
-  .stat-divider {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    flex-shrink: 0;
-  }
-
-  .stat-item {
+  .stat-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 18px 12px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    border-radius: 1px;
+    background: linear-gradient(90deg, transparent, rgba(14,165,233,0.5), transparent);
+  }
+
+  .stat-emoji {
+    font-size: 1.3rem;
+    margin-bottom: 6px;
   }
 
   .stat-number {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 2.6rem;
+    font-size: 2.4rem;
     font-weight: 800;
     color: #fff;
     line-height: 1;
   }
 
-  .og-format .stat-number {
-    font-size: 1.6rem;
-  }
+  .og-format .stat-number { font-size: 1.5rem; }
 
   .stat-label {
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-weight: 600;
-    margin-top: 4px;
+    margin-top: 6px;
   }
 
-  .og-format .stat-label {
-    font-size: 0.7rem;
+  .og-format .stat-label { font-size: 0.65rem; }
+
+  /* ── WONDERS SECTION ── */
+  .wonders-section {
+    position: relative;
+    z-index: 2;
+    padding: 0 56px 10px;
+    display: none;
+  }
+
+  .wonders-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .wonders-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 14px;
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.2);
+  }
+
+  .wonders-badge-emoji { font-size: 1.2rem; }
+
+  .wonders-badge-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #FBBF24;
   }
 
   /* ── CONTINENT BADGES ── */
@@ -236,14 +410,12 @@
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    padding: 10px 60px 20px;
+    padding: 8px 56px 16px;
     position: relative;
     z-index: 2;
   }
 
-  .og-format .continents-row {
-    display: none;
-  }
+  .og-format .continents-row { display: none; }
 
   .continent-badge {
     display: inline-flex;
@@ -253,116 +425,157 @@
     border-radius: 12px;
     font-size: 0.85rem;
     font-weight: 600;
-    color: rgba(255,255,255,0.7);
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
   }
 
   .continent-badge.visited {
-    color: #0EA5E9;
-    background: rgba(14,165,233,0.1);
-    border-color: rgba(14,165,233,0.25);
-  }
-
-  /* ── SUMMARY LINE ── */
-  .summary-line {
-    text-align: center;
-    padding: 10px 60px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .summary-text {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: rgba(255,255,255,0.6);
-    letter-spacing: 0.02em;
-  }
-
-  .summary-text .highlight {
-    color: #0EA5E9;
-    font-weight: 800;
+    color: #38BDF8;
+    background: rgba(14,165,233,0.08);
+    border-color: rgba(14,165,233,0.2);
+    box-shadow: 0 0 12px rgba(14,165,233,0.1);
   }
 
   /* ── BRANDING FOOTER ── */
   .brand-footer {
     position: relative;
     z-index: 2;
-    padding: 30px 60px 50px;
+    padding: 16px 56px 52px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
 
   .og-format .brand-footer {
     position: absolute;
-    bottom: 8px;
-    right: 30px;
+    bottom: 12px;
+    right: 24px;
     padding: 0;
     align-items: flex-end;
   }
 
+  .brand-divider {
+    width: 60px;
+    height: 2px;
+    border-radius: 1px;
+    background: linear-gradient(90deg, #0EA5E9, #10B981);
+    margin-bottom: 10px;
+    opacity: 0.5;
+  }
+
   .brand-logo {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 800;
-    color: rgba(255,255,255,0.8);
+    background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     letter-spacing: -0.02em;
   }
 
+  .og-format .brand-logo { font-size: 1.1rem; }
+
   .brand-url {
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.35);
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.3);
     font-weight: 500;
   }
+
+  .og-format .brand-url { font-size: 0.72rem; }
 
   .brand-cta {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 28px;
+    padding: 14px 32px;
     border-radius: 100px;
-    background: linear-gradient(135deg, #0EA5E9, #0284C7);
+    background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%);
     color: #fff;
     font-weight: 700;
-    font-size: 1rem;
-    margin-top: 12px;
-    box-shadow: 0 4px 20px rgba(14,165,233,0.4);
+    font-size: 1.05rem;
+    margin-top: 14px;
+    box-shadow: 0 4px 24px rgba(14,165,233,0.4), 0 0 60px rgba(14,165,233,0.15);
+    letter-spacing: 0.01em;
   }
 
-  .og-format .brand-cta {
-    display: none;
+  .og-format .brand-cta { display: none; }
+
+  /* ── Decorative elements ── */
+  .deco-line {
+    position: absolute;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(14,165,233,0.15) 0%, transparent 100%);
+    width: 1px;
   }
+
+  .deco-line-1 { left: 56px; top: 0; height: 200px; }
+  .deco-line-2 { right: 56px; top: 0; height: 150px; }
+  .deco-line-3 { left: 200px; bottom: 0; height: 120px; background: linear-gradient(0deg, rgba(16,185,129,0.1) 0%, transparent 100%); }
 </style>
 </head>
 <body>
 
 <div class="share-card" id="shareCard">
+  <!-- Decorative lines -->
+  <div class="deco-line deco-line-1"></div>
+  <div class="deco-line deco-line-2"></div>
+  <div class="deco-line deco-line-3"></div>
 
-  <!-- SVG filter for glow -->
+  <!-- SVG filters -->
   <svg width="0" height="0" style="position:absolute;">
     <defs>
-      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
-        <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.054  0 0 0 0 0.647  0 0 0 0 0.913  0 0 0 0.4 0" result="colored"/>
+      <filter id="countryGlow" x="-10%" y="-10%" width="120%" height="120%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+        <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.054  0 0 0 0 0.647  0 0 0 0 0.913  0 0 0 0.5 0" result="colored"/>
         <feMerge>
           <feMergeNode in="colored"/>
           <feMergeNode in="SourceGraphic"/>
         </feMerge>
       </filter>
+      <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#0EA5E9"/>
+        <stop offset="100%" stop-color="#10B981"/>
+      </linearGradient>
     </defs>
   </svg>
 
   <!-- HEADER -->
   <div class="card-header">
-    <div class="avatar-circle" id="avatarCircle">
-      <!-- JS fills initial or img -->
+    <div class="avatar-ring">
+      <div class="avatar-inner" id="avatarCircle"></div>
     </div>
     <div class="header-info">
       <div class="user-name" id="userName">Viajero</div>
+      <div class="user-handle" id="userHandle">@viajero</div>
       <div class="level-pill" id="levelPill">Explorador</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS + TOP CONTINENT -->
+  <div class="progress-section" id="progressSection">
+    <div class="world-progress">
+      <svg viewBox="0 0 120 120">
+        <circle class="progress-bg" cx="60" cy="60" r="52"/>
+        <circle class="progress-fill" id="progressCircle" cx="60" cy="60" r="52"
+                stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+      </svg>
+      <div class="progress-text">
+        <div class="progress-pct" id="progressPct">0%</div>
+        <div class="progress-label">del mundo</div>
+      </div>
+    </div>
+    <div class="progress-info">
+      <div class="progress-info-title">Top continente</div>
+      <div class="top-continent" id="topContinent">
+        <span class="top-continent-emoji" id="topContinentEmoji">🌍</span>
+        <div>
+          <div class="top-continent-name" id="topContinentName">-</div>
+          <div class="top-continent-label" id="topContinentLabel">0 paises</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -373,25 +586,36 @@
 
   <!-- STATS -->
   <div class="stats-section">
-    <div class="stats-row">
-      <div class="stat-item">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-emoji">🌍</div>
         <div class="stat-number" id="sCountries">0</div>
         <div class="stat-label">Paises</div>
       </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
-        <div class="stat-number" id="sContinents">0</div>
-        <div class="stat-label">Continentes</div>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
+      <div class="stat-card">
+        <div class="stat-emoji">🏙️</div>
         <div class="stat-number" id="sCities">0</div>
         <div class="stat-label">Ciudades</div>
       </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
+      <div class="stat-card">
+        <div class="stat-emoji">🗺️</div>
+        <div class="stat-number" id="sContinents">0</div>
+        <div class="stat-label">Continentes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-emoji">✈️</div>
         <div class="stat-number" id="sKm">0</div>
         <div class="stat-label">Km</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WONDERS (shown if > 0) -->
+  <div class="wonders-section" id="wondersSection">
+    <div class="wonders-row">
+      <div class="wonders-badge">
+        <span class="wonders-badge-emoji">🏛️</span>
+        <span class="wonders-badge-text" id="wondersText">0 maravillas visitadas</span>
       </div>
     </div>
   </div>
@@ -399,18 +623,13 @@
   <!-- CONTINENT BADGES -->
   <div class="continents-row" id="continentBadges"></div>
 
-  <!-- SUMMARY -->
-  <div class="summary-line">
-    <div class="summary-text" id="summaryText"></div>
-  </div>
-
   <!-- BRANDING -->
   <div class="brand-footer">
+    <div class="brand-divider"></div>
     <div class="brand-logo">ViajeraMente</div>
-    <div class="brand-url" id="brandUrl">viajeramente.com/p/usuario</div>
+    <div class="brand-url" id="brandUrl">viajeramente.com/p/viajero</div>
     <div class="brand-cta">Crea tu mapa de viajes</div>
   </div>
-
 </div>
 
 <!-- D3 + TopoJSON for map rendering -->
@@ -418,11 +637,30 @@
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 
 <script>
-// Data injected by server
 const SHARE_DATA = window.__SHARE_DATA__ || {};
 
-// Country numeric ID → ISO Alpha-2 mapping (world-atlas uses numeric IDs)
+// Country numeric ID to ISO Alpha-2
 const NUM_TO_ISO2 = {4:"AF",8:"AL",12:"DZ",16:"AS",20:"AD",24:"AO",28:"AG",31:"AZ",32:"AR",36:"AU",40:"AT",44:"BS",48:"BH",50:"BD",51:"AM",56:"BE",64:"BT",68:"BO",70:"BA",72:"BW",76:"BR",84:"BZ",90:"SB",96:"BN",100:"BG",104:"MM",108:"BI",112:"BY",116:"KH",120:"CM",124:"CA",132:"CV",140:"CF",144:"LK",148:"TD",152:"CL",156:"CN",158:"TW",170:"CO",174:"KM",178:"CG",180:"CD",188:"CR",191:"HR",192:"CU",196:"CY",203:"CZ",204:"BJ",208:"DK",214:"DO",218:"EC",818:"EG",222:"SV",226:"GQ",231:"ET",232:"ER",233:"EE",242:"FJ",246:"FI",250:"FR",266:"GA",268:"GE",270:"GM",275:"PS",276:"DE",288:"GH",300:"GR",308:"GD",320:"GT",324:"GN",328:"GY",332:"HT",340:"HN",348:"HU",352:"IS",356:"IN",360:"ID",364:"IR",368:"IQ",372:"IE",376:"IL",380:"IT",384:"CI",388:"JM",392:"JP",398:"KZ",400:"JO",404:"KE",408:"KP",410:"KR",414:"KW",417:"KG",418:"LA",422:"LB",426:"LS",428:"LV",430:"LR",434:"LY",438:"LI",440:"LT",442:"LU",450:"MG",454:"MW",458:"MY",462:"MV",466:"ML",470:"MT",478:"MR",480:"MU",484:"MX",496:"MN",498:"MD",499:"ME",504:"MA",508:"MZ",512:"OM",516:"NA",520:"NR",524:"NP",528:"NL",540:"NC",554:"NZ",558:"NI",562:"NE",566:"NG",578:"NO",586:"PK",591:"PA",598:"PG",600:"PY",604:"PE",608:"PH",616:"PL",620:"PT",634:"QA",642:"RO",643:"RU",646:"RW",682:"SA",686:"SN",688:"RS",694:"SL",702:"SG",703:"SK",704:"VN",705:"SI",706:"SO",710:"ZA",716:"ZW",724:"ES",728:"SS",729:"SD",740:"SR",748:"SZ",752:"SE",756:"CH",760:"SY",762:"TJ",764:"TH",768:"TG",780:"TT",784:"AE",788:"TN",792:"TR",795:"TM",800:"UG",804:"UA",826:"GB",834:"TZ",840:"US",854:"BF",858:"UY",860:"UZ",862:"VE",887:"YE",894:"ZM"};
+
+// Total countries in the world (UN recognized)
+const TOTAL_COUNTRIES = 195;
+
+// Continent data for top-continent calculation
+const CONTINENT_EMOJIS = {
+  'Europa': '🇪🇺', 'America': '🌎', 'Asia': '🌏',
+  'Africa': '🌍', 'Oceania': '🏝️', 'Antartica': '🧊'
+};
+
+function normContinent(c) {
+  const n = c.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  if (n.includes('americ') || n === 'america') return 'America';
+  if (n.includes('europ')) return 'Europa';
+  if (n.includes('asia')) return 'Asia';
+  if (n.includes('afric')) return 'Africa';
+  if (n.includes('ocean')) return 'Oceania';
+  if (n.includes('antar')) return 'Antartica';
+  return c;
+}
 
 async function render() {
   const data = SHARE_DATA;
@@ -436,28 +674,66 @@ async function render() {
   // Avatar
   const avatarEl = document.getElementById('avatarCircle');
   if (data.avatar_url) {
-    avatarEl.innerHTML = `<img src="${data.avatar_url}" alt="${data.name}" />`;
+    avatarEl.innerHTML = `<img src="${data.avatar_url}" alt="${data.name}" onerror="this.parentElement.textContent='${(data.name||'V').charAt(0).toUpperCase()}'" />`;
   } else {
     avatarEl.textContent = (data.name || 'V').charAt(0).toUpperCase();
   }
 
-  // Name & level
+  // Name, handle & level
   document.getElementById('userName').textContent = data.name || 'Viajero';
+  document.getElementById('userHandle').textContent = '@' + (data.username || 'viajero');
+
   const pill = document.getElementById('levelPill');
-  pill.textContent = data.rank_level || data.travel_level || 'Explorador';
-  if (data.travel_level_class) pill.classList.add(data.travel_level_class);
+  const levelEmojis = { gold: '🥇', diamond: '💠', sapphire: '💎' };
+  const lvlClass = data.travel_level_class || '';
+  const lvlEmoji = levelEmojis[lvlClass] || '✈️';
+  pill.innerHTML = `${lvlEmoji} ${data.rank_level || 'Explorador'}`;
+  if (lvlClass) pill.classList.add(lvlClass);
 
   // Stats
   const countries = data.countries_count || 0;
   const cities = data.cities_count || 0;
   const continents = data.continents_count || 0;
   const km = data.total_km || 0;
+  const wonders = data.wonders_count || 0;
   const kmFmt = km >= 1000 ? Math.round(km / 1000) + 'k' : String(km);
 
   document.getElementById('sCountries').textContent = countries;
-  document.getElementById('sContinents').textContent = continents;
   document.getElementById('sCities').textContent = cities;
+  document.getElementById('sContinents').textContent = continents;
   document.getElementById('sKm').textContent = kmFmt;
+
+  // World progress ring
+  const pct = Math.min(100, Math.round((countries / TOTAL_COUNTRIES) * 100 * 10) / 10);
+  document.getElementById('progressPct').textContent = pct < 1 && countries > 0 ? '<1%' : Math.round(pct) + '%';
+  const circumference = 2 * Math.PI * 52; // ~326.73
+  const offset = circumference - (pct / 100) * circumference;
+  document.getElementById('progressCircle').setAttribute('stroke-dashoffset', offset);
+
+  // Top continent
+  const continentsList = (data.continents_list || []).map(normContinent);
+  const continentCounts = {};
+  continentsList.forEach(c => { continentCounts[c] = (continentCounts[c] || 0) + 1; });
+
+  // If we have visited_countries_by_continent data, use it. Otherwise approximate from continent list
+  if (data.visited_by_continent) {
+    Object.entries(data.visited_by_continent).forEach(([k, v]) => {
+      continentCounts[normContinent(k)] = v;
+    });
+  }
+
+  const topC = Object.entries(continentCounts).sort((a, b) => b[1] - a[1])[0];
+  if (topC) {
+    document.getElementById('topContinentEmoji').textContent = CONTINENT_EMOJIS[topC[0]] || '🌍';
+    document.getElementById('topContinentName').textContent = topC[0];
+    document.getElementById('topContinentLabel').textContent = `Top continente`;
+  }
+
+  // Wonders
+  if (wonders > 0) {
+    document.getElementById('wondersSection').style.display = '';
+    document.getElementById('wondersText').textContent = `${wonders} maravilla${wonders !== 1 ? 's' : ''} visitada${wonders !== 1 ? 's' : ''}`;
+  }
 
   // Continent badges (story only)
   const ALL_CONTINENTS = [
@@ -469,30 +745,12 @@ async function render() {
     { key: 'Antartica', emoji: '🧊' },
   ];
 
-  // Normalize continent names
-  const visitedContinents = new Set((data.continents_list || []).map(c => {
-    const n = c.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    if (n.includes('americ') || n === 'américa') return 'America';
-    if (n.includes('europ')) return 'Europa';
-    if (n.includes('asia')) return 'Asia';
-    if (n.includes('afric')) return 'Africa';
-    if (n.includes('ocean')) return 'Oceania';
-    if (n.includes('antar')) return 'Antartica';
-    return c;
-  }));
+  const visitedContinents = new Set(continentsList);
 
-  const badgesHtml = ALL_CONTINENTS.map(c => {
+  document.getElementById('continentBadges').innerHTML = ALL_CONTINENTS.map(c => {
     const visited = visitedContinents.has(c.key);
     return `<div class="continent-badge ${visited ? 'visited' : ''}">${c.emoji} ${c.key}</div>`;
   }).join('');
-  document.getElementById('continentBadges').innerHTML = badgesHtml;
-
-  // Summary
-  const summaryParts = [];
-  if (countries > 0) summaryParts.push(`<span class="highlight">${countries}</span> paises`);
-  if (continents > 0) summaryParts.push(`<span class="highlight">${continents}</span> continentes`);
-  if (km > 0) summaryParts.push(`<span class="highlight">${kmFmt}</span> km`);
-  document.getElementById('summaryText').innerHTML = summaryParts.join(' · ');
 
   // Brand URL
   document.getElementById('brandUrl').textContent = `viajeramente.com/p/${data.username || 'viajero'}`;
@@ -523,15 +781,12 @@ async function renderMap(visitedCodes) {
         const iso2 = NUM_TO_ISO2[d.id];
         return visitedSet.has(iso2) ? 'country-visited' : 'country-unvisited';
       });
-
   } catch(e) {
     console.error('Map load error:', e);
   }
 }
 
-// Init
 render().then(() => {
-  // Signal to Playwright that rendering is complete
   window.__RENDER_COMPLETE__ = true;
 });
 </script>
