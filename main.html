@@ -366,7 +366,7 @@
         </div>
       </div>
       <a href="#" class="cover-card cover-shimmer" id="featCard">
-        <img class="cover-img" id="featImg" src="" alt="" loading="eager">
+        <img class="cover-img" id="featImg" src="https://images.pexels.com/photos/2356059/pexels-photo-2356059.jpeg?auto=compress&cs=tinysrgb&h=800&w=1600" alt="" loading="eager">
         <div class="cover-fade"></div>
         <div class="cover-body">
           <div class="cover-tag">✦ <span id="featContinent">…</span></div>
@@ -596,42 +596,43 @@
   }
 
   async function init() {
+    // 1. Load destinations immediately (public endpoint, no auth needed)
+    //    → page shows content without waiting for auth
     try {
-      var results = await Promise.all([
-        fetch(API + '/api/me', { headers:{ Authorization:'Bearer ' + token } }),
-        fetch(API + '/api/destinations?limit=100')
-      ]);
-      var meRes = results[0], destsRes = results[1];
-      if (meRes.status === 401) { localStorage.removeItem('token'); window.location.replace('login.html'); return; }
-
-      var meData = await meRes.json();
-      var user   = meData.user || meData;
-      setAvatar(user);
-      setHero(user);
-
+      var destsRes = await fetch(API + '/api/destinations?limit=100');
       if (destsRes.ok) {
         var data  = await destsRes.json();
         var dests = data.destinations || [];
-
-        // Prefer destinations with photos, but don't require them
         var withPhoto = dests.filter(function(d){ return d.hero_photo_url; });
         var pool = withPhoto.length >= 10 ? withPhoto : dests;
-
-        // Featured: pick from top quality destinations, rotate by day of month
         var top   = pool.slice().sort(function(a,b){ return (b.guide_quality||0)-(a.guide_quality||0); }).slice(0,20);
-        var today = top[new Date().getDate() % top.length];
-        setFeatured(today);
-
-        // Grid: shuffle the rest
-        var grid = shuffle(pool.filter(function(d){ return d.slug !== today.slug; })).slice(0,4);
-        buildDestGrid(grid);
+        if (top.length > 0) {
+          var today = top[new Date().getDate() % top.length];
+          setFeatured(today);
+          var grid = shuffle(pool.filter(function(d){ return d.slug !== today.slug; })).slice(0,4);
+          buildDestGrid(grid);
+        }
       }
+    } catch(e) { console.warn('Destinations failed:', e); }
 
-      document.getElementById('mainPage').style.opacity = '1';
-    } catch(e) {
-      console.error(e);
-      document.getElementById('mainPage').style.opacity = '1';
-    }
+    // Show page immediately after destinations load (don't wait for auth)
+    document.getElementById('mainPage').style.opacity = '1';
+
+    // 2. Load user data in background — enriches greeting + stats when ready
+    try {
+      var meRes = await fetch(API + '/api/me', { headers:{ Authorization:'Bearer ' + token } });
+      if (meRes.status === 401) {
+        localStorage.removeItem('token');
+        window.location.replace('login.html');
+        return;
+      }
+      if (meRes.ok) {
+        var meData = await meRes.json();
+        var user   = meData.user || meData;
+        setAvatar(user);
+        setHero(user);
+      }
+    } catch(e) { console.warn('User data failed:', e); }
   }
 
   init();

@@ -265,6 +265,11 @@
 <script>
   const API_BASE = 'https://eze.saypeter.com';
 
+  // Redirect logged-in users to their dashboard
+  if (localStorage.getItem('token')) {
+    window.location.replace('main.html');
+  }
+
   // --- Page tracking ---
   (function() {
     try {

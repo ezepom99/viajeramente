@@ -568,7 +568,7 @@
   function injectBottomNav() {
     const tabs = [
       {
-        label: 'Inicio', href: 'main.html', page: 'home',
+        label: 'Inicio', href: isAuth ? 'main.html' : 'index.html', page: 'home',
         svg: '<svg class="tab-ic" viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V21a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1V10.5z"/></svg>'
       },
       {
