@@ -417,6 +417,7 @@
     .budget-card {
       border: 1px solid var(--border); border-radius: 12px;
       padding: 20px; background: var(--bg); text-align: center;
+      cursor: pointer;
     }
     .budget-card.active-tier { border-color: var(--accent); background: var(--accent-light); }
     .budget-card.active-tier .budget-amount { color: var(--accent-dark); }
@@ -872,6 +873,244 @@
     .cost-disclaimer {
       font-size: .76rem; color: var(--text-3); text-align: center;
     }
+
+    /* ── Page-level layout helpers ── */
+    .flex-wrap { flex-wrap: wrap; }
+    .text-sm { font-size: .85rem; }
+    .breadcrumb-row { margin-top: 20px; }
+    .mobile-actions-row {
+      display: none; gap: 10px; padding: 16px 0 4px; flex-wrap: wrap;
+    }
+    @media (max-width: 600px) { .mobile-actions-row { display: flex !important; } }
+
+    /* ── Cost estimator grid helpers ── */
+    .est-grid { display: grid; gap: 20px; }
+    .est-row-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .est-range { width: 100%; accent-color: var(--accent); }
+
+    /* ── Flight affiliate CTA ── */
+    .flight-cta-wrap { display: flex; gap: 10px; flex-wrap: wrap; }
+    .flight-cta-disclaimer {
+      font-size: .72rem; color: var(--text-3); margin-top: 8px;
+    }
+    .origin-banner-wrap { margin-bottom: 12px; }
+    .flight-affiliate-cta-section { margin-top: 14px; }
+
+    /* ── Intro preview paragraph ── */
+    .intro-preview-text {
+      font-size: .92rem; line-height: 1.75; color: #374151;
+    }
+
+    /* ── Guide request section ── */
+    .guide-request-section { padding: 40px 0 20px; }
+    .guide-request-thanks {
+      margin: 16px 0 0; font-size: .9rem; color: #059669; font-weight: 600;
+    }
+
+    /* ── Share modal ── */
+    .share-modal {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.45); backdrop-filter: blur(4px);
+      align-items: flex-end; justify-content: center;
+    }
+    .share-modal-sheet {
+      background: #fff; border-radius: 20px 20px 0 0;
+      width: 100%; max-width: 480px;
+      padding: 24px 20px 32px;
+      box-shadow: 0 -4px 32px rgba(0,0,0,0.18);
+      animation: slideUp .25s ease;
+    }
+    .share-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .share-modal-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem; font-weight: 700;
+    }
+    .share-modal-close {
+      background: none; border: none; font-size: 1.3rem;
+      cursor: pointer; color: #64748B; padding: 4px;
+    }
+    .share-modal-list { display: flex; flex-direction: column; gap: 10px; }
+    .share-modal-btn {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      border: 1.5px solid #E2E8F0; background: #fff;
+      cursor: pointer; font-size: .95rem; font-weight: 500;
+      color: #0F172A; transition: all .2s; text-align: left;
+    }
+    .share-modal-btn:hover { border-color: var(--accent); background: var(--accent-light); }
+    .share-modal-btn--whatsapp:hover { border-color: #25D366; background: #F0FDF4; }
+    .share-modal-btn--twitter:hover { border-color: #1DA1F2; background: #EFF6FF; }
+    .share-modal-btn-icon { font-size: 1.3rem; }
+    .share-modal-btn-label { font-weight: 600; }
+    .share-modal-btn-hint { font-size: .8rem; color: #64748B; }
+    .share-copied-msg {
+      display: none; margin-top: 14px; padding: 10px 14px;
+      background: #F0FDF4; border-radius: 10px;
+      font-size: .85rem; color: #065F46; font-weight: 500;
+    }
+
+    /* ── Origin / profile banners ── */
+    .origin-banner-blue {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; background: #EFF6FF; border-radius: 10px;
+      font-size: .85rem; color: #1E40AF;
+    }
+    .origin-banner-orange {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; background: #FFF7ED; border-radius: 10px;
+      font-size: .85rem; color: #92400E;
+    }
+    .origin-banner-change {
+      margin-left: auto; color: #3B82F6;
+      text-decoration: none; font-size: .8rem;
+    }
+    .origin-banner-cta-link {
+      color: #D97706; font-weight: 600; text-decoration: none;
+    }
+
+    /* ── Budget detail items ── */
+    .budget-detail-grid {
+      margin-top: 18px; display: grid;
+      grid-template-columns: repeat(2, 1fr); gap: 10px;
+    }
+    .budget-detail-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 14px; background: var(--bg-soft);
+      border-radius: 12px; border: 1px solid var(--border);
+    }
+    .budget-detail-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .budget-detail-label {
+      font-size: .72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .05em; color: var(--text-3); margin-bottom: 3px;
+    }
+    .budget-detail-value { font-size: .82rem; color: var(--text-2); line-height: 1.5; }
+
+    /* ── Cost output ── */
+    .cost-output-header {
+      font-weight: 700; font-size: 1rem; margin-bottom: 10px; color: var(--text);
+    }
+    .cost-output-region {
+      font-size: .75rem; font-weight: 400; color: var(--text-3); margin-left: 6px;
+    }
+    .cost-output-total {
+      font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-bottom: 12px;
+    }
+    .cost-output-per-person {
+      font-size: .82rem; font-weight: 500; color: var(--text-2);
+    }
+    .cost-output-lines {
+      display: flex; flex-direction: column; gap: 5px; color: var(--text-2);
+    }
+
+    /* ── Month events hint ── */
+    .month-events-hint {
+      margin-top: 10px; font-size: .83rem; color: var(--text-2);
+    }
+
+    /* ── Itinerary day content ── */
+    .itin-wrap { border-left: 3px solid #E0F2FE; padding-left: 16px; margin-top: 8px; }
+    .itin-spacer { height: 6px; }
+    .itin-day-header {
+      margin-top: 18px; margin-bottom: 4px;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+      font-size: .95rem; color: #0F172A;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .itin-day-badge {
+      background: #EFF6FF; color: #0EA5E9; border-radius: 6px;
+      padding: 2px 8px; font-size: .8rem; white-space: nowrap;
+    }
+    .itin-subday-header {
+      margin-top: 14px; font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: .9rem; color: #0F172A;
+    }
+    .itin-line { color: #475569; line-height: 1.7; font-size: .92rem; }
+
+    /* ── City intro paragraph ── */
+    .city-section-intro {
+      color: #475569; font-size: .9rem; line-height: 1.7; margin-bottom: 14px;
+    }
+
+    /* ── Sleep price "per night" label ── */
+    .sleep-price-unit {
+      font-size: .8rem; font-weight: 400; color: var(--text-3);
+    }
+
+    /* ── No-slug / not-found fallback ── */
+    .no-slug-wrap {
+      text-align: center; padding: 60px 24px 80px;
+      max-width: 480px; margin: 0 auto;
+    }
+    .no-slug-icon { font-size: 3rem; margin-bottom: 16px; }
+    .no-slug-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem; color: #0F172A; margin-bottom: 8px;
+    }
+    .no-slug-desc { color: #64748B; font-size: .95rem; margin-bottom: 28px; }
+    .no-slug-btn {
+      display: inline-block; background: #0EA5E9; color: #fff;
+      font-weight: 600; font-size: .95rem; padding: 12px 28px;
+      border-radius: 24px; text-decoration: none; transition: background .2s;
+    }
+    .no-slug-btn:hover { background: #0284C7; }
+
+    /* ── Affiliate card margin variant ── */
+    .affiliate-card--mt { margin: 16px 0 0; }
+
+    /* ── Inline visa preview rows ── */
+    .visa-preview-row {
+      padding: 9px 14px; border-radius: 10px; margin-bottom: 6px;
+      font-size: .85rem; line-height: 1.5;
+    }
+    .visa-preview-row--ok   { background: #F0FDF4; border: 1px solid #BBF7D0; color: #065F46; }
+    .visa-preview-row--req  { background: #FEF2F2; border: 1px solid #FECACA; color: #7F1D1D; }
+    .visa-preview-row--note { background: #FFFBEB; border: 1px solid #FDE68A; color: #78350F; }
+    .visa-preview-row--def  { background: #F8FAFC; border: 1px solid #E2E8F0; color: #374151; }
+    .visa-preview-disclaimer {
+      font-size: .75rem; color: #9CA3AF; margin-top: 10px; font-style: italic;
+    }
+
+    /* ── Food placeholder / visa placeholder inline HTML ── */
+    .placeholder-emoji { font-size: 1.4rem; }
+    .placeholder-title { display: block; margin: 8px 0 6px; color: #0F172A; }
+    .visa-placeholder-emoji { font-size: 1.3rem; }
+
+    /* ── Passport banner ── */
+    .passport-banner-wrap {
+      padding: 12px 16px; border-radius: 12px;
+    }
+    .passport-banner-label { font-size: .9rem; font-weight: 600; margin-bottom: 2px; }
+    .passport-banner-line  { font-size: .85rem; line-height: 1.5; }
+    .passport-banner-info  { font-size: .85rem; }
+    .passport-banner-p2 {
+      margin-top: 8px; padding: 8px 12px;
+      background: #F0FDF4; border: 1px solid #BBF7D0;
+      border-radius: 8px; font-size: .82rem; color: #065F46;
+    }
+    .passport-banner-change {
+      display: inline-block; margin-top: 6px;
+      font-size: .78rem; color: inherit; opacity: .7; text-decoration: underline;
+    }
+    .passport-banner-change-blue {
+      font-size: .78rem; color: #3B82F6; text-decoration: underline;
+    }
+    .passport-banner-blue {
+      padding: 12px 16px; background: #EFF6FF;
+      border: 1px solid #BFDBFE; border-radius: 12px;
+      font-size: .85rem; color: #1E40AF;
+    }
+    .passport-banner-orange {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px; background: #FFF7ED;
+      border: 1px solid #FED7AA; border-radius: 12px;
+      font-size: .85rem; color: #92400E;
+    }
+    .passport-banner-cta-link {
+      color: #D97706; font-weight: 600; text-decoration: none;
+    }
   </style>
 </head>
 <body>
@@ -893,7 +1132,7 @@
 <div class="page-body">
 
   <!-- Parent country breadcrumb (shown for cities) -->
-  <div id="parentCountryBreadcrumb" style="display:none;margin-top:20px;"></div>
+  <div id="parentCountryBreadcrumb" class="breadcrumb-row" style="display:none;"></div>
 
   <!-- Quick stats -->
   <div class="quick-stats" id="quickStats">
@@ -916,13 +1155,10 @@
   </div>
 
   <!-- Mobile action buttons (shown only on small screens since nav hides them) -->
-  <div id="mobileActions" style="display:none; gap:10px; padding: 16px 0 4px; flex-wrap:wrap;">
+  <div id="mobileActions" class="mobile-actions-row" style="display:none;">
     <button onclick="toggleWishlist()" id="btnWishlistMobile" class="dest-action-btn">♡ Quiero ir</button>
     <button onclick="toggleVisitedDest()" id="btnVisitedMobile" class="dest-action-btn">✓ Visitado</button>
   </div>
-  <style>
-    @media (max-width: 600px) { #mobileActions { display: flex !important; } }
-  </style>
 
   <!-- Calendar -->
   <section class="section" id="calendarSection" style="display:none">
@@ -977,18 +1213,18 @@
   <section class="section" id="costEstimatorSection">
     <h2>🧮 Estimador de coste</h2>
     <div class="info-card cost-estimator">
-      <div style="display:grid;gap:20px;">
+      <div class="est-grid">
         <!-- Días -->
         <div>
           <label class="calc-label">
             Nº de días: <strong id="estDaysLabel">7</strong>
           </label>
           <input type="range" id="estDays" min="1" max="90" value="7"
-            style="width:100%;accent-color:var(--accent);"
+            class="est-range"
             oninput="document.getElementById('estDaysLabel').textContent=this.value; calcCost()">
         </div>
         <!-- Personas + Tipo -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="est-row-2col">
           <div>
             <label class="calc-label">Personas</label>
             <select id="estPersons" onchange="calcCost()" class="calc-select">
@@ -1021,12 +1257,12 @@
   <!-- How to get there -->
   <section class="section" id="flightSection">
     <h2>✈️ Cómo llegar</h2>
-    <div id="originBanner" style="margin-bottom:12px;"></div>
+    <div id="originBanner" class="origin-banner-wrap"></div>
     <div class="info-card">
       <p id="howToGet">Cargando información de vuelos…</p>
     </div>
-    <div id="flightAffiliateCTA" style="display:none;margin-top:14px;">
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+    <div id="flightAffiliateCTA" class="flight-affiliate-cta-section" style="display:none;">
+      <div class="flight-cta-wrap">
         <a id="skyscannerLink" href="#" target="_blank" rel="noopener sponsored"
            class="btn-booking-skyscanner"
            onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
@@ -1040,7 +1276,7 @@
           Buscar alojamiento — Booking
         </a>
       </div>
-      <p style="font-size:.72rem;color:var(--text-3);margin-top:8px;">Los precios pueden variar. Comparar siempre antes de reservar.</p>
+      <p class="flight-cta-disclaimer">Los precios pueden variar. Comparar siempre antes de reservar.</p>
     </div>
   </section>
 
@@ -1056,7 +1292,7 @@
   <!-- INTRO PREVIEW (shown to all for quality=0 destinations) -->
   <section class="section" id="introPreviewSection" style="display:none;">
     <div class="info-card">
-      <p id="introPreviewText" style="font-size:.92rem;line-height:1.75;color:#374151;"></p>
+      <p id="introPreviewText" class="intro-preview-text"></p>
     </div>
   </section>
 
@@ -1100,9 +1336,9 @@
   <section class="section" id="visaSection">
     <h2>🛂 Visado e entrada</h2>
     <!-- Passport personalization banner -->
-    <div id="visaPassportBanner" style="display:none;margin-bottom:14px;"></div>
+    <div id="visaPassportBanner" class="mb-16" style="display:none;"></div>
     <div id="visaContent">
-      <p id="visaInfo" style="font-size:.9rem;line-height:1.75;color:#374151;white-space:pre-line;"></p>
+      <p id="visaInfo" class="section-prose" style="white-space:pre-line;"></p>
     </div>
   </section>
 
@@ -1138,7 +1374,7 @@
   </div><!-- /gatedContent -->
 
   <!-- Pedir guía (guide_quality=0) — outside gate so all users can request -->
-  <div id="guideRequestSection" style="display:none;padding:40px 0 20px;">
+  <div id="guideRequestSection" class="guide-request-section" style="display:none;">
     <div class="guide-request-box">
       <div class="grb-emoji">✉️</div>
       <h3>Guía en construcción</h3>
@@ -1147,7 +1383,7 @@
       <button id="guideRequestBtn" onclick="submitGuideRequest()">
         🙋 Pedir esta guía
       </button>
-      <p id="guideRequestThanks" style="display:none;margin:16px 0 0;font-size:.9rem;color:#059669;font-weight:600;">✓ Ya has pedido esta guía</p>
+      <p id="guideRequestThanks" class="guide-request-thanks" style="display:none;">✓ Ya has pedido esta guía</p>
     </div>
   </div>
 
@@ -1198,17 +1434,17 @@
 
     if (origin) {
       banner.innerHTML = `
-        <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#EFF6FF;border-radius:10px;font-size:.85rem;color:#1E40AF;">
+        <div class="origin-banner-blue">
           <span>✈️</span>
           <span>Vuelos desde <strong>${escHtml(origin)}</strong> a este destino</span>
-          <a href="profile.html" style="margin-left:auto;color:#3B82F6;text-decoration:none;font-size:.8rem;">Cambiar</a>
+          <a href="profile.html" class="origin-banner-change">Cambiar</a>
         </div>`;
       document.getElementById('flightStatLabel').textContent = `Vuelo desde ${city || country || homeCountry}`;
     } else {
       banner.innerHTML = `
-        <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#FFF7ED;border-radius:10px;font-size:.85rem;color:#92400E;">
+        <div class="origin-banner-orange">
           <span>🌍</span>
-          <span>Personaliza tus guías indicando tu país de origen → <a href="profile.html" style="color:#D97706;font-weight:600;text-decoration:none;">Completar perfil</a></span>
+          <span>Personaliza tus guías indicando tu país de origen → <a href="profile.html" class="origin-banner-cta-link">Completar perfil</a></span>
         </div>`;
     }
   }
@@ -1228,14 +1464,14 @@
     const lines = d.visa_info.split('\n').filter(l => l.trim());
     const html = lines.map(line => {
       const t = line.trim();
-      let bg = '#F8FAFC', border = '#E2E8F0', color = '#374151';
-      if (t.startsWith('✅')) { bg = '#F0FDF4'; border = '#BBF7D0'; color = '#065F46'; }
-      else if (t.startsWith('🔴')) { bg = '#FEF2F2'; border = '#FECACA'; color = '#7F1D1D'; }
-      else if (t.startsWith('📋')) { bg = '#FFFBEB'; border = '#FDE68A'; color = '#78350F'; }
-      return `<div style="padding:9px 14px;background:${bg};border:1px solid ${border};border-radius:10px;margin-bottom:6px;font-size:.85rem;color:${color};line-height:1.5;">${escHtml(t)}</div>`;
+      let cls = 'visa-preview-row--def';
+      if (t.startsWith('✅'))      cls = 'visa-preview-row--ok';
+      else if (t.startsWith('🔴')) cls = 'visa-preview-row--req';
+      else if (t.startsWith('📋')) cls = 'visa-preview-row--note';
+      return `<div class="visa-preview-row ${cls}">${escHtml(t)}</div>`;
     }).join('');
 
-    content.innerHTML = html + `<p style="font-size:.75rem;color:#9CA3AF;margin-top:10px;font-style:italic;">La información de visados puede cambiar. Consulta siempre la embajada o consulado antes del viaje.</p>`;
+    content.innerHTML = html + `<p class="visa-preview-disclaimer">La información de visados puede cambiar. Consulta siempre la embajada o consulado antes del viaje.</p>`;
     section.style.display = '';
   }
 
@@ -1711,7 +1947,7 @@
       const fd = document.getElementById('foodSection');
       if (fd) {
         fd.style.display = '';
-        document.getElementById('foodText').innerHTML = `<span style="font-size:1.4rem;">🍽️</span><br><strong style="display:block;margin:8px 0 6px;color:#0F172A;">Gastronomía local</strong>Aún no tenemos información gastronómica para este destino. ¡Pronto la añadiremos!`;
+        document.getElementById('foodText').innerHTML = `<span class="placeholder-emoji">🍽️</span><br><strong class="placeholder-title">Gastronomía local</strong>Aún no tenemos información gastronómica para este destino. ¡Pronto la añadiremos!`;
       }
     }
     if (d.local_tips?.length) renderTips(d.local_tips);
@@ -1719,7 +1955,7 @@
       const vs = document.getElementById('visaSection');
       if (vs) {
         vs.style.display = '';
-        document.getElementById('visaInfo').innerHTML = `<span style="font-size:1.3rem;">💳</span><br><strong style="display:block;margin:8px 0 6px;color:#0F172A;">Información de visado</strong>Preparando los requisitos de visado para tu pasaporte. Mientras tanto, consulta la embajada oficial.`;
+        document.getElementById('visaInfo').innerHTML = `<span class="visa-placeholder-emoji">💳</span><br><strong class="placeholder-title">Información de visado</strong>Preparando los requisitos de visado para tu pasaporte. Mientras tanto, consulta la embajada oficial.`;
       }
     }
     if (d.visa_info) {
@@ -1765,20 +2001,20 @@
         const c = bannerColors[personalStatus] || bannerColors.default;
         // Show the actual matching visa line if found, otherwise generic header
         let bannerContent = matchingLine
-          ? `<div style="font-size:.9rem;font-weight:600;margin-bottom:2px;">Pasaporte ${escHtml(homeCountry)}</div><div style="font-size:.85rem;line-height:1.5;">${escHtml(matchingLine)}</div>`
-          : `<div style="font-size:.85rem;">ℹ️ Info de visa personalizada para <strong>${escHtml(homeCountry)}</strong> — consulta las líneas de abajo</div>`;
+          ? `<div class="passport-banner-label">Pasaporte ${escHtml(homeCountry)}</div><div class="passport-banner-line">${escHtml(matchingLine)}</div>`
+          : `<div class="passport-banner-info">ℹ️ Info de visa personalizada para <strong>${escHtml(homeCountry)}</strong> — consulta las líneas de abajo</div>`;
 
         // If passport1 requires visa but passport2 gives free access → show alert
         if (personalStatus === 'required' && p2Result && (p2Result.status === 'ok' || p2Result.status === 'arrival')) {
-          bannerContent += `<div style="margin-top:8px;padding:8px 12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;font-size:.82rem;color:#065F46;">🌟 <strong>Con tu pasaporte ${escHtml(passport2)}</strong>: ${escHtml(p2Result.line)}</div>`;
+          bannerContent += `<div class="passport-banner-p2">🌟 <strong>Con tu pasaporte ${escHtml(passport2)}</strong>: ${escHtml(p2Result.line)}</div>`;
           visaShortPersonal = p2Result.label || visaShortPersonal;
         }
 
-        passportBanner.innerHTML = `<div style="padding:12px 16px;background:${c.bg};border:1px solid ${c.border};border-radius:12px;color:${c.color};">${bannerContent}<a href="profile.html" style="display:inline-block;margin-top:6px;font-size:.78rem;color:inherit;opacity:.7;text-decoration:underline;">Cambiar pasaporte</a></div>`;
+        passportBanner.innerHTML = `<div class="passport-banner-wrap" style="background:${c.bg};border:1px solid ${c.border};color:${c.color};">${bannerContent}<a href="profile.html" class="passport-banner-change">Cambiar pasaporte</a></div>`;
         passportBanner.style.display = 'block';
       } else {
         // Show CTA to set home country
-        passportBanner.innerHTML = `<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;font-size:.85rem;color:#92400E;">🌍 <span>Personaliza tus guías indicando tu país de origen → <a href="profile.html" style="color:#D97706;font-weight:600;text-decoration:none;">Completar perfil</a></span></div>`;
+        passportBanner.innerHTML = `<div class="passport-banner-orange">🌍 <span>Personaliza tus guías indicando tu país de origen → <a href="profile.html" class="passport-banner-cta-link">Completar perfil</a></span></div>`;
         passportBanner.style.display = 'block';
       }
       document.getElementById('statVisa').textContent = visaShortPersonal;
@@ -1787,10 +2023,10 @@
       const passportBanner = document.getElementById('visaPassportBanner');
       const homeCountry = localStorage.getItem('homeCountry') || localStorage.getItem('editCountry') || '';
       if (!homeCountry && passportBanner) {
-        passportBanner.innerHTML = `<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;font-size:.85rem;color:#92400E;">🌍 <span>Personaliza tus guías indicando tu país de origen → <a href="profile.html" style="color:#D97706;font-weight:600;text-decoration:none;">Completar perfil</a></span></div>`;
+        passportBanner.innerHTML = `<div class="passport-banner-orange">🌍 <span>Personaliza tus guías indicando tu país de origen → <a href="profile.html" class="passport-banner-cta-link">Completar perfil</a></span></div>`;
         passportBanner.style.display = 'block';
       } else if (homeCountry && passportBanner) {
-        passportBanner.innerHTML = `<div style="padding:12px 16px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;font-size:.85rem;color:#1E40AF;">ℹ️ Mostrando info para viajeros desde <strong>${escHtml(homeCountry)}</strong><br><a href="profile.html" style="font-size:.78rem;color:#3B82F6;text-decoration:underline;">Cambiar país de origen</a></div>`;
+        passportBanner.innerHTML = `<div class="passport-banner-blue">ℹ️ Mostrando info para viajeros desde <strong>${escHtml(homeCountry)}</strong><br><a href="profile.html" class="passport-banner-change-blue">Cambiar país de origen</a></div>`;
         passportBanner.style.display = 'block';
       }
     }
@@ -1907,7 +2143,7 @@
             }
           }
           if (cityCards.length > 0) {
-            const introHtml = introText ? `<p style="color:#475569;font-size:.9rem;line-height:1.7;margin-bottom:14px;">${escHtml(introText)}</p>` : '';
+            const introHtml = introText ? `<p class="city-section-intro">${escHtml(introText)}</p>` : '';
             const cardsHtml = cityCards.map(c => {
               // Find matching child city for photo
               const cityData = (d.child_cities || []).find(x => x.slug === c.slug);
@@ -1937,18 +2173,18 @@
           // Render day-by-day itinerary with special styling
           const lines = (s.content || '').split('\n');
           bodyHtml = lines.map(line => {
-            if (!line.trim()) return '<div style="height:6px"></div>';
+            if (!line.trim()) return '<div class="itin-spacer"></div>';
             // Day headers: lines starting with "Día" or "Etapa" or "TRAMO"
             if (/^(Día\s+\d|Etapa\s+\d|TRAMO\s+\d)/i.test(line.trim())) {
-              return `<div style="margin-top:18px;margin-bottom:4px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;color:#0F172A;display:flex;align-items:center;gap:8px;"><span style="background:#EFF6FF;color:#0EA5E9;border-radius:6px;padding:2px 8px;font-size:.8rem;white-space:nowrap;">${escHtml(line.trim().split(' ').slice(0,4).join(' '))}</span><span>${escHtml(line.trim().split(' ').slice(4).join(' '))}</span></div>`;
+              return `<div class="itin-day-header"><span class="itin-day-badge">${escHtml(line.trim().split(' ').slice(0,4).join(' '))}</span><span>${escHtml(line.trim().split(' ').slice(4).join(' '))}</span></div>`;
             }
             // Sub-day headers (e.g. "Día 1-3:" style lines)
             if (/^Día\s+\d+[-–]\d+/i.test(line.trim())) {
-              return `<div style="margin-top:14px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem;color:#0F172A;">${escHtml(line.trim())}</div>`;
+              return `<div class="itin-subday-header">${escHtml(line.trim())}</div>`;
             }
-            return `<div style="color:#475569;line-height:1.7;font-size:.92rem;">${escHtml(line.trim())}</div>`;
+            return `<div class="itin-line">${escHtml(line.trim())}</div>`;
           }).join('');
-          bodyHtml = `<div style="border-left:3px solid #E0F2FE;padding-left:16px;margin-top:8px;">${bodyHtml}</div>`;
+          bodyHtml = `<div class="itin-wrap">${bodyHtml}</div>`;
         } else if (s.section === 'Joyas Ocultas') {
           // Parse blocks separated by double newline: emoji **Title** — Description
           const blocks = (s.content || '').split(/\n\n+/).filter(b => b.trim());
@@ -2060,7 +2296,7 @@
     const flightsEl = document.getElementById('affiliateFlights');
     if (flightsEl && d.how_to_get_there) {
       flightsEl.innerHTML = `
-        <div class="affiliate-card" style="margin:16px 0 0;">
+        <div class="affiliate-card affiliate-card--mt">
           <div class="affiliate-card-icon skyscanner">&#9992;&#65039;</div>
           <div class="affiliate-card-body">
             <div class="affiliate-card-title">Vuelos a ${escHtml(destName)}</div>
@@ -2079,7 +2315,7 @@
     const activitiesEl = document.getElementById('affiliateActivities');
     if (activitiesEl && d.what_to_do?.length) {
       activitiesEl.innerHTML = `
-        <div class="affiliate-card" style="margin:16px 0 0;">
+        <div class="affiliate-card affiliate-card--mt">
           <div class="affiliate-card-icon activities">&#127919;</div>
           <div class="affiliate-card-body">
             <div class="affiliate-card-title">Tours y actividades en ${escHtml(destName)}</div>
@@ -2101,7 +2337,7 @@
     const hotelsEl = document.getElementById('affiliateHotels');
     if (hotelsEl && d.where_to_sleep) {
       hotelsEl.innerHTML = `
-        <div class="affiliate-card" style="margin:16px 0 0;">
+        <div class="affiliate-card affiliate-card--mt">
           <div class="affiliate-card-icon booking">&#127976;</div>
           <div class="affiliate-card-body">
             <div class="affiliate-card-title">Hoteles en ${escHtml(destName)}</div>
@@ -2120,7 +2356,7 @@
     const insuranceEl = document.getElementById('affiliateInsurance');
     if (insuranceEl && (d.visa_info || d.how_to_get_there)) {
       insuranceEl.innerHTML = `
-        <div class="affiliate-card" style="margin:16px 0 0;">
+        <div class="affiliate-card affiliate-card--mt">
           <div class="affiliate-card-icon insurance">&#128737;&#65039;</div>
           <div class="affiliate-card-body">
             <div class="affiliate-card-title">Seguro de viaje</div>
@@ -2139,7 +2375,7 @@
     const plannerEl = document.getElementById('affiliatePlanner');
     if (plannerEl) {
       plannerEl.innerHTML = `
-        <div class="planner-cta-banner" style="margin:32px 0;">
+        <div class="planner-cta-banner">
           <div class="planner-cta-banner-icon">&#129302;</div>
           <h3>&iquest;Quieres un itinerario personalizado?</h3>
           <p>Nuestro planificador AI te crea un viaje a medida para ${escHtml(destName)}: d&iacute;as, presupuesto y estilo de viaje adaptados a ti.</p>
@@ -2238,7 +2474,7 @@
     // Medical disclaimer + official links
     const destSlugForCDC = encodeURIComponent((currentDest && currentDest.name) || '');
     html += `<div class="vaccines-disclaimer">⚕️ <em>Información orientativa. Consulta siempre con tu médico o centro de vacunación internacional antes del viaje. Los requisitos pueden cambiar.</em>
-      <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:8px;">
+      <div class="mt-8 flex flex-wrap gap-8">
         <a href="https://wwwnc.cdc.gov/travel/destinations/list" target="_blank" rel="noopener" class="ref-link">🔗 CDC Travel Health</a>
         <a href="https://www.who.int/travel-advice" target="_blank" rel="noopener" class="ref-link">🔗 OMS Travel Advice</a>
         <a href="https://www.mscbs.gob.es/profesionales/saludPublica/sanidadExterior/saludViajerosEsp/home.htm" target="_blank" rel="noopener" class="ref-link">🔗 Sanidad España</a>
@@ -2294,8 +2530,8 @@
     const priceStars = '€'.repeat(s.price_level || 1);
 
     const evtHtml = evts.length ? `
-      <div style="margin-top:10px; font-size:.83rem; color:var(--text-2);">
-        <strong style="color:var(--text)">Eventos:</strong> ${evts.map(e => e.name).join(', ')}
+      <div class="month-events-hint">
+        <strong>Eventos:</strong> ${evts.map(e => e.name).join(', ')}
       </div>
     ` : '';
 
@@ -2373,7 +2609,7 @@
     if (Array.isArray(sleep)) {
       if (tabsEl) tabsEl.style.display = 'none';
       content.innerHTML = sleep.map(n => `
-        <div class="sleep-card" style="margin-bottom:10px;">
+        <div class="sleep-card mb-8">
           <div class="sleep-name">${escHtml(n.name || n.title || '')}</div>
           <div class="sleep-notes">${escHtml(n.description || n.notes || '')}</div>
         </div>
@@ -2397,11 +2633,11 @@
     const map = { budget: sleep.budget, mid: sleep.mid, luxury: sleep.luxury };
     const d = map[tab];
     const content = document.getElementById('sleepContent');
-    if (!d) { content.innerHTML = '<p style="color:var(--text-3);font-size:.85rem">Sin datos para esta categoría.</p>'; return; }
+    if (!d) { content.innerHTML = '<p class="text-muted text-sm">Sin datos para esta categoría.</p>'; return; }
     content.innerHTML = `
       <div class="sleep-card">
         <div class="sleep-name">${d.name || ''}</div>
-        <div class="sleep-price">${d.price || ''} <span style="font-size:.8rem;font-weight:400;color:var(--text-3)">por noche</span></div>
+        <div class="sleep-price">${d.price || ''} <span class="sleep-price-unit">por noche</span></div>
         <div class="sleep-notes">${d.notes || ''}</div>
       </div>
     `;
@@ -2477,7 +2713,7 @@
       const info = BUDGET_TIER_INFO[t];
       const isActive = t === tier;
       return `
-        <div class="budget-card${isActive ? ' active-tier' : ''}" style="cursor:pointer" onclick="selectBudgetTier('${t}')">
+        <div class="budget-card${isActive ? ' active-tier' : ''}" onclick="selectBudgetTier('${t}')">
           <div class="budget-level">${info.label}</div>
           <div class="budget-amount">${td.amount ? td.amount + '€/día' : '—'}</div>
           <div class="budget-desc">${info.items.map(i => i.fallback).slice(0,1).join(' ')}</div>
@@ -2490,15 +2726,15 @@
     if (!detail) {
       detail = document.createElement('div');
       detail.id = 'budgetDetail';
-      detail.style.cssText = 'margin-top:18px; display:grid; grid-template-columns:repeat(2,1fr); gap:10px;';
+      detail.className = 'budget-detail-grid';
       grid.parentNode.insertBefore(detail, grid.nextSibling);
     }
     detail.innerHTML = tierInfo.items.map(item => `
-      <div style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--bg-soft);border-radius:12px;border:1px solid var(--border);">
-        <span style="font-size:1.3rem;flex-shrink:0">${item.icon}</span>
+      <div class="budget-detail-item">
+        <span class="budget-detail-icon">${item.icon}</span>
         <div>
-          <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-3);margin-bottom:3px">${item.label}</div>
-          <div style="font-size:.82rem;color:var(--text-2);line-height:1.5">${item.fallback}</div>
+          <div class="budget-detail-label">${item.label}</div>
+          <div class="budget-detail-value">${item.fallback}</div>
         </div>
       </div>
     `).join('');
@@ -2658,7 +2894,7 @@
           </div>
           <div class="related-info">
             <div class="related-name">${r.name}</div>
-            <div class="related-tag">${r.continent} · <span style="color:var(--accent);font-style:italic;">${why}</span></div>
+            <div class="related-tag">${r.continent} · <em class="text-accent">${why}</em></div>
           </div>
         </a>
       `;
@@ -2835,14 +3071,14 @@
     const region = getRegion(currentDest);
 
     document.getElementById('costOutput').innerHTML = `
-      <div style="font-weight:700;font-size:1rem;margin-bottom:10px;color:var(--text);">
+      <div class="cost-output-header">
         Estimación para <strong>${days} días</strong> (${personStr}) — ${tierLabel}
-        ${region ? `<span style="font-size:.75rem;font-weight:400;color:var(--text-3);margin-left:6px;">(${region})</span>` : ''}
+        ${region ? `<span class="cost-output-region">(${region})</span>` : ''}
       </div>
-      <div style="font-size:1.1rem;font-weight:700;color:var(--accent);margin-bottom:12px;">
-        💰 Total: ~${fmt(grandTotal)}€ ${persons > 1 ? `<span style="font-size:.82rem;font-weight:500;color:var(--text-2);">(${fmt(perPerson)}€ por persona)</span>` : ''}
+      <div class="cost-output-total">
+        💰 Total: ~${fmt(grandTotal)}€ ${persons > 1 ? `<span class="cost-output-per-person">(${fmt(perPerson)}€ por persona)</span>` : ''}
       </div>
-      <div style="display:flex;flex-direction:column;gap:5px;color:var(--text-2);">
+      <div class="cost-output-lines">
         <span>✈️ Vuelos estimados: ~${fmt(flightPricePP)}€ pp (ida y vuelta desde España)</span>
         <span>🏨 Alojamiento: ~${fmt(accomTotal)}€ (${fmt(accomPerNightPP)}€/noche pp)</span>
         <span>🍜 Comida: ~${fmt(foodTotal)}€ (${fmt(dayRate * ratios.food)}€/día pp)</span>
@@ -2886,18 +3122,11 @@
     const body = document.querySelector('.page-body');
     if (body) {
       body.innerHTML = `
-        <div style="text-align:center; padding: 60px 24px 80px; max-width: 480px; margin: 0 auto;">
-          <div style="font-size:3rem; margin-bottom:16px;">🌍</div>
-          <h2 style="font-family:'Space Grotesk',sans-serif; font-size:1.4rem; color:#0F172A; margin-bottom:8px;">
-            Selecciona un destino para ver su guía
-          </h2>
-          <p style="color:#64748B; font-size:.95rem; margin-bottom:28px;">
-            Explora nuestra colección de guías de viaje detalladas con clima, actividades, presupuesto y más.
-          </p>
-          <a href="guias.html" style="display:inline-block; background:#0EA5E9; color:#fff; font-weight:600; font-size:.95rem; padding:12px 28px; border-radius:24px; text-decoration:none; transition:background .2s;"
-             onmouseover="this.style.background='#0284C7'" onmouseout="this.style.background='#0EA5E9'">
-            Ver todos los destinos →
-          </a>
+        <div class="no-slug-wrap">
+          <div class="no-slug-icon">🌍</div>
+          <h2 class="no-slug-title">Selecciona un destino para ver su guía</h2>
+          <p class="no-slug-desc">Explora nuestra colección de guías de viaje detalladas con clima, actividades, presupuesto y más.</p>
+          <a href="guias.html" class="no-slug-btn">Ver todos los destinos →</a>
         </div>`;
     }
   }
@@ -2986,27 +3215,36 @@
 
 
 <!-- ── Share Guide Modal ── -->
-<div id="guideShareModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeGuideShareMenu()">
-  <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 32px;box-shadow:0 -4px 32px rgba(0,0,0,0.18);animation:slideUp .25s ease;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-      <div style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;">📤 Compartir esta guía</div>
-      <button onclick="closeGuideShareMenu()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:#64748B;padding:4px;">✕</button>
+<div id="guideShareModal" class="share-modal" onclick="if(event.target===this)closeGuideShareMenu()">
+  <div class="share-modal-sheet">
+    <div class="share-modal-header">
+      <div class="share-modal-title">📤 Compartir esta guía</div>
+      <button onclick="closeGuideShareMenu()" class="share-modal-close">✕</button>
     </div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button onclick="guideShareAction('copy')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#0EA5E9';this.style.background='#E0F2FE'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
-        <span style="font-size:1.3rem;">📋</span>
-        <div><div style="font-weight:600;">Copiar enlace</div><div id="guideCopyHint" style="font-size:.8rem;color:#64748B;">viajeramente.com/destino.html?slug=...</div></div>
+    <div class="share-modal-list">
+      <button onclick="guideShareAction('copy')" class="share-modal-btn">
+        <span class="share-modal-btn-icon">📋</span>
+        <div>
+          <div class="share-modal-btn-label">Copiar enlace</div>
+          <div id="guideCopyHint" class="share-modal-btn-hint">viajeramente.com/destino.html?slug=...</div>
+        </div>
       </button>
-      <button onclick="guideShareAction('whatsapp')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#25D366';this.style.background='#F0FDF4'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
-        <span style="font-size:1.3rem;">📱</span>
-        <div><div style="font-weight:600;">Compartir en WhatsApp</div><div style="font-size:.8rem;color:#64748B;">Enviar guía a un amigo</div></div>
+      <button onclick="guideShareAction('whatsapp')" class="share-modal-btn share-modal-btn--whatsapp">
+        <span class="share-modal-btn-icon">📱</span>
+        <div>
+          <div class="share-modal-btn-label">Compartir en WhatsApp</div>
+          <div class="share-modal-btn-hint">Enviar guía a un amigo</div>
+        </div>
       </button>
-      <button onclick="guideShareAction('twitter')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#1DA1F2';this.style.background='#EFF6FF'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
-        <span style="font-size:1.3rem;">🐦</span>
-        <div><div style="font-weight:600;">X / Twitter</div><div style="font-size:.8rem;color:#64748B;">Tuitear esta guía de viaje</div></div>
+      <button onclick="guideShareAction('twitter')" class="share-modal-btn share-modal-btn--twitter">
+        <span class="share-modal-btn-icon">🐦</span>
+        <div>
+          <div class="share-modal-btn-label">X / Twitter</div>
+          <div class="share-modal-btn-hint">Tuitear esta guía de viaje</div>
+        </div>
       </button>
     </div>
-    <div id="guideCopiedMsg" style="display:none;margin-top:14px;padding:10px 14px;background:#F0FDF4;border-radius:10px;font-size:.85rem;color:#065F46;font-weight:500;">✅ Enlace copiado al portapapeles</div>
+    <div id="guideCopiedMsg" class="share-copied-msg">✅ Enlace copiado al portapapeles</div>
   </div>
 </div>
 

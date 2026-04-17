@@ -1977,6 +1977,423 @@
     .tab-item.active { color: #0EA5E9; }
     .tab-item:hover { color: #0EA5E9; }
     .tab-icon { font-size: 1.3rem; line-height: 1; }
+
+    /* ── LEVEL PTS (hero badge text) ── */
+    .level-pts { font-size:.8rem; color:rgba(255,255,255,.8); font-weight:600; }
+
+    /* ── HERO BUTTONS ── */
+    .btn-share-hero {
+      background: linear-gradient(135deg,rgba(14,165,233,.25),rgba(139,92,246,.25));
+      border: 1.5px solid rgba(139,92,246,.4);
+      backdrop-filter: blur(8px);
+    }
+    .btn-public-profile {
+      text-decoration: none;
+      background: var(--bg-soft);
+      border: 1.5px solid var(--border);
+      color: var(--text-2);
+      font-size: .82rem;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all .2s;
+    }
+    .btn-public-profile:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── HOME COUNTRY CTA BANNER ── */
+    .home-country-cta {
+      margin-top: 12px;
+      padding: 10px 16px;
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+      border-radius: 10px;
+      font-size: .85rem;
+      color: #92400E;
+      cursor: pointer;
+    }
+
+    /* ── SECTION HEADER VARIANT ── */
+    .section-header-edit { margin-bottom: 20px; }
+
+    /* ── LABEL HINT (small text inside label) ── */
+    .label-hint { font-size: .75rem; color: var(--text-3); font-weight: 400; }
+
+    /* ── RANK CARD: current rank + progress ── */
+    .rank-progress-wrap { margin-bottom: 20px; }
+    .rank-progress-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .rank-badge-title {
+      font-size: 1.25rem; font-weight: 800;
+      font-family: 'Space Grotesk', sans-serif; color: var(--text);
+    }
+    .rank-pts-value { font-size: .95rem; font-weight: 700; color: var(--accent); }
+    .rank-progress-track {
+      height: 8px; background: var(--bg-soft); border-radius: 8px;
+      overflow: hidden; border: 1px solid var(--border);
+    }
+    .rank-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      border-radius: 8px; width: 0%; transition: width .7s ease;
+    }
+    .rank-progress-hint { font-size: .75rem; color: var(--text-2); margin-top: 5px; }
+
+    /* ── RANK CARD: "Cómo funciona" toggle button ── */
+    .btn-rank-explainer {
+      background: none; border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 6px 12px; font-size: .78rem; font-weight: 600; color: var(--text-2);
+      cursor: pointer; transition: all .2s; white-space: nowrap;
+    }
+    .btn-rank-explainer:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── TRIPS: empty state ── */
+    .trips-empty { text-align: center; padding: 40px 20px; color: var(--text-3); font-size: .9rem; }
+    .trips-empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+    /* ── MAP: header actions row ── */
+    .map-header-actions { display: flex; align-items: center; gap: 8px; }
+
+    /* ── MAP: share/fullscreen button variants ── */
+    .map-btn-share {
+      font-size: .8rem; padding: 6px 10px; border-radius: 10px;
+      border: 1.5px solid var(--border); background: var(--bg);
+      cursor: pointer; color: var(--text-2); transition: all .2s;
+    }
+    .map-btn-share:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── CITY PICKER: padded header ── */
+    .picker-header-padded { padding: 20px 20px 12px; }
+    .picker-scroll-padded { padding: 0 20px 12px; }
+    .picker-chips-mb { margin-bottom: 16px; }
+    .picker-input-row-mb { margin-bottom: 8px; }
+    .picker-footer-safearea {
+      padding: 12px 20px calc(64px + max(16px, env(safe-area-inset-bottom)));
+    }
+    .picker-header-mb { margin-bottom: 16px; }
+    .picker-lived-input-wrap { margin-bottom: 12px; }
+    .picker-lived-results {
+      display: none; background: white; border: 1.5px solid #E2E8F0;
+      border-radius: 12px; max-height: 180px; overflow-y: auto; margin-top: 6px;
+    }
+    .picker-footer-flat { border-top: none; padding: 0; }
+
+    /* ── MAP LEGEND DOTS ── */
+    .legend-dot-visited { background: #6C63FF; }
+    .legend-dot-unvisited { background: #CBD5E1; }
+
+    /* ── MAP: "Ver mapa completo" link button ── */
+    .map-link-btn {
+      display: block; width: 100%; margin-top: 10px; padding: 10px;
+      border-radius: 12px; border: 1.5px solid var(--border); background: white;
+      cursor: pointer; font-size: .85rem; font-weight: 600; color: var(--accent);
+      text-align: center; text-decoration: none; box-sizing: border-box;
+    }
+
+    /* ── MAP MODAL: inner body ── */
+    .map-modal-body { position: relative; flex: 1; overflow: hidden; }
+    .map-modal-leaflet { width: 100%; height: 100%; }
+
+    /* ── COUNTRIES PROGRESS ── */
+    .countries-progress-wrap { margin-bottom: 16px; }
+    .progress-header-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px;
+    }
+    .progress-label-text { font-size: .78rem; color: var(--text-2); }
+    .progress-percent { font-size: .78rem; font-weight: 700; color: var(--accent); }
+    .progress-track-6 {
+      height: 6px; background: var(--border); border-radius: 6px; overflow: hidden;
+    }
+    .progress-fill-gradient {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      border-radius: 6px; width: 0%; transition: width .8s ease;
+    }
+    .countries-chips-wrap { display: flex; flex-wrap: wrap; gap: 8px; min-height: 36px; }
+    .countries-chips-placeholder { color: var(--text-3); font-size: .85rem; }
+
+    /* ── LIVED LIST ── */
+    .lived-list-wrap { display: flex; flex-wrap: wrap; gap: 10px; min-height: 40px; }
+    .lived-empty-text { color: var(--text-3); font-size: .85rem; }
+
+    /* ── SECTION BADGE: colored strong ── */
+    .badge-count-accent { color: var(--accent); }
+    .badge-count-green { color: var(--green); }
+
+    /* ── SOCIAL: empty message ── */
+    .social-msg-empty {
+      color: var(--text-3); font-size: .85rem; text-align: center; padding: 16px 0;
+    }
+
+    /* ── WISHLIST ── */
+    .wishlist-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(180px,1fr)); gap: 14px; margin-top: 4px; }
+    .wishlist-empty-text {
+      color: var(--text-3); font-size: .85rem; text-align: center;
+      padding: 20px 0;
+    }
+    .wishlist-empty-link { color: var(--accent); font-weight: 600; text-decoration: none; }
+
+    /* ── PACKING SECTION ── */
+    .packing-section-actions { display: flex; gap: 8px; align-items: center; }
+    .packing-reset-btn {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-3); font-size: .72rem;
+    }
+    .packing-tabs-wrap { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .packing-list-wrap { display: flex; flex-direction: column; gap: 6px; }
+    .packing-add-inner { display: flex; gap: 8px; align-items: center; }
+    .packing-input-flex { flex: 1; }
+    .packing-progress-section {
+      margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
+    }
+    .progress-label-muted { font-size: .75rem; color: var(--text-3); }
+    .progress-value-accent { font-size: .75rem; font-weight: 600; color: var(--accent); }
+    .progress-track-4 {
+      height: 4px; background: var(--border); border-radius: 4px; overflow: hidden;
+    }
+    .progress-fill-accent {
+      height: 100%; background: var(--accent); border-radius: 4px;
+      width: 0%; transition: width .3s;
+    }
+
+    /* ── MODAL VARIANTS ── */
+    .modal-lg { max-width: 560px; max-height: 90vh; overflow-y: auto; }
+    .trip-type-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .trip-form-body { display: flex; flex-direction: column; gap: 12px; }
+    .edit-grid-gap { gap: 10px; }
+    .edit-group-mt { margin-top: 10px; }
+    .multi-dest-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .edit-label-no-margin { margin: 0; }
+    .btn-add-leg {
+      padding: 6px 12px; border: none; border-radius: 8px;
+      background: #6C63FF; color: white; cursor: pointer;
+      font-size: .8rem; font-weight: 600;
+    }
+    .edit-actions-mt { margin-top: 16px; }
+    .btn-save-full { margin-top: 12px; width: 100%; }
+
+    /* ── EDIT LABEL SMALL (in JS templates) ── */
+    .edit-label-sm { font-size: .72rem; }
+    .edit-input-sm { padding: 8px; }
+    .edit-input-uppercase { text-transform: uppercase; }
+    .trip-leg-grid { display: grid; grid-template-columns: 1fr 1fr 80px; gap: 8px; }
+    .trip-leg-transport-wrap { margin-bottom: 8px; }
+
+    /* ── SHARE MODAL ── */
+    .share-modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.45); backdrop-filter: blur(4px);
+      align-items: flex-end; justify-content: center;
+    }
+    .share-modal-sheet {
+      background: #fff; border-radius: 20px 20px 0 0; width: 100%;
+      max-width: 480px; padding: 24px 20px 32px;
+      box-shadow: 0 -4px 32px rgba(0,0,0,0.18);
+      animation: slideUp .25s ease;
+    }
+    .share-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .share-modal-title {
+      font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700;
+    }
+    .share-modal-close {
+      background: none; border: none; font-size: 1.3rem;
+      cursor: pointer; color: #64748B; padding: 4px;
+    }
+    .share-modal-actions { display: flex; flex-direction: column; gap: 10px; }
+    .share-action-btn {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px; border: 1.5px solid #E2E8F0;
+      background: #fff; cursor: pointer; font-size: .95rem; font-weight: 500;
+      color: #0F172A; transition: all .2s; text-align: left;
+    }
+    .share-action-btn:hover { border-color: #0EA5E9; background: #E0F2FE; }
+    .share-action-btn.whatsapp:hover { border-color: #25D366; background: #F0FDF4; }
+    .share-action-btn.twitter:hover { border-color: #1DA1F2; background: #EFF6FF; }
+    .share-action-btn.card:hover { border-color: #8B5CF6; background: #EDE9FE; }
+    .share-btn-icon { font-size: 1.3rem; }
+    .share-btn-title { font-weight: 600; }
+    .share-btn-subtitle { font-size: .8rem; color: #64748B; }
+    .share-copied-msg {
+      margin-top: 14px; padding: 10px 14px; background: #F0FDF4;
+      border-radius: 10px; font-size: .85rem; color: #065F46; font-weight: 500;
+    }
+
+    /* ── TRAVEL CARD MODAL ── */
+    .tc-modal-overlay {
+      position: fixed; inset: 0; z-index: 1100;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 16px;
+    }
+    .tc-modal-sheet {
+      background: #fff; border-radius: 20px; width: 100%;
+      max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 0;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: scaleIn .25s ease;
+    }
+    .tc-modal-header {
+      padding: 20px 24px 0; display: flex; align-items: center;
+      justify-content: space-between;
+    }
+    .tc-modal-title {
+      font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem;
+      font-weight: 700; color: #0F172A;
+    }
+    .tc-modal-subtitle { font-size: .82rem; color: #64748B; margin-top: 2px; }
+    .tc-modal-close {
+      background: none; border: none; font-size: 1.3rem; cursor: pointer;
+      color: #64748B; padding: 4px; border-radius: 8px; transition: background .2s;
+    }
+    .tc-modal-close:hover { background: #F1F5F9; }
+    .tc-selector-section { padding: 16px 24px 0; }
+    .tc-selector-label {
+      font-size: .75rem; font-weight: 600; color: #94A3B8;
+      text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px;
+    }
+    .tc-style-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .tc-format-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .tc-preview-section { padding: 0 24px; }
+    .tc-preview-wrap {
+      background: #F1F5F9; border-radius: 14px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 280px; border: 1px solid #E2E8F0;
+    }
+    .tc-preview-canvas { width: 100%; height: auto; display: block; }
+    .tc-actions-section { padding: 20px 24px 24px; display: flex; gap: 10px; }
+    .tc-btn-download {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 14px 20px; border-radius: 14px; border: none;
+      background: #0EA5E9; color: #fff; font-family: 'Inter', sans-serif;
+      font-size: .92rem; font-weight: 600; cursor: pointer; transition: all .2s;
+    }
+    .tc-btn-download:hover { background: #0284C7; transform: translateY(-1px); }
+    .tc-btn-share {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 14px 20px; border-radius: 14px;
+      border: 1.5px solid #0EA5E9; background: transparent; color: #0EA5E9;
+      font-family: 'Inter', sans-serif; font-size: .92rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+    .tc-btn-share:hover { background: #E0F2FE; }
+    .tc-tip-section { padding: 0 24px 20px; }
+    .tc-tip-box {
+      background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px;
+      padding: 10px 14px; font-size: .8rem; color: #166534; line-height: 1.5;
+    }
+    .tc-format-icon-square {
+      display: inline-block; width: 14px; height: 14px;
+      border: 2px solid currentColor; border-radius: 3px;
+    }
+    .tc-format-icon-story {
+      display: inline-block; width: 10px; height: 16px;
+      border: 2px solid currentColor; border-radius: 3px;
+    }
+
+    /* ── WISHLIST CARD (JS-generated) ── */
+    .wishlist-card {
+      text-decoration: none; display: block; border-radius: 14px;
+      overflow: hidden; border: 1px solid var(--border);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .wishlist-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .wishlist-card-img-wrap { height: 100px; overflow: hidden; }
+    .wishlist-card-img { width: 100%; height: 100%; object-fit: cover; }
+    .wishlist-card-body { padding: 10px 12px; }
+    .wishlist-card-name { font-weight: 700; font-size: .85rem; color: var(--text); margin-bottom: 2px; }
+    .wishlist-card-continent { font-size: .72rem; color: var(--text-3); }
+
+    /* ── LIVED LIST CHIP (JS-generated) ── */
+    .lived-chip {
+      display: flex; align-items: center; gap: 6px; padding: 8px 14px;
+      background: var(--bg-soft); border: 1.5px solid var(--border);
+      border-radius: 20px; font-size: .85rem; font-weight: 500;
+    }
+    .lived-chip-remove {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-3); font-size: .85rem; padding: 0 0 0 4px; line-height: 1;
+    }
+    .lived-picker-chip {
+      display: flex; align-items: center; gap: 6px; padding: 7px 12px;
+      background: #EFF6FF; border: 1.5px solid #BFDBFE;
+      border-radius: 16px; font-size: .8rem; font-weight: 500; color: #1D4ED8;
+    }
+    .lived-picker-chip-remove {
+      background: none; border: none; cursor: pointer;
+      color: #93C5FD; font-size: .8rem; padding: 0;
+    }
+    .lived-result-item {
+      padding: 10px 14px; cursor: pointer; font-size: .85rem;
+      border-bottom: 1px solid #F1F5F9; transition: background .15s;
+    }
+    .lived-result-item:hover { background: #F0F9FF; }
+
+    /* ── COUNTRY CHIP (visited countries list) ── */
+    .country-chip-visited {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 11px; background: var(--accent-light);
+      border: 1px solid rgba(14,165,233,.2); border-radius: 20px;
+      font-size: .8rem; font-weight: 500; color: var(--accent-dark);
+    }
+
+    /* ── MAP POPUP DATE ── */
+    .popup-date { color: #94A3B8; }
+
+    /* ── CITY PICKER: no cities message ── */
+    .picker-no-cities { color: #94A3B8; font-size: .85rem; padding: 4px 0 8px; }
+    .picker-chips-minh { min-height: 36px; }
+
+    /* ── LEVEL PROGRESS WRAP ── */
+    .level-progress-wrap { width: 100%; margin-top: 4px; }
+
+    /* ── PICKER OVERLAY ── */
+    .picker-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1999;
+    }
+
+    /* ── LIVED PICKER SHEET ── */
+    .lived-picker-sheet {
+      padding: 20px 20px max(80px, calc(64px + env(safe-area-inset-bottom))) 20px;
+      max-height: 80vh; overflow-y: auto;
+    }
+
+    /* ── PACKING ADD ROW ── */
+    .packing-add-row { margin-top: 12px; }
+
+    /* ── CITY CHIP ── */
+    .city-chip {
+      padding: 8px 14px; border-radius: 20px; border: 1.5px solid #E2E8F0;
+      background: white; cursor: pointer; font-size: .85rem;
+      color: #374151; font-weight: 500; transition: all .15s;
+    }
+    .city-chip.selected {
+      border-color: #0EA5E9; background: #E0F2FE; color: #0284C7;
+    }
+
+    /* ── COUNTRY ADD HINT ── */
+    .country-add-hint { font-size: .75rem; color: var(--text-3); }
+
+    /* ── BADGE CHECK MARK ── */
+    .badge-check-mark { font-size: .65rem; color: var(--green); font-weight: 700; }
+
+    /* ── TRIP LEGS ── */
+    .trip-legs-wrap { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px; }
+    .trip-leg-chip {
+      background: #EFF6FF; border-radius: 20px; padding: 3px 9px;
+      font-size: .75rem; color: #3B82F6;
+    }
+
+    /* ── TRIP DESC / META variants ── */
+    .trip-desc-story { margin-top: 6px; font-size: .82rem; color: var(--text-2); }
+    .trip-meta-inline { margin-top: 6px; }
   </style>
 </head>
 <body>
@@ -1996,7 +2413,7 @@
     <!-- Hero body: avatar + info + edit button -->
     <div class="hero-body">
       <div class="avatar-wrap">
-        <div class="avatar-placeholder" id="profileAvatarPlaceholder" style="display:flex;">E</div>
+        <div class="avatar-placeholder" id="profileAvatarPlaceholder">E</div>
         <img class="avatar" id="profileAvatar" src="" style="display:none;" alt="Avatar">
         <button class="btn-edit-avatar" onclick="triggerAvatarUpload()">📷</button>
         <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
@@ -2007,8 +2424,8 @@
         <p class="profile-handle" id="profileHandle">@usuario</p>
         <div class="travel-level">
           <span class="level-badge curioso" id="levelBadge">🌱 Curioso</span>
-          <span class="level-pts" id="levelPts" style="font-size:.8rem;color:rgba(255,255,255,.8);font-weight:600;"></span>
-          <div class="level-progress-wrap" id="levelProgressWrap" style="display:none;width:100%;margin-top:4px;">
+          <span class="level-pts" id="levelPts"></span>
+          <div class="level-progress-wrap" id="levelProgressWrap" style="display:none;">
             <div class="level-progress-bar">
               <div class="level-progress-fill" id="levelProgressFill" style="width:0%"></div>
             </div>
@@ -2019,8 +2436,8 @@
 
       <div class="hero-actions">
         <button class="btn-edit-profile" id="btnEdit" onclick="toggleEdit()">✏️ Editar perfil</button>
-        <button class="btn-edit-profile" onclick="openTravelCardModal()" style="background:linear-gradient(135deg,rgba(14,165,233,.25),rgba(139,92,246,.25));border:1.5px solid rgba(139,92,246,.4);backdrop-filter:blur(8px);">📤 Compartir mi viaje</button>
-        <a class="btn-edit-profile" id="btnNavPublicProfile" href="perfil-publico.html" style="text-decoration:none;background:var(--bg-soft);border:1.5px solid var(--border);color:var(--text-2);font-size:.82rem;padding:8px 14px;border-radius:10px;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:all .2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-2)'">👤 Ver mi perfil público →</a>
+        <button class="btn-edit-profile btn-share-hero" onclick="openTravelCardModal()">📤 Compartir mi viaje</button>
+        <a class="btn-edit-profile btn-public-profile" id="btnNavPublicProfile" href="perfil-publico.html">👤 Ver mi perfil público →</a>
       </div>
     </div>
 
@@ -2030,12 +2447,12 @@
     </div>
     <div class="profile-meta">
       <span>📍 <span id="profileCity">—</span></span>
-      <span id="profileHomeCountrySpan" style="display:none">🏠 <span id="profileHomeCountry"></span></span>
+      <span id="profileHomeCountrySpan" style="display:none;">🏠 <span id="profileHomeCountry"></span></span>
       <span>🗓️ Desde <span id="memberSince">2024</span></span>
       <span>✈️ <span id="tripsCount">0</span> viajes</span>
     </div>
     <!-- CTA banner: shown if home_country not set -->
-    <div id="homeCountryCTA" style="display:none;margin-top:12px;padding:10px 16px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:10px;font-size:.85rem;color:#92400E;cursor:pointer;" onclick="toggleEdit()">
+    <div id="homeCountryCTA" class="home-country-cta" style="display:none;" onclick="toggleEdit()">
       💡 <strong>Completa tu país de origen</strong> para personalizar visas, vuelos y precios en cada guía →
     </div>
 
@@ -2080,7 +2497,7 @@
 
     <!-- ── EDIT PANEL ── -->
     <div class="edit-panel" id="editPanel">
-      <div class="section-header" style="margin-bottom:20px;">
+      <div class="section-header section-header-edit">
         <div class="section-title">
           <div class="section-title-icon">✏️</div>
           Editar perfil
@@ -2108,11 +2525,11 @@
           <input class="edit-input" id="editCountry" type="text" placeholder="Argentina">
         </div>
         <div class="edit-group">
-          <label class="edit-label">Pasaporte principal <span style="font-size:.75rem;color:var(--text-3);font-weight:400">(para info de visa personalizada)</span></label>
+          <label class="edit-label">Pasaporte principal <span class="label-hint">(para info de visa personalizada)</span></label>
           <input class="edit-input" id="editHomeCountry" type="text" placeholder="Argentina, España, México...">
         </div>
         <div class="edit-group">
-          <label class="edit-label">Segundo pasaporte <span style="font-size:.75rem;color:var(--text-3);font-weight:400">(opcional — si tienes doble nacionalidad)</span></label>
+          <label class="edit-label">Segundo pasaporte <span class="label-hint">(opcional — si tienes doble nacionalidad)</span></label>
           <input class="edit-input" id="editPassport2" type="text" placeholder="Ej: Italia, EEUU...">
         </div>
         <div class="edit-group">
@@ -2172,19 +2589,19 @@
           <div class="rank-card-title">🏅 Tu rango viajero</div>
           <div class="rank-card-subtitle">Acumula puntos explorando el mundo</div>
         </div>
-        <button onclick="document.getElementById('rankExplainer').classList.toggle('hidden')" style="background:none;border:1.5px solid var(--border);border-radius:10px;padding:6px 12px;font-size:.78rem;font-weight:600;color:var(--text-2);cursor:pointer;transition:all .2s;white-space:nowrap;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-2)'">Cómo funciona</button>
+        <button class="btn-rank-explainer" onclick="document.getElementById('rankExplainer').classList.toggle('hidden')">Cómo funciona</button>
       </div>
 
       <!-- Current rank + progress -->
-      <div style="margin-bottom:20px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <span id="rankCardBadge" style="font-size:1.25rem;font-weight:800;font-family:'Space Grotesk',sans-serif;color:var(--text);">🌱 Curioso</span>
-          <span id="rankCardPts" style="font-size:.95rem;font-weight:700;color:var(--accent);">0 puntos</span>
+      <div class="rank-progress-wrap">
+        <div class="rank-progress-header">
+          <span id="rankCardBadge" class="rank-badge-title">🌱 Curioso</span>
+          <span id="rankCardPts" class="rank-pts-value">0 puntos</span>
         </div>
-        <div style="height:8px;background:var(--bg-soft);border-radius:8px;overflow:hidden;border:1px solid var(--border);">
-          <div id="rankProgressFill" style="height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:8px;width:0%;transition:width .7s ease;"></div>
+        <div class="rank-progress-track">
+          <div id="rankProgressFill" class="rank-progress-fill"></div>
         </div>
-        <div id="rankProgressLabel" style="font-size:.75rem;color:var(--text-2);margin-top:5px;"></div>
+        <div id="rankProgressLabel" class="rank-progress-hint"></div>
       </div>
 
       <!-- Rank levels explainer (toggle) -->
@@ -2284,8 +2701,8 @@
         <span class="section-badge" id="tripsCountLabel">0 viajes</span>
       </div>
       <div class="trips-list" id="tripsList">
-        <div style="text-align:center;padding:40px 20px;color:var(--text-3);font-size:.9rem;">
-          <div style="font-size:2.5rem;margin-bottom:12px;">✈️</div>
+        <div class="trips-empty">
+          <div class="trips-empty-icon">✈️</div>
           Aún no has registrado viajes. ¡Empieza ahora!
         </div>
       </div>
@@ -2301,9 +2718,9 @@
           <div class="section-title-icon">🗺️</div>
           Mi Mapamundi
         </div>
-        <div style="display:flex;align-items:center;gap:8px;">
+        <div class="map-header-actions">
           <span class="section-hint">Toca un país para marcarlo</span>
-          <button class="map-fullscreen-btn" onclick="openShareMenu()" title="Compartir mi Mapamundi" style="font-size:.8rem;padding:6px 10px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;color:var(--text-2);transition:all .2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-2)'">📤 Compartir</button>
+          <button class="map-btn-share" onclick="openShareMenu()" title="Compartir mi Mapamundi">📤 Compartir</button>
           <button class="map-fullscreen-btn" onclick="openMapModal()" title="Ver en pantalla completa">⛶</button>
         </div>
       </div>
@@ -2325,14 +2742,14 @@
 
       <div id="cityPicker" class="bottom-sheet-picker" style="display:none;">
         <!-- Header -->
-        <div class="picker-header" style="padding:20px 20px 12px;">
+        <div class="picker-header picker-header-padded">
           <h3 id="cityPickerTitle">¿Qué ciudades visitaste?</h3>
           <button onclick="closeCityPicker()" class="picker-close-btn">✕</button>
         </div>
         <!-- Scrollable chips area -->
-        <div class="picker-scroll-area" style="padding:0 20px 12px;">
-          <div id="cityPickerChips" class="picker-chips" style="margin-bottom:16px;"></div>
-          <div class="picker-input-row" style="margin-bottom:8px;">
+        <div class="picker-scroll-area picker-scroll-padded">
+          <div id="cityPickerChips" class="picker-chips picker-chips-mb"></div>
+          <div class="picker-input-row picker-input-row-mb">
             <input id="cityPickerCustomInput" type="text" placeholder="Añadir ciudad a mano..."
               class="picker-text-input"
               onkeydown="if(event.key==='Enter'){addCustomCity();}">
@@ -2340,40 +2757,40 @@
           </div>
         </div>
         <!-- Sticky action buttons — always visible above bottom nav -->
-        <div class="picker-footer" style="padding:12px 20px calc(64px + max(16px, env(safe-area-inset-bottom)));">
+        <div class="picker-footer picker-footer-safearea">
           <button onclick="closeCityPicker()" class="picker-btn-secondary">Saltar</button>
           <button onclick="saveCities()" class="picker-btn-primary">Guardar ciudades</button>
         </div>
       </div>
-      <div id="cityPickerOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1999;" onclick="closeCityPicker()"></div>
+      <div id="cityPickerOverlay" class="picker-overlay" style="display:none;" onclick="closeCityPicker()"></div>
 
       <!-- ── LIVED PLACES PICKER ── -->
-      <div id="livedPicker" class="bottom-sheet-picker" style="display:none; padding:20px 20px max(80px, calc(64px + env(safe-area-inset-bottom))) 20px; max-height:80vh; overflow-y:auto;">
-        <div class="picker-header" style="margin-bottom:16px;">
+      <div id="livedPicker" class="bottom-sheet-picker lived-picker-sheet" style="display:none;">
+        <div class="picker-header picker-header-mb">
           <h3>🏠 ¿En qué países/ciudades has vivido?</h3>
           <button onclick="closeLivedPicker()" class="picker-close-btn">✕</button>
         </div>
-        <div style="margin-bottom:12px;">
+        <div class="picker-lived-input-wrap">
           <input id="livedPickerInput" type="text" placeholder="Ej: Argentina – Buenos Aires, España – Madrid..."
             class="picker-text-input full-width"
             oninput="filterLivedCountries(this.value)">
-          <div id="livedPickerResults" style="display:none;background:white;border:1.5px solid #E2E8F0;border-radius:12px;max-height:180px;overflow-y:auto;margin-top:6px;"></div>
+          <div id="livedPickerResults" class="picker-lived-results"></div>
         </div>
-        <div id="livedPickerChips" class="picker-chips" style="margin-bottom:16px;min-height:36px;"></div>
-        <div class="picker-footer" style="border-top:none; padding:0;">
+        <div id="livedPickerChips" class="picker-chips picker-chips-mb picker-chips-minh"></div>
+        <div class="picker-footer picker-footer-flat">
           <button onclick="closeLivedPicker()" class="picker-btn-secondary">Cerrar</button>
           <button onclick="saveLivedPlaces()" class="picker-btn-primary">Guardar</button>
         </div>
       </div>
-      <div id="livedPickerOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1999;" onclick="closeLivedPicker()"></div>
+      <div id="livedPickerOverlay" class="picker-overlay" style="display:none;" onclick="closeLivedPicker()"></div>
 
       <div class="map-footer">
         <div class="map-counter">
           Has visitado <strong id="visitedCount">0</strong> de 195 países
         </div>
         <div class="map-legend">
-          <span><span class="legend-dot" style="background:#6C63FF;"></span> Visitado</span>
-          <span><span class="legend-dot" style="background:#CBD5E1;"></span> No visitado</span>
+          <span><span class="legend-dot legend-dot-visited"></span> Visitado</span>
+          <span><span class="legend-dot legend-dot-unvisited"></span> No visitado</span>
         </div>
       </div>
 
@@ -2390,7 +2807,7 @@
         <div class="country-results" id="countryResults"></div>
       </div>
 
-      <a href="mapa.html" target="_blank" style="display:block;width:100%;margin-top:10px;padding:10px;border-radius:12px;border:1.5px solid var(--border);background:white;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--accent);text-align:center;text-decoration:none;box-sizing:border-box;">
+      <a href="mapa.html" target="_blank" class="map-link-btn">
         🗺️ Ver mapa completo
       </a>
     </div>
@@ -2406,13 +2823,13 @@
         <button class="map-modal-landscape-btn" id="modalLandscapeBtn" onclick="toggleModalFullscreen()" title="Pantalla completa horizontal">⛶</button>
         <button class="map-modal-close" onclick="closeMapModal()">✕</button>
       </div>
-      <div style="position:relative;flex:1;overflow:hidden;">
+      <div class="map-modal-body">
         <!-- Portrait mode nudge (shown on mobile portrait) -->
         <div class="map-portrait-notice">
           <span class="rotate-icon">📱</span>
           <p>Gira tu móvil para la mejor experiencia</p>
         </div>
-        <div id="mapModalLeaflet" style="width:100%;height:100%;"></div>
+        <div id="mapModalLeaflet" class="map-modal-leaflet"></div>
       </div>
     </div>
 
@@ -2426,18 +2843,18 @@
         <span class="section-badge" id="visitedCountriesLabel">0 países</span>
       </div>
       <!-- Progress bar -->
-      <div style="margin-bottom:16px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-          <span style="font-size:.78rem;color:var(--text-2);">Progreso hacia <strong>195 países</strong></span>
-          <span id="countriesPercent" style="font-size:.78rem;font-weight:700;color:var(--accent);">0%</span>
+      <div class="countries-progress-wrap">
+        <div class="progress-header-row">
+          <span class="progress-label-text">Progreso hacia <strong>195 países</strong></span>
+          <span id="countriesPercent" class="progress-percent">0%</span>
         </div>
-        <div style="height:6px;background:var(--border);border-radius:6px;overflow:hidden;">
-          <div id="countriesProgressBar" style="height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:6px;width:0%;transition:width .8s ease;"></div>
+        <div class="progress-track-6">
+          <div id="countriesProgressBar" class="progress-fill-gradient"></div>
         </div>
       </div>
       <!-- Countries chips -->
-      <div id="visitedCountriesChips" style="display:flex;flex-wrap:wrap;gap:8px;min-height:36px;">
-        <p style="color:var(--text-3);font-size:.85rem;">Márcalos en el mapa para verlos aquí.</p>
+      <div id="visitedCountriesChips" class="countries-chips-wrap">
+        <p class="countries-chips-placeholder">Márcalos en el mapa para verlos aquí.</p>
       </div>
     </div>
 
@@ -2493,8 +2910,8 @@
         </div>
         <button class="section-action" onclick="openLivedPicker()">+ Añadir</button>
       </div>
-      <div id="livedList" style="display:flex;flex-wrap:wrap;gap:10px;min-height:40px;">
-        <p id="livedEmpty" style="color:var(--text-3);font-size:.85rem;">¿En qué países has vivido? Cuéntanos tu historia.</p>
+      <div id="livedList" class="lived-list-wrap">
+        <p id="livedEmpty" class="lived-empty-text">¿En qué países has vivido? Cuéntanos tu historia.</p>
       </div>
     </div>
 
@@ -2505,7 +2922,7 @@
           <div class="section-title-icon">⭐</div>
           7 Maravillas del Mundo Moderno
         </div>
-        <span class="section-badge"><strong id="wondersVisitedCount" style="color:var(--accent);">0</strong>/7 visitadas</span>
+        <span class="section-badge"><strong id="wondersVisitedCount" class="badge-count-accent">0</strong>/7 visitadas</span>
       </div>
       <div class="wonders-grid" id="wondersGrid"></div>
     </div>
@@ -2517,7 +2934,7 @@
           <div class="section-title-icon">🌿</div>
           7 Maravillas Naturales del Mundo
         </div>
-        <span class="section-badge"><strong id="naturalWondersVisitedCount" style="color:var(--green);">0</strong>/7 visitadas</span>
+        <span class="section-badge"><strong id="naturalWondersVisitedCount" class="badge-count-green">0</strong>/7 visitadas</span>
       </div>
       <div class="wonders-grid" id="naturalWondersGrid"></div>
     </div>
@@ -2534,7 +2951,7 @@
 
       <div id="socialDisplay">
         <div id="socialLinks" class="social-links-list"></div>
-        <p id="noSocialMsg" style="color:var(--text-3);font-size:.85rem;text-align:center;padding:16px 0;">
+        <p id="noSocialMsg" class="social-msg-empty">
           Conecta tus redes para que otros viajeros puedan seguirte
         </p>
       </div>
@@ -2560,7 +2977,7 @@
           <span class="social-network-name">Facebook</span>
           <input class="edit-input" id="socialFacebook" type="text" placeholder="tu.perfil" autocomplete="off">
         </div>
-        <button class="btn-save" onclick="saveSocialNetworks()" style="margin-top:12px;width:100%;">Guardar redes</button>
+        <button class="btn-save btn-save-full" onclick="saveSocialNetworks()">Guardar redes</button>
       </div>
     </div>
 
@@ -2574,9 +2991,9 @@
         </div>
         <span class="section-badge" id="wishlistCountBadge">0 destinos</span>
       </div>
-      <div id="wishlistGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-top:4px;"></div>
-      <p id="wishlistEmpty" style="color:var(--text-3);font-size:.85rem;text-align:center;padding:20px 0;display:none;">
-        ¿Adónde quieres ir? Añade destinos a tu lista →&nbsp;<a href="guias.html" style="color:var(--accent);font-weight:600;text-decoration:none;">Ver destinos</a>
+      <div id="wishlistGrid" class="wishlist-grid"></div>
+      <p id="wishlistEmpty" class="wishlist-empty-text" style="display:none;">
+        ¿Adónde quieres ir? Añade destinos a tu lista →&nbsp;<a href="guias.html" class="wishlist-empty-link">Ver destinos</a>
       </p>
     </div>
 
@@ -2587,13 +3004,13 @@
           <div class="section-title-icon">🎒</div>
           Lista de equipaje
         </div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <button class="section-action" onclick="resetPackingList()" id="packingResetBtn" style="background:transparent;border:1px solid var(--border);color:var(--text-3);font-size:.72rem;">Reiniciar</button>
+        <div class="packing-section-actions">
+          <button class="section-action packing-reset-btn" onclick="resetPackingList()" id="packingResetBtn">Reiniciar</button>
           <button class="section-action" onclick="togglePackingEdit()" id="packingEditBtn">Personalizar</button>
         </div>
       </div>
       <!-- Category tabs -->
-      <div id="packingTabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+      <div id="packingTabs" class="packing-tabs-wrap">
         <button class="packing-tab active" onclick="switchPackingTab('docs')" id="tab-docs">📄 Documentación</button>
         <button class="packing-tab" onclick="switchPackingTab('ropa')" id="tab-ropa">👕 Ropa</button>
         <button class="packing-tab" onclick="switchPackingTab('botiquin')" id="tab-botiquin">💊 Botiquín</button>
@@ -2601,22 +3018,22 @@
         <button class="packing-tab" onclick="switchPackingTab('tech')" id="tab-tech">📱 Tecnología</button>
       </div>
       <!-- Checklist area -->
-      <div id="packingList" style="display:flex;flex-direction:column;gap:6px;"></div>
+      <div id="packingList" class="packing-list-wrap"></div>
       <!-- Add item (hidden by default) -->
-      <div id="packingAddRow" style="display:none;margin-top:12px;">
-        <div style="display:flex;gap:8px;align-items:center;">
-          <input id="packingNewItem" type="text" placeholder="Añadir elemento..." class="edit-input" style="flex:1;" onkeydown="if(event.key==='Enter')addPackingItem()">
+      <div id="packingAddRow" class="packing-add-row" style="display:none;">
+        <div class="packing-add-inner">
+          <input id="packingNewItem" type="text" placeholder="Añadir elemento..." class="edit-input packing-input-flex" onkeydown="if(event.key==='Enter')addPackingItem()">
           <button class="section-action" onclick="addPackingItem()">Añadir</button>
         </div>
       </div>
       <!-- Progress bar -->
-      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-          <span style="font-size:.75rem;color:var(--text-3);">Progreso del equipaje</span>
-          <span id="packingProgress" style="font-size:.75rem;font-weight:600;color:var(--accent);">0 / 0 listos</span>
+      <div class="packing-progress-section">
+        <div class="progress-header-row">
+          <span class="progress-label-muted">Progreso del equipaje</span>
+          <span id="packingProgress" class="progress-value-accent">0 / 0 listos</span>
         </div>
-        <div style="height:4px;background:var(--border);border-radius:4px;overflow:hidden;">
-          <div id="packingProgressBar" style="height:100%;background:var(--accent);border-radius:4px;width:0%;transition:width .3s;"></div>
+        <div class="progress-track-4">
+          <div id="packingProgressBar" class="progress-fill-accent"></div>
         </div>
       </div>
     </div>
@@ -2628,19 +3045,19 @@
 
 <!-- ── ADD TRIP MODAL ── -->
 <div class="modal-overlay" id="addTripModal" onclick="closeModalOnBackdrop(event)">
-  <div class="modal" style="max-width:560px;max-height:90vh;overflow-y:auto;">
+  <div class="modal modal-lg">
     <button class="modal-close" onclick="closeAddTripModal()">✕</button>
     <h2 class="modal-title">✈️ Nuevo viaje</h2>
 
     <!-- Tipo de viaje -->
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+    <div class="trip-type-row">
       <button class="trip-type-btn active" data-type="single" onclick="setTripType('single',this)">🗺️ Destino único</button>
       <button class="trip-type-btn" data-type="multi" onclick="setTripType('multi',this)">🌍 Multidestino</button>
       <button class="trip-type-btn" data-type="rtw" onclick="setTripType('rtw',this)">🌐 Round The World</button>
       <button class="trip-type-btn" data-type="interrail" onclick="setTripType('interrail',this)">🚂 Interrail/Eurail</button>
     </div>
 
-    <div style="display:flex;flex-direction:column;gap:12px;">
+    <div class="trip-form-body">
       <div class="edit-group">
         <label class="edit-label">Nombre del viaje</label>
         <input class="edit-input" id="tripDestination" type="text" placeholder="Ej: Japón — Tokyo y Kioto">
@@ -2648,17 +3065,17 @@
 
       <!-- Destino único: país y ciudad -->
       <div id="singleDestSection">
-        <div class="edit-grid" style="gap:10px;">
+        <div class="edit-grid edit-grid-gap">
           <div class="edit-group">
             <label class="edit-label">País</label>
             <input class="edit-input" id="tripCountry" type="text" placeholder="Ej: Japón">
           </div>
           <div class="edit-group">
             <label class="edit-label">Código ISO (2 letras)</label>
-            <input class="edit-input" id="tripCountryCode" type="text" maxlength="2" placeholder="JP" style="text-transform:uppercase;">
+            <input class="edit-input edit-input-uppercase" id="tripCountryCode" type="text" maxlength="2" placeholder="JP">
           </div>
         </div>
-        <div class="edit-group" style="margin-top:10px;">
+        <div class="edit-group edit-group-mt">
           <label class="edit-label">Ciudad principal</label>
           <input class="edit-input" id="tripCity" type="text" placeholder="Ej: Tokyo">
         </div>
@@ -2666,16 +3083,16 @@
 
       <!-- Multidestino: tramos -->
       <div id="multiDestSection" style="display:none;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <label class="edit-label" style="margin:0;">Tramos del viaje</label>
-          <button onclick="addTripLeg()" style="padding:6px 12px;border:none;border-radius:8px;background:#6C63FF;color:white;cursor:pointer;font-size:.8rem;font-weight:600;">+ Añadir tramo</button>
+        <div class="multi-dest-header">
+          <label class="edit-label edit-label-no-margin">Tramos del viaje</label>
+          <button onclick="addTripLeg()" class="btn-add-leg">+ Añadir tramo</button>
         </div>
         <div id="tripLegsContainer">
           <!-- Legs injected by JS -->
         </div>
       </div>
 
-      <div class="edit-grid" style="gap:10px;">
+      <div class="edit-grid edit-grid-gap">
         <div class="edit-group">
           <label class="edit-label">Fecha inicio</label>
           <input class="edit-input" id="tripStart" type="date">
@@ -2689,7 +3106,7 @@
         <label class="edit-label">Historia del viaje ✍️</label>
         <textarea class="edit-textarea" id="tripDesc" placeholder="¿Cómo fue el viaje? Los mejores momentos, lo inesperado, lo que no cambiarías por nada." rows="3"></textarea>
       </div>
-      <div class="edit-grid" style="gap:10px;">
+      <div class="edit-grid edit-grid-gap">
         <div class="edit-group">
           <label class="edit-label">Distancia aprox. (km)</label>
           <input class="edit-input" id="tripKm" type="number" placeholder="Ej: 12400">
@@ -2700,7 +3117,7 @@
         </div>
       </div>
     </div>
-    <div class="edit-actions" style="margin-top:16px;">
+    <div class="edit-actions edit-actions-mt">
       <button class="btn-save" id="btnSaveTrip" onclick="saveNewTrip()">Guardar viaje</button>
       <button class="btn-cancel" onclick="closeAddTripModal()">Cancelar</button>
     </div>
@@ -3124,9 +3541,9 @@ function renderLivedList() {
   container.innerHTML = livedPlaces.map((p, i) => {
     const label = p.city ? `${p.city}, ${p.country}` : p.country;
     const icon = p.flag || '🏠';
-    return `<div style="display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--bg-soft);border:1.5px solid var(--border);border-radius:20px;font-size:.85rem;font-weight:500;">
+    return `<div class="lived-chip">
       ${icon} ${label}
-      <button onclick="removeLivedPlace(${i})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:.85rem;padding:0 0 0 4px;line-height:1;">✕</button>
+      <button onclick="removeLivedPlace(${i})" class="lived-chip-remove">✕</button>
     </div>`;
   }).join('');
 }
@@ -3158,9 +3575,9 @@ function renderLivedPickerChips() {
   chips.innerHTML = livedPlaces.map((p, i) => {
     const label = p.city ? `${p.city}, ${p.country}` : p.country;
     const icon = p.flag || '🏠';
-    return `<div style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:16px;font-size:.8rem;font-weight:500;color:#1D4ED8;">
+    return `<div class="lived-picker-chip">
       ${icon} ${label}
-      <button onclick="removeLivedPickerChip(${i})" style="background:none;border:none;cursor:pointer;color:#93C5FD;font-size:.8rem;padding:0;">✕</button>
+      <button onclick="removeLivedPickerChip(${i})" class="lived-picker-chip-remove">✕</button>
     </div>`;
   }).join('');
 }
@@ -3180,9 +3597,7 @@ function filterLivedCountries(q) {
   results.innerHTML = matches.map(c => {
     const a2 = NUMERIC_TO_ALPHA2[String(c.id)] || '';
     const flagIcon = a2 ? alpha2ToFlagEmoji(a2) : '🌍';
-    return `<div onclick="addLivedCountry('${c.name.replace(/'/g,"\\'")}', '${rawQ}', '${a2}')"
-      style="padding:10px 14px;cursor:pointer;font-size:.85rem;border-bottom:1px solid #F1F5F9;transition:background .15s;"
-      onmouseover="this.style.background='#F0F9FF'" onmouseout="this.style.background=''">
+    return `<div onclick="addLivedCountry('${c.name.replace(/'/g,"\\'")}', '${rawQ}', '${a2}')" class="lived-result-item">
       ${flagIcon} ${c.name}
     </div>`;
   }).join('');
@@ -3628,12 +4043,12 @@ function updateCountriesCard() {
   if (pct) pct.textContent = p + '%';
   if (bar) bar.style.width = p + '%';
   if (n === 0) {
-    chips.innerHTML = '<p style="color:var(--text-3);font-size:.85rem;">Márcalos en el mapa para verlos aquí.</p>';
+    chips.innerHTML = '<p class="countries-chips-placeholder">Márcalos en el mapa para verlos aquí.</p>';
     return;
   }
   chips.innerHTML = countries.slice().sort((a, b) => (a.country_name || '').localeCompare(b.country_name || '')).map(c => {
     const flag = countryCodeToFlag(c.country_code || '');
-    return `<span style="display:inline-flex;align-items:center;gap:5px;padding:5px 11px;background:var(--accent-light);border:1px solid rgba(14,165,233,.2);border-radius:20px;font-size:.8rem;font-weight:500;color:var(--accent-dark);">${flag} ${c.country_name || c.country_code || ''}</span>`;
+    return `<span class="country-chip-visited">${flag} ${c.country_name || c.country_code || ''}</span>`;
   }).join('');
 }
 
@@ -3774,7 +4189,7 @@ async function initMap() {
 
         // Popup on visited countries
         if (visitedCodes.has(id)) {
-          const dateStr = visitedDates[id] ? `<br><small style="color:#94A3B8;">${new Date(visitedDates[id]).toLocaleDateString('es-ES', {year:'numeric',month:'long'})}</small>` : '';
+          const dateStr = visitedDates[id] ? `<br><small class="popup-date">${new Date(visitedDates[id]).toLocaleDateString('es-ES', {year:'numeric',month:'long'})}</small>` : '';
           layer.bindPopup(`<strong>${name}</strong>${dateStr}`, { maxWidth: 200 });
         }
       }
@@ -3803,7 +4218,7 @@ function updateMapColors() {
     // Update popup
     const name = getCountryName(id);
     if (isVisited) {
-      const dateStr = visitedDates[id] ? `<br><small style="color:#94A3B8;">${new Date(visitedDates[id]).toLocaleDateString('es-ES', {year:'numeric',month:'long'})}</small>` : '';
+      const dateStr = visitedDates[id] ? `<br><small class="popup-date">${new Date(visitedDates[id]).toLocaleDateString('es-ES', {year:'numeric',month:'long'})}</small>` : '';
       layer.bindPopup(`<strong>${name}</strong>${dateStr}`, { maxWidth: 200 });
     } else {
       layer.unbindPopup();
@@ -3852,16 +4267,12 @@ function showCityPicker(countryId, countryName) {
 
   document.getElementById('cityPickerTitle').textContent = `¿Qué ciudades visitaste en ${countryName}?`;
   if (cities.length === 0) {
-    document.getElementById('cityPickerChips').innerHTML = `<p style="color:#94A3B8; font-size:.85rem; padding:4px 0 8px;">Sin ciudades predefinidas — añádelas a mano abajo.</p>`;
+    document.getElementById('cityPickerChips').innerHTML = `<p class="picker-no-cities">Sin ciudades predefinidas — añádelas a mano abajo.</p>`;
   } else {
     document.getElementById('cityPickerChips').innerHTML = cities.map(city => {
       const alreadyVisited = allVisited.includes(city);
       if (alreadyVisited) selectedPickerCities.add(city);
-      return `<button class="city-chip ${alreadyVisited ? 'selected' : ''}"
-        onclick="toggleCityChip(this, '${city}')"
-        style="padding:8px 14px; border-radius:20px; border:1.5px solid ${alreadyVisited ? '#0EA5E9' : '#E2E8F0'};
-        background:${alreadyVisited ? '#E0F2FE' : 'white'}; cursor:pointer; font-size:.85rem;
-        color:${alreadyVisited ? '#0284C7' : '#374151'}; font-weight:500; transition:all .15s;">
+      return `<button class="city-chip ${alreadyVisited ? 'selected' : ''}" onclick="toggleCityChip(this, '${city}')">
         ${city}
       </button>`;
     }).join('');
@@ -4026,7 +4437,7 @@ function filterCountries(q) {
     div.className = 'country-result-item' + (visited ? ' visited' : '');
     div.innerHTML = c.name + (visited
       ? ' <span class="visited-tag">✓ Visitado</span>'
-      : ' <span style="font-size:.75rem;color:var(--text-3);">+ Añadir</span>');
+      : ' <span class="country-add-hint">+ Añadir</span>');
     div.addEventListener('click', () => {
       toggleCountry(c.id, c.name);
       filterCountries(rawQ);
@@ -4312,7 +4723,7 @@ function renderBadges() {
       }
       return `
         <div class="badge-chip ${b.earned ? 'earned' : 'locked'} rarity-${b.rarity || 'common'}" title="${b.description_es || b.name_es || ''}">
-          <div class="badge-rarity-dot" style="background:${b.earned ? rColor : '#CBD5E1'};"></div>
+          <div class="badge-rarity-dot" style="background:${b.earned ? rColor : 'var(--border)'};"></div>
           <span class="badge-emoji">${b.emoji || '🏅'}</span>
           <span>${b.name_es || b.name || ''}</span>
           ${earnedAt ? `<span class="badge-earned-at">${earnedAt}</span>` : ''}
@@ -4332,7 +4743,7 @@ function renderBadges() {
         <span class="badge-emoji">${b.emoji}</span>
         <span>${b.name}</span>
         ${progress ? `<span class="badge-progress">${progress}</span>` : ''}
-        ${earned ? '<span style="font-size:.65rem;color:var(--green);font-weight:700;">✓</span>' : ''}
+        ${earned ? '<span class="badge-check-mark">✓</span>' : ''}
       </div>
     `;
   }).join('');
@@ -4346,9 +4757,7 @@ const TRANSPORT_ICONS = {
 function renderTrips() {
   const list = document.getElementById('tripsList');
   if (!trips.length) {
-    list.innerHTML = `<div style="text-align:center;padding:30px;color:var(--text-3,#94A3B8);font-size:.9rem;">
-      Aún no has registrado viajes. ¡Empieza ahora!
-    </div>`;
+    list.innerHTML = `<div class="trips-empty">Aún no has registrado viajes. ¡Empieza ahora!</div>`;
     return;
   }
 
@@ -4369,14 +4778,14 @@ function renderTrips() {
     // Multi-destination legs
     let legsHtml = '';
     if (trip.destinations && trip.destinations.length > 0) {
-      legsHtml = `<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">`;
+      legsHtml = `<div class="trip-legs-wrap">`;
       trip.destinations.forEach(d => {
         const icon = TRANSPORT_ICONS[d.transport_to] || '';
-        legsHtml += `<span style="background:#EFF6FF;border-radius:20px;padding:3px 9px;font-size:.75rem;color:#3B82F6;">${icon} ${d.city || d.country || '?'}</span>`;
+        legsHtml += `<span class="trip-leg-chip">${icon} ${d.city || d.country || '?'}</span>`;
       });
       legsHtml += `</div>`;
     } else if (trip.city || trip.country) {
-      legsHtml = `<span style="background:#EFF6FF;border-radius:20px;padding:3px 9px;font-size:.75rem;color:#3B82F6;">📍 ${trip.city || trip.country}</span>`;
+      legsHtml = `<span class="trip-leg-chip">📍 ${trip.city || trip.country}</span>`;
     }
 
     const stars = rating ? '⭐'.repeat(Math.min(5,rating)) : '';
@@ -4393,8 +4802,8 @@ function renderTrips() {
           <h3>${title} ${stars}</h3>
           <p class="trip-dates">${dateLabel}${days ? ' · ' + days + ' días' : ''}</p>
           ${legsHtml}
-          ${descr ? `<p class="trip-desc" style="margin-top:6px;font-size:.82rem;color:var(--text-2,#64748B);">✍️ ${descr.substring(0,120)}${descr.length>120?'…':''}</p>` : ''}
-          <div class="trip-meta" style="margin-top:6px;">
+          ${descr ? `<p class="trip-desc trip-desc-story">✍️ ${descr.substring(0,120)}${descr.length>120?'…':''}</p>` : ''}
+          <div class="trip-meta trip-meta-inline">
             ${km ? `<span>✈️ ${Number(km).toLocaleString('es')} km</span>` : ''}
           </div>
         </div>
@@ -4451,26 +4860,26 @@ function renderTripLegs() {
     <div class="trip-leg">
       <div class="leg-num">Tramo ${i + 1}</div>
       ${i > 0 ? `
-      <div style="margin-bottom:8px;">
-        <label class="edit-label" style="font-size:.72rem;">Transporte desde tramo anterior</label>
+      <div class="trip-leg-transport-wrap">
+        <label class="edit-label edit-label-sm">Transporte desde tramo anterior</label>
         <div class="transport-select">
           ${Object.entries(TRANSPORT_ICONS).map(([k,v]) => `
             <button class="transport-btn ${leg.transport_to===k?'active':''}" onclick="setLegTransport(${i},'${k}',this)">${v} ${k}</button>
           `).join('')}
         </div>
       </div>` : ''}
-      <div style="display:grid;grid-template-columns:1fr 1fr 80px;gap:8px;">
+      <div class="trip-leg-grid">
         <div class="edit-group">
-          <label class="edit-label" style="font-size:.72rem;">Ciudad</label>
-          <input class="edit-input" style="padding:8px;" value="${leg.city||''}" oninput="tripLegs[${i}].city=this.value" placeholder="Ej: Bangkok">
+          <label class="edit-label edit-label-sm">Ciudad</label>
+          <input class="edit-input edit-input-sm" value="${leg.city||''}" oninput="tripLegs[${i}].city=this.value" placeholder="Ej: Bangkok">
         </div>
         <div class="edit-group">
-          <label class="edit-label" style="font-size:.72rem;">País</label>
-          <input class="edit-input" style="padding:8px;" value="${leg.country||''}" oninput="tripLegs[${i}].country=this.value" placeholder="Ej: Tailandia">
+          <label class="edit-label edit-label-sm">País</label>
+          <input class="edit-input edit-input-sm" value="${leg.country||''}" oninput="tripLegs[${i}].country=this.value" placeholder="Ej: Tailandia">
         </div>
         <div class="edit-group">
-          <label class="edit-label" style="font-size:.72rem;">ISO</label>
-          <input class="edit-input" style="padding:8px;text-transform:uppercase;" maxlength="2" value="${leg.country_code||''}" oninput="tripLegs[${i}].country_code=this.value.toUpperCase()" placeholder="TH">
+          <label class="edit-label edit-label-sm">ISO</label>
+          <input class="edit-input edit-input-sm edit-input-uppercase" maxlength="2" value="${leg.country_code||''}" oninput="tripLegs[${i}].country_code=this.value.toUpperCase()" placeholder="TH">
         </div>
       </div>
       ${i > 0 ? `<button class="btn-remove-leg" onclick="removeTripLeg(${i})">✕</button>` : ''}
@@ -4818,11 +5227,11 @@ async function loadWishlistFromAPI() {
       const img = item.hero_photo_url
         ? `${item.hero_photo_url.split('?')[0]}?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop`
         : 'https://images.pexels.com/photos/2356059/pexels-photo-2356059.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop';
-      return `<a href="destino.html?slug=${item.slug}" style="text-decoration:none;display:block;border-radius:14px;overflow:hidden;border:1px solid var(--border);transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
-        <div style="height:100px;overflow:hidden;"><img src="${img}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;"></div>
-        <div style="padding:10px 12px;">
-          <div style="font-weight:700;font-size:.85rem;color:var(--text);margin-bottom:2px;">${item.name}</div>
-          <div style="font-size:.72rem;color:var(--text-3);">${item.continent || ''}</div>
+      return `<a href="destino.html?slug=${item.slug}" class="wishlist-card">
+        <div class="wishlist-card-img-wrap"><img src="${img}" alt="${item.name}" class="wishlist-card-img"></div>
+        <div class="wishlist-card-body">
+          <div class="wishlist-card-name">${item.name}</div>
+          <div class="wishlist-card-continent">${item.continent || ''}</div>
         </div>
       </a>`;
     }).join('');
@@ -5349,100 +5758,100 @@ function clearHeatmap() {
 
 
 <!-- ── Share Mapamundi Modal (legacy link share) ── -->
-<div id="shareModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeShareMenu()">
-  <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 32px;box-shadow:0 -4px 32px rgba(0,0,0,0.18);animation:slideUp .25s ease;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-      <div style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;">📤 Compartir mi Mapamundi</div>
-      <button onclick="closeShareMenu()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:#64748B;padding:4px;">✕</button>
+<div id="shareModal" class="share-modal-overlay" style="display:none;" onclick="if(event.target===this)closeShareMenu()">
+  <div class="share-modal-sheet">
+    <div class="share-modal-header">
+      <div class="share-modal-title">📤 Compartir mi Mapamundi</div>
+      <button onclick="closeShareMenu()" class="share-modal-close">✕</button>
     </div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button onclick="shareAction('copy')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#0EA5E9';this.style.background='#E0F2FE'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
-        <span style="font-size:1.3rem;">📋</span>
-        <div><div style="font-weight:600;">Copiar enlace</div><div style="font-size:.8rem;color:#64748B;">viajeramente.com/perfil-publico.html?user=...</div></div>
+    <div class="share-modal-actions">
+      <button onclick="shareAction('copy')" class="share-action-btn">
+        <span class="share-btn-icon">📋</span>
+        <div><div class="share-btn-title">Copiar enlace</div><div class="share-btn-subtitle">viajeramente.com/perfil-publico.html?user=...</div></div>
       </button>
-      <button onclick="shareAction('whatsapp')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#25D366';this.style.background='#F0FDF4'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
-        <span style="font-size:1.3rem;">📱</span>
-        <div><div style="font-weight:600;">Compartir en WhatsApp</div><div style="font-size:.8rem;color:#64748B;">Enviar enlace a un amigo</div></div>
+      <button onclick="shareAction('whatsapp')" class="share-action-btn whatsapp">
+        <span class="share-btn-icon">📱</span>
+        <div><div class="share-btn-title">Compartir en WhatsApp</div><div class="share-btn-subtitle">Enviar enlace a un amigo</div></div>
       </button>
-      <button onclick="shareAction('twitter')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#1DA1F2';this.style.background='#EFF6FF'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
-        <span style="font-size:1.3rem;">🐦</span>
-        <div><div style="font-weight:600;">X / Twitter</div><div style="font-size:.8rem;color:#64748B;">Tuitear mi mapa de viajes</div></div>
+      <button onclick="shareAction('twitter')" class="share-action-btn twitter">
+        <span class="share-btn-icon">🐦</span>
+        <div><div class="share-btn-title">X / Twitter</div><div class="share-btn-subtitle">Tuitear mi mapa de viajes</div></div>
       </button>
-      <button onclick="openTravelCardModal()" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:500;color:#0F172A;transition:all .2s;text-align:left;" onmouseover="this.style.borderColor='#8B5CF6';this.style.background='#EDE9FE'" onmouseout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
-        <span style="font-size:1.3rem;">🎨</span>
-        <div><div style="font-weight:600;">Crear Travel Card</div><div style="font-size:.8rem;color:#64748B;">Imagen para Instagram/WhatsApp con tus stats</div></div>
+      <button onclick="openTravelCardModal()" class="share-action-btn card">
+        <span class="share-btn-icon">🎨</span>
+        <div><div class="share-btn-title">Crear Travel Card</div><div class="share-btn-subtitle">Imagen para Instagram/WhatsApp con tus stats</div></div>
       </button>
     </div>
-    <div id="shareCopiedMsg" style="display:none;margin-top:14px;padding:10px 14px;background:#F0FDF4;border-radius:10px;font-size:.85rem;color:#065F46;font-weight:500;">✅ Enlace copiado al portapapeles</div>
+    <div id="shareCopiedMsg" class="share-copied-msg" style="display:none;">✅ Enlace copiado al portapapeles</div>
   </div>
 </div>
 
 <!-- ── Travel Card Modal ── -->
-<div id="travelCardModal" style="display:none;position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:16px;" onclick="if(event.target===this)closeTravelCardModal()">
-  <div style="background:#fff;border-radius:20px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;padding:0;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:scaleIn .25s ease;">
+<div id="travelCardModal" class="tc-modal-overlay" style="display:none;" onclick="if(event.target===this)closeTravelCardModal()">
+  <div class="tc-modal-sheet">
 
     <!-- Header -->
-    <div style="padding:20px 24px 0;display:flex;align-items:center;justify-content:space-between;">
+    <div class="tc-modal-header">
       <div>
-        <div style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:#0F172A;">🎨 Tu Travel Card</div>
-        <div style="font-size:.82rem;color:#64748B;margin-top:2px;">El "Spotify Wrapped" de tus viajes</div>
+        <div class="tc-modal-title">🎨 Tu Travel Card</div>
+        <div class="tc-modal-subtitle">El "Spotify Wrapped" de tus viajes</div>
       </div>
-      <button onclick="closeTravelCardModal()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:#64748B;padding:4px;border-radius:8px;transition:background .2s;" onmouseover="this.style.background='#F1F5F9'" onmouseout="this.style.background='none'">✕</button>
+      <button onclick="closeTravelCardModal()" class="tc-modal-close">✕</button>
     </div>
 
     <!-- Style selector -->
-    <div style="padding:16px 24px 0;">
-      <div style="font-size:.75rem;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">Elige un estilo</div>
-      <div id="tcStyleSelector" style="display:flex;gap:8px;margin-bottom:16px;">
+    <div class="tc-selector-section">
+      <div class="tc-selector-label">Elige un estilo</div>
+      <div id="tcStyleSelector" class="tc-style-row">
         <button class="tc-style-btn tc-style-active" data-style="mapa" onclick="selectCardStyle('mapa')">
-          <span style="font-size:1.2rem;">🗺️</span>
+          <span>🗺️</span>
           <span>Mapa</span>
         </button>
         <button class="tc-style-btn" data-style="stats" onclick="selectCardStyle('stats')">
-          <span style="font-size:1.2rem;">📊</span>
+          <span>📊</span>
           <span>Stats</span>
         </button>
         <button class="tc-style-btn" data-style="pasaporte" onclick="selectCardStyle('pasaporte')">
-          <span style="font-size:1.2rem;">📕</span>
+          <span>📕</span>
           <span>Pasaporte</span>
         </button>
       </div>
 
       <!-- Format selector -->
-      <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <div class="tc-format-row">
         <button class="tc-format-btn tc-format-active" data-format="square" onclick="selectCardFormat('square')">
-          <span style="display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-radius:3px;"></span>
+          <span class="tc-format-icon-square"></span>
           1:1 Post
         </button>
         <button class="tc-format-btn" data-format="story" onclick="selectCardFormat('story')">
-          <span style="display:inline-block;width:10px;height:16px;border:2px solid currentColor;border-radius:3px;"></span>
+          <span class="tc-format-icon-story"></span>
           9:16 Story
         </button>
       </div>
     </div>
 
     <!-- Card preview -->
-    <div style="padding:0 24px;">
-      <div id="tcPreviewWrap" style="background:#F1F5F9;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:280px;border:1px solid #E2E8F0;">
-        <canvas id="tcPreviewCanvas" style="width:100%;height:auto;display:block;"></canvas>
+    <div class="tc-preview-section">
+      <div id="tcPreviewWrap" class="tc-preview-wrap">
+        <canvas id="tcPreviewCanvas" class="tc-preview-canvas"></canvas>
       </div>
     </div>
 
     <!-- Action buttons -->
-    <div style="padding:20px 24px 24px;display:flex;gap:10px;">
-      <button id="tcBtnDownload" onclick="handleCardDownload()" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:14px;border:none;background:#0EA5E9;color:#fff;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:600;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='#0284C7';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#0EA5E9';this.style.transform='translateY(0)'">
+    <div class="tc-actions-section">
+      <button id="tcBtnDownload" onclick="handleCardDownload()" class="tc-btn-download">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Descargar
       </button>
-      <button id="tcBtnShare" onclick="handleCardShare()" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:14px;border:1.5px solid #0EA5E9;background:transparent;color:#0EA5E9;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:600;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='#E0F2FE'" onmouseout="this.style.background='transparent'">
+      <button id="tcBtnShare" onclick="handleCardShare()" class="tc-btn-share">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
         Compartir
       </button>
     </div>
 
     <!-- Share tip -->
-    <div style="padding:0 24px 20px;">
-      <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px 14px;font-size:.8rem;color:#166534;line-height:1.5;">
+    <div class="tc-tip-section">
+      <div class="tc-tip-box">
         💡 <strong>Tip viral:</strong> Descarga la imagen, comparte en Instagram Stories con <strong>#ViajeraMente</strong> y reta a tus amigos a crear la suya.
       </div>
     </div>
