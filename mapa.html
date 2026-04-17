@@ -537,7 +537,8 @@
 
 // ── CONSTANTS ─────────────────────────────────────────────────────────────────
 
-const GEOJSON_URL = 'https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson';
+const GEOJSON_URL = '/countries-simplified.geojson';
+const GEOJSON_FALLBACK_URL = 'https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson';
 
 // Continent by ISO alpha-2
 const ALPHA2_CONTINENT = {
@@ -772,9 +773,17 @@ async function initMap() {
 async function loadGeoJSON() {
   try {
     setLoadingText('Cargando países...');
-    const res = await fetch(GEOJSON_URL);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const geojson = await res.json();
+    let geojson;
+    try {
+      const res = await fetch(GEOJSON_URL);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      geojson = await res.json();
+    } catch (localErr) {
+      console.warn('Local GeoJSON failed, using fallback:', localErr);
+      const res2 = await fetch(GEOJSON_FALLBACK_URL);
+      if (!res2.ok) throw new Error(`Fallback HTTP ${res2.status}`);
+      geojson = await res2.json();
+    }
 
     geoLayer = L.geoJSON(geojson, {
       style: styleCountry,
@@ -939,6 +948,8 @@ async function syncFromAPI() {
     if (layers.heatmap) refreshHeatmap();
     if (layers.maravillas_new) refreshWonders();
     if (layers.maravillas_natural) refreshNaturalWonders();
+    // Always refresh the geo layer after API sync to ensure styles are applied
+    if (geoLayer) geoLayer.setStyle(styleCountry);
   } catch(e) { console.warn('API sync failed:', e); }
 }
 

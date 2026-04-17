@@ -1157,13 +1157,13 @@ async function loadHeatmap() {
     if (!data.ok) return;
 
     const points = data.points.map(p => [
-      parseFloat(p.lat), parseFloat(p.lng), Math.min(p.weight * 0.3, 1)
+      parseFloat(p.lat), parseFloat(p.lng), Math.min(p.weight * 1.5, 1)
     ]);
 
     if (points.length === 0) return;
 
     heatLayer = L.heatLayer(points, {
-      radius: 28,
+      radius: 45,
       blur: 22,
       maxZoom: 10,
       max: 1.0,
