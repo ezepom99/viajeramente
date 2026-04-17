@@ -22,32 +22,6 @@
     /* ranking.html — page-specific styles */
     body { background: var(--bg-soft); }
 
-    /* Ranking nav uses .nav class (sticky) + custom sizing */
-    .nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,.95);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 max(24px, calc((100% - 1200px) / 2 + 24px));
-      height: 60px;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px;
-    }
-    .nav .nav-logo { color: var(--accent); font-size: 1.2rem; }
-    .nav .nav-links { gap: 28px; }
-    .nav .nav-links a { font-size: .9rem; font-weight: 500; color: var(--text-2); text-decoration: none; transition: color .2s; }
-    .nav .nav-links a:hover { color: var(--accent); }
-    @media (max-width: 768px) { .nav .nav-links { display: none; } }
-
-    .btn-nav-login {
-      font-size: .82rem; color: var(--text-2); background: none;
-      border: 1px solid var(--border); border-radius: 8px;
-      padding: 6px 12px; cursor: pointer; text-decoration: none;
-      transition: all .2s; display: inline-flex; align-items: center;
-    }
-    .btn-nav-login:hover { background: var(--bg-soft); color: var(--text); }
-    @media (max-width: 768px) { .btn-nav-login { display: none; } }
-
     /* ── PAGE WRAP ── */
     .page-wrap {
       max-width: 760px;

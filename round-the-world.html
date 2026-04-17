@@ -22,26 +22,6 @@
 
     body { background: var(--bg); font-size: 15px; }
 
-    /* Nav override: 56px height, article-style nav (back + logo + actions) */
-    nav {
-      height: 56px;
-      z-index: 200;
-      padding: 0 max(24px, calc((100% - 1200px) / 2 + 24px));
-    }
-    .nav-actions { display: flex; align-items: center; gap: 8px; }
-    .nav-btn {
-      font-size: .82rem; font-weight: 600; color: #fff;
-      background: var(--accent); text-decoration: none;
-      padding: 7px 14px; border-radius: 100px; transition: all .2s;
-    }
-    .nav-btn:hover { background: var(--accent-dark); }
-    .nav-btn-ghost {
-      font-size: .82rem; font-weight: 500; color: var(--text-2);
-      text-decoration: none; padding: 7px 12px; border-radius: 8px; transition: all .2s;
-    }
-    .nav-btn-ghost:hover { color: var(--text); background: var(--bg-soft); }
-    #navUser { display: none; }
-
     /* ── Hero ── */
     .dest-hero {
       height: 52vh; min-height: 380px; max-height: 620px;
