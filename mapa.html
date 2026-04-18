@@ -263,6 +263,43 @@
     }
     #sheet-btn.visited:hover { background: #DBEAFE; }
 
+    /* ── CITY BOTTOM SHEET ── */
+    #city-sheet {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 601;
+      background: #fff;
+      border-radius: 20px 20px 0 0;
+      padding: 0 0 max(80px, calc(env(safe-area-inset-bottom) + 70px));
+      box-shadow: 0 -4px 30px rgba(0,0,0,0.2);
+      transform: translateY(100%);
+      transition: transform 0.32s cubic-bezier(0.32, 0, 0.67, 0);
+    }
+    #city-sheet.open {
+      transform: translateY(0);
+      transition: transform 0.32s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    #city-sheet-btn {
+      flex-shrink: 0;
+      padding: 11px 20px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      white-space: nowrap;
+    }
+    #city-sheet-btn:active { transform: scale(0.96); }
+    #city-sheet-btn.visited {
+      background: #EFF6FF;
+      color: var(--accent);
+      border: 2px solid var(--accent) !important;
+    }
+    #city-sheet-btn.visited:hover { background: #DBEAFE; }
+
     /* ── LOADING OVERLAY ── */
     #loading {
       position: fixed;
@@ -523,6 +560,21 @@
   </div>
 </div>
 
+<!-- City bottom sheet -->
+<div id="city-sheet" role="dialog" aria-modal="true" aria-label="Ciudad">
+  <div onclick="closeCitySheet()" style="padding:12px 20px 8px;cursor:pointer;text-align:center;">
+    <div style="width:36px;height:4px;background:#CBD5E1;border-radius:2px;margin:0 auto;"></div>
+  </div>
+  <div style="padding:4px 20px 12px;display:flex;align-items:center;gap:14px;">
+    <div id="city-sheet-icon" style="font-size:2.4rem;line-height:1;flex-shrink:0;">🏙️</div>
+    <div style="flex:1;min-width:0;">
+      <div id="city-sheet-name" style="font-size:1.15rem;font-weight:800;color:#0F172A;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Ciudad</div>
+      <div id="city-sheet-sub" style="font-size:0.8rem;color:#64748B;"></div>
+    </div>
+    <button id="city-sheet-btn" onclick="toggleCurrentCity()">+ Marcar como visitada</button>
+  </div>
+</div>
+
 <!-- Scripts -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
@@ -542,6 +594,41 @@
 
 const GEOJSON_URL = '/countries-simplified.geojson';
 const GEOJSON_FALLBACK_URL = 'https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson';
+
+// Small countries/territories missing from low-res GeoJSON — injected after load
+const SMALL_COUNTRIES_INJECT = [
+  { iso:'SG', name:'Singapore',    coords:[[[103.638,1.259],[103.681,1.163],[103.848,1.153],[104.013,1.218],[104.087,1.349],[103.980,1.445],[103.817,1.469],[103.691,1.421],[103.638,1.259]]] },
+  { iso:'HK', name:'Hong Kong',    coords:[[[113.838,22.185],[114.128,22.153],[114.310,22.157],[114.441,22.201],[114.442,22.563],[114.195,22.560],[113.966,22.499],[113.838,22.350],[113.838,22.185]]] },
+  { iso:'MO', name:'Macau',        coords:[[[113.528,22.093],[113.530,22.218],[113.600,22.220],[113.602,22.095],[113.528,22.093]]] },
+  { iso:'BH', name:'Bahrain',      coords:[[[50.363,25.796],[50.363,26.330],[50.782,26.330],[50.782,25.796],[50.363,25.796]]] },
+  { iso:'MT', name:'Malta',        coords:[[[14.181,35.795],[14.181,36.082],[14.576,36.082],[14.576,35.795],[14.181,35.795]]] },
+  { iso:'LI', name:'Liechtenstein',coords:[[[9.471,47.059],[9.471,47.272],[9.636,47.272],[9.636,47.059],[9.471,47.059]]] },
+  { iso:'MC', name:'Monaco',       coords:[[[7.390,43.723],[7.390,43.751],[7.440,43.751],[7.440,43.723],[7.390,43.723]]] },
+  { iso:'SM', name:'San Marino',   coords:[[[12.403,43.893],[12.403,43.990],[12.517,43.990],[12.517,43.893],[12.403,43.893]]] },
+];
+
+// Mapping from Spanish country name → ISO2 (for MAJOR_CITIES city sheet)
+const COUNTRY_ES_TO_ISO = {
+  'España':'ES','Francia':'FR','Reino Unido':'GB','Alemania':'DE','Italia':'IT',
+  'Países Bajos':'NL','Portugal':'PT','Grecia':'GR','República Checa':'CZ',
+  'Hungría':'HU','Austria':'AT','Polonia':'PL','Turquía':'TR','Croacia':'HR',
+  'Noruega':'NO','Dinamarca':'DK','Suecia':'SE','Finlandia':'FI','Islandia':'IS',
+  'Suiza':'CH','Bélgica':'BE','Irlanda':'IE','Rusia':'RU','Ucrania':'UA',
+  'Marruecos':'MA','Egipto':'EG','Sudáfrica':'ZA','Kenia':'KE','Nigeria':'NG',
+  'Ghana':'GH','Etiopía':'ET','Tanzania':'TZ','Senegal':'SN',
+  'Japón':'JP','China':'CN','Tailandia':'TH','Vietnam':'VN','India':'IN',
+  'Indonesia':'ID','Filipinas':'PH','Camboya':'KH','Singapur':'SG',
+  'Hong Kong':'HK','Malasia':'MY','Myanmar':'MM','Nepal':'NP','Sri Lanka':'LK',
+  'Emiratos Árabes':'AE','Israel':'IL','Jordania':'JO','Qatar':'QA',
+  'Arabia Saudí':'SA','Irán':'IR','Iraq':'IQ',
+  'México':'MX','Colombia':'CO','Argentina':'AR','Brasil':'BR','Perú':'PE',
+  'Chile':'CL','Costa Rica':'CR','Cuba':'CU','Ecuador':'EC','Uruguay':'UY',
+  'Paraguay':'PY','Bolivia':'BO','Venezuela':'VE','Guatemala':'GT',
+  'Estados Unidos':'US','Canadá':'CA','Australia':'AU','Nueva Zelanda':'NZ',
+};
+
+// City sheet state
+let currentCityData = null;
 
 // Continent by ISO alpha-2
 const ALPHA2_CONTINENT = {
@@ -764,7 +851,7 @@ async function initMap() {
   map.setView([20, 0], 2);
 
   // Close sheet on map click (unless in geo-tip add mode)
-  map.on('click', () => { if (!geoTipAddMode) closeSheet(); });
+  map.on('click', () => { if (!geoTipAddMode) { closeSheet(); closeCitySheet(); } });
 
   // IMPORTANT: await GeoJSON first so geoLayer exists before syncFromAPI calls refreshGeoLayer()
   await loadGeoJSON();
@@ -800,6 +887,14 @@ async function loadGeoJSON() {
       const res2 = await fetch(GEOJSON_FALLBACK_URL);
       if (!res2.ok) throw new Error(`Fallback HTTP ${res2.status}`);
       geojson = fixGeoJSONIsoCodes(await res2.json());
+    }
+
+    // Inject small countries missing from low-res GeoJSON (SG, HK, MO, etc.)
+    const existingISOs = new Set((geojson.features || []).map(f => (f.properties?.ISO_A2 || '').toUpperCase()).filter(Boolean));
+    for (const c of SMALL_COUNTRIES_INJECT) {
+      if (!existingISOs.has(c.iso)) {
+        geojson.features.push({ type:'Feature', properties:{ ISO_A2: c.iso, ADMIN: c.name }, geometry:{ type:'Polygon', coordinates: c.coords } });
+      }
     }
 
     geoLayer = L.geoJSON(geojson, {
@@ -1033,6 +1128,78 @@ function toggleCurrentCountry() {
   updateStats();
   refreshHeatmap();
   updateSheetButton();
+}
+
+// ── CITY BOTTOM SHEET ─────────────────────────────────────────────────────────
+
+function showCitySheet(city) {
+  currentCityData = { ...city };
+  const iso = city.iso || COUNTRY_ES_TO_ISO[city.country] || '';
+  currentCityData.iso = iso;
+  currentCityData.isVisited = visitedCities.some(v => normCity(v) === normCity(city.name));
+  const flag = iso ? isoToFlag(iso) : '🏙️';
+  document.getElementById('city-sheet-icon').textContent = flag;
+  document.getElementById('city-sheet-name').textContent = city.name;
+  document.getElementById('city-sheet-sub').textContent = city.country || iso || '';
+  updateCitySheetButton();
+  document.getElementById('city-sheet').classList.add('open');
+}
+
+function closeCitySheet() {
+  document.getElementById('city-sheet').classList.remove('open');
+  currentCityData = null;
+}
+
+function updateCitySheetButton() {
+  const btn = document.getElementById('city-sheet-btn');
+  if (!btn) return;
+  if (currentCityData && currentCityData.isVisited) {
+    btn.textContent = '✓ Quitar de visitadas';
+    btn.classList.add('visited');
+  } else {
+    btn.textContent = '+ Marcar como visitada';
+    btn.classList.remove('visited');
+  }
+}
+
+async function toggleCurrentCity() {
+  if (!currentCityData) return;
+  const city = currentCityData;
+  const norm = normCity(city.name);
+  const token = localStorage.getItem('token');
+  const API = 'https://eze.saypeter.com';
+
+  if (city.isVisited) {
+    // Remove
+    visitedCities = visitedCities.filter(v => normCity(v) !== norm);
+    visitedCitiesGeo = visitedCitiesGeo.filter(v => normCity(v.name) !== norm);
+    currentCityData.isVisited = false;
+    if (token && city.iso) {
+      fetch(`${API}/api/visited-cities`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ city_name: city.name, country_code: city.iso }),
+      }).catch(() => {});
+    }
+  } else {
+    // Add
+    if (!visitedCities.some(v => normCity(v) === norm)) visitedCities.push(city.name);
+    if (city.lat && city.lng && !visitedCitiesGeo.some(v => normCity(v.name) === norm)) {
+      visitedCitiesGeo.push({ name: city.name, lat: city.lat, lng: city.lng, country_code: city.iso || '' });
+    }
+    currentCityData.isVisited = true;
+    if (token && city.iso) {
+      fetch(`${API}/api/visited-cities`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ city_name: city.name, country_code: city.iso }),
+      }).catch(() => {});
+    }
+  }
+  localStorage.setItem('visitedCities', JSON.stringify(visitedCities));
+  localStorage.setItem('visitedCitiesGeo', JSON.stringify(visitedCitiesGeo));
+  updateCitySheetButton();
+  refreshCities();
 }
 
 // ── STATS ─────────────────────────────────────────────────────────────────────
@@ -1334,47 +1501,53 @@ function refreshCities() {
   cityMarkers = [];
   if (!layers.ciudades) return;
 
-  const cityIcon = () => L.divIcon({
-    html: `<div style="
-      width:12px; height:12px;
-      background:#0EA5E9;
-      border:2px solid #fff;
-      border-radius:50%;
-      box-shadow:0 1px 4px rgba(0,0,0,0.4);
-    "></div>`,
-    className: '',
-    iconSize: [12, 12],
-    iconAnchor: [6, 6],
+  const visitedSet = new Set(visitedCities.map(normCity));
+
+  const visitedIcon = () => L.divIcon({
+    html: `<div style="width:12px;height:12px;background:#0EA5E9;border:2px solid #fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.4);"></div>`,
+    className: '', iconSize: [12, 12], iconAnchor: [6, 6],
+  });
+  const unvisitedIcon = () => L.divIcon({
+    html: `<div style="width:11px;height:11px;background:rgba(255,255,255,0.9);border:2px solid #94A3B8;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,0.25);"></div>`,
+    className: '', iconSize: [11, 11], iconAnchor: [5.5, 5.5],
   });
 
-  const shownCities = new Set();
+  const shownNorms = new Set();
 
-  // First: show cities from MAJOR_CITIES that the user has visited
+  // Show ALL MAJOR_CITIES as interactive markers
   MAJOR_CITIES.forEach(city => {
-    const isVisited = visitedCities.some(
-      vc => normCity(vc) === normCity(city.name)
-    );
-    if (!isVisited) return;
-    shownCities.add(normCity(city.name));
-    const m = L.marker([city.lat, city.lng], { icon: cityIcon() })
-      .bindTooltip(
-        `<strong>${city.name}</strong><br><span style="font-size:.72rem;opacity:.75">${city.country} · ✓ visitada</span>`,
-        { direction: 'top', offset: [0, -6], className: 'city-tooltip' }
-      )
+    const isVisited = visitedSet.has(normCity(city.name));
+    const icon = isVisited ? visitedIcon() : unvisitedIcon();
+    const tooltip = isVisited
+      ? `<strong>${city.name}</strong><br><span style="font-size:.72rem;opacity:.75">${city.country} · ✓ visitada</span>`
+      : `<strong>${city.name}</strong><br><span style="font-size:.72rem;opacity:.75">${city.country} · Toca para marcar</span>`;
+    const m = L.marker([city.lat, city.lng], { icon, interactive: true })
+      .bindTooltip(tooltip, { direction: 'top', offset: [0, -6], className: 'city-tooltip' })
+      .on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        closeSheet();
+        showCitySheet(city);
+      })
       .addTo(map);
     cityMarkers.push(m);
+    shownNorms.add(normCity(city.name));
   });
 
-  // Second: show cities from API geo data not already shown
+  // Also show API-only visited cities not in MAJOR_CITIES
   visitedCitiesGeo.forEach(city => {
     if (!city.lat || !city.lng) return;
-    if (shownCities.has(normCity(city.name))) return;
-    shownCities.add(normCity(city.name));
-    const m = L.marker([city.lat, city.lng], { icon: cityIcon() })
+    if (shownNorms.has(normCity(city.name))) return;
+    shownNorms.add(normCity(city.name));
+    const m = L.marker([city.lat, city.lng], { icon: visitedIcon(), interactive: true })
       .bindTooltip(
         `<strong>${city.name}</strong><br><span style="font-size:.72rem;opacity:.75">${city.country_code || ''} · ✓ visitada</span>`,
         { direction: 'top', offset: [0, -6], className: 'city-tooltip' }
       )
+      .on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        closeSheet();
+        showCitySheet({ name: city.name, country: city.country_code, iso: city.country_code, lat: city.lat, lng: city.lng });
+      })
       .addTo(map);
     cityMarkers.push(m);
   });
